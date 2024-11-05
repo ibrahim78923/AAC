@@ -9,7 +9,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 
 import { v4 as uuidv4 } from 'uuid';
-import { enqueueSnackbar } from 'notistack';
 import {
   defaultValues,
   gpDetailsInfoFormSchema,
@@ -55,6 +54,7 @@ import {
   IMPORT_ACTION_TYPE,
   PLAN_STATUS,
 } from '@/constants/strings';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useAddPlan = () => {
   const [addPlanFormValues, setAddPlanFormValues] = useState({});
@@ -244,52 +244,36 @@ export const useAddPlan = () => {
       values?.suite?.length > indexNumbers?.ZERO &&
       values?.suite?.length < indexNumbers?.TWO
     ) {
-      enqueueSnackbar('Please select more then one product', {
-        variant: 'error',
-      });
+      errorSnackbar('Please select more then one product');
     } else if (
       values?.suite?.length < indexNumbers?.TWO &&
       isNullOrEmpty(values?.productId)
     ) {
-      enqueueSnackbar('Please select product', {
-        variant: 'error',
-      });
+      errorSnackbar('Please select product');
     } else if (
       values?.allowAdditionalUsers === PLAN_STATUS?.YES &&
       isNullOrEmpty(values?.additionalPerUserPrice)
     ) {
-      enqueueSnackbar('Please enter additional Per User Price', {
-        variant: 'error',
-      });
+      errorSnackbar('Please enter additional Per User Price');
     } else if (
       values?.allowAdditionalUsers === PLAN_STATUS?.YES &&
       values?.additionalPerUserPrice <= indexNumbers?.ZERO
     ) {
-      enqueueSnackbar('Please enter positive number', {
-        variant: 'error',
-      });
+      errorSnackbar('Please enter positive number');
     } else if (
       values?.allowAdditionalStorage === PLAN_STATUS?.YES &&
       isNullOrEmpty(values?.additionalStoragePrice)
     ) {
-      enqueueSnackbar('Please enter additional Storage Price', {
-        variant: 'error',
-      });
+      errorSnackbar('Please enter additional Storage Price');
     } else if (
       values?.allowAdditionalStorage === PLAN_STATUS?.YES &&
       values?.additionalStoragePrice <= indexNumbers?.ZERO
     ) {
-      enqueueSnackbar('Please enter positive number', {
-        variant: 'error',
-      });
+      errorSnackbar('Please enter positive number');
     } else if (isNullOrEmpty(crmValue) && !isNullOrEmpty(values?.suite)) {
-      enqueueSnackbar('Please enter CRM Name', {
-        variant: 'error',
-      });
+      errorSnackbar('Please enter CRM Name');
     } else if (!isFreePlan && isNullOrEmpty(values?.planPrice)) {
-      enqueueSnackbar('Please enter Plan Price', {
-        variant: 'error',
-      });
+      errorSnackbar('Please enter Plan Price');
     } else {
       if (
         !isNullOrEmpty(singlePlan) &&
@@ -300,9 +284,7 @@ export const useAddPlan = () => {
       dispatch(addPlanFormData(values));
       setActiveStep((previous) => previous + indexNumbers?.ONE);
 
-      enqueueSnackbar('Plan Details Added Successfully', {
-        variant: 'success',
-      });
+      successSnackbar('Plan Details Added Successfully');
       const productIdArray = values?.suite;
       const modulesPermissionsArray = [];
       if (!isNullOrEmpty(productIdArray)) {
@@ -418,9 +400,7 @@ export const useAddPlan = () => {
     }
     dispatch(planFeaturesFormData(featuresData));
     setActiveStep((previous) => previous + indexNumbers?.ONE);
-    enqueueSnackbar('Plan Features Details Added Successfully', {
-      variant: 'success',
-    });
+    successSnackbar('Plan Features Details Added Successfully');
   };
 
   const onSubmitPlanModulesHandler = async (values: any) => {
@@ -546,22 +526,17 @@ export const useAddPlan = () => {
             })?.unwrap());
         if (res) {
           setCheckQuery('');
-          enqueueSnackbar(
+          successSnackbar(
             parsedRowData
               ? 'Plan Updated Successfully'
               : 'Plan Added Successfully',
-            {
-              variant: 'success',
-            },
           );
           dispatch(setFeatureDetails(''));
           reset();
           router?.push(SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID);
         }
       } catch (error: any) {
-        enqueueSnackbar('An error occured', {
-          variant: 'error',
-        });
+        errorSnackbar('An error occured');
       }
     }
 
@@ -660,11 +635,8 @@ export const useAddPlan = () => {
       !isNullOrEmpty(crmData?.data?.plans) &&
       isNullOrEmpty(router?.query?.data)
     ) {
-      enqueueSnackbar(
+      errorSnackbar(
         'Plan with same CRM/Suite name and same Plantype has already exist',
-        {
-          variant: 'error',
-        },
       );
       setIfCrmExist(true);
     } else {
@@ -675,11 +647,8 @@ export const useAddPlan = () => {
       !isNullOrEmpty(planExist?.data?.plans) &&
       isNullOrEmpty(router?.query?.data)
     ) {
-      enqueueSnackbar(
+      errorSnackbar(
         'Plan with selected product and selected Plantype has already exist',
-        {
-          variant: 'error',
-        },
       );
       setIfCrmExist(true);
     } else {

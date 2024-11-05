@@ -3,13 +3,13 @@ import { useState } from 'react';
 import { useTheme } from '@mui/material';
 import { useGetContactsQuery } from '@/services/commonFeatures/contacts';
 import { PAGINATION } from '@/config';
-import { enqueueSnackbar } from 'notistack';
 import {
   useGetCompanyAssociationsQuery,
   usePostAssociationCompaniesMutation,
 } from '@/services/commonFeatures/companies';
 import { isNullOrEmpty } from '@/utils';
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useContacts = (companyId: any) => {
   const theme = useTheme();
@@ -68,11 +68,11 @@ const useContacts = (companyId: any) => {
 
     try {
       await PostAssociationCompanies({ body: payload }).unwrap();
-      enqueueSnackbar('Record Deleted Successfully', { variant: 'success' });
+      successSnackbar('Record Deleted Successfully');
       setIsOpenAlert(false);
     } catch (error) {
       const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+      errorSnackbar(errMsg ?? 'Error occurred');
     }
   };
 

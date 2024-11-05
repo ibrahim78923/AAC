@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
 import dayjs from 'dayjs';
 import {
   useGetJobAppsQuery,
@@ -9,6 +8,7 @@ import {
 } from '@/services/superAdmin/settings/jobs/job-application';
 import { DATE_FORMAT } from '@/constants/index';
 import { PAGINATION } from '@/config';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useJobApplication = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -82,13 +82,9 @@ const useJobApplication = () => {
     };
     try {
       await updateJobAPPStatus({ id: id, body: payLoad })?.unwrap();
-      enqueueSnackbar(`Candidate is ${value} now`, {
-        variant: 'success',
-      });
+      successSnackbar(`Candidate is ${value} now`);
     } catch (error: any) {
-      enqueueSnackbar('An error occured', {
-        variant: 'error',
-      });
+      errorSnackbar('An error occured');
     }
   };
 

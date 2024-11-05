@@ -1,5 +1,6 @@
 import { EditPenIcon } from '@/assets/icons';
 import HeaderInfoIcon from '@/assets/icons/shared/header-info';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { usePatchGoalMutation } from '@/services/airSales/forecast';
 import {
   Box,
@@ -11,7 +12,6 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
 
 export const manageStatusData = (data: any) => {
@@ -236,13 +236,9 @@ export const manageTableColumns: any = (
                 body: payload,
                 id: info?.row?.original?._id,
               })?.unwrap();
-              enqueueSnackbar('Forecast Submission update successfully', {
-                variant: 'success',
-              });
+              successSnackbar('Forecast Submission update successfully');
             } catch (error: any) {
-              enqueueSnackbar('An error occured', {
-                variant: 'error',
-              });
+              errorSnackbar('An error occured');
             }
           }
         };

@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { enqueueSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 import { profileValidationSchema } from './UserDetailsProfile.data';
 import { UserProfileParams } from '@/modules/superAdmin/UserManagement/UsersDetailsList/UsesDetailList-interface';
 import { useUpdateUsersMutation } from '@/services/superAdmin/user-management/users';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useUserDeatilProfile = (userprofileParams: UserProfileParams) => {
   const { isToggled, userDetails, setTabVal } = userprofileParams;
@@ -121,14 +121,10 @@ const useUserDeatilProfile = (userprofileParams: UserProfileParams) => {
 
     try {
       await updateUsers({ id: id, body: values })?.unwrap();
-      enqueueSnackbar('User updated successfully', {
-        variant: 'success',
-      });
+      successSnackbar('User updated successfully');
       setTabVal(initialTab);
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message, {
-        variant: 'error',
-      });
+      errorSnackbar(error?.data?.message);
     }
   };
 

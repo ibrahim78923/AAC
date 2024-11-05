@@ -10,7 +10,6 @@ import {
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import useAuth from '@/hooks/useAuth';
-import { enqueueSnackbar } from 'notistack';
 import { defaultValuesFolder, validationSchema } from './Documents.data';
 import { filteredEmptyValues } from '@/utils/api';
 import { useLazyGetDynamicFieldsQuery } from '@/services/dynamic-fields';
@@ -125,7 +124,7 @@ const useDocuments = () => {
       setSelectedFolders([]);
       successSnackbar('Folder Deleted Successfully');
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong!', { variant: 'error' });
+      errorSnackbar('Something went wrong!');
     }
   };
 
@@ -227,25 +226,17 @@ const useDocuments = () => {
           body: payload,
         }).unwrap();
         handleCloseCreateFolderModal();
-        enqueueSnackbar('Folder name update successfully.', {
-          variant: 'success',
-        });
+        successSnackbar('Folder name update successfully.');
       } catch (error: any) {
-        enqueueSnackbar('An error occured', {
-          variant: 'error',
-        });
+        errorSnackbar('An error occured');
       }
     } else {
       try {
         await postDocumentFolder({ body: body }).unwrap();
         handleCloseCreateFolderModal();
-        enqueueSnackbar('Folder Created Successfully', {
-          variant: 'success',
-        });
+        successSnackbar('Folder Created Successfully');
       } catch (error: any) {
-        enqueueSnackbar('An error occured', {
-          variant: 'error',
-        });
+        errorSnackbar('An error occured');
       }
     }
   };
@@ -310,12 +301,10 @@ const useDocuments = () => {
           },
         }).unwrap();
       }
-      enqueueSnackbar('Folder Moved Successfully', {
-        variant: 'success',
-      });
+      successSnackbar('Folder Moved Successfully');
       handleCloseMoveFolderDrawer();
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong!', { variant: 'error' });
+      errorSnackbar('Something went wrong!');
     }
   };
 

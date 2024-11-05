@@ -1,12 +1,11 @@
 import { PAGINATION } from '@/config';
-import { successSnackbar } from '@/lib/snackbar';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
   useDeleteForecastGoalsMutation,
   useGetForecastTeamGoalsQuery,
   useGetForecastUserGoalsQuery,
 } from '@/services/airSales/forecast';
 import { useTheme } from '@mui/material';
-import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
 
 const useGoals = () => {
@@ -85,7 +84,7 @@ const useGoals = () => {
       setTableRowValues([]);
       handleClose();
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong!', { variant: 'error' });
+      errorSnackbar('Something went wrong!');
     }
   };
 

@@ -3,11 +3,11 @@ import { useRouter } from 'next/router';
 import { useTheme } from '@mui/material';
 import { SUPER_ADMIN } from '@/constants';
 import { usersApi } from '@/services/superAdmin/user-management/users';
-import { enqueueSnackbar } from 'notistack';
 import { PAGINATION } from '@/config';
 import { useGetProductsQuery } from '@/services/common-APIs';
-import { NOTISTACK_VARIANTS, PRODUCT_USER_STATUS } from '@/constants/strings';
+import { PRODUCT_USER_STATUS } from '@/constants/strings';
 import { useUpdateRoleRightsOrgadminMutation } from '@/services/orgAdmin/roles-and-rights';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useUserManagement = () => {
   const navigate = useRouter();
@@ -81,13 +81,9 @@ const useUserManagement = () => {
         : PRODUCT_USER_STATUS?.INACTIVE;
     try {
       await updateUsers({ id, body: { status: status } })?.unwrap();
-      enqueueSnackbar('User updated successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar('User updated successfully');
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message, {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.message);
     } finally {
       setIsLoadingStatus((prevState) => ({ ...prevState, [id]: false }));
     }
@@ -102,13 +98,9 @@ const useUserManagement = () => {
         : PRODUCT_USER_STATUS?.INACTIVE;
     try {
       await updateRoleRights({ id, body: { status: status } })?.unwrap();
-      enqueueSnackbar('Role updated successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar('Role updated successfully');
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message, {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.message);
     }
   };
 

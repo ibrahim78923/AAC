@@ -10,7 +10,6 @@ import {
   scheduleEmailDefaultValues,
   scheduleEmailValidationSchema,
 } from './SendEmailDrawer.data';
-import { enqueueSnackbar } from 'notistack';
 import { useAppSelector } from '@/redux/store';
 import { CREATE_EMAIL_TYPES } from '@/constants';
 import { useEffect, useState } from 'react';
@@ -21,6 +20,7 @@ import {
   usePostScheduleGmailMutation,
   usePostSendGmailMutation,
 } from '@/services/commonFeatures/email/gmail';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useSendEmailDrawer = ({
   setOpenDrawer,
@@ -172,18 +172,14 @@ const useSendEmailDrawer = ({
           await postDraftGmail({
             body: formDataSend,
           })?.unwrap();
-          enqueueSnackbar('Draft saved successfully', {
-            variant: 'success',
-          });
+          successSnackbar('Draft saved successfully');
           setIsProcessDraft(false);
           setIsLoadingProcessDraft(false);
           reset();
           setOpenDrawer(false);
           setAutocompleteValues([]);
         } catch (error: any) {
-          enqueueSnackbar('Something went wrong while saving draft !', {
-            variant: 'error',
-          });
+          errorSnackbar('Something went wrong while saving draft !');
           setIsProcessDraft(false);
           setIsLoadingProcessDraft(false);
           reset();
@@ -197,12 +193,12 @@ const useSendEmailDrawer = ({
     } else {
       if (drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL) {
         if (!values?.to || values?.to?.length === 0) {
-          enqueueSnackbar('Please Enter Email', { variant: 'error' });
+          errorSnackbar('Please Enter Email');
           return false;
         }
 
         if (!values?.description || values?.description?.trim() === '') {
-          enqueueSnackbar('Please Enter Description', { variant: 'error' });
+          errorSnackbar('Please Enter Description');
 
           return false;
         }
@@ -248,9 +244,7 @@ const useSendEmailDrawer = ({
           await postEmail({
             body: formDataSend,
           })?.unwrap();
-          enqueueSnackbar('Email send successfully', {
-            variant: 'success',
-          });
+          successSnackbar('Email send successfully');
           setOpenDrawer(false);
           reset();
           reset({
@@ -260,7 +254,7 @@ const useSendEmailDrawer = ({
           setSendLaterDate(null);
           setAutocompleteValues([]);
         } catch (error: any) {
-          enqueueSnackbar('Something went wrong !', { variant: 'error' });
+          errorSnackbar('Something went wrong !');
         }
       }
       if (
@@ -268,7 +262,7 @@ const useSendEmailDrawer = ({
         drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL
       ) {
         if (!values?.description || values?.description?.trim() === '') {
-          enqueueSnackbar('Please Enter Description', { variant: 'error' });
+          errorSnackbar('Please Enter Description');
 
           return false;
         }
@@ -304,24 +298,21 @@ const useSendEmailDrawer = ({
           await postReplyGmail({
             body: formDataReply,
           })?.unwrap();
-          enqueueSnackbar(
+          successSnackbar(
             drawerType === CREATE_EMAIL_TYPES?.REPLY
               ? 'Email reply send successfully'
               : 'Reply all send successfully',
-            {
-              variant: 'success',
-            },
           );
           setOpenDrawer(false);
           reset();
           setAutocompleteValues([]);
         } catch (error: any) {
-          enqueueSnackbar('Something went wrong !', { variant: 'error' });
+          errorSnackbar('Something went wrong !');
         }
       }
       if (drawerType === CREATE_EMAIL_TYPES?.FORWARD) {
         if (!values?.to || values?.to?.length === 0) {
-          enqueueSnackbar('Please Enter Email', { variant: 'error' });
+          errorSnackbar('Please Enter Email');
           return false;
         }
         const formDataSend = new FormData();
@@ -370,9 +361,7 @@ const useSendEmailDrawer = ({
           await forwardSendGmail({
             body: formDataSend,
           })?.unwrap();
-          enqueueSnackbar('Email Forward successfully', {
-            variant: 'success',
-          });
+          successSnackbar('Email Forward successfully');
           setOpenDrawer(false);
           reset();
           reset({
@@ -382,7 +371,7 @@ const useSendEmailDrawer = ({
           setSendLaterDate(null);
           setAutocompleteValues([]);
         } catch (error: any) {
-          enqueueSnackbar('Something went wrong !', { variant: 'error' });
+          errorSnackbar('Something went wrong !');
         }
       }
     }

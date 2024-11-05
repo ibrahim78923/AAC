@@ -18,7 +18,6 @@ import { OthersMail } from '@/assets/images';
 import Image from 'next/image';
 import OtherMailDrawer from './OthersMail/OtherMailDrawer';
 import { useGetMailFoldersQuery } from '@/services/commonFeatures/email/others';
-import { enqueueSnackbar } from 'notistack';
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { useRouter } from 'next/router';
 import { DRAWER_TYPES } from '@/constants/strings';
@@ -32,6 +31,7 @@ import {
 } from '@/services/commonFeatures/email/gmail';
 import EmailSettingDrawer from './EmailSettingDrawer';
 import { MAIL_TYPES } from '@/constants';
+import { errorSnackbar } from '@/lib/snackbar';
 
 const Email = () => {
   const theme = useTheme();
@@ -53,9 +53,7 @@ const Email = () => {
       if (foldersData?.data) {
         router.push(END_POINTS?.CONVERSATION_OTHERS_EMAIL_VIEW);
       } else {
-        enqueueSnackbar('Unable to configure email', {
-          variant: 'error',
-        });
+        errorSnackbar('Unable to configure email');
         setIsOtherEmailDrawerOpen(true);
         setIsOtherEmailDrawerType(DRAWER_TYPES?.ADD);
       }

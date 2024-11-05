@@ -13,7 +13,7 @@ import {
   useDeleteDealsTasksManagementMutation,
   useUpdateDealsTasksManagementMutation,
 } from '@/services/airSales/deals/view-details/tasks';
-import { enqueueSnackbar } from 'notistack';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useActionDropdown = ({
   setOpenDrawer,
@@ -73,13 +73,13 @@ const useActionDropdown = ({
         body,
         id: selectedCheckboxes[0]?._id,
       })?.unwrap();
-      enqueueSnackbar(`Task Re-assign Successfully`, { variant: 'success' });
+      successSnackbar(`Task Re-assign Successfully`);
       setSelectedCheckboxes([]);
       handleCloseAlert();
       handleCloseMenu();
     } catch (error) {
       const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+      errorSnackbar(errMsg ?? 'Error occurred');
     }
   };
 
@@ -88,12 +88,12 @@ const useActionDropdown = ({
       await deleteCompanyTasksManagement({
         id: selectedCheckboxesIds,
       }).unwrap();
-      enqueueSnackbar(`Task Deleted Successfully`, { variant: 'success' });
+      successSnackbar(`Task Deleted Successfully`);
       handleCloseAlert();
       setSelectedCheckboxes([]);
     } catch (error) {
       const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+      errorSnackbar(errMsg ?? 'Error occurred');
     }
   };
 

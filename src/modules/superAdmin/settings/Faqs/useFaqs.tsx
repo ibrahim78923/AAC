@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import dayjs from 'dayjs';
-import { enqueueSnackbar } from 'notistack';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useGetFaqsQuery,
@@ -15,6 +14,7 @@ import {
 } from './AddFaq/AddFaq.data';
 import { DATE_FORMAT } from '@/constants';
 import { PAGINATION } from '@/config';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useFaqs = () => {
   const [selectedRow, setSelectedRow] = useState<string[]>([]);
@@ -151,13 +151,9 @@ const useFaqs = () => {
     try {
       await postAddFaq({ body: payload })?.unwrap();
       handleCloseModalFaq();
-      enqueueSnackbar('FAQ added successfully', {
-        variant: 'success',
-      });
+      successSnackbar('FAQ added successfully');
     } catch (error: any) {
-      enqueueSnackbar('An error occured', {
-        variant: 'error',
-      });
+      errorSnackbar('An error occured');
     }
   };
   const handleAddFaqSubmit = handleMethodAddFaq(onSubmitAddFaq);
@@ -212,14 +208,10 @@ const useFaqs = () => {
     try {
       await updateFaq({ id: rowId, body: payload })?.unwrap();
       await handleCloseModalEditFaq();
-      enqueueSnackbar('FAQ updated successfully', {
-        variant: 'success',
-      });
+      successSnackbar('FAQ updated successfully');
       setSelectedRow([]);
     } catch (error: any) {
-      enqueueSnackbar('An error occured', {
-        variant: 'error',
-      });
+      errorSnackbar('An error occured');
     }
   };
   const handleSubmitUpdateFaq = handleMethodEditFaq(onSubmitEditJob);
@@ -241,13 +233,9 @@ const useFaqs = () => {
       await deleteFaq(items)?.unwrap();
       handleCloseModalDelete();
       setSelectedRow([]);
-      enqueueSnackbar('Record has been deleted.', {
-        variant: 'success',
-      });
+      successSnackbar('Record has been deleted.');
     } catch (error: any) {
-      enqueueSnackbar('An error occured', {
-        variant: 'error',
-      });
+      errorSnackbar('An error occured');
     }
   };
 

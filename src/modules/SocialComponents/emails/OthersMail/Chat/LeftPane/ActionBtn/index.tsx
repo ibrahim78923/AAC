@@ -14,7 +14,7 @@ import { CREATE_EMAIL_TYPES, EMAIL_TABS_TYPES } from '@/constants';
 import { AlertModals } from '@/components/AlertModals';
 import { WarningIcon } from '@/assets/icons';
 import { useMoveFolderOtherEmailMutation } from '@/services/commonFeatures/email/others';
-import { enqueueSnackbar } from 'notistack';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const ActionBtn = ({ filteredData }: any) => {
   const mailTabType: any = useAppSelector(
@@ -54,12 +54,10 @@ const ActionBtn = ({ filteredData }: any) => {
       await moveFolderOtherEmail({
         body: payload,
       })?.unwrap();
-      enqueueSnackbar('Email restore successfully', {
-        variant: 'success',
-      });
+      successSnackbar('Email restore successfully');
       setIsRestoreEmail(false);
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      errorSnackbar('Something went wrong !');
     }
   };
   const handelDelete = async () => {
@@ -77,12 +75,10 @@ const ActionBtn = ({ filteredData }: any) => {
       await moveFolderOtherEmail({
         body: payload,
       })?.unwrap();
-      enqueueSnackbar('Email restore successfully', {
-        variant: 'success',
-      });
+      successSnackbar('Email restore successfully');
       setIsRestoreEmail(false);
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      errorSnackbar('Something went wrong !');
     }
   };
 

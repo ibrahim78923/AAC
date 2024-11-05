@@ -25,9 +25,9 @@ import { styles } from './UserInfo.style';
 import InvoiceList from '../../InvoiceList';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { usePatchUpdateInvoicesMutation } from '@/services/superAdmin/billing-invoices';
-import { enqueueSnackbar } from 'notistack';
 import { LoadingButton } from '@mui/lab';
 import Link from 'next/link';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const UserInfo = () => {
   const [openViewInvoice, setOpenViewInvoice] = useState(false);
@@ -69,14 +69,10 @@ const UserInfo = () => {
         body: updateInvoicePayload,
         invoiceId: EditInvoice?._id,
       }).unwrap();
-      enqueueSnackbar('Invoice Updated Successfully', {
-        variant: 'success',
-      });
+      successSnackbar('Invoice Updated Successfully');
       setOpenViewInvoice(true);
     } catch {
-      enqueueSnackbar('Some thing went wrong', {
-        variant: 'error',
-      });
+      errorSnackbar('Some thing went wrong');
     }
   };
 

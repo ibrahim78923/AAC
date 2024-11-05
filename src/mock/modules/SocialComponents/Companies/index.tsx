@@ -4,82 +4,101 @@ import Link from 'next/link';
 
 import { Box, Typography } from '@mui/material';
 
-import { AvatarImage, EmpAvatarImage, TicketImage } from '@/assets/images';
+import { AvatarImage, TicketImage } from '@/assets/images';
 
 export const accordionData = (apiData: any) => {
   const data = [];
 
   if (apiData?.contacts?.length) {
-    apiData?.contacts?.forEach((contact: any, index: any) => {
-      data?.push({
-        empNo: (index + 1)?.toString()?.padStart(2, '0'),
+    data?.push({
+      mainHeading: 'Contacts',
+      empNo: apiData?.contacts?.length,
+      items: apiData?.contacts?.map((contact: any) => ({
         mainHeading: 'Contacts',
-        img: EmpAvatarImage,
+        img: contact?.url,
         name: `${contact?.firstName} ${contact?.lastName}`,
         email: contact?.email,
         phoneNumber: contact?.phoneNumber,
-      });
+      })),
     });
   } else {
     data?.push({
-      empNo: '0',
       mainHeading: 'Contacts',
-      description: 'No Contacts associated with this record',
+      empNo: '0',
+      items: [
+        {
+          description: 'No Contacts associated with this record',
+        },
+      ],
     });
   }
 
+  // Group Deals
   if (apiData?.deals?.length) {
-    apiData?.deals?.forEach((deal: any, index: any) => {
-      data?.push({
-        empNo: (index + 1)?.toString()?.padStart(2, '0'),
-        mainHeading: 'Deals',
+    data?.push({
+      mainHeading: 'Deals',
+      empNo: apiData?.deals?.length,
+      items: apiData?.deals?.map((deal: any) => ({
         img: TicketImage,
         name: apiData?.name,
         email: apiData?.totalRevenue
-          ? `£ ${apiData?.totalRevenue?.toFixed(2)}`
+          ? `£ ${apiData?.totalRevenue.toFixed(2)}`
           : 'No Revenue Data',
         stage: deal?.stage || 'No Stage Info',
-      });
+      })),
     });
   } else {
     data?.push({
-      empNo: '0',
       mainHeading: 'Deals',
-      description: 'No Deals associated with this record',
+      empNo: '0',
+      items: [
+        {
+          description: 'No Deals associated with this record',
+        },
+      ],
     });
   }
 
+  // Group Tickets
   if (apiData?.tickets?.length) {
-    apiData?.tickets?.forEach((ticket: any, index: any) => {
-      data?.push({
-        empNo: (index + 1)?.toString()?.padStart(2, '0'),
-        mainHeading: 'Tickets',
+    data?.push({
+      mainHeading: 'Tickets',
+      empNo: apiData?.tickets?.length,
+      items: apiData?.tickets?.map((ticket: any, index: any) => ({
         description: `Ticket ${index + 1}: Associated ticket data`,
-      });
+      })),
     });
   } else {
     data?.push({
-      empNo: '0',
       mainHeading: 'Tickets',
-      description: 'No Tickets associated with this record',
+      empNo: '0',
+      items: [
+        {
+          description: 'No Tickets associated with this record',
+        },
+      ],
     });
   }
 
-  // Map Attachments
+  // Group Attachments
   if (apiData?.attachments?.length) {
-    apiData?.attachments?.forEach((attachment: any, index: any) => {
-      data?.push({
-        empNo: (index + 1)?.toString()?.padStart(2, '0'),
-        mainHeading: 'Attachments',
+    data?.push({
+      mainHeading: 'Attachments',
+      empNo: apiData?.attachments?.length,
+      items: apiData.attachments.map((attachment: any) => ({
         img: attachment?.fileUrl,
         description: `${attachment?.orignalName || 'Unnamed file'}`,
-      });
+      })),
     });
   } else {
     data?.push({
-      empNo: '0',
       mainHeading: 'Attachments',
-      description: 'No Attachments associated with this record',
+      empNo: '0',
+      items: [
+        {
+          description: 'No Attachments associated with this record',
+        },
+      ],
     });
   }
 

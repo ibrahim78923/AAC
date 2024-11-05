@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   productFeaturesValidationSchema,
@@ -15,6 +14,7 @@ import {
   useLazyGetProductFeatureProductListQuery,
 } from '@/services/superAdmin/settings/product-feature';
 import { PAGINATION } from '@/config';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useProductFeature = () => {
   const productsDropdownList = useLazyGetProductFeatureProductListQuery();
@@ -86,13 +86,9 @@ const useProductFeature = () => {
     try {
       await postAddFeature({ body: payload })?.unwrap();
       handleCloseDrawerAddFeature();
-      enqueueSnackbar('Feature added successfully', {
-        variant: 'success',
-      });
+      successSnackbar('Feature added successfully');
     } catch (error: any) {
-      enqueueSnackbar('An error occured', {
-        variant: 'error',
-      });
+      errorSnackbar('An error occured');
     }
   };
   const handleAddFeatureSubmit = handleMethodAddFaq(onSubmitAddFeature);
@@ -136,14 +132,10 @@ const useProductFeature = () => {
     try {
       await postUpdateFeature({ id: rowId, body: payload })?.unwrap();
       handleCloseDrawerEditFeature();
-      enqueueSnackbar('Feature updated successfully', {
-        variant: 'success',
-      });
+      successSnackbar('Feature updated successfully');
       setRowId(null);
     } catch (error: any) {
-      enqueueSnackbar('An error occured', {
-        variant: 'error',
-      });
+      errorSnackbar('An error occured');
     }
   };
   const handleEditFeatureSubmit = handleMethodEditFaq(onSubmitEditFeature);
@@ -155,13 +147,9 @@ const useProductFeature = () => {
     };
     try {
       await postUpdateFeature({ id: id, body: payLoad })?.unwrap();
-      enqueueSnackbar(`Product feature is ${status} now`, {
-        variant: 'success',
-      });
+      successSnackbar(`Product feature is ${status} now`);
     } catch (error: any) {
-      enqueueSnackbar('An error occured', {
-        variant: 'error',
-      });
+      errorSnackbar('An error occured');
     }
   };
 

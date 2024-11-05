@@ -4,8 +4,7 @@ import { AlertModals } from '@/components/AlertModals';
 
 import { AlertModalDeleteIcon } from '@/assets/icons';
 import { useRestoreCompaniesMutation } from '@/services/commonFeatures/companies';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { successSnackbar } from '@/lib/snackbar';
 
 const DeleteModal = ({
   isRestoreDelete,
@@ -33,9 +32,7 @@ const DeleteModal = ({
           });
           setIsRestoreDelete({ isOpen: false });
           setCheckedRows([]);
-          enqueueSnackbar(`Company deleted successfully`, {
-            variant: NOTISTACK_VARIANTS?.SUCCESS,
-          });
+          successSnackbar(`Company deleted successfully`);
         }}
       />
     </>

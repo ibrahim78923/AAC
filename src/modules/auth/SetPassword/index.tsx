@@ -19,12 +19,11 @@ import { CompanyLogoIcon } from '@/assets/icons';
 import { LoginDashboardImage } from '@/assets/images';
 import { styles } from './SetPassword.style';
 import { useSetPasswordMutation } from '@/services/auth';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { AUTH } from '@/constants';
 import { LoadingButton } from '@mui/lab';
 import { getSession } from '@/utils';
 import useAuth from '@/hooks/useAuth';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const SetPassword = () => {
   const [isMatchPassword, setIsMatchPassword] = useState<boolean>(false);
@@ -61,9 +60,7 @@ const SetPassword = () => {
       setIsMatchPassword(false);
       try {
         await setPassword(payload)?.unwrap();
-        enqueueSnackbar('Password Change Successfully', {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        });
+        successSnackbar('Password Change Successfully');
 
         reset();
         setIsSuccess(true);
@@ -72,9 +69,7 @@ const SetPassword = () => {
       } catch (error: any) {
         const errMsg = error?.data?.message;
         const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
-        enqueueSnackbar(errMessage ?? 'Error occurred', {
-          variant: NOTISTACK_VARIANTS?.ERROR,
-        });
+        errorSnackbar(errMessage ?? 'Error occurred');
       }
     }
   };

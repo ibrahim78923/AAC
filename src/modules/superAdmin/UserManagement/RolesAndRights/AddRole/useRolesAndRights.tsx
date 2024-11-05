@@ -9,14 +9,10 @@ import {
   usePostPermissionRoleOrgadminMutation,
   useUpdateRoleRightsOrgadminMutation,
 } from '@/services/orgAdmin/roles-and-rights';
-import { enqueueSnackbar } from 'notistack';
-import {
-  DRAWER_TYPES,
-  NOTISTACK_VARIANTS,
-  PRODUCT_USER_STATUS,
-} from '@/constants/strings';
+import { DRAWER_TYPES, PRODUCT_USER_STATUS } from '@/constants/strings';
 import { useGetAdminProductsPermissionsByIdQuery } from '@/services/superAdmin/user-management/roles-and-rights';
 import { SUPER_ADMIN } from '@/constants';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useRolesAndRights = () => {
   const theme = useTheme();
@@ -128,20 +124,15 @@ const useRolesAndRights = () => {
         pathname: SUPER_ADMIN?.USERMANAGMENT,
         query: { type: DRAWER_TYPES?.ADD },
       });
-      enqueueSnackbar(
+      successSnackbar(
         `Role has been ${
           query?.type === DRAWER_TYPES?.ADD ? 'Added' : 'Updated'
         } successfully`,
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
       );
     } catch (error: any) {
       const errMsg = error?.data?.message;
       const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
-      enqueueSnackbar(errMessage ?? 'Error occurred', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(errMessage ?? 'Error occurred');
     }
   };
 

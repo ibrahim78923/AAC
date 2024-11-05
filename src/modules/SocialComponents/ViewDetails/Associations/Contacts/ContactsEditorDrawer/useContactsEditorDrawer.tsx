@@ -18,11 +18,11 @@ import {
   DATE_FORMAT,
   associationCompanies,
 } from '@/constants';
-import { enqueueSnackbar } from 'notistack';
 import { isNullOrEmpty } from '@/utils';
 import { useState } from 'react';
 import { DRAWER_TYPES } from '@/constants/strings';
 import { usePostAssociationCompaniesMutation } from '@/services/commonFeatures/companies';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useContactsEditorDrawer = ({
   openDrawer,
@@ -35,7 +35,8 @@ const useContactsEditorDrawer = ({
   const [imageToUpload, setImageToUpload] = useState<any>();
   const [postContacts, { isLoading: isLoadingPostContact }] =
     usePostContactsMutation();
-  const [updateContacts] = useUpdateContactMutation();
+  const [updateContacts, { isLoading: isLoadingUpdateContact }] =
+    useUpdateContactMutation();
   const [PostAssociationCompanies] = usePostAssociationCompaniesMutation();
 
   const { data: lifeCycleStages } = useGetLifeCycleQuery({});
@@ -122,12 +123,12 @@ const useContactsEditorDrawer = ({
       watchContactStatus[0] === associationCompanies?.newContacts &&
       isNullOrEmpty(values?.email)
     ) {
-      enqueueSnackbar(`Please Enter Email`, { variant: 'error' });
+      errorSnackbar(`Please Enter Email`);
     } else if (
       watchContactStatus[0] === associationCompanies?.existingContacts &&
       isNullOrEmpty(values?.existingContact)
     ) {
-      enqueueSnackbar(`Please Select Existing Contact`, { variant: 'error' });
+      errorSnackbar(`Please Select Existing Contact`);
     } else {
       delete values?.contactStatus;
       Object.entries(
@@ -146,7 +147,16 @@ const useContactsEditorDrawer = ({
           key !== 'updatedBy' &&
           key !== 'recordType' &&
           key !== 'recordId' &&
-          key !== 'contactOwnerId'
+          key !== 'contactOwnerId' &&
+          key !== 'contactType' &&
+          key !== 'companyId' &&
+          key !== 'ticketsIds' &&
+          key !== 'companiesIds' &&
+          key !== 'attachmentsIds' &&
+          key !== 'dealIds' &&
+          key !== 'ownerData' &&
+          key !== 'statusData' &&
+          key !== 'lifeCycleStageData'
         ) {
           if (key === 'dateOfBirth' || key === 'dateOfJoining') {
             formData.append(key, dayjs(value)?.format(DATE_FORMAT?.API));
@@ -163,10 +173,10 @@ const useContactsEditorDrawer = ({
       try {
         let response;
         openDrawer === DRAWER_TYPES?.EDIT
-          ? await updateContacts({
+          ? (response = await updateContacts({
               body: formData,
               id: existingContactId[0],
-            }).unwrap()
+            }).unwrap())
           : (response = await postContacts({ body: formData }).unwrap());
         const payload = {
           recordId: companyId,
@@ -176,23 +186,19 @@ const useContactsEditorDrawer = ({
         };
         if (response) {
           await PostAssociationCompanies({ body: payload }).unwrap();
-          enqueueSnackbar(
+          successSnackbar(
             ` contact ${
               openDrawer === DRAWER_TYPES?.EDIT
                 ? DRAWER_TYPES?.UPDATE
                 : DRAWER_TYPES?.ADD
             } Successfully`,
-            {
-              variant: 'success',
-            },
           );
         }
         if (openDrawer === DRAWER_TYPES?.EDIT) {
-          enqueueSnackbar(
+          successSnackbar(
             ` contact ${
               openDrawer === DRAWER_TYPES?.EDIT && DRAWER_TYPES?.UPDATE
             } Successfully`,
-            { variant: 'success' },
           );
         }
 
@@ -200,7 +206,7 @@ const useContactsEditorDrawer = ({
         reset();
       } catch (error: any) {
         const errMsg = error?.data?.message;
-        enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+        errorSnackbar(errMsg ?? 'Error occurred');
       }
     }
   };
@@ -216,6 +222,7 @@ const useContactsEditorDrawer = ({
     setImagePreview,
     watchContactStatus,
     isLoadingPostContact,
+    isLoadingUpdateContact,
   };
 };
 

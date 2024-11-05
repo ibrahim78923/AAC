@@ -10,10 +10,10 @@ import {
   usePostDealsTasksManagementMutation,
   useUpdateDealsTasksManagementMutation,
 } from '@/services/airSales/deals/view-details/tasks';
-import { enqueueSnackbar } from 'notistack';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { useGetContactsQuery } from '@/services/commonFeatures/contacts';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useTaskEditor = ({
   selectedCheckboxes,
@@ -92,15 +92,14 @@ const useTaskEditor = ({
             id: editCheckBoxes?._id,
           })?.unwrap()
         : await postDealsTasksManagement({ body })?.unwrap();
-      enqueueSnackbar(
+      successSnackbar(
         `Task ${openDrawer === 'Edit' ? 'Updated' : 'Added '} Successfully`,
-        { variant: 'success' },
       );
       onCloseDrawer();
       setSelectedCheckboxes([]);
     } catch (error) {
       const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+      errorSnackbar(errMsg ?? 'Error occurred');
     }
   };
   const { handleSubmit, reset } = methodsdealsTasks;

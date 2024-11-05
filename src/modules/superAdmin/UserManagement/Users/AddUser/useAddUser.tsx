@@ -18,7 +18,6 @@ import {
   useGetAuthCompaniesQuery,
 } from '@/services/auth';
 import { EQuickLinksType, SUPER_ADMIN } from '@/constants';
-import { enqueueSnackbar } from 'notistack';
 import useToggle from '@/hooks/useToggle';
 import { ACTIONS_TYPES } from '@/constants/strings';
 import {
@@ -27,6 +26,7 @@ import {
 } from '@/modules/superAdmin/UserManagement/Users/Users-interface';
 import { debounce } from 'lodash';
 import { useGetEmailExistQuery } from '@/services/common-APIs';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useAddUser = (useActionParams: UseActionParams): UseAddUserReturn => {
   const [isToggled, setIsToggled] = useToggle(false);
@@ -64,9 +64,7 @@ const useAddUser = (useActionParams: UseActionParams): UseAddUserReturn => {
 
   useEffect(() => {
     if (checkedEmailError) {
-      enqueueSnackbar('Email already exist', {
-        variant: 'error',
-      });
+      errorSnackbar('Email already exist');
     }
   }, [checkedEmailError]);
 
@@ -274,7 +272,7 @@ const useAddUser = (useActionParams: UseActionParams): UseAddUserReturn => {
           })?.unwrap();
           reset();
           setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false });
-          enqueueSnackbar('User Added Successfully', { variant: 'success' });
+          successSnackbar('User Added Successfully');
         }
       } else if (pathName === SUPER_ADMIN?.USERS_LIST) {
         const response = await postUserEmployee({
@@ -285,20 +283,16 @@ const useAddUser = (useActionParams: UseActionParams): UseAddUserReturn => {
           await authCompanyVerification({
             email: { email: response?.data?.email },
           })?.unwrap();
-          enqueueSnackbar('Org Employee Added Successfully', {
-            variant: 'success',
-          });
+          successSnackbar('Org Employee Added Successfully');
           setIsOpenAdduserDrawer(false);
         }
       } else {
         await updateUsers({ id: updateUserId, body: values })?.unwrap();
         setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false });
-        enqueueSnackbar('User Updated Successfully', { variant: 'success' });
+        successSnackbar('User Updated Successfully');
       }
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message, {
-        variant: 'error',
-      });
+      errorSnackbar(error?.data?.message);
     }
   };
 

@@ -5,13 +5,13 @@ import {
   attachmentsDefaultValues,
   attachmentsValidationSchema,
 } from './AttachmentsEditorDrawer.data';
-import { enqueueSnackbar } from 'notistack';
 import { isNullOrEmpty } from '@/utils';
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 import {
   usePostAssociationCompaniesMutation,
   usePostCompaniesAttachmentsMutation,
 } from '@/services/commonFeatures/companies';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useAttachmentsEditorDrawer = (
   setOpenDrawer: any,
@@ -54,16 +54,12 @@ const useAttachmentsEditorDrawer = (
       };
       if (res) {
         await PostAssociationCompanies({ body: payload }).unwrap();
-        enqueueSnackbar(`Attachment Added Successfully`, {
-          variant: 'success',
-        });
+        successSnackbar(`Attachment Added Successfully`);
       }
       setOpenDrawer('');
       reset();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message, {
-        variant: 'error',
-      });
+      errorSnackbar(error?.data?.message);
     }
   };
   return { handleSubmit, onSubmit, methodsAttachments, setOpenDrawer };

@@ -4,7 +4,6 @@ import { Grid, Box, Button, Typography, Modal, useTheme } from '@mui/material';
 
 import { FormProvider } from '@/components/ReactHookForm';
 
-import { enqueueSnackbar } from 'notistack';
 import {
   dataArrayFeatures,
   defaultValuesFeatures,
@@ -21,6 +20,7 @@ import { useForm } from 'react-hook-form';
 import { setFeatureDetails } from '@/redux/slices/planManagement/planManagementSlice';
 import { v4 as uuidv4 } from 'uuid';
 import { FeaturesModalProps } from '@/modules/superAdmin/PlanManagement/AddPlan/Forms/Forms-interface';
+import { successSnackbar } from '@/lib/snackbar';
 
 const FeaturesModal = ({
   openFeaturesModal,
@@ -42,9 +42,7 @@ const FeaturesModal = ({
     const featureValue = { featureId, values };
     dispatch(setFeatureDetails(featureValue));
     handleCloseFeaturesModal();
-    enqueueSnackbar('Details Added Successfully', {
-      variant: 'success',
-    });
+    successSnackbar('Details Added Successfully');
   };
 
   return (

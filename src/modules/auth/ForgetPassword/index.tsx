@@ -16,8 +16,7 @@ import { CompanyLogoIcon } from '@/assets/icons';
 import { LoginDashboardImage } from '@/assets/images';
 import { styles } from './ForgetPassword.style';
 import { useForgotPasswordMutation } from '@/services/auth';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const ForgetPassword = () => {
   const [isEmailSuccess, setIsEmailSuccess] = useState<boolean>(false);
@@ -35,18 +34,11 @@ const ForgetPassword = () => {
     };
     try {
       await forgotPassword(payload)?.unwrap();
-      enqueueSnackbar(
-        'Password reset email has been sent to registered email',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
+      successSnackbar('Password reset email has been sent to registered email');
       setIsEmailSuccess(true);
     } catch (error: any) {
       const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(errMsg ?? 'Error occurred');
     }
   };
 

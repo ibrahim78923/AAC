@@ -11,8 +11,6 @@ import {
 import { getSession, isNullOrEmpty } from '@/utils';
 import { companiesAPI } from '@/services/commonFeatures/companies';
 
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { companyFormValuesI } from './createcompany.interface';
 import { useLazyGetDynamicFieldsQuery } from '@/services/dynamic-fields';
 import {
@@ -21,6 +19,7 @@ import {
 } from '@/utils/dynamic-forms';
 import { useEffect, useState } from 'react';
 import { filteredEmptyValues } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useCreateCompany = (setIsOpenDrawer?: any) => {
   const { usePostCompaniesMutation } = companiesAPI;
@@ -133,15 +132,11 @@ const useCreateCompany = (setIsOpenDrawer?: any) => {
 
     try {
       await postCompanies(postCompanyApiParameters).unwrap();
-      enqueueSnackbar(`Company Created Successfully`, {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar(`Company Created Successfully`);
       setIsOpenDrawer(false);
       reset();
     } catch (error) {
-      enqueueSnackbar(`Something went wrong`, {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(`Something went wrong`);
     }
   };
 

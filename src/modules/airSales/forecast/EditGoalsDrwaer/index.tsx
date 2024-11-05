@@ -15,7 +15,6 @@ import {
   editGoalDefaultValues,
   editGoalValidationSchema,
 } from './GoalTab/GoalTab.data';
-import { enqueueSnackbar } from 'notistack';
 import { useLazyGetDynamicFieldsQuery } from '@/services/dynamic-fields';
 import {
   DYNAMIC_FIELDS,
@@ -23,6 +22,7 @@ import {
 } from '@/utils/dynamic-forms';
 import { filteredEmptyValues } from '@/utils/api';
 import { indexNumbers } from '@/constants';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const EditGoalsDrwaer = (props: any) => {
   const {
@@ -126,9 +126,7 @@ const EditGoalsDrwaer = (props: any) => {
     }
 
     if (isNullOrEmpty(editNotificationOptions)) {
-      enqueueSnackbar('Please select a notification', {
-        variant: 'error',
-      });
+      errorSnackbar('Please select a notification');
     } else {
       const payload = {
         target: values?.target,
@@ -138,15 +136,11 @@ const EditGoalsDrwaer = (props: any) => {
 
       try {
         await patchGoal({ body: payload, id: tableRowValues })?.unwrap();
-        enqueueSnackbar('Goal update successfully', {
-          variant: 'success',
-        });
+        successSnackbar('Goal update successfully');
         setIsEditDrawer(false);
         setTableRowValues([]);
       } catch (error: any) {
-        enqueueSnackbar('An error occured', {
-          variant: 'error',
-        });
+        errorSnackbar('An error occured');
       }
     }
   };

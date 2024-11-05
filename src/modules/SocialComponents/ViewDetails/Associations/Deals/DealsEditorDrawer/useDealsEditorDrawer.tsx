@@ -18,10 +18,9 @@ import {
   associationCompanies,
 } from '@/constants';
 import dayjs from 'dayjs';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useGetPipelineQuery } from '@/services/common-APIs';
 import { usePostAssociationCompaniesMutation } from '@/services/commonFeatures/companies';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useDealsEditorDrawer = ({
   openDrawer,
@@ -120,17 +119,13 @@ const useDealsEditorDrawer = ({
       };
       if (res) {
         await PostAssociationCompanies({ body: payload }).unwrap();
-        enqueueSnackbar(`Deal Added Successfully`, {
-          variant: 'success',
-        });
+        successSnackbar(`Deal Added Successfully`);
       }
 
       setOpenDrawer('');
       reset();
     } catch (error) {
-      enqueueSnackbar('somthing went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar('something went wrong');
     }
   };
 

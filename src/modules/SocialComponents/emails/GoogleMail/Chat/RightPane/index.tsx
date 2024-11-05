@@ -52,13 +52,13 @@ import HomeIcon from '@mui/icons-material/Home';
 import UserDetailsDrawer from '../../UserDetailsDrawer';
 import { useRouter } from 'next/router';
 import { SOCIAL_FEATURES_GMAIL } from '@/routesConstants/paths';
-import { enqueueSnackbar } from 'notistack';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Link from 'next/link';
 import Image from 'next/image';
 import { PdfImage } from '@/assets/images';
 import { Buffer } from 'buffer';
 import { useGetEmailSettingsQuery } from '@/services/commonFeatures/email/others';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const RightPane = () => {
   const theme = useTheme();
@@ -127,14 +127,12 @@ const RightPane = () => {
     };
     try {
       await logoutMail({ body: payload })?.unwrap();
-      enqueueSnackbar('logout to gmail successfully', {
-        variant: 'success',
-      });
+      successSnackbar('logout to gmail successfully');
       router?.push(
         `${SOCIAL_FEATURES_GMAIL?.MAIN_EMAIL_PAGE}?redirect=${true}`,
       );
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      errorSnackbar('Something went wrong !');
     }
   };
 

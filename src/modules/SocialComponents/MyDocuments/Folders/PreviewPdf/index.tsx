@@ -22,7 +22,6 @@ import { TransitionProps } from '@mui/material/transitions';
 import { Close } from '@mui/icons-material';
 
 import { generatePDF } from './PreviewPdf.data';
-import { enqueueSnackbar } from 'notistack';
 
 import { LogoImage } from '@/assets/images';
 
@@ -30,6 +29,7 @@ import usePreiewPdf from './usePreiewPdf';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import { generateImage } from '@/utils/avatarUtils';
+import { successSnackbar } from '@/lib/snackbar';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -47,9 +47,7 @@ const PreviewPdf = ({ handlePdfClose, isPdfOpen, selectedFile }: any) => {
     setIsShow(true);
     generatePDF(handleSetHide);
     handlePdfClose();
-    enqueueSnackbar('Pdf Download Successfully', {
-      variant: 'success',
-    });
+    successSnackbar('Pdf Download Successfully');
   };
 
   return (

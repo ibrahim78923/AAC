@@ -32,10 +32,10 @@ import {
   useDeleteEmailOutlookMutation,
   usePatchOutlookEmailMessageMutation,
 } from '@/services/commonFeatures/email/outlook';
-import { enqueueSnackbar } from 'notistack';
 import { PaperClipIcon } from '@/assets/icons';
 import { AlertModals } from '@/components/AlertModals';
 import { MailListPropsI } from './mailList.interface';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const MailList = ({
   emailsByFolderIdData,
@@ -107,9 +107,7 @@ const MailList = ({
           })?.unwrap();
           dispatch(setUpdateMailList(response?.data));
         } catch (error: any) {
-          enqueueSnackbar('Something went wrong while updating message!', {
-            variant: 'error',
-          });
+          errorSnackbar('Something went wrong while updating message!');
         }
       }
     }
@@ -180,15 +178,13 @@ const MailList = ({
           messageIds: ids,
         },
       })?.unwrap();
-      enqueueSnackbar('Trash emptied successfully.', {
-        variant: 'success',
-      });
+      successSnackbar('Trash emptied successfully.');
       dispatch(setSelectedRecords([]));
       dispatch(setActiveRecord({}));
       dispatch(setFilterMailList(ids ? ids : []));
       setIsEmptyTrashModal(false);
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      errorSnackbar('Something went wrong !');
     }
   };
 

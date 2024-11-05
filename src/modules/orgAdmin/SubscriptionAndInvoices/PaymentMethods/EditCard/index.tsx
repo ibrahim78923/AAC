@@ -2,10 +2,10 @@ import { Grid, Box } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
 import { dataArray, defaultValues, validationSchema } from './EditCard.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
+import { successSnackbar } from '@/lib/snackbar';
 
 const EditCard = ({
   open,
@@ -20,9 +20,7 @@ const EditCard = ({
   const { handleSubmit } = methods;
 
   const onSubmit = async () => {
-    enqueueSnackbar('Ticket Updated Successfully', {
-      variant: 'success',
-    });
+    successSnackbar('Ticket Updated Successfully');
   };
 
   return (

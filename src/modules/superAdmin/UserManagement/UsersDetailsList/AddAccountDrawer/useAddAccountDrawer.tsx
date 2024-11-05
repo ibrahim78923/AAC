@@ -1,5 +1,4 @@
 import { useLazyGetCompanyAccountsRolesListQuery } from '@/services/common-APIs';
-import { enqueueSnackbar } from 'notistack';
 import {
   AddAccountDefaultValues,
   AddAccountValidationSchema,
@@ -8,6 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { usePostUsersAccountMutation } from '@/services/superAdmin/user-management/UserList';
 import { Dispatch, SetStateAction } from 'react';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useAddAccountDrawer = (
   userId?: string,
@@ -49,15 +49,11 @@ const useAddAccountDrawer = (
         id: organizationId,
         body: postAccountBody,
       })?.unwrap();
-      enqueueSnackbar('User Added Successfully', {
-        variant: 'success',
-      });
+      successSnackbar('User Added Successfully');
       setIsopen(false);
       reset();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message, {
-        variant: 'error',
-      });
+      errorSnackbar(error?.data?.message);
     }
   };
 

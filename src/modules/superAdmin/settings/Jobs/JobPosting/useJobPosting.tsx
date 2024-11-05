@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { parseISO } from 'date-fns';
 import dayjs from 'dayjs';
@@ -12,6 +11,7 @@ import {
 } from '@/services/superAdmin/settings/jobs';
 import { PAGINATION } from '@/config';
 import { DATE_FORMAT } from '@/constants/index';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useJobPosting = () => {
   const [selectedRow, setSelectedRow]: any = useState([]);
@@ -140,13 +140,9 @@ const useJobPosting = () => {
       await updateJobPost({ id: rowId, body: values })?.unwrap();
       handleCloseEditJobPost();
       setSelectedRow([]);
-      enqueueSnackbar('Record Details Updated Successfully', {
-        variant: 'success',
-      });
+      successSnackbar('Record Details Updated Successfully');
     } catch (error: any) {
-      enqueueSnackbar('An error occured', {
-        variant: 'error',
-      });
+      errorSnackbar('An error occured');
     }
   };
   const handleSubmitEditJobPost = handleMethodEditJobPosting(onSubmitEditJob);
@@ -158,16 +154,11 @@ const useJobPosting = () => {
     };
     try {
       await updateJobPost({ id: id, body: payLoad })?.unwrap();
-      enqueueSnackbar(
+      successSnackbar(
         `This job is ${status === 'OPEN' ? 'open' : 'close'} now`,
-        {
-          variant: 'success',
-        },
       );
     } catch (error: any) {
-      enqueueSnackbar('An error occured', {
-        variant: 'error',
-      });
+      errorSnackbar('An error occured');
     }
   };
 
@@ -191,14 +182,10 @@ const useJobPosting = () => {
       await deleteJobPost(items)?.unwrap();
       handleCloseModalDeleteJobPost();
       setSelectedRow([]);
-      enqueueSnackbar('Record has been deleted.', {
-        variant: 'success',
-      });
+      successSnackbar('Record has been deleted.');
       setIsActionsDisabled(true);
     } catch (error: any) {
-      enqueueSnackbar('An error occured', {
-        variant: 'error',
-      });
+      errorSnackbar('An error occured');
     }
   };
 

@@ -13,10 +13,10 @@ import {
   usePostEmailConfigMutation,
   useUpdateEmailConfigMutation,
 } from '@/services/commonFeatures/email/others';
-import { enqueueSnackbar } from 'notistack';
 import { getSession } from '@/utils';
 import { useEffect } from 'react';
 import { DRAWER_TYPES } from '@/constants/strings';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useOtherMailDrawer = ({ isOtherEmailDrawerType, setOpenDrawer }: any) => {
   const theme = useTheme();
@@ -82,24 +82,20 @@ const useOtherMailDrawer = ({ isOtherEmailDrawerType, setOpenDrawer }: any) => {
           body: payload,
           id: defaultMailData?.data?._id,
         }).unwrap();
-        enqueueSnackbar('Configuration updated successfully', {
-          variant: 'success',
-        });
+        successSnackbar('Configuration updated successfully');
         setOpenDrawer(false);
       } catch (error: any) {
-        enqueueSnackbar('Something went wrong !', { variant: 'error' });
+        errorSnackbar('Something went wrong !');
       }
     } else {
       try {
         await postEmailConfig({
           body: payload,
         })?.unwrap();
-        enqueueSnackbar('Email Configuration successful', {
-          variant: 'success',
-        });
+        successSnackbar('Email Configuration successful');
         setOpenDrawer(false);
       } catch (error: any) {
-        enqueueSnackbar('Something went wrong !', { variant: 'error' });
+        errorSnackbar('Something went wrong !');
       }
     }
   };

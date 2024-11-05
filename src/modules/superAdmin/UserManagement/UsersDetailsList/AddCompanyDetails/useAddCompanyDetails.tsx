@@ -2,9 +2,9 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema, defaultValues } from './AddCompanyDetails.data';
 import { userListApi } from '@/services/superAdmin/user-management/UserList';
-import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useAddCompanyDetails = (
   organizationId: string,
@@ -104,11 +104,11 @@ const useAddCompanyDetails = (
 
     try {
       await postCompany({ body: formData })?.unwrap();
-      enqueueSnackbar('Company Added Successfully', { variant: 'success' });
+      successSnackbar('Company Added Successfully');
       reset();
       setISOpenCompanyDrawer(false);
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message, { variant: 'error' });
+      errorSnackbar(error?.data?.message);
     }
   };
 

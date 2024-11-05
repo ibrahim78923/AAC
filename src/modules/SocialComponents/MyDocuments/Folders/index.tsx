@@ -33,7 +33,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { styles } from './Folder.style';
 import PreviewPdf from './PreviewPdf';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
-import { enqueueSnackbar } from 'notistack';
 import { DOCUMENTS_TYPE, Quick_Links_Routes } from '@/constants';
 import { componentMap } from '@/utils/dynamic-forms';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
@@ -44,6 +43,7 @@ import { createFolderData, MODAL_HEADING } from '../Documents/Documents.data';
 import NoData from '@/components/NoData';
 import RenderFolder from '../components/RenderFolder';
 import { downloadFiles } from '@/utils/file';
+import { successSnackbar } from '@/lib/snackbar';
 
 const Folders = () => {
   const {
@@ -781,9 +781,7 @@ const Folders = () => {
           <Button
             onClick={() => {
               setIsOpenSendEmailModal(false);
-              enqueueSnackbar('Email sent Successfully', {
-                variant: 'success',
-              });
+              successSnackbar('Email sent Successfully');
             }}
             variant="contained"
             className="small"

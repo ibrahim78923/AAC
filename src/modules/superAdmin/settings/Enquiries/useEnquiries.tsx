@@ -5,7 +5,6 @@ import {
   usePatchEnquiriesMutation,
   useEnquiriesPostNewEmailMutation,
 } from '@/services/superAdmin/enquiries';
-import { enqueueSnackbar } from 'notistack';
 import { PAGINATION } from '@/config';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -136,13 +135,9 @@ export const useEnquiries = () => {
       await deleteEnquiriesMutation(items);
       handleCloseModalDelete();
       setSelectedRow([]);
-      enqueueSnackbar('Enquiries delete successfully', {
-        variant: 'success',
-      });
+      successSnackbar('Enquiries delete successfully');
     } catch (error) {
-      enqueueSnackbar('Error while deleting enquiries', {
-        variant: 'success',
-      });
+      errorSnackbar('Error while deleting enquiries');
     }
   };
 

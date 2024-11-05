@@ -11,8 +11,8 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { usePatchGoalMutation } from '@/services/airSales/forecast';
-import { enqueueSnackbar } from 'notistack';
 import { EditPenIcon } from '@/assets/icons';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const manageStatusData = (data: any) => {
   return [
@@ -237,13 +237,9 @@ export const manageTableColumns: any = (
                 body: payload,
                 id: info?.row?.original?._id,
               })?.unwrap();
-              enqueueSnackbar('Forecast Submission update successfully', {
-                variant: 'success',
-              });
+              successSnackbar('Forecast Submission update successfully');
             } catch (error: any) {
-              enqueueSnackbar('An error occured', {
-                variant: 'error',
-              });
+              errorSnackbar('An error occured');
             }
           }
         };

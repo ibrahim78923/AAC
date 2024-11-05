@@ -19,7 +19,6 @@ import {
 } from './Folder.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import { enqueueSnackbar } from 'notistack';
 // import { DOCUMENTS_ACTION_TYPES } from '@/constants';
 import { PAGINATION } from '@/config';
 import { filteredEmptyValues } from '@/utils/api';
@@ -225,13 +224,9 @@ const useFolder: any = () => {
           body: payload,
         }).unwrap();
         handleCloseCreateFolderModal();
-        enqueueSnackbar('Folder name update successfully.', {
-          variant: 'success',
-        });
+        successSnackbar('Folder name update successfully.');
       } catch (error: any) {
-        enqueueSnackbar('An error occured', {
-          variant: 'error',
-        });
+        errorSnackbar('An error occured');
       }
     } else {
       try {
@@ -243,13 +238,9 @@ const useFolder: any = () => {
           body: payload,
         }).unwrap();
         handleCloseCreateFolderModal();
-        enqueueSnackbar('Folder Created Successfully', {
-          variant: 'success',
-        });
+        successSnackbar('Folder Created Successfully');
       } catch (error: any) {
-        enqueueSnackbar('An error occured', {
-          variant: 'error',
-        });
+        errorSnackbar('An error occured');
       }
     }
   };
@@ -278,7 +269,7 @@ const useFolder: any = () => {
         }
       }
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong!', { variant: 'error' });
+      errorSnackbar('Something went wrong!');
     }
   };
 
@@ -327,12 +318,10 @@ const useFolder: any = () => {
 
     try {
       await postDocumentFiles({ body: formData }).unwrap();
-      enqueueSnackbar('Document Upload Successfully', {
-        variant: 'success',
-      });
+      successSnackbar('Document Upload Successfully');
       handleCloseUploadDocModal();
     } catch (error: any) {
-      enqueueSnackbar(error?.message, { variant: 'error' });
+      errorSnackbar(error?.message);
     }
   };
   const handleUploadDocumentSubmit = submitUploadDocument(
@@ -445,13 +434,11 @@ const useFolder: any = () => {
       await deleteFiles({
         ids: selectedRow.join(','),
       }).unwrap();
-      enqueueSnackbar('File Deleted Successfully', {
-        variant: 'success',
-      });
+      successSnackbar('File Deleted Successfully');
       setSelectedRow([]);
       setIsOpenDeleteFileModal(false);
     } catch (error: any) {
-      enqueueSnackbar(error?.message, { variant: 'error' });
+      errorSnackbar(error?.message);
     }
   };
 
@@ -517,15 +504,13 @@ const useFolder: any = () => {
             parentFolderId: selectedMoveToFolderId,
           },
         }).unwrap();
-        enqueueSnackbar('Folder Moved Successfully', {
-          variant: 'success',
-        });
+        successSnackbar('Folder Moved Successfully');
         handleCloseMoveDocumentDrawer();
         if (selectedFolderId === folderId) {
           router.push(Quick_Links_Routes?.DOCUMENT);
         }
       } catch (error: any) {
-        enqueueSnackbar('Something went wrong!', { variant: 'error' });
+        errorSnackbar('Something went wrong!');
       }
     }
 
@@ -539,9 +524,7 @@ const useFolder: any = () => {
           id: fileId,
           body: payload,
         }).unwrap();
-        enqueueSnackbar('File Update Successfully', {
-          variant: 'success',
-        });
+        successSnackbar('File Update Successfully');
         handleCloseMoveDocumentDrawer();
         setSelectedRow([]);
       } catch (error: any) {

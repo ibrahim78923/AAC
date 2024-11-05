@@ -18,6 +18,7 @@ import {
   NoteImage,
   ActivitesTimeImage,
   NoteAddImage,
+  EmpAvatarImage,
 } from '@/assets/images';
 
 import CommonDrawer from '@/components/CommonDrawer';
@@ -267,112 +268,110 @@ const PreviewDrawer = ({ isPreview, setIsPreview, checkedRows }: any) => {
                           fontSize: '12px',
                         }}
                       >
-                        {item.empNo}
+                        {item?.empNo}
                       </Box>
 
                       <Typography
                         variant="h6"
                         sx={{ color: `${theme?.palette?.slateBlue?.main}` }}
                       >
-                        {item.mainHeading}
+                        {item?.mainHeading}
                       </Typography>
                     </Box>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                      }}
-                    >
+                    {item?.items?.map((subItem: any) => (
                       <Box
+                        key={uuidv4()}
                         sx={{
                           display: 'flex',
+                          justifyContent: 'space-between',
                           alignItems: 'center',
-                          gap: '8px',
+                          padding: '8px 0',
+                          borderBottom: '1px solid lightgray',
                         }}
                       >
-                        {item.img ? (
-                          <Image
-                            src={generateImage(item?.img)}
-                            alt="Image"
-                            width={40}
-                            height={40}
-                          />
-                        ) : (
-                          ''
-                        )}
-
-                        <Box>
-                          <Typography
-                            variant="subtitle2"
-                            sx={{
-                              color: `${theme?.palette?.blue?.dull_blue}`,
-                              fontWeight: 500,
-                            }}
-                          >
-                            {item?.name}
-                          </Typography>
-                          <Typography
-                            variant="subtitle2"
-                            sx={{
-                              color: `${theme?.palette?.custom?.light}`,
-                              fontWeight: 500,
-                            }}
-                          >
-                            {item?.email}
-                          </Typography>
-                        </Box>
-                      </Box>
-
-                      <Box>
-                        {item?.stage ? (
-                          <Typography
-                            variant="subtitle2"
-                            sx={{
-                              color: `${theme?.palette?.custom?.light}`,
-                              fontWeight: 500,
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '4px',
-                            }}
-                          >
-                            Stage:
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                          }}
+                        >
+                          {subItem?.img ? (
+                            <Image
+                              src={generateImage(subItem?.img)}
+                              alt="Image"
+                              width={40}
+                              height={40}
+                            />
+                          ) : (
+                            <Image
+                              src={EmpAvatarImage}
+                              alt="Image"
+                              width={40}
+                              height={40}
+                            />
+                          )}
+                          <Box>
                             <Typography
                               variant="subtitle2"
                               sx={{
                                 color: `${theme?.palette?.blue?.dull_blue}`,
-                                fontWeight: 600,
+                                fontWeight: 500,
                               }}
                             >
-                              {item.stage}
+                              {subItem?.name}
                             </Typography>
-                          </Typography>
-                        ) : item?.phoneNumber ? (
-                          <Typography
-                            variant="subtitle2"
-                            sx={{
-                              color: `${theme?.palette?.custom?.light}`,
-                              fontWeight: 500,
-                            }}
-                          >
-                            {item?.phoneNumber}
-                          </Typography>
-                        ) : (
-                          <Box sx={{ display: 'flex', justifyItems: 'start' }}>
                             <Typography
-                              variant="h6"
+                              variant="subtitle2"
                               sx={{
-                                color: `${theme?.palette?.blue?.dull_blue}`,
+                                color: `${theme?.palette?.custom?.light}`,
+                                fontWeight: 500,
                               }}
                             >
-                              {item?.description}
+                              {subItem?.email || subItem?.description}
                             </Typography>
                           </Box>
-                        )}
+                        </Box>
+
+                        <Box>
+                          {subItem?.stage ? (
+                            <Typography
+                              variant="subtitle2"
+                              sx={{
+                                color: `${theme?.palette?.custom?.light}`,
+                                fontWeight: 500,
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '4px',
+                              }}
+                            >
+                              Stage:
+                              <Typography
+                                variant="subtitle2"
+                                sx={{
+                                  color: `${theme?.palette?.blue?.dull_blue}`,
+                                  fontWeight: 600,
+                                }}
+                              >
+                                {subItem?.stage}
+                              </Typography>
+                            </Typography>
+                          ) : subItem?.phoneNumber ? (
+                            <Typography
+                              variant="subtitle2"
+                              sx={{
+                                color: `${theme?.palette?.custom?.light}`,
+                                fontWeight: 500,
+                              }}
+                            >
+                              {subItem?.phoneNumber}
+                            </Typography>
+                          ) : null}
+                        </Box>
                       </Box>
-                    </Box>
+                    ))}
                   </AccordionDetails>
                 </Accordion>
               </Box>

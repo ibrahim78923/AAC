@@ -11,11 +11,10 @@ import {
 } from '@/services/auth';
 import { debouncedSearch } from '@/utils';
 import { useGetProductsBilingInvoicesQuery } from '@/services/superAdmin/billing-invoices';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useRouter } from 'next/router';
 import { AUTH } from '@/constants';
 import { debounce } from 'lodash';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useSignup = () => {
   const { push } = useRouter();
@@ -41,9 +40,7 @@ const useSignup = () => {
     const valuesNotEmpty = watchField?.every((value) => value?.trim() !== '');
 
     if (!valuesNotEmpty) {
-      enqueueSnackbar('All Fields are Required', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar('All Fields are Required');
     }
     return valuesNotEmpty;
   };
@@ -146,17 +143,15 @@ const useSignup = () => {
 
         try {
           await authCompanyVerification({ email: { email: email } }).unwrap();
-          enqueueSnackbar('Check the Email for verification', {
-            variant: 'success',
-          });
+          successSnackbar('Check the Email for verification');
         } catch (error: any) {
           const errMsg = error?.data?.message;
-          enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+          errorSnackbar(errMsg ?? 'Error occurred');
         }
       }
     } catch (error: any) {
       const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+      errorSnackbar(errMsg ?? 'Error occurred');
     }
   };
 
@@ -189,25 +184,19 @@ const useSignup = () => {
 
   useEffect(() => {
     if (isEmailError) {
-      enqueueSnackbar('Email already exists', {
-        variant: 'error',
-      });
+      errorSnackbar('Email already exists');
     }
   }, [emailData, isEmailError]);
 
   useEffect(() => {
     if (isError) {
-      enqueueSnackbar('Please enter correct Organization Number', {
-        variant: 'error',
-      });
+      errorSnackbar('Please enter correct Organization Number');
     }
   }, [data, isError]);
 
   useEffect(() => {
     if (drnIsSuccess) {
-      enqueueSnackbar('DRN already exists', {
-        variant: 'error',
-      });
+      errorSnackbar('DRN already exists');
     }
   }, [drnData, drnIsSuccess]);
 

@@ -20,7 +20,6 @@ import {
   teamDurationDefaultValues,
   teamDurationValidationSchema,
 } from './TeamDuration/TeamDuration.data';
-import { enqueueSnackbar } from 'notistack';
 import { DATE_FORMAT, GOALS_YEARLY_FORMAT, RADIO_VALUE } from '@/constants';
 import { useAppSelector } from '@/redux/store';
 import dayjs from 'dayjs';
@@ -34,6 +33,7 @@ import {
   DYNAMIC_FORM_FIELDS_TYPES,
 } from '@/utils/dynamic-forms';
 import { filteredEmptyValues } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useCreateGoal = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -186,7 +186,7 @@ export const useCreateGoal = () => {
   const onSubmitTeamDuration = async (values: any) => {
     if (values?.duration === GOALS_YEARLY_FORMAT?.CUSTOM) {
       if (values?.to === undefined || values?.from === undefined) {
-        enqueueSnackbar('Please enter date', { variant: 'error' });
+        errorSnackbar('Please enter date');
         return;
       }
     }
@@ -242,17 +242,13 @@ export const useCreateGoal = () => {
 
     transformedData?.forEach((item: any) => {
       if (!item?.pipelines || isNullOrEmpty(item?.pipelines)) {
-        enqueueSnackbar('Please select Pipelines', {
-          variant: 'error',
-        });
+        errorSnackbar('Please select Pipelines');
         validationPassed = false;
       } else if (
         teamDurationForm?.duration === GOALS_YEARLY_FORMAT?.CUSTOM &&
         Object?.keys(item?.targets)?.length === 0
       ) {
-        enqueueSnackbar('Please enter target values in Months ', {
-          variant: 'error',
-        });
+        errorSnackbar('Please enter target values in Months ');
         validationPassed = false;
       }
       // else if (
@@ -267,9 +263,7 @@ export const useCreateGoal = () => {
       else {
         for (const [, value] of Object.entries(item.targets)) {
           if (typeof value !== 'number' || isNaN(value) || value === '') {
-            enqueueSnackbar('please enter all values.', {
-              variant: 'error',
-            });
+            errorSnackbar('please enter all values.');
             validationPassed = false;
             break; // Exit loop as error found
           }
@@ -318,9 +312,7 @@ export const useCreateGoal = () => {
           ?.format(DATE_FORMAT?.API);
 
     if (isNullOrEmpty(selectedNotifications)) {
-      enqueueSnackbar('Please select a notification', {
-        variant: 'error',
-      });
+      errorSnackbar('Please select a notification');
     } else {
       const payload = {
         trackingMethod: describeForm?.trackingMethod,
@@ -339,14 +331,10 @@ export const useCreateGoal = () => {
 
       try {
         await postCreateInvoice({ body: payload })?.unwrap();
-        enqueueSnackbar('Goals added successfully', {
-          variant: 'success',
-        });
+        successSnackbar('Goals added successfully');
         router?.back();
       } catch (error: any) {
-        enqueueSnackbar('An error occured', {
-          variant: 'error',
-        });
+        errorSnackbar('An error occured');
       }
     }
   };

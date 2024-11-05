@@ -10,7 +10,6 @@ import {
   scheduleEmailDefaultValues,
   scheduleEmailValidationSchema,
 } from './SendEmailDrawer.data';
-import { enqueueSnackbar } from 'notistack';
 import { useAppSelector } from '@/redux/store';
 import {
   CREATE_EMAIL_TYPES,
@@ -34,6 +33,7 @@ import {
 import { useDispatch } from 'react-redux';
 import { setCurrentForwardAttachments } from '@/redux/slices/email/outlook/slice';
 import dayjs from 'dayjs';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 const useSendEmailDrawer = ({
   setOpenDrawer,
   drawerType,
@@ -294,9 +294,7 @@ const useSendEmailDrawer = ({
             await postDraftOtherEmail({
               body: formDataSend,
             })?.unwrap();
-            enqueueSnackbar('Draft saved successfully', {
-              variant: 'success',
-            });
+            successSnackbar('Draft saved successfully');
             setIsProcessDraft(false);
             setIsLoadingProcessDraft(false);
             scheduleReset();
@@ -304,9 +302,7 @@ const useSendEmailDrawer = ({
             setOpenDrawer(false);
             setAutocompleteValues([]);
           } catch (error: any) {
-            enqueueSnackbar('Something went wrong while saving draft !', {
-              variant: 'error',
-            });
+            errorSnackbar('Something went wrong while saving draft !');
             setIsProcessDraft(false);
             setIsLoadingProcessDraft(false);
             scheduleReset();
@@ -365,13 +361,10 @@ const useSendEmailDrawer = ({
             await postEmail({
               body: formDataSend,
             })?.unwrap();
-            enqueueSnackbar(
+            successSnackbar(
               isScheduleExists
                 ? 'Email scheduled successfully'
                 : 'Email send successfully',
-              {
-                variant: 'success',
-              },
             );
             setOpenDrawer(false);
             reset();
@@ -382,7 +375,7 @@ const useSendEmailDrawer = ({
             });
             setAutocompleteValues([]);
           } catch (error: any) {
-            enqueueSnackbar('Something went wrong !', { variant: 'error' });
+            errorSnackbar('Something went wrong !');
           }
         }
         if (
@@ -401,20 +394,17 @@ const useSendEmailDrawer = ({
                   : 'reply',
               replyText: values?.description,
             })?.unwrap();
-            enqueueSnackbar(
+            successSnackbar(
               drawerType === CREATE_EMAIL_TYPES?.REPLY
                 ? 'Email reply send successfully'
                 : 'Reply all send successfully',
-              {
-                variant: 'success',
-              },
             );
             setOpenDrawer(false);
             scheduleReset();
             reset();
             setAutocompleteValues([]);
           } catch (error: any) {
-            enqueueSnackbar('Something went wrong !', { variant: 'error' });
+            errorSnackbar('Something went wrong !');
           }
         }
         if (drawerType === CREATE_EMAIL_TYPES?.FORWARD) {
@@ -453,15 +443,13 @@ const useSendEmailDrawer = ({
             await postforwardOutlookEmail({
               body: formDataForward,
             })?.unwrap();
-            enqueueSnackbar('Forward successfully', {
-              variant: 'success',
-            });
+            successSnackbar('Forward successfully');
             setOpenDrawer(false);
             reset();
             scheduleReset();
             setAutocompleteValues([]);
           } catch (error: any) {
-            enqueueSnackbar('Something went wrong !', { variant: 'error' });
+            errorSnackbar('Something went wrong !');
           }
         }
       }

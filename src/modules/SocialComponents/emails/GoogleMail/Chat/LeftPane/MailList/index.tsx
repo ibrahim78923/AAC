@@ -13,7 +13,6 @@ import { styles } from './NotificationCard.styles';
 import { useAppSelector } from '@/redux/store';
 import { API_STATUS, EMAIL_TABS_TYPES } from '@/constants';
 import { useDispatch } from 'react-redux';
-import { enqueueSnackbar } from 'notistack';
 import { useEffect, useRef, useState } from 'react';
 
 import {
@@ -25,6 +24,7 @@ import {
 import { usePatchGmailMessageMutation } from '@/services/commonFeatures/email/gmail';
 import { isNullOrEmpty } from '@/utils';
 import { PaperClipIcon } from '@/assets/icons';
+import { errorSnackbar } from '@/lib/snackbar';
 
 const MailList = ({
   emailsByFolderIdData,
@@ -103,9 +103,7 @@ const MailList = ({
           })?.unwrap();
           dispatch(setGmailList('clear'));
         } catch (error: any) {
-          enqueueSnackbar('Something went wrong while updating message!', {
-            variant: 'error',
-          });
+          errorSnackbar('Something went wrong while updating message!');
         }
       }
     }

@@ -14,7 +14,6 @@ import {
   CircularProgress,
 } from '@mui/material';
 
-import { enqueueSnackbar } from 'notistack';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { useEffect, useState } from 'react';
 import {
@@ -23,6 +22,7 @@ import {
 } from '@/services/orgAdmin/subscription-and-invoices';
 import { getSession, isNullOrEmpty } from '@/utils';
 import { LoadingButton } from '@mui/lab';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const AddCard = ({
   open,
@@ -62,9 +62,7 @@ const AddCard = ({
     });
 
     if (error) {
-      enqueueSnackbar('Error creating token', {
-        variant: 'error',
-      });
+      errorSnackbar('Error creating token');
       return;
     } else {
       const payload = {
@@ -77,14 +75,10 @@ const AddCard = ({
 
       try {
         await postPaymentCard({ body: payload })?.unwrap();
-        enqueueSnackbar('Card Added Successful', {
-          variant: 'success',
-        });
+        successSnackbar('Card Added Successful');
         onClose();
       } catch (error: any) {
-        enqueueSnackbar('something went wrong', {
-          variant: 'error',
-        });
+        errorSnackbar('something went wrong');
       }
     }
   };

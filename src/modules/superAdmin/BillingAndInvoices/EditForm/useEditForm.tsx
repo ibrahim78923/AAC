@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { defaultValues, validationSchema } from './EditForm.data';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { enqueueSnackbar } from 'notistack';
 import {
   useGetExistingCrmQuery,
   useGetPlanIdQuery,
@@ -21,6 +20,7 @@ import {
   SubmitValuesI,
   UseEditFormI,
 } from './editForm.interface';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useEditForm = ({
   isEditModal,
@@ -227,11 +227,8 @@ const useEditForm = ({
           }).unwrap()
         : await addAssignPlan({ body: assignPlanPayload }).unwrap();
 
-      enqueueSnackbar(
+      successSnackbar(
         `plan ${isEditModal ? 'assign updated' : 'assign'} Successfully`,
-        {
-          variant: 'success',
-        },
       );
 
       reset();
@@ -243,34 +240,27 @@ const useEditForm = ({
         error?.data?.message ===
         SUBSCRIPTION_AND_INVOICES_ERROR_MESSAGES?.PLAN_ALREADY_ASSIGNED
       ) {
-        enqueueSnackbar(
+        errorSnackbar(
           SUBSCRIPTION_AND_INVOICES_ERROR_MESSAGES?.PLAN_ALREADY_ASSIGNED,
-          { variant: 'error' },
         );
       } else {
-        enqueueSnackbar(`${error?.data?.message}`, { variant: 'error' });
+        errorSnackbar(`${error?.data?.message}`);
       }
     }
   };
 
   useEffect(() => {
     if (isNullOrEmpty(planData?.data?.plans) && isSuccessPlan) {
-      enqueueSnackbar(
+      errorSnackbar(
         `Please create plan agaist respective selected product and product type`,
-        {
-          variant: 'error',
-        },
       );
       setIsExistingPlan(true);
     } else if (
       !isNullOrEmpty(planData?.data?.organizationAssignPlan) &&
       isSuccessPlan
     ) {
-      enqueueSnackbar(
+      errorSnackbar(
         `Plan agaist selected Client Name & Organization already created`,
-        {
-          variant: 'error',
-        },
       );
       setIsExistingPlan(true);
     } else {
@@ -280,22 +270,16 @@ const useEditForm = ({
 
   useEffect(() => {
     if (isNullOrEmpty(ExistingplanData?.data?.plans) && ExistingisSuccessPlan) {
-      enqueueSnackbar(
+      errorSnackbar(
         `Please create plan agaist respective selected product and product type`,
-        {
-          variant: 'error',
-        },
       );
       setIsExistingPlan(true);
     } else if (
       !isNullOrEmpty(ExistingplanData?.data?.organizationAssignPlan) &&
       ExistingisSuccessPlan
     ) {
-      enqueueSnackbar(
+      errorSnackbar(
         `Plan agaist selected Client Name & Organization already created`,
-        {
-          variant: 'error',
-        },
       );
       setIsExistingPlan(true);
     } else {

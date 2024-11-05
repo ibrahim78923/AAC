@@ -1,8 +1,7 @@
 import { AlertModals } from '@/components/AlertModals';
 import { AssignCommonIcon } from '@/assets/icons';
 import { useRestoreCompaniesMutation } from '@/services/commonFeatures/companies';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { successSnackbar } from '@/lib/snackbar';
 
 const RestoreModal = ({
   isRestoreItem,
@@ -29,9 +28,7 @@ const RestoreModal = ({
           });
           setCheckedRows([]);
           setIsRestoreItem({ isOpen: false });
-          enqueueSnackbar(`Company restored successfully`, {
-            variant: NOTISTACK_VARIANTS?.SUCCESS,
-          });
+          successSnackbar(`Company restored successfully`);
         }}
       />
     </>

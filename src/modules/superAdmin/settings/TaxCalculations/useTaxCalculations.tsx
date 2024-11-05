@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import dayjs from 'dayjs';
-import { enqueueSnackbar } from 'notistack';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useGetTaxCalculationQuery,
@@ -16,6 +15,7 @@ import {
 } from './TaxCalculations.data';
 import { PAGINATION } from '@/config';
 import { AddTaxFormValuesI, FilterValuesI } from './TaxCalculations.interface';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useTaxCalculations = () => {
   const [selectedRow, setSelectedRow] = useState<string[]>([]);
@@ -128,13 +128,9 @@ const useTaxCalculations = () => {
     try {
       await postAddTax({ body: payLoad })?.unwrap();
       handleCloseAddDrawer();
-      enqueueSnackbar('A new tax added to the system.', {
-        variant: 'success',
-      });
+      successSnackbar('A new tax added to the system.');
     } catch (error: any) {
-      enqueueSnackbar(`${error?.data?.error}: ${error?.data?.message}`, {
-        variant: 'error',
-      });
+      errorSnackbar(`${error?.data?.error}: ${error?.data?.message}`);
     }
   };
   const handleAddTaxSubmit = handleMethodAddFaq(onSubmitAddTax);
@@ -149,13 +145,9 @@ const useTaxCalculations = () => {
     };
     try {
       await updateTax({ id: rowId, body: payLoad })?.unwrap();
-      enqueueSnackbar(`Tax is ${status} now`, {
-        variant: 'success',
-      });
+      successSnackbar(`Tax is ${status} now`);
     } catch (error: any) {
-      enqueueSnackbar('An error occured', {
-        variant: 'error',
-      });
+      errorSnackbar('An error occured');
     }
   };
 
@@ -188,13 +180,9 @@ const useTaxCalculations = () => {
       await updateTax({ id: rowId, body: values })?.unwrap();
       handleCloseDrawerEditTax();
       setSelectedRow([]);
-      enqueueSnackbar('Information updated successfully', {
-        variant: 'success',
-      });
+      successSnackbar('Information updated successfully');
     } catch (error: any) {
-      enqueueSnackbar('An error occured', {
-        variant: 'error',
-      });
+      errorSnackbar('An error occured');
     }
   };
   const handleSubmitEditTax = submitEditTax(onSubmitEditJob);
@@ -217,14 +205,10 @@ const useTaxCalculations = () => {
       await deleteTaxCalculation(items)?.unwrap();
       handleCloseModalDelete();
       setSelectedRow([]);
-      enqueueSnackbar('Record has been deleted.', {
-        variant: 'success',
-      });
+      successSnackbar('Record has been deleted.');
       setIsActionsDisabled(true);
     } catch (error: any) {
-      enqueueSnackbar('An error occured', {
-        variant: 'error',
-      });
+      errorSnackbar('An error occured');
     }
   };
 

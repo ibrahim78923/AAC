@@ -18,7 +18,6 @@ import {
 } from '@/constants';
 import { AlertModals } from '@/components/AlertModals';
 import { WarningIcon } from '@/assets/icons';
-import { enqueueSnackbar } from 'notistack';
 import {
   useDeleteEmailOutlookMutation,
   useLazyGetAllDealsAsyncQuery,
@@ -41,6 +40,7 @@ import {
 } from './ActionBtn.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 interface ActionBtnPropsI {
   sortedData: any[];
@@ -109,15 +109,13 @@ const ActionBtn = ({
             messageIds: ids,
           },
         })?.unwrap();
-        enqueueSnackbar('Mail permanently deleted', {
-          variant: 'success',
-        });
+        successSnackbar('Mail permanently deleted');
         dispatch(setSelectedRecords([]));
         dispatch(setActiveRecord({}));
         setIsDeleteModalOpen(false);
         dispatch(setFilterMailList(ids ? ids : []));
       } catch (error: any) {
-        enqueueSnackbar('Something went wrong !', { variant: 'error' });
+        errorSnackbar('Something went wrong !');
       }
     } else {
       const deletedItems = sortedData.find(
@@ -136,9 +134,7 @@ const ActionBtn = ({
             folderId: deletedItems?.id,
           },
         })?.unwrap();
-        enqueueSnackbar('Mail successfully deleted ', {
-          variant: 'success',
-        });
+        successSnackbar('Mail successfully deleted ');
         dispatch(setSelectedRecords([]));
         dispatch(setActiveRecord({}));
         setIsDeleteModalOpen(false);
@@ -147,7 +143,7 @@ const ActionBtn = ({
         setMailFolderActiveId('');
         dispatch(setFilterMailList(ids ? ids : []));
       } catch (error: any) {
-        enqueueSnackbar('Something went wrong !', { variant: 'error' });
+        errorSnackbar('Something went wrong !');
       }
     }
   };
@@ -190,16 +186,14 @@ const ActionBtn = ({
           folderId: mailFolderActiveId,
         },
       })?.unwrap();
-      enqueueSnackbar('Mail successfully move ', {
-        variant: 'success',
-      });
+      successSnackbar('Mail successfully move ');
       dispatch(setSelectedRecords([]));
       dispatch(setActiveRecord({}));
       handleCloseSubMenu();
       handleClose();
       setMailFolderActiveId('');
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      errorSnackbar('Something went wrong !');
     }
   };
 
@@ -220,9 +214,7 @@ const ActionBtn = ({
       dispatch(setActiveRecord({}));
       handleClose();
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong while updating message!', {
-        variant: 'error',
-      });
+      errorSnackbar('Something went wrong while updating message!');
     }
   };
 
@@ -259,15 +251,13 @@ const ActionBtn = ({
       await PostLinkToDealOutlook({
         body: payload,
       })?.unwrap();
-      enqueueSnackbar('Email association successful', {
-        variant: 'success',
-      });
+      successSnackbar('Email association successful');
       dispatch(setSelectedRecords([]));
       dispatch(setActiveRecord({}));
       reset();
       setIsLinkToDealModal(false);
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      errorSnackbar('Something went wrong !');
     }
   };
 
