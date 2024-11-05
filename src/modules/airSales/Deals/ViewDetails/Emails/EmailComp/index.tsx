@@ -40,7 +40,6 @@ import {
   indexNumbers,
 } from '@/constants';
 import SendEmailDrawer from './SendEmail';
-import { useState } from 'react';
 import { ArrowDropDown } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
 import {
@@ -52,8 +51,15 @@ import { useGetMailDetailsOutlookQuery } from '@/services/commonFeatures/email/o
 import ProfileNameIcon from '@/components/ProfileNameIcon';
 import { enqueueSnackbar } from 'notistack';
 import { AlertModals } from '@/components/AlertModals';
+import useSendEmailDrawer from './SendEmail/useSendEmailDrawer';
+import { useGetGmailMessageDetailsQuery } from '@/services/commonFeatures/email/gmail';
+import { useEffect, useState } from 'react';
 
 const EmailComp = ({ moduleType, moduleId }: any) => {
+  const { valueProvider } = useSendEmailDrawer({});
+
+  const [viewValueProvider, setViewValueProvider] = useState('');
+
   const dispatch = useDispatch();
   const { theme } = useNameWithStyledWords();
 
@@ -62,7 +68,21 @@ const EmailComp = ({ moduleType, moduleId }: any) => {
   const [isDeleteAssociationModal, setIsDeleteAssociationModal] =
     useState(false);
 
-  const { selectedCheckboxes, handleCheckboxChange } = useEmails();
+  const {
+    selectedCheckboxes,
+    handleCheckboxChange,
+    outlookFoldersData,
+    gmailFoldersData,
+  } = useEmails();
+
+  const loggedInMailValidity =
+    viewValueProvider === 'OUTLOOK'
+      ? outlookFoldersData?.data?.folders?.length > 0
+        ? false
+        : true
+      : gmailFoldersData?.data?.labels?.length > 0
+        ? false
+        : true;
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -89,7 +109,6 @@ const EmailComp = ({ moduleType, moduleId }: any) => {
   const isMobile = useMediaQuery(theme?.breakpoints?.down('sm'));
 
   const selectedObj = selectedCheckboxes[0];
-
   const { data: messageDetailsData, isLoading: statusMessageDetailsData } =
     useGetMailDetailsOutlookQuery(
       {
@@ -99,9 +118,44 @@ const EmailComp = ({ moduleType, moduleId }: any) => {
       },
       { skip: selectedObj?.threadId ? false : true },
     );
+  const { data: messageDetailsDataGmail } = useGetGmailMessageDetailsQuery(
+    {
+      params: {
+        threadId: selectedObj?.threadId,
+      },
+    },
+    {
+      skip: selectedObj?.threadId ? false : true,
+    },
+  );
+
+  const getValueByName = (data: any, targetName: any) => {
+    const foundItem = data?.find((item: any) => item?.name === targetName);
+    return foundItem ? foundItem?.value : null;
+  };
+
+  const convertToEmailTestingData = (messageDetailsData: any) => {
+    return messageDetailsData?.map((item: any, index: any) => ({
+      Id: item?.id || index + 1,
+      // avatar: NotesAvatarImage,
+      name: getValueByName(item?.payload?.headers, 'From') || 'Unknown',
+      createdDate: item?.internalDate || '',
+      emailTo: getValueByName(item?.payload?.headers, 'To') || '',
+      emailToName: getValueByName(item?.payload?.headers, 'To') || '',
+      subjectHeading: getValueByName(item?.payload?.headers, 'Subject') || '',
+      subject: item?.snippet || '',
+    }));
+  };
+
+  const EmailTestingData = convertToEmailTestingData(
+    messageDetailsDataGmail?.data,
+  );
 
   const sortedMessagesDataArray =
     messageDetailsData?.data && [...messageDetailsData?.data?.value]?.reverse();
+
+  const viewDetailsDataArray =
+    viewValueProvider === 'GMAIL' ? EmailTestingData : sortedMessagesDataArray;
 
   const [deleteAssociationEmail, { isLoading: deleteAssociationEmailLoading }] =
     useDeleteAssociationEmailMutation();
@@ -123,6 +177,69 @@ const EmailComp = ({ moduleType, moduleId }: any) => {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
     }
   };
+
+  const handelReply = () => {
+    setIsOpenSendEmailDrawer(true);
+    setMailType(CREATE_EMAIL_TYPES?.REPLY_ALL);
+    dispatch(
+      setCurrentEmailAssets({
+        provider: selectedObj?.provider,
+        messageId: selectedObj?.messageId,
+        ...(valueProvider === 'GMAIL' && { threadId: selectedObj?.threadId }), // FOR Gmail case
+        id: selectedObj?._id,
+        from: selectedObj?.from,
+        others: {
+          from: `${selectedObj?.from[indexNumbers?.ZERO]?.name} ${'<'}
+          ${selectedObj?.from[indexNumbers?.ZERO]?.email}
+          ${'>'}`,
+          sent: selectedObj?.date,
+          to: `<>`,
+          subject: selectedObj?.subject,
+          body: '',
+          cc: selectedObj?.ccRecipients?.map(
+            (item: any) => item?.emailAddress?.address,
+          ),
+        },
+      }),
+    );
+    handleCloseMenu();
+  };
+
+  const handelForward = () => {
+    setIsOpenSendEmailDrawer(true);
+    setMailType(CREATE_EMAIL_TYPES?.FORWARD);
+    dispatch(
+      setCurrentEmailAssets({
+        provider: selectedObj?.provider,
+        messageId: selectedObj?.messageId,
+        ...(valueProvider === 'GMAIL' && { threadId: selectedObj?.threadId }), // FOR Gmail case
+        id: selectedObj?.id,
+        from: selectedObj?.from?.emailAddress?.address,
+        others: {
+          from: `${selectedObj?.from?.emailAddress?.name} ${'<'}
+         ${selectedObj?.from?.emailAddress?.address}
+         ${'>'}`,
+          sent: selectedObj?.createdDateTime,
+          to: selectedObj?.toRecipients?.map(
+            (item: any) => item?.emailAddress?.address,
+          ),
+          subject: selectedObj?.subject,
+          body: removeSignatureDiv(selectedObj?.message),
+          attachments: selectedObj?.attachments,
+        },
+      }),
+    );
+    handleCloseMenu();
+    dispatch(
+      setCurrentForwardAttachments(
+        selectedObj?.attachments?.map((item: any) => item),
+      ),
+    );
+  };
+
+  useEffect(() => {
+    if (selectedObj?.provider) setViewValueProvider(selectedObj?.provider);
+  }, [selectedObj]);
 
   return (
     <Box
@@ -176,7 +293,14 @@ const EmailComp = ({ moduleType, moduleId }: any) => {
                 <PermissionsGuard
                   permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_VIEW_THREAD]}
                 >
-                  <MenuItem onClick={() => setIsViewDetailModal(true)}>
+                  <MenuItem
+                    onClick={() => {
+                      setCurrentEmailAssets({
+                        provider: selectedObj?.provider,
+                      });
+                      setIsViewDetailModal(true);
+                    }}
+                  >
                     View Thread
                   </MenuItem>
                 </PermissionsGuard>
@@ -185,75 +309,12 @@ const EmailComp = ({ moduleType, moduleId }: any) => {
                     AIR_SALES_DEALS_PERMISSIONS?.DEAL_FORWARD_EMAIL,
                   ]}
                 >
-                  <MenuItem
-                    onClick={() => {
-                      setIsOpenSendEmailDrawer(true);
-                      setMailType(CREATE_EMAIL_TYPES?.FORWARD);
-                      dispatch(
-                        setCurrentEmailAssets({
-                          provider: selectedObj?.provider,
-                          messageId: selectedObj?.id,
-                          id: selectedObj?.id,
-                          from: selectedObj?.from?.emailAddress?.address,
-                          others: {
-                            from: `${selectedObj?.from?.emailAddress?.name} ${'<'}
-                           ${selectedObj?.from?.emailAddress?.address}
-                           ${'>'}`,
-                            sent: selectedObj?.createdDateTime,
-                            to: selectedObj?.toRecipients?.map(
-                              (item: any) => item?.emailAddress?.address,
-                            ),
-                            subject: selectedObj?.subject,
-                            body: removeSignatureDiv(selectedObj?.message),
-                            attachments: selectedObj?.attachments,
-                          },
-                        }),
-                      );
-                      handleCloseMenu();
-
-                      dispatch(
-                        setCurrentForwardAttachments(
-                          selectedObj?.attachments?.map((item: any) => item),
-                        ),
-                      );
-                    }}
-                  >
-                    Forward
-                  </MenuItem>
+                  <MenuItem onClick={handelForward}>Forward</MenuItem>
                 </PermissionsGuard>
                 <PermissionsGuard
                   permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_REPLY_EMAIL]}
                 >
-                  <MenuItem
-                    onClick={() => {
-                      setIsOpenSendEmailDrawer(true);
-                      setMailType(CREATE_EMAIL_TYPES?.REPLY_ALL);
-                      dispatch(
-                        setCurrentEmailAssets({
-                          provider: selectedObj?.provider,
-                          messageId: selectedObj?.threadId, //need to change
-                          id: selectedObj?._id,
-                          from: selectedObj?.from,
-                          others: {
-                            from: `${selectedObj?.from[indexNumbers?.ZERO]
-                              ?.name} ${'<'}
-                            ${selectedObj?.from[indexNumbers?.ZERO]?.email}
-                            ${'>'}`,
-                            sent: selectedObj?.date,
-                            to: `<>`,
-                            subject: selectedObj?.subject,
-                            body: '',
-                            cc: selectedObj?.ccRecipients?.map(
-                              (item: any) => item?.emailAddress?.address,
-                            ),
-                          },
-                        }),
-                      );
-                      handleCloseMenu();
-                    }}
-                  >
-                    Reply
-                  </MenuItem>
+                  <MenuItem onClick={handelReply}>Reply</MenuItem>
                 </PermissionsGuard>
                 <PermissionsGuard
                   permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_DELETE_EMAIL]}
@@ -469,94 +530,166 @@ const EmailComp = ({ moduleType, moduleId }: any) => {
         }
         footer={false}
       >
-        {statusMessageDetailsData ? (
-          <>Loading</>
-        ) : (
-          <>
-            {sortedMessagesDataArray?.length > 0 ? (
-              <>
-                {sortedMessagesDataArray?.map((item: any) => {
-                  const nameParts = item?.from?.emailAddress?.name
-                    .trim()
-                    .split('-');
-                  return (
-                    <Grid item xs={12} sx={styles?.emailBox} key={uuidv4()}>
-                      <Grid container spacing={1}>
-                        <Grid item sm={1.6} xs={12}>
-                          {item?.userImg || (
-                            <ProfileNameIcon
-                              firstName={
-                                item?.from?.emailAddress?.name
-                                  ?.trim()
-                                  ?.split(' ')[0]
-                              }
-                              lastName={
-                                (nameParts && nameParts[indexNumbers?.ONE]) ??
-                                item?.from?.emailAddress?.name
-                                  ?.trim()
-                                  ?.split(' ')[1]
-                              }
-                            />
-                          )}
-                        </Grid>
-                        <Grid item sm={10.4} xs={12}>
-                          <Box
-                            sx={{
-                              display: 'flex',
-                              justifyContent: 'space-between',
-                            }}
+        <>
+          {loggedInMailValidity ? (
+            <>
+              You are not logged in as{' '}
+              {viewValueProvider === 'GMAIL' ? 'Gmail' : 'Outlook'}
+            </>
+          ) : (
+            <>
+              {statusMessageDetailsData ? (
+                <>Loading...</>
+              ) : (
+                <>
+                  {viewDetailsDataArray?.length > 0 ? (
+                    <>
+                      {viewDetailsDataArray?.map((item: any) => {
+                        const nameParts = item?.from?.emailAddress?.name
+                          ?.trim()
+                          ?.split('-');
+
+                        const options: any = {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                          hour: 'numeric',
+                          minute: 'numeric',
+                          second: 'numeric',
+                          hour12: true,
+                        };
+                        const localDateTime = new Date(
+                          item?.createdDate * 1,
+                        ).toLocaleString('en-US', {
+                          timeZone: 'Asia/Karachi',
+                          ...options,
+                        });
+
+                        return (
+                          <Grid
+                            item
+                            xs={12}
+                            sx={styles?.emailBox}
+                            key={uuidv4()}
                           >
-                            <Box>
-                              <Typography
-                                variant="h6"
-                                sx={{ fontSize: '18px' }}
-                              >
-                                {item?.from?.emailAddress?.name}
-                              </Typography>
-                              <RecipientsBoxWrapper
-                                data={item?.toRecipients}
-                                label={'To'}
-                              />
-                              {item?.ccRecipients?.length > 0 && (
-                                <RecipientsBoxWrapper
-                                  data={item?.ccRecipients}
-                                  label={'Cc'}
-                                />
-                              )}
-                              {item?.bccRecipients?.length > 0 && (
-                                <RecipientsBoxWrapper
-                                  data={item?.bccRecipients}
-                                  label={'Bcc'}
-                                />
-                              )}
-                            </Box>
-                            <Typography
-                              variant="body3"
-                              sx={{ color: theme?.palette?.grey[900] }}
-                            >
-                              {dayjs(item?.createdDateTime)?.format(
-                                DATE_TIME_FORMAT?.DMYhmma,
-                              )}
-                            </Typography>
-                          </Box>
-                          <Typography variant="body1" sx={{ mt: 1 }}>
-                            {item?.subject}
-                          </Typography>
-                          <Typography variant="body2" sx={{ mt: 1 }}>
-                            {item?.bodyPreview}
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  );
-                })}
-              </>
-            ) : (
-              <>no Threads found</>
-            )}
-          </>
-        )}
-        <></>
+                            <Grid container spacing={1}>
+                              <Grid item sm={1.6} xs={12}>
+                                {viewValueProvider === 'GMAIL' ? (
+                                  <>
+                                    <ProfileNameIcon
+                                      firstName={item?.emailTo
+                                        ?.trim()
+                                        ?.charAt(0)}
+                                      lastName={''}
+                                    />
+                                  </>
+                                ) : (
+                                  <>
+                                    {item?.userImg || (
+                                      <ProfileNameIcon
+                                        firstName={
+                                          item?.from?.emailAddress?.name
+                                            ?.trim()
+                                            ?.split(' ')[0]
+                                        }
+                                        lastName={
+                                          (nameParts &&
+                                            nameParts[indexNumbers?.ONE]) ??
+                                          item?.from?.emailAddress?.name
+                                            ?.trim()
+                                            ?.split(' ')[1]
+                                        }
+                                      />
+                                    )}
+                                  </>
+                                )}
+                              </Grid>
+                              <Grid item sm={10.4} xs={12}>
+                                <Box
+                                  sx={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                  }}
+                                >
+                                  <Box>
+                                    <Typography
+                                      variant="h6"
+                                      sx={{ fontSize: '18px' }}
+                                    >
+                                      {item?.from?.emailAddress?.name}
+                                    </Typography>
+
+                                    {/* To ++ */}
+                                    {item?.toRecipient && (
+                                      <RecipientsBoxWrapper
+                                        data={item?.toRecipients}
+                                        label={'To'}
+                                      />
+                                    )}
+                                    {item?.emailTo && (
+                                      <Box>
+                                        <Typography
+                                          variant="body2"
+                                          sx={{
+                                            cursor: 'default',
+                                            fontWeight: '600',
+                                          }}
+                                        >
+                                          To: &nbsp;
+                                          {item?.emailTo}
+                                        </Typography>
+                                      </Box>
+                                    )}
+                                    {/* To -- */}
+
+                                    {item?.ccRecipients?.length > 0 && (
+                                      <RecipientsBoxWrapper
+                                        data={item?.ccRecipients}
+                                        label={'Cc'}
+                                      />
+                                    )}
+                                    {item?.bccRecipients?.length > 0 && (
+                                      <RecipientsBoxWrapper
+                                        data={item?.bccRecipients}
+                                        label={'Bcc'}
+                                      />
+                                    )}
+                                  </Box>
+                                  <Typography
+                                    variant="body3"
+                                    sx={{ color: theme?.palette?.grey[900] }}
+                                  >
+                                    {viewValueProvider === 'GMAIL' ? (
+                                      <>{localDateTime}</>
+                                    ) : (
+                                      <>
+                                        {dayjs(item?.createdDateTime)?.format(
+                                          DATE_TIME_FORMAT?.DMYhmma,
+                                        )}
+                                      </>
+                                    )}
+                                  </Typography>
+                                </Box>
+                                <Typography variant="body1" sx={{ mt: 1 }}>
+                                  {item?.subject}
+                                </Typography>
+                                <Typography variant="body2" sx={{ mt: 1 }}>
+                                  {item?.bodyPreview}
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                        );
+                      })}
+                    </>
+                  ) : (
+                    <>no Threads found</>
+                  )}
+                </>
+              )}
+            </>
+          )}
+        </>
       </CommonModal>
 
       <AlertModals

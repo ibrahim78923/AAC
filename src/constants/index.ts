@@ -370,6 +370,10 @@ export const MAIL_TYPES = {
   OUTLOOK: 'outlook',
   GMAIL: 'gmail',
 };
+export const MAIL_KEYS = {
+  OUTLOOK: 'OUTLOOK',
+  GMAIL: 'GMAIL',
+};
 
 export const DRAWER_TITLE = {
   VIEW: 'View',

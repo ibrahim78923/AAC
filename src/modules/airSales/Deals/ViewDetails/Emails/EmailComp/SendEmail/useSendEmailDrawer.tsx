@@ -16,6 +16,7 @@ import {
   CREATE_EMAIL_TYPES,
   DATE_TIME_FORMAT,
   indexNumbers,
+  MAIL_KEYS,
 } from '@/constants';
 import { useEffect, useState } from 'react';
 import {
@@ -33,6 +34,11 @@ import {
 import { useDispatch } from 'react-redux';
 import { setCurrentForwardAttachments } from '@/redux/slices/email/outlook/slice';
 import dayjs from 'dayjs';
+import {
+  useForwardSendGmailMutation,
+  usePostReplyOtherGmailMutation,
+  usePostSendGmailMutation,
+} from '@/services/commonFeatures/email/gmail';
 const useSendEmailDrawer = ({
   setOpenDrawer,
   drawerType,
@@ -183,14 +189,30 @@ const useSendEmailDrawer = ({
   };
 
   // Post Mutations
-  const [postSendOtherEmail, { isLoading: loadingOtherSend }] =
-    usePostSendEmailOutlookMutation();
   const [postScheduleOtherEmail, { isLoading: loadingOtherScheduleSend }] =
     usePostScheduleEmailOutlookMutation();
+
+  const [postSendOtherEmail, { isLoading: loadingOtherSend }] =
+    usePostSendEmailOutlookMutation();
   const [postReplyOtherEmail, { isLoading: loadingOtherReply }] =
     usePostReplyEmailOutlookMutation();
   const [postforwardOutlookEmail, { isLoading: isLoadingForward }] =
     useForwardEmailOutlookMutation();
+
+  const [postSendGmail, { isLoading: isLoadingSend }] =
+    usePostSendGmailMutation();
+  const [forwardSendGmail, { isLoading: loadingForwardGmail }] =
+    useForwardSendGmailMutation();
+  const [postReplyGmail, { isLoading: loadingReplyGmail }] =
+    usePostReplyOtherGmailMutation();
+
+  const postForwardCase =
+    valueProvider === MAIL_KEYS?.OUTLOOK
+      ? postforwardOutlookEmail
+      : forwardSendGmail;
+
+  const postReply =
+    valueProvider === MAIL_KEYS?.OUTLOOK ? postReplyOtherEmail : postReplyGmail;
 
   const isToExists = watchEmailsForm[indexNumbers?.TWO];
 
@@ -239,9 +261,12 @@ const useSendEmailDrawer = ({
     scheduleTime?.toString()?.length > 0;
 
   //Post or Schedule Email Mutations
-  const postEmail = isScheduleExists
-    ? postScheduleOtherEmail
-    : postSendOtherEmail;
+  const postEmail =
+    valueProvider === MAIL_KEYS?.OUTLOOK
+      ? isScheduleExists
+        ? postScheduleOtherEmail
+        : postSendOtherEmail
+      : postSendGmail;
 
   const onSubmit = async (values: any) => {
     setToStateDep(toStateDep + 1);
@@ -333,17 +358,44 @@ const useSendEmailDrawer = ({
         drawerType === CREATE_EMAIL_TYPES?.REPLY ||
         drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL
       ) {
+        // ONLY GMAIL CASE ++
+
+        const formDataReply = new FormData();
+        formDataReply.append('id', currentEmailAssets?.messageId);
+        formDataReply.append('threadId', currentEmailAssets?.threadId);
+        formDataReply.append(
+          'content',
+          `<div>
+        ${values?.description} 
+        <br> 
+        </div>` || '<p></p>',
+        );
+        formDataReply.append('type', 'reply');
+
+        if (values?.attachFile) {
+          if (Array?.isArray(values?.attachFile)) {
+            values?.attachFile.forEach((file: File) => {
+              formDataReply?.append(`attachments`, file);
+            });
+          } else {
+            formDataReply.append('attachments', values?.attachFile);
+          }
+        }
+        // ONLY GMAIL CASE --
         try {
-          await postReplyOtherEmail({
-            to: values?.to,
-            cc: values?.cc ?? [],
-            bcc: values?.bcc ?? [],
-            messageId: currentEmailAssets?.messageId,
-            type:
-              drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL
-                ? 'reply-all'
-                : 'reply',
-            replyText: values?.description,
+          await postReply({
+            ...(valueProvider === MAIL_KEYS?.OUTLOOK && {
+              to: values?.to,
+              cc: values?.cc ?? [],
+              bcc: values?.bcc ?? [],
+              messageId: currentEmailAssets?.messageId,
+              type:
+                drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL
+                  ? 'reply-all'
+                  : 'reply',
+              replyText: values?.description,
+            }),
+            ...(valueProvider === MAIL_KEYS?.GMAIL && { body: formDataReply }),
           })?.unwrap();
           enqueueSnackbar(
             drawerType === CREATE_EMAIL_TYPES?.REPLY
@@ -363,9 +415,18 @@ const useSendEmailDrawer = ({
       }
       if (drawerType === CREATE_EMAIL_TYPES?.FORWARD) {
         const formDataForward = new FormData();
-        formDataForward.append('messageId', currentEmailAssets?.messageId);
+
+        if (valueProvider === MAIL_KEYS?.GMAIL) {
+          formDataForward.append('threadId', currentEmailAssets?.threadId);
+          formDataForward.append('id', currentEmailAssets?.messageId);
+        }
+        if (valueProvider === MAIL_KEYS?.OUTLOOK) {
+          formDataForward.append('messageId', currentEmailAssets?.messageId);
+        }
         formDataForward.append('to', values?.to);
-        formDataForward.append('subject', values?.subject);
+        if (valueProvider === MAIL_KEYS?.OUTLOOK) {
+          formDataForward.append('subject', values?.subject);
+        }
         formDataForward.append(
           'content',
           `<div 
@@ -394,7 +455,7 @@ const useSendEmailDrawer = ({
           formDataForward?.append(`attachments`, file);
         });
         try {
-          await postforwardOutlookEmail({
+          await postForwardCase({
             body: formDataForward,
           })?.unwrap();
           enqueueSnackbar('Forward successfully', {
@@ -424,9 +485,9 @@ const useSendEmailDrawer = ({
     theme,
     reset,
     setValue,
-    loadingOtherSend,
+    loadingOtherSend: loadingOtherSend || isLoadingSend,
     loadingOtherScheduleSend,
-    loadingOtherReply,
+    loadingOtherReply: loadingOtherReply || loadingReplyGmail,
     handleOnClose,
     setAutocompleteValues,
     autocompleteValues,
@@ -438,7 +499,7 @@ const useSendEmailDrawer = ({
     autocompleteBCCValues,
 
     isToValid,
-    isLoadingForward,
+    isLoadingForward: isLoadingForward || loadingForwardGmail,
 
     setToStateDep,
     toStateDep,
