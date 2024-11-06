@@ -10,6 +10,7 @@ import { getSession } from '@/utils';
 import { REQUESTORS_STATUS, ROLES } from '@/constants/strings';
 import { UseFormWatch } from 'react-hook-form';
 import { DealPipelineStagesDropdown } from '../DealPipelineStagesDropdown';
+import { WorkflowConditionStateI } from './SubWorkflowConditions/SubWorkflowConditions.interface';
 
 export const conditionTypeOptions = [
   { label: 'Match ALL condition in this group', value: 'AND' },
@@ -55,6 +56,13 @@ export const workflowConditionsDataArray = (
   watch: UseFormWatch<any>,
   dealDropdown: any,
   adminUserDropdown: any,
+  setFieldNameOnChange: React.Dispatch<
+    React.SetStateAction<WorkflowConditionStateI>
+  >,
+  setConditionFieldOnChange: React.Dispatch<
+    React.SetStateAction<WorkflowConditionStateI>
+  >,
+  watchFieldName: (subIndex?: number) => boolean,
 ) => {
   const moduleType = watch('module');
   const keyDropdown = workflowModuleOption[moduleType] || [];
@@ -345,6 +353,8 @@ export const workflowConditionsDataArray = (
         getOptionLabel: (option: any) =>
           option?.label ? option?.label : option,
         options: keyDropdown,
+        onChangeHandler: (_: any, newValue: any) =>
+          setFieldNameOnChange({ subIndex, newValue: newValue?.value }),
       },
       component: RHFAutocomplete,
     },
@@ -356,6 +366,9 @@ export const workflowConditionsDataArray = (
         size: 'small',
         placeholder: 'Select',
         options: conditionOptions,
+        onChangeHandler: (_: any, newValue: any) =>
+          setConditionFieldOnChange({ subIndex, newValue }),
+        disabled: !watchFieldName(subIndex),
       },
       component: RHFAutocomplete,
     },

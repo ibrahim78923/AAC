@@ -14,6 +14,9 @@ export const SubWorkflowConditions = (props: SubWorkflowConditionsI) => {
     handleDeleteClick,
     dealDropdown,
     adminUserDropdown,
+    setFieldNameOnChange,
+    setConditionFieldOnChange,
+    watchFieldName,
   } = useSubWorkflowConditions(props);
   return (
     <>
@@ -24,6 +27,9 @@ export const SubWorkflowConditions = (props: SubWorkflowConditionsI) => {
           watch,
           dealDropdown,
           adminUserDropdown,
+          setFieldNameOnChange,
+          setConditionFieldOnChange,
+          watchFieldName,
         )?.find((item) => item?.component === Box);
         return (
           <Box key={item?.id}>
@@ -52,6 +58,9 @@ export const SubWorkflowConditions = (props: SubWorkflowConditionsI) => {
                   watch,
                   dealDropdown,
                   adminUserDropdown,
+                  setFieldNameOnChange,
+                  setConditionFieldOnChange,
+                  watchFieldName,
                 )?.map((item) => (
                   <Grid
                     item

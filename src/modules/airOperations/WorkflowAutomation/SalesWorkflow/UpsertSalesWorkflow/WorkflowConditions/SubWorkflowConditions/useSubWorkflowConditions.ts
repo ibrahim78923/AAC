@@ -1,15 +1,22 @@
 import { useFieldArray } from 'react-hook-form';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   useLazyGetAdminUserDropdownListQuery,
   useLazyGetDealDropdownListQuery,
 } from '@/services/airOperations/workflow-automation/sales-workflow';
 import { errorSnackbar, warningSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
-import { SubWorkflowConditionsI } from './SubWorkflowConditions.interface';
+import {
+  SubWorkflowConditionsI,
+  WorkflowConditionStateI,
+} from './SubWorkflowConditions.interface';
 
 export const useSubWorkflowConditions = (props: SubWorkflowConditionsI) => {
   const { control, index, parentField, removeParent, setValue, watch } = props;
+  const [fieldNameOnChange, setFieldNameOnChange] =
+    useState<WorkflowConditionStateI>({ subIndex: null, newValue: '' });
+  const [conditionFieldOnChange, setConditionFieldOnChange] =
+    useState<WorkflowConditionStateI>({ subIndex: null, newValue: '' });
   const { fields, remove, append } = useFieldArray({
     control,
     name: `groups.${index}.conditions`,
@@ -37,6 +44,22 @@ export const useSubWorkflowConditions = (props: SubWorkflowConditionsI) => {
   const adminUserDropdown = useLazyGetAdminUserDropdownListQuery();
   const router = useRouter();
   const moduleType = watch('module');
+  useEffect(() => {
+    setValue(
+      `groups.${index}.conditions.${fieldNameOnChange?.subIndex}.condition`,
+      '',
+    );
+    setValue(
+      `groups.${index}.conditions.${fieldNameOnChange?.subIndex}.fieldValue`,
+      null,
+    );
+  }, [fieldNameOnChange?.newValue]);
+  useEffect(() => {
+    setValue(
+      `groups.${index}.conditions.${conditionFieldOnChange?.subIndex}.fieldValue`,
+      null,
+    );
+  }, [conditionFieldOnChange?.newValue]);
   if (!router?.query?.id) {
     useEffect(() => {
       fields?.forEach((_, subIndex) => {
@@ -46,11 +69,20 @@ export const useSubWorkflowConditions = (props: SubWorkflowConditionsI) => {
       });
     }, [moduleType]);
   }
+  const watchFieldName = (subIndex?: number) => {
+    if (!!watch(`groups.${index}.conditions.${subIndex}.fieldName`)) {
+      return true;
+    }
+    return false;
+  };
   return {
     fields,
     handleAppend,
     handleDeleteClick,
     dealDropdown,
     adminUserDropdown,
+    setFieldNameOnChange,
+    setConditionFieldOnChange,
+    watchFieldName,
   };
 };

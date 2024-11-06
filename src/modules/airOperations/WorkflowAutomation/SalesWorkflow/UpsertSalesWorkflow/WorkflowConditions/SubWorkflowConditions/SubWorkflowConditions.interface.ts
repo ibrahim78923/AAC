@@ -12,3 +12,7 @@ export interface SubWorkflowConditionsI {
     value: string;
   };
 }
+export interface WorkflowConditionStateI {
+  subIndex: number | null;
+  newValue: string;
+}
