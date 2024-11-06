@@ -1,6 +1,8 @@
 import { SOCIAL_FEATURES_GMAIL } from '@/routesConstants/paths';
 import { baseAPI } from '@/services/base-api';
 const TAG = ['GMAIL'];
+const TAG_ASSOCIATIONS = ['GMAIL', 'ASSOCIATION_EMAILS'];
+
 export const gmailApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getAuthURLGmail: builder.query({
@@ -55,7 +57,7 @@ export const gmailApi = baseAPI.injectEndpoints({
           },
         };
       },
-      invalidatesTags: ['GMAIL', 'COMPANY'],
+      invalidatesTags: ['GMAIL', 'COMPANY', 'ASSOCIATION_EMAILS'],
     }),
     postScheduleGmail: builder.mutation({
       query: ({ body }: any) => {
@@ -94,7 +96,7 @@ export const gmailApi = baseAPI.injectEndpoints({
           },
         };
       },
-      invalidatesTags: TAG,
+      invalidatesTags: TAG_ASSOCIATIONS,
     }),
 
     deleteGmail: builder.mutation({
@@ -125,7 +127,7 @@ export const gmailApi = baseAPI.injectEndpoints({
           },
         };
       },
-      invalidatesTags: TAG,
+      invalidatesTags: TAG_ASSOCIATIONS,
     }),
     patchGmailMessage: builder.mutation({
       query: ({ body }: any) => {

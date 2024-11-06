@@ -299,6 +299,7 @@ const EmailComp = ({ moduleType, moduleId }: any) => {
                         provider: selectedObj?.provider,
                       });
                       setIsViewDetailModal(true);
+                      handleCloseMenu();
                     }}
                   >
                     View Thread
@@ -670,12 +671,19 @@ const EmailComp = ({ moduleType, moduleId }: any) => {
                                     )}
                                   </Typography>
                                 </Box>
+
                                 <Typography variant="body1" sx={{ mt: 1 }}>
                                   {item?.subject}
                                 </Typography>
-                                <Typography variant="body2" sx={{ mt: 1 }}>
-                                  {item?.bodyPreview}
-                                </Typography>
+                                {item?.bodyPreview && (
+                                  <Typography variant="body2" sx={{ mt: 1 }}>
+                                    <Box
+                                      dangerouslySetInnerHTML={{
+                                        __html: item?.bodyPreview,
+                                      }}
+                                    />
+                                  </Typography>
+                                )}
                               </Grid>
                             </Grid>
                           </Grid>

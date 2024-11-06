@@ -5,6 +5,7 @@ import {
 } from '@/routesConstants/paths';
 import { baseAPI } from '@/services/base-api';
 const TAG = ['OUTLOOK'];
+const TAG_OUTLOOK_ASSOCIATIONS = ['OUTLOOK', 'ASSOCIATION_EMAILS'];
 const TAG_UPDATE_EMAIL = ['OUTLOOK_UPDATE'];
 const DRAFT_MAIL = ['DRAFT_MAIL'];
 export const outlookApi = baseAPI.injectEndpoints({
@@ -61,7 +62,7 @@ export const outlookApi = baseAPI.injectEndpoints({
           },
         };
       },
-      invalidatesTags: TAG,
+      invalidatesTags: TAG_OUTLOOK_ASSOCIATIONS,
     }),
 
     forwardEmailOutlook: builder.mutation({
@@ -75,7 +76,7 @@ export const outlookApi = baseAPI.injectEndpoints({
           },
         };
       },
-      invalidatesTags: TAG,
+      invalidatesTags: TAG_OUTLOOK_ASSOCIATIONS,
     }),
 
     postReplyEmailOutlook: builder.mutation({
@@ -88,7 +89,7 @@ export const outlookApi = baseAPI.injectEndpoints({
           },
         };
       },
-      invalidatesTags: TAG,
+      invalidatesTags: TAG_OUTLOOK_ASSOCIATIONS,
     }),
 
     postScheduleEmailOutlook: builder.mutation({
@@ -102,7 +103,7 @@ export const outlookApi = baseAPI.injectEndpoints({
           },
         };
       },
-      invalidatesTags: TAG,
+      invalidatesTags: TAG_OUTLOOK_ASSOCIATIONS,
     }),
 
     postDraftEmailOutlook: builder.mutation({

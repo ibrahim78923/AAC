@@ -27,6 +27,7 @@ import {
   ClearIcon,
   GmailIcon,
   InfoBlueIcon,
+  InfoIcon,
   MessageIcon,
   OutlookIcon,
   TimeClockIcon,
@@ -38,6 +39,7 @@ import {
   CREATE_EMAIL_TYPES,
   DATE_TIME_FORMAT,
   indexNumbers,
+  MAIL_KEYS,
 } from '@/constants';
 import { useAppSelector } from '@/redux/store';
 import CustomLabel from '@/components/CustomLabel';
@@ -53,7 +55,7 @@ import { scheduleEmailDataArray } from './SendEmailDrawer.data';
 import { ImageComponentAttachment } from '@/modules/SocialComponents/emails/OutlookMail/Chat/RightPane';
 import { useGetAuthURLOutlookQuery } from '@/services/commonFeatures/email/outlook';
 import { useGetAuthURLGmailQuery } from '@/services/commonFeatures/email/gmail';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useEmails from '../useEmails';
 
 const SendEmailDrawer = (props: any) => {
@@ -65,6 +67,14 @@ const SendEmailDrawer = (props: any) => {
     moduleType,
     moduleId,
   } = props;
+
+  const {
+    outlookFoldersData,
+    gmailFoldersData,
+    outlookFoldersLoading,
+    gmailFoldersLoading,
+  } = useEmails();
+
   const {
     handleSubmit,
     onSubmit,
@@ -109,13 +119,6 @@ const SendEmailDrawer = (props: any) => {
     moduleId,
     moduleType,
   });
-
-  const {
-    outlookFoldersData,
-    gmailFoldersData,
-    outlookFoldersLoading,
-    gmailFoldersLoading,
-  } = useEmails();
 
   const dispatch = useDispatch();
   const currentEmailAssets = useAppSelector(
@@ -179,7 +182,7 @@ const SendEmailDrawer = (props: any) => {
 
   const handelIsGmailAuthenticated = () => {
     if (gmailFoldersData?.data?.labels?.length) {
-      setValueProvider('GMAIL');
+      setValueProvider(MAIL_KEYS?.GMAIL);
     } else {
       setIsOutlookAuthErr(false);
       setIsGmailAuthErr(true);
@@ -187,7 +190,7 @@ const SendEmailDrawer = (props: any) => {
   };
   const handelIsOutlookAuthenticated = () => {
     if (outlookFoldersData?.data?.folders?.length) {
-      setValueProvider('OUTLOOK');
+      setValueProvider(MAIL_KEYS?.OUTLOOK);
     } else {
       setIsGmailAuthErr(false);
       setIsOutlookAuthErr(true);
@@ -212,6 +215,21 @@ const SendEmailDrawer = (props: any) => {
     const oauthUrl = `${authUrlData?.data}`;
     window.open(oauthUrl);
   };
+
+  useEffect(() => {
+    if (
+      drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL ||
+      drawerType === CREATE_EMAIL_TYPES?.REPLY ||
+      drawerType === CREATE_EMAIL_TYPES?.FORWARD
+    ) {
+      if (currentEmailAssets?.provider === MAIL_KEYS?.GMAIL) {
+        handelIsGmailAuthenticated();
+      }
+      if (currentEmailAssets?.provider === MAIL_KEYS?.OUTLOOK) {
+        handelIsOutlookAuthenticated();
+      }
+    }
+  }, [drawerType]);
 
   return (
     <div>
@@ -251,7 +269,20 @@ const SendEmailDrawer = (props: any) => {
         })()}
         okText={isScheduleExists ? 'Schedule' : 'Send'}
         isOk={true}
-        footer={valueProvider.length ? true : false}
+        footer={(() => {
+          if (drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL) return true;
+          if (
+            (drawerType === CREATE_EMAIL_TYPES?.REPLY ||
+              drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL ||
+              drawerType === CREATE_EMAIL_TYPES?.FORWARD) &&
+            ((currentEmailAssets?.provider === MAIL_KEYS?.GMAIL &&
+              gmailFoldersData?.data?.labels?.length > 0) ||
+              (currentEmailAssets?.provider === MAIL_KEYS?.OUTLOOK &&
+                outlookFoldersData?.data?.folders?.length > 0))
+          )
+            return true;
+          return false;
+        })()}
         {...(drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL && {
           footerActionText: 'Send Later',
         })}
@@ -261,283 +292,367 @@ const SendEmailDrawer = (props: any) => {
       >
         {valueProvider?.length > 0 && (
           <Box display="flex" alignItems={'center'} sx={{ gap: '3px' }}>
-            <IconButton onClick={() => setValueProvider('')}>
-              <BackArrIcon size="15" />
-            </IconButton>
+            {drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL && (
+              <IconButton onClick={() => setValueProvider('')}>
+                <BackArrIcon size="15" />
+              </IconButton>
+            )}
 
-            {valueProvider === 'GMAIL' && <GmailIcon width="25" height="25" />}
-            {valueProvider === 'OUTLOOK' && (
+            {valueProvider === MAIL_KEYS?.GMAIL && (
+              <GmailIcon width="25" height="25" />
+            )}
+            {valueProvider === MAIL_KEYS?.OUTLOOK && (
               <OutlookIcon width="25" height="25" />
             )}
           </Box>
         )}
 
-        {valueProvider.length ? (
+        {(() => {
+          if (drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL) return true;
+          if (
+            (drawerType === CREATE_EMAIL_TYPES?.REPLY ||
+              drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL ||
+              drawerType === CREATE_EMAIL_TYPES?.FORWARD) &&
+            ((currentEmailAssets?.provider === MAIL_KEYS?.GMAIL &&
+              gmailFoldersData?.data?.labels?.length > 0) ||
+              (currentEmailAssets?.provider === MAIL_KEYS?.OUTLOOK &&
+                outlookFoldersData?.data?.folders?.length > 0))
+          )
+            return true;
+          return false;
+        })() ? (
           <>
-            <Box sx={{ pt: 2 }}>
-              <FormProvider
-                methods={methodsDealsTasks}
-                onSubmit={handleSubmit(onSubmit)}
-              >
-                <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    <MultiTextField
-                      label={'To'}
-                      required={true}
-                      values={autocompleteValues}
-                      handleAutocompleteChange={handleAutocompleteChange}
-                      isValid={isToValid}
-                      isValidEmails={isValidEmails}
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <RHFCheckbox name="ccChecked" label="CC" />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <RHFCheckbox name="bccChecked" label="BCC" />
-                  </Grid>
-                  {watchEmailsForm[indexNumbers?.ZERO] && (
-                    <Grid item xs={12}>
-                      <MultiTextField
-                        label={'CC'}
-                        required={false}
-                        values={autocompleteCCValues}
-                        handleAutocompleteChange={handleAutocompleteCCChange}
-                        isValid={false}
-                        isValidEmails={isValidCCEmails}
-                      />
-                    </Grid>
-                  )}
-                  {watchEmailsForm[indexNumbers?.ONE] && (
-                    <Grid item xs={12}>
-                      {/* <RHFTextField name="bcc" label="BCC" size="small" /> */}
-                      <MultiTextField
-                        label={'BCC'}
-                        required={false}
-                        values={autocompleteBCCValues}
-                        handleAutocompleteChange={handleAutocompleteBCCChange}
-                        isValid={false}
-                        isValidEmails={isValidBCCEmails}
-                      />
-                    </Grid>
-                  )}
-                  <Grid item md={6}>
-                    {drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL && (
-                      <RHFTextField
-                        name="subject"
-                        label="Subject"
-                        size="small"
-                        required={drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL}
-                      />
-                    )}
-
-                    {(drawerType === CREATE_EMAIL_TYPES?.REPLY ||
-                      drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL) && (
-                      <RHFTextField
-                        name="re"
-                        label="Re:"
-                        size="small"
-                        value={removeRePrefix(
-                          currentEmailAssets?.others?.subject,
-                        )}
-                        disabled
-                      />
-                    )}
-                    {drawerType === CREATE_EMAIL_TYPES?.FORWARD && (
-                      <RHFTextField
-                        name="re"
-                        label="FWD:"
-                        size="small"
-                        value={removeFwPrefix(
-                          currentEmailAssets?.others?.subject,
-                        )}
-                        disabled
-                      />
-                    )}
-                  </Grid>
-
-                  <Grid item md={6}>
-                    <RHFAutocompleteAsync
-                      label="Template"
-                      name="template"
-                      fullWidth
-                      apiQuery={apiQueryUsers}
-                      size="small"
-                      placeholder="Select email"
-                      getOptionLabel={(option: any) => option?.name}
-                    />
-                  </Grid>
-
-                  <Grid item xs={12}>
-                    <RHFEditor
-                      name="description"
-                      label={
-                        drawerType === CREATE_EMAIL_TYPES?.REPLY ||
-                        drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL
-                          ? 'Comment'
-                          : 'Description'
-                      }
-                    />
-                  </Grid>
-
-                  <Grid item xs={12}>
-                    <Box sx={{ marginBottom: '10px' }}>
-                      {currentForwardAttachments &&
-                        currentForwardAttachments?.map((item: any) => {
-                          return (
-                            <Box
-                              key={uuidv4()}
-                              sx={{
-                                marginTop: '10px',
-                                borderRadius: '8px',
-                                overflow: 'hidden',
-                                display: 'flex',
-                                backgroundColor: '#f3f4f6',
-                                padding: '10px',
-                                justifyContent: 'space-between',
-                              }}
-                            >
-                              <ImageComponentAttachment
-                                base64={item?.contentBytes}
-                                contentType={item?.contentType}
-                                fileName={item?.name}
-                              />
-                              <Box
-                                sx={{ cursor: 'pointer' }}
-                                onClick={() =>
-                                  handleRemove(item, currentForwardAttachments)
-                                }
-                              >
-                                <ClearIcon />
-                              </Box>
-                            </Box>
-                          );
-                        })}
-                    </Box>
-                  </Grid>
-
-                  <Grid item xs={12}>
-                    <RHFDropZone
-                      name="attachments"
-                      label="Attachments"
-                      multiple
-                      maxSize={25 * 1024 * 1024}
-                      fileType={'PNG, JPG, PDF, DOC, and CSV (max 25.00 MB)'}
-                    />
-                  </Grid>
-                </Grid>
-              </FormProvider>
-              {drawerType === CREATE_EMAIL_TYPES?.FORWARD && (
-                <Box mt={2}>
-                  <Box
-                    sx={{
-                      borderLeft: `1px solid ${theme?.palette?.grey[500]}`,
-                      padding: '5px 0px 5px 20px',
-                    }}
+            {valueProvider?.length ? (
+              <>
+                <Box sx={{ pt: 2 }}>
+                  <FormProvider
+                    methods={methodsDealsTasks}
+                    onSubmit={handleSubmit(onSubmit)}
                   >
-                    <Box>
-                      <Typography variant="body3">
-                        <strong>From :</strong>{' '}
-                        {currentEmailAssets?.others?.from}
-                      </Typography>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12}>
+                        <MultiTextField
+                          label={'To'}
+                          required={true}
+                          values={autocompleteValues}
+                          handleAutocompleteChange={handleAutocompleteChange}
+                          isValid={isToValid}
+                          isValidEmails={isValidEmails}
+                        />
+                      </Grid>
+                      <Grid item xs={4}>
+                        <RHFCheckbox name="ccChecked" label="CC" />
+                      </Grid>
+                      <Grid item xs={4}>
+                        <RHFCheckbox name="bccChecked" label="BCC" />
+                      </Grid>
+                      {watchEmailsForm[indexNumbers?.ZERO] && (
+                        <Grid item xs={12}>
+                          <MultiTextField
+                            label={'CC'}
+                            required={false}
+                            values={autocompleteCCValues}
+                            handleAutocompleteChange={
+                              handleAutocompleteCCChange
+                            }
+                            isValid={false}
+                            isValidEmails={isValidCCEmails}
+                          />
+                        </Grid>
+                      )}
+                      {watchEmailsForm[indexNumbers?.ONE] && (
+                        <Grid item xs={12}>
+                          {/* <RHFTextField name="bcc" label="BCC" size="small" /> */}
+                          <MultiTextField
+                            label={'BCC'}
+                            required={false}
+                            values={autocompleteBCCValues}
+                            handleAutocompleteChange={
+                              handleAutocompleteBCCChange
+                            }
+                            isValid={false}
+                            isValidEmails={isValidBCCEmails}
+                          />
+                        </Grid>
+                      )}
+                      <Grid item md={6}>
+                        {drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL && (
+                          <RHFTextField
+                            name="subject"
+                            label="Subject"
+                            size="small"
+                            required={
+                              drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL
+                            }
+                          />
+                        )}
+
+                        {(drawerType === CREATE_EMAIL_TYPES?.REPLY ||
+                          drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL) && (
+                          <RHFTextField
+                            name="re"
+                            label="Re:"
+                            size="small"
+                            value={removeRePrefix(
+                              currentEmailAssets?.others?.subject,
+                            )}
+                            disabled
+                          />
+                        )}
+                        {drawerType === CREATE_EMAIL_TYPES?.FORWARD && (
+                          <RHFTextField
+                            name="re"
+                            label="FWD:"
+                            size="small"
+                            value={removeFwPrefix(
+                              currentEmailAssets?.others?.subject,
+                            )}
+                            disabled
+                          />
+                        )}
+                      </Grid>
+
+                      <Grid item md={6}>
+                        <RHFAutocompleteAsync
+                          label="Template"
+                          name="template"
+                          fullWidth
+                          apiQuery={apiQueryUsers}
+                          size="small"
+                          placeholder="Select email"
+                          getOptionLabel={(option: any) => option?.name}
+                        />
+                      </Grid>
+
+                      <Grid item xs={12}>
+                        <RHFEditor
+                          name="description"
+                          label={
+                            drawerType === CREATE_EMAIL_TYPES?.REPLY ||
+                            drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL
+                              ? 'Comment'
+                              : 'Description'
+                          }
+                        />
+                      </Grid>
+
+                      <Grid item xs={12}>
+                        <Box sx={{ marginBottom: '10px' }}>
+                          {currentForwardAttachments &&
+                            currentForwardAttachments?.map((item: any) => {
+                              return (
+                                <Box
+                                  key={uuidv4()}
+                                  sx={{
+                                    marginTop: '10px',
+                                    borderRadius: '8px',
+                                    overflow: 'hidden',
+                                    display: 'flex',
+                                    backgroundColor: '#f3f4f6',
+                                    padding: '10px',
+                                    justifyContent: 'space-between',
+                                  }}
+                                >
+                                  <ImageComponentAttachment
+                                    base64={item?.contentBytes}
+                                    contentType={item?.contentType}
+                                    fileName={item?.name}
+                                  />
+                                  <Box
+                                    sx={{ cursor: 'pointer' }}
+                                    onClick={() =>
+                                      handleRemove(
+                                        item,
+                                        currentForwardAttachments,
+                                      )
+                                    }
+                                  >
+                                    <ClearIcon />
+                                  </Box>
+                                </Box>
+                              );
+                            })}
+                        </Box>
+                      </Grid>
+
+                      <Grid item xs={12}>
+                        <RHFDropZone
+                          name="attachments"
+                          label="Attachments"
+                          multiple
+                          maxSize={25 * 1024 * 1024}
+                          fileType={
+                            'PNG, JPG, PDF, DOC, and CSV (max 25.00 MB)'
+                          }
+                        />
+                      </Grid>
+                    </Grid>
+                  </FormProvider>
+                  {drawerType === CREATE_EMAIL_TYPES?.FORWARD && (
+                    <Box mt={2}>
+                      <Box
+                        sx={{
+                          borderLeft: `1px solid ${theme?.palette?.grey[500]}`,
+                          padding: '5px 0px 5px 20px',
+                        }}
+                      >
+                        <Box>
+                          <Typography variant="body3">
+                            <strong>From :</strong>{' '}
+                            {currentEmailAssets?.others?.from}
+                          </Typography>
+                        </Box>
+                        <Box>
+                          <Typography variant="body3">
+                            <strong>Sent :</strong>{' '}
+                            <>
+                              {dayjs(currentEmailAssets?.others?.sent)?.format(
+                                DATE_TIME_FORMAT?.DMYhmma,
+                              )}
+                            </>
+                          </Typography>
+                        </Box>
+                        <Box>
+                          <Typography variant="body3">
+                            <strong>To : </strong>
+                            {Array.isArray(currentEmailAssets?.others?.to)
+                              ? currentEmailAssets.others.to.join(', ')
+                              : ''}
+                          </Typography>
+                        </Box>
+                        <Box>
+                          <Typography variant="body3">
+                            <strong>Subject:</strong>{' '}
+                            {currentEmailAssets?.others?.subject}
+                          </Typography>
+                        </Box>
+                      </Box>
                     </Box>
-                    <Box>
-                      <Typography variant="body3">
-                        <strong>Sent :</strong>{' '}
-                        <>
-                          {dayjs(currentEmailAssets?.others?.sent)?.format(
-                            DATE_TIME_FORMAT?.DMYhmma,
-                          )}
-                        </>
-                      </Typography>
-                    </Box>
-                    <Box>
-                      <Typography variant="body3">
-                        <strong>To : </strong>
-                        {Array.isArray(currentEmailAssets?.others?.to)
-                          ? currentEmailAssets.others.to.join(', ')
-                          : ''}
-                      </Typography>
-                    </Box>
-                    <Box>
-                      <Typography variant="body3">
-                        <strong>Subject:</strong>{' '}
-                        {currentEmailAssets?.others?.subject}
-                      </Typography>
-                    </Box>
-                  </Box>
+                  )}
                 </Box>
-              )}
-            </Box>
+              </>
+            ) : (
+              <>
+                <Box
+                  sx={{
+                    height: '35vh',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: 1.5,
+                  }}
+                >
+                  <>
+                    <MessageIcon />
+                    <Typography
+                      variant="subtitle2"
+                      sx={{ color: theme?.palette?.grey[900] }}
+                    >
+                      Select Email provider
+                    </Typography>
+                    <Box
+                      sx={{
+                        gap: 1,
+                        display: 'flex',
+                        flexDirection: { xs: 'column', sm: 'row' },
+                      }}
+                    >
+                      {outlookFoldersLoading || gmailFoldersLoading ? (
+                        <Box
+                          sx={{
+                            gap: 1,
+                            display: 'flex',
+                            flexDirection: { xs: 'column', sm: 'row' },
+                          }}
+                        >
+                          <Skeleton
+                            variant="rounded"
+                            sx={{ width: '100px', height: '40px' }}
+                          />
+                          <Skeleton
+                            variant="rounded"
+                            sx={{ width: '120px', height: '40px' }}
+                          />
+                        </Box>
+                      ) : (
+                        <>
+                          <Button
+                            onClick={handelIsGmailAuthenticated}
+                            variant="outlined"
+                            sx={{ color: 'grey', gap: 0.5 }}
+                            className="small"
+                          >
+                            <GmailIcon width="30" height="30" />{' '}
+                            <Typography variant="body2">Gmail</Typography>
+                          </Button>
+
+                          <Button
+                            onClick={handelIsOutlookAuthenticated}
+                            variant="outlined"
+                            sx={{ color: 'grey', gap: 0.5 }}
+                            className="small"
+                          >
+                            <OutlookIcon width="30" height="30" />
+                            <Typography variant="body2">
+                              Microsoft Outlook
+                            </Typography>
+                          </Button>
+                        </>
+                      )}
+                    </Box>
+                    {isGmailAuthErr && (
+                      <Box sx={{ textAlign: 'center' }}>
+                        You are not authenticated to <strong>Gmail</strong>{' '}
+                        <br />
+                        <span
+                          onClick={handleGmailAuthClick}
+                          style={{
+                            color: theme?.palette?.primary?.main,
+                            cursor: 'pointer',
+                            fontWeight: '500',
+                          }}
+                        >
+                          Click to authenticate
+                        </span>
+                      </Box>
+                    )}
+                    {isOutlookAuthErr && (
+                      <Box sx={{ textAlign: 'center' }}>
+                        You are not authenticated to <strong>Outlook</strong>{' '}
+                        <br />
+                        <span
+                          onClick={handleOutLookAuthClick}
+                          style={{
+                            color: theme?.palette?.primary?.main,
+                            cursor: 'pointer',
+                            fontWeight: '500',
+                          }}
+                        >
+                          Click to authenticate
+                        </span>
+                      </Box>
+                    )}
+                  </>
+                </Box>
+              </>
+            )}
           </>
         ) : (
-          <>
-            <Box
-              sx={{
-                height: '35vh',
-                display: 'flex',
-                justifyContent: 'center',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 1.5,
-              }}
-            >
-              <MessageIcon />
-              <Typography
-                variant="subtitle2"
-                sx={{ color: theme?.palette?.grey[900] }}
-              >
-                Select Email provider
-              </Typography>
-              <Box
-                sx={{
-                  gap: 1,
-                  display: 'flex',
-                  flexDirection: { xs: 'column', sm: 'row' },
-                }}
-              >
-                {outlookFoldersLoading || gmailFoldersLoading ? (
-                  <Box
-                    sx={{
-                      gap: 1,
-                      display: 'flex',
-                      flexDirection: { xs: 'column', sm: 'row' },
-                    }}
-                  >
-                    <Skeleton
-                      variant="rounded"
-                      sx={{ width: '100px', height: '40px' }}
-                    />
-                    <Skeleton
-                      variant="rounded"
-                      sx={{ width: '120px', height: '40px' }}
-                    />
-                  </Box>
-                ) : (
-                  <>
-                    <Button
-                      onClick={handelIsGmailAuthenticated}
-                      variant="outlined"
-                      sx={{ color: 'grey', gap: 0.5 }}
-                      className="small"
-                    >
-                      <GmailIcon width="30" height="30" />{' '}
-                      <Typography variant="body2">Gmail</Typography>
-                    </Button>
-
-                    <Button
-                      onClick={handelIsOutlookAuthenticated}
-                      variant="outlined"
-                      sx={{ color: 'grey', gap: 0.5 }}
-                      className="small"
-                    >
-                      <OutlookIcon width="30" height="30" />
-                      <Typography variant="body2">Microsoft Outlook</Typography>
-                    </Button>
-                  </>
-                )}
-              </Box>
-              {isGmailAuthErr && (
+          <Box
+            sx={{
+              mt: 4,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexDirection: 'column',
+            }}
+          >
+            <Box sx={{ mb: 2 }}>
+              <InfoIcon color={theme?.palette?.info?.main} />
+            </Box>
+            {currentEmailAssets?.provider === MAIL_KEYS?.GMAIL && (
+              <>
                 <Box sx={{ textAlign: 'center' }}>
                   You are not authenticated to <strong>Gmail</strong> <br />
                   <span
@@ -551,9 +666,10 @@ const SendEmailDrawer = (props: any) => {
                     Click to authenticate
                   </span>
                 </Box>
-              )}
-
-              {isOutlookAuthErr && (
+              </>
+            )}
+            {currentEmailAssets?.provider === MAIL_KEYS?.OUTLOOK && (
+              <>
                 <Box sx={{ textAlign: 'center' }}>
                   You are not authenticated to <strong>Outlook</strong> <br />
                   <span
@@ -567,9 +683,9 @@ const SendEmailDrawer = (props: any) => {
                     Click to authenticate
                   </span>
                 </Box>
-              )}
-            </Box>
-          </>
+              </>
+            )}
+          </Box>
         )}
 
         <AlertModals

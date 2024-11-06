@@ -32,7 +32,10 @@ import {
   SetValueI,
 } from './sendEmail.interface';
 import { useDispatch } from 'react-redux';
-import { setCurrentForwardAttachments } from '@/redux/slices/email/outlook/slice';
+import {
+  setCurrentEmailAssets,
+  setCurrentForwardAttachments,
+} from '@/redux/slices/email/outlook/slice';
 import dayjs from 'dayjs';
 import {
   useForwardSendGmailMutation,
@@ -43,7 +46,6 @@ const useSendEmailDrawer = ({
   setOpenDrawer,
   drawerType,
   emailSettingsData,
-  // dealId,
   moduleId,
   moduleType,
 }: any) => {
@@ -224,6 +226,7 @@ const useSendEmailDrawer = ({
     setOpenDrawer(false);
     setAutocompleteValues([]);
     dispatch(setCurrentForwardAttachments([]));
+    dispatch(setCurrentEmailAssets({}));
   };
 
   // To State Dependency
