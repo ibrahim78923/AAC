@@ -10,15 +10,16 @@ import Emails from './Emails';
 import Meetings from './Meetings';
 import Associations from './Associations';
 import { singleUserDealTabsData } from './ViewDetails.data';
-import { useRouter } from 'next/router';
 import { ArrowBackIcon } from '@/assets/icons';
 import { AIR_SOCIAL } from '@/routesConstants/paths';
 import useDetails from './Details/useDetails';
+import useViewDetails from './useViewDetails';
 
 const ContactViewDetails = () => {
-  const router = useRouter();
-  const contactId = router?.query?.contactId;
+  const { contactId } = useViewDetails();
+
   const { contactName } = useDetails();
+
   return (
     <Box>
       <Grid container spacing={2}>

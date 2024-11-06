@@ -191,19 +191,16 @@ const Notes = ({ contactId }: any) => {
                       }}
                     >
                       <Avatar
-                        src={`${IMG_URL}${note?.attachment?.url}`}
-                        variant="square"
-                        sx={{ bgcolor: 'primary.main', width: 66, height: 66 }}
+                        src={`${IMG_URL}${note?.updatedBy?.avatar?.url}`}
+                        sx={{
+                          bgcolor: 'primary.main',
+                          width: 66,
+                          height: 66,
+                          fontSize: '16px',
+                        }}
                       >
-                        <Box
-                          sx={{
-                            fontSize: '9px',
-                            textAlign: 'center',
-                            fontWeight: '600',
-                          }}
-                        >
-                          No <br /> Attachment
-                        </Box>
+                        {note?.updatedBy?.firstName?.charAt(0)}
+                        {note?.updatedBy?.lastName?.charAt(0)}
                       </Avatar>
                     </Grid>
                     <Grid item xs={12} lg={10} sm={9} sx={{ gap: 1 }}>

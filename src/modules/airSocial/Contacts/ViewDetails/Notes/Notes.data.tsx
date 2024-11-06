@@ -1,7 +1,7 @@
 import {
   RHFEditor,
   RHFTextField,
-  RHFDropzonePreview,
+  RHFDropzonePreviewAllTypes,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
@@ -49,14 +49,9 @@ export const addNoteFields = (disabled: boolean = false) => {
         name: 'attachment',
         label: 'Attachment',
         fullWidth: true,
-        fileType: 'Supports JPEG and PNG Files',
-        accept: {
-          'image/png': ['.png', '.PNG'],
-          'image/jpeg': ['.jpg', '.jpeg', '.JPG', '.JPEG'],
-        },
         disabled: disabled,
       },
-      component: RHFDropzonePreview,
+      component: RHFDropzonePreviewAllTypes,
       md: 12,
     },
   ];

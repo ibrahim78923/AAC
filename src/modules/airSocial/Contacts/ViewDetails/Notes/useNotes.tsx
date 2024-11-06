@@ -42,7 +42,8 @@ const useNotes = () => {
   const onSubmitAddNote = async (values: AddNoteI, contactId: string) => {
     const formData = new FormData();
     formData?.append('contactId', contactId);
-    formData?.append('recordType', 'deals');
+    formData?.append('recordType', 'contacts');
+    formData?.append('recordId', contactId);
     formData?.append('title', values?.title);
     formData.append('description', values?.description);
     if (values?.attachment) {
