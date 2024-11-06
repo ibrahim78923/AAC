@@ -14,7 +14,6 @@ import ActivityLog from './ActivityLog';
 import Tasks from './Tasks';
 import Notes from './Notes';
 import Calls from './Calls';
-import Emails from './Emails';
 import Meetings from './Meetings';
 import Associations from './Associations';
 
@@ -30,6 +29,7 @@ import { useState } from 'react';
 import UploadImageModal from './UploadImageModal';
 import { useRouter } from 'next/router';
 import { generateImage } from '@/utils/avatarUtils';
+import EmailComp from '@/modules/airSales/Deals/ViewDetails/Emails/EmailComp';
 const ViewDetails = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isUploadImageOpen, setIsUploadImageOpen] = useState(false);
@@ -287,7 +287,8 @@ const ViewDetails = () => {
               <Notes companyId={data?.data?._id} />
               <Calls companyId={data?.data?._id} />
               <Meetings />
-              <Emails companyId={data?.data?._id} />
+              {/* <Emails companyId={data?.data?._id} /> */}
+              <EmailComp moduleType="COMPANY" moduleId={data?.data?._id} />
             </HorizontalTabs>
           </Box>
         </Grid>

@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import { Box, Typography } from '@mui/material';
 
-import { AvatarImage, TicketImage } from '@/assets/images';
+import { AvatarImage } from '@/assets/images';
 
 export const accordionData = (apiData: any) => {
   const data = [];
@@ -18,7 +18,7 @@ export const accordionData = (apiData: any) => {
         img: contact?.url,
         name: `${contact?.firstName} ${contact?.lastName}`,
         email: contact?.email,
-        phoneNumber: contact?.phoneNumber,
+        phoneNumber: contact?.phoneNumber ? contact?.phoneNumber : '--',
       })),
     });
   } else {
@@ -34,17 +34,16 @@ export const accordionData = (apiData: any) => {
   }
 
   // Group Deals
-  if (apiData?.deals?.length) {
+  if (apiData?.dealsData?.length) {
     data?.push({
       mainHeading: 'Deals',
-      empNo: apiData?.deals?.length,
-      items: apiData?.deals?.map((deal: any) => ({
-        img: TicketImage,
-        name: apiData?.name,
-        email: apiData?.totalRevenue
-          ? `£ ${apiData?.totalRevenue.toFixed(2)}`
-          : 'No Revenue Data',
-        stage: deal?.stage || 'No Stage Info',
+      empNo: apiData?.dealsData?.length,
+      items: apiData?.dealsData?.map((deal: any) => ({
+        name: deal?.name,
+        email: deal?.dealPipelineData?.name
+          ? `${deal?.dealPipelineData?.name}`
+          : '---',
+        stage: deal?.dealStageData?.name || '---',
       })),
     });
   } else {
@@ -88,6 +87,7 @@ export const accordionData = (apiData: any) => {
       items: apiData.attachments.map((attachment: any) => ({
         img: attachment?.fileUrl,
         description: `${attachment?.orignalName || 'Unnamed file'}`,
+        fileType: attachment?.fileType,
       })),
     });
   } else {

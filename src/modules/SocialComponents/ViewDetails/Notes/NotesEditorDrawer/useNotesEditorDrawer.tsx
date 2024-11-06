@@ -19,8 +19,10 @@ const useNotesEditorDrawer = (
   rowData: any,
   setSelectedCheckboxes: any,
 ) => {
-  const [postDealNote] = usePostDealNoteMutation();
-  const [updateDealNote] = useUpdateDealNoteMutation();
+  const [postDealNote, { isLoading: postIsLoading }] =
+    usePostDealNoteMutation();
+  const [updateDealNote, { isLoading: updatedIsLoading }] =
+    useUpdateDealNoteMutation();
   const rowApiValues = {
     title: rowData?.title,
     description: rowData?.description,
@@ -81,7 +83,7 @@ const useNotesEditorDrawer = (
     }
   };
 
-  return { handleSubmit, onSubmit, methods };
+  return { handleSubmit, onSubmit, methods, updatedIsLoading, postIsLoading };
 };
 
 export default useNotesEditorDrawer;

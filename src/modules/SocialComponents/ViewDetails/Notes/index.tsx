@@ -179,7 +179,10 @@ const Notes = ({ companyId }: any) => {
                     {dayjs(item?.createdAt).format(DATE_FORMAT.UI)} -{' '}
                     {item?.createdAt?.split('T')[1]?.substring(0, 5)}
                   </Typography>
-                  <Typography variant="body2">{item?.description}</Typography>
+                  <Typography
+                    variant="body2"
+                    dangerouslySetInnerHTML={{ __html: item?.description }}
+                  />
                 </Grid>
               </Grid>
             ))}

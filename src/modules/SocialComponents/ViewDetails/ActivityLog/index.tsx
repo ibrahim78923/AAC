@@ -20,7 +20,6 @@ const ActivityLog = ({ companyId }: any) => {
   const { theme } = useNameWithStyledWords();
 
   const filterPayloadValues = {
-    recordType: 'companies',
     recordId: companyId,
   };
 
@@ -68,6 +67,7 @@ const ActivityLog = ({ companyId }: any) => {
                       sx={{
                         color: theme?.palette?.primary?.main,
                         fontSize: '18px',
+                        textTransform: 'capitalize',
                       }}
                     >
                       {' '}
@@ -76,7 +76,7 @@ const ActivityLog = ({ companyId }: any) => {
                         style={{ color: 'black', textTransform: 'lowercase' }}
                       >
                         {' '}
-                        Was {item?.activityType} By{' '}
+                        {item?.activityType} By{' '}
                       </span>{' '}
                       {item?.performedByName}{' '}
                     </Typography>

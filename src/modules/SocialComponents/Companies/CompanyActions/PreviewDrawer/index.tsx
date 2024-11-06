@@ -18,7 +18,7 @@ import {
   NoteImage,
   ActivitesTimeImage,
   NoteAddImage,
-  EmpAvatarImage,
+  PdfPreviewImage,
 } from '@/assets/images';
 
 import CommonDrawer from '@/components/CommonDrawer';
@@ -29,6 +29,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { SOCIAL_COMPONENTS } from '@/constants';
 import { useRouter } from 'next/router';
 import { generateImage } from '@/utils/avatarUtils';
+import { ATTACHMENT_FILE_TYPE } from '@/constants/strings';
 
 const PreviewDrawer = ({ isPreview, setIsPreview, checkedRows }: any) => {
   const { theme, companyDetailsArray, companyDetails } =
@@ -298,7 +299,14 @@ const PreviewDrawer = ({ isPreview, setIsPreview, checkedRows }: any) => {
                             gap: '8px',
                           }}
                         >
-                          {subItem?.img ? (
+                          {subItem?.fileType === ATTACHMENT_FILE_TYPE?.PDF ? (
+                            <Image
+                              src={PdfPreviewImage}
+                              alt="Image"
+                              width={40}
+                              height={40}
+                            />
+                          ) : subItem?.img ? (
                             <Image
                               src={generateImage(subItem?.img)}
                               alt="Image"
@@ -306,12 +314,7 @@ const PreviewDrawer = ({ isPreview, setIsPreview, checkedRows }: any) => {
                               height={40}
                             />
                           ) : (
-                            <Image
-                              src={EmpAvatarImage}
-                              alt="Image"
-                              width={40}
-                              height={40}
-                            />
+                            ''
                           )}
                           <Box>
                             <Typography

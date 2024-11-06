@@ -23,7 +23,7 @@ export const columns: any = ({
       id: 'PhoneNumber',
       isSortable: true,
       header: 'Phone Number',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? '--',
     },
     {
       accessorFn: (row: any) => {
@@ -39,11 +39,11 @@ export const columns: any = ({
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.dealStageId,
+      accessorFn: (row: any) => row?.dealStage?.name,
       id: 'dealStageId',
       isSortable: true,
       header: 'Deal Stage',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.row?.original?.dealStage?.name,
     },
 
     {
