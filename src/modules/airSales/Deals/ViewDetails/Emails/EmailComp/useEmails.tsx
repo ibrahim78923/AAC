@@ -45,6 +45,7 @@ const useEmails = () => {
     gmailFoldersData: gmailError ? [] : gmailFoldersData,
     outlookFoldersLoading,
     gmailFoldersLoading,
+    setSelectedCheckboxes,
   };
 };
 

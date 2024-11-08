@@ -275,7 +275,8 @@ const useSendEmailDrawer = ({
     setToStateDep(toStateDep + 1);
 
     if (
-      (drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL &&
+      drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL ||
+      (drawerType === CREATE_EMAIL_TYPES?.FORWARD &&
         isToExists?.length === 0) ||
       isToExists?.length === undefined
     ) {
@@ -362,7 +363,6 @@ const useSendEmailDrawer = ({
         drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL
       ) {
         // ONLY GMAIL CASE ++
-
         const formDataReply = new FormData();
         formDataReply.append('id', currentEmailAssets?.messageId);
         formDataReply.append('threadId', currentEmailAssets?.threadId);

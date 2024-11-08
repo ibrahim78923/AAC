@@ -197,9 +197,19 @@ const SendEmailDrawer = (props: any) => {
     }
   };
 
+  const redirectUrls: any = {
+    DEAL: `/air-sales/deals/view-details?id=${moduleId}`,
+    COMPANY: `/social-components/companies/view-details?id=${moduleId}&activeTab=7`,
+    CONTACT: '/air-sales/tasks',
+  };
+
   // outlook
   const { data: authURLOutlook } = useGetAuthURLOutlookQuery(
-    {},
+    {
+      params: {
+        redirectUrl: moduleType ? redirectUrls[moduleType] : '',
+      },
+    },
     { skip: !isOutlookAuthErr },
   );
   const handleOutLookAuthClick = () => {
@@ -208,7 +218,11 @@ const SendEmailDrawer = (props: any) => {
   };
   // gmail
   const { data: authUrlData } = useGetAuthURLGmailQuery(
-    {},
+    {
+      params: {
+        redirectUrl: moduleType ? redirectUrls[moduleType] : '',
+      },
+    },
     { skip: !isGmailAuthErr },
   );
   const handleGmailAuthClick = () => {

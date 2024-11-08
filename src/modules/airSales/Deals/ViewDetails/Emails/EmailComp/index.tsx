@@ -51,13 +51,10 @@ import { useGetMailDetailsOutlookQuery } from '@/services/commonFeatures/email/o
 import ProfileNameIcon from '@/components/ProfileNameIcon';
 import { enqueueSnackbar } from 'notistack';
 import { AlertModals } from '@/components/AlertModals';
-import useSendEmailDrawer from './SendEmail/useSendEmailDrawer';
 import { useGetGmailMessageDetailsQuery } from '@/services/commonFeatures/email/gmail';
 import { useEffect, useState } from 'react';
 
 const EmailComp = ({ moduleType, moduleId }: any) => {
-  const { valueProvider } = useSendEmailDrawer({});
-
   const [viewValueProvider, setViewValueProvider] = useState('');
 
   const dispatch = useDispatch();
@@ -70,6 +67,7 @@ const EmailComp = ({ moduleType, moduleId }: any) => {
 
   const {
     selectedCheckboxes,
+    setSelectedCheckboxes,
     handleCheckboxChange,
     outlookFoldersData,
     gmailFoldersData,
@@ -173,6 +171,8 @@ const EmailComp = ({ moduleType, moduleId }: any) => {
       enqueueSnackbar('Association Deleted Successfully', {
         variant: 'success',
       });
+      setSelectedCheckboxes([]);
+      setIsDeleteAssociationModal(false);
     } catch (error: any) {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
     }
@@ -185,7 +185,9 @@ const EmailComp = ({ moduleType, moduleId }: any) => {
       setCurrentEmailAssets({
         provider: selectedObj?.provider,
         messageId: selectedObj?.messageId,
-        ...(valueProvider === 'GMAIL' && { threadId: selectedObj?.threadId }), // FOR Gmail case
+        ...(viewValueProvider === 'GMAIL' && {
+          threadId: selectedObj?.threadId,
+        }), // FOR Gmail case
         id: selectedObj?._id,
         from: selectedObj?.from,
         others: {
@@ -212,7 +214,9 @@ const EmailComp = ({ moduleType, moduleId }: any) => {
       setCurrentEmailAssets({
         provider: selectedObj?.provider,
         messageId: selectedObj?.messageId,
-        ...(valueProvider === 'GMAIL' && { threadId: selectedObj?.threadId }), // FOR Gmail case
+        ...(viewValueProvider === 'GMAIL' && {
+          threadId: selectedObj?.threadId,
+        }), // FOR Gmail case
         id: selectedObj?.id,
         from: selectedObj?.from?.emailAddress?.address,
         others: {
@@ -320,7 +324,12 @@ const EmailComp = ({ moduleType, moduleId }: any) => {
                 <PermissionsGuard
                   permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_DELETE_EMAIL]}
                 >
-                  <MenuItem onClick={() => setIsDeleteAssociationModal(true)}>
+                  <MenuItem
+                    onClick={() => {
+                      setIsDeleteAssociationModal(true);
+                      handleCloseMenu();
+                    }}
+                  >
                     Delete
                   </MenuItem>
                 </PermissionsGuard>
@@ -470,7 +479,6 @@ const EmailComp = ({ moduleType, moduleId }: any) => {
                           DATE_TIME_FORMAT?.DMYhmma,
                         )}
                       </Typography>
-
                       <Box
                         dangerouslySetInnerHTML={{ __html: item?.subject }}
                       />
@@ -492,18 +500,24 @@ const EmailComp = ({ moduleType, moduleId }: any) => {
                 ))}
               </>
             ) : (
-              <>No records found</>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                No records found
+              </Box>
             )}
           </>
         )}
       </Grid>
-
       <SendEmailDrawer
         openDrawer={isOpenSendEmailDrawer}
         setOpenDrawer={setIsOpenSendEmailDrawer}
         drawerType={mailType}
         setMailType={setMailType}
-        // dealId={dealId}
         moduleType={moduleType}
         moduleId={moduleId}
       />
