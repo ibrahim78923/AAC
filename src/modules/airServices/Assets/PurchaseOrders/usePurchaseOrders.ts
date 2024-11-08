@@ -63,6 +63,7 @@ const usePurchaseOrders = () => {
   const getPurchaseOrderListDataExport = async (type: any) => {
     const queryParams = {
       exportType: type,
+      meta: false,
     };
 
     const apiDataParameter = {

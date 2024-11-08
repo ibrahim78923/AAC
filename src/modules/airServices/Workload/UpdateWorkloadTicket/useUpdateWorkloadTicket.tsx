@@ -40,6 +40,11 @@ export const useUpdateWorkloadTicket = ({ onClose, dataGet }: any) => {
       !!data?.status && formData?.append('status', data?.status?._id);
       !!data?.plannedEndDate &&
         formData?.append('plannedEndDate', isoDateString(data?.plannedEndDate));
+      !!data?.plannedStartDate &&
+        formData?.append(
+          'plannedStartDate',
+          isoDateString(data?.plannedStartDate),
+        );
       !!data?.plannedEffort &&
         formData?.append('plannedEffort', data?.plannedEffort);
       formData?.append('moduleType', dataGet?.extendedProps?.moduleType);

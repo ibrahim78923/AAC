@@ -1,15 +1,16 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { useLazyGetContractTypeListQuery } from '@/services/airServices/assets/contracts';
 
-const GetContractFilterContractTypeDropdown = () => {
+const GetContractFilterContractTypeDropdown = (props: any) => {
+  const { name = 'type ', label = 'Type' } = props;
   const apiContractType = useLazyGetContractTypeListQuery();
   return (
     <>
       <RHFAutocompleteAsync
-        name="type"
-        label="Type"
+        name={name}
+        label={label}
         apiQuery={apiContractType}
-        placeholder="Select Type"
+        placeholder="Select contract type"
         fullWidth
         size="small"
         externalParams={{ meta: false }}

@@ -5,11 +5,11 @@ import { useActivities } from './useActivities';
 import { DATE_TIME_FORMAT } from '@/constants';
 import NoData from '@/components/NoData';
 import { TruncateText } from '@/components/TruncateText';
-import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
 import { LogInfo } from '@/components/LogInfo';
 import { fullName } from '@/utils/avatarUtils';
 import { otherDateFormat } from '@/lib/date-time';
 import { FiberManualRecord } from '@mui/icons-material';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 export const Activities = () => {
   const {
@@ -30,12 +30,7 @@ export const Activities = () => {
         borderRadius={2}
         p={2}
       >
-        <SkeletonCard
-          gridSize={{ md: 12 }}
-          hasThirdSkeleton={false}
-          circularSkeletonSize={{ width: 25, height: 25 }}
-          outerPadding={{ x: 0, y: 0 }}
-        />
+        <SkeletonForm flexDirection={'column-reverse'} />
       </Box>
     );
 

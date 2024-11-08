@@ -92,7 +92,7 @@ export const ticketsBulkUpdateFormValidationSchemaFunction: any = (
               return false;
             }
             return value.every(
-              (email) => Yup?.string().email().isValidSync(email),
+              (email) => Yup?.string()?.email()?.isValidSync(email),
             );
           },
         ),

@@ -88,6 +88,10 @@ export const AIR_SERVICES = {
   ASSET_TYPE_CREATE_FIELDS: `/air-services/settings/asset-management/asset-type/create-fields`,
   CONTACT_TYPE_CREATE_FIELDS: `/air-services/settings/asset-management/contract-types/create-fields`,
   SERVICES_PUBLIC_DASHBOARD: `dynamic-dashboard/download`,
+  SIGN_UP_LEADS: '/air-services/signup-leads',
+  ENQUIRIES: '/air-services/enquiries',
+  WORKLOAD: '/air-services/workload',
+  SETTINGS: `/air-services/settings`,
 };
 
 export const AIR_CUSTOMER_PORTAL = {
@@ -130,6 +134,7 @@ export const AIR_OPERATIONS = {
   UPSERT_ROLES: '/air-operations/roles-and-right/upsert-roles-and-right',
   UPSERT_GENERIC_REPORTS: `/air-operations/reports/upsert-generic-reports`,
   SINGLE_GENERIC_REPORTS_DETAILS: `/air-operations/reports/single-report-view`,
+  USER_MANAGEMENT: '/air-operations/user-management',
 };
 
 export const AIR_LOYALTY_PROGRAM = {

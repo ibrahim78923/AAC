@@ -187,10 +187,10 @@ export const TicketInfoCard = (props: any) => {
               details?.requesterDetails?.firstName,
               details?.requesterDetails?.lastName,
             )}
-            tooltipTitle={fullName(
+            tooltipTitle={`Requester: ${fullName(
               details?.requesterDetails?.firstName,
               details?.requesterDetails?.lastName,
-            )}
+            )}`}
           />
         </Box>
       </Box>

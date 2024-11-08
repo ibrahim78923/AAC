@@ -159,6 +159,11 @@ export const useNewIncident = (props: {
           'plannedEndDate',
           isoDateString(newFormData?.plannedEndDate),
         );
+      !!newFormData?.plannedStartDate &&
+        newIncidentTicketFormData?.append(
+          'plannedStartDate',
+          isoDateString(newFormData?.plannedStartDate),
+        );
       !!newFormData?.plannedEffort &&
         newIncidentTicketFormData?.append(
           'plannedEffort',

@@ -202,7 +202,10 @@ export const ticketsListsColumnDynamic: any = (
       header: 'Due Date',
       cell: (info: any) =>
         !!info?.getValue()
-          ? uiDateFormat(localeDateTime(info?.getValue()))
+          ? otherDateFormat(
+              localeDateTime(info?.getValue()),
+              DATE_TIME_FORMAT?.FORMAT_24_HOUR,
+            )
           : '---',
     },
     {
@@ -223,7 +226,10 @@ export const ticketsListsColumnDynamic: any = (
       header: 'Planned Start Date',
       cell: (info: any) =>
         !!info?.getValue()
-          ? uiDateFormat(localeDateTime(info?.getValue()))
+          ? otherDateFormat(
+              localeDateTime(info?.getValue()),
+              DATE_TIME_FORMAT?.FORMAT_24_HOUR,
+            )
           : '---',
     },
     {

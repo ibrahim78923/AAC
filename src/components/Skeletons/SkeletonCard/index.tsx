@@ -11,6 +11,7 @@ export const SkeletonCard = (props: any) => {
     gridSize,
     circularSkeletonSize,
     isCircular = 'circular',
+    flexDirectionRectangular = 'row',
   } = props;
 
   return (
@@ -46,18 +47,12 @@ export const SkeletonCard = (props: any) => {
                 }}
               />
             )}
-            <Skeleton
-              animation="wave"
-              variant={'rectangular'}
-              width={'100%'}
-              height={25}
-              sx={{
-                bgcolor: 'grey.300',
-                border: '1px solid',
-                borderColor: 'custom.off_white_three',
-              }}
-            />
-            {hasThirdSkeleton && (
+            <Box
+              width="100%"
+              display={'flex'}
+              gap={2}
+              flexDirection={flexDirectionRectangular}
+            >
               <Skeleton
                 animation="wave"
                 variant={'rectangular'}
@@ -69,7 +64,20 @@ export const SkeletonCard = (props: any) => {
                   borderColor: 'custom.off_white_three',
                 }}
               />
-            )}
+              {hasThirdSkeleton && (
+                <Skeleton
+                  animation="wave"
+                  variant={'rectangular'}
+                  width={'100%'}
+                  height={25}
+                  sx={{
+                    bgcolor: 'grey.300',
+                    border: '1px solid',
+                    borderColor: 'custom.off_white_three',
+                  }}
+                />
+              )}
+            </Box>
           </Box>
         </Grid>
       ))}
