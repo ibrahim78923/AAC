@@ -42,11 +42,7 @@ export const SubWorkflowConditions = (props: SubWorkflowConditionsI) => {
                 }}
               >
                 <Chip
-                  label={
-                    conditionType?.value === WORKFLOW_CONDITION_TYPE?.AND
-                      ? WORKFLOW_CONDITION_TYPE?.AND
-                      : WORKFLOW_CONDITION_TYPE?.OR
-                  }
+                  label={conditionType?.value ?? WORKFLOW_CONDITION_TYPE?.OR}
                 />
               </Divider>
             )}

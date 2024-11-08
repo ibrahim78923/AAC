@@ -30,7 +30,7 @@ export const INVENTORY_TITLE = {
 
 export const EXPORT_TYPE = {
   CSV: 'CSV',
-  XLS: 'XLS',
+  XLS: 'XLSX',
   PDF: 'PDF',
 };
 

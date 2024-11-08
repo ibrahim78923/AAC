@@ -50,21 +50,19 @@ export const KnowledgeBaseDetail = () => {
         <SkeletonTable />
       ) : (
         <>
-          <Box height={'28rem'} overflow={'scroll'}>
-            {!!articlesData?.length ? (
-              articlesData?.map((item: any) => (
-                <KnowledgeBaseArticles
-                  key={item?._id}
-                  articleId={item?._id}
-                  articlesTitle={item?.title}
-                  modifiedDate={uiDateFormat(item?.updatedAt)}
-                  purposeDescription={item?.details}
-                />
-              ))
-            ) : (
-              <NoData message="No articles found" />
-            )}
-          </Box>
+          {!!articlesData?.length ? (
+            articlesData?.map((item: any) => (
+              <KnowledgeBaseArticles
+                key={item?._id}
+                articleId={item?._id}
+                articlesTitle={item?.title}
+                modifiedDate={uiDateFormat(item?.updatedAt)}
+                purposeDescription={item?.details}
+              />
+            ))
+          ) : (
+            <NoData message="No articles found" />
+          )}
           <br />
           <CustomPagination
             count={articlesMetaData?.pages}

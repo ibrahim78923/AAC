@@ -27,6 +27,7 @@ export interface SectionDropdownI {
   deleteLoading: boolean;
   mergeLoading: boolean;
   cloneLoading: boolean;
+  sectionVerification: boolean;
 }
 
 export interface FeedbackDropdownI {

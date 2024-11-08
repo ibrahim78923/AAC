@@ -23,6 +23,7 @@ export const sectionDropdownOptions = ({
   deleteLoading,
   mergeLoading,
   cloneLoading,
+  sectionVerification,
 }: SectionDropdownI) => [
   {
     id: 1,
@@ -31,7 +32,12 @@ export const sectionDropdownOptions = ({
       cloneSection(index, setClose);
     },
     permissionKey: Permissions?.AIR_SERVICES_UPSERT_FEEDBACK_SURVEY,
-    disabled: sectionCondition || deleteLoading || mergeLoading || cloneLoading,
+    disabled:
+      sectionCondition ||
+      deleteLoading ||
+      mergeLoading ||
+      cloneLoading ||
+      !sectionVerification,
   },
   {
     id: 2,
@@ -59,7 +65,8 @@ export const sectionDropdownOptions = ({
       sectionCondition ||
       deleteLoading ||
       cloneLoading ||
-      mergeLoading,
+      mergeLoading ||
+      !sectionVerification,
   },
 ];
 export const feedbackSubmitDropdown = ({

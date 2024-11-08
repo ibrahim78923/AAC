@@ -1,5 +1,5 @@
 import { FEEDBACK_SURVEY_LINK_TYPES } from '@/constants/strings';
-import { successSnackbar } from '@/lib/snackbar';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
   useGetAllAgentsForFeedbackQuery,
   usePatchDefaultSurveyMutation,
@@ -9,6 +9,7 @@ import { FeedbackSurveyListI } from '@/types/modules/AirServices/FeedbackSurvey'
 import { getSession } from '@/utils';
 import { useTheme } from '@mui/material';
 import { surveyEmailHtml } from './DefaultSurveyStatus.data';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export const useDefaultSurveyStatus = () => {
   const sessionData: any = getSession();
@@ -31,7 +32,10 @@ export const useDefaultSurveyStatus = () => {
       ) {
         handleEmailSend(surveyValues);
       }
-    } catch (error) {}
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
+    }
   };
   const handleEmailSend = async (surveyValues: FeedbackSurveyListI) => {
     const emailParams = new FormData();

@@ -24,6 +24,8 @@ import {
   FeedbackSurveyQuestionI,
 } from '@/types/modules/AirServices/FeedbackSurvey';
 import { isoDateString } from '@/lib/date-time';
+import { DATA_TYPES } from '@/constants/strings';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export const useUpsertFeedbackSurvey = () => {
   const [createSurvey, setCreateSurvey] = useState<string>(
@@ -85,17 +87,18 @@ export const useUpsertFeedbackSurvey = () => {
     surveyType: feedbackSurveyType?.[router?.query?.type],
   });
   const handleCreateSurvey = async (surveyData: FeedbackSurveyI) => {
-    const response: any = await createFeedbackSurveyTrigger({
-      ...modifiedSurveyData(surveyData),
-    });
-    if (response?.data?.data?._id) {
+    try {
+      const response: any = await createFeedbackSurveyTrigger({
+        ...modifiedSurveyData(surveyData),
+      })?.unwrap();
       router?.push({
         ...router?.basePath,
         query: { ...router?.query, id: response?.data?.data?._id },
       });
       setCreateSurvey(feedbackTypes?.feedback);
-    } else {
-      errorSnackbar(response?.error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   };
   const surveyValues = watch(surveyWatchArray);
@@ -144,20 +147,32 @@ export const useUpsertFeedbackSurvey = () => {
       params: { id: surveyId },
     };
     if (!lodash?.isEqual(Object?.values(oldSurvey), newSurvey)) {
-      const response: any = await patchFeedbackSurveyTrigger(modifiedSurvey);
-      if (response?.data?.message) {
+      try {
+        await patchFeedbackSurveyTrigger(modifiedSurvey)?.unwrap();
         setCreateSurvey(feedbackTypes?.feedback);
-      } else {
-        errorSnackbar(response?.error?.data?.message);
+      } catch (error) {
+        const errorResponse = error as IErrorResponse;
+        errorSnackbar(errorResponse?.data?.message);
       }
     } else {
       setCreateSurvey(feedbackTypes?.feedback);
     }
   };
   const watchSectionData = watch('sections');
-  const sectionVerification = lodash?.isEqual(
-    apiSectionData(data?.data?.sections),
-    watchSectionData,
+  const trimValues = (data: any): any => {
+    if (Array?.isArray(data)) {
+      return data?.map(trimValues);
+    } else if (typeof data === DATA_TYPES?.OBJECT && data !== null) {
+      return lodash.mapValues(data, trimValues);
+    } else if (typeof data === DATA_TYPES?.STRING) {
+      return data?.trim();
+    }
+    return data;
+  };
+
+  const sectionVerification = lodash.isEqual(
+    trimValues(apiSectionData(data?.data?.sections)),
+    trimValues(watchSectionData),
   );
   let unSaveSection: any;
   watchSectionData?.forEach((newSec: any, index: number) => {
@@ -189,7 +204,7 @@ export const useUpsertFeedbackSurvey = () => {
     };
     let patchResponse: any;
     if (oldHeading !== newHeading || oldDescription !== newDescription) {
-      patchResponse = await patchFeedbackSurveyTrigger(updateSurvey);
+      patchResponse = await patchFeedbackSurveyTrigger(updateSurvey)?.unwrap();
     }
     const sectionData = selectedSection?.questions?.map(
       (question: FeedbackSurveyQuestionI, index: number) => {
@@ -228,9 +243,11 @@ export const useUpsertFeedbackSurvey = () => {
           : submitIndex?.sectionId,
       },
     };
-    const response: any = await addQuestionsTrigger(questionParams);
-    if (response?.error?.data?.message) {
-      errorSnackbar(response?.error?.data?.message);
+    try {
+      await addQuestionsTrigger(questionParams)?.unwrap();
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   };
   useEffect(() => {
