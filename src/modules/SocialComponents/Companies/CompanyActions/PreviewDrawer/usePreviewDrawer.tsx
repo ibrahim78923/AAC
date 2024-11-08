@@ -14,21 +14,21 @@ const usePreviewDrawer = (checkedRows: any) => {
     { title: 'Company Registration Number', value: 'AB123456' },
     {
       title: 'Company Owner',
-      value: companyDetails?.companyOwner?.name ?? 'N/A',
+      value: companyDetails?.companyOwner?.name ?? '--',
     },
     {
       title: 'Phone Number',
-      value: companyDetails?.phone ?? 'N/A',
+      value: companyDetails?.phone ?? '--',
     },
-    { title: 'Comapny Type', value: companyDetails?.type ?? 'N/A' },
-    { title: 'Industry', value: companyDetails?.industry ?? 'N/A' },
-    { title: 'No of Employees', value: companyDetails?.noOfEmloyee ?? 'N/A' },
-    { title: 'Total Revenue', value: companyDetails?.totalRevenue ?? 'N/A' },
+    { title: 'Comapny Type', value: companyDetails?.type ?? '--' },
+    { title: 'Industry', value: companyDetails?.industry ?? '--' },
+    { title: 'No of Employees', value: companyDetails?.noOfEmloyee ?? '--' },
+    { title: 'Total Revenue', value: companyDetails?.totalRevenue ?? '--' },
     {
       title: 'Created Date',
-      value: dayjs(companyDetails?.createdAt)?.format(DATE_FORMAT?.UI) ?? 'N/A',
+      value: dayjs(companyDetails?.createdAt)?.format(DATE_FORMAT?.UI) ?? '--',
     },
-    { title: 'Address', value: companyDetails?.address ?? 'N/A' },
+    { title: 'Address', value: companyDetails?.address ?? '--' },
   ];
 
   return {

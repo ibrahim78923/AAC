@@ -18,8 +18,10 @@ const useAttachmentsEditorDrawer = (
   companyId: any,
   RowData: any,
 ) => {
-  const [postAttachment] = usePostCompaniesAttachmentsMutation();
-  const [PostAssociationCompanies] = usePostAssociationCompaniesMutation();
+  const [postAttachment, { isLoading: postIsLoading }] =
+    usePostCompaniesAttachmentsMutation();
+  const [PostAssociationCompanies, { isLoading: AssociateIsLoading }] =
+    usePostAssociationCompaniesMutation();
 
   const methodsAttachments = useForm({
     resolver: yupResolver(attachmentsValidationSchema),
@@ -62,7 +64,14 @@ const useAttachmentsEditorDrawer = (
       errorSnackbar(error?.data?.message);
     }
   };
-  return { handleSubmit, onSubmit, methodsAttachments, setOpenDrawer };
+  return {
+    handleSubmit,
+    onSubmit,
+    methodsAttachments,
+    setOpenDrawer,
+    AssociateIsLoading,
+    postIsLoading,
+  };
 };
 
 export default useAttachmentsEditorDrawer;

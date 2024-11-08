@@ -6,7 +6,7 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { DRAWER_TITLE } from '@/constants';
-import { ROLES, TICKET_PRIORITY, TICKET_STATUS } from '@/constants/strings';
+import { TICKET_PRIORITY, TICKET_STATUS } from '@/constants/strings';
 import * as Yup from 'yup';
 
 const ticketStatusOptions = [
@@ -75,6 +75,7 @@ export const ticketsDataArray = (
   apiQueryRequester?: any,
   apiQueryCategory?: any,
   openDrawer?: any,
+  productId?: any,
 ) => [
   {
     id: 1,
@@ -86,7 +87,8 @@ export const ticketsDataArray = (
       apiQuery: apiQueryRequester,
       disabled: openDrawer === DRAWER_TITLE?.VIEW,
       externalParams: {
-        role: ROLES?.ORG_REQUESTER,
+        admin: true,
+        productId: productId,
       },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,

@@ -224,7 +224,7 @@ const PreviewDrawer = ({ isPreview, setIsPreview, checkedRows }: any) => {
                     color: `${theme?.palette?.slateBlue?.main}`,
                   }}
                 >
-                  {item?.value}
+                  {item?.value ? item?.value : '--'}
                 </Typography>
               </Box>
             );

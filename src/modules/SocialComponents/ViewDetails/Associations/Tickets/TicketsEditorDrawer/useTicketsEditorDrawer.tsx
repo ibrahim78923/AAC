@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -16,6 +16,7 @@ import {
   usePostAssociationCompaniesMutation,
   usePostCompaniesTicketMutation,
 } from '@/services/commonFeatures/companies';
+import { getActiveProductSession } from '@/utils';
 
 const useTicketsEditorDrawer = (
   setOpenDrawer: any,
@@ -24,6 +25,12 @@ const useTicketsEditorDrawer = (
   openDrawer: any,
 ) => {
   const [searchTicket, setSearchTicket] = useState('');
+
+  const productId = useMemo(() => {
+    const product = getActiveProductSession() as any;
+    return product?._id ?? {};
+  }, []);
+
   const methodsTickets = useForm({
     resolver: yupResolver(ticketsValidationSchema),
     defaultValues: async () => {
@@ -100,6 +107,7 @@ const useTicketsEditorDrawer = (
     apiQueryRequester,
     apiQueryCategories,
     openDrawer,
+    productId,
   );
 
   return {

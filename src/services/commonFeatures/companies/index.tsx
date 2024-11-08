@@ -1,5 +1,5 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
-import { baseAPI, TAGS } from '@/services/base-api';
+import { baseAPI } from '@/services/base-api';
 
 export const companiesAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
@@ -157,7 +157,7 @@ export const companiesAPI = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: TAGS,
+      invalidatesTags: ['COMPANY'],
     }),
     postCompaniesAttachments: builder?.mutation({
       query: (postAttachmentParameter: any) => ({

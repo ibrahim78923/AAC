@@ -7,6 +7,7 @@ export const styles = {
       background: theme?.palette?.blue?.main,
       color: 'white',
       borderRadius: '4px',
+      marginLeft: '10px',
     };
   },
 };

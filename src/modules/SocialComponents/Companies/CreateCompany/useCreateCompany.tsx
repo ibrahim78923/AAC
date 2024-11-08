@@ -35,7 +35,8 @@ const useCreateCompany = (setIsOpenDrawer?: any) => {
 
   const { data: getCompanyContacts } = useGetCompanyContactsQuery(params);
 
-  const [postCompanies] = usePostCompaniesMutation();
+  const [postCompanies, { isLoading: postIsLoading }] =
+    usePostCompaniesMutation();
 
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();
@@ -149,6 +150,7 @@ const useCreateCompany = (setIsOpenDrawer?: any) => {
     getCompanyContactsList,
     form,
     getDynamicFieldsStatus,
+    postIsLoading,
   };
 };
 

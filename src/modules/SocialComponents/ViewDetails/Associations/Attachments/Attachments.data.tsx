@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 
-import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
+import { DeleteCrossIcon, ViewEyeIcon } from '@/assets/icons';
 import { DATE_TIME_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 export const columns: any = ({
@@ -45,15 +45,6 @@ export const columns: any = ({
             }}
           >
             <ViewEyeIcon />
-          </Box>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              setOpenDrawer('Edit');
-              setRowData(info?.row?.original);
-            }}
-          >
-            <EditPenIcon />
           </Box>
           <Box
             sx={{ cursor: 'pointer' }}
