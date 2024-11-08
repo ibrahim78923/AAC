@@ -102,7 +102,7 @@ const EmailComp = ({ moduleType, moduleId }: any) => {
       meta: false,
       ...(moduleType === 'DEAL' && { dealId: moduleId }),
       ...(moduleType === 'COMPANY' && { companyIds: moduleId }),
-      ...(moduleType === 'CONTACT' && { createdBy: moduleId }),
+      ...(moduleType === 'CONTACT' && { contactId: moduleId }),
     },
   });
 

@@ -51,7 +51,7 @@ const ContactViewDetails = () => {
               <Notes contactId={contactId} />
               <Calls contactId={contactId} />
               <Meetings />
-              <Emails />
+              <Emails contactId={contactId} />
             </HorizontalTabs>
           </Box>
         </Grid>

@@ -8,10 +8,13 @@ import {
   usePutAddEntranceFormMutation,
   usePostFormSubmissionsMutation,
 } from '@/services/airMarketer/lead-capture/forms';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar } from '@/utils/api';
 import { validationSchema, defaultValues } from '@/utils/leadcapture-forms';
+import { useRouter } from 'next/router';
+import { PUBLIC_LEAD_CAPTURE } from '@/routesConstants/paths';
 
 export default function useFormHook() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const formId = searchParams.get('id');
 
@@ -60,7 +63,8 @@ export default function useFormHook() {
     }
   }, [formId, watchAllFields, hasFormInteracted]);
 
-  const [postFormSubmission] = usePostFormSubmissionsMutation();
+  const [postFormSubmission, { isLoading: loadingFormSubmission }] =
+    usePostFormSubmissionsMutation();
 
   const handlerOnSubmit = async (values: any) => {
     const domain = typeof window !== 'undefined' ? window.location.origin : '';
@@ -85,7 +89,7 @@ export default function useFormHook() {
     try {
       await postFormSubmission({ body: formData })?.unwrap();
       reset();
-      successSnackbar('Form submit successfully');
+      router.push(PUBLIC_LEAD_CAPTURE?.THANK_YOU);
     } catch (error: any) {
       errorSnackbar('An error occured');
     }
@@ -98,5 +102,6 @@ export default function useFormHook() {
     methods,
     handleSubmit,
     handlerOnSubmit,
+    loadingFormSubmission,
   };
 }
