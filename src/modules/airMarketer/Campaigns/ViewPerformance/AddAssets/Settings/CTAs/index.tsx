@@ -5,9 +5,9 @@ import { performanceColumns, performanceData } from './CTAs.data';
 
 const CTAs = () => {
   return (
-    <Card sx={{ padding: '20px' }}>
-      <Stack gap={1}>
-        <Search size="small" placeholder="Search Here" />
+    <Card sx={{ padding: '18px 27px' }}>
+      <Stack gap={3}>
+        <Search size="small" placeholder="Search Here" width={260} />
         <Box>
           <TanstackTable columns={performanceColumns} data={performanceData} />
           <Button size="small">Create ad</Button>

@@ -25,15 +25,14 @@ import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const useCreateForm = (formType: any) => {
   const router = useRouter();
+  const auth: any = useAuth();
+  const { _id: productId } = auth?.product;
   const { user }: any = getSession();
   const currentUser = user?._id;
   const selectedDashboardId = router?.query?.id;
   const dashboardUserId = router?.query?.userId;
   const dashboardMode = router?.query?.mode;
   const disbaleForm = formType === DRAWER_TYPES?.VIEW ? true : false;
-
-  const auth: any = useAuth();
-  const { _id: productId } = auth?.product;
 
   // States
   const [isOpenPreview, setIsOpenPreview] = useState(false);

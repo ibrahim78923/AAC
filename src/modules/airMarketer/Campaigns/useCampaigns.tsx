@@ -118,7 +118,11 @@ const useCampaigns = () => {
         });
         break;
       case campaignsOptions?.VIEW_PERFORMANCE:
-        router.push(`${AIR_MARKETER?.VIEW_PERFORMANCE}`);
+        // router.push(`${AIR_MARKETER?.VIEW_PERFORMANCE}`);
+        router.push({
+          pathname: `${AIR_MARKETER?.VIEW_PERFORMANCE}`,
+          query: { id: selectedValue }, // Replace `selectedValue` with your actual id variable
+        });
         break;
       case campaignsOptions?.EDIT_COLUMNS:
         setActionsModalDetails({

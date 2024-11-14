@@ -1,17 +1,13 @@
 import { Box, Button, Grid, Menu, MenuItem, Stack } from '@mui/material';
-
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
-
-import { columns } from './Tasks.data';
 import useTasks from './useTasks';
 import EditTask from './EditTask';
-
 import { AlertModalDeleteIcon, DownIcon } from '@/assets/icons';
-import { tableData } from '@/mock/modules/airMarketer/Campaigns/Tasks';
 import Search from '@/components/Search';
+import { columns } from './Tasks.data';
 
-const Tasks = () => {
+const Tasks = ({ CurrCampaignId }: any) => {
   const {
     anchorEl,
     theme,
@@ -24,9 +20,26 @@ const Tasks = () => {
     isOpenDeleteDrawer,
     handleDeleteModal,
     setIsOpenDeleteDrawer,
-    searchUser,
-    setSearchUser,
-  } = useTasks();
+    setSearchValue,
+    compaignsTasksData,
+    isFetching,
+    isLoading,
+    setPage,
+    setPageLimit,
+    getCampaignsTasks,
+    setSelectedRowData,
+    selectedRec,
+    setSelectedRec,
+    setStatusVariant,
+  } = useTasks(CurrCampaignId);
+
+  const columnsProps = {
+    selectedRec,
+    setSelectedRec,
+    compaignsTasksData,
+    setStatusVariant,
+    setSelectedRowData,
+  };
 
   return (
     <>
@@ -34,11 +47,9 @@ const Tasks = () => {
         <Grid item xs={12}>
           <Stack direction={'row'} justifyContent={'space-between'}>
             <Search
-              searchBy={searchUser}
-              // width="260px"
               size="small"
               label={'Search here'}
-              setSearchBy={setSearchUser}
+              setSearchBy={setSearchValue}
             />
             <Box>
               <Button
@@ -52,8 +63,6 @@ const Tasks = () => {
                 onClick={handleActionsMenuClick}
                 sx={{
                   color: theme?.palette?.grey[500],
-
-                  //
                   border: `1.5px solid ${theme?.palette?.custom?.border_grayish_blue}`,
                   '@media (max-width:581px)': {
                     width: '100%',
@@ -72,14 +81,25 @@ const Tasks = () => {
                 }}
               >
                 <MenuItem onClick={handleTaskDrawer}>Edit</MenuItem>
-
                 <MenuItem onClick={handleDeleteModal}>Delete</MenuItem>
               </Menu>
             </Box>
           </Stack>
         </Grid>
         <Grid item xs={12}>
-          <TanstackTable columns={columns} data={tableData} isPagination />
+          <TanstackTable
+            totalRecords={getCampaignsTasks?.data?.meta?.total}
+            currentPage={getCampaignsTasks?.data?.meta?.page}
+            pageLimit={getCampaignsTasks?.data?.meta?.limit}
+            count={getCampaignsTasks?.data?.meta?.pages}
+            onPageChange={(page: any) => setPage(page)}
+            setPageLimit={setPageLimit}
+            columns={columns(columnsProps)}
+            data={compaignsTasksData}
+            isPagination
+            isLoading={isLoading}
+            isFetching={isFetching}
+          />
         </Grid>
       </Grid>
 

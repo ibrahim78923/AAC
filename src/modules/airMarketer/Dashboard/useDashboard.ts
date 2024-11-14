@@ -14,7 +14,7 @@ import { useState } from 'react';
 import { AIR_MARKETER } from '../../../routesConstants/paths';
 import { useApiPolling } from '@/hooks/useApiPolling';
 import { useTheme } from '@mui/material';
-import { MANAGE_ACCESS_TYPES } from '@/constants/strings';
+import { DRAWER_TYPES, MANAGE_ACCESS_TYPES } from '@/constants/strings';
 import { ERROR_PAGES } from '@/constants';
 
 const useDashboard = () => {
@@ -73,7 +73,7 @@ const useDashboard = () => {
   const handelNavigate = () => {
     router?.push({
       pathname: `${AIR_MARKETER?.CREATE_DASHBOARD}`,
-      query: { type: 'add' },
+      query: { type: DRAWER_TYPES?.ADD, mode: DRAWER_TYPES?.CREATE },
     });
   };
 
@@ -89,20 +89,20 @@ const useDashboard = () => {
     setIsShowCreateDashboardForm,
     isShowCreateDashboardForm,
     setSelectedDashboard,
+    dashboardListLoading,
     selectedDashboard,
     dashboardNotFound,
     apiCallInProgress,
-    handelNavigate,
-    dropdownOptions,
-    dashboardsData,
     defaultDashboard,
-    dashboardListLoading,
+    dropdownOptions,
+    handelNavigate,
+    dashboardsData,
+    setPageLimit,
     currentUser,
     disabled,
     timeLapse,
     setPage,
     router,
-    setPageLimit,
     theme,
     page,
     user,

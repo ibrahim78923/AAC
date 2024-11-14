@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Checkbox, Tooltip, Typography } from '@mui/material';
+import { Box, Checkbox, Tooltip, Typography, useTheme } from '@mui/material';
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
 import { RHFTextField } from '@/components/ReactHookForm';
@@ -11,6 +11,7 @@ import { DATE_TIME_FORMAT } from '@/constants';
 import { useRouter } from 'next/router';
 import { capitalizeFirstLetters } from '@/utils';
 import { capitalizeFirstLetter } from '@/utils/api';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 export const columns = (
   selectedRows: string[],
@@ -19,6 +20,7 @@ export const columns = (
   setRowId: any,
   activeColumns: any,
 ) => {
+  const theme = useTheme();
   const router = useRouter();
   const handleRowClick = (id: any, status: string) => {
     const selectedIndex = selectedRows?.indexOf(id);
@@ -79,14 +81,34 @@ export const columns = (
     title: 'title',
   };
 
+  const handleTitleClick = (id: string) => {
+    router.push({
+      pathname: `${AIR_MARKETER?.VIEW_PERFORMANCE}`,
+      query: { id: id },
+    });
+  };
+
   const activeColumnsData = (attribute: any, info: any) => {
     const userDetails = info?.row?.original?.userDetails;
     const userName = userDetails
-      ? `${userDetails?.firstName} ${userDetails?.lastName}` ?? 'N/A'
+      ? `${userDetails?.firstName} ${userDetails?.lastName}`
       : 'N/A';
     const userEmail = userDetails ? userDetails?.email : 'N/A';
     if (attribute === CAMNPAIGNS_ATTRIBUTES?.title) {
-      return capitalizeFirstLetters(info?.row?.original?.title) ?? 'N/A';
+      return (
+        <Box
+          style={{ cursor: 'pointer' }}
+          onClick={() => handleTitleClick(info?.cell?.row?.original?._id)}
+          onMouseEnter={(e) =>
+            (e.currentTarget.style.color = `${theme?.palette?.primary?.main}`)
+          }
+          onMouseLeave={(e) =>
+            (e.currentTarget.style.color = `${theme?.palette?.custom?.main}`)
+          }
+        >
+          {capitalizeFirstLetters(info?.row?.original?.title) ?? 'N/A'}
+        </Box>
+      );
     } else if (attribute === CAMNPAIGNS_ATTRIBUTES?.campaignOwner) {
       return (
         <Tooltip
