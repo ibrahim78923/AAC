@@ -256,7 +256,8 @@ export const DetailCard = () => {
               color="slateBlue.main"
               textTransform={'capitalize'}
             >
-              {ticketDetail?.moduleType?.toLowerCase() ?? '---'}
+              {ticketDetail?.moduleType?.toLowerCase()?.replaceAll('_', ' ') ??
+                '---'}
             </Typography>
           </Box>
         </Grid>

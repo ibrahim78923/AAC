@@ -161,7 +161,7 @@ export const ticketsListsColumnDynamic: any = (
       header: 'Status',
       cell: (info: any) => (
         <Typography variant={'body3'} textTransform={'capitalize'}>
-          {info?.getValue()?.toLowerCase() ?? '---'}
+          {info?.getValue()?.toLowerCase()?.replaceAll('_', ' ') ?? '---'}
         </Typography>
       ),
     },

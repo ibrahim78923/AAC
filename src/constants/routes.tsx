@@ -140,6 +140,8 @@ export const AIR_OPERATIONS = {
 export const AIR_LOYALTY_PROGRAM = {
   DASHBOARD: '/air-loyalty-program',
   REWARDS: `/air-loyalty-program/loyalty/rewards`,
+  LOYALTY_TRANSACTION: `/air-loyalty-program/loyalty/transactions`,
+  LOYALTY_RULES_AND_TIERS: `/air-loyalty-program/loyalty/rules-and-tiers`,
   ADD_REWARDS: `/air-loyalty-program/loyalty/rewards/add-rewards`,
   GIFT_CARDS: `/air-loyalty-program/gift-cards/gift-cards`,
   VOUCHERS: `/air-loyalty-program/loyalty/vouchers`,
@@ -149,6 +151,7 @@ export const AIR_LOYALTY_PROGRAM = {
   UPSERT_ROLES: '/air-loyalty-program/roles-and-right/upsert-roles-and-right',
   ROLES_AND_RIGHTS: '/air-loyalty-program/roles-and-right',
   CONSUMERS: '/air-loyalty-program/consumers',
+  SETTINGS: '/air-loyalty-program/settings',
   UPSERT_CONSUMER: '/air-loyalty-program/consumers/upsert-consumer',
 };
 

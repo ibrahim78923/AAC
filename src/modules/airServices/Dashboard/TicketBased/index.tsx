@@ -7,12 +7,13 @@ import { pxToRem } from '@/utils/getFontValue';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setTicketBasedGraphType } from '@/redux/slices/airServices/dashboard/slice';
 import { PublicSingleDropdownButton } from '@/components/PublicSingleDropdownButton';
+import { dashboardTicketBasedGraphTypeSelector } from '@/redux/slices/airServices/dashboard/selectors';
 
 export const TicketBased = (props: any) => {
   const { data, isPreviewMode } = props;
 
   const ticketBasedGraphType = useAppSelector(
-    (state) => state?.servicesDashboard?.ticketBasedGraphType,
+    dashboardTicketBasedGraphTypeSelector,
   );
 
   const dispatch = useAppDispatch();

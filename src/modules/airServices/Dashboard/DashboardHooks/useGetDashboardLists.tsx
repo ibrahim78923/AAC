@@ -1,23 +1,32 @@
-import useAuth from '@/hooks/useAuth';
+import {
+  dashboardFilterSelector,
+  dashboardPageLimitSelector,
+  dashboardPageSelector,
+  dashboardSearchSelector,
+} from '@/redux/slices/airServices/dashboard/selectors';
 import { setDashboardListsTotalRecords } from '@/redux/slices/airServices/dashboard/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useLazyGetServicesDashboardListQuery } from '@/services/airServices/dashboard';
+import { getActiveProductSession } from '@/utils';
 import { buildQueryParams } from '@/utils/api';
+import { useMemo } from 'react';
+import { shallowEqual } from 'react-redux';
 
 export const useGetDashboardList = () => {
-  const auth: any = useAuth();
-  const productId = auth?.product?._id ?? {};
+  const productId = useMemo(() => {
+    const product = getActiveProductSession() as any;
+    return product?._id ?? {};
+  }, []);
 
-  const page = useAppSelector((state) => state?.servicesDashboard?.page);
+  const page = useAppSelector(dashboardPageSelector);
 
-  const pageLimit = useAppSelector(
-    (state) => state?.servicesDashboard?.pageLimit,
-  );
+  const pageLimit = useAppSelector(dashboardPageLimitSelector);
 
-  const search = useAppSelector((state) => state?.servicesDashboard?.search);
+  const search = useAppSelector(dashboardSearchSelector);
 
   const filterDashboardLists = useAppSelector(
-    (state) => state?.servicesDashboard?.filterDashboardLists,
+    dashboardFilterSelector,
+    shallowEqual,
   );
 
   const dispatch = useAppDispatch();

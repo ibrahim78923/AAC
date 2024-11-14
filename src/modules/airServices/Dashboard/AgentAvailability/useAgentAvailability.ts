@@ -5,13 +5,12 @@ import * as Yup from 'yup';
 import { agentAvailabilityCountDynamic } from './AgentAvailability.data';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setDepartmentWiseAgents } from '@/redux/slices/airServices/dashboard/slice';
+import { departmentWiseAgentSelector } from '@/redux/slices/airServices/dashboard/selectors';
 
 export const useAgentAvailability = (props: any) => {
   const { data } = props;
 
-  const departmentWiseAgents = useAppSelector(
-    (state) => state?.servicesDashboard?.departmentWiseAgent,
-  );
+  const departmentWiseAgents = useAppSelector(departmentWiseAgentSelector);
 
   const dispatch = useAppDispatch();
 

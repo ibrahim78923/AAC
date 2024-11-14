@@ -78,7 +78,7 @@ export const AgentAvailability = (props: any) => {
               height={250}
             />
           ) : (
-            <NoData message={'No agent is available'} height={'100%'} />
+            <NoData message={'No agent found'} height={'100%'} />
           )}
         </Box>
       </Box>

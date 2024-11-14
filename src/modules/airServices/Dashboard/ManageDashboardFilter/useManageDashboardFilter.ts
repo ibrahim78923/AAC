@@ -11,15 +11,23 @@ import {
   setFilterDashboardLists,
   setIsPortalClose,
 } from '@/redux/slices/airServices/dashboard/slice';
+import { shallowEqual } from 'react-redux';
+import {
+  dashboardFilterSelector,
+  dashboardIsPortalOpenSelector,
+} from '@/redux/slices/airServices/dashboard/selectors';
 
 export const useManageDashboardFilter = () => {
   const dispatch = useAppDispatch();
 
   const isPortalOpen = useAppSelector(
-    (state) => state?.servicesDashboard?.isPortalOpen,
+    dashboardIsPortalOpenSelector,
+    shallowEqual,
   );
+
   const filterDashboardLists = useAppSelector(
-    (state) => state?.servicesDashboard?.filterDashboardLists,
+    dashboardFilterSelector,
+    shallowEqual,
   );
 
   const methods = useForm({

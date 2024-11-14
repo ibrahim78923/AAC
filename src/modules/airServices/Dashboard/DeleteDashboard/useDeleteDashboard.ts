@@ -9,6 +9,10 @@ import {
   setPage,
 } from '@/redux/slices/airServices/dashboard/slice';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import {
+  dashboardIsPortalOpenSelector,
+  dashboardTotalRecordsSelector,
+} from '@/redux/slices/airServices/dashboard/selectors';
 
 export const useDeleteDashboard = () => {
   const dispatch = useAppDispatch();
@@ -20,13 +24,9 @@ export const useDeleteDashboard = () => {
     deleteSingleServicesDashboardStatus,
   ] = useDeleteServicesDashboardSingleDashboardMutation();
 
-  const isPortalOpen = useAppSelector(
-    (state) => state?.servicesDashboard?.isPortalOpen,
-  );
+  const isPortalOpen = useAppSelector(dashboardIsPortalOpenSelector);
 
-  const totalRecords = useAppSelector(
-    (state) => state?.servicesDashboard?.totalRecords,
-  );
+  const totalRecords = useAppSelector(dashboardTotalRecordsSelector);
 
   const refetchApi = async () => {
     const newPage =

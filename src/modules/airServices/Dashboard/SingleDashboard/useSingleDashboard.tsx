@@ -10,6 +10,10 @@ import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { getActiveProductSession } from '@/utils';
 import { resetSingleDashboardState } from '@/redux/slices/airServices/dashboard/slice';
 import { API_STATUS_CODE } from '@/constants/api';
+import {
+  dashboardTicketBasedGraphTypeSelector,
+  departmentWiseAgentSelector,
+} from '@/redux/slices/airServices/dashboard/selectors';
 
 export const useSingleDashboard = (props: any) => {
   const dispatch = useAppDispatch();
@@ -33,12 +37,10 @@ export const useSingleDashboard = (props: any) => {
 
   const { watch } = methods;
 
-  const departmentWiseAgents = useAppSelector(
-    (state) => state?.servicesDashboard?.departmentWiseAgent,
-  );
+  const departmentWiseAgents = useAppSelector(departmentWiseAgentSelector);
 
   const ticketBasedGraphType = useAppSelector(
-    (state) => state?.servicesDashboard?.ticketBasedGraphType,
+    dashboardTicketBasedGraphTypeSelector,
   );
 
   const apiDataParameter = {

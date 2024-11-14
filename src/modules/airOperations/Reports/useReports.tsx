@@ -30,7 +30,14 @@ export const useReports = () => {
   const reportsTypes: ReportsTypesI[] = reportsTypesDynamic(productsLists);
 
   const checkApiStatus = () => {
-    if (isLoading || isFetching) return <SkeletonCard />;
+    if (isLoading || isFetching)
+      return (
+        <SkeletonCard
+          isCircular="square"
+          flexDirectionRectangular="column"
+          hasThirdSkeleton={false}
+        />
+      );
     if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
     return undefined;
   };
