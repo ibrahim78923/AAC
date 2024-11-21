@@ -18,7 +18,7 @@ const Tasks = ({ CurrCampaignId }: any) => {
     setIsOpenEditTaskDrawer,
     handleTaskDrawer,
     isOpenDeleteDrawer,
-    handleDeleteModal,
+    handleClickDeleteModal,
     setIsOpenDeleteDrawer,
     setSearchValue,
     compaignsTasksData,
@@ -26,11 +26,15 @@ const Tasks = ({ CurrCampaignId }: any) => {
     isLoading,
     setPage,
     setPageLimit,
+    selectedRowData,
     getCampaignsTasks,
     setSelectedRowData,
     selectedRec,
     setSelectedRec,
     setStatusVariant,
+    disableActions,
+    handleDeleteModal,
+    deleteTaskLoading,
   } = useTasks(CurrCampaignId);
 
   const columnsProps = {
@@ -53,6 +57,7 @@ const Tasks = ({ CurrCampaignId }: any) => {
             />
             <Box>
               <Button
+                disabled={disableActions}
                 id="basic-button"
                 aria-controls={'basic-menu'}
                 aria-haspopup="true"
@@ -79,9 +84,14 @@ const Tasks = ({ CurrCampaignId }: any) => {
                 MenuListProps={{
                   'aria-labelledby': 'basic-button',
                 }}
+                sx={{
+                  '.MuiPopover-paper': {
+                    minWidth: '100px',
+                  },
+                }}
               >
                 <MenuItem onClick={handleTaskDrawer}>Edit</MenuItem>
-                <MenuItem onClick={handleDeleteModal}>Delete</MenuItem>
+                <MenuItem onClick={handleClickDeleteModal}>Delete</MenuItem>
               </Menu>
             </Box>
           </Stack>
@@ -103,20 +113,35 @@ const Tasks = ({ CurrCampaignId }: any) => {
         </Grid>
       </Grid>
 
-      {isOpenEditTaskDrawer && (
+      {isOpenEditTaskDrawer?.isToggle && (
         <EditTask
           isOpenDrawer={isOpenEditTaskDrawer}
-          onClose={() => setIsOpenEditTaskDrawer(false)}
+          onClose={() =>
+            setIsOpenEditTaskDrawer({
+              ...isOpenEditTaskDrawer,
+              isToggle: false,
+            })
+          }
+          selectedRec={selectedRowData?._id}
+          // onClose={() => {
+          //   {
+          //     setSelectedRec([]);
+          //     setIsOpenEditTaskDrawer({ isToggle: false, type: '' });
+          //   }
+          // }}
         />
       )}
-      {isOpenDeleteDrawer && (
+      {isOpenDeleteDrawer?.isToggle && (
         <AlertModals
           message="Are you sure you want to delete this broadcast?"
           type="Delete"
           typeImage={<AlertModalDeleteIcon />}
-          open={isOpenDeleteDrawer}
-          handleClose={() => setIsOpenDeleteDrawer(false)}
-          handleSubmitBtn={() => setIsOpenDeleteDrawer(false)}
+          open={isOpenDeleteDrawer?.isToggle}
+          handleClose={() =>
+            setIsOpenDeleteDrawer({ ...isOpenDeleteDrawer, isToggle: false })
+          }
+          handleSubmitBtn={() => handleDeleteModal(isOpenDeleteDrawer?.id)}
+          loading={deleteTaskLoading}
         />
       )}
     </>

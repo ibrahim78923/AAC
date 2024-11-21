@@ -1,21 +1,32 @@
-import { PAGINATION } from '@/config';
-import { useGetCampaignsTasksQuery } from '@/services/airMarketer/campaigns';
-import { useTheme } from '@mui/material';
 import { useState } from 'react';
+import { PAGINATION } from '@/config';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import {
+  useDeleteCampaignTasksMutation,
+  useGetCampaignsTasksQuery,
+} from '@/services/airMarketer/campaigns';
+import { useTheme } from '@mui/material';
+import { enqueueSnackbar } from 'notistack';
 
 const useTasks = (CurrCampaignId: any) => {
+  const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [isOpenEditTaskDrawer, setIsOpenEditTaskDrawer] = useState(false);
-  const [isOpenDeleteDrawer, setIsOpenDeleteDrawer] = useState(false);
-  // const [searchUser, setSearchUser] = useState('');
+  const [isOpenEditTaskDrawer, setIsOpenEditTaskDrawer] = useState({
+    isToggle: false,
+    id: '',
+  });
+  const [isOpenDeleteDrawer, setIsOpenDeleteDrawer] = useState({
+    isToggle: false,
+    id: '',
+  });
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [searchValue, setSearchValue] = useState('');
-  const theme = useTheme();
   const [selectedRec, setSelectedRec] = useState<string[]>([]);
   const [selectedRowData, setSelectedRowData] = useState<any>([]);
   const [statusVariant, setStatusVariant] = useState<any>('');
   const actionMenuOpen = Boolean(anchorEl);
+  const disableActions = selectedRec.length === 0;
 
   const taskParams = {
     page: page,
@@ -32,20 +43,43 @@ const useTasks = (CurrCampaignId: any) => {
 
   const compaignsTasksData = getCampaignsTasks?.data?.campaigntasks;
 
+  const [deleteTasks, { isLoading: deleteTaskLoading }] =
+    useDeleteCampaignTasksMutation();
+
   const handleTaskDrawer = () => {
-    setIsOpenEditTaskDrawer(true);
+    setIsOpenEditTaskDrawer({ isToggle: true, id: selectedRowData?._id });
   };
-  const handleDeleteModal = () => {
-    setIsOpenDeleteDrawer(true);
+
+  const handleClickDeleteModal = () => {
+    setIsOpenDeleteDrawer({ isToggle: true, id: selectedRowData?._id });
   };
+
   const handleActionsMenuClose = () => {
     setAnchorEl(null);
   };
+
   const handleActionsMenuClick = (
     event: React.MouseEvent<HTMLButtonElement>,
   ) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const handleDeleteModal = async (id: any) => {
+    try {
+      await deleteTasks({ ids: id })?.unwrap();
+      enqueueSnackbar('Task Deleted Successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+    } catch (error: any) {
+      const errMsg = error?.message;
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+    setIsOpenDeleteDrawer({ ...isOpenDeleteDrawer, isToggle: false });
+  };
+
   return {
     anchorEl,
     setAnchorEl,
@@ -57,7 +91,7 @@ const useTasks = (CurrCampaignId: any) => {
     setIsOpenEditTaskDrawer,
     handleTaskDrawer,
     isOpenDeleteDrawer,
-    handleDeleteModal,
+    handleClickDeleteModal,
     setIsOpenDeleteDrawer,
     searchValue,
     setSearchValue,
@@ -73,6 +107,9 @@ const useTasks = (CurrCampaignId: any) => {
     setSelectedRec,
     setStatusVariant,
     statusVariant,
+    disableActions,
+    handleDeleteModal,
+    deleteTaskLoading,
   };
 };
 export default useTasks;

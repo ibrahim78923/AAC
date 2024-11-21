@@ -49,7 +49,7 @@ const ViewPerformance = () => {
           </Button>
         </Box>
       </Box>
-      <ViewCompaignDetails />
+      <ViewCompaignDetails CurrCampaignId={CurrCampaignId} />
       <Box sx={{ padding: '0px 24px' }}>
         <CommonTabs tabsArray={['Performance', 'Assets', 'Tasks']}>
           <Performance />
