@@ -5,15 +5,18 @@ import { TruncateText } from '@/components/TruncateText';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
 
-const MenuItemDataArray = [
+const menuItemDataArray = [
   { value: 'ACTIVE', label: 'Active' },
   { value: 'INACTIVE', label: 'Inactive' },
+  { value: 'EXPIRED', label: 'Expired' },
 ];
 
 export const loyaltyRewardColumnDynamic: any = (
   setIsRewardDetailsOpen: any,
   activePermissionOfEditDelete: any,
   overallPermissions: any,
+  setIsRewardDrawerOpen: any,
+  setIsRewardDelete: any,
 ) => {
   const columns = [
     {
@@ -41,7 +44,7 @@ export const loyaltyRewardColumnDynamic: any = (
           <ActivityStatusMenu
             info={info}
             activityStatus={status}
-            MenuItemDataArray={MenuItemDataArray}
+            menuItemDataArray={menuItemDataArray}
           />
         );
       },
@@ -100,17 +103,33 @@ export const loyaltyRewardColumnDynamic: any = (
       id: 'actions',
       isSortable: true,
       header: 'Action',
-      cell: () => (
+      cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: 1 }}>
           <PermissionsGuard
             permissions={[
               AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.EDIT_DELETE_REWARDS,
             ]}
           >
-            <Box sx={{ cursor: 'pointer' }}>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() =>
+                setIsRewardDrawerOpen({
+                  data: info?.row?.original?._id,
+                  isOpen: true,
+                })
+              }
+            >
               <EditPenIcon />
             </Box>
-            <Box sx={{ cursor: 'pointer' }}>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() =>
+                setIsRewardDelete({
+                  data: info?.row?.original?._id,
+                  isOpen: true,
+                })
+              }
+            >
               <DeleteCrossIcon />
             </Box>
           </PermissionsGuard>

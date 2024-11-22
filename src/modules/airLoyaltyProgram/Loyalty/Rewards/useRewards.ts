@@ -12,6 +12,10 @@ export const useRewards = () => {
   const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState<string>('');
+  const [isRewardDelete, setIsRewardDelete] = useState({
+    isOpen: false,
+    data: '',
+  });
   const [isRewardDrawerOpen, setIsRewardDrawerOpen] = useState({
     isOpen: false,
     data: '',
@@ -53,6 +57,8 @@ export const useRewards = () => {
     setIsRewardDetailsOpen,
     activePermissionOfEditDelete,
     overallPermissions,
+    setIsRewardDrawerOpen,
+    setIsRewardDelete,
   );
 
   const refetch = () => getLoyaltyRewardsList?.();
@@ -74,5 +80,7 @@ export const useRewards = () => {
     isRewardDrawerOpen,
     setIsRewardDrawerOpen,
     handleSearch,
+    isRewardDelete,
+    setIsRewardDelete,
   };
 };

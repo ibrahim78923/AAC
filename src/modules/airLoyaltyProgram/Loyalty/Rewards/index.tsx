@@ -7,6 +7,7 @@ import { SingleRewardDetails } from './SingleRewardsDetails';
 import { UpsertRewards } from './UpsertRewards';
 import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AgentConversionDelete } from '@/modules/SocialComponents/Meetings/ListView/AgentConversionDelete';
 
 export const Rewards = () => {
   const {
@@ -20,6 +21,8 @@ export const Rewards = () => {
     isRewardDrawerOpen,
     setIsRewardDrawerOpen,
     handleSearch,
+    isRewardDelete,
+    setIsRewardDelete,
   } = useRewards();
   return (
     <>
@@ -44,7 +47,9 @@ export const Rewards = () => {
             <Box mt={'0.75rem'}>
               <TanstackTable
                 columns={loyaltyAllRewardColumn}
-                data={lazyGetLoyaltyRewardsListStatus?.data?.data?.rewards}
+                data={
+                  lazyGetLoyaltyRewardsListStatus?.data?.data?.physicalrewards
+                }
                 isLoading={lazyGetLoyaltyRewardsListStatus?.isLoading}
                 currentPage={
                   lazyGetLoyaltyRewardsListStatus?.data?.data?.meta?.page
@@ -77,6 +82,19 @@ export const Rewards = () => {
           <UpsertRewards
             isRewardDrawerOpen={isRewardDrawerOpen?.isOpen}
             setIsRewardDrawerOpen={setIsRewardDrawerOpen}
+          />
+        )}
+        {isRewardDelete?.isOpen && (
+          <AgentConversionDelete
+            message={'Are you sure you want to delete this entry?'}
+            open={isRewardDelete?.isOpen ?? false}
+            handleClose={() => {
+              setIsRewardDelete({ isOpen: false, data: '' });
+            }}
+            submitDeleteModal={() => {}}
+            deleteMeetingsStatus={{
+              isLoading: false,
+            }}
           />
         )}
       </>
