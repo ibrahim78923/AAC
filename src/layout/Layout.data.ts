@@ -795,6 +795,13 @@ export const ProfileDropDown = (basePath: any) => {
       label: PROFILE_DROPDOWNS?.DELEGATE,
       key: COMMON_ROUTES?.DELEGATE,
     },
+    {
+      label: PROFILE_DROPDOWNS?.ACTIVITY_LOGS,
+      key:
+        basePath === ORG_ADMIN.DASHBOARD
+          ? ORG_ADMIN.ORG_ADMIN_ACTIVITY_LOGS
+          : COMMON_ROUTES?.ACTIVITY_LOGS,
+    },
   ];
 };
 

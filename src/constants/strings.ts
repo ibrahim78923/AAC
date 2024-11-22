@@ -1226,3 +1226,8 @@ export const WORKFLOW_STATUS = {
   ACTIVE: 'ACTIVE',
   INACTIVE: 'INACTIVE',
 };
+
+export const AVTIVITY_LOGS_ROLE = {
+  ORG_AMDIN: 'Org Admin',
+  SUPER_AMDIN: 'Super Admin',
+};

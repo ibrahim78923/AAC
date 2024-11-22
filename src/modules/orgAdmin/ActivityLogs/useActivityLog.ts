@@ -1,13 +1,18 @@
+import { PAGINATION } from '@/config';
 import { DATE_FORMAT } from '@/constants';
 import { useGetActivityLogQuery } from '@/services/orgAdmin/activity-log';
 import dayjs from 'dayjs';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 const useActivityLog = () => {
+  const [page, setPage] = useState(PAGINATION.CURRENT_PAGE);
   const [search, setSearch] = useState();
   const [dateValue, setDateValue] = useState<any>([new Date(), new Date()]);
-  const [filterValues, setFilterValues] = useState({});
-  const searchParam = { search: search };
+  const [filterValues, setFilterValues] = useState<any>({});
+  const [ActivityLogsData, setActivityLogsData] = useState<any[]>([]);
+  const [hasMore, setHasMore] = useState(true);
+
   const startDate = 0,
     endaDate = 1;
 
@@ -21,67 +26,103 @@ const useActivityLog = () => {
   };
 
   const handleRefresh = async () => {
+    setPage(PAGINATION.CURRENT_PAGE);
+    setActivityLogsData([]);
+    setHasMore(true);
     setFilterValues('');
   };
 
-  const { data, isLoading } = useGetActivityLogQuery({
-    params: { ...filterValues, ...searchParam },
+  const searchParam = {
+    page,
+    limit: PAGINATION.PAGE_LIMIT,
+    search: search,
+  };
+
+  let modifyFilterValues: any = { ...filterValues };
+  if (filterValues?.company) {
+    modifyFilterValues = {
+      ...modifyFilterValues,
+      company: modifyFilterValues?.company?._id,
+    };
+  }
+  if (filterValues?.user) {
+    modifyFilterValues = {
+      ...modifyFilterValues,
+      performedBy: modifyFilterValues?.user?._id,
+    };
+    delete modifyFilterValues.user;
+  }
+  if (filterValues?.organization) {
+    modifyFilterValues = {
+      ...modifyFilterValues,
+      orgId: modifyFilterValues?.organization?._id,
+    };
+    delete modifyFilterValues.organization;
+  }
+  if (filterValues?.company) {
+    modifyFilterValues = {
+      ...modifyFilterValues,
+      compId: modifyFilterValues?.company,
+    };
+    delete modifyFilterValues.company;
+  }
+
+  const { data, isLoading, isFetching } = useGetActivityLogQuery({
+    params: { ...modifyFilterValues, ...searchParam },
   });
-  const ActivityLogsData: any = [];
 
-  // Iterate through the raw data
-  data?.data?.activitylogs?.forEach((log: any) => {
-    // Parse date from ISO format
-    const logDate = new Date(log.createdAt).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    });
+  const loadMore = useCallback(() => {
+    if (isLoading || isFetching || !hasMore) return;
+    setPage((prevPage) => prevPage + 1);
+  }, [isLoading, hasMore]);
+  useEffect(() => {
+    if (data?.data?.activitylogs) {
+      const newLogs = data.data.activitylogs.map((log: any) => {
+        const logDate = new Date(log.createdAt).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+        });
 
-    // Check if the log with the same date already exists in ActivityLogsData
-    const existingLog = ActivityLogsData?.find(
-      (item: any) => item?.date === logDate,
-    );
-
-    if (existingLog) {
-      // Log with the same date exists, add the new user data to the existing log
-      existingLog?.userLists?.push({
-        id: log?._id,
-        performedByName: log?.performedByName,
-        moduleName: log?.moduleName,
-        performedBy: log?.performedBy,
-        moduleId: log?.moduleId,
-        userImg: 'ExampleKababCaseImg',
-        label: log.activityType,
-        time: new Date(log.createdAt)?.toLocaleTimeString('en-US', {
-          hour: 'numeric',
-          minute: 'numeric',
-        }),
+        return {
+          date: logDate,
+          userLists: [
+            {
+              id: log._id,
+              performedByName: log.performedByName,
+              moduleName: log.moduleName,
+              performedBy: log.performedBy,
+              moduleId: log.moduleId,
+              userImg: 'ExampleKababCaseImg',
+              label: log.activityType,
+              time: new Date(log.createdAt).toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: 'numeric',
+              }),
+            },
+          ],
+        };
       });
-    } else {
-      // Log with the same date does not exist, create a new log entry
-      ActivityLogsData?.push({
-        id: ActivityLogsData?.length + 1,
-        date: logDate,
-        userLists: [
-          {
-            id: log?._id,
-            performedByName: log?.performedByName,
-            moduleName: log?.moduleName,
-            performedBy: log?.performedBy,
-            moduleId: log?.moduleId,
-            userImg: 'ExampleKababCaseImg',
-            label: log.activityType,
-            time: new Date(log.createdAt)?.toLocaleTimeString('en-US', {
-              hour: 'numeric',
-              minute: 'numeric',
-            }),
-          },
-        ],
-      });
+
+      if (page === 1) {
+        setActivityLogsData(newLogs);
+      } else {
+        setActivityLogsData((prevData) => [...prevData, ...newLogs]);
+      }
+      setHasMore(newLogs.length > 0);
     }
-  });
+  }, [data, page]);
 
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  const methods: any = useForm({});
+  const { handleSubmit } = methods;
+
+  // const handleResetFilters = () => {
+  //   setFilterValues(defaultFilterValues);
+  //   reset();
+  //   setValue(0);
+  // };
   return {
     search,
     setSearch,
@@ -89,8 +130,18 @@ const useActivityLog = () => {
     setDateValue,
     handleDateSubmit,
     ActivityLogsData,
+    loadMore,
     handleRefresh,
     isLoading,
+    hasMore,
+    setIsFilterOpen,
+    isFilterOpen,
+    filterValues,
+    setFilterValues,
+    methods,
+    handleSubmit,
+    isFetching,
+    setPage,
   };
 };
 

@@ -248,6 +248,7 @@ export const LOYALTY_PROGRAM = {
 
 export const ORG_ADMIN = {
   DASHBOARD_EDIT_PROFILE: '/org-admin/dashboard/edit-profile',
+  ORG_ADMIN_ACTIVITY_LOGS: '/org-admin/dashboard/activity-logs',
   EDIT_PROFILE: '/edit-profile',
   ORGANIZATION: '/org-admin/organization-admin',
   DASHBOARD: '/org-admin',
@@ -255,6 +256,7 @@ export const ORG_ADMIN = {
 
 export const COMMON_ROUTES = {
   DELEGATE: '/delegates',
+  ACTIVITY_LOGS: '/activity-logs',
 };
 
 export const SOCIAL_FEATURES_CHAT = {
