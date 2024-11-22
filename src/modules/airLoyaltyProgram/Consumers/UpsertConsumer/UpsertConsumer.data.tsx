@@ -1,23 +1,27 @@
-import { RHFTextField } from '@/components/ReactHookForm';
+import { RHFDateTimePicker, RHFTextField } from '@/components/ReactHookForm';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { localeDateTime } from '@/lib/date-time';
 
-export const consumerFormFieldDefaultValues = () => {
-  return {
-    firstName: 'John',
-    lastName: 'John',
-    address: 'John',
-    email: 'John',
-    previousPointsBalance: 'John',
-    currentPointsBalance: 'John',
-    numbersOfTransactions: 'John',
-    firstPointsReceptionDate: 'John',
-    lastTransactionDate: 'John',
-    totalPointsReceived: 'John',
-    status: 'John',
-    phone: 'John',
-    tier: 'John',
-  };
-};
+export const consumerFormFieldDefaultValues = (data: any) => ({
+  firstName: data?.firstName ?? '',
+  lastName: data?.lastName ?? '',
+  address: data?.address ?? '',
+  email: data?.email ?? '',
+  previousPointsBalance: data?.previousPointsBalance ?? 0,
+  currentPointBalance: data?.currentPointBalance ?? 0,
+  numberofTransactions: data?.numberofTransactions ?? 0,
+  firstPointsReceptionDate: data?.firstPointsReceptionDate
+    ? localeDateTime(data?.firstPointsReceptionDate)
+    : null,
+  lastTransactionDate: data?.lastTransactionDate
+    ? localeDateTime(data?.lastTransactionDate)
+    : null,
+  totalPointsEarned: data?.totalPointsEarned ?? 0,
+  status: data?.status ?? '',
+  phoneNumber: data?.phoneNumber ?? '',
+  tier: data?.tier ?? '',
+});
+
 export const upsertConsumerData: ReactHookFormFieldsI[] = [
   {
     id: 1,
@@ -29,16 +33,16 @@ export const upsertConsumerData: ReactHookFormFieldsI[] = [
     component: RHFTextField,
   },
   {
-    id: 13,
+    id: 2,
     componentProps: {
-      name: 'lastNamw',
+      name: 'lastName',
       label: 'Last Name',
       placeholder: 'Last Name',
     },
     component: RHFTextField,
   },
   {
-    id: 2,
+    id: 3,
     componentProps: {
       name: 'address',
       label: 'Address',
@@ -47,7 +51,7 @@ export const upsertConsumerData: ReactHookFormFieldsI[] = [
     component: RHFTextField,
   },
   {
-    id: 3,
+    id: 4,
     componentProps: {
       name: 'email',
       label: 'Email',
@@ -56,61 +60,65 @@ export const upsertConsumerData: ReactHookFormFieldsI[] = [
     component: RHFTextField,
   },
   {
-    id: 4,
-    componentProps: {
-      name: 'previousPointsBalance',
-      label: 'PreviousPointsBalance',
-      placeholder: 'PreviousPointsBalance',
-    },
-    component: RHFTextField,
-  },
-  {
     id: 5,
     componentProps: {
-      name: 'currentPointsBalance',
-      label: 'Current points balance',
-      placeholder: 'Current points balance',
+      name: 'previousPointsBalance',
+      label: 'Previous Points Balance',
+      placeholder: 'Previous Points Balance',
+      type: 'number',
     },
     component: RHFTextField,
   },
   {
     id: 6,
     componentProps: {
-      name: 'numbersOfTransactions',
-      label: 'Numbers Of Transactions',
-      placeholder: 'Numbers of transactions',
+      name: 'currentPointBalance',
+      label: 'Current Points Balance',
+      placeholder: 'Current Points Balance',
+      type: 'number',
     },
     component: RHFTextField,
   },
   {
     id: 7,
     componentProps: {
-      name: 'firstPointsReceptionDate',
-      label: 'FirstPointsReceptionDate',
-      placeholder: 'First points receptionDate',
+      name: 'numberofTransactions',
+      label: 'Number Of Transactions',
+      placeholder: 'Number Of Transactions',
+      type: 'number',
     },
     component: RHFTextField,
   },
   {
     id: 8,
     componentProps: {
-      name: 'lastTransactionDate',
-      label: 'LastTransactionDate',
-      placeholder: 'Last transaction date',
+      name: 'firstPointsReceptionDate',
+      label: 'First Point Reception Date',
+      placeholder: 'First Point Reception Date',
     },
-    component: RHFTextField,
+    component: RHFDateTimePicker,
   },
   {
     id: 9,
     componentProps: {
-      name: 'totalPointsReceived',
-      label: 'TotalPointsReceived',
-      placeholder: 'Total points received',
+      name: 'lastTransactionDate',
+      label: 'Last Transaction Date',
+      placeholder: 'Last Transaction Date',
+    },
+    component: RHFDateTimePicker,
+  },
+  {
+    id: 10,
+    componentProps: {
+      name: 'totalPointsEarned',
+      label: 'Total Points Received',
+      placeholder: 'Total Points Received',
+      type: 'number',
     },
     component: RHFTextField,
   },
   {
-    id: 10,
+    id: 11,
     componentProps: {
       name: 'status',
       label: 'Status',
@@ -119,19 +127,20 @@ export const upsertConsumerData: ReactHookFormFieldsI[] = [
     component: RHFTextField,
   },
   {
-    id: 11,
+    id: 12,
     componentProps: {
-      name: 'phone',
+      name: 'phoneNumber',
       label: 'Phone Number',
-      placeholder: 'Phone number',
+      placeholder: 'Phone Number',
     },
     component: RHFTextField,
   },
   {
-    id: 12,
+    id: 13,
     componentProps: {
       name: 'tier',
       label: 'Tier',
+      placeholder: 'Tier',
     },
     component: RHFTextField,
   },

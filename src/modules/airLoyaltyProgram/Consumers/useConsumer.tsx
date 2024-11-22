@@ -1,14 +1,17 @@
 import { PAGINATION } from '@/config';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { consumerData, consumersListColumnDynamic } from './Consumer.data';
+import {
+  consumersListColumnDynamic,
+  getHeaderActionButtonDropdown,
+} from './Consumer.data';
 import {
   useGetLoyaltyProgramConsumersListQuery,
-  usePatchLoyaltyProgramConsumersStatusMutation,
+  usePutLoyaltyProgramConsumersStatusMutation,
 } from '@/services/airLoyaltyProgram/consumers';
-import { IErrorResponse } from './Consumer.interface';
 import { AIR_LOYALTY_PROGRAM } from '@/constants/routes';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export const useConsumer = () => {
   const router = useRouter();
@@ -16,11 +19,11 @@ export const useConsumer = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [isDrawerOpen, setIsDrawerOpen] = useState<any>();
-  const [selectedRoleList, setSelectedRoleList] = useState<any>([]);
+  const [selectedConsumerList, setSelectedConsumersList] = useState<any>([]);
 
-  const { data, isLoading, isError, isFetching, isSuccess } =
+  const { data, isLoading, isError, isFetching, isSuccess, refetch } =
     useGetLoyaltyProgramConsumersListQuery(
-      {},
+      { page, limit: pageLimit, search: searchBy },
       { refetchOnMountOrArgChange: true },
     );
 
@@ -39,54 +42,52 @@ export const useConsumer = () => {
   const closeDrawer = () => {
     setIsDrawerOpen(false);
   };
+
   const openDrawer = () => {
     setIsDrawerOpen(true);
   };
-  const actionButtonDropdown = ['Active', 'InActive'];
-  const [
-    patchLoyaltyProgramConsumersTrigger,
-    patchLoyaltyProgramConsumersStatus,
-  ] = usePatchLoyaltyProgramConsumersStatusMutation();
 
-  const handleStatusChange = async (info: any, event: any) => {
-    const patchLoyaltyProgramConsumersStatusParameter = {
-      queryParams: { _id: info?._id },
-      body: { status: event?.target?.value },
-    };
+  const consumersListColumn = consumersListColumnDynamic(
+    moveToConsumer,
+    selectedConsumerList,
+    setSelectedConsumersList,
+    data?.data?.consumers,
+  );
 
+  const [customizeColumns, setCustomizeColumns] = useState<any>(
+    consumersListColumn?.slice(0, 7),
+  );
+
+  const filterColumns = [
+    ...consumersListColumn?.slice(0, 2),
+    ...customizeColumns?.slice(2),
+  ];
+
+  const [trigger, statusQuery] = usePutLoyaltyProgramConsumersStatusMutation();
+
+  const handleHeaderActionButtonStatusChange = async (status: string) => {
+    if (!trigger) return;
+
+    const ids = selectedConsumerList.map((role: any) => role._id);
     try {
-      await patchLoyaltyProgramConsumersTrigger(
-        patchLoyaltyProgramConsumersStatusParameter,
-      )?.unwrap();
-      setSelectedRoleList([]);
-      successSnackbar('Status Updated successfully!');
+      await trigger({
+        status,
+        ids,
+      })?.unwrap();
+      successSnackbar('Status updated successfully!');
+      setSelectedConsumersList([]);
     } catch (error) {
       const errorResponse = error as IErrorResponse;
       errorSnackbar(errorResponse?.data?.message);
     }
   };
-  const consumersListColumn = consumersListColumnDynamic(
-    moveToConsumer,
-    selectedRoleList,
-    setSelectedRoleList,
-    consumerData,
-    handleStatusChange,
+
+  const headerActionButtonDropdown = getHeaderActionButtonDropdown(
+    handleHeaderActionButtonStatusChange,
   );
-  const [customizeColumns, setCustomizeColumns] = useState<any>(
-    consumersListColumn?.slice(0, 7),
-  );
-  const filterColumns = [
-    ...consumersListColumn?.slice(0, 2),
-    ...customizeColumns?.slice(2),
-  ];
+
   return {
-    searchBy,
-    setSearchBy,
-    page,
-    setPage,
     handleSearch,
-    setPageLimit,
-    pageLimit,
     consumersListColumn,
     isDrawerOpen,
     closeDrawer,
@@ -94,14 +95,18 @@ export const useConsumer = () => {
     setCustomizeColumns,
     customizeColumns,
     filterColumns,
-    handleStatusChange,
-    actionButtonDropdown,
-    selectedRoleList,
+    selectedConsumerList,
     data,
     isLoading,
     isError,
     isFetching,
     isSuccess,
-    patchLoyaltyProgramConsumersStatus,
+    refetch,
+    page,
+    setPage,
+    setPageLimit,
+    pageLimit,
+    headerActionButtonDropdown,
+    statusQuery,
   };
 };

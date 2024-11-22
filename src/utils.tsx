@@ -40,6 +40,9 @@ export const convertIdToShortNumber = (mongodbId: string): any => {
   return uniqueFiveDigitNumber;
 };
 
+export const capitalizeStatus = (str: string) =>
+  str?.charAt(0)?.toUpperCase() + str?.slice(1)?.toLowerCase();
+
 export const capitalizeFirstLetters = (str: string): string => {
   return str
     ?.split(' ')

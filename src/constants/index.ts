@@ -57,7 +57,7 @@ export const DATE_TIME_FORMAT = {
   DUE_DATE_TIME: 'YYYY-MM-DD hh:mm A',
   GOAL_DATE_FORMAT: 'MMM DD YYYY',
   FORMAT_24_HOUR: 'DD MMM, YYYY HH:mm',
-  MMM_DD_YYYY_hh_mm_A: 'MMM DD, YYYY-hh:mm A',
+  MMM_DD_YYYY_hh_mm_A: 'MMM DD, YYYY - hh:mm A',
   DD_MMM_YYYY_hh_mm_A: 'DD MMM, YYYY - hh:mm A',
   DD_MM_YYYY_hh_mm_A: 'DD/MM/YYYY  hh:mm A',
   DDDD_MMMM_D_YYYY_HH_M_A: 'dddd, MMMM D, YYYY  hh:mm A',

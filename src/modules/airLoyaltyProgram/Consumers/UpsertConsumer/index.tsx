@@ -5,11 +5,15 @@ import { upsertConsumerData } from './UpsertConsumer.data';
 import { useUpsertConsumer } from './useUpsertConsumer';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { AIR_LOYALTY_PROGRAM } from '@/constants/routes';
+import ApiErrorState from '@/components/ApiErrorState';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 export const UpsertConsumer = () => {
-  const { methods, router } = useUpsertConsumer();
+  const { methods, router, isLoading, isFetching, isError, refetch } =
+    useUpsertConsumer();
+
   return (
-    <Box>
+    <>
       <PageTitledHeader
         title={'Consumer'}
         canMovedBack
@@ -20,22 +24,30 @@ export const UpsertConsumer = () => {
         }}
       />
 
-      <FormProvider methods={methods}>
-        <Box border={`1px solid `} borderColor={'grey.700'} p={1}>
-          <Typography variant={'h5'}>Information</Typography>
-          <Grid container spacing={2} mt={1}>
-            {upsertConsumerData?.map((item: ReactHookFormFieldsI) => (
-              <Grid item xs={12} md={6} key={item?.id}>
-                <item.component
-                  {...item?.componentProps}
-                  size={'small'}
-                  disabled
-                />
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      </FormProvider>
-    </Box>
+      <Box border={1} borderColor={'grey.700'} borderRadius={2} p={2}>
+        {isLoading || isFetching ? (
+          <SkeletonForm gridSize={{ md: 6 }} length={13} />
+        ) : isError ? (
+          <ApiErrorState canRefresh refresh={refetch} />
+        ) : (
+          <FormProvider methods={methods}>
+            <Typography variant={'h5'} mb={1}>
+              Information
+            </Typography>
+            <Grid container spacing={2}>
+              {upsertConsumerData?.map((item: ReactHookFormFieldsI) => (
+                <Grid item xs={12} md={6} key={item?.id}>
+                  <item.component
+                    {...item?.componentProps}
+                    size={'small'}
+                    disabled
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          </FormProvider>
+        )}
+      </Box>
+    </>
   );
 };
