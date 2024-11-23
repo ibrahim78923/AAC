@@ -25,6 +25,10 @@ import {
   useVerifyLoyaltyProgramUserManagementUserViaIgMutation,
 } from '@/services/airLoyaltyProgram/user';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import {
+  loyaltyProgramUsersIsPortalOpenSelector,
+  loyaltyProgramUsersSelectedUsersListsSelector,
+} from '@/redux/slices/airLoyaltyProgram/users/selectors';
 
 const { EDIT_LOYALTY_PROGRAM_USERS, LOYALTY_PROGRAM_USERS_DETAIL } =
   LOYALTY_PROGRAM_USERS_ACTIONS_CONSTANT;
@@ -32,12 +36,10 @@ const { EDIT_LOYALTY_PROGRAM_USERS, LOYALTY_PROGRAM_USERS_DETAIL } =
 export const useUpsertUser = () => {
   const dispatch = useAppDispatch();
 
-  const isPortalOpen = useAppSelector(
-    (state) => state?.loyaltyProgramUsers?.isPortalOpen,
-  );
+  const isPortalOpen = useAppSelector(loyaltyProgramUsersIsPortalOpenSelector);
 
   const selectedUsersLists = useAppSelector(
-    (state) => state?.loyaltyProgramUsers?.selectedUsersLists,
+    loyaltyProgramUsersSelectedUsersListsSelector,
   );
 
   const userId = selectedUsersLists?.[ARRAY_INDEX?.ZERO]?._id;

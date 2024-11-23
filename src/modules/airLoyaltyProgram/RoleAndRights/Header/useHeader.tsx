@@ -6,15 +6,19 @@ import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { roleAndRightsActionDropdownDynamic } from './Header.data';
 import { PAGINATION } from '@/config';
 import { LOYALTY_PROGRAM_ROLE_AND_RIGHTS_ACTIONS_CONSTANT } from '../RolesAndRight.data';
+import {
+  loyaltyProgramRoleAndRightsIsPortalOpenSelector,
+  loyaltyProgramRoleAndRightsSelectedRoleAndRightsListsSelector,
+} from '@/redux/slices/airLoyaltyProgram/roles-and-right/selectors';
 
 export const useHeader = () => {
   const dispatch = useAppDispatch();
 
   const isPortalOpen = useAppSelector(
-    (state) => state?.loyaltyProgramRoleAndRights?.isPortalOpen,
+    loyaltyProgramRoleAndRightsIsPortalOpenSelector,
   );
   const selectedRoleAndRightsLists = useAppSelector(
-    (state) => state?.loyaltyProgramRoleAndRights?.selectedRoleAndRightsLists,
+    loyaltyProgramRoleAndRightsSelectedRoleAndRightsListsSelector,
   );
 
   const handleSetSearch = (newSearch: any) => {
@@ -34,6 +38,7 @@ export const useHeader = () => {
       }),
     );
   };
+
   const roleAndRightsActionDropdown = roleAndRightsActionDropdownDynamic?.(
     setAction,
     selectedRoleAndRightsLists,

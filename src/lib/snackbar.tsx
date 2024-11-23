@@ -1,5 +1,6 @@
 import { MESSAGES } from '@/constants/messages';
-import { ARRAY_INDEX, NOTISTACK_VARIANTS } from '@/constants/strings';
+import { SNACKBAR_VARIANTS } from '@/constants/snackbar';
+import { ARRAY_INDEX } from '@/constants/strings';
 import { enqueueSnackbar } from 'notistack';
 
 export const errorSnackbar = (message?: any) => {
@@ -8,18 +9,18 @@ export const errorSnackbar = (message?: any) => {
     : message ?? MESSAGES?.SOMETHING_WENT_WRONG;
 
   enqueueSnackbar(errorMessage, {
-    variant: NOTISTACK_VARIANTS?.ERROR,
+    variant: SNACKBAR_VARIANTS?.ERROR,
   });
 };
 
 export const successSnackbar = (message: any = MESSAGES?.SUCCESS) => {
   enqueueSnackbar(message, {
-    variant: NOTISTACK_VARIANTS?.SUCCESS,
+    variant: SNACKBAR_VARIANTS?.SUCCESS,
   });
 };
 
 export const warningSnackbar = (message: any) => {
   enqueueSnackbar(message, {
-    variant: NOTISTACK_VARIANTS?.WARNING,
+    variant: SNACKBAR_VARIANTS?.WARNING,
   });
 };

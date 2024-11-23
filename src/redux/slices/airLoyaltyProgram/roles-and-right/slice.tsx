@@ -26,7 +26,7 @@ const loyaltyProgramRoleAndRightsInitialState = {
   page: PAGINATION?.CURRENT_PAGE,
   pageLimit: PAGINATION?.PAGE_LIMIT,
   search: '',
-  selectedRoleAndRightsLists: [],
+  selectedRoleAndRightsLists: [] as any,
   isPortalOpen: isPortalOpenInitialState,
   totalRecords: PAGINATION?.TOTAL_RECORDS,
 };

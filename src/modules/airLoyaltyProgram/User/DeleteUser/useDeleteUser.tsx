@@ -8,6 +8,11 @@ import {
 } from '@/redux/slices/airLoyaltyProgram/users/slice';
 import { useDeleteLoyaltyProgramUserManagementMultipleProductUsersMutation } from '@/services/airLoyaltyProgram/user';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import {
+  loyaltyProgramUsersIsPortalOpenSelector,
+  loyaltyProgramUsersSelectedUsersListsSelector,
+  loyaltyProgramUsersTotalRecordsSelector,
+} from '@/redux/slices/airLoyaltyProgram/users/selectors';
 
 export const useDeleteUser = () => {
   const [
@@ -19,17 +24,13 @@ export const useDeleteUser = () => {
 
   const dispatch = useAppDispatch();
 
-  const isPortalOpen = useAppSelector(
-    (state) => state?.loyaltyProgramUsers?.isPortalOpen,
-  );
+  const isPortalOpen = useAppSelector(loyaltyProgramUsersIsPortalOpenSelector);
 
   const selectedUsersLists = useAppSelector(
-    (state) => state?.loyaltyProgramUsers?.selectedUsersLists,
+    loyaltyProgramUsersSelectedUsersListsSelector,
   );
 
-  const totalRecords = useAppSelector(
-    (state) => state?.loyaltyProgramUsers?.totalRecords,
-  );
+  const totalRecords = useAppSelector(loyaltyProgramUsersTotalRecordsSelector);
 
   const refetchApi = async () => {
     const newPage =

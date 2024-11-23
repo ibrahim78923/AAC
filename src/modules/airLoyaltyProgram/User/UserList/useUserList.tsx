@@ -9,6 +9,7 @@ import {
   setSelectedUsersLists,
   setPageDecrement,
 } from '@/redux/slices/airLoyaltyProgram/users/slice';
+import { loyaltyProgramUsersSelectedUsersListsSelector } from '@/redux/slices/airLoyaltyProgram/users/selectors';
 
 export const useUserList = () => {
   const {
@@ -22,7 +23,7 @@ export const useUserList = () => {
   const dispatch = useAppDispatch();
 
   const selectedUsersLists = useAppSelector(
-    (state) => state?.loyaltyProgramUsers?.selectedUsersLists,
+    loyaltyProgramUsersSelectedUsersListsSelector,
   );
 
   const handleSetPage = (newPage: any) => {

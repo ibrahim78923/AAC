@@ -26,7 +26,7 @@ const loyaltyProgramUsersInitialState = {
   page: PAGINATION?.CURRENT_PAGE,
   pageLimit: PAGINATION?.PAGE_LIMIT,
   search: '',
-  selectedUsersLists: [],
+  selectedUsersLists: [] as any,
   isPortalOpen: isPortalOpenInitialState,
   totalRecords: PAGINATION?.TOTAL_RECORDS,
 };

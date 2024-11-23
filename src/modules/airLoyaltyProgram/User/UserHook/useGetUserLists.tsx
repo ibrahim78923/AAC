@@ -1,4 +1,9 @@
 import {
+  loyaltyProgramUsersPageLimitSelector,
+  loyaltyProgramUsersPageSelector,
+  loyaltyProgramUsersSearchSelector,
+} from '@/redux/slices/airLoyaltyProgram/users/selectors';
+import {
   emptySelectedUsersLists,
   setUsersListsTotalRecords,
 } from '@/redux/slices/airLoyaltyProgram/users/slice';
@@ -18,13 +23,11 @@ export const useGetUserLists = () => {
 
   const dispatch = useAppDispatch();
 
-  const page = useAppSelector((state) => state?.loyaltyProgramUsers?.page);
+  const page = useAppSelector(loyaltyProgramUsersPageSelector);
 
-  const pageLimit = useAppSelector(
-    (state) => state?.loyaltyProgramUsers?.pageLimit,
-  );
+  const pageLimit = useAppSelector(loyaltyProgramUsersPageLimitSelector);
 
-  const search = useAppSelector((state) => state?.loyaltyProgramUsers?.search);
+  const search = useAppSelector(loyaltyProgramUsersSearchSelector);
 
   const getLoyaltyProgramUsersList = async (currentPage: number = page) => {
     const apiDataParameter = {
@@ -36,9 +39,9 @@ export const useGetUserLists = () => {
     };
     try {
       const response =
-        await lazyGetLoyaltyProgramUserManagementProductUserListsTrigger?.(
+        (await lazyGetLoyaltyProgramUserManagementProductUserListsTrigger?.(
           apiDataParameter,
-        )?.unwrap();
+        )?.unwrap()) as any;
       dispatch(emptySelectedUsersLists());
       dispatch(
         setUsersListsTotalRecords(response?.data?.usercompanyaccounts?.length),
