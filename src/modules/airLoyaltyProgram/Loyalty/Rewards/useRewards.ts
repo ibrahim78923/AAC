@@ -3,9 +3,13 @@ import { useEffect, useState } from 'react';
 import { LOYALTY_REWARDS_TYPE } from '@/constants/strings';
 import { loyaltyRewardColumnDynamic } from './Rewards.data';
 import { useRouter } from 'next/router';
-import { useLazyGetLoyaltyProgramRewardsListQuery } from '@/services/airLoyaltyProgram/loyalty/rewards';
+import {
+  useDeleteLoyaltyProgramRewardsMutation,
+  useLazyGetLoyaltyProgramRewardsListQuery,
+} from '@/services/airLoyaltyProgram/loyalty/rewards';
 import { getActivePermissionsSession } from '@/utils';
 import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useRewards = () => {
   const router = useRouter();
@@ -25,6 +29,7 @@ export const useRewards = () => {
     isOpen: false,
     rewardType: '',
   });
+
   const [
     lazyGetLoyaltyRewardsListTrigger,
     lazyGetLoyaltyRewardsListStatus,
@@ -68,6 +73,24 @@ export const useRewards = () => {
     setSearch(data);
   };
 
+  const [rewardDeleteTrigger, rewardDeleteStatus] =
+    useDeleteLoyaltyProgramRewardsMutation();
+
+  const handleDeleteSubmit = async () => {
+    const deleteRewardParameter = {
+      queryParams: {
+        id: isRewardDelete?.data,
+      },
+    };
+    try {
+      await rewardDeleteTrigger?.(deleteRewardParameter)?.unwrap();
+      setIsRewardDelete({ isOpen: false, data: '' });
+      successSnackbar('Reward deleted successfully');
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
+
   return {
     lazyGetLoyaltyRewardsListStatus,
     setPageLimit,
@@ -82,5 +105,7 @@ export const useRewards = () => {
     handleSearch,
     isRewardDelete,
     setIsRewardDelete,
+    handleDeleteSubmit,
+    rewardDeleteStatus,
   };
 };

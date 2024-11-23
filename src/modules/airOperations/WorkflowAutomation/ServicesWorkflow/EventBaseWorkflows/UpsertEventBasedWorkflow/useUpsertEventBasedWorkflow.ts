@@ -18,6 +18,7 @@ import { optionsConstants } from './WorkflowConditions/SubWorkflowConditions/Sub
 import { setTestServicesWorkflowBody } from '@/redux/slices/servicesWorkflow';
 import { useDispatch } from 'react-redux';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { isoDateString } from '@/lib/date-time';
 
 export const useUpsertEventBasedWorkflow = () => {
   const [validation, setValidation] = useState('');
@@ -53,6 +54,8 @@ export const useUpsertEventBasedWorkflow = () => {
     assetType: 'Asset Type',
     type: 'assettypes',
     notifyBefore: 'notifyBefore',
+    plannedEndDate: 'plannedEndDate',
+    plannedStartDate: 'plannedStartDate',
   };
 
   const buttonData = {
@@ -142,30 +145,41 @@ export const useUpsertEventBasedWorkflow = () => {
 
   const mapGroup = (group: any) => ({
     ...group,
-    conditions: group?.conditions?.map((condition: any) => ({
-      condition: condition?.condition,
-      fieldName: condition?.fieldName?.value,
-      fieldValue: condition?.fieldValue?._id
-        ? condition?.fieldValue?._id
-        : condition?.fieldName?.value === collectionNameData?.notifyBefore
-          ? condition?.fieldValue?.value
-          : condition?.fieldValue,
-      fieldType: mapField(condition),
-      collectionName:
-        condition?.condition === optionsConstants?.isEmpty ||
-        condition?.condition === optionsConstants?.isNotEmpty
-          ? ''
-          : getCollectionName(condition?.fieldName),
-    })),
+    conditions: group?.conditions?.map((condition: any) => {
+      return {
+        condition: condition?.condition,
+        fieldName: condition?.fieldName?.value,
+        fieldValue:
+          condition?.fieldName?.value ===
+            collectionNameData?.plannedStartDate ||
+          condition?.fieldName?.value === collectionNameData?.plannedEndDate
+            ? isoDateString(condition?.fieldValue)
+            : condition?.fieldValue?._id
+              ? condition?.fieldValue?._id
+              : condition?.fieldName?.value === collectionNameData?.notifyBefore
+                ? condition?.fieldValue?.value
+                : condition?.fieldValue,
+        fieldType: mapField(condition),
+        collectionName:
+          condition?.condition === optionsConstants?.isEmpty ||
+          condition?.condition === optionsConstants?.isNotEmpty
+            ? ''
+            : getCollectionName(condition?.fieldName),
+      };
+    }),
     conditionType: group?.conditionType?.value,
   });
 
   const mapAction = (action: any) => ({
     ...action,
     fieldName: action?.fieldName?.value,
-    fieldValue: action?.fieldValue?._id
-      ? action?.fieldValue?._id
-      : action?.fieldValue,
+    fieldValue:
+      action?.fieldName?.value === collectionNameData?.plannedStartDate ||
+      action?.fieldName?.value === collectionNameData?.plannedEndDate
+        ? isoDateString(action?.fieldValue)
+        : action?.fieldValue?._id
+          ? action?.fieldValue?._id
+          : action?.fieldValue,
     fieldType: mapField(action),
     collectionName: getCollectionName(action?.fieldName),
   });

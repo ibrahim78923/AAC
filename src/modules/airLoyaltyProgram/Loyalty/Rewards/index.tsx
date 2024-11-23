@@ -23,6 +23,8 @@ export const Rewards = () => {
     handleSearch,
     isRewardDelete,
     setIsRewardDelete,
+    handleDeleteSubmit,
+    rewardDeleteStatus,
   } = useRewards();
   return (
     <>
@@ -80,7 +82,7 @@ export const Rewards = () => {
         )}
         {isRewardDrawerOpen?.isOpen && (
           <UpsertRewards
-            isRewardDrawerOpen={isRewardDrawerOpen?.isOpen}
+            isRewardDrawerOpen={isRewardDrawerOpen}
             setIsRewardDrawerOpen={setIsRewardDrawerOpen}
           />
         )}
@@ -91,10 +93,8 @@ export const Rewards = () => {
             handleClose={() => {
               setIsRewardDelete({ isOpen: false, data: '' });
             }}
-            submitDeleteModal={() => {}}
-            deleteMeetingsStatus={{
-              isLoading: false,
-            }}
+            submitDeleteModal={handleDeleteSubmit}
+            deleteMeetingsStatus={rewardDeleteStatus}
           />
         )}
       </>

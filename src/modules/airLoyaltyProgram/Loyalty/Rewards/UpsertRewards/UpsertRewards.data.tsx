@@ -1,5 +1,5 @@
 import {
-  RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFDatePicker,
   RHFDropZone,
   RHFRadioButtonTwoLabel,
@@ -21,13 +21,6 @@ const rewardsRadioGroupOptions = [
   },
 ];
 
-const appliedToOptions = [
-  { label: 'Base', value: 'BASE' },
-  { label: 'Bronze', value: 'BRONZE' },
-  { label: 'Silver', value: 'SILVER' },
-  { label: 'Gold', value: 'GOLD' },
-];
-
 export const rewardsValidationSchema: any = Yup?.object()?.shape({
   title: Yup?.string()
     ?.required('Title is required')
@@ -44,7 +37,8 @@ export const rewardsValidationSchema: any = Yup?.object()?.shape({
   appliedTo: Yup?.mixed()?.nullable()?.required('Visible To is required'),
   costPrice: Yup?.number()
     ?.positive('Greater than zero')
-    ?.typeError('Not a number'),
+    ?.typeError('Not a number')
+    ?.required('Cost Price is required'),
   quantity: Yup?.number()
     ?.positive('Greater than zero')
     ?.typeError('Not a number'),
@@ -60,20 +54,22 @@ export const rewardsValidationSchema: any = Yup?.object()?.shape({
     }),
 });
 
-export const addRewardsDefaultValues = {
-  title: '',
-  requiredPoints: 0,
-  fileUrl: null,
-  appliedTo: null,
-  costPrice: 0,
-  quantity: 0,
-  activeFrom: new Date(),
-  activeTo: new Date(),
-  limitRewards: '',
-  limit: null,
+export const addRewardsDefaultValues = (data: any) => {
+  return {
+    title: data?.title || '',
+    requiredPoints: data?.requiredPoints || 0,
+    fileUrl: null,
+    appliedTo: data?.appliedTo || null,
+    costPrice: data?.costPrice || 0,
+    quantity: data?.quantity || 0,
+    activeFrom: data?.activeFrom || new Date(),
+    activeTo: data?.activeTo || new Date(),
+    limitRewards: 'unlimited',
+    limit: '',
+  };
 };
 
-export const upsertRewardsData = () => [
+export const upsertRewardsData = (getTiersDropdown: any) => [
   {
     id: 1,
     componentProps: {
@@ -119,10 +115,11 @@ export const upsertRewardsData = () => [
       placeholder: 'Select Applied To',
       fullWidth: true,
       required: true,
-      options: appliedToOptions,
-      getOptionLabel: (option: any) => option?.label,
+      apiQuery: getTiersDropdown,
+      externalParams: { limit: 50 },
+      getOptionLabel: (option: any) => option?.name,
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
     md: 12,
   },
   {
@@ -130,6 +127,7 @@ export const upsertRewardsData = () => [
     componentProps: {
       name: 'costPrice',
       label: 'Cost Price',
+      required: true,
       placeholder: 'Enter cost price',
       fullWidth: true,
     },
