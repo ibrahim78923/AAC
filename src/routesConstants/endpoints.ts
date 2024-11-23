@@ -545,6 +545,10 @@ export const END_POINTS = {
   AIR_LOYALTY_PROGRAM_CONSUMERS_UPDATE: '/consumers/update/{id}',
   AIR_LOYALTY_PROGRAM_CONSUMERS_GET_BY_ID: '/consumers/getby',
   DELETE_PURCHASE_ORDER: `/assets/purchaseorder`,
+  CREATE_LOYALTY_GENERAL_SETTINGS: '/settings/create-general-setting',
+  UPDATE_LOYALTY_GENERAL_SETTINGS: '/settings/update-general-setting',
+  GET_LOYALTY_GENERAL_SETTINGS: '/settings/details-general-setting',
+  CONSUMERS_DROPDOWN: '/consumers/list',
 };
 
 export const LEAD_CAPTURE_FORM = {

@@ -44,7 +44,7 @@ export const loyaltyRolesAndRightColumnsDynamic = (
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedRoleList(totalRoles?.map((item: any) => item?._id))
+            ? setSelectedRoleList(totalRoles?.map((item: any) => item))
             : setSelectedRoleList([]);
         }}
         color="primary"

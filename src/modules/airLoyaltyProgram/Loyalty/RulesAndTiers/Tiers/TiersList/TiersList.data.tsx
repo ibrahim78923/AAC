@@ -7,6 +7,7 @@ import { fullName } from '@/utils/avatarUtils';
 import { CustomTooltip } from '@/components/CustomTooltip';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { otherDateFormat } from '@/lib/date-time';
+import { LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR } from '@/constants/api';
 
 const { EDIT_TIERS, DELETE_TIERS } =
   RULES_AND_TIERS_PORTAL_ACTION_CONSTANTS ?? {};
@@ -24,9 +25,16 @@ export const tiersListColumnsDynamic = (
         name={
           <Box display="flex" gap={1} alignItems={'center'}>
             {fullName(info?.getValue())}
-            <CustomTooltip title="By default, all consumers will placed in this tier when they enter the loyalty program">
-              <Info sx={{ color: 'grey.0' }} />
-            </CustomTooltip>
+            {info?.row?.original?.operator ===
+              LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.BASE && (
+              <CustomTooltip
+                title="By default, all consumers will placed in this tier when they enter the loyalty program"
+                tooltipBgColor="common.white"
+                tooltipTextColor="blue.main"
+              >
+                <Info sx={{ color: 'grey.0' }} />
+              </CustomTooltip>
+            )}
           </Box>
         }
       />
@@ -34,11 +42,10 @@ export const tiersListColumnsDynamic = (
     isSortable: true,
   },
   {
-    accessorFn: (info: any) => info?.contacts,
+    accessorFn: (info: any) => info?.noOfMembers,
     id: 'noOfMembers',
     header: 'No of members',
-    cell: (info: any) =>
-      !!info?.getValue()?.length ? info?.getValue()?.length : '---',
+    cell: (info: any) => (!!info?.getValue() ? info?.getValue() : '---'),
     isSortable: true,
   },
   {
@@ -62,14 +69,17 @@ export const tiersListColumnsDynamic = (
         >
           <EditYellowBgIcon />
         </Box>
-        <Box
-          onClick={() => {
-            setAction(DELETE_TIERS, info?.row?.original);
-          }}
-          sx={{ cursor: 'pointer' }}
-        >
-          <TrashIcon />
-        </Box>
+        {info?.row?.original?.operator !==
+          LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.BASE && (
+          <Box
+            onClick={() => {
+              setAction(DELETE_TIERS, info?.row?.original);
+            }}
+            sx={{ cursor: 'pointer' }}
+          >
+            <TrashIcon />
+          </Box>
+        )}
       </Box>
     ),
   },

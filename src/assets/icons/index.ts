@@ -561,3 +561,4 @@ export { default as TotalAmountRedeemedIcon } from './modules/airLoyaltyProgram/
 export { default as TotalAmountRewardsIcon } from './modules/airLoyaltyProgram/Dashboard/total-amount-rewards-icon';
 export { default as TotalAmountGiftCardIcon } from './modules/airLoyaltyProgram/Dashboard/total-amount-gift-card-icon';
 export { default as ConsumersCustomizeIcon } from './modules/airLoyaltyProgram/Consumers/consumers-customize-icon';
+export { default as PoundSignIcon } from './shared/pound-sign-icon';

@@ -7,9 +7,7 @@ const RulesAndTiersPage = () => <RulesAndTiers />;
 RulesAndTiersPage.getLayout = function getLayout(page: any) {
   return (
     <Layout
-      permissions={
-        Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS
-      }
+      permissions={Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS}
     >
       {page}
     </Layout>

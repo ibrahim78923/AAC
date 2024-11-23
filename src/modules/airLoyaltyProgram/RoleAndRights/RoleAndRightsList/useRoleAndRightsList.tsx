@@ -51,7 +51,7 @@ export const useRoleAndRightsList = () => {
 
   const totalUsers =
     lazyGetLoyaltyProgramRoleAndRightsPermissionsRoleListStatus?.data?.data
-      ?.usercompanyaccounts;
+      ?.companyaccountroles;
 
   const loyaltyRolesAndRightColumns = loyaltyRolesAndRightColumnsDynamic?.(
     selectedUsersLists,

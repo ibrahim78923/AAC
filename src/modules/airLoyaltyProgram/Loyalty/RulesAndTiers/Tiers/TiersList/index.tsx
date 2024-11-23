@@ -21,7 +21,8 @@ export const TiersList = () => {
     <TanstackTable
       columns={tiersListColumns}
       data={
-        lazyGetLoyaltyProgramLoyaltyTiersListStatus?.data?.data?.tiers ?? []
+        lazyGetLoyaltyProgramLoyaltyTiersListStatus?.data?.data
+          ?.mergedResults ?? []
       }
       isLoading={lazyGetLoyaltyProgramLoyaltyTiersListStatus?.isLoading}
       currentPage={

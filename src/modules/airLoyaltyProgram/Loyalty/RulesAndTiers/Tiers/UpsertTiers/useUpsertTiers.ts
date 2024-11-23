@@ -18,15 +18,15 @@ import { LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES } from '@/constants/api';
 import { RULES_AND_TIERS_PORTAL_ACTION_CONSTANTS } from '../../RulesAndTiers.constant';
 import { useGetTiersLists } from '../TiersHooks/useGetTiersLists';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { loyaltyProgramTiersIsPortalOpenSelector } from '@/redux/slices/airLoyaltyProgram/tiers/selectors';
 
 export const useUpsertTiers = () => {
   const [formStep, setFormStep] = useState(FORM_STEP_CONSTANT?.FIRST_STEP);
   const { getLoyaltyProgramTiersList } = useGetTiersLists?.();
 
   const dispatch = useAppDispatch();
-  const isPortalOpen = useAppSelector(
-    (state) => state?.loyaltyProgramTiers?.isPortalOpen,
-  );
+  const isPortalOpen = useAppSelector(loyaltyProgramTiersIsPortalOpenSelector);
+
   const [
     addLoyaltyProgramLoyaltySingleTierTrigger,
     addLoyaltyProgramLoyaltySingleTierStatus,

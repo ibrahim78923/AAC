@@ -1,3 +1,8 @@
+import {
+  loyaltyProgramRulesPageLimitSelector,
+  loyaltyProgramRulesPageSelector,
+  loyaltyProgramRulesSearchSelector,
+} from '@/redux/slices/airLoyaltyProgram/rules/selectors';
 import { setRulesListTotalRecords } from '@/redux/slices/airLoyaltyProgram/rules/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useLazyGetLoyaltyProgramLoyaltyRulesListQuery } from '@/services/airLoyaltyProgram/loyalty/rulesAndTiers/rules';
@@ -15,13 +20,11 @@ export const useGetRulesLists = () => {
 
   const dispatch = useAppDispatch();
 
-  const page = useAppSelector((state) => state?.loyaltyProgramRules?.page);
+  const page = useAppSelector(loyaltyProgramRulesPageSelector);
 
-  const pageLimit = useAppSelector(
-    (state) => state?.loyaltyProgramRules?.pageLimit,
-  );
+  const pageLimit = useAppSelector(loyaltyProgramRulesPageLimitSelector);
 
-  const search = useAppSelector((state) => state?.loyaltyProgramRules?.search);
+  const search = useAppSelector(loyaltyProgramRulesSearchSelector);
 
   const getLoyaltyProgramRulesList = async (currentPage: number = page) => {
     const apiDataParameter = {

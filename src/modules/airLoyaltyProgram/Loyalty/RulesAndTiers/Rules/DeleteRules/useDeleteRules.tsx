@@ -8,6 +8,10 @@ import { useGetRulesLists } from '../RulesHooks/useGetRulesLists';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { useDeleteLoyaltyProgramLoyaltySingleRuleMutation } from '@/services/airLoyaltyProgram/loyalty/rulesAndTiers/rules';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import {
+  loyaltyProgramRulesIsPortalOpenSelector,
+  loyaltyProgramRulesTotalRecordsSelector,
+} from '@/redux/slices/airLoyaltyProgram/rules/selectors';
 
 export const useDeleteRules = () => {
   const [
@@ -19,13 +23,9 @@ export const useDeleteRules = () => {
 
   const dispatch = useAppDispatch();
 
-  const isPortalOpen = useAppSelector(
-    (state) => state?.loyaltyProgramRules?.isPortalOpen,
-  );
+  const isPortalOpen = useAppSelector(loyaltyProgramRulesIsPortalOpenSelector);
 
-  const totalRecords = useAppSelector(
-    (state) => state?.loyaltyProgramRules?.totalRecords,
-  );
+  const totalRecords = useAppSelector(loyaltyProgramRulesTotalRecordsSelector);
 
   const refetchApi = async () => {
     const newPage =

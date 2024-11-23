@@ -2,15 +2,17 @@ import { setIsPortalOpen } from '@/redux/slices/airLoyaltyProgram/rules/slice';
 import { setIsPortalOpen as setIsTiersPortalOpen } from '@/redux/slices/airLoyaltyProgram/tiers/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { RULES_AND_TIERS_PORTAL_ACTION_CONSTANTS } from '../RulesAndTiers.constant';
+import { loyaltyProgramTiersIsPortalOpenSelector } from '@/redux/slices/airLoyaltyProgram/tiers/selectors';
+import { loyaltyProgramRulesIsPortalOpenSelector } from '@/redux/slices/airLoyaltyProgram/rules/selectors';
 
 export const useHeader = () => {
   const dispatch = useAppDispatch();
   const isRulePortalOpen = useAppSelector(
-    (state) => state?.loyaltyProgramRules?.isPortalOpen,
+    loyaltyProgramRulesIsPortalOpenSelector,
   );
 
   const isTierPortalOpen = useAppSelector(
-    (state) => state?.loyaltyProgramTiers?.isPortalOpen,
+    loyaltyProgramTiersIsPortalOpenSelector,
   );
 
   const setRuleAction = (actionType: any) => {

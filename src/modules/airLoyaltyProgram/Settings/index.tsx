@@ -1,6 +1,8 @@
 import { Box, Typography } from '@mui/material';
 import { useSettings } from './useSettings';
 import { renderSettingsModule } from './Settings.data';
+import { Fragment } from 'react';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const Settings = () => {
   const { settingsData, activeModule } = useSettings();
@@ -24,9 +26,13 @@ export const Settings = () => {
         </Typography>
         <Box paddingY={2}>
           {settingsData?.map((item: any) => (
-            <item.component key={item?.id} {...item?.componentProps}>
-              {item?.heading}
-            </item.component>
+            <Fragment key={item?.id}>
+              <PermissionsGuard permissions={item?.permissions}>
+                <item.component key={item?.id} {...item?.componentProps}>
+                  {item?.heading}
+                </item.component>
+              </PermissionsGuard>
+            </Fragment>
           ))}
         </Box>
       </Box>

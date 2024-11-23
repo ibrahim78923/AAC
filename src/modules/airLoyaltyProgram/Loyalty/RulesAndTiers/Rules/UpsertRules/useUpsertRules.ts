@@ -19,15 +19,14 @@ import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setIsPortalClose } from '@/redux/slices/airLoyaltyProgram/rules/slice';
 import { isoDateString } from '@/lib/date-time';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { loyaltyProgramRulesIsPortalOpenSelector } from '@/redux/slices/airLoyaltyProgram/rules/selectors';
 
 export const useUpsertRules = () => {
   const { getLoyaltyProgramRulesList } = useGetRulesLists?.();
 
   const dispatch = useAppDispatch();
 
-  const isPortalOpen = useAppSelector(
-    (state) => state?.loyaltyProgramRules?.isPortalOpen,
-  );
+  const isPortalOpen = useAppSelector(loyaltyProgramRulesIsPortalOpenSelector);
 
   const [
     addLoyaltyProgramLoyaltySingleRuleTrigger,
