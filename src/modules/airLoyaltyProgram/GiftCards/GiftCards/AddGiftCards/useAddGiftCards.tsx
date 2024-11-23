@@ -5,8 +5,12 @@ import {
   addGiftCardFormFieldsDynamic,
   addGiftCardValidationSchema,
 } from './AddGiftCards.data';
-import { useAddGiftCardMutation } from '@/services/airLoyaltyProgram/giftCards/giftCards';
+import {
+  useAddGiftCardMutation,
+  useLazyGetRecipientDropdownListQuery,
+} from '@/services/airLoyaltyProgram/giftCards/giftCards';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { isoDateString } from '@/lib/date-time';
 
 export const useAddGiftCards = (props: any) => {
   const { setIsPortalOpen } = props;
@@ -16,19 +20,19 @@ export const useAddGiftCards = (props: any) => {
     defaultValues: addGiftCardDefaultValues,
   });
   const { handleSubmit, reset } = methods;
-
+  const apiQueryRecipient = useLazyGetRecipientDropdownListQuery();
   const onSubmit = async (formData: any) => {
     const body = {
       amount: formData?.amount,
-      recipient: formData?.recipient,
-      activeFrom: formData?.activeFrom,
-      activeTo: formData?.activeTo,
+      recipient: ['6736eb0da7c5474399c53584'],
+      activeFrom: isoDateString(formData?.activeFrom),
+      activeTo: isoDateString(formData?.activeTo),
     };
-    const apiDataParameter = {
-      body,
-    };
+    // const apiDataParameter = {
+    //   body,
+    // };
     try {
-      await addGiftCardTrigger(apiDataParameter)?.unwrap();
+      await addGiftCardTrigger(body)?.unwrap();
       successSnackbar('Card Added Successfully');
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
@@ -42,7 +46,8 @@ export const useAddGiftCards = (props: any) => {
     setIsPortalOpen({});
   };
 
-  const addGiftCardFormFields = addGiftCardFormFieldsDynamic?.();
+  const addGiftCardFormFields =
+    addGiftCardFormFieldsDynamic?.(apiQueryRecipient);
 
   return {
     handleSubmit,

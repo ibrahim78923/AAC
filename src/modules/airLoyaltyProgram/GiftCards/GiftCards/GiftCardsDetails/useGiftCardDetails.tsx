@@ -14,37 +14,39 @@ import {
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useGiftCardsDetails = () => {
-  const [search, setSearch] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [filterGiftCardDetails, setFilterGiftCardDetails] = useState({});
-  const router = useRouter();
   const [isPortalOpen, setIsPortalOpen] = useState<any>({});
-  const [
-    lazyGetGiftCardDetailsListTrigger,
-    lazyGetGiftCardDetailsListStatus,
-  ]: any = useLazyGetGiftCardDetailsListQuery();
+
+  const router = useRouter();
+  const { giftCardNumber } = router?.query;
+
   const [lazyExportGiftCardDetailsListTrigger]: any =
     useLazyExportGiftCardDetailsListQuery();
 
-  const getGiftCardDetailsList = async () => {
-    const additionalParams = [
-      ['page', page + ''],
-      ['limit', pageLimit + ''],
-    ];
-    const getGiftCardParam: any = buildQueryParams(
-      additionalParams,
-      filterGiftCardDetails,
-    );
-    const apiDataParameter = { queryParams: getGiftCardParam };
+  const giftCardParams = {
+    cardNumber: giftCardNumber,
+  };
+
+  const [
+    getSingleGiftCardTrigger,
+    { data, isFetching, isLoading, isError, isSuccess },
+  ] = useLazyGetGiftCardDetailsListQuery<any>();
+
+  const handleGiftCard = async () => {
     try {
-      await lazyGetGiftCardDetailsListTrigger(apiDataParameter)?.unwrap();
-    } catch (error) {}
+      await getSingleGiftCardTrigger(giftCardParams);
+    } catch (error) {
+      errorSnackbar(
+        error ?? 'Error while fetching single gift card transaction list',
+      );
+    }
   };
 
   useEffect(() => {
-    getGiftCardDetailsList?.();
-  }, [page, pageLimit, search, filterGiftCardDetails]);
+    handleGiftCard();
+  }, [page, pageLimit]);
 
   const handleFileExportSubmit = async (type: any) => {
     const additionalParams = [
@@ -74,6 +76,7 @@ export const useGiftCardsDetails = () => {
           setIsPortalOpen={setIsPortalOpen}
           filterGiftCardDetails={filterGiftCardDetails}
           setFilterGiftCardDetails={setFilterGiftCardDetails}
+          setPage={setPage}
         />
       );
     }
@@ -98,13 +101,16 @@ export const useGiftCardsDetails = () => {
   };
 
   return {
-    setSearch,
     setIsPortalOpen,
     isPortalOpen,
     renderPortalComponent,
-    lazyGetGiftCardDetailsListStatus,
     setPage,
     setPageLimit,
     router,
+    data,
+    isFetching,
+    isLoading,
+    isError,
+    isSuccess,
   };
 };

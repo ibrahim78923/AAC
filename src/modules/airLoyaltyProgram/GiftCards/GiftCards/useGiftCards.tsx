@@ -4,32 +4,24 @@ import { giftCardColumnsFunction } from './GiftCards.data';
 import { AddGiftCards } from './AddGiftCards';
 import { GiftCardFilter } from './GiftCardsFilter';
 import { PAGINATION } from '@/config';
-import { buildQueryParams } from '@/utils/api';
-import { useLazyGetGiftCardListQuery } from '@/services/airLoyaltyProgram/giftCards/giftCards';
+import {
+  useLazyGetGiftCardListQuery,
+  usePutGiftCardStatusMutation,
+} from '@/services/airLoyaltyProgram/giftCards/giftCards';
+import { errorSnackbar } from '@/lib/snackbar';
 
 export const useGiftCards = () => {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [limit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [filterGiftCard, setFilterGiftCard] = useState({});
   const [isPortalOpen, setIsPortalOpen] = useState<any>({});
   const router = useRouter();
-  const [lazyGetGiftCardListTrigger, lazyGetGiftCardListStatus]: any =
-    useLazyGetGiftCardListQuery();
 
-  const getGiftCardList = async () => {
-    const additionalParams = [
-      ['page', page + ''],
-      ['limit', pageLimit + ''],
-    ];
-    const getGiftCardParam: any = buildQueryParams(
-      additionalParams,
-      filterGiftCard,
-    );
-    const apiDataParameter = { queryParams: getGiftCardParam };
-    try {
-      await lazyGetGiftCardListTrigger(apiDataParameter)?.unwrap();
-    } catch (error) {}
+  const giftCardParams = {
+    page,
+    limit,
+    search,
   };
 
   const handleSearch = (data: any) => {
@@ -37,11 +29,28 @@ export const useGiftCards = () => {
     setSearch(data);
   };
 
-  useEffect(() => {
-    getGiftCardList?.();
-  }, [page, pageLimit, search, filterGiftCard]);
+  const [
+    getGiftCardListTrigger,
+    { data, isFetching, isLoading, isError, isSuccess },
+  ] = useLazyGetGiftCardListQuery<any>();
 
-  const giftCardColumns = giftCardColumnsFunction(router);
+  const handleGiftCard = async () => {
+    try {
+      await getGiftCardListTrigger(giftCardParams);
+    } catch (error) {
+      errorSnackbar(error ?? 'Error while fetching gift card list');
+    }
+  };
+
+  useEffect(() => {
+    handleGiftCard();
+  }, [page, limit, search]);
+
+  const giftCardColumns = giftCardColumnsFunction(
+    router,
+    usePutGiftCardStatusMutation,
+    handleGiftCard,
+  );
 
   const renderPortalComponent = () => {
     if (isPortalOpen?.isFilter) {
@@ -51,6 +60,7 @@ export const useGiftCards = () => {
           setIsPortalOpen={setIsPortalOpen}
           filterGiftCard={filterGiftCard}
           setFilterGiftCard={setFilterGiftCard}
+          setPage={setPage}
         />
       );
     }
@@ -71,8 +81,12 @@ export const useGiftCards = () => {
     setIsPortalOpen,
     isPortalOpen,
     renderPortalComponent,
-    lazyGetGiftCardListStatus,
     setPage,
     setPageLimit,
+    data,
+    isFetching,
+    isLoading,
+    isError,
+    isSuccess,
   };
 };

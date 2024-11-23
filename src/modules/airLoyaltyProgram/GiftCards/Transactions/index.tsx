@@ -1,5 +1,5 @@
 import { Box, Button } from '@mui/material';
-import { UserList, transactionTableData } from './Transactions.data';
+import { UserList } from './Transactions.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
@@ -13,13 +13,17 @@ export const Transactions = () => {
   const {
     search,
     handleSearch,
-    page,
     setPage,
-    limit,
     setLimit,
-    meta,
     openDrawer,
     setOpenDrawer,
+    data,
+    isFetching,
+    isLoading,
+    isError,
+    isSuccess,
+    setFilterValues,
+    filterValues,
   } = useTransaction();
 
   return (
@@ -67,12 +71,16 @@ export const Transactions = () => {
           ]}
         >
           <TanstackTable
-            data={transactionTableData}
             columns={UserList}
-            count={meta?.pages}
-            pageLimit={limit}
-            currentPage={page}
-            totalRecords={meta?.total}
+            data={data?.data}
+            isLoading={isLoading}
+            isFetching={isFetching}
+            isError={isError}
+            isSuccess={isSuccess || true}
+            currentPage={data?.data?.meta?.page}
+            count={data?.data?.meta?.pages}
+            pageLimit={data?.data?.meta?.limit}
+            totalRecords={data?.data?.meta?.total}
             onPageChange={(page: any) => setPage(page)}
             setPage={setPage}
             setPageLimit={setLimit}
@@ -84,6 +92,9 @@ export const Transactions = () => {
         <TransactionFilter
           openDrawer={openDrawer}
           setOpenDrawer={setOpenDrawer}
+          setFilterValues={setFilterValues}
+          filterValues={filterValues}
+          setPage={setPage}
         />
       )}
     </>

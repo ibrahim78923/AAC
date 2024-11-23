@@ -1,46 +1,45 @@
 import { RHFDateRangePicker, RHFTextField } from '@/components/ReactHookForm';
 
-export const defaultValues = {
-  dateRange: {
-    startDate: null,
-    endDate: null,
-    key: 'selection',
-  },
-  recipient: '',
-  minAmount: '',
-  maxAmount: '',
+export const defaultValues = (filterValues: any) => {
+  return {
+    dateRange: filterValues?.dateRange ?? {
+      startDate: null,
+      endDate: null,
+      key: 'selection',
+    },
+    recipient: filterValues?.recipient ?? '',
+    minAmount: filterValues?.minAmount ?? '',
+    maxAmount: filterValues?.maxAmount ?? '',
+  };
 };
 
 export const transactionFilterData = [
   {
-    id: 2,
+    id: 1,
     componentProps: {
       name: 'dateRange',
       label: 'Date Range',
       placeholder: 'Select Date',
     },
     component: RHFDateRangePicker,
-    md: 12,
   },
   {
-    id: 4,
+    id: 2,
     componentProps: {
       name: 'recipient',
       label: 'Recipient',
       placeholder: 'Enter Recipient',
     },
     component: RHFTextField,
-    md: 12,
   },
   {
-    id: 4,
+    id: 3,
     componentProps: {
       name: 'minAmount',
       label: 'Minimum Amount',
       placeholder: 'Enter Minimum Amount',
     },
     component: RHFTextField,
-    md: 12,
   },
   {
     id: 5,
@@ -50,6 +49,5 @@ export const transactionFilterData = [
       placeholder: 'Enter Maximum Amount',
     },
     component: RHFTextField,
-    md: 12,
   },
 ];

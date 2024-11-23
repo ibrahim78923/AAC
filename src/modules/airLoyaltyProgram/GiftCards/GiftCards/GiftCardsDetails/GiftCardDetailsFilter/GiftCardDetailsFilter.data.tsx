@@ -11,7 +11,7 @@ export const giftCardDetailsDefaultValues = (data?: any) => {
     maxAmount: data?.maxAmount ?? '',
   };
 };
-export const giftCardDetailsFilterFromFieldsDynamic = () => [
+export const giftCardDetailsFilterFromFields = [
   {
     id: 1,
     componentProps: {

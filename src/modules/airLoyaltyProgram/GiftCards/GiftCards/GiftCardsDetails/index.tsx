@@ -1,8 +1,8 @@
-import { Box, Button } from '@mui/material';
+import { Box, Button, Skeleton } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { data, giftCardDetailsColumn } from './GiftCardDetails.data';
+import { giftCardDetailsColumn } from './GiftCardDetails.data';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { ExportBlackIcon } from '@/assets/icons';
+import { AddWhiteBgIcon, ExportBlackIcon } from '@/assets/icons';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useGiftCardsDetails } from './useGiftCardDetails';
 import { AIR_LOYALTY_PROGRAM } from '@/constants/routes';
@@ -12,23 +12,36 @@ export const GiftCardsDetails = () => {
     setIsPortalOpen,
     isPortalOpen,
     renderPortalComponent,
-    lazyGetGiftCardDetailsListStatus,
     setPage,
     setPageLimit,
     router,
+    data,
+    isFetching,
+    isLoading,
+    isError,
+    isSuccess,
   } = useGiftCardsDetails?.();
   return (
     <>
       <Box>
         <PageTitledHeader
-          title={'TVKP12345'}
+          title={isLoading ? <Skeleton width={200} /> : data?.data?.cardNumber}
           addTitle={'Add Transaction'}
           canMovedBack
           handleAction={() => setIsPortalOpen({ isOpen: true, isAdd: true })}
           moveBack={() => {
             router?.push(AIR_LOYALTY_PROGRAM?.GIFT_CARDS);
           }}
-        />
+        >
+          <Button
+            variant="contained"
+            className="small"
+            startIcon={<AddWhiteBgIcon />}
+            onClick={() => setIsPortalOpen({ isOpen: true, isAdd: true })}
+          >
+            Add Transaction
+          </Button>
+        </PageTitledHeader>
       </Box>
       <Box mt={2} border={'1px solid lightgrey'} borderRadius={3}>
         <Box display={'flex'} justifyContent={'flex-end'} mx={2} gap={1} mt={2}>
@@ -54,20 +67,18 @@ export const GiftCardsDetails = () => {
         <Box mt={2}>
           <TanstackTable
             columns={giftCardDetailsColumn}
-            data={data}
-            currentPage={
-              lazyGetGiftCardDetailsListStatus?.data?.data?.meta?.page
-            }
-            count={lazyGetGiftCardDetailsListStatus?.data?.data?.meta?.pages}
-            pageLimit={
-              lazyGetGiftCardDetailsListStatus?.data?.data?.meta?.limit
-            }
-            totalRecords={
-              lazyGetGiftCardDetailsListStatus?.data?.data?.meta?.total
-            }
+            data={data?.data?.transactions}
+            isLoading={isLoading}
+            isFetching={isFetching}
+            isError={isError}
+            isSuccess={isSuccess || true}
+            currentPage={data?.data?.meta?.page}
+            count={data?.data?.meta?.pages}
+            pageLimit={data?.data?.meta?.limit}
+            totalRecords={data?.data?.meta?.total}
+            onPageChange={(page: any) => setPage(page)}
             setPage={setPage}
             setPageLimit={setPageLimit}
-            onPageChange={(page: any) => setPage(page)}
             isPagination
           />
         </Box>

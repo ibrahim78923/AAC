@@ -1,15 +1,14 @@
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { PAGINATION } from '@/config';
 import { useLazyGetTransactionListQuery } from '@/services/airLoyaltyProgram/giftCards/transactions';
+import { errorSnackbar } from '@/lib/snackbar';
 
 export const useTransaction = () => {
   const [search, setSearch] = useState('');
-  const router = useRouter();
-  const [open, setOpen] = useState(false);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [openDrawer, setOpenDrawer] = useState<any>(false);
+  const [filterValues, setFilterValues] = useState<any>({});
 
   const transactionParams = {
     page,
@@ -25,12 +24,14 @@ export const useTransaction = () => {
   const [
     getTransactionTrigger,
     { data, isFetching, isLoading, isError, isSuccess },
-  ] = useLazyGetTransactionListQuery();
-
-  const meta = data?.data?.meta;
+  ] = useLazyGetTransactionListQuery<any>();
 
   const handleTransaction = async () => {
-    await getTransactionTrigger(transactionParams);
+    try {
+      await getTransactionTrigger(null);
+    } catch (error) {
+      errorSnackbar(error ?? 'Error while fetching gift card transaction list');
+    }
   };
 
   useEffect(() => {
@@ -38,22 +39,19 @@ export const useTransaction = () => {
   }, [page, limit, search]);
 
   return {
-    router,
     search,
     handleSearch,
-    open,
-    setOpen,
-    page,
     setPage,
-    limit,
     setLimit,
     data,
     isFetching,
     isLoading,
     isError,
     isSuccess,
-    meta,
     openDrawer,
     setOpenDrawer,
+    transactionParams,
+    setFilterValues,
+    filterValues,
   };
 };

@@ -1,3 +1,4 @@
+import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const TAG = 'GIFT_CARD';
@@ -5,26 +6,35 @@ const TAG = 'GIFT_CARD';
 const giftCardApi = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
     getGiftCardList: builder?.query({
-      query: (apiDataParameter: any) => ({
-        url: '',
+      query: (params: any) => ({
+        url: END_POINTS?.GIFT_CARD_LIST,
         method: 'GET',
-        params: apiDataParameter?.queryParams,
+        params,
       }),
       invalidatesTags: [TAG],
     }),
     addGiftCard: builder?.mutation({
-      query: (apiDataParameter: any) => ({
-        url: '',
+      query: (body: any) => ({
+        url: END_POINTS?.POST_GIFT_CARD,
         method: 'POST',
-        body: apiDataParameter?.body,
+        body,
       }),
       invalidatesTags: [TAG],
     }),
     getGiftCardDetailsList: builder?.query({
-      query: (apiDataParameter: any) => ({
-        url: '',
+      query: (params: any) => ({
+        url: END_POINTS?.SINGLE_GIFT_CARD_LIST,
         method: 'GET',
-        params: apiDataParameter?.queryParams,
+        params,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    putGiftCardStatus: builder?.mutation({
+      query: (patchParameter: any) => ({
+        url: END_POINTS?.PUT_GIFT_CARD,
+        method: 'PUT',
+        params: patchParameter?.queryParams,
+        body: patchParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),
@@ -39,11 +49,22 @@ const giftCardApi = baseAPI?.injectEndpoints({
     }),
     addGiftCardDetails: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: '',
-        method: 'POST',
+        url: END_POINTS?.PUT_GIFT_CARD,
+        method: 'PUT',
+        params: apiDataParameter?.queryParams,
         body: apiDataParameter?.body,
       }),
       invalidatesTags: [TAG],
+    }),
+    getRecipientDropdownList: builder?.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.CONTACTS,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.contacts;
+      },
     }),
   }),
 });
@@ -53,4 +74,6 @@ export const {
   useLazyGetGiftCardDetailsListQuery,
   useLazyExportGiftCardDetailsListQuery,
   useAddGiftCardDetailsMutation,
+  useLazyGetRecipientDropdownListQuery,
+  usePutGiftCardStatusMutation,
 } = giftCardApi;

@@ -7,11 +7,16 @@ import {
 } from './AddGiftCardDetails.data';
 import { useAddGiftCardDetailsMutation } from '@/services/airLoyaltyProgram/giftCards/giftCards';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useRouter } from 'next/router';
 
 export const useAddGiftCardDetails = (props: any) => {
   const { setIsPortalOpen } = props;
+  const router = useRouter();
+  const { giftCardNumber } = router?.query;
+
   const [addDigitalGiftCardDetailsTrigger, addDigitalGiftCardDetailsStatus] =
     useAddGiftCardDetailsMutation();
+
   const methods: any = useForm<any>({
     resolver: yupResolver(addGiftCardDetailsValidationSchema),
     defaultValues: addGiftCardDetailsDefaultValues?.(),
@@ -20,17 +25,15 @@ export const useAddGiftCardDetails = (props: any) => {
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async (formData: any) => {
-    const body = {
-      giftCardId: formData?.giftCardId,
-      add: formData?.add,
-      amount: formData?.amount,
-    };
     const apiDataParameter = {
-      body,
+      queryParams: { cardNumber: giftCardNumber },
+      body: {
+        transactionAmount: formData?.amount,
+      },
     };
     try {
       await addDigitalGiftCardDetailsTrigger(apiDataParameter)?.unwrap();
-      successSnackbar('Card Added Successfullt');
+      successSnackbar('Transaction Added Successfully');
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

@@ -18,7 +18,7 @@ export const AddGiftCardDetails = (props: any) => {
       <CommonDrawer
         isDrawerOpen={isPortalOpen?.isAdd}
         onClose={closeAddDigitalGiftCardForm}
-        title={'Add Transcation'}
+        title={'Add Transaction'}
         okText={'Create'}
         isOk
         cancelText={'Cancel'}
@@ -32,7 +32,7 @@ export const AddGiftCardDetails = (props: any) => {
           <FormProvider methods={methods}>
             <Grid container spacing={2}>
               {addGiftCardDetailsFormFields?.map((item: any) => (
-                <Grid item xs={12} sm={item?.md} key={item?.id}>
+                <Grid item xs={12} key={item?.id}>
                   <item.component {...item?.componentProps} size={'small'} />
                 </Grid>
               ))}

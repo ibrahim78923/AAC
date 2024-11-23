@@ -4,7 +4,6 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { AddWhiteBgIcon } from '@/assets/icons';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { data } from './GiftCards.data';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_LOYALTY_PROGRAM_GIFT_CARDS_GIFT_CARD_PERMISSIONS } from '@/constants/permission-keys';
@@ -16,9 +15,13 @@ export const GiftCards = () => {
     setIsPortalOpen,
     isPortalOpen,
     renderPortalComponent,
-    lazyGetGiftCardListStatus,
     setPage,
     setPageLimit,
+    data,
+    isFetching,
+    isLoading,
+    isError,
+    isSuccess,
   } = useGiftCards();
 
   return (
@@ -84,14 +87,18 @@ export const GiftCards = () => {
         >
           <TanstackTable
             columns={giftCardColumns}
-            data={data}
-            currentPage={lazyGetGiftCardListStatus?.data?.data?.meta?.page}
-            count={lazyGetGiftCardListStatus?.data?.data?.meta?.pages}
-            pageLimit={lazyGetGiftCardListStatus?.data?.data?.meta?.limit}
-            totalRecords={lazyGetGiftCardListStatus?.data?.data?.meta?.total}
+            data={data?.data?.giftcards}
+            isLoading={isLoading}
+            isFetching={isFetching}
+            isError={isError}
+            isSuccess={isSuccess || true}
+            currentPage={data?.data?.meta?.page}
+            count={data?.data?.meta?.pages}
+            pageLimit={data?.data?.meta?.limit}
+            totalRecords={data?.data?.meta?.total}
+            onPageChange={(page: any) => setPage(page)}
             setPage={setPage}
             setPageLimit={setPageLimit}
-            onPageChange={(page: any) => setPage(page)}
             isPagination
           />
         </PermissionsGuard>

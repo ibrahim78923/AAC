@@ -3,48 +3,19 @@ import { UserInfo } from '@/components/UserInfo';
 import { ACTIVITY_STATUS_MENU } from '@/constants';
 import { AIR_LOYALTY_PROGRAM } from '@/constants/routes';
 import { uiDateFormat } from '@/lib/date-time';
-import { truncateText } from '@/utils/avatarUtils';
+import { fullNameInitial, truncateText } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
-
-export const data: any = [
-  {
-    id: 1,
-    cardNumber: 'TVKP123451',
-    cardRecipient: { email: 'saqibshah@gmail.com', name: 'Saqib Shah' },
-    totalAmount: '£100.00',
-    spentAmount: '£09.00',
-    currentAmount: '£09.00',
-    createdAt: '2023-12-14T11:59:08.238Z',
-    status: 'active',
-  },
-  {
-    id: 2,
-    cardNumber: 'TVKP18651',
-    cardRecipient: { email: 'saqibshah@gmail.com', name: 'Saqib Shah' },
-    totalAmount: '£100.00',
-    spentAmount: '£09.00',
-    currentAmount: '£09.00',
-    createdAt: '2023-12-14T11:59:08.238Z',
-    status: 'Inactive',
-  },
-  {
-    id: 3,
-    cardNumber: 'TVKP123451',
-    cardRecipient: { email: 'saqibshah@gmail.com', name: 'Saqib Shah' },
-    totalAmount: '£100.00',
-    spentAmount: '£09.00',
-    currentAmount: '£09.00',
-    createdAt: '2023-12-14T11:59:08.238Z',
-    status: 'expired',
-  },
-];
 
 const MenuItemDataArray = [
   { value: ACTIVITY_STATUS_MENU?.ACTIVE, label: 'Active' },
   { value: ACTIVITY_STATUS_MENU?.INACTIVE, label: 'Inactive' },
 ];
 
-export const giftCardColumnsFunction = (router: any): any => [
+export const giftCardColumnsFunction = (
+  router: any,
+  usePutGiftCardStatusMutation: any,
+  handleGiftCard: any,
+): any => [
   {
     accessorFn: (row: any) => row?.cardNumber,
     id: 'cardNumber',
@@ -57,7 +28,7 @@ export const giftCardColumnsFunction = (router: any): any => [
           router?.push({
             pathname: AIR_LOYALTY_PROGRAM?.GIFT_CARDS_DETAIL,
             query: {
-              giftCardId: info?.row?.id,
+              giftCardNumber: info?.getValue(),
             },
           });
         }}
@@ -74,9 +45,9 @@ export const giftCardColumnsFunction = (router: any): any => [
     isSortable: true,
     cell: (info: any) => (
       <UserInfo
-        name={info?.row?.original?.cardRecipient?.name}
-        email={info?.row?.original?.cardRecipient?.email}
-        nameInitial={info?.row?.original?.cardRecipient?.name}
+        name={info?.row?.original?.recipientName}
+        email={info?.row?.original?.recipientEmail}
+        nameInitial={fullNameInitial(info?.row?.original?.recipientName)}
       />
     ),
   },
@@ -85,21 +56,21 @@ export const giftCardColumnsFunction = (router: any): any => [
     id: 'totalAmount',
     header: 'Total Amount',
     isSortable: true,
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: any) => truncateText(info?.getValue() ?? '---'),
   },
   {
-    accessorFn: (row: any) => row?.spentAmount,
-    id: 'spentAmount',
+    accessorFn: (row: any) => row?.spentamount,
+    id: 'spentamount',
     isSortable: false,
     header: 'Spent Amount',
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: any) => truncateText(info?.getValue() ?? '---'),
   },
   {
-    accessorFn: (row: any) => row?.currentAmount,
-    id: 'currentAmount',
+    accessorFn: (row: any) => row?.currentamount,
+    id: 'currentamount',
     isSortable: false,
     header: 'Current Amount',
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: any) => truncateText(info?.getValue() ?? '---'),
   },
   {
     accessorFn: (row: any) => row?.createdAt,
@@ -120,7 +91,14 @@ export const giftCardColumnsFunction = (router: any): any => [
         <ActivityStatusMenu
           info={info}
           activityStatus={status}
-          MenuItemDataArray={MenuItemDataArray}
+          menuItemDataArray={MenuItemDataArray}
+          apiQuery={usePutGiftCardStatusMutation()}
+          patchParameterProps={(event: any) => ({
+            queryParams: { cardNumber: info?.row?.original?.cardNumber },
+            body: { status: event?.target?.value },
+          })}
+          refetchApi={handleGiftCard}
+          hasPermission
         />
       );
     },
