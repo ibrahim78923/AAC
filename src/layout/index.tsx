@@ -3,6 +3,7 @@ import AuthGuard from '@/GuardsAndPermissions/AuthGuard';
 import DashboardLayout from './MainDashboard';
 import CustomerPortalLayout from './CustomerPortal';
 import PreventBackNavigation from '@/components/PreventBackNavigation';
+import PlainLayout from './PlainLayout';
 
 export default function Layout({
   variant = 'dashboard',
@@ -33,6 +34,13 @@ export default function Layout({
           {' '}
           <PreventBackNavigation /> {children}
         </CustomerPortalLayout>
+      );
+      break;
+    case 'plain':
+      layout = (
+        <AuthGuard>
+          <PlainLayout>{children}</PlainLayout>
+        </AuthGuard>
       );
       break;
     default:

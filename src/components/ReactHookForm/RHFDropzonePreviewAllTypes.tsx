@@ -27,6 +27,7 @@ export default function RHFDropzonePreviewAllTypes({
   },
   maxSize = FILE_MAX_SIZE?.ATTACH_FILE_MAX_SIZE,
   disabled,
+  icon = <AttachFileIcon />,
   ...other
 }: any) {
   const {
@@ -115,27 +116,30 @@ export default function RHFDropzonePreviewAllTypes({
         sx={{
           cursor: 'pointer',
         }}
+        className="dropzone-preview-all-types"
       >
         <input {...getInputProps()} />
         {file ? (
           file?.type?.startsWith('image/') ||
           (file?.url &&
             (file?.url.endsWith('.jpg') || file.url.endsWith('.png'))) ? (
-            <Image
-              src={
-                file?.preview ||
-                generateImage(file?.url) ||
-                URL?.createObjectURL(file)
-              }
-              alt={file?.name}
-              width={100}
-              height={100}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'contain',
-              }}
-            />
+            <Box className="dropzone-preview-upload" sx={{ height: '148px' }}>
+              <Image
+                src={
+                  file?.preview ||
+                  generateImage(file?.url) ||
+                  URL?.createObjectURL(file)
+                }
+                alt={file?.name}
+                width={100}
+                height={100}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
+            </Box>
           ) : (
             <TruncateText
               text={
@@ -144,24 +148,34 @@ export default function RHFDropzonePreviewAllTypes({
             />
           )
         ) : (
-          <Box textAlign={'center'}>
-            <AttachFileIcon />
-            <Typography variant={'body1'} fontWeight={'bold'}>
-              {fileName}
-            </Typography>
-            <Typography variant={'body2'}>
+          <Box textAlign={'center'} className="dropzone-content">
+            <Box className="dropzone-icon">{icon}</Box>
+            <Box className="dropzone-desc">
+              <Typography
+                variant={'body1'}
+                fontWeight={'bold'}
+                className="dropzone-title"
+              >
+                {fileName}
+              </Typography>
+              <Typography variant={'body2'} className="dropzone-label">
+                <Typography
+                  component={'span'}
+                  fontSize={12}
+                  color={theme?.palette?.primary?.main}
+                >
+                  Click to upload{' '}
+                </Typography>
+                or drag and drop
+              </Typography>
               <Typography
                 component={'span'}
                 fontSize={12}
-                color={theme?.palette?.primary?.main}
+                className="dropzone-filetype"
               >
-                Click to upload{' '}
+                {fileType}
               </Typography>
-              or drag and drop
-            </Typography>
-            <Typography component={'span'} fontSize={12}>
-              {fileType}
-            </Typography>
+            </Box>
           </Box>
         )}
       </Box>
