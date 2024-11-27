@@ -3,8 +3,8 @@ import { RHFDateRangePicker, RHFTextField } from '@/components/ReactHookForm';
 export const giftCardDetailsDefaultValues = (data?: any) => {
   return {
     dateRange: data?.dateRange ?? {
-      startDate: new Date(),
-      endDate: new Date(),
+      startDate: '',
+      endDate: '',
       key: 'selection',
     },
     minAmount: data?.minAmount ?? '',

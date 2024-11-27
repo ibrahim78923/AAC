@@ -7,7 +7,7 @@ export const giftCardTransactionApi = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getTransactionList: builder?.query({
       query: (params) => ({
-        url: `${END_POINTS?.GIFT_CARD_TRANSACTION}`,
+        url: END_POINTS?.GIFT_CARD_TRANSACTION,
         method: 'GET',
         params,
       }),
@@ -16,4 +16,4 @@ export const giftCardTransactionApi = baseAPI?.injectEndpoints({
   }),
 });
 
-export const { useLazyGetTransactionListQuery } = giftCardTransactionApi;
+export const { useGetTransactionListQuery } = giftCardTransactionApi;

@@ -2,12 +2,14 @@ import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const addGiftCardDetailsValidationSchema = Yup?.object()?.shape({
-  amount: Yup?.string()?.required('Amount is Required'),
+  amount: Yup?.number()
+    ?.typeError('Amount must be a number')
+    ?.required('Amount is required'),
 });
 
 export const addGiftCardDetailsDefaultValues = () => {
   return {
-    amount: '',
+    amount: null,
   };
 };
 

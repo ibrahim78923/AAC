@@ -1,8 +1,8 @@
 import { ActivityStatusMenu } from '@/components/ActivityStatusMenu';
 import { UserInfo } from '@/components/UserInfo';
-import { ACTIVITY_STATUS_MENU } from '@/constants';
+import { ACTIVITY_STATUS_MENU, DATE_TIME_FORMAT } from '@/constants';
 import { AIR_LOYALTY_PROGRAM } from '@/constants/routes';
-import { uiDateFormat } from '@/lib/date-time';
+import { otherDateFormat } from '@/lib/date-time';
 import { fullNameInitial, truncateText } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
 
@@ -14,7 +14,7 @@ const MenuItemDataArray = [
 export const giftCardColumnsFunction = (
   router: any,
   usePutGiftCardStatusMutation: any,
-  handleGiftCard: any,
+  handleRefetchList: any,
 ): any => [
   {
     accessorFn: (row: any) => row?.cardNumber,
@@ -56,28 +56,32 @@ export const giftCardColumnsFunction = (
     id: 'totalAmount',
     header: 'Total Amount',
     isSortable: true,
-    cell: (info: any) => truncateText(info?.getValue() ?? '---'),
+    cell: (info: any) =>
+      truncateText(info?.getValue() ? `£${info?.getValue()}` : '---'),
   },
   {
     accessorFn: (row: any) => row?.spentamount,
     id: 'spentamount',
     isSortable: false,
     header: 'Spent Amount',
-    cell: (info: any) => truncateText(info?.getValue() ?? '---'),
+    cell: (info: any) =>
+      truncateText(info?.getValue() ? `£${info?.getValue()}` : '---'),
   },
   {
     accessorFn: (row: any) => row?.currentamount,
     id: 'currentamount',
     isSortable: false,
     header: 'Current Amount',
-    cell: (info: any) => truncateText(info?.getValue() ?? '---'),
+    cell: (info: any) =>
+      truncateText(info?.getValue() ? `£${info?.getValue()}` : '---'),
   },
   {
     accessorFn: (row: any) => row?.createdAt,
     id: 'createdAt',
     header: 'Created At',
     isSortable: true,
-    cell: (info: any) => uiDateFormat(info?.getValue()),
+    cell: (info: any) =>
+      otherDateFormat(info?.getValue(), DATE_TIME_FORMAT?.MMM_DD_YYYY_hh_mm_A),
   },
   {
     accessorFn: (row: any) => row?.status,
@@ -97,7 +101,7 @@ export const giftCardColumnsFunction = (
             queryParams: { cardNumber: info?.row?.original?.cardNumber },
             body: { status: event?.target?.value },
           })}
-          refetchApi={handleGiftCard}
+          refetchApi={handleRefetchList}
           hasPermission
         />
       );

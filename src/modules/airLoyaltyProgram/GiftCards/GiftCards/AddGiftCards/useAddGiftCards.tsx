@@ -13,7 +13,7 @@ import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { isoDateString } from '@/lib/date-time';
 
 export const useAddGiftCards = (props: any) => {
-  const { setIsPortalOpen } = props;
+  const { setIsPortalOpen, handleRefetchList } = props;
   const [addGiftCardTrigger, addGiftCardStatus] = useAddGiftCardMutation();
   const methods: any = useForm<any>({
     resolver: yupResolver(addGiftCardValidationSchema),
@@ -28,12 +28,10 @@ export const useAddGiftCards = (props: any) => {
       activeFrom: isoDateString(formData?.activeFrom),
       activeTo: isoDateString(formData?.activeTo),
     };
-    // const apiDataParameter = {
-    //   body,
-    // };
     try {
       await addGiftCardTrigger(body)?.unwrap();
       successSnackbar('Card Added Successfully');
+      handleRefetchList();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

@@ -1,5 +1,6 @@
 import { UserInfo } from '@/components/UserInfo';
-import { uiDateFormat } from '@/lib/date-time';
+import { DATE_TIME_FORMAT } from '@/constants';
+import { otherDateFormat } from '@/lib/date-time';
 import { fullNameInitial, truncateText } from '@/utils/avatarUtils';
 
 export const UserList: any = [
@@ -28,13 +29,15 @@ export const UserList: any = [
     id: 'transactionAmount',
     isSortable: true,
     header: 'Amount',
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: any) =>
+      truncateText(info?.getValue() ? `£${info?.getValue()}` : '---'),
   },
   {
     accessorFn: (row: any) => row?.redeemed,
     id: 'redeemed',
     isSortable: true,
     header: 'Redeemed',
-    cell: (info: any) => uiDateFormat(info?.getValue()),
+    cell: (info: any) =>
+      otherDateFormat(info?.getValue(), DATE_TIME_FORMAT?.MMM_DD_YYYY_hh_mm_A),
   },
 ];

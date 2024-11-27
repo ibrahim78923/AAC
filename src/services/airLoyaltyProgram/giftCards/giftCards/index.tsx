@@ -69,9 +69,9 @@ const giftCardApi = baseAPI?.injectEndpoints({
   }),
 });
 export const {
-  useLazyGetGiftCardListQuery,
+  useGetGiftCardListQuery,
   useAddGiftCardMutation,
-  useLazyGetGiftCardDetailsListQuery,
+  useGetGiftCardDetailsListQuery,
   useLazyExportGiftCardDetailsListQuery,
   useAddGiftCardDetailsMutation,
   useLazyGetRecipientDropdownListQuery,

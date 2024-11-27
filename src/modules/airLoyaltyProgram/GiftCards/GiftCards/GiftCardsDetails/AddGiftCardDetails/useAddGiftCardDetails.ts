@@ -10,7 +10,7 @@ import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
 
 export const useAddGiftCardDetails = (props: any) => {
-  const { setIsPortalOpen } = props;
+  const { setIsPortalOpen, handleRefetchList } = props;
   const router = useRouter();
   const { giftCardNumber } = router?.query;
 
@@ -34,6 +34,7 @@ export const useAddGiftCardDetails = (props: any) => {
     try {
       await addDigitalGiftCardDetailsTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Transaction Added Successfully');
+      handleRefetchList();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

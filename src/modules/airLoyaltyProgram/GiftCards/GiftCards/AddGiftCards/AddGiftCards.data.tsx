@@ -9,13 +9,13 @@ export const addGiftCardValidationSchema = Yup?.object()?.shape({
   amount: Yup?.number()
     ?.typeError('Amount must be a number')
     ?.required('Amount is required'),
-  recipient: Yup?.array()?.min(1, 'At least one user is required'),
+  recipient: Yup?.array()?.min(1, 'At least one recipient is required'),
   activeFrom: Yup?.mixed()?.nullable()?.required('Active from is required'),
-  activeTo: Yup?.mixed()?.nullable()?.required('Active from is required'),
+  activeTo: Yup?.mixed()?.nullable()?.required('Active to is required'),
 });
 
 export const addGiftCardDefaultValues = {
-  amount: '',
+  amount: null,
   recipient: [],
   activeFrom: null,
   activeTo: null,

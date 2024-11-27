@@ -23,7 +23,7 @@ export const useGiftCardFilter = (props: any) => {
       return;
     }
     setPage?.(PAGINATION?.CURRENT_PAGE);
-    filterGiftCard?.(giftCardFiltered);
+    setFilterGiftCard?.(giftCardFiltered);
     setIsPortalOpen?.(false);
   };
 

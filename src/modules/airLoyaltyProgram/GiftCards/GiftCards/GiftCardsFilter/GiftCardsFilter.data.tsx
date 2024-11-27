@@ -14,8 +14,8 @@ const statusOptions = [
 export const giftCardDefaultValues = (data?: any) => {
   return {
     dateRange: data?.dateRange ?? {
-      startDate: new Date(),
-      endDate: new Date(),
+      startDate: '',
+      endDate: '',
       key: 'selection',
     },
     minAmount: data?.minAmount ?? '',

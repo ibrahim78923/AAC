@@ -1,4 +1,5 @@
-import { uiDateFormat } from '@/lib/date-time';
+import { DATE_TIME_FORMAT } from '@/constants';
+import { otherDateFormat } from '@/lib/date-time';
 import { truncateText } from '@/utils/avatarUtils';
 
 export const giftCardDetailsColumn = [
@@ -7,13 +8,15 @@ export const giftCardDetailsColumn = [
     id: 'transactionAmount',
     header: 'Amount',
     isSortable: true,
-    cell: (info: any) => truncateText(info?.getValue() ?? '---'),
+    cell: (info: any) =>
+      truncateText(info?.getValue() ? `£${info?.getValue()}` : '---'),
   },
   {
     accessorFn: (info: any) => info?.createdAt,
     id: 'createdAt',
     header: 'Date',
     isSortable: true,
-    cell: (info: any) => uiDateFormat(info?.getValue() ?? '---'),
+    cell: (info: any) =>
+      otherDateFormat(info?.getValue(), DATE_TIME_FORMAT?.MMM_DD_YYYY_hh_mm_A),
   },
 ];

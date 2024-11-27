@@ -3,8 +3,8 @@ import { RHFDateRangePicker, RHFTextField } from '@/components/ReactHookForm';
 export const defaultValues = (filterValues: any) => {
   return {
     dateRange: filterValues?.dateRange ?? {
-      startDate: null,
-      endDate: null,
+      startDate: '',
+      endDate: '',
       key: 'selection',
     },
     recipient: filterValues?.recipient ?? '',

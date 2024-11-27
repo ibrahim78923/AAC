@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { PAGINATION } from '@/config';
-import { useLazyGetTransactionListQuery } from '@/services/airLoyaltyProgram/giftCards/transactions';
-import { errorSnackbar } from '@/lib/snackbar';
+import { useGetTransactionListQuery } from '@/services/airLoyaltyProgram/giftCards/transactions';
+import { otherDateFormat } from '@/lib/date-time';
+import { CALENDAR_FORMAT } from '@/constants';
 
 export const useTransaction = () => {
   const [search, setSearch] = useState('');
@@ -13,7 +14,26 @@ export const useTransaction = () => {
   const transactionParams = {
     page,
     limit,
-    search,
+    ...(search && { search }),
+    ...(filterValues?.dateRange?.startDate && {
+      activeFrom: otherDateFormat(
+        filterValues?.dateRange?.startDate,
+        CALENDAR_FORMAT?.YMD,
+      ),
+    }),
+    ...(filterValues?.dateRange?.endDate && {
+      activeTo: otherDateFormat(
+        filterValues?.dateRange?.endDate,
+        CALENDAR_FORMAT?.YMD,
+      ),
+    }),
+    ...(filterValues?.recipient && { recipient: filterValues.recipient }),
+    ...(filterValues?.maxAmount && {
+      maxcurrentamount: filterValues?.maxAmount,
+    }),
+    ...(filterValues?.minAmount && {
+      minicurrentamount: filterValues?.minAmount,
+    }),
   };
 
   const handleSearch = (data: any) => {
@@ -21,22 +41,13 @@ export const useTransaction = () => {
     setSearch(data);
   };
 
-  const [
-    getTransactionTrigger,
-    { data, isFetching, isLoading, isError, isSuccess },
-  ] = useLazyGetTransactionListQuery<any>();
-
-  const handleTransaction = async () => {
-    try {
-      await getTransactionTrigger(null);
-    } catch (error) {
-      errorSnackbar(error ?? 'Error while fetching gift card transaction list');
-    }
-  };
-
-  useEffect(() => {
-    handleTransaction();
-  }, [page, limit, search]);
+  const { data, isFetching, isLoading, isError, isSuccess } =
+    useGetTransactionListQuery<any>(
+      {},
+      {
+        refetchOnMountOrArgChange: true,
+      },
+    );
 
   return {
     search,
