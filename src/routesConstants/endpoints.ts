@@ -404,6 +404,7 @@ export const END_POINTS = {
   GET_REWARDS_LIST: `/rewards/rewards-list`,
   GET_REWARDS_LIST_BY_ID: `/rewards/get-reward-details`,
   UPDATE_REWARDS: `/rewards/update-physical-rewards`,
+  STATUS_REWARDS: `/rewards/update-reward-status`,
   GET_VOUCHERS_REWARDS_DROPDOWN: `/vouchers/list-voucher`,
   TIERS_DROPDOWN_FOR_REWARDS: `/rules-and-tiers/tiers`,
   DELETE_REWARDS: `/rewards/delete-rewards`,

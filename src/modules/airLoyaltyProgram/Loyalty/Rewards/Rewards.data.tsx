@@ -1,15 +1,9 @@
 import { Box, Typography } from '@mui/material';
 import { DeleteCrossIcon, EditPenIcon } from '@/assets/icons';
-import { ActivityStatusMenu } from '@/components/ActivityStatusMenu';
 import { TruncateText } from '@/components/TruncateText';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
-
-const menuItemDataArray = [
-  { value: 'ACTIVE', label: 'Active' },
-  { value: 'INACTIVE', label: 'Inactive' },
-  { value: 'EXPIRED', label: 'Expired' },
-];
+import RewardStatus from './RewardStatus';
 
 export const loyaltyRewardColumnDynamic: any = (
   setIsRewardDetailsOpen: any,
@@ -40,13 +34,7 @@ export const loyaltyRewardColumnDynamic: any = (
       header: 'Status',
       cell: (info: any) => {
         const status = info?.getValue()?.toUpperCase();
-        return (
-          <ActivityStatusMenu
-            info={info}
-            activityStatus={status}
-            menuItemDataArray={menuItemDataArray}
-          />
-        );
+        return <RewardStatus info={info} status={status} />;
       },
     },
     {
@@ -54,11 +42,11 @@ export const loyaltyRewardColumnDynamic: any = (
       id: 'quantity',
       isSortable: true,
       header: 'Quantity',
-      cell: (info: any) => info?.getValue()?.voucherCode ?? '---',
+      cell: (info: any) => info?.getValue() ?? '---',
     },
     {
-      accessorFn: (row: any) => row?.totalRedeemed,
-      id: 'totalRedeemed',
+      accessorFn: (row: any) => row?.totalQuantity,
+      id: 'totalQuantity',
       isSortable: true,
       header: 'Total redeemed',
       cell: (info: any) => (
@@ -83,8 +71,8 @@ export const loyaltyRewardColumnDynamic: any = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.cost,
-      id: 'cost',
+      accessorFn: (row: any) => row?.costPrice,
+      id: 'costPrice',
       isSortable: true,
       header: 'Cost',
       cell: (info: any) => info?.getValue() ?? '---',

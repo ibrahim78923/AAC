@@ -1,6 +1,6 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { useUpsertRewards } from './useUpsertRewards';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import {
   rewardsRadioButtonsFormFields,
@@ -8,6 +8,8 @@ import {
 } from './UpsertRewards.data';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
+import { Attachments } from '@/components/Attachments';
+import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const UpsertRewards = (props: any) => {
   const { isRewardDrawerOpen, setIsRewardDrawerOpen } = props;
@@ -17,11 +19,11 @@ export const UpsertRewards = (props: any) => {
     watch,
     onSubmit,
     rewardsStatus,
-    getTiersDropdown,
     updateRewardStatus,
     isLoading,
     isFetching,
     isError,
+    rewardId,
   } = useUpsertRewards(props);
   return (
     <>
@@ -48,7 +50,7 @@ export const UpsertRewards = (props: any) => {
           <Box mt={1}>
             <FormProvider methods={methods}>
               <Grid container spacing={2}>
-                {upsertRewardsData(getTiersDropdown)?.map((item: any) => (
+                {upsertRewardsData()?.map((item: any) => (
                   <Grid item xs={12} md={item?.md} key={item?.id}>
                     <item.component {...item?.componentProps} size={'small'} />
                   </Grid>
@@ -73,6 +75,22 @@ export const UpsertRewards = (props: any) => {
                     </>
                   );
                 })}
+                {!!rewardId && (
+                  <>
+                    <Typography fontWeight={500} color="slateBlue.main" mb={2}>
+                      Attachments
+                    </Typography>
+                    <Box maxHeight={'20vh'}>
+                      <Attachments
+                        recordId={rewardId}
+                        permissionKey={[
+                          AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.VIEW_REWARD_DETAILS,
+                        ]}
+                        colSpan={{ sm: 12, lg: 12 }}
+                      />
+                    </Box>
+                  </>
+                )}
               </Box>
             </FormProvider>
           </Box>

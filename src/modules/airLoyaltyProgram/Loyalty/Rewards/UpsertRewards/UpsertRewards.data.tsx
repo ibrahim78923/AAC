@@ -1,5 +1,4 @@
 import {
-  RHFAutocompleteAsync,
   RHFDatePicker,
   RHFDropZone,
   RHFRadioButtonTwoLabel,
@@ -7,6 +6,7 @@ import {
 } from '@/components/ReactHookForm';
 import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
 import * as Yup from 'yup';
+import AppliedToDropdown from '../RewardsDropdowns/AppliedToDropdown';
 
 const rewardsRadioGroupOptions = [
   {
@@ -56,20 +56,20 @@ export const rewardsValidationSchema: any = Yup?.object()?.shape({
 
 export const addRewardsDefaultValues = (data: any) => {
   return {
-    title: data?.title || '',
-    requiredPoints: data?.requiredPoints || 0,
+    title: data?.data?.title ?? '',
+    requiredPoints: data?.data?.requiredPoints ?? 0,
     fileUrl: null,
-    appliedTo: data?.appliedTo || null,
-    costPrice: data?.costPrice || 0,
-    quantity: data?.quantity || 0,
-    activeFrom: data?.activeFrom || new Date(),
-    activeTo: data?.activeTo || new Date(),
-    limitRewards: 'unlimited',
-    limit: '',
+    appliedTo: data?.data?.appliedTo ?? null,
+    costPrice: data?.data?.costPrice ?? 0,
+    quantity: data?.data?.quantity ?? 0,
+    activeFrom: new Date(data?.data?.activeFrom) ?? new Date(),
+    activeTo: new Date(data?.data?.activeTo) ?? new Date(),
+    limitRewards: data?.data?.redeemedLimitType ?? 'unlimited',
+    limit: data?.data?.redemptionLimitPerConsumer ?? '',
   };
 };
 
-export const upsertRewardsData = (getTiersDropdown: any) => [
+export const upsertRewardsData = () => [
   {
     id: 1,
     componentProps: {
@@ -109,18 +109,7 @@ export const upsertRewardsData = (getTiersDropdown: any) => [
   },
   {
     id: 4,
-    componentProps: {
-      name: 'appliedTo',
-      label: 'Applied To',
-      placeholder: 'Select Applied To',
-      fullWidth: true,
-      required: true,
-      apiQuery: getTiersDropdown,
-      externalParams: { limit: 50 },
-      getOptionLabel: (option: any) => option?.name,
-    },
-    component: RHFAutocompleteAsync,
-    md: 12,
+    component: AppliedToDropdown,
   },
   {
     id: 5,

@@ -12,9 +12,10 @@ const loyaltyRewardsApi = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     getLoyaltyProgramRewardsById: builder?.query({
-      query: (id: any) => ({
-        url: `${END_POINTS?.GET_REWARDS_LIST_BY_ID}/${id}`,
+      query: (params) => ({
+        url: `${END_POINTS?.GET_REWARDS_LIST_BY_ID}`,
         method: 'GET',
+        params,
       }),
       providesTags: [TAG],
     }),
@@ -37,8 +38,17 @@ const loyaltyRewardsApi = baseAPI?.injectEndpoints({
     updateLoyaltyProgramRewards: builder?.mutation({
       query: (apiDataParameter: any) => ({
         url: END_POINTS?.UPDATE_REWARDS,
-        method: 'PUT',
+        method: 'PATCH',
         body: apiDataParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    statusLoyaltyProgramRewards: builder?.mutation({
+      query: ({ body, params }) => ({
+        url: END_POINTS?.STATUS_REWARDS,
+        method: 'PATCH',
+        params,
+        body,
       }),
       invalidatesTags: [TAG],
     }),
@@ -72,4 +82,5 @@ export const {
   useGetLoyaltyProgramRewardsListQuery,
   useLazyGetLoyaltyProgramLoyaltyTiersListDropdownQuery,
   useGetLoyaltyProgramRewardsByIdQuery,
+  useStatusLoyaltyProgramRewardsMutation,
 } = loyaltyRewardsApi;

@@ -6,6 +6,7 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
+  IconButton,
   Typography,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -13,6 +14,7 @@ import { generateImage } from '@/utils/avatarUtils';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { EventDataI } from './EventDialog.interface';
 import { otherDateFormat } from '@/lib/date-time';
+import { TruncateText } from '@/components/TruncateText';
 
 export const EventDialog = ({
   openEventModal,
@@ -49,13 +51,16 @@ export const EventDialog = ({
           gap={2}
           mb={1.5}
         >
-          <Typography variant="h4">
-            Calender - {eventData?.event?._def?.extendedProps?.email}
+          <Typography variant="h4" display={'flex'} gap={1}>
+            Calender -{' '}
+            <TruncateText
+              text={eventData?.event?._def?.extendedProps?.email}
+              size={30}
+            />
           </Typography>
-          <CloseIcon
-            sx={{ color: 'custom.darker', cursor: 'pointer' }}
-            onClick={() => setOpenEventModal(false)}
-          />
+          <IconButton onClick={() => setOpenEventModal(false)}>
+            <CloseIcon sx={{ color: 'custom.darker' }} />
+          </IconButton>
         </Box>
       </DialogTitle>
       <DialogContent>

@@ -7,22 +7,25 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useAddLoyaltyProgramRewardsMutation,
   useGetLoyaltyProgramRewardsByIdQuery,
-  useLazyGetLoyaltyProgramLoyaltyTiersListDropdownQuery,
   useUpdateLoyaltyProgramRewardsMutation,
 } from '@/services/airLoyaltyProgram/loyalty/rewards';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { isoDateString } from '@/lib/date-time';
+import { useEffect } from 'react';
 
 export const useUpsertRewards = (props: any) => {
   const { setIsRewardDrawerOpen, isRewardDrawerOpen } = props;
 
-  const id = isRewardDrawerOpen?.data;
+  const rewardId = isRewardDrawerOpen?.data;
 
   const { data, isLoading, isFetching, isError } =
-    useGetLoyaltyProgramRewardsByIdQuery(id, {
-      refetchOnMountOrArgChange: true,
-      skip: !!!isRewardDrawerOpen?.data,
-    });
+    useGetLoyaltyProgramRewardsByIdQuery(
+      { id: rewardId },
+      {
+        refetchOnMountOrArgChange: true,
+        skip: !!!rewardId,
+      },
+    );
 
   const methods = useForm({
     resolver: yupResolver(rewardsValidationSchema),
@@ -30,20 +33,21 @@ export const useUpsertRewards = (props: any) => {
   });
   const { handleSubmit, watch, reset } = methods;
 
+  useEffect(() => {
+    reset(addRewardsDefaultValues(data));
+  }, [reset, data]);
+
   const [rewardsTrigger, rewardsStatus] = useAddLoyaltyProgramRewardsMutation();
   const onSubmit = async (formData: any) => {
     const rewardFormData = new FormData();
-    rewardFormData?.append('title', formData?.title);
     rewardFormData?.append('requiredPoints', formData?.requiredPoints);
     !!formData?.fileUrl && rewardFormData?.append('fileUrl', formData?.fileUrl);
     rewardFormData?.append('appliedTo', formData?.appliedTo?._id);
     rewardFormData?.append('costPrice', formData?.costPrice);
-    rewardFormData?.append('quantity', formData?.quantity);
-    rewardFormData?.append('activeFrom', isoDateString(formData?.activeFrom));
     rewardFormData?.append('activeTo', isoDateString(formData?.activeTo));
     rewardFormData?.append('redeemedLimitType', formData?.limitRewards);
     rewardFormData?.append('redemptionLimitPerConsumer', formData?.limit);
-    if (!!id) {
+    if (!!rewardId) {
       updateSubmit(rewardFormData);
       return;
     }
@@ -63,7 +67,7 @@ export const useUpsertRewards = (props: any) => {
     useUpdateLoyaltyProgramRewardsMutation();
   const updateSubmit = async (formData: any) => {
     const rewardFormData = formData;
-    rewardFormData?.append('id', id);
+    rewardFormData?.append('id', rewardId);
     const apiDataParameter = {
       body: rewardFormData,
     };
@@ -76,8 +80,6 @@ export const useUpsertRewards = (props: any) => {
       errorSnackbar(error?.data?.message);
     }
   };
-  const getTiersDropdown =
-    useLazyGetLoyaltyProgramLoyaltyTiersListDropdownQuery();
 
   return {
     watch,
@@ -86,9 +88,9 @@ export const useUpsertRewards = (props: any) => {
     handleSubmit,
     rewardsStatus,
     updateRewardStatus,
-    getTiersDropdown,
     isLoading,
     isFetching,
     isError,
+    rewardId,
   };
 };
