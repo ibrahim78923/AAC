@@ -3,7 +3,7 @@ import {
   RHFDropZone,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { Typography } from '@mui/material';
+import { Box, InputAdornment, Typography } from '@mui/material';
 import * as Yup from 'yup';
 import { GetTierAttributeListDropdown } from '../TiersFormFields/GetTierAttributeListDropdown';
 import { GetContactsListDropdown } from '../TiersFormFields/GetContactsListDropdown';
@@ -13,6 +13,9 @@ import {
   LOYALTY_PROGRAM_LOYALTY_TIERS_TYPE,
 } from '@/constants/api';
 import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
+import { PoundSignIcon } from '@/assets/icons';
+import { Attachments } from '@/components/Attachments';
+import { AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS } from '@/constants/permission-keys';
 
 const {
   LOYALTY_PROGRAM_TIERS_NAME_MAX_CHARACTERS,
@@ -275,6 +278,7 @@ export const upsertTiersBasicFormFieldsDynamic = (
   clearErrors: any,
   setValue: any,
   trigger: any,
+  tierId: string,
 ) => {
   return [
     ...(formStep === FORM_STEP_CONSTANT?.FIRST_STEP
@@ -318,6 +322,37 @@ export const upsertTiersBasicFormFieldsDynamic = (
               },
             },
           },
+          ...(!!tierId
+            ? [
+                {
+                  id: 3.5,
+                  component: Box,
+                  heading: (
+                    <>
+                      <Typography
+                        variant="body1"
+                        fontWeight={'fontWeightSmall'}
+                        color="slateBlue.main"
+                        mb={2}
+                      >
+                        {' '}
+                        Attachments{' '}
+                      </Typography>
+                      <Box maxHeight={'20vh'}>
+                        <Attachments
+                          recordId={tierId}
+                          permissionKey={[
+                            AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS?.EDIT_OR_DELETE_TIERS,
+                          ]}
+                          colSpan={{ sm: 12, lg: 12 }}
+                        />
+                      </Box>
+                    </>
+                  ),
+                  componentProps: {},
+                },
+              ]
+            : []),
           {
             id: 4,
             component: Typography,
@@ -340,6 +375,13 @@ export const upsertTiersBasicFormFieldsDynamic = (
               type: 'number',
               inputProps: {
                 min: 0,
+              },
+              InputProps: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <PoundSignIcon />
+                  </InputAdornment>
+                ),
               },
               onBlurHandler: async () => await trigger('amount'),
             },

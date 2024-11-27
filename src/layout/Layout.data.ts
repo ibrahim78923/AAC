@@ -282,32 +282,32 @@ export const LoyaltyProgramsRoutes: any = [
         permissions: Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS,
       },
       {
-        key: AIR_LOYALTY_PROGRAM?.LOYALTY_TRANSACTION,
-        label: 'Transactions',
-        permissions: Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_TRANSACTIONS,
-      },
-      {
-        key: AIR_LOYALTY_PROGRAM?.LOYALTY_RULES_AND_TIERS,
-        label: 'Rules & Tiers',
-        permissions: Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS,
-      },
-      {
         key: AIR_LOYALTY_PROGRAM?.VOUCHERS,
         label: 'Vouchers',
         permissions: Permissions?.AIR_LOYALTY_PROGRAM_VOUCHERS,
+      },
+      {
+        key: AIR_LOYALTY_PROGRAM?.LOYALTY_RULES_AND_TIERS,
+        label: 'Tiers & Rules',
+        permissions: Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS,
+      },
+      {
+        key: AIR_LOYALTY_PROGRAM?.LOYALTY_TRANSACTION,
+        label: 'Transactions',
+        permissions: Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_TRANSACTIONS,
       },
     ],
   },
   {
     key: AIR_LOYALTY_PROGRAM?.GIFT_CARDS,
-    label: 'Gift Cards',
+    label: 'Gift cards',
     icon: GiftCardImage,
     role: 'Loyalty-Program',
     permissions: Permissions?.AIR_LOYALTY_PROGRAM_GIFT_CARDS,
     textNames: [
       {
         key: AIR_LOYALTY_PROGRAM?.GIFT_CARDS,
-        label: 'Gift Cards',
+        label: 'Gift cards',
         permissions: Permissions?.AIR_LOYALTY_PROGRAM_GIFT_CARDS_GIFT_CARD,
       },
       {

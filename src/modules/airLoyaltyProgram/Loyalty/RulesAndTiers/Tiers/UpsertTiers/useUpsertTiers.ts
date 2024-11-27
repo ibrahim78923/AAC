@@ -170,6 +170,7 @@ export const useUpsertTiers = () => {
     clearErrors,
     setValue,
     trigger,
+    isPortalOpen?.data?._id,
   );
 
   const apiCallInProgress =

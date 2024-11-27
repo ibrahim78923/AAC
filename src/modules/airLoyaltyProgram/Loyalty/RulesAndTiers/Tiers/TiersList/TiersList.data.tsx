@@ -21,7 +21,7 @@ export const tiersListColumnsDynamic = (
     header: 'Tiers',
     cell: (info: any) => (
       <UserInfo
-        avatarSrc={info?.row?.original?.logo}
+        avatarSrc={info?.row?.original?.logo?.fileUrl}
         name={
           <Box display="flex" gap={1} alignItems={'center'}>
             {fullName(info?.getValue())}
