@@ -1,7 +1,6 @@
 import { ActivityStatusMenu } from '@/components/ActivityStatusMenu';
 import { ACTIVITY_STATUS_MENU } from '@/constants';
 import { usePutLoyaltyProgramConsumersStatusMutation } from '@/services/airLoyaltyProgram/consumers';
-import { capitalizeStatus } from '@/utils';
 
 export default function ListStatusAction(props: any) {
   const { info, status } = props;
@@ -17,7 +16,7 @@ export default function ListStatusAction(props: any) {
       hasPermission
       apiQuery={usePutLoyaltyProgramConsumersStatusMutation?.()}
       patchParameterProps={(event: any) => ({
-        status: capitalizeStatus(event?.target?.value),
+        status: event?.target?.value,
         ids: [info?.row?.original?._id],
       })}
     />

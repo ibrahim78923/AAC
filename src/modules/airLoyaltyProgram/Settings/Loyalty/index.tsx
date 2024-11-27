@@ -18,7 +18,7 @@ export const Loyalty = () => {
   } = useLoyalty();
 
   return (
-    <>
+    <Box sx={{ minHeight: '100%', display: 'flex', flexDirection: 'column' }}>
       <PageTitledHeader title="Loyalty" />
       <Box bgcolor="primary.lighter" p={1} borderRadius={2} mb={3}>
         <PageTitledHeader
@@ -27,75 +27,77 @@ export const Loyalty = () => {
           outerMarginBottom={0.1}
         />
       </Box>
-      {showLoader ? (
-        <SkeletonForm length={1} />
-      ) : isError ? (
-        <ApiErrorState />
-      ) : (
-        <FormProvider methods={methods} onSubmit={handleSubmit(submitLoyalty)}>
-          <Grid container spacing={1}>
-            <Grid item xs={12} md={8}>
-              <RHFTextField
-                name="maxPointLimit"
-                label="Maximum points limit"
-                placeholder="Enter maximum points limit (e.g., 1000)"
-                size="small"
-                type="number"
-                inputProps={{
-                  min: 0,
-                }}
-              />
+      <Box sx={{ flexGrow: 1 }}>
+        {showLoader ? (
+          <SkeletonForm length={2} />
+        ) : isError ? (
+          <ApiErrorState />
+        ) : (
+          <FormProvider methods={methods}>
+            <Grid container spacing={1}>
+              <Grid item xs={12} md={8}>
+                <RHFTextField
+                  name="maxPointLimit"
+                  label="Maximum points limit"
+                  placeholder="Enter maximum points limit (e.g., 1000)"
+                  size="small"
+                  type="number"
+                  inputProps={{
+                    min: 0,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} md={8}>
+                <RHFTextField
+                  name="exchangeRate"
+                  label="Exchange rate per point"
+                  placeholder="Enter exchange rate per point (e.g., 1)"
+                  size="small"
+                  type="number"
+                  inputProps={{
+                    min: 0,
+                  }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <PoundSignIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12} md={8}>
-              <RHFTextField
-                name="exchangeRate"
-                label="Exchange rate per point"
-                placeholder="Enter exchange rate per point (e.g., 1)"
-                size="small"
-                type="number"
-                inputProps={{
-                  min: 0,
-                }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <PoundSignIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-          </Grid>
-          <Box minHeight={{ xs: '5vh', md: '50vh' }} />
-          <Box
-            sx={{
-              width: '100%',
-              textAlign: 'right',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-              gap: 2,
-            }}
-          >
-            <LoadingButton
-              type="button"
-              variant="outlined"
-              color="inherit"
-              disabled={apiCallInProgress}
-              onClick={() => methods?.reset()}
-            >
-              Cancel
-            </LoadingButton>
-            <LoadingButton
-              type="submit"
-              variant="contained"
-              loading={apiCallInProgress}
-            >
-              Save
-            </LoadingButton>
-          </Box>
-        </FormProvider>
-      )}
-    </>
+          </FormProvider>
+        )}
+      </Box>
+      <Box
+        sx={{
+          width: '100%',
+          textAlign: 'right',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          gap: 2,
+        }}
+      >
+        <LoadingButton
+          type="button"
+          variant="outlined"
+          color="inherit"
+          disabled={apiCallInProgress}
+          onClick={() => methods?.reset()}
+        >
+          Cancel
+        </LoadingButton>
+        <LoadingButton
+          type="submit"
+          variant="contained"
+          loading={apiCallInProgress}
+          onClick={handleSubmit(submitLoyalty)}
+        >
+          Save
+        </LoadingButton>
+      </Box>
+    </Box>
   );
 };

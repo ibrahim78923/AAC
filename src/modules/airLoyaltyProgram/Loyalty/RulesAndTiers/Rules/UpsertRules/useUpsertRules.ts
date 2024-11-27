@@ -58,7 +58,6 @@ export const useUpsertRules = () => {
     };
 
     const body = {
-      type: 'CUSTOMER', //TODO : will delete when api update acc 2 new requirements
       attribute: formData?.attribute?._id,
       description: formData?.description,
       tierId: formData?.appliedTo?._id,

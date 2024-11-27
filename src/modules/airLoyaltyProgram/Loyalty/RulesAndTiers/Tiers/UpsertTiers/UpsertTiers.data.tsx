@@ -207,7 +207,11 @@ export const upsertTiersFormValidationSchema = (formStep: number) =>
               LOYALTY_PROGRAM_TIERS_NAME_MAX_CHARACTERS,
               `Maximum characters limit is ${LOYALTY_PROGRAM_TIERS_NAME_MAX_CHARACTERS}`,
             )
-            ?.matches(REGEX?.ALPHABETS_AND_SPACE, 'must be a string'),
+            ?.test(
+              'contains-alphabet',
+              'Description must be a string',
+              (value) => !value || REGEX?.ALPHABETS?.test(value),
+            ),
           description: Yup?.string()
             ?.trim()
             ?.required('Description is required')
@@ -215,7 +219,11 @@ export const upsertTiersFormValidationSchema = (formStep: number) =>
               LOYALTY_PROGRAM_TIERS_DESCRIPTION_MAX_CHARACTERS,
               `Maximum characters limit is ${LOYALTY_PROGRAM_TIERS_DESCRIPTION_MAX_CHARACTERS}`,
             )
-            ?.matches(REGEX?.ALPHABETS_AND_SPACE, 'must be a string'),
+            ?.test(
+              'contains-alphabet',
+              'Description must be a string',
+              (value) => !value || REGEX?.ALPHABETS?.test(value),
+            ),
           logo: Yup?.mixed()?.nullable(),
           amount: Yup?.number()
             ?.typeError('Not a number')

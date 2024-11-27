@@ -18,72 +18,74 @@ export const GiftCards = () => {
   } = useGiftCards();
 
   return (
-    <>
+    <Box sx={{ minHeight: '100%', display: 'flex', flexDirection: 'column' }}>
       <PageTitledHeader title="Gift cards" />
-      <Box bgcolor="primary.lighter" p={1} borderRadius={2} mb={1}>
+      <Box bgcolor="primary.lighter" p={1} borderRadius={2} mb={3}>
         <PageTitledHeader
           title="General"
           titleVariant="h6"
           outerMarginBottom={0.1}
         />
       </Box>
-      {showLoader ? (
-        <SkeletonForm length={1} />
-      ) : isError ? (
-        <ApiErrorState />
-      ) : (
-        <FormProvider methods={methods} onSubmit={handleSubmit(submitGiftCard)}>
-          <Grid container spacing={1}>
-            <Grid item xs={12} md={7}>
-              <RHFTextField
-                name="giftCardMaxAmount"
-                label="Maximum amount limit"
-                placeholder="Enter maximum amount limit (e.g., 1000)"
-                size="small"
-                type="number"
-                inputProps={{
-                  min: 0,
-                }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <PoundSignIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
+      <Box sx={{ flexGrow: 1 }}>
+        {showLoader ? (
+          <SkeletonForm length={1} />
+        ) : isError ? (
+          <ApiErrorState />
+        ) : (
+          <FormProvider methods={methods}>
+            <Grid container spacing={1}>
+              <Grid item xs={12} md={7}>
+                <RHFTextField
+                  name="giftCardMaxAmount"
+                  label="Maximum amount limit"
+                  placeholder="Enter maximum amount limit (e.g., 1000)"
+                  size="small"
+                  type="number"
+                  inputProps={{
+                    min: 0,
+                  }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <PoundSignIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
             </Grid>
-          </Grid>
-          <Box minHeight={{ xs: '5vh', md: '50vh' }} />
-          <Box
-            sx={{
-              width: '100%',
-              textAlign: 'right',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-              gap: 2,
-            }}
-          >
-            <LoadingButton
-              type="button"
-              variant="outlined"
-              color="inherit"
-              disabled={apiCallInProgress}
-              onClick={() => methods?.reset()}
-            >
-              Cancel
-            </LoadingButton>
-            <LoadingButton
-              type="submit"
-              variant="contained"
-              loading={apiCallInProgress}
-            >
-              Save
-            </LoadingButton>
-          </Box>
-        </FormProvider>
-      )}
-    </>
+          </FormProvider>
+        )}
+      </Box>
+      <Box
+        sx={{
+          width: '100%',
+          textAlign: 'right',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          gap: 2,
+        }}
+      >
+        <LoadingButton
+          type="button"
+          variant="outlined"
+          color="inherit"
+          disabled={apiCallInProgress}
+          onClick={() => methods?.reset()}
+        >
+          Cancel
+        </LoadingButton>
+        <LoadingButton
+          type="submit"
+          variant="contained"
+          loading={apiCallInProgress}
+          onClick={handleSubmit(submitGiftCard)}
+        >
+          Save
+        </LoadingButton>
+      </Box>
+    </Box>
   );
 };

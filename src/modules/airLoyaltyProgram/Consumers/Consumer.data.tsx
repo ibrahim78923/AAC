@@ -2,7 +2,7 @@ import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
 import { TruncateText } from '@/components/TruncateText';
 import { UserInfo } from '@/components/UserInfo';
-import { DATE_TIME_FORMAT } from '@/constants';
+import { ACTIVITY_STATUS_MENU, DATE_TIME_FORMAT } from '@/constants';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { Box, Checkbox, Typography } from '@mui/material';
 import dayjs from 'dayjs';
@@ -24,7 +24,7 @@ export const getHeaderActionButtonDropdown = (
       </Box>
     ),
     handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      handleHeaderActionButtonStatusChange('Active');
+      handleHeaderActionButtonStatusChange(ACTIVITY_STATUS_MENU?.ACTIVE);
       closeMenu?.();
     },
   },
@@ -39,7 +39,7 @@ export const getHeaderActionButtonDropdown = (
       </Box>
     ),
     handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      handleHeaderActionButtonStatusChange('Inactive');
+      handleHeaderActionButtonStatusChange(ACTIVITY_STATUS_MENU?.INACTIVE);
       closeMenu?.();
     },
   },
