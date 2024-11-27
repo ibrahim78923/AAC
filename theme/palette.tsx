@@ -81,6 +81,7 @@ const CUSTOM_COLORS = {
   main: '#6B7280',
   dark: '#D1D5DB',
   errorLighter: '#fff2f2',
+  errorTextColor: '#5f2120',
   successLighter: '#EEF9F1',
   bluish_gray: '#BCC1CE',
   bright: '#0AADC7',
