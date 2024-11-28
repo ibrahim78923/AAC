@@ -1,11 +1,10 @@
-import { Box, Chip, Typography, Avatar } from '@mui/material';
+import { Box, Chip, Typography } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
-import { pxToRem } from '@/utils/getFontValue';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import useTicketInfoCard from './useTicketInfoCard';
-import { fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import {
   AIR_SERVICES_TICKETS_TICKETS_DETAILS,
   AIR_SERVICES_TICKETS_TICKET_LISTS,
@@ -17,6 +16,8 @@ import { RENDER_COLOR } from '../TicketsBoardView.data';
 import { TICKET_STATUS, TICKET_TYPE } from '@/constants/strings';
 import { TruncateText } from '@/components/TruncateText';
 import { AIR_SERVICES } from '@/constants/routes';
+import { formatTimeDifference } from '@/lib/date-time';
+import { CustomAvatar } from '@/components/CustomAvatar';
 
 export const TicketInfoCard = (props: any) => {
   const { details } = props;
@@ -25,9 +26,7 @@ export const TicketInfoCard = (props: any) => {
     theme,
     router,
     openMessage,
-    resolvedMessage,
     pendingMessage,
-    closedMessage,
     singleTicketBoardViewDropdownOptions,
   } = useTicketInfoCard(props);
 
@@ -78,18 +77,20 @@ export const TicketInfoCard = (props: any) => {
                 AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS,
               ]}
             >
-              <SingleDropdownButton
-                dropdownOptions={singleTicketBoardViewDropdownOptions?.(
-                  details,
-                )}
-                dropdownName={<MoreVertIcon />}
-                hasEndIcon={false}
-                btnVariant="text"
-              />
+              <Box>
+                <SingleDropdownButton
+                  dropdownOptions={singleTicketBoardViewDropdownOptions?.(
+                    details,
+                  )}
+                  dropdownName={<MoreVertIcon />}
+                  hasEndIcon={false}
+                  btnVariant="text"
+                />
+              </Box>
             </PermissionsGuard>
           </Box>
         </Box>
-        <Typography variant={'body2'} color="slateBlue.main">
+        <Typography variant={'body2'} color="slateBlue.main" component={'div'}>
           {details?.ticketType === TICKET_TYPE?.SR ? (
             <TruncateText
               text={details?.subject}
@@ -107,8 +108,11 @@ export const TicketInfoCard = (props: any) => {
         >
           <Box display={'flex'} gap={2} alignItems={'center'}>
             <Chip
-              label={details?.pirority ?? '-'}
+              label={details?.pirority?.toLowerCase() ?? '---'}
               size="small"
+              sx={{
+                textTransform: 'capitalize',
+              }}
               icon={
                 <FiberManualRecordIcon
                   fontSize={'medium'}
@@ -144,7 +148,7 @@ export const TicketInfoCard = (props: any) => {
                     variant="body3"
                     color={theme?.palette?.custom?.dark}
                   >
-                    {resolvedMessage}
+                    ResolvedAt: {formatTimeDifference(details?.resolvedAt)}
                   </Typography>
                 </>
               ) : details?.status === TICKET_STATUS?.PENDING ? (
@@ -170,27 +174,24 @@ export const TicketInfoCard = (props: any) => {
                     variant="body3"
                     color={theme?.palette?.custom?.dark}
                   >
-                    {closedMessage}
+                    Closed:
+                    {formatTimeDifference(details?.closedAt)}
                   </Typography>
                 </>
               ) : null}
             </Box>
           </Box>
-          <Avatar
-            sx={{
-              bgcolor: theme?.palette?.primary?.main,
-              width: 20,
-              height: 20,
-            }}
-            src={generateImage(details?.requesterDetails?.avatar?.url)}
-          >
-            <Typography fontSize={pxToRem(10)} textTransform={'uppercase'}>
-              {fullNameInitial(
-                details?.requesterDetails?.firstName,
-                details?.requesterDetails?.lastName,
-              )}
-            </Typography>
-          </Avatar>
+          <CustomAvatar
+            avatarSrc={details?.requesterDetails?.avatar?.url}
+            nameInitial={fullNameInitial(
+              details?.requesterDetails?.firstName,
+              details?.requesterDetails?.lastName,
+            )}
+            tooltipTitle={`Requester: ${fullName(
+              details?.requesterDetails?.firstName,
+              details?.requesterDetails?.lastName,
+            )}`}
+          />
         </Box>
       </Box>
     </>

@@ -1,15 +1,13 @@
 import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { Checkbox } from '@mui/material';
-import { REQUESTORS_STATUS, WORKFLOW_TYPE } from '@/constants/strings';
-import { AntSwitch } from '@/components/AntSwitch';
 import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { fullName } from '@/utils/avatarUtils';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { capitalizeFirstLetter } from '@/utils/api';
-import { warningSnackbar } from '@/lib/snackbar';
 import { WorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
 import { TruncateText } from '@/components/TruncateText';
+import { WorkflowStatus } from './WorkflowStatus';
+import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 
 export const salesWorkflowActionDropdownDynamic = (
   selectedSalesWorkflowLists: WorkflowI[],
@@ -21,14 +19,10 @@ export const salesWorkflowActionDropdownDynamic = (
     id: 1,
     title: 'Edit',
     handleClick: (closeMenu: () => void) => {
-      if (selectedSalesWorkflowLists?.length > 1) {
-        warningSnackbar('Please select only one workflow');
-        closeMenu?.();
-        return;
-      }
       handleEditWorkflow();
       closeMenu?.();
     },
+    disabled: selectedSalesWorkflowLists?.length > SELECTED_ARRAY_LENGTH?.ONE,
     permissionKey: [
       AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.EDIT_WORKFLOW,
     ],
@@ -37,14 +31,10 @@ export const salesWorkflowActionDropdownDynamic = (
     id: 2,
     title: 'Clone',
     handleClick: (closeMenu: () => void) => {
-      if (selectedSalesWorkflowLists?.length > 1) {
-        warningSnackbar('Please select only one workflow to proceed.');
-        closeMenu?.();
-        return;
-      }
       handleClone?.();
       closeMenu?.();
     },
+    disabled: selectedSalesWorkflowLists?.length > SELECTED_ARRAY_LENGTH?.ONE,
     permissionKey: [AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.CLONE],
   },
   {
@@ -64,8 +54,6 @@ export const salesWorkflowListsColumnDynamic = (
   activeCheck: WorkflowI[],
   setActiveCheck: Dispatch<SetStateAction<any[]>>,
   tableData: WorkflowI[],
-  handleChangeStatus: (arg: WorkflowI) => void,
-  switchLoading: boolean[],
 ) => {
   return [
     {
@@ -159,24 +147,7 @@ export const salesWorkflowListsColumnDynamic = (
       isSortable: true,
       header: 'Status',
       cell: (info: any) => {
-        const getValues =
-          info?.getValue() === REQUESTORS_STATUS?.ACTIVE ? true : false;
-        return (
-          <PermissionsGuard
-            permissions={[
-              AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.ACTIVE_INACTIVE_WORKFLOW,
-            ]}
-          >
-            <AntSwitch
-              disabled={
-                info?.row?.original?.activity?.type === WORKFLOW_TYPE?.SAVED
-              }
-              checked={getValues}
-              isLoading={switchLoading?.[info?.row?.original?._id]}
-              onClick={() => handleChangeStatus?.(info?.row?.original)}
-            />
-          </PermissionsGuard>
-        );
+        return <WorkflowStatus rowData={info?.row?.original} />;
       },
     },
     {

@@ -52,7 +52,7 @@ export const loyaltyProgramLoyaltyRulesAPI = baseAPI?.injectEndpoints({
         params,
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.data?.tiers ?? [];
+        if (response) return response?.data?.mergedResults ?? [];
       },
     }),
   }),

@@ -39,6 +39,7 @@ const SalesProductCategories = () => {
     isSuccess,
     loadingAdd,
     loadingUpdate,
+    isFetching,
   } = useSalesProduct();
   return (
     <>
@@ -140,7 +141,7 @@ const SalesProductCategories = () => {
               count={tableRow?.data?.meta?.pages}
               isPagination
               pageLimit={tableRow?.data?.meta?.limit}
-              isLoading={isLoading}
+              isLoading={isLoading || isFetching}
               isSuccess={isSuccess}
             />
           </PermissionsGuard>

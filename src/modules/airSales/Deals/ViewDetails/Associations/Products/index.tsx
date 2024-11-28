@@ -12,12 +12,7 @@ import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 import { DRAWER_TYPES } from '@/constants/strings';
 import { ProductsProps } from '../Associations-interface';
 
-const Products = ({
-  productsData,
-  isLoading,
-  viewDeal,
-  dealId,
-}: ProductsProps) => {
+const Products = ({ viewDeal, dealId }: ProductsProps) => {
   const {
     theme,
     isOpenAlert,
@@ -32,6 +27,7 @@ const Products = ({
     deleteProductHandler,
     handleQuantityChange,
     getDealsAssociateProducts,
+    fetchingProducts,
   } = useProducts(dealId);
 
   return (
@@ -44,14 +40,14 @@ const Products = ({
     >
       <Grid container spacing={2}>
         <Grid item md={4} sx={styles?.countBox}>
-          {isLoading ? (
+          {fetchingProducts ? (
             <Skeleton variant="text" height={40} width={120} />
           ) : (
             <>
               <Typography sx={styles?.associationCount(theme)} variant="body3">
-                {productsData?.length < 10
-                  ? `0${productsData?.length}`
-                  : productsData?.length}
+                {getDealsAssociateProducts?.data?.length < 10
+                  ? `0${getDealsAssociateProducts?.data?.length}`
+                  : getDealsAssociateProducts?.data?.length}
               </Typography>
               <Typography variant="h5">Products</Typography>
             </>
@@ -84,8 +80,9 @@ const Products = ({
                 onClick={() => {
                   setOpenDrawer(DRAWER_TYPES?.ADD), setSelectedProduct({});
                 }}
+                startIcon={<PlusIcon />}
               >
-                <PlusIcon /> Add Products
+                Add Products
               </Button>
             </PermissionsGuard>
           </Box>
@@ -99,8 +96,8 @@ const Products = ({
               setSelectedProduct,
               handleQuantityChange,
             })}
-            // data={productsData}
             data={getDealsAssociateProducts?.data}
+            isLoading={fetchingProducts}
           />
         </Grid>
       </Grid>

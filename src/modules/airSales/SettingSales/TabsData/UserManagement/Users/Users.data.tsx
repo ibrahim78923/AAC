@@ -1,4 +1,4 @@
-import { Checkbox } from '@mui/material';
+import { Checkbox, CircularProgress } from '@mui/material';
 import { SwitchBtn } from '@/components/SwitchButton';
 import useUsers from './useUsers';
 import { getSession } from '@/utils';
@@ -13,7 +13,7 @@ export const columnsUser = (
   tableData: any,
 ) => {
   const { user }: any = getSession();
-  const { handleUpdateStatus } = useUsers();
+  const { handleUpdateStatus, loadingState } = useUsers();
 
   const handleSelectCompaniesById = (checked: boolean, id: string): void => {
     if (checked) {
@@ -71,22 +71,30 @@ export const columnsUser = (
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => (
-        <PermissionsGuard
-          permissions={[AIR_SALES_SETTINGS?.ACTIVE_INACTIVE_USER]}
-        >
-          <SwitchBtn
-            defaultChecked={
-              info?.row?.original?.status === PLAN_STATUS?.ACTIVE ? true : false
-            }
-            name={info?.getValue()}
-            handleSwitchChange={(val: any) =>
-              handleUpdateStatus(info?.row?.original?._id, val)
-            }
-            disabled={info?.row?.original?.user === user?._id}
-          />
-        </PermissionsGuard>
-      ),
+      cell: (info: any) => {
+        const rowId = info?.row?.original?._id;
+        const isLoading = loadingState[rowId] ?? false;
+
+        return isLoading ? (
+          <CircularProgress size={25} />
+        ) : (
+          <PermissionsGuard
+            permissions={[AIR_SALES_SETTINGS?.ACTIVE_INACTIVE_USER]}
+          >
+            <SwitchBtn
+              defaultChecked={
+                info?.row?.original?.status === PLAN_STATUS?.ACTIVE
+                  ? true
+                  : false
+              }
+              handleSwitchChange={(val: any) =>
+                handleUpdateStatus(info?.row?.original?._id, val)
+              }
+              disabled={info?.row?.original?.user === user?._id}
+            />
+          </PermissionsGuard>
+        );
+      },
     },
   ];
 };

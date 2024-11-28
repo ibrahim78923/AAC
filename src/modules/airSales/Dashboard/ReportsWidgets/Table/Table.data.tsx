@@ -1,20 +1,21 @@
 import { CustomChips } from '@/components/CustomChips';
-import { COLLECTION_NAME, FIELD_TYPE } from '@/constants/strings';
+import { BACKEND_COLLECTION_NAME } from '@/constants/api';
+import { FIELD_TYPE } from '@/constants/strings';
 import { fullName } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
 
 export const TABLE_CELL_DATA_MAP: any = (item: any) => {
   return {
-    [COLLECTION_NAME?.ASSET_TYPES]: fullName(item?.name),
-    [COLLECTION_NAME?.LOCATION]: fullName(item?.locationName),
-    [COLLECTION_NAME?.DEPARTMENT]: fullName(item?.name),
-    [COLLECTION_NAME?.VENDORS]: fullName(item?.name),
-    [COLLECTION_NAME?.USERS]: fullName(item?.firstName, item?.lastName),
-    [COLLECTION_NAME?.SERVICE_CATEGORIES]: fullName(item?.categoryName),
-    [COLLECTION_NAME?.DEAL_PIPELINES]: fullName(item?.name),
-    [COLLECTION_NAME?.SALES_PIPELINES]: fullName(item?.name),
-    [COLLECTION_NAME?.CONTRACT_TYPE]: fullName(item?.name),
-    [COLLECTION_NAME?.USERS]: fullName(item?.firstName, item?.lastName),
+    [BACKEND_COLLECTION_NAME?.ASSET_TYPES]: fullName(item?.name),
+    [BACKEND_COLLECTION_NAME?.LOCATION]: fullName(item?.locationName),
+    [BACKEND_COLLECTION_NAME?.DEPARTMENT]: fullName(item?.name),
+    [BACKEND_COLLECTION_NAME?.VENDORS]: fullName(item?.name),
+    [BACKEND_COLLECTION_NAME?.USERS]: fullName(item?.firstName, item?.lastName),
+    [BACKEND_COLLECTION_NAME?.SERVICE_CATEGORIES]: fullName(item?.categoryName),
+    [BACKEND_COLLECTION_NAME?.DEAL_PIPELINES]: fullName(item?.name),
+    [BACKEND_COLLECTION_NAME?.FORECAST_PIPELINES]: fullName(item?.name),
+    [BACKEND_COLLECTION_NAME?.CONTRACT_TYPE]: fullName(item?.name),
+    [BACKEND_COLLECTION_NAME?.USERS]: fullName(item?.firstName, item?.lastName),
   };
 };
 

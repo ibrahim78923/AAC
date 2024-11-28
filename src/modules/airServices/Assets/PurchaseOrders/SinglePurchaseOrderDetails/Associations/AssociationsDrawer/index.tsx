@@ -44,93 +44,91 @@ export const AssociationsDrawer = (props: any) => {
         isDisabled={!selectedTicketList?.length}
         disabledCancelBtn={postRemoveAssociateTicketsStatus?.isLoading}
       >
-        <Box pt={1}>
+        <Box my={1}>
           <Search
             label="Search"
             width="100%"
             searchBy={search}
             setSearchBy={handleSearch}
           />
-          <Box sx={{ height: '66vh', mt: 1 }}>
-            {!lazyGetTicketsStatus?.isLoading ? (
-              tickets?.length ? (
-                tickets?.map((item: any) => (
-                  <Box
-                    display={'flex'}
-                    justifyContent={'space-between'}
-                    alignItems={'center'}
-                    border={`.1rem solid ${theme?.palette?.grey?.[0]}`}
-                    borderRadius={'.5rem'}
-                    padding={'.7rem'}
-                    marginBottom={'1rem'}
-                    mt={'16px'}
-                    key={item?._id}
-                  >
-                    <Box
-                      display={'flex'}
-                      justifyContent={'center'}
-                      alignItems={'center'}
-                      gap={'1rem'}
-                    >
-                      <Checkbox
-                        icon={<CheckboxIcon />}
-                        checkedIcon={<CheckboxCheckedIcon />}
-                        color="primary"
-                        checked={
-                          !!selectedTicketList?.find(
-                            (ticket: any) => ticket?._id === item?._id,
-                          )
-                        }
-                        onChange={(e: any) => {
-                          e?.target?.checked
-                            ? setSelectedTicketList([
-                                ...selectedTicketList,
-                                tickets?.find(
-                                  (ticket: any) => ticket?._id === item?._id,
-                                ),
-                              ])
-                            : setSelectedTicketList(
-                                selectedTicketList?.filter((ticket: any) => {
-                                  return ticket?._id !== item?._id;
-                                }),
-                              );
-                        }}
-                      />
-                      <Typography>{item?.subject}</Typography>
-                    </Box>
-
-                    <Chip
-                      label={item?.status?.toLowerCase()}
-                      sx={{
-                        color: 'primary.main',
-                        backgroundColor: 'primary.light',
-                        textTransform: 'capitalize',
-                        fontWeight: 700,
-                      }}
-                    />
-                  </Box>
-                ))
-              ) : (
-                <NoData message={'No data is available'} height="40vh" />
-              )
-            ) : (
-              <SkeletonTable />
-            )}
-          </Box>
-          {metaData && (
-            <Box>
-              <CustomPagination
-                currentPage={page}
-                count={metaData?.pages}
-                pageLimit={pageLimit}
-                totalRecords={metaData?.total}
-                onPageChange={(page: any) => setPage(page)}
-                setPage={setPage}
-                setPageLimit={setPageLimit}
-              />
-            </Box>
-          )}
         </Box>
+        {!lazyGetTicketsStatus?.isLoading ? (
+          tickets?.length ? (
+            tickets?.map((item: any) => (
+              <Box
+                display={'flex'}
+                justifyContent={'space-between'}
+                alignItems={'center'}
+                border={`.1rem solid ${theme?.palette?.grey?.[0]}`}
+                borderRadius={'.5rem'}
+                padding={'.7rem'}
+                marginBottom={'1rem'}
+                mt={'16px'}
+                key={item?._id}
+              >
+                <Box
+                  display={'flex'}
+                  justifyContent={'center'}
+                  alignItems={'center'}
+                  gap={'1rem'}
+                >
+                  <Checkbox
+                    icon={<CheckboxIcon />}
+                    checkedIcon={<CheckboxCheckedIcon />}
+                    color="primary"
+                    checked={
+                      !!selectedTicketList?.find(
+                        (ticket: any) => ticket?._id === item?._id,
+                      )
+                    }
+                    onChange={(e: any) => {
+                      e?.target?.checked
+                        ? setSelectedTicketList([
+                            ...selectedTicketList,
+                            tickets?.find(
+                              (ticket: any) => ticket?._id === item?._id,
+                            ),
+                          ])
+                        : setSelectedTicketList(
+                            selectedTicketList?.filter((ticket: any) => {
+                              return ticket?._id !== item?._id;
+                            }),
+                          );
+                    }}
+                  />
+                  <Typography>{item?.subject}</Typography>
+                </Box>
+
+                <Chip
+                  label={item?.status?.toLowerCase()}
+                  sx={{
+                    color: 'primary.main',
+                    backgroundColor: 'primary.light',
+                    textTransform: 'capitalize',
+                    fontWeight: 700,
+                  }}
+                />
+              </Box>
+            ))
+          ) : (
+            <NoData message={'No data is available'} height="40vh" />
+          )
+        ) : (
+          <SkeletonTable />
+        )}
+        {metaData && (
+          <Box>
+            <CustomPagination
+              currentPage={page}
+              count={metaData?.pages}
+              pageLimit={pageLimit}
+              totalRecords={metaData?.total}
+              onPageChange={(page: any) => setPage(page)}
+              setPage={setPage}
+              setPageLimit={setPageLimit}
+            />
+          </Box>
+        )}
       </CommonDrawer>
     </>
   );

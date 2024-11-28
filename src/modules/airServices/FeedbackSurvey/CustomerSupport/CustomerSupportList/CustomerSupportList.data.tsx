@@ -2,13 +2,13 @@ import { NextRouter } from 'next/router';
 import { Checkbox, Chip, LinearProgress } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { capitalizeFirstLetter } from '@/utils/api';
-import { errorSnackbar } from '@/lib/snackbar';
 import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
 import { AIR_SERVICES } from '@/constants/routes';
 import {
   ARRAY_INDEX,
   FEEDBACK_STATUS,
   FEEDBACK_SURVEY_PATH_TYPES,
+  SELECTED_ARRAY_LENGTH,
 } from '@/constants/strings';
 import { AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS } from '@/constants/permission-keys';
 import { Permissions } from '@/constants/permissions';
@@ -160,17 +160,15 @@ export const feedbackDropdown = (
       id: 2,
       title: cloneLoading ? <LinearProgress sx={{ width: '70px' }} /> : 'Clone',
       handleClick: (closeMenu: () => void) => {
-        if (activeCheck?.length > 1) {
-          errorSnackbar('Please select only one survey to clone');
-          closeMenu?.();
-          return;
-        }
         handleCloneSurvey(closeMenu);
       },
       permissionKey: [
         AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SUPPORT_SURVEY_CLONE,
       ],
-      disabled: cloneLoading || statusLoading,
+      disabled:
+        cloneLoading ||
+        statusLoading ||
+        activeCheck?.length > SELECTED_ARRAY_LENGTH?.ONE,
     },
     {
       id: 4,
@@ -195,14 +193,12 @@ export const feedbackDropdown = (
         'Inactive'
       ),
       handleClick: (closeMenu: () => void) => {
-        if (activeCheck?.length > 1) {
-          errorSnackbar('Please select only one to change status');
-          closeMenu?.();
-          return;
-        }
         handleStatus(closeMenu);
       },
-      disabled: cloneLoading || statusLoading,
+      disabled:
+        cloneLoading ||
+        statusLoading ||
+        activeCheck?.length > SELECTED_ARRAY_LENGTH?.ONE,
       permissionKey:
         Permissions?.AIR_SERVICES_CUSTOMER_SUPPORT_FEEDBACK_SURVEY_ACTIONS,
     });
@@ -212,15 +208,13 @@ export const feedbackDropdown = (
       id: 5,
       title: 'Copy Survey Link',
       handleClick: (closeMenu: () => void) => {
-        if (activeCheck?.length > 1) {
-          errorSnackbar('Please select one to copy survey link');
-          closeMenu?.();
-          return;
-        }
         handleCopy(activeCheck?.[ARRAY_INDEX?.ZERO]?.magicLink);
         closeMenu?.();
       },
-      disabled: cloneLoading || statusLoading,
+      disabled:
+        cloneLoading ||
+        statusLoading ||
+        activeCheck?.length > SELECTED_ARRAY_LENGTH?.ONE,
       permissionKey:
         Permissions?.AIR_SERVICES_CUSTOMER_SUPPORT_FEEDBACK_SURVEY_ACTIONS,
     });
@@ -233,11 +227,6 @@ export const feedbackDropdown = (
       id: 3,
       title: 'Edit Survey',
       handleClick: (closeMenu: () => void) => {
-        if (activeCheck?.length > 1) {
-          errorSnackbar('Please select only one survey to edit');
-          closeMenu?.();
-          return;
-        }
         router?.push({
           pathname: AIR_SERVICES?.UPSERT_FEEDBACK_SURVEY,
           query: {
@@ -250,7 +239,10 @@ export const feedbackDropdown = (
       permissionKey: [
         AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SUPPORT_SURVEY_EDIT,
       ],
-      disabled: cloneLoading || statusLoading,
+      disabled:
+        cloneLoading ||
+        statusLoading ||
+        activeCheck?.length > SELECTED_ARRAY_LENGTH?.ONE,
     });
   }
   return dropdownData;

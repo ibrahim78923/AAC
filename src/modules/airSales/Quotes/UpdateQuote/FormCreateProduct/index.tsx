@@ -55,18 +55,31 @@ const FormCreateProduct = (props: any) => {
   const { handleSubmit, reset, watch } = methods;
 
   const watchProduct = watch('productType');
+  const existingProductDetail = watch('chooseProduct');
 
   const onSubmit = async (values: any) => {
     try {
       delete values.productType;
-      values.category = values?.category?._id;
       const formData = new FormData();
-      Object.entries(values)?.forEach(([key, value]: any) => {
+
+      Object?.entries(values)?.forEach(([key, value]: any) => {
         if (value !== undefined && value !== null && value !== '') {
-          formData?.append(key, value);
+          if (key === PRODUCTS_TYPE?.EXT_PRODUCT) {
+            return;
+          } else if (key === 'category') {
+            formData?.append(key, value?._id);
+          } else if (key === 'image') {
+            formData?.append(key, value);
+          } else {
+            formData?.append(key, JSON?.stringify(value));
+          }
         }
       });
-      if (actionType === DRAWER_TYPES?.CREATE) {
+
+      if (
+        actionType === DRAWER_TYPES?.CREATE &&
+        watchProduct === PRODUCTS_TYPE?.NEW_PRODUCT
+      ) {
         const res: any = await postProduct({ body: formData })?.unwrap();
 
         if (res) {
@@ -88,11 +101,6 @@ const FormCreateProduct = (props: any) => {
             status: 'DRAFT',
             products: [...productsArray, productRespParams],
             dealAmount: dataGetQuoteById?.data?.dealAmount,
-            subTotal: 0,
-            invoiceDiscount: 0,
-            RedeemedDiscount: 0,
-            tax: 0,
-            total: 0,
           };
 
           await putSubmitQuote({ body: submitQuotesPayload })?.unwrap();
@@ -102,6 +110,33 @@ const FormCreateProduct = (props: any) => {
           onClose();
           reset();
         }
+      } else {
+        const productRespParams = {
+          name: existingProductDetail?.name,
+          sku: existingProductDetail?.sku,
+          productId: existingProductDetail?._id,
+          quantity: 0,
+          additionalQuantity: 0,
+          unitDiscount: 0,
+          purchasePrice: existingProductDetail?.purchasePrice,
+          unitPrice: existingProductDetail?.unitPrice,
+          category: existingProductDetail?.category?._id,
+          additionalProductPriceSum: 0,
+        };
+
+        const submitQuotesPayload = {
+          id: dataGetQuoteById?.data?._id,
+          status: 'DRAFT',
+          products: [...productsArray, productRespParams],
+          dealAmount: dataGetQuoteById?.data?.dealAmount,
+        };
+
+        await putSubmitQuote({ body: submitQuotesPayload })?.unwrap();
+        enqueueSnackbar('Product added Successfully', {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        });
+        onClose();
+        reset();
       }
     } catch (err: any) {
       enqueueSnackbar('Error while creating product', {
@@ -144,7 +179,7 @@ const FormCreateProduct = (props: any) => {
 
   const extProductOptions = salesProducts?.data?.salesproducts?.map(
     (item: any) => ({
-      value: item?._id,
+      value: item,
       label: item?.name ? item?.name : 'N/A',
     }),
   );

@@ -5,9 +5,7 @@ export const styles = {
     borderRadius: '10px',
   },
   horizontalTabsInnnerBox: {
-    pt: 3,
-    height: '33vh',
-    overflow: 'scroll',
+    pt: 1,
     width: '100%',
   },
 

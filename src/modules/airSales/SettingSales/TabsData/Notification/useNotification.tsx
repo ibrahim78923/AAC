@@ -7,10 +7,13 @@ import {
 import { getActiveAccountSession } from '@/utils';
 import { Theme, useTheme } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
+import { useState } from 'react';
 
 const useNotification = () => {
   const theme = useTheme<Theme>();
-
+  const [loadingState, setLoadingState] = useState<{ [key: string]: boolean }>(
+    {},
+  );
   const ActiveAccount = getActiveAccountSession();
   const { data: notificationListData, isLoading: getDataLoading } =
     useGetSettingNotificationsQuery({ accountId: ActiveAccount?._id });
@@ -77,6 +80,7 @@ const useNotification = () => {
   ];
 
   const handleSwitchNotifications = async (val: any, item: any) => {
+    setLoadingState({ ...loadingState, [item]: true });
     const notifyVal = val?.target?.checked;
     const notificationParams = {
       notificationsOff: {
@@ -96,6 +100,8 @@ const useNotification = () => {
       enqueueSnackbar(err?.data?.message, {
         variant: 'error',
       });
+    } finally {
+      setLoadingState({ ...loadingState, [item]: false });
     }
   };
 
@@ -105,6 +111,7 @@ const useNotification = () => {
     getDataLoading,
     handleSwitchNotifications,
     notificationsStatus,
+    loadingState,
   };
 };
 

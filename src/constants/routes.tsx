@@ -88,6 +88,10 @@ export const AIR_SERVICES = {
   ASSET_TYPE_CREATE_FIELDS: `/air-services/settings/asset-management/asset-type/create-fields`,
   CONTACT_TYPE_CREATE_FIELDS: `/air-services/settings/asset-management/contract-types/create-fields`,
   SERVICES_PUBLIC_DASHBOARD: `dynamic-dashboard/download`,
+  SIGN_UP_LEADS: '/air-services/signup-leads',
+  ENQUIRIES: '/air-services/enquiries',
+  WORKLOAD: '/air-services/workload',
+  SETTINGS: `/air-services/settings`,
 };
 
 export const AIR_CUSTOMER_PORTAL = {
@@ -130,11 +134,14 @@ export const AIR_OPERATIONS = {
   UPSERT_ROLES: '/air-operations/roles-and-right/upsert-roles-and-right',
   UPSERT_GENERIC_REPORTS: `/air-operations/reports/upsert-generic-reports`,
   SINGLE_GENERIC_REPORTS_DETAILS: `/air-operations/reports/single-report-view`,
+  USER_MANAGEMENT: '/air-operations/user-management',
 };
 
 export const AIR_LOYALTY_PROGRAM = {
   DASHBOARD: '/air-loyalty-program',
   REWARDS: `/air-loyalty-program/loyalty/rewards`,
+  LOYALTY_TRANSACTION: `/air-loyalty-program/loyalty/transactions`,
+  LOYALTY_RULES_AND_TIERS: `/air-loyalty-program/loyalty/rules-and-tiers`,
   ADD_REWARDS: `/air-loyalty-program/loyalty/rewards/add-rewards`,
   GIFT_CARDS: `/air-loyalty-program/gift-cards/gift-cards`,
   VOUCHERS: `/air-loyalty-program/loyalty/vouchers`,
@@ -144,6 +151,7 @@ export const AIR_LOYALTY_PROGRAM = {
   UPSERT_ROLES: '/air-loyalty-program/roles-and-right/upsert-roles-and-right',
   ROLES_AND_RIGHTS: '/air-loyalty-program/roles-and-right',
   CONSUMERS: '/air-loyalty-program/consumers',
+  SETTINGS: '/air-loyalty-program/settings',
   UPSERT_CONSUMER: '/air-loyalty-program/consumers/upsert-consumer',
 };
 
@@ -169,4 +177,10 @@ export const QUICK_LINKS = {
   EMAIL: '/social-components/email',
   COMPANIES: '/social-components/companies',
   MEETINGS: '/social-components/meetings',
+};
+
+export const AIR_SOCIAL_CONTRACTS = {
+  CONTRACTS: '/air-social/contracts',
+  CONTRACTS_TEMPLATES: '/air-social/contracts/templates',
+  CONTRACTS_CREATE: '/air-social/contracts/create-contract',
 };

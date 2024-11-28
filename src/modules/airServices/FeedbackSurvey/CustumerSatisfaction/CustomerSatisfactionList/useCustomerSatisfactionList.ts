@@ -2,60 +2,40 @@ import { PAGINATION } from '@/config';
 import {
   ARRAY_INDEX,
   FEEDBACK_STATUS,
-  FEEDBACK_SURVEY_LINK_TYPES,
   FEEDBACK_SURVEY_PATH_TYPES,
   FEEDBACK_SURVEY_TYPES,
 } from '@/constants/strings';
 import {
   useDeleteFeedbackSurveyMutation,
-  useGetAllAgentsForFeedbackQuery,
   useLazyGetFeedbackListQuery,
   usePatchChangeSurveyStatusMutation,
-  usePatchDefaultSurveyMutation,
   usePostCloneFeedbackSurveyMutation,
-  usePostSurveyEmailMutation,
 } from '@/services/airServices/feedback-survey';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import {
-  feedbackDropdown,
-  surveyEmailHtml,
-} from './CustomerSatisfactionList.data';
-import { getActivePermissionsSession, getSession } from '@/utils';
+import { feedbackDropdown } from './CustomerSatisfactionList.data';
+import { getActivePermissionsSession } from '@/utils';
 import { AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS } from '@/constants/permission-keys';
 import { AIR_SERVICES } from '@/constants/routes';
 import { FeedbackSurveyListI } from '@/types/modules/AirServices/FeedbackSurvey';
-import { useTheme } from '@mui/material';
 
 export const useCustomerSatisfactionList = (props: { status?: string }) => {
   const { status } = props;
   const router = useRouter();
-  const theme = useTheme();
   const [activeCheck, setActiveCheck] = useState<FeedbackSurveyListI[]>([]);
   const [search, setSearch] = useState<string>('');
   const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
   const [limit, setLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const [defaultLoading, setDefaultLoading] = useState<{
-    [key: string]: boolean;
-  }>({});
-  const sessionData: any = getSession();
   const [getFeedbackList, { data, isLoading, isFetching, isError, isSuccess }] =
     useLazyGetFeedbackListQuery();
   const [deleteSurveyTrigger, { isLoading: deleteLoading }] =
     useDeleteFeedbackSurveyMutation();
   const [cloneSurveyTrigger, { isLoading: cloneLoading }] =
     usePostCloneFeedbackSurveyMutation();
-  const [patchDefaultSurveyTrigger, { isLoading: patchLoading }] =
-    usePatchDefaultSurveyMutation();
   const [patchChangeSurveyStatusTrigger, { isLoading: statusLoading }] =
     usePatchChangeSurveyStatusMutation();
-  const [postSurveyEmailTrigger] = usePostSurveyEmailMutation();
-  const { data: allAgentEmailData } = useGetAllAgentsForFeedbackQuery(
-    {},
-    { refetchOnMountOrArgChange: true },
-  );
   const handleDeleteSurvey = async () => {
     const deleteParams = new URLSearchParams();
     activeCheck?.forEach((item) => deleteParams?.append('ids', item?._id));
@@ -125,41 +105,6 @@ export const useCustomerSatisfactionList = (props: { status?: string }) => {
     }
     return;
   };
-  const handleDefaultSurvey = async (surveyValues: FeedbackSurveyListI) => {
-    setDefaultLoading({ [surveyValues?._id]: true });
-    const patchParams = { id: surveyValues?._id };
-    try {
-      await patchDefaultSurveyTrigger(patchParams)?.unwrap();
-      successSnackbar(
-        `${surveyValues?.surveyTitle} set as default successfully`,
-      );
-      setDefaultLoading({});
-      if (
-        surveyValues?.satisfactionSurveyLinkType ===
-        FEEDBACK_SURVEY_LINK_TYPES?.TO_ALL_AGENTS
-      ) {
-        const emailParams = new FormData();
-        emailParams?.append('recipients', allAgentEmailData);
-        emailParams?.append(
-          'subject',
-          `Invitation to Participate in ${surveyValues?.surveyTitle} Survey`,
-        );
-        emailParams?.append(
-          'html',
-          surveyEmailHtml({
-            sessionData,
-            theme,
-            magicLink: surveyValues?.magicLink,
-            surveyTitle: surveyValues?.surveyTitle,
-          }),
-        );
-        await postSurveyEmailTrigger(emailParams)?.unwrap();
-      }
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
-      setDefaultLoading({});
-    }
-  };
   const handleStatus = async (closeMenu: () => void) => {
     const statusBody = {
       id: activeCheck?.[ARRAY_INDEX?.ZERO]?._id,
@@ -210,9 +155,6 @@ export const useCustomerSatisfactionList = (props: { status?: string }) => {
     deleteLoading,
     feedbackDropdownOption,
     handleTitleClick,
-    handleDefaultSurvey,
-    patchLoading,
-    defaultLoading,
     handleFeedbackList,
   };
 };

@@ -1,6 +1,5 @@
-import Image from 'next/image';
-
 import {
+  Avatar,
   Box,
   Button,
   Checkbox,
@@ -8,19 +7,12 @@ import {
   Skeleton,
   Typography,
 } from '@mui/material';
-
 import useNameWithStyledWords from '@/hooks/useNameStyledWords';
-
 import NotesActionDropdown from './NotesActionDropDown';
-
 import useNotes from './useNotes';
-
 import { isNullOrEmpty } from '@/utils';
-
 import { styles } from '../ViewDetails.style';
-
 import { MessageIcon, PlusIcon } from '@/assets/icons';
-
 import AddNote from './AddNote';
 import { IMG_URL } from '@/config';
 import dayjs from 'dayjs';
@@ -198,12 +190,18 @@ const Notes = ({ contactId }: any) => {
                         alignItems: 'center',
                       }}
                     >
-                      <Image
-                        src={`${IMG_URL}${note?.attachment?.url}`}
-                        alt="Avatar"
-                        width={66}
-                        height={66}
-                      />
+                      <Avatar
+                        src={`${IMG_URL}${note?.updatedBy?.avatar?.url}`}
+                        sx={{
+                          bgcolor: 'primary.main',
+                          width: 66,
+                          height: 66,
+                          fontSize: '16px',
+                        }}
+                      >
+                        {note?.updatedBy?.firstName?.charAt(0)}
+                        {note?.updatedBy?.lastName?.charAt(0)}
+                      </Avatar>
                     </Grid>
                     <Grid item xs={12} lg={10} sm={9} sx={{ gap: 1 }}>
                       <Typography
@@ -222,7 +220,7 @@ const Notes = ({ contactId }: any) => {
                         >
                           Created by
                         </Box>{' '}
-                        {note?.updatedBy}
+                        {note?.updatedBy?.firstName} {note?.updatedBy?.lastName}
                       </Typography>
 
                       <Typography

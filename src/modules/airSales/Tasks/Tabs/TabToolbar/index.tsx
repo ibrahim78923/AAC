@@ -231,7 +231,7 @@ const TabToolbar = () => {
             }}
             onClick={() => setIsEditColumnOpen(true)}
           >
-            {'Edit Column'}
+            {'Customize Columns'}
           </Button>
 
           <EditColumn

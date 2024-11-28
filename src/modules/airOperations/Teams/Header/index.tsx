@@ -4,7 +4,7 @@ import { AddWhiteBgIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS } from '@/constants/permission-keys';
 import { useHeader } from './useHeader';
-import { operationsteamActionComponent } from './Header.data';
+import { operationsTeamActionComponent } from './Header.data';
 
 export const Header = () => {
   const { openAddTeamPortal, handleSetSearch, isPortalOpen } = useHeader();
@@ -43,7 +43,7 @@ export const Header = () => {
         </PermissionsGuard>
       </Box>
       {isPortalOpen?.isOpen &&
-        operationsteamActionComponent?.[isPortalOpen?.action]}
+        operationsTeamActionComponent?.[isPortalOpen?.action]}
     </>
   );
 };

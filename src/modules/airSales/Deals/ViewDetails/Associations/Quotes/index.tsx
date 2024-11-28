@@ -74,6 +74,7 @@ const Quotes = ({
               setSelectedQuote,
             })}
             data={quotesData}
+            isLoading={isLoading}
           />
         </Grid>
       </Grid>

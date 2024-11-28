@@ -12,8 +12,7 @@ import { v4 as uuidv4 } from 'uuid';
 import useMergeModal from './useMergeModal';
 import useCompanies from '../../useCompanies';
 import { useMergeCompaniesMutation } from '@/services/commonFeatures/companies';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 interface CompaniesDropdownI {
   _id: number;
@@ -30,7 +29,7 @@ const MergeModal = ({
   const { theme, companyDetails, methods, seletedCompany } =
     useMergeModal(checkedRows);
   const { getAllCompanies } = useCompanies();
-  const companiesDropdown = getAllCompanies?.companies;
+  const companiesDropdown = getAllCompanies?.data?.companies;
   const [mergeCompanies] = useMergeCompaniesMutation();
 
   return (
@@ -98,13 +97,9 @@ const MergeModal = ({
           });
           setIsMerge({ mergeModal: false });
           setCheckedRows([]);
-          enqueueSnackbar(`Record has been Merged`, {
-            variant: NOTISTACK_VARIANTS?.SUCCESS,
-          });
+          successSnackbar(`Record has been Merged`);
         } else {
-          enqueueSnackbar(`Please select a company`, {
-            variant: NOTISTACK_VARIANTS?.ERROR,
-          });
+          errorSnackbar(`Please select a company`);
         }
       }}
     />

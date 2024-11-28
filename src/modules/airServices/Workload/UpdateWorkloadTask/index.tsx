@@ -2,14 +2,18 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpdateWorkloadTask } from './useUpdateWorkloadTask';
-import { workloadDataArray } from './UpdateWorkloadTask.data';
 
 export const UpdateWorkloadTask = ({ openDrawer, onClose, data }: any) => {
-  const { handleSubmit, onSubmit, methods, patchTaskStatus } =
-    useUpdateWorkloadTask({
-      onClose,
-      dataGet: data,
-    });
+  const {
+    handleSubmit,
+    onSubmit,
+    methods,
+    patchTaskStatus,
+    workloadDataArray,
+  } = useUpdateWorkloadTask({
+    onClose,
+    dataGet: data,
+  });
 
   return (
     <CommonDrawer
@@ -28,7 +32,7 @@ export const UpdateWorkloadTask = ({ openDrawer, onClose, data }: any) => {
       <FormProvider methods={methods}>
         <Grid container spacing={2}>
           {workloadDataArray?.map((item: any) => (
-            <Grid item xs={12} md={item?.md} key={item?.id}>
+            <Grid item xs={12} key={item?.id}>
               <item.component {...item?.componentProps} size={'small'} />
             </Grid>
           ))}

@@ -6,15 +6,18 @@ import {
 } from '@/redux/slices/airLoyaltyProgram/users/slice';
 import { PAGINATION } from '@/config';
 import { LOYALTY_PROGRAM_USERS_ACTIONS_CONSTANT } from '../User.data';
+import {
+  loyaltyProgramUsersIsPortalOpenSelector,
+  loyaltyProgramUsersSelectedUsersListsSelector,
+} from '@/redux/slices/airLoyaltyProgram/users/selectors';
 
 export const useHeader = () => {
   const dispatch = useAppDispatch();
 
-  const isPortalOpen = useAppSelector(
-    (state) => state?.loyaltyProgramUsers?.isPortalOpen,
-  );
+  const isPortalOpen = useAppSelector(loyaltyProgramUsersIsPortalOpenSelector);
+
   const selectedUsersLists = useAppSelector(
-    (state) => state?.loyaltyProgramUsers?.selectedUsersLists,
+    loyaltyProgramUsersSelectedUsersListsSelector,
   );
 
   const handleSetSearch = (newSearch: any) => {
@@ -34,6 +37,7 @@ export const useHeader = () => {
       }),
     );
   };
+
   const actionsDropdownForLoyaltyProgramUser =
     actionsDropdownForLoyaltyProgramUserDynamic?.(
       setAction,

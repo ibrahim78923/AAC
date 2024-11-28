@@ -10,10 +10,10 @@ import {
   usePostDealsTasksManagementMutation,
   useUpdateDealsTasksManagementMutation,
 } from '@/services/airSales/deals/view-details/tasks';
-import { enqueueSnackbar } from 'notistack';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { useGetContactsQuery } from '@/services/commonFeatures/contacts';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useTaskEditor = ({
   selectedCheckboxes,
@@ -64,13 +64,21 @@ const useTaskEditor = ({
 
   const onSubmit = async (values: any) => {
     const { dueDate, createTime, ...rest } = values;
-    const DueDate = dayjs(dueDate)?.format(DATE_FORMAT?.API);
-    const CreateTime = dayjs(createTime)?.format(DATE_FORMAT?.API);
+    const DueDate = dayjs(dueDate).isValid()
+      ? dayjs(dueDate).format(DATE_FORMAT?.API)
+      : undefined;
+    const CreateTime = dayjs(createTime).isValid()
+      ? dayjs(createTime).format(DATE_FORMAT?.API)
+      : undefined;
+
+    const cleanedValues = Object.fromEntries(
+      Object.entries(rest).filter(([, v]) => v != null && v !== ''),
+    );
 
     const body = {
       dueDate: DueDate,
       time: CreateTime,
-      ...rest,
+      ...cleanedValues,
     };
 
     if (openDrawer !== 'Edit') {
@@ -84,15 +92,14 @@ const useTaskEditor = ({
             id: editCheckBoxes?._id,
           })?.unwrap()
         : await postDealsTasksManagement({ body })?.unwrap();
-      enqueueSnackbar(
+      successSnackbar(
         `Task ${openDrawer === 'Edit' ? 'Updated' : 'Added '} Successfully`,
-        { variant: 'success' },
       );
       onCloseDrawer();
       setSelectedCheckboxes([]);
     } catch (error) {
       const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+      errorSnackbar(errMsg ?? 'Error occurred');
     }
   };
   const { handleSubmit, reset } = methodsdealsTasks;

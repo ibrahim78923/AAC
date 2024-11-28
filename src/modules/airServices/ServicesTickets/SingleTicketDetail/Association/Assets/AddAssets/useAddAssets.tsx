@@ -18,6 +18,7 @@ export default function useAddAssets({ setSelected, selected }: any) {
       limit: pageLimit,
       search,
       companyId: companyIdStorage,
+      meta: true,
     },
   };
   const { data, isLoading, isFetching, isError, isSuccess } =

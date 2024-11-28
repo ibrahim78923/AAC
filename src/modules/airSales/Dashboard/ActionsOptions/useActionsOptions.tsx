@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { AIR_SALES_DASHBOARD } from '@/constants';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
+import { getSession } from '@/utils';
 
 const useActionsOptions = (selectedDashboard: any) => {
+  const { user }: any = getSession();
+  const currentUser = user?._id;
   const router = useRouter();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [isShowDrawer, setIsShowDrawer] = useState(false);
@@ -72,6 +75,7 @@ const useActionsOptions = (selectedDashboard: any) => {
     setIsShowEditDashboard,
     copyUrl,
     router,
+    currentUser,
   };
 };
 

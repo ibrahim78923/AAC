@@ -39,12 +39,12 @@ export const loyaltyProgramLoyaltyTiersAPI = baseAPI?.injectEndpoints({
     }),
     getLoyaltyProgramLoyaltyContactListDropdownForTier: builder?.query({
       query: ({ params }: any) => ({
-        url: `${END_POINTS?.CONTACTS}`,
+        url: `${END_POINTS?.CONSUMERS_DROPDOWN}`,
         method: 'GET',
         params,
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.data?.contacts;
+        if (response) return response?.data?.consumers;
       },
     }),
   }),

@@ -10,6 +10,7 @@ import { SingleTicketDetailPropsI } from './SingleTicketDetail.interface';
 import { CHECK_SURVEY_SUBMISSION_STATUS } from '../../Tickets.data';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
 import { otherDateFormat } from '@/lib/date-time';
+import { capitalizeFirstLetter } from '@/utils/api';
 
 export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
   const {
@@ -86,7 +87,7 @@ export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
           <Box>
             {singleTicketData?.status ? (
               <Chip
-                label={singleTicketData?.status}
+                label={capitalizeFirstLetter(singleTicketData?.status)}
                 sx={{ backgroundColor: 'custom.bright', color: 'white' }}
               />
             ) : null}

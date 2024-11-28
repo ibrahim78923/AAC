@@ -7,7 +7,7 @@ import { AIR_SALES } from '@/routesConstants/paths';
 import { DRAWER_TYPES } from '@/constants/strings';
 import EmailThisDashboard from '../EmailThisDashboard';
 
-const ActionsOptions = ({ selectedDashboard }: any) => {
+const ActionsOptions = ({ selectedDashboard, disabled }: any) => {
   const {
     handleShowEmailDashboard,
     handleCloseMenuOptions,
@@ -15,6 +15,7 @@ const ActionsOptions = ({ selectedDashboard }: any) => {
     setIsShowDrawer,
     isShowDrawer,
     openDropDown,
+    currentUser,
     anchorEl,
     copyUrl,
     router,
@@ -56,12 +57,15 @@ const ActionsOptions = ({ selectedDashboard }: any) => {
             permissions={[AIR_SALES_DASHBOARD_PERMISSIONS?.EDIT_DASBOARD]}
           >
             <MenuItem
+              disabled={disabled}
               onClick={() => {
                 router?.push({
                   pathname: `${AIR_SALES?.CREATE_DASHBOARD}`,
                   query: {
                     id: selectedDashboard?.dashboard?._id,
+                    userId: currentUser,
                     type: DRAWER_TYPES?.EDIT,
+                    mode: 'dashboard_create',
                   },
                 });
               }}

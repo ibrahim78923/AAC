@@ -1,7 +1,8 @@
-import { Avatar, Box, Typography } from '@mui/material';
+import { Avatar, Box } from '@mui/material';
 import { FolderIcon } from '@/assets/icons';
-import { truncateText } from '@/utils/avatarUtils';
 import { CategoryCardPropsI } from './CategoryCard.interface';
+import { pxToRem } from '@/utils/getFontValue';
+import { TruncateText } from '@/components/TruncateText';
 
 export const CategoryCard = (props: CategoryCardPropsI) => {
   const { category, onCardClick, categoryId } = props;
@@ -23,12 +24,19 @@ export const CategoryCard = (props: CategoryCardPropsI) => {
         <Avatar sx={{ margin: 'auto' }} variant="rounded">
           <FolderIcon />
         </Avatar>
-        <Typography variant="h5" my={2}>
-          {truncateText(category?.categoryName ?? '---')}
-        </Typography>
-        <Typography variant="body2" align="center" gutterBottom>
-          {truncateText(category?.description ?? '---', 70)}
-        </Typography>
+        <TruncateText
+          text={category?.categoryName}
+          boxProps={{
+            sx: { fontSize: pxToRem(18), fontWeight: 600 },
+          }}
+        />
+        <TruncateText
+          text={category?.description}
+          size={70}
+          boxProps={{
+            sx: { fontSize: pxToRem(14) },
+          }}
+        />
       </Box>
     </>
   );

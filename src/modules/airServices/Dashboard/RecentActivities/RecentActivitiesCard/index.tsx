@@ -11,7 +11,6 @@ export const RecentActivitiesCard = (props: any) => {
   return (
     <Box
       display="flex"
-      alignItems="center"
       gap={2}
       bgcolor="common.white"
       borderBottom="1px solid"
@@ -19,7 +18,9 @@ export const RecentActivitiesCard = (props: any) => {
       px={2}
       py={1.5}
     >
-      <RecentActivitiesIcon />
+      <Box>
+        <RecentActivitiesIcon />
+      </Box>
       <Box>
         <LogInfo
           performer={fullName(
@@ -31,6 +32,11 @@ export const RecentActivitiesCard = (props: any) => {
             <TruncateText text={data?.moduleName} size={35} isCapital={false} />
           }
           logColor="custom.bright"
+          logProps={{
+            sx: {
+              wordBreak: 'break-all',
+            },
+          }}
         />
         <Typography color={'grey.600'} component={'p'} variant="body3">
           {otherDateFormat(data?.createdAt, DATE_TIME_FORMAT?.DMDHMA)}

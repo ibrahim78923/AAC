@@ -203,30 +203,33 @@ export const Workload = () => {
                 title={
                   <Box p={2}>
                     <Box display={'flex'} alignItems={'center'} gap={1} pb={2}>
-                      <CircleIcon
-                        fontSize={'small'}
-                        color={
-                          eventInfo?.event?.extendedProps?.status ===
-                            WORKLOAD_STATUSES_OBJECT?.COMPLETED ||
-                          eventInfo?.event?.extendedProps?.status ===
-                            WORKLOAD_STATUSES_OBJECT?.RESOLVED ||
-                          eventInfo?.event?.extendedProps?.status ===
-                            WORKLOAD_STATUSES_OBJECT?.CLOSED
-                            ? 'primary'
-                            : eventInfo?.event?.extendedProps?.status ===
-                                  WORKLOAD_STATUSES_OBJECT?.IN_PROGRESS ||
-                                eventInfo?.event?.extendedProps?.status ===
-                                  WORKLOAD_STATUSES_OBJECT?.PENDING
-                              ? 'warning'
-                              : 'secondary'
-                        }
-                      />
+                      {eventInfo?.event?.extendedProps?.status && (
+                        <CircleIcon
+                          fontSize={'small'}
+                          color={
+                            eventInfo?.event?.extendedProps?.status ===
+                              WORKLOAD_STATUSES_OBJECT?.COMPLETED ||
+                            eventInfo?.event?.extendedProps?.status ===
+                              WORKLOAD_STATUSES_OBJECT?.RESOLVED ||
+                            eventInfo?.event?.extendedProps?.status ===
+                              WORKLOAD_STATUSES_OBJECT?.CLOSED
+                              ? 'primary'
+                              : eventInfo?.event?.extendedProps?.status ===
+                                    WORKLOAD_STATUSES_OBJECT?.IN_PROGRESS ||
+                                  eventInfo?.event?.extendedProps?.status ===
+                                    WORKLOAD_STATUSES_OBJECT?.PENDING
+                                ? 'warning'
+                                : 'secondary'
+                          }
+                        />
+                      )}
                       <Typography
                         variant={'body1'}
                         color={'blue.main'}
                         textTransform={'capitalize'}
                       >
-                        {eventInfo?.event?.extendedProps?.status?.toLowerCase()}
+                        {eventInfo?.event?.extendedProps?.status?.toLowerCase() ??
+                          '---'}
                       </Typography>
                     </Box>
                     <Divider />

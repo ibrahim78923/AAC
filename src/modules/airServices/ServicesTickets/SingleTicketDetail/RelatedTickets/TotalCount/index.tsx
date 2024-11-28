@@ -1,5 +1,5 @@
+import { DataRecordCount } from '@/components/DataRecordCount';
 import { useAppSelector } from '@/redux/store';
-import { CircularProgress, Typography } from '@mui/material';
 
 export const TotalCount = () => {
   const totalCount = useAppSelector(
@@ -11,25 +11,12 @@ export const TotalCount = () => {
   );
 
   return (
-    <Typography variant={'h5'}>
-      <Typography
-        variant={'body1'}
-        component={'span'}
-        bgcolor={'secondary.main'}
-        borderRadius={1}
-        p={0.4}
-        color={'common.white'}
-        mr={0.5}
-      >
-        {isTotalCountLoading ? (
-          <CircularProgress size={18} />
-        ) : totalCount < 10 ? (
-          `0${totalCount}`
-        ) : (
-          totalCount
-        )}
-      </Typography>
-      Child Tickets
-    </Typography>
+    <DataRecordCount
+      recordName=" Child Tickets"
+      isCountLoading={isTotalCountLoading}
+      totalCount={totalCount}
+      recordNameVariant="h5"
+      flexDirection="row-reverse"
+    />
   );
 };

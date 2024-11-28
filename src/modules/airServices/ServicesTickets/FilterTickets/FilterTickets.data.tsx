@@ -1,4 +1,8 @@
-import { RHFAutocomplete, RHFDatePicker } from '@/components/ReactHookForm';
+import {
+  RHFAutocomplete,
+  RHFDatePicker,
+  RHFDesktopDateTimePicker,
+} from '@/components/ReactHookForm';
 import {
   ticketImpactOptions,
   ticketPriorityOptions,
@@ -138,8 +142,9 @@ export const ticketsFilterFormFieldsDataFunction = () => [
       fullWidth: true,
       name: 'plannedStartDate',
       label: 'Planned Start Date',
+      ampm: false,
     },
-    component: RHFDatePicker,
+    component: RHFDesktopDateTimePicker,
   },
   {
     id: 12,
@@ -147,7 +152,8 @@ export const ticketsFilterFormFieldsDataFunction = () => [
       fullWidth: true,
       name: 'plannedEndDate',
       label: 'Planned End Date',
+      ampm: false,
     },
-    component: RHFDatePicker,
+    component: RHFDesktopDateTimePicker,
   },
 ];

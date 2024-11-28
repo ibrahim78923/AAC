@@ -16,10 +16,10 @@ import {
   usePostScheduleOtherEmailMutation,
   usePostSendOtherEmailMutation,
 } from '@/services/commonFeatures/email/others';
-import { enqueueSnackbar } from 'notistack';
 import { useAppSelector } from '@/redux/store';
 import { CREATE_EMAIL_TYPES } from '@/constants';
 import { useEffect, useState } from 'react';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
   const theme = useTheme();
@@ -116,18 +116,14 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
           await postDraftOtherEmail({
             body: formDataSend,
           })?.unwrap();
-          enqueueSnackbar('Draft saved successfully', {
-            variant: 'success',
-          });
+          successSnackbar('Draft saved successfully');
           setIsProcessDraft(false);
           setIsLoadingProcessDraft(false);
           reset();
           setOpenDrawer(false);
           setAutocompleteValues([]);
         } catch (error: any) {
-          enqueueSnackbar('Something went wrong while saving draft !', {
-            variant: 'error',
-          });
+          errorSnackbar('Something went wrong while saving draft !');
           setIsProcessDraft(false);
           setIsLoadingProcessDraft(false);
           reset();
@@ -157,9 +153,7 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
           await postEmail({
             body: formDataSend,
           })?.unwrap();
-          enqueueSnackbar('Email send successfully', {
-            variant: 'success',
-          });
+          successSnackbar('Email send successfully');
           setOpenDrawer(false);
           reset();
           reset({
@@ -169,7 +163,7 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
           setSendLaterDate(null);
           setAutocompleteValues([]);
         } catch (error: any) {
-          enqueueSnackbar('Something went wrong !', { variant: 'error' });
+          errorSnackbar('Something went wrong !');
         }
       }
       if (
@@ -191,19 +185,16 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
           await postReplyOtherEmail({
             body: formDataReply,
           })?.unwrap();
-          enqueueSnackbar(
+          successSnackbar(
             drawerType === CREATE_EMAIL_TYPES?.REPLY
               ? 'Email reply send successfully'
               : 'Reply all send successfully',
-            {
-              variant: 'success',
-            },
           );
           setOpenDrawer(false);
           reset();
           setAutocompleteValues([]);
         } catch (error: any) {
-          enqueueSnackbar('Something went wrong !', { variant: 'error' });
+          errorSnackbar('Something went wrong !');
         }
       }
     }

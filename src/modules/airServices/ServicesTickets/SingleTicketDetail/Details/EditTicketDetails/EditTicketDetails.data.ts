@@ -23,6 +23,7 @@ import { DepartmentFieldDropdown } from '../../../ServiceTicketFormFields/Depart
 import { CategoryFieldDropdown } from '../../../ServiceTicketFormFields/CategoryFieldDropdown';
 import { ServicesFieldDropdown } from '../../../ServiceTicketFormFields/ServicesFieldDropdown';
 import { localeDateTime } from '@/lib/date-time';
+import { formatDurationHourMinute } from '@/utils/dateTime';
 
 const { SR } = TICKET_TYPE ?? {};
 
@@ -56,10 +57,20 @@ export const editTicketDetailsValidationSchema = (form?: any) => {
     source: Yup?.mixed()?.nullable(),
     impact: Yup?.mixed()?.nullable(),
     agent: Yup?.mixed()?.nullable(),
-    plannedStartDate: Yup?.date()?.nullable(),
+    plannedStartDate: Yup?.date()
+      ?.nullable()
+      ?.when('plannedEndDate', {
+        is: (value: any) => value !== null,
+        then: () =>
+          Yup?.date()?.nullable()?.required('planned start date is required'),
+        otherwise: () => Yup?.date()?.nullable(),
+      }),
     plannedEndDate: Yup?.date()
       ?.nullable()
-      ?.required('Planned end date is required'),
+      .min(
+        Yup?.ref('plannedStartDate'),
+        'Planned end date is after planned start date',
+      ),
     plannedEffort: Yup?.string()?.trim(),
     ...formSchema,
   });
@@ -91,7 +102,7 @@ export const editTicketDetailsDefaultValuesDynamic = (
     agent: data?.agentDetails ?? null,
     plannedStartDate: !!data?.plannedStartDate
       ? localeDateTime(data?.plannedStartDate)
-      : new Date(),
+      : null,
     plannedEndDate: !!data?.plannedEndDate
       ? localeDateTime(data?.plannedEndDate)
       : null,
@@ -103,6 +114,8 @@ export const editTicketDetailsFormFieldsDynamic = (
   watchForTicketType?: any,
   watch?: any,
   data?: any,
+  getValues?: any,
+  setValue?: any,
 ) => [
   {
     id: 1,
@@ -131,11 +144,11 @@ export const editTicketDetailsFormFieldsDynamic = (
     component: RHFAutocomplete,
   },
   {
-    id: 70,
+    id: 3,
     component: DepartmentFieldDropdown,
   },
   {
-    id: 3,
+    id: 4,
     componentProps: {
       name: 'source',
       label: 'Source',
@@ -164,7 +177,7 @@ export const editTicketDetailsFormFieldsDynamic = (
     component: AgentFieldDropdown,
   },
   {
-    id: 4,
+    id: 7,
     componentProps: {
       name: 'ticketType',
       label: 'Type',
@@ -176,7 +189,7 @@ export const editTicketDetailsFormFieldsDynamic = (
     component: RHFAutocomplete,
   },
   {
-    id: 7,
+    id: 8,
     componentProps: {
       disabled: data?.ticketType === SR,
     },
@@ -185,7 +198,7 @@ export const editTicketDetailsFormFieldsDynamic = (
   ...(watchForTicketType?._id === SR
     ? [
         {
-          id: 17,
+          id: 9,
           componentProps: {
             categoryId: watch('category')?._id,
             disabled: data?.ticketType === SR,
@@ -197,10 +210,11 @@ export const editTicketDetailsFormFieldsDynamic = (
   ...(watchForTicketType?._id === SR && !!watch('service')?.assetType
     ? [
         {
-          id: 17.5,
+          id: 10,
           componentProps: {
             name: 'numberOfItems',
             label: 'Number of items',
+            placeholder: 'Enter number of items',
             fullWidth: true,
             required: true,
             type: 'number',
@@ -212,37 +226,39 @@ export const editTicketDetailsFormFieldsDynamic = (
       ]
     : []),
   {
-    id: 8,
+    id: 11,
     componentProps: {
       name: 'plannedStartDate',
       label: 'Planned Start Date',
       fullWidth: true,
-      disabled: true,
-      ampm: false,
       textFieldProps: { readOnly: true },
+      ampm: false,
     },
     component: RHFDesktopDateTimePicker,
   },
   {
-    id: 9,
+    id: 12,
     componentProps: {
       name: 'plannedEndDate',
       label: 'Planned End Date',
       fullWidth: true,
-      disablePast: true,
-      required: true,
-      textFieldProps: { readOnly: true },
       ampm: false,
+      textFieldProps: { readOnly: true },
+      minDateTime: watch('plannedStartDate'),
     },
     component: RHFDesktopDateTimePicker,
   },
   {
-    id: 10,
+    id: 13,
     componentProps: {
       name: 'plannedEffort',
       label: 'Planned Effort',
       fullWidth: true,
       placeholder: 'Eg: 1h10m',
+      onBlurHandler: () => {
+        const value = getValues('plannedEffort');
+        setValue('plannedEffort', formatDurationHourMinute(value));
+      },
     },
     component: RHFTextField,
   },

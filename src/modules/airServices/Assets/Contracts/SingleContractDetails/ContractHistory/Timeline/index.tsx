@@ -1,8 +1,7 @@
 import { CALENDAR_FORMAT, DATE_TIME_FORMAT } from '@/constants';
 import { Box, Button, Divider, Typography } from '@mui/material';
 import { useTheme } from '@mui/material';
-import dayjs from 'dayjs';
-import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
+import { FiberManualRecord } from '@mui/icons-material';
 import { otherDateFormat } from '@/lib/date-time';
 
 export const Timeline = ({ data, timelineIndex }: any) => {
@@ -28,7 +27,7 @@ export const Timeline = ({ data, timelineIndex }: any) => {
           {otherDateFormat(data?.startDate, DATE_TIME_FORMAT?.DDMYHMA)}
         </Typography>
         <Box mt={0.2}>
-          <PanoramaFishEyeIcon color="primary" fontSize="small" />
+          <FiberManualRecord fontSize="small" color="primary" />
         </Box>
         <Box sx={{ flex: 0.8 }}>
           <Typography
@@ -40,13 +39,8 @@ export const Timeline = ({ data, timelineIndex }: any) => {
             {data?.activity}
           </Typography>
           <Typography variant="body2" fontWeight={600}>
-            {dayjs(data?.startDate, DATE_TIME_FORMAT?.DMY)
-              ?.format(CALENDAR_FORMAT?.UI)
-              .toUpperCase()}
-            to
-            {dayjs(data?.endDate, DATE_TIME_FORMAT?.DMY)
-              ?.format(CALENDAR_FORMAT?.UI)
-              ?.toUpperCase()}
+            {otherDateFormat(data?.startDate, CALENDAR_FORMAT?.UI)} to{' '}
+            {otherDateFormat(data?.endDate, CALENDAR_FORMAT?.UI)}
           </Typography>
           <Box
             display={'flex'}

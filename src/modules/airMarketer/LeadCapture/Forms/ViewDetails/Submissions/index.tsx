@@ -1,8 +1,12 @@
 import TanstackTable from '@/components/Table/TanstackTable';
 import { columns, submissionsArray } from './Submissions.data';
 import Search from '@/components/Search';
-import { Box, Button, Divider, Grid } from '@mui/material';
-import { ExportSubmissionIcon, FilterSubmissionsIcon } from '@/assets/icons';
+import { Box, Button, Divider, Grid, Tooltip } from '@mui/material';
+import {
+  ExportSubmissionIcon,
+  FilterSubmissionsIcon,
+  RefreshTasksIcon,
+} from '@/assets/icons';
 import useSubmissions from './useSubmissions';
 import CommonDrawer from '@/components/CommonDrawer';
 import { v4 as uuidv4 } from 'uuid';
@@ -22,6 +26,7 @@ const Submissions = ({ formId }: any) => {
     handleCloseFilters,
     methodsFilter,
     handleFiltersSubmit,
+    handleRefresh,
     dataCustomers,
   } = useSubmissions(formId);
 
@@ -36,15 +41,17 @@ const Submissions = ({ formId }: any) => {
         display={'flex'}
         alignItems={'center'}
         justifyContent={'space-between'}
+        sx={{ padding: '15px' }}
       >
-        <Search
-          setSearchBy={setSearchValue}
-          label="Search Here"
-          size="small"
-          sx={{ margin: '15px' }}
-        />
-
         <Box>
+          <Search
+            setSearchBy={setSearchValue}
+            label="Search Here"
+            size="small"
+          />
+        </Box>
+
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Button
             variant="outlined"
             color="inherit"
@@ -54,12 +61,21 @@ const Submissions = ({ formId }: any) => {
           >
             Filters
           </Button>
+          <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+            <Button
+              variant="outlined"
+              color="inherit"
+              className="small"
+              onClick={handleRefresh}
+            >
+              <RefreshTasksIcon />
+            </Button>
+          </Tooltip>
           <Button
             variant="outlined"
             color="inherit"
             className="small"
             startIcon={<ExportSubmissionIcon />}
-            sx={{ marginX: '10px' }}
           >
             Export
           </Button>

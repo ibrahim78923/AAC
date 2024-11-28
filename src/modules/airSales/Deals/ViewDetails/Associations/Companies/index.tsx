@@ -73,8 +73,9 @@ const Companies = ({
                 className="medium"
                 sx={{ minWidth: '0px', gap: 0.5 }}
                 onClick={() => setOpenDrawer('Add')}
+                startIcon={<PlusIcon />}
               >
-                <PlusIcon /> Add Companies
+                Add Companies
               </Button>
             </PermissionsGuard>
           </Box>
@@ -87,6 +88,7 @@ const Companies = ({
               setCompanyRecord,
             })}
             data={companiesData}
+            isLoading={isLoading}
           />
         </Grid>
       </Grid>

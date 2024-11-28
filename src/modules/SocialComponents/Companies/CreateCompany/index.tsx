@@ -24,6 +24,7 @@ const CreateCompany = ({ setIsOpenDrawer, isOpenDrawer }: any) => {
     getCompanyContactsList,
     form,
     getDynamicFieldsStatus,
+    postIsLoading,
   } = useCreateCompany(setIsOpenDrawer);
 
   return (
@@ -39,6 +40,7 @@ const CreateCompany = ({ setIsOpenDrawer, isOpenDrawer }: any) => {
         okText="Add"
         isOk={true}
         footer={true}
+        isLoading={postIsLoading}
       >
         <Box sx={{ paddingTop: '1rem' }}>
           {getDynamicFieldsStatus?.isLoading ||

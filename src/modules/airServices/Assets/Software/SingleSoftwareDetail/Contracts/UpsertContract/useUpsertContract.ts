@@ -26,7 +26,7 @@ export const useUpsertContract = () => {
     resolver: yupResolver<any>(upsertContractFormSchemaFunction),
     defaultValues: upsertContractFormDefaultValuesFunction(),
   });
-  const { handleSubmit, control, reset } = upsertContractFormMethods;
+  const { handleSubmit, control, reset, watch } = upsertContractFormMethods;
 
   const getSingleSoftwareParameter = {
     queryParams: {
@@ -110,8 +110,12 @@ export const useUpsertContract = () => {
     }
   };
 
-  const upsertContractFormFieldsData =
-    upsertContractFormFieldsDataFunction(watchForNotifyExpiry);
+  const watchStartDate = watch('startDate');
+
+  const upsertContractFormFieldsData = upsertContractFormFieldsDataFunction(
+    watchForNotifyExpiry,
+    watchStartDate,
+  );
   return {
     upsertContractFormMethods,
     handleSubmit,

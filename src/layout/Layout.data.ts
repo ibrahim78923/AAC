@@ -49,7 +49,12 @@ import {
   ConsumerImage,
 } from '@/assets/images';
 import { PROFILE_DROPDOWNS, Quick_Links_Routes } from '@/constants';
-import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
+import {
+  AIR_CUSTOMER_PORTAL,
+  AIR_LOYALTY_PROGRAM,
+  AIR_OPERATIONS,
+  AIR_SERVICES,
+} from '@/constants/routes';
 import {
   Permissions,
   orgAdminAllPermissions,
@@ -57,8 +62,6 @@ import {
 } from '@/constants/permissions';
 import {
   AIR_MARKETER,
-  AIR_OPERATION,
-  LOYALTY_PROGRAM,
   AIR_SOCIAL,
   AIR_CALL_CENTER,
   ORG_ADMIN,
@@ -158,92 +161,92 @@ export const OrgAdminRoutes: MenuItemI[] = [
 
 export const ServicesRoutes: any = [
   {
-    key: '/air-services',
+    key: AIR_SERVICES?.DASHBOARD,
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'SERVICE',
     permissions: Permissions?.AIR_SERVICES_VIEW_DASHBOARD,
   },
   {
-    key: '/air-services/tickets',
+    key: AIR_SERVICES?.TICKETS,
     icon: TicketDiscountImage,
     label: 'Tickets',
     role: 'SERVICE',
     permissions: Permissions?.AIR_SERVICES_TICKETS,
   },
   {
-    key: '/air-services/assets/inventory',
+    key: AIR_SERVICES?.ASSETS_INVENTORY,
     label: 'Assets',
     icon: AssetsImage,
     role: 'SERVICE',
     permissions: Permissions?.AIR_SERVICES_ASSETS,
     textNames: [
       {
-        key: '/air-services/assets/inventory',
+        key: AIR_SERVICES?.ASSETS_INVENTORY,
         label: 'Inventory',
         permissions: Permissions?.AIR_SERVICES_ASSETS_INVENTORY,
       },
       {
-        key: '/air-services/assets/software',
+        key: AIR_SERVICES?.ASSETS_SOFTWARE,
         label: 'Software',
         permissions: Permissions?.AIR_SERVICES_ASSETS_SOFTWARE,
       },
       {
-        key: '/air-services/assets/contracts',
+        key: AIR_SERVICES?.ASSETS_CONTRACTS,
         label: 'Contracts',
         permissions: Permissions?.AIR_SERVICES_ASSETS_CONTRACTS_LIST_VIEW,
       },
       {
-        key: '/air-services/assets/purchase-orders',
+        key: AIR_SERVICES?.PURCHASE_ORDER,
         label: 'Purchase Orders',
         permissions: Permissions?.AIR_SERVICES_ASSETS_PURCHASE_ORDER_LIST_VIEW,
       },
     ],
   },
   {
-    key: '/air-services/knowledge-base',
+    key: AIR_SERVICES?.KNOWLEDGE_BASE,
     icon: KnowledgeBaseImage,
     label: 'Knowledge Base',
     role: 'SERVICE',
     permissions: Permissions?.AIR_SERVICES_KNOWLEDGE_BASE,
   },
   {
-    key: '/air-services/workload',
+    key: AIR_SERVICES?.WORKLOAD,
     icon: WorkLoadImage,
     label: 'WorkLoad',
     role: 'SERVICE',
     permissions: Permissions?.AIR_SERVICES_WORKLOAD_CALENDER_VIEW,
   },
   {
-    key: '/air-services/feedback-survey',
+    key: AIR_SERVICES?.FEEDBACK_SURVEY,
     icon: FeedbackSurveyImage,
     label: 'Feedback Survey',
     role: 'SERVICE',
     permissions: Permissions?.AIR_SERVICES_FEEDBACK_SURVEY,
   },
   {
-    key: '/air-services/reports',
+    key: AIR_SERVICES?.REPORTS,
     icon: ReportsImage,
     label: 'Reports',
     role: 'SERVICE',
     permissions: Permissions?.AIR_SERVICES_REPORTS,
   },
   {
-    key: '/air-services/enquiries',
+    key: AIR_SERVICES?.ENQUIRIES,
     icon: EnquiriesImage,
     label: 'Enquiries',
     role: 'SERVICE',
     permissions: Permissions?.AIR_SERVICES_ENQUIRIES,
   },
   {
-    key: '/air-services/signup-leads',
+    key: AIR_SERVICES?.SIGN_UP_LEADS,
     icon: SignupLeadsImage,
     label: 'Signup Leads',
     role: 'SERVICE',
     permissions: Permissions?.AIR_SERVICES_SIGNUP_LEADS,
   },
   {
-    key: '/air-customer-portal',
+    key: AIR_CUSTOMER_PORTAL?.DASHBOARD,
     icon: CustomerPortalImage,
     label: 'Customer Portal',
     role: 'SERVICE',
@@ -253,64 +256,64 @@ export const ServicesRoutes: any = [
 
 export const LoyaltyProgramsRoutes: any = [
   {
-    key: LOYALTY_PROGRAM?.root,
+    key: AIR_LOYALTY_PROGRAM?.DASHBOARD,
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'Loyalty-Program',
     permissions: Permissions?.AIR_LOYALTY_PROGRAM_DASHBOARD,
   },
   {
-    key: LOYALTY_PROGRAM?.CONSUMERS,
+    key: AIR_LOYALTY_PROGRAM?.CONSUMERS,
     icon: ConsumerImage,
     label: 'Consumers',
     role: 'Loyalty-Program',
-    permissions: [],
+    permissions: Permissions?.AIR_LOYALTY_PROGRAM_CONSUMERS,
   },
   {
-    key: LOYALTY_PROGRAM?.LOYALTY_REWARD,
+    key: AIR_LOYALTY_PROGRAM?.REWARDS,
     label: 'Loyalty',
     icon: LoyaltyImage,
     role: 'Loyalty-Program',
-    permissions: [],
+    permissions: Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY,
     textNames: [
       {
-        key: LOYALTY_PROGRAM?.LOYALTY_REWARD,
+        key: AIR_LOYALTY_PROGRAM?.REWARDS,
         label: 'Rewards',
-        permissions: [],
+        permissions: Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS,
       },
       {
-        key: LOYALTY_PROGRAM?.LOYALTY_TRANSACTIONS,
-        label: 'Transactions',
-        permissions: [],
-      },
-      {
-        key: LOYALTY_PROGRAM?.LOYALTY_RULES_TIERS,
-        label: 'Rules & Tiers',
-        permissions: [],
-      },
-      {
-        key: LOYALTY_PROGRAM?.LOYALTY_RULES_VOUCHERS,
+        key: AIR_LOYALTY_PROGRAM?.VOUCHERS,
         label: 'Vouchers',
-        permissions: [],
+        permissions: Permissions?.AIR_LOYALTY_PROGRAM_VOUCHERS,
+      },
+      {
+        key: AIR_LOYALTY_PROGRAM?.LOYALTY_RULES_AND_TIERS,
+        label: 'Tiers & Rules',
+        permissions: Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS,
+      },
+      {
+        key: AIR_LOYALTY_PROGRAM?.LOYALTY_TRANSACTION,
+        label: 'Transactions',
+        permissions: Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_TRANSACTIONS,
       },
     ],
   },
   {
-    key: LOYALTY_PROGRAM?.GIFT_CARDS,
-    label: 'Gift Cards',
+    key: AIR_LOYALTY_PROGRAM?.GIFT_CARDS,
+    label: 'Gift cards',
     icon: GiftCardImage,
     role: 'Loyalty-Program',
-    permissions: [],
+    permissions: Permissions?.AIR_LOYALTY_PROGRAM_GIFT_CARDS,
     textNames: [
       {
-        key: LOYALTY_PROGRAM?.GIFT_CARDS,
-        label: 'Gift Cards',
-        permissions: [],
+        key: AIR_LOYALTY_PROGRAM?.GIFT_CARDS,
+        label: 'Gift cards',
+        permissions: Permissions?.AIR_LOYALTY_PROGRAM_GIFT_CARDS_GIFT_CARD,
       },
       {
-        key: LOYALTY_PROGRAM?.GIFT_CARDS_TRANSACTIONS,
+        key: AIR_LOYALTY_PROGRAM?.TRANSACTIONS,
         label: 'Transactions',
-        permissions: [],
+        permissions: Permissions?.AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS,
       },
     ],
   },
@@ -446,28 +449,28 @@ export const AirMarketingRoutes: any = [
 
 export const CustomerPortalRoutes: any = [
   {
-    key: '/air-customer-portal',
+    key: AIR_CUSTOMER_PORTAL?.DASHBOARD,
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'CUSTOMER_PORTAL',
     permissions: Permissions?.AIR_CUSTOMER_PORTAL_DASHBOARD,
   },
   {
-    key: '/air-customer-portal/tickets',
+    key: AIR_CUSTOMER_PORTAL?.TICKETS,
     icon: TicketDiscountImage,
     label: 'Tickets',
     role: 'CUSTOMER_PORTAL',
     permissions: Permissions?.AIR_CUSTOMER_PORTAL_TICKETS,
   },
   {
-    key: '/air-customer-portal/knowledge-base',
+    key: AIR_CUSTOMER_PORTAL?.KNOWLEDGE_BASE,
     icon: KnowledgeBaseImage,
     label: 'Knowledge Base',
     role: 'CUSTOMER_PORTAL',
     permissions: Permissions?.AIR_CUSTOMER_PORTAL_KNOWLEDGE_BASE,
   },
   {
-    key: '/air-customer-portal/catalog',
+    key: AIR_CUSTOMER_PORTAL?.CATALOG_SERVICES,
     icon: WorkLoadImage,
     label: 'Catalog',
     role: 'CUSTOMER_PORTAL',
@@ -477,35 +480,35 @@ export const CustomerPortalRoutes: any = [
 
 export const AirOperationsRoutes: any = [
   {
-    key: AIR_OPERATION?.root,
+    key: AIR_OPERATIONS?.DASHBOARD,
     icon: DataManagementImage,
     label: 'Data Management',
     role: 'AIR_OPERATIONS',
     permissions: Permissions?.AIR_OPERATIONS_DATA_MANAGEMENT,
   },
   {
-    key: AIR_OPERATION?.WORK_FLOW,
+    key: AIR_OPERATIONS?.WORKFLOW_AUTOMATION,
     icon: WorkFlowAutomationImage,
     label: 'Workflow Automation',
     role: 'AIR_OPERATIONS',
     permissions: Permissions?.AIR_OPERATIONS_WORKFLOWS,
   },
   {
-    key: AIR_OPERATION?.REPORTS,
+    key: AIR_OPERATIONS?.REPORTS,
     icon: ReportsImage,
     label: 'Reports',
     role: 'AIR_OPERATIONS',
     permissions: Permissions?.AIR_OPERATION_REPORTS,
   },
   {
-    key: AIR_OPERATION?.ROLE_AND_RIGHT,
+    key: AIR_OPERATIONS?.ROLES_AND_RIGHTS,
     icon: ForecastImage,
     label: 'Roles and Right',
     role: 'AIR_OPERATIONS',
     permissions: Permissions?.AIR_OPERATIONS_ROLES_AND_RIGHT_ROLES_LIST,
   },
   {
-    key: AIR_OPERATION?.USER_MANAGEMENT,
+    key: AIR_OPERATIONS?.USER_MANAGEMENT,
     icon: ProfileUserManagementImage,
     label: 'User Management',
     role: 'AIR_OPERATIONS',
@@ -664,8 +667,8 @@ export const LowerLoyaltyProgramRoutes = [
     label: 'Settings',
     icon: SettingImage,
     role: 'Loyalty-program',
-    key: LOYALTY_PROGRAM?.SETTINGS,
-    permissions: [],
+    key: AIR_LOYALTY_PROGRAM?.SETTINGS,
+    permissions: Permissions?.AIR_LOYALTY_PROGRAM_SETTINGS,
   },
 ];
 
@@ -683,33 +686,33 @@ export const LowerServicesRoutes = [
     label: 'Settings',
     icon: SettingImage,
     role: 'SERVICES',
-    key: '/air-services/settings',
+    key: AIR_SERVICES?.SETTINGS,
     permissions: Permissions?.AIR_SERVICES_SETTINGS,
     textNames: [
       {
-        key: '/air-services/settings/account-settings',
+        key: AIR_SERVICES?.ACCOUNT_SETTINGS,
         label: 'Account Settings',
         permissions:
           Permissions?.AIR_SERVICES_SETTINGS_ACCOUNT_SETTINGS_ACCOUNT_DETAILS,
       },
       {
-        key: '/air-services/settings/user-management',
+        key: AIR_SERVICES?.USER_MANAGEMENT,
         label: 'User Management',
         permissions: Permissions?.AIR_SERVICES_SETTINGS_USER_MANAGEMENT,
       },
       {
-        key: '/air-services/settings/asset-management',
+        key: AIR_SERVICES?.ASSET_MANAGEMENT_SETTINGS,
         label: 'Asset Management',
         permissions: Permissions?.AIR_SERVICES_SETTINGS_ASSET_MANAGEMENT,
       },
       {
-        key: '/air-services/settings/agent-performance-management',
+        key: AIR_SERVICES?.AGENT_PERFORMANCE_MANAGEMENT_SETTINGS,
         label: 'Agent Productivity & Workload Management',
         permissions:
           Permissions?.AIR_SERVICES_SETTINGS_AGENT_PERFORMANCE_MANAGEMENT,
       },
       {
-        key: '/air-services/settings/service-management',
+        key: AIR_SERVICES?.SERVICE_MANAGEMENT,
         label: 'Service Management',
         permissions: Permissions?.AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT,
       },
@@ -791,6 +794,13 @@ export const ProfileDropDown = (basePath: any) => {
     {
       label: PROFILE_DROPDOWNS?.DELEGATE,
       key: COMMON_ROUTES?.DELEGATE,
+    },
+    {
+      label: PROFILE_DROPDOWNS?.ACTIVITY_LOGS,
+      key:
+        basePath === ORG_ADMIN.DASHBOARD
+          ? ORG_ADMIN.ORG_ADMIN_ACTIVITY_LOGS
+          : COMMON_ROUTES?.ACTIVITY_LOGS,
     },
   ];
 };

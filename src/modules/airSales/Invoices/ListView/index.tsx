@@ -21,7 +21,6 @@ import { AIR_SALES_INVOICES_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { v4 as uuidv4 } from 'uuid';
 
 const ListView = () => {
   const navigate = useRouter();
@@ -41,6 +40,7 @@ const ListView = () => {
 
     InvoiceData,
     isLoading,
+    isFetching,
     setPage,
     setPageLimit,
     selectedRow,
@@ -56,7 +56,8 @@ const ListView = () => {
     handleDeleteInvoice,
     loadingDelete,
 
-    employeeListData,
+    employeeList,
+    orgId,
     handleIsViewPage,
     handleUpdateStatus,
   } = useListView();
@@ -184,7 +185,7 @@ const ListView = () => {
         <TanstackTable
           columns={getTableColumns}
           data={InvoiceData?.data?.quoteinvoices}
-          isLoading={isLoading}
+          isLoading={isLoading || isFetching}
           currentPage={InvoiceData?.data?.meta?.page}
           count={InvoiceData?.data?.meta?.pages}
           pageLimit={InvoiceData?.data?.meta?.limit}
@@ -218,8 +219,8 @@ const ListView = () => {
       >
         <FormProvider methods={methodsFilter}>
           <Grid container spacing={1}>
-            {invoiceFilterFields(employeeListData)?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+            {invoiceFilterFields(orgId, employeeList)?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={item?.componentProps?.name}>
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (

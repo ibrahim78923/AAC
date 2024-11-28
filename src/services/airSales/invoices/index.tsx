@@ -1,4 +1,4 @@
-import { AIR_SALES, INVOICE } from '@/routesConstants/endpoints';
+import { AIR_SALES, END_POINTS, INVOICE } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 export const invoiceAPI = baseAPI.injectEndpoints({
@@ -30,10 +30,10 @@ export const invoiceAPI = baseAPI.injectEndpoints({
       query: ({ params }) => ({
         url: `${INVOICE.GET_INVOICE_QUOTE_LIST}`,
         method: 'GET',
-        params: params,
+        params,
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.data?.quotes;
+        if (response) return response?.data;
       },
       providesTags: ['INVOICE', 'AIR_SALES_QUOTES'],
     }),
@@ -54,6 +54,44 @@ export const invoiceAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['INVOICE'],
     }),
+
+    getEmployeeListInvoice: builder.query({
+      query: ({ params }: any) => {
+        return {
+          url: `${END_POINTS?.ORGANIZATION_LIST}/${params?.id}/users`,
+          method: 'GET',
+          params: {
+            search: params?.search,
+            meta: params?.meta,
+          },
+        };
+      },
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: ['USERS'],
+    }),
+
+    getQuoteByIdForInvoice: builder.query({
+      query: ({ id, params }: any) => ({
+        url: `${END_POINTS?.QUOTE}/{id}?id=${id}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: ['AIR_SALES_QUOTES'],
+    }),
+
+    getBankAccountsListForInvoices: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_RECEIVERS_BANK_ACCOUNTS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.receiverbankaccounts;
+      },
+      providesTags: ['RECEIVER_BANK_ACCOUNT'],
+    }),
   }),
 });
 
@@ -65,4 +103,7 @@ export const {
   useGetInvoiceQuery,
   useDeleteInvoiceMutation,
   useUpdateInvoiceMutation,
+  useLazyGetEmployeeListInvoiceQuery,
+  useLazyGetQuoteByIdForInvoiceQuery,
+  useLazyGetBankAccountsListForInvoicesQuery,
 } = invoiceAPI;

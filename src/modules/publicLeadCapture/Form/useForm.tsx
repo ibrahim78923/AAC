@@ -8,10 +8,13 @@ import {
   usePutAddEntranceFormMutation,
   usePostFormSubmissionsMutation,
 } from '@/services/airMarketer/lead-capture/forms';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar } from '@/utils/api';
 import { validationSchema, defaultValues } from '@/utils/leadcapture-forms';
+import { useRouter } from 'next/router';
+import { PUBLIC_LEAD_CAPTURE } from '@/routesConstants/paths';
 
 export default function useFormHook() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const formId = searchParams.get('id');
 
@@ -60,31 +63,33 @@ export default function useFormHook() {
     }
   }, [formId, watchAllFields, hasFormInteracted]);
 
-  const [postFormSubmission] = usePostFormSubmissionsMutation();
+  const [postFormSubmission, { isLoading: loadingFormSubmission }] =
+    usePostFormSubmissionsMutation();
 
   const handlerOnSubmit = async (values: any) => {
     const domain = typeof window !== 'undefined' ? window.location.origin : '';
-
-    const payload: any = {
-      formId,
-      type: 'public',
-      domain,
-    };
-
+    const formData: any = new FormData();
     const submission: any = {};
 
     Object.keys(values).forEach((key) => {
       if (values[key]) {
-        submission[key] = values[key];
+        if (values[key] instanceof File) {
+          formData.append(`files${key}`, values[key]);
+        } else {
+          submission[key] = values[key];
+        }
       }
     });
 
-    payload.submission = submission;
+    formData.append('formId', formId);
+    formData.append('type', 'public');
+    formData.append('domain', domain);
+    formData.append('submission', JSON.stringify(submission));
 
     try {
-      await postFormSubmission({ body: payload })?.unwrap();
+      await postFormSubmission({ body: formData })?.unwrap();
       reset();
-      successSnackbar('Form submit successfully');
+      router.push(PUBLIC_LEAD_CAPTURE?.THANK_YOU);
     } catch (error: any) {
       errorSnackbar('An error occured');
     }
@@ -97,5 +102,6 @@ export default function useFormHook() {
     methods,
     handleSubmit,
     handlerOnSubmit,
+    loadingFormSubmission,
   };
 }

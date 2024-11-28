@@ -47,13 +47,13 @@ import UserDetailsDrawer from '../../UserDetailsDrawer';
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { HomeRounded, LogoutRounded } from '@mui/icons-material';
 import ProfileNameIcon from '@/components/ProfileNameIcon';
-import { enqueueSnackbar } from 'notistack';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { PdfImage } from '@/assets/images';
 import { useGetEmailSettingsQuery } from '@/services/commonFeatures/email/others';
 import dayjs from 'dayjs';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const RightPane = ({
   isOpenSendEmailDrawer,
@@ -137,14 +137,10 @@ const RightPane = ({
       await postDraftOtherEmail({
         body: payload,
       })?.unwrap();
-      enqueueSnackbar('Logout Success', {
-        variant: 'success',
-      });
+      successSnackbar('Logout Success');
       router.push(`${END_POINTS?.EMAIL_VIEW}?redirect=${true}`);
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong!', {
-        variant: 'error',
-      });
+      errorSnackbar('Something went wrong!');
     }
   };
 

@@ -40,7 +40,6 @@ const ImportModal = () => {
     remove,
     lazyGetSignedUrlForImportStatus,
     uploadFileTos3UsingSignedUrlStatus,
-    importFileStatus,
     newImportFileForServicesStatus,
     theme,
     productOptions,
@@ -158,7 +157,6 @@ const ImportModal = () => {
                       disabled={
                         lazyGetSignedUrlForImportStatus?.isLoading ||
                         uploadFileTos3UsingSignedUrlStatus?.isLoading ||
-                        importFileStatus?.isLoading ||
                         newImportFileForServicesStatus?.isLoading ||
                         lazyGetSignedUrlForImportStatus?.isFetching
                       }
@@ -173,7 +171,6 @@ const ImportModal = () => {
                       loading={
                         uploadFileTos3UsingSignedUrlStatus?.isLoading ||
                         lazyGetSignedUrlForImportStatus?.isLoading ||
-                        importFileStatus?.isLoading ||
                         newImportFileForServicesStatus?.isLoading ||
                         lazyGetSignedUrlForImportStatus?.isFetching
                       }

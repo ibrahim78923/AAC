@@ -227,7 +227,7 @@ const CreateForm = ({ formType }: any) => {
                     value: item?.value,
                     label: item?.label,
                   }))}
-                  isCheckBox={true}
+                  // isCheckBox={true}
                   GridView={12}
                   disabled={disbaleForm}
                 />

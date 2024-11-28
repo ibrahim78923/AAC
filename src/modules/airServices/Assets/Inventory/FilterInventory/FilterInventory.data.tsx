@@ -3,6 +3,7 @@ import {
   assetLifeExpiryOptions,
   assetsImpactOptions,
   dateOptions,
+  updatedDateOptions,
 } from '../Inventory.data';
 import GetInventoryAllUsersAdminDropdown from '../InventoryFormFieldsDropdowns/GetInventoryAllUsersAdminDropdown';
 import GetInventoryLocationDropdown from '../InventoryFormFieldsDropdowns/GetInventoryLocationDropdown';
@@ -36,10 +37,12 @@ export const inventoryFilterFormFieldsDataFunction = () => [
   {
     id: 3,
     component: GetInventoryDepartmentDropdown,
+    componentProps: { name: 'departmentId' },
   },
   {
     id: 4,
     component: GetInventoryLocationDropdown,
+    componentProps: { name: 'locationId' },
   },
   {
     id: 5,
@@ -60,7 +63,7 @@ export const inventoryFilterFormFieldsDataFunction = () => [
       name: 'updatedAt',
       label: 'Updated Date',
       placeholder: 'Select a time period',
-      options: dateOptions,
+      options: updatedDateOptions,
       getOptionLabel: (option: any) => option?.label?.replaceAll?.('_', ' '),
     },
     component: RHFAutocomplete,

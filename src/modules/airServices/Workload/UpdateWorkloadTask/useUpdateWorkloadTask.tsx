@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
+  getWorkloadDataArray,
   getWorkloadDefaultValues,
   getWorkloadValidationSchema,
 } from './UpdateWorkloadTask.data';
@@ -18,14 +19,15 @@ export const useUpdateWorkloadTask = ({ onClose, dataGet }: any) => {
     defaultValues: getWorkloadDefaultValues?.(dataGet?.extendedProps),
   });
 
-  const { handleSubmit, reset, getValues } = methods;
+  const { handleSubmit, reset, getValues, setValue, setError, watch } = methods;
 
   const onSubmit = async (data: any) => {
     const { plannedEffort } = getValues();
     if (plannedEffort?.trim() !== '' && !/^\d+h\d+m$/?.test(plannedEffort)) {
-      errorSnackbar(
-        'Invalid format for Planned Effort. Please use format like 1h10m',
-      );
+      setError('plannedEffort', {
+        message:
+          'Invalid format for Planned Effort. Please use format like 1h10m',
+      });
       return;
     }
 
@@ -56,10 +58,13 @@ export const useUpdateWorkloadTask = ({ onClose, dataGet }: any) => {
     reset(getWorkloadDefaultValues?.(dataGet?.extendedProps));
   }, [dataGet, reset]);
 
+  const workloadDataArray = getWorkloadDataArray(getValues, setValue, watch);
+
   return {
     handleSubmit,
     onSubmit,
     methods,
     patchTaskStatus,
+    workloadDataArray,
   };
 };

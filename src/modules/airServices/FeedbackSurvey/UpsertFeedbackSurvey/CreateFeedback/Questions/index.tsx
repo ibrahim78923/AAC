@@ -1,19 +1,14 @@
 import React from 'react';
 import { DragDropContext, Draggable } from 'react-beautiful-dnd';
 import { DragIndicator } from '@mui/icons-material';
-import {
-  Box,
-  CircularProgress,
-  Grid,
-  IconButton,
-  Tooltip,
-} from '@mui/material';
+import { Box, CircularProgress, Grid, IconButton } from '@mui/material';
 import { CopyQuestionIcon, DeleteQuestionIcon } from '@/assets/icons';
 import {
   RHFAutocomplete,
   RHFSwitch,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { CustomTooltip } from '@/components/CustomTooltip';
 import { useQuestions } from './useQuestions';
 import {
   AnimatedBox,
@@ -267,7 +262,10 @@ export const Questions: React.FC<QuestionsI> = (props) => {
                               ) : (
                                 <IconButton
                                   disabled={
-                                    qusLoading || secLoading || deleteLoading
+                                    qusLoading ||
+                                    secLoading ||
+                                    deleteLoading ||
+                                    sectionCondition
                                   }
                                   onClick={() => deleteQuestion(index)}
                                   sx={{
@@ -289,7 +287,10 @@ export const Questions: React.FC<QuestionsI> = (props) => {
                               />
                               <IconButton
                                 disabled={
-                                  qusLoading || secLoading || deleteLoading
+                                  qusLoading ||
+                                  secLoading ||
+                                  deleteLoading ||
+                                  sectionCondition
                                 }
                                 onClick={() => copyQuestion(index)}
                               >
@@ -319,7 +320,7 @@ export const Questions: React.FC<QuestionsI> = (props) => {
                           justifyContent="space-evenly"
                           alignItems="center"
                           flexDirection={{ md: 'column', xs: 'row' }}
-                          p={{ sm: 2, xs: 1 }}
+                          p={{ md: 2, xs: 1 }}
                           gap={{ sm: 2, xs: 1 }}
                         >
                           {tooltipData(
@@ -328,15 +329,10 @@ export const Questions: React.FC<QuestionsI> = (props) => {
                             appendText,
                             handleImportOpen,
                           )?.map((item: any) => (
-                            <Tooltip
+                            <CustomTooltip
                               key={item?.id}
                               title={item?.title}
-                              arrow
                               placement="left"
-                              slotProps={{
-                                tooltip: { sx: { bgcolor: 'primary.main' } },
-                                arrow: { sx: { color: 'primary.main' } },
-                              }}
                             >
                               {updateLoading && item?.id === 4 ? (
                                 <CircularProgress size="35px" />
@@ -345,7 +341,7 @@ export const Questions: React.FC<QuestionsI> = (props) => {
                                   {item?.icon}
                                 </IconButton>
                               )}
-                            </Tooltip>
+                            </CustomTooltip>
                           ))}
                         </AnimatedBox>
                       </Grid>

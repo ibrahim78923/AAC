@@ -1,9 +1,9 @@
-import { getFullURL } from './utils';
 // API
+export const DOMAIN =
+  typeof window !== 'undefined' ? window.location.origin : '';
 export const BASE_URL = process?.env?.NEXT_PUBLIC_BASE_URL;
 export const IMG_URL = process?.env?.NEXT_PUBLIC_IMG_URL;
-export const FE_BASE_URL =
-  process?.env?.NEXT_PUBLIC_FE_BASE_URL || getFullURL();
+export const FE_BASE_URL = process?.env?.NEXT_PUBLIC_FE_BASE_URL || DOMAIN;
 
 //PAGINATION
 export const PAGINATION = {

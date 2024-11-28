@@ -25,6 +25,7 @@ import { filteredEmptyValues } from '@/utils/api';
 
 const useDetails = () => {
   const router = useRouter();
+  const contactId = router?.query?.contactId;
   const { user }: any = useAuth();
   const orgId = user?.organization?._id;
   const contactOwnerData = useLazyGetContactsOwnerListQuery();
@@ -34,7 +35,7 @@ const useDetails = () => {
     data: dataGetContactById,
     isLoading: loadingContactById,
     isFetching: fetchingContactById,
-  } = useGetContactByIdQuery(router?.query?.contactId);
+  } = useGetContactByIdQuery(contactId, { skip: !contactId });
 
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -186,7 +187,7 @@ const useDetails = () => {
 
     try {
       await updateDetails({
-        id: router?.query?.contactId,
+        id: contactId,
         body: formData,
       })?.unwrap();
       enqueueSnackbar('Info has been updated successfully', {
@@ -210,7 +211,7 @@ const useDetails = () => {
       formData?.append('profilePicture', e?.target?.files[0]);
       try {
         await updateDetails({
-          id: router?.query?.contactId,
+          id: contactId,
           body: formData,
         })?.unwrap();
         enqueueSnackbar('Profile photo uploaded successfully', {
@@ -238,7 +239,7 @@ const useDetails = () => {
     formData.append('removeAvatar', 'true');
     try {
       await updateDetails({
-        id: router?.query?.contactId,
+        id: contactId,
         body: formData,
       })?.unwrap();
       enqueueSnackbar('Profile photo removed successfully', {

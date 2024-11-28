@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useEffect } from 'react';
 import { useGetRoleAndRightsList } from '../RolesAndRightsHook/useGetRoleAndRightsList';
 import { loyaltyRolesAndRightColumnsDynamic } from './RoleAndRights.data';
+import { loyaltyProgramRoleAndRightsSelectedRoleAndRightsListsSelector } from '@/redux/slices/airLoyaltyProgram/roles-and-right/selectors';
 
 export const useRoleAndRightsList = () => {
   const {
@@ -21,8 +22,8 @@ export const useRoleAndRightsList = () => {
 
   const dispatch = useAppDispatch();
 
-  const selectedUsersLists = useAppSelector(
-    (state) => state?.loyaltyProgramRoleAndRights?.selectedRoleAndRightsLists,
+  const selectedRolesAndRightLists = useAppSelector(
+    loyaltyProgramRoleAndRightsSelectedRoleAndRightsListsSelector,
   );
 
   const handleSetPage = (newPage: any) => {
@@ -33,8 +34,8 @@ export const useRoleAndRightsList = () => {
     dispatch(setPageLimit(newPageLimit));
   };
 
-  const setSelectedUserList = (user: any) => {
-    dispatch(setSelectedRoleAndRightsLists<any>(user));
+  const setSelectedRolesAndRightList = (role: any) => {
+    dispatch(setSelectedRoleAndRightsLists<any>(role));
   };
 
   const handlePageChange = (currentPage: number) => {
@@ -51,11 +52,11 @@ export const useRoleAndRightsList = () => {
 
   const totalUsers =
     lazyGetLoyaltyProgramRoleAndRightsPermissionsRoleListStatus?.data?.data
-      ?.usercompanyaccounts;
+      ?.companyaccountroles;
 
   const loyaltyRolesAndRightColumns = loyaltyRolesAndRightColumnsDynamic?.(
-    selectedUsersLists,
-    setSelectedUserList,
+    selectedRolesAndRightLists,
+    setSelectedRolesAndRightList,
     totalUsers,
   );
 

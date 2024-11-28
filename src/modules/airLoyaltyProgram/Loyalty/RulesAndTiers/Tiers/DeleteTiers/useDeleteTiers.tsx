@@ -8,6 +8,10 @@ import { PAGINATION } from '@/config';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { useGetTiersLists } from '../TiersHooks/useGetTiersLists';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import {
+  loyaltyProgramTiersIsPortalOpenSelector,
+  loyaltyProgramTiersTotalRecordsSelector,
+} from '@/redux/slices/airLoyaltyProgram/tiers/selectors';
 
 export const useDeleteTiers = () => {
   const [
@@ -19,13 +23,8 @@ export const useDeleteTiers = () => {
 
   const dispatch = useAppDispatch();
 
-  const isPortalOpen = useAppSelector(
-    (state) => state?.loyaltyProgramTiers?.isPortalOpen,
-  );
-
-  const totalRecords = useAppSelector(
-    (state) => state?.loyaltyProgramTiers?.totalRecords,
-  );
+  const isPortalOpen = useAppSelector(loyaltyProgramTiersIsPortalOpenSelector);
+  const totalRecords = useAppSelector(loyaltyProgramTiersTotalRecordsSelector);
 
   const refetchApi = async () => {
     const newPage =

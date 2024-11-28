@@ -24,6 +24,7 @@ const SMSBroadcast = () => {
     endedDate,
     recordStatus,
     setRecordStatus,
+    isFetching,
   } = useSMSBroadcast();
 
   const broadCastData = smsBroadcastData?.data?.smsbroadcasts;
@@ -65,7 +66,7 @@ const SMSBroadcast = () => {
           isPagination
           pageLimit={smsBroadcastData?.data?.meta?.limit}
           currentPage={smsBroadcastData?.data?.meta?.page}
-          isLoading={isLoading}
+          isLoading={isLoading || isFetching}
           isSuccess={isSuccess}
         />
       </PermissionsGuard>

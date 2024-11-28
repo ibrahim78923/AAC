@@ -38,11 +38,11 @@ import {
   usePatchForecastMutation,
   usePostForecastMutation,
 } from '@/services/airSales/forecast';
-import { enqueueSnackbar } from 'notistack';
 import { isNullOrEmpty } from '@/utils';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { successSnackbar } from '@/utils/api';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { errorSnackbar } from '@/lib/snackbar';
 
 const Setup = () => {
   const theme = useTheme<Theme>();
@@ -134,7 +134,7 @@ const Setup = () => {
         await deleteForecast({ ids: id }).unwrap();
         successSnackbar('Record Deleted Successfully');
       } catch (error: any) {
-        enqueueSnackbar('Something went wrong!', { variant: 'error' });
+        errorSnackbar('Something went wrong!');
       }
     }
   };
@@ -157,13 +157,9 @@ const Setup = () => {
 
     try {
       await postForecast({ body: payload })?.unwrap();
-      enqueueSnackbar('Forecast added successfully', {
-        variant: 'success',
-      });
+      successSnackbar('Forecast added successfully');
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message[ARRAY_INDEX?.ZERO], {
-        variant: 'error',
-      });
+      errorSnackbar(error?.data?.message[ARRAY_INDEX?.ZERO]);
     }
   };
 
@@ -190,11 +186,9 @@ const Setup = () => {
 
     try {
       await patchForecast({ id: rows[index]?._id, body: payload }).unwrap();
-      enqueueSnackbar('Forecast updated successfully', { variant: 'success' });
+      successSnackbar('Forecast updated successfully');
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message[ARRAY_INDEX?.ZERO], {
-        variant: 'error',
-      });
+      errorSnackbar(error?.data?.message[ARRAY_INDEX?.ZERO]);
     }
   };
 

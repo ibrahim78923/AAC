@@ -25,7 +25,6 @@ export const useDashboard = () => {
   return {
     openReportAnIssueModal,
     setOpenReportAnIssueModal,
-    router,
     user,
     newTicketsDropdown,
     dashboardWidgets,

@@ -14,7 +14,7 @@ export const SkeletonWorkload = () => {
             key={item ?? `skeleton+${id}`}
             animation={'wave'}
             variant={'rounded'}
-            width={'25%'}
+            width={id === 0 ? '18%' : id === 1 ? '20%' : '35%'}
             height={40}
             sx={{
               bgcolor: 'grey.300',

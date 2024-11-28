@@ -68,6 +68,7 @@ const useDealTab = (dealViewsData?: any) => {
     data: getDealsTableList,
     isLoading,
     isSuccess,
+    isFetching: dealsListFetching,
   } = useGetDealsListQuery(dealListparams);
 
   const { data: dealCustomzieCol, isLoading: customizeLoading } =
@@ -228,6 +229,7 @@ const useDealTab = (dealViewsData?: any) => {
     isPagination: true,
     isLoading,
     isSuccess,
+    isFetching: dealsListFetching,
   };
 
   const handleDeleteDeals = async () => {

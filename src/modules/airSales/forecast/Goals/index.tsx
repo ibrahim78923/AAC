@@ -3,10 +3,12 @@ import {
   Button,
   Menu,
   MenuItem,
+  Skeleton,
   Stack,
   ToggleButton,
   ToggleButtonGroup,
   Tooltip,
+  Typography,
 } from '@mui/material';
 import { manageTableColumns } from './Goals.data';
 import TanstackTable from '@/components/Table/TanstackTable';
@@ -20,6 +22,8 @@ import EditGoalsDrwaer from '../EditGoalsDrwaer';
 import { AlertModals } from '@/components/AlertModals';
 import { FilterrIcon, RefreshTasksIcon } from '@/assets/icons';
 import GoalsFilterDrawer from '../GoalsDrwaer';
+import { isNullOrEmpty } from '@/utils';
+import CustomPagination from '@/components/CustomPagination';
 
 const Goals = () => {
   const { isViewDealDrawer, setIsViewDealDrawer } = useForecast();
@@ -38,8 +42,6 @@ const Goals = () => {
     setIsDelete,
     goalsData,
     isLoading,
-    setPageLimit,
-    setPage,
     isError,
     isSuccess,
     isFetching,
@@ -51,15 +53,45 @@ const Goals = () => {
     isErrorTeam,
     isSuccessTeam,
     isFetchingTeam,
-    setPageTeam,
-    setPageLimitTeam,
     alignment,
     handleChange,
     isFilterDrawer,
     setIsFilterDrawer,
     setFilterValues,
     filterValues,
+    selectedSerial,
+    setSelectedSerial,
+    setPageLimit,
+    setPage,
   } = useGoals();
+
+  // Choose the goals data based on the current alignment
+  const activeGoalsData =
+    alignment === 'Team' ? goalsTeamData?.goals : goalsData?.goals;
+
+  // Function to handle the serial number click and show filtered goals
+  const handleSerialClick = (serialNumber: any) => {
+    if (selectedSerial === serialNumber) {
+      setSelectedSerial(null);
+    } else {
+      setSelectedSerial(serialNumber);
+    }
+  };
+
+  const uniqueSerialNumbers = Array?.from(
+    new Set(
+      activeGoalsData?.flatMap(
+        (g: any) => g?.goals?.map((goal: any) => goal?.serialNumber),
+      ),
+    ),
+  );
+
+  // Filter the goals based on the selected serial number
+  const filteredGoals = selectedSerial
+    ? activeGoalsData
+        ?.flatMap((g: any) => g?.goals)
+        ?.filter((goal: any) => goal?.serialNumber === selectedSerial)
+    : activeGoalsData?.flatMap((g: any) => g?.goals);
 
   return (
     <Box>
@@ -126,7 +158,7 @@ const Goals = () => {
             gap={1}
           >
             <Search
-              placeholder="Search by Name"
+              placeholder="Search by number or Name"
               size="small"
               setSearchBy={setSearch}
             />
@@ -208,27 +240,102 @@ const Goals = () => {
             </Box>
           </Box>
           <Box mt={2}>
-            <TanstackTable
-              columns={manageTableColumns(
-                theme,
-                tableRowValues,
-                setTableRowValues,
-                goalsData,
-              )}
-              data={goalsData?.goals}
-              isPagination
-              isLoading={isLoading}
-              isError={isError}
-              isFetching={isFetching}
-              isSuccess={isSuccess}
-              setPageLimit={setPageLimit}
-              setPage={setPage}
-              currentPage={goalsData?.meta?.page}
-              count={goalsData?.meta?.pages}
-              pageLimit={goalsData?.meta?.limit}
-              totalRecords={goalsData?.meta?.total}
-              onPageChange={(page: any) => setPage(page)}
-            />
+            {isNullOrEmpty(selectedSerial) ? (
+              <>
+                {isLoading || isFetching ? (
+                  [1, 2, 3]?.map((index: any) => (
+                    <Skeleton
+                      key={index}
+                      variant="rounded"
+                      width="100%"
+                      height={44}
+                      sx={{ marginTop: '10px' }}
+                    />
+                  ))
+                ) : (
+                  <>
+                    <Box
+                      display={'flex'}
+                      flexDirection={'column'}
+                      width={'100%'}
+                    >
+                      {uniqueSerialNumbers?.map((serialNumber: any) => {
+                        const goal = activeGoalsData
+                          ?.flatMap((g: any) => g?.goals)
+                          ?.find(
+                            (goal: any) => goal?.serialNumber === serialNumber,
+                          );
+
+                        return (
+                          <Button
+                            disableRipple
+                            key={serialNumber}
+                            onClick={() => handleSerialClick(serialNumber)}
+                            variant="contained"
+                            sx={{
+                              backgroundColor:
+                                selectedSerial === serialNumber
+                                  ? 'blue'
+                                  : theme?.palette?.grey[600],
+                              marginBottom: '10px',
+                              justifyContent: 'start',
+                            }}
+                          >
+                            #GL- {serialNumber} - {goal?.goalName}
+                          </Button>
+                        );
+                      })}
+
+                      {uniqueSerialNumbers?.length === 0 && (
+                        <Typography sx={{ color: theme?.palette?.error?.main }}>
+                          No data found
+                        </Typography>
+                      )}
+                    </Box>
+                    <CustomPagination
+                      count={goalsData?.meta?.pages}
+                      pageLimit={goalsData?.meta?.limit}
+                      currentPage={goalsData?.meta?.page}
+                      totalRecords={goalsData?.meta?.total}
+                      onPageChange={(page: number) => setPage(page)}
+                      setPage={setPage}
+                      setPageLimit={setPageLimit}
+                    />
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                <Button
+                  disableRipple
+                  sx={{
+                    backgroundColor: theme?.palette?.grey[600],
+                    marginBottom: '8px',
+                    color: 'white',
+                    '&:hover': {
+                      backgroundColor: theme?.palette?.primary?.main,
+                    },
+                  }}
+                  onClick={() => setSelectedSerial(null)}
+                  className="small"
+                >
+                  Back
+                </Button>
+                <TanstackTable
+                  columns={manageTableColumns(
+                    theme,
+                    tableRowValues,
+                    setTableRowValues,
+                    { goals: filteredGoals },
+                  )}
+                  data={filteredGoals}
+                  isLoading={isLoading}
+                  isError={isError}
+                  isFetching={isFetching}
+                  isSuccess={isSuccess}
+                />
+              </>
+            )}
           </Box>
         </>
       ) : (
@@ -240,7 +347,7 @@ const Goals = () => {
             gap={1}
           >
             <Search
-              placeholder="Search by Name"
+              placeholder="Search by number or Name"
               size="small"
               setSearchBy={setSearch}
             />
@@ -323,27 +430,101 @@ const Goals = () => {
             </Box>
           </Box>
           <Box mt={2}>
-            <TanstackTable
-              columns={manageTableColumns(
-                theme,
-                tableRowValues,
-                setTableRowValues,
-                goalsTeamData,
-              )}
-              data={goalsTeamData?.goals}
-              isPagination
-              isLoading={isLoadingTeam}
-              isError={isErrorTeam}
-              isFetching={isFetchingTeam}
-              isSuccess={isSuccessTeam}
-              setPageLimit={setPageLimitTeam}
-              setPage={setPageTeam}
-              currentPage={goalsTeamData?.meta?.page}
-              count={goalsTeamData?.meta?.pages}
-              pageLimit={goalsTeamData?.meta?.limit}
-              totalRecords={goalsTeamData?.meta?.total}
-              onPageChange={(page: any) => setPageTeam(page)}
-            />
+            {isNullOrEmpty(selectedSerial) ? (
+              <>
+                {isLoadingTeam || isFetchingTeam ? (
+                  [1, 2, 3]?.map((index: any) => (
+                    <Skeleton
+                      key={index}
+                      variant="rounded"
+                      width="100%"
+                      height={44}
+                      sx={{ marginTop: '10px' }}
+                    />
+                  ))
+                ) : (
+                  <>
+                    <Box
+                      display={'flex'}
+                      flexDirection={'column'}
+                      width={'100%'}
+                    >
+                      {uniqueSerialNumbers?.map((serialNumber: any) => {
+                        const goal = activeGoalsData
+                          ?.flatMap((g: any) => g?.goals)
+                          ?.find(
+                            (goal: any) => goal?.serialNumber === serialNumber,
+                          );
+
+                        return (
+                          <Button
+                            disableRipple
+                            key={serialNumber}
+                            onClick={() => handleSerialClick(serialNumber)}
+                            variant="contained"
+                            sx={{
+                              backgroundColor:
+                                selectedSerial === serialNumber
+                                  ? 'blue'
+                                  : theme?.palette?.grey[600],
+                              marginBottom: '8px',
+                              justifyContent: 'start',
+                            }}
+                          >
+                            #GL- {serialNumber} - {goal?.goalName}
+                          </Button>
+                        );
+                      })}
+                      {uniqueSerialNumbers?.length === 0 && (
+                        <Typography sx={{ color: theme?.palette?.error?.main }}>
+                          No data found
+                        </Typography>
+                      )}
+                    </Box>
+                    <CustomPagination
+                      count={goalsTeamData?.meta?.pages}
+                      pageLimit={goalsTeamData?.meta?.limit}
+                      currentPage={goalsTeamData?.meta?.page}
+                      totalRecords={goalsTeamData?.meta?.total}
+                      onPageChange={(page: number) => setPage(page)}
+                      setPage={setPage}
+                      setPageLimit={setPageLimit}
+                    />
+                  </>
+                )}
+              </>
+            ) : (
+              <Box mt={2}>
+                <Button
+                  className="small"
+                  disableRipple
+                  sx={{
+                    backgroundColor: theme?.palette?.grey[600],
+                    marginBottom: '8px',
+                    color: 'white',
+                    '&:hover': {
+                      backgroundColor: theme?.palette?.primary?.main,
+                    },
+                  }}
+                  onClick={() => setSelectedSerial(null)}
+                >
+                  Back
+                </Button>
+                <TanstackTable
+                  columns={manageTableColumns(
+                    theme,
+                    tableRowValues,
+                    setTableRowValues,
+                    { goals: filteredGoals },
+                  )}
+                  data={filteredGoals}
+                  isLoading={isLoadingTeam}
+                  isError={isErrorTeam}
+                  isFetching={isFetchingTeam}
+                  isSuccess={isSuccessTeam}
+                />
+              </Box>
+            )}
           </Box>
         </>
       )}

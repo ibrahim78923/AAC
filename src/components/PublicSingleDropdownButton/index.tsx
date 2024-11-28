@@ -68,6 +68,7 @@ export const PublicSingleDropdownButton = (
               color={theme?.palette?.grey?.[600]}
               fontWeight={500}
               sx={singleOption?.titleSx}
+              component={'div'}
             >
               {singleOption?.title}{' '}
             </Typography>

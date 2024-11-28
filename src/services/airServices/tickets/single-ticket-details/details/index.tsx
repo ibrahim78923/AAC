@@ -65,6 +65,13 @@ const ticketsDetailsAPI = baseAPI?.injectEndpoints({
         if (response) return response?.data;
       },
     }),
+    getServicesSingleTicketDetailHeaderCardById: builder?.query({
+      query: (getSingleTicketParameter: any) => ({
+        url: `${END_POINTS?.TICKET}/${getSingleTicketParameter?.pathParam?.ticketId}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
+    }),
   }),
 });
 
@@ -76,4 +83,5 @@ export const {
   useGetSingleServicesTicketsTimeEntriesListQuery,
   useLazyGetServiceTicketsCatalogCategoriesDropdownListQuery,
   useEditSingleServicesTicketsDetailsByIdMutation,
+  useGetServicesSingleTicketDetailHeaderCardByIdQuery,
 } = ticketsDetailsAPI;

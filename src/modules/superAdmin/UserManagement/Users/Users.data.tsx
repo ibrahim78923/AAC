@@ -6,6 +6,7 @@ import {
   useTheme,
   Checkbox,
   Tooltip,
+  CircularProgress,
 } from '@mui/material';
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
 import { SwitchBtn } from '@/components/SwitchButton';
@@ -25,8 +26,12 @@ import { generateImage } from '@/utils/avatarUtils';
 import { PRODUCT_USER_STATUS } from '@/constants/strings';
 
 export const columns: any = (columnsProps: ColumnsProps) => {
-  const { handleUserSwitchChange, checkedRows, handleCheckboxChange } =
-    columnsProps;
+  const {
+    handleUserSwitchChange,
+    checkedRows,
+    handleCheckboxChange,
+    isLoadingStatus,
+  } = columnsProps;
   const theme = useTheme();
 
   return [
@@ -130,20 +135,27 @@ export const columns: any = (columnsProps: ColumnsProps) => {
         ),
     },
     {
-      accessorFn: (row: RowInterface) => row?.Status,
+      accessorFn: (row: RowInterface) => row?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => (
-        <SwitchBtn
-          defaultChecked={
-            info?.row?.original?.status === 'ACTIVE' ? true : false
-          }
-          handleSwitchChange={(e: any) =>
-            handleUserSwitchChange(e, info?.row?.original?._id)
-          }
-        />
-      ),
+      cell: (info: any) => {
+        const isLoading = isLoadingStatus[info?.row?.original?._id] ?? false;
+        return isLoading ? (
+          <CircularProgress size={25} />
+        ) : (
+          <SwitchBtn
+            handleSwitchChange={(e: any) =>
+              handleUserSwitchChange(info?.row?.original?._id, e)
+            }
+            defaultChecked={
+              info?.row?.original?.status === PRODUCT_USER_STATUS?.ACTIVE
+                ? true
+                : false
+            }
+          />
+        );
+      },
     },
     {
       accessorFn: (row: RowInterface) => row?.createdAt,
@@ -157,8 +169,12 @@ export const columns: any = (columnsProps: ColumnsProps) => {
 };
 
 export const superAdminColumns: any = (columnsProps: any) => {
-  const { handleUserSwitchChange, checkedRows, handleCheckboxChange } =
-    columnsProps;
+  const {
+    handleUserSwitchChange,
+    checkedRows,
+    handleCheckboxChange,
+    isLoadingStatus,
+  } = columnsProps;
   const theme = useTheme();
 
   return [
@@ -229,20 +245,27 @@ export const superAdminColumns: any = (columnsProps: any) => {
       ),
     },
     {
-      accessorFn: (row: RowInterface) => row?.Status,
+      accessorFn: (row: RowInterface) => row?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => (
-        <SwitchBtn
-          defaultChecked={
-            info?.row?.original?.status === 'ACTIVE' ? true : false
-          }
-          handleSwitchChange={(e: any) =>
-            handleUserSwitchChange(e, info?.row?.original?._id)
-          }
-        />
-      ),
+      cell: (info: any) => {
+        const rowId = info?.row?.original?._id;
+        const isLoading = isLoadingStatus[rowId] ?? false;
+
+        return isLoading ? (
+          <CircularProgress size={25} />
+        ) : (
+          <SwitchBtn
+            handleSwitchChange={(e: any) => {
+              handleUserSwitchChange(rowId, e);
+            }}
+            defaultChecked={
+              info?.row?.original?.status === 'ACTIVE' ? true : false
+            }
+          />
+        );
+      },
     },
     {
       accessorFn: (row: RowInterface) => row?.createdOn,

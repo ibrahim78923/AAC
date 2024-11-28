@@ -5,6 +5,7 @@ import StatusBadge from '@/components/StatusBadge';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { InfoI, RowI } from './invoice.interface';
+import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 
 export const cardDetails = [
   {
@@ -191,7 +192,7 @@ export const invoicesTableColumns: any = (
 };
 
 //filter drawer form
-export const invoiceFilterFields = (employeeListData: any) => [
+export const invoiceFilterFields = (orgId: string, employeeListData: any) => [
   {
     id: 'status',
     componentProps: {
@@ -224,10 +225,14 @@ export const invoiceFilterFields = (employeeListData: any) => [
       name: 'createdBy',
       label: 'Created By',
       fullWidth: true,
-      select: true,
+      required: true,
+      apiQuery: employeeListData,
+      externalParams: { id: orgId, meta: false },
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option?.lastName}`,
+      placeholder: 'Add Requester',
     },
-    options: employeeListData,
-    component: RHFSelect,
+    component: RHFAutocompleteAsync,
     md: 12,
   },
 ];

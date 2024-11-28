@@ -19,10 +19,12 @@ import { uiDateFormat } from '@/lib/date-time';
 export const EventBaseWorkflowActionsDropdown = (
   handleActionClick: (type: string) => void,
   handleCloneWorkflow: () => void,
+  selectedAction: any,
 ) => [
   {
     id: 1,
     title: 'Edit',
+    disabled: selectedAction?.length > 1 ? true : false,
     permissionKey: [
       AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.EDIT_WORKFLOW,
     ],

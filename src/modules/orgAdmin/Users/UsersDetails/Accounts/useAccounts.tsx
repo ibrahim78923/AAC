@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { PAGINATION } from '@/config';
 import { userListApi } from '@/services/superAdmin/user-management/UserList';
 import { enqueueSnackbar } from 'notistack';
+import { PRODUCT_USER_STATUS } from '@/constants/strings';
 
 const useAccounts = () => {
   const { useGetUsersAccountsQuery } = userListApi;
@@ -9,9 +10,15 @@ const useAccounts = () => {
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const { useUpdateAccountStatusMutation } = userListApi;
   const [updateAccountStatus] = useUpdateAccountStatusMutation();
+  const [isLoadingStatus, setIsLoadingStatus] = useState<{
+    [key: string]: boolean;
+  }>({});
 
   const handleStatusUpdate = async (id: any, value: any) => {
-    const status = value === true ? 'ACTIVE' : 'INACTIVE';
+    setIsLoadingStatus((prevState) => ({ ...prevState, [id]: true }));
+    const status = value
+      ? PRODUCT_USER_STATUS?.ACTIVE
+      : PRODUCT_USER_STATUS?.INACTIVE;
     const params = {
       status: status,
     };
@@ -24,6 +31,8 @@ const useAccounts = () => {
       enqueueSnackbar(error?.data?.message, {
         variant: 'error',
       });
+    } finally {
+      setIsLoadingStatus((prevState) => ({ ...prevState, [id]: false }));
     }
   };
 
@@ -34,6 +43,7 @@ const useAccounts = () => {
     pageLimit,
     setPageLimit,
     handleStatusUpdate,
+    isLoadingStatus,
   };
 };
 

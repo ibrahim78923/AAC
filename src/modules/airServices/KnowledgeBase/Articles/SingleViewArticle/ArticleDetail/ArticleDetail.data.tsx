@@ -1,7 +1,7 @@
 import { fullName } from '@/utils/avatarUtils';
 import { SingleViewArticleDataI } from '../SingleViewArticle.interface';
-import { CustomChips } from '@/components/CustomChips';
 import { uiDateFormat } from '@/lib/date-time';
+import { CustomArrayTooltipData } from '@/components/CustomArrayTooltipData';
 
 export const sideData = (data: SingleViewArticleDataI) => {
   const keywords = !!data?.keywords?.length
@@ -9,7 +9,7 @@ export const sideData = (data: SingleViewArticleDataI) => {
         label: item,
         _id: item + id,
       }))
-    : [{ label: '---', _id: 'no_data' }];
+    : [];
 
   return [
     {
@@ -29,7 +29,7 @@ export const sideData = (data: SingleViewArticleDataI) => {
         {
           _id: 'status',
           title: 'Status:',
-          des: data?.status,
+          des: data?.status?.toLowerCase(),
         },
         {
           _id: 'folder',
@@ -39,7 +39,9 @@ export const sideData = (data: SingleViewArticleDataI) => {
         {
           _id: 'keywords',
           title: 'Keywords:',
-          des: <CustomChips data={keywords} truncateTextLength={6} />,
+          des: (
+            <CustomArrayTooltipData data={keywords} truncateTextLength={6} />
+          ),
         },
       ],
     },

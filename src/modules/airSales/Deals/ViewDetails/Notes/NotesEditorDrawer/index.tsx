@@ -15,6 +15,7 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import { NotesEditorDrawerProps } from '../Notes-interface';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import { AttachFileCard } from '@/components/AttachFileCard';
 
 const NotesEditorDrawer = (props: NotesEditorDrawerProps) => {
   const {
@@ -32,6 +33,7 @@ const NotesEditorDrawer = (props: NotesEditorDrawerProps) => {
     loadingNote,
     onSubmit,
     updateNotesLoading,
+    attachmentData,
   } = useNotesEditorDrawer({
     setSelectedCheckboxes,
     selectedCheckboxes,
@@ -85,6 +87,15 @@ const NotesEditorDrawer = (props: NotesEditorDrawerProps) => {
                   </item.component>
                 </Grid>
               ))}
+              {
+                <Grid item xs={12}>
+                  <AttachFileCard
+                    data={attachmentData}
+                    onDelete={() => {}}
+                    permissionKey={[]}
+                  />
+                </Grid>
+              }
             </Grid>
           </FormProvider>
         </Box>

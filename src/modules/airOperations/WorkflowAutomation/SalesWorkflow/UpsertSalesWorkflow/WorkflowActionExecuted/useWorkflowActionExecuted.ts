@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material';
 import { useFieldArray } from 'react-hook-form';
 import { errorSnackbar, warningSnackbar } from '@/lib/snackbar';
@@ -10,6 +10,10 @@ import { useRouter } from 'next/router';
 
 export const useWorkflowActionExecuted = (props: any) => {
   const { watch, setValue } = props;
+  const [fieldNameOnChange, setFieldNameOnChange] = useState({
+    index: null,
+    newValue: '',
+  });
   const { fields, append, remove } = useFieldArray({
     name: 'actions',
   });
@@ -34,6 +38,15 @@ export const useWorkflowActionExecuted = (props: any) => {
   const adminUserDropdown = useLazyGetAdminUserDropdownListQuery();
   const router = useRouter();
   const moduleType = watch('module');
+  const watchFieldName = (index?: number) => {
+    if (!!watch(`actions.${index}.fieldName`)) {
+      return true;
+    }
+    return false;
+  };
+  useEffect(() => {
+    setValue(`actions.${fieldNameOnChange?.index}.fieldValue`, null);
+  }, [fieldNameOnChange?.newValue]);
   if (router?.query?.id === undefined) {
     useEffect(() => {
       fields?.forEach((_, index) => {
@@ -49,5 +62,7 @@ export const useWorkflowActionExecuted = (props: any) => {
     handleDeleteClick,
     dealsDropdown,
     adminUserDropdown,
+    setFieldNameOnChange,
+    watchFieldName,
   };
 };

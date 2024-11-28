@@ -88,7 +88,8 @@ export const useEditTicketDetails = () => {
     defaultValues: editTicketDetailsDefaultValuesDynamic(),
   });
 
-  const { handleSubmit, reset, getValues, control, watch, setError } = methods;
+  const { handleSubmit, reset, getValues, control, watch, setError, setValue } =
+    methods;
   const watchForTicketType = useWatch({
     control,
     name: 'ticketType',
@@ -111,6 +112,7 @@ export const useEditTicketDetails = () => {
     const newFormData = filteredEmptyValues(formData);
 
     const { plannedEffort } = getValues();
+
     if (
       plannedEffort?.trim() !== '' &&
       !REGEX?.HOURS_AND_MINUTES?.test(plannedEffort)
@@ -196,6 +198,11 @@ export const useEditTicketDetails = () => {
           'plannedEndDate',
           isoDateString(newFormData?.plannedEndDate),
         );
+      !!newFormData?.plannedStartDate &&
+        ticketDetailsData?.append(
+          'plannedStartDate',
+          isoDateString(newFormData?.plannedStartDate),
+        );
       !!newFormData?.plannedEffort &&
         ticketDetailsData.append('plannedEffort', newFormData?.plannedEffort);
       ticketDetailsData?.append('isChildTicket', ticketDetail?.isChildTicket);
@@ -214,7 +221,6 @@ export const useEditTicketDetails = () => {
 
       await editTicketsDetailsTrigger(editTicketsDetailsParameter)?.unwrap();
       successSnackbar('Ticket updated successfully');
-      moveToTicket?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -224,6 +230,8 @@ export const useEditTicketDetails = () => {
     watchForTicketType,
     watch,
     ticketDetail,
+    getValues,
+    setValue,
   );
   const getApiCallInProgress =
     isLoading ||

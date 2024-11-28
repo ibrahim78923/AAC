@@ -31,14 +31,6 @@ export const useQuestions = (props: QuestionsI) => {
     control,
   });
   const copyQuestion = (index: number) => {
-    if (sectionCondition) {
-      errorSnackbar(
-        `Please save ( Section ${
-          unSaveSection?.index + 1
-        } ) first to perform this action`,
-      );
-      return;
-    }
     const questionTitle = watch(
       `sections.${sectionIndex}.questions.${index}.questionTitle`,
     );
@@ -74,25 +66,15 @@ export const useQuestions = (props: QuestionsI) => {
       sectionId,
       questionId,
     };
-    if (sectionCondition) {
-      errorSnackbar(
-        `Please save ( Section ${
-          unSaveSection?.index + 1
-        } ) first to perform this action`,
-      );
-      return;
-    }
     if (fields?.length <= 1) {
       return;
     }
     if (fields?.length > 1 && !!questionId) {
       setDeleteIndex(index);
-      const response: any = await deleteQuestionTrigger(deleteParams);
-      if (response?.data?.message) {
+      try {
+        await deleteQuestionTrigger(deleteParams)?.unwrap();
         remove(index);
-        return;
-      }
-      return;
+      } catch (error) {}
     } else if (fields?.length > 1 && !questionId) {
       remove(index);
       return;
@@ -159,8 +141,9 @@ export const useQuestions = (props: QuestionsI) => {
       },
       params: { id: surveyId },
     };
-    const response: any = await patchFeedbackSurveyTrigger(updateSurvey);
-    if (response?.data?.message) {
+    try {
+      const response: any =
+        await patchFeedbackSurveyTrigger(updateSurvey)?.unwrap();
       sectionAppend({
         id: response?.data?._id,
         title: '',
@@ -178,7 +161,7 @@ export const useQuestions = (props: QuestionsI) => {
           },
         ],
       });
-    }
+    } catch (error) {}
   };
   const handleSaveQuestion = () => {
     setSubmitIndex({

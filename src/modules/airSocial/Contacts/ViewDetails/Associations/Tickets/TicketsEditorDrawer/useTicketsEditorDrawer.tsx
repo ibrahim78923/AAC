@@ -1,28 +1,39 @@
-import { useLazyGetAllTicketsQuery } from '@/services/common-APIs';
+import { useMemo } from 'react';
+import { getActiveAccountSession, getActiveProductSession } from '@/utils';
 import {
-  // useGetTicketsByIdQuery,
-  useLazyGetAllUsersAsAgentsDropdownForServicesTicketsQuery,
-  useLazyGetAssociateAssetsDropdownForServicesTicketsQuery,
-  useLazyGetCategoriesDropdownForServicesTicketsQuery,
-  useLazyGetDepartmentDropdownForServicesTicketsQuery,
-  useLazyGetAllUsersAsRequestersDropdownForServicesTicketsQuery,
-} from '@/services/airServices/tickets';
+  useLazyGetAllTicketsContactsAssociationQuery,
+  useLazyGetTicketRequesterContactsAssociationQuery,
+  useLazyGetTicketCategoriesContactsAssociationQuery,
+  useLazyGetTicketDepartmentContactsAssociationQuery,
+  useLazyGetTicketAgentContactsAssociationQuery,
+  useLazyGetAssociateAssetsContactsAssociationQuery,
+} from '@/services/commonFeatures/contacts/associations/tickets';
 
 const useTicketsEditorDrawer = () => {
-  const ticketsList = useLazyGetAllTicketsQuery();
+  const productId = useMemo(() => {
+    const product = getActiveProductSession() as any;
+    return product?._id ?? {};
+  }, []);
+
+  const companyId = useMemo(() => {
+    const product = getActiveAccountSession() as any;
+    return product?.company?._id ?? {};
+  }, []);
+
+  const ticketsList = useLazyGetAllTicketsContactsAssociationQuery();
 
   const apiQueryDepartment =
-    useLazyGetDepartmentDropdownForServicesTicketsQuery();
-  const apiQueryRequester =
-    useLazyGetAllUsersAsRequestersDropdownForServicesTicketsQuery();
-  const apiQueryAgent =
-    useLazyGetAllUsersAsAgentsDropdownForServicesTicketsQuery();
+    useLazyGetTicketDepartmentContactsAssociationQuery();
+  const apiQueryRequester = useLazyGetTicketRequesterContactsAssociationQuery();
+  const apiQueryAgent = useLazyGetTicketAgentContactsAssociationQuery();
   const apiQueryAssociateAsset =
-    useLazyGetAssociateAssetsDropdownForServicesTicketsQuery();
+    useLazyGetAssociateAssetsContactsAssociationQuery();
   const apiQueryCategories =
-    useLazyGetCategoriesDropdownForServicesTicketsQuery();
+    useLazyGetTicketCategoriesContactsAssociationQuery();
 
   return {
+    productId,
+    companyId,
     ticketsList,
     apiQueryDepartment,
     apiQueryRequester,

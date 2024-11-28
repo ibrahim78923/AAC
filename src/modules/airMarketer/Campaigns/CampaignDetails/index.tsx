@@ -5,8 +5,11 @@ import { campaignDetailsData } from './CampaignDetails.data';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { useGetCampaignsByIdQuery } from '@/services/airMarketer/campaigns';
 import { indexNumbers } from '@/constants';
+import { useRouter } from 'next/router';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const CampaignDetails = ({ open, onClose, selectedRows }: any) => {
+  const router = useRouter();
   const theme: any = useTheme();
   const { data: compaignsDataById, isLoading: campaignsLoadingById } =
     useGetCampaignsByIdQuery(selectedRows, {
@@ -21,6 +24,7 @@ const CampaignDetails = ({ open, onClose, selectedRows }: any) => {
       onClose={() => onClose(false)}
       title={'Campaign Details'}
       okText={'See performance'}
+      submitHandler={() => router?.push(AIR_MARKETER?.VIEW_PERFORMANCE)}
       isOk
       footer
     >

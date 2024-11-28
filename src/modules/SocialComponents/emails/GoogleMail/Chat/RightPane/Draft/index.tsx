@@ -17,7 +17,6 @@ import { emailDraftValidationsSchema } from './draft.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAppSelector } from '@/redux/store';
 import { MailColoredIcon } from '@/assets/icons';
-import { enqueueSnackbar } from 'notistack';
 import { useDispatch } from 'react-redux';
 import { LoadingButton } from '@mui/lab';
 import { EMAIL_TABS_TYPES } from '@/constants';
@@ -26,6 +25,7 @@ import {
   usePostDraftSendGmailMutation,
 } from '@/services/commonFeatures/email/gmail';
 import { setGmailTabType } from '@/redux/slices/email/gmail/slice';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 interface templateOptionsI {
   value: string;
@@ -68,12 +68,12 @@ const Draft = () => {
 
   const onSubmit = async (values: any) => {
     if (!values?.to || values?.to?.length === 0) {
-      enqueueSnackbar('Please Enter Email', { variant: 'error' });
+      errorSnackbar('Please Enter Email');
       return false;
     }
 
     if (!values?.description || values?.description?.trim() === '') {
-      enqueueSnackbar('Please Enter Description', { variant: 'error' });
+      errorSnackbar('Please Enter Description');
 
       return false;
     }
@@ -97,14 +97,12 @@ const Draft = () => {
       await postSendGmail({
         body: formDataSend,
       })?.unwrap();
-      enqueueSnackbar('Email send successfully', {
-        variant: 'success',
-      });
+      successSnackbar('Email send successfully');
       dispatch(setGmailTabType(fetchedSentFolder));
 
       reset();
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      errorSnackbar('Something went wrong !');
     }
   };
 

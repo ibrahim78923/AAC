@@ -57,12 +57,17 @@ export const DATE_TIME_FORMAT = {
   DUE_DATE_TIME: 'YYYY-MM-DD hh:mm A',
   GOAL_DATE_FORMAT: 'MMM DD YYYY',
   FORMAT_24_HOUR: 'DD MMM, YYYY HH:mm',
-  MMM_DD_YYYY_hh_mm_A: 'MMM DD, YYYY-hh:mm A',
+  MMM_DD_YYYY_hh_mm_A: 'MMM DD, YYYY - hh:mm A',
+  DD_MMM_YYYY_hh_mm_A: 'DD MMM, YYYY - hh:mm A',
+  DD_MM_YYYY_hh_mm_A: 'DD/MM/YYYY  hh:mm A',
+  DDDD_MMMM_D_YYYY_HH_M_A: 'dddd, MMMM D, YYYY  hh:mm A',
+  YYYY_MM_DDTHH_MM_SS_Z: 'YYYY-MM-DDTHH:mm:ss[Z]',
 };
 
 export const ERROR_PAGES = {
   NOT_FOUND: '/404',
   NOT_ACCESS: '/403',
+  NOT_FOUND_DEFAULT: 404,
 };
 
 export const SUBSCRIPTION_AND_INVOICES_ERROR_MESSAGES = {
@@ -262,11 +267,13 @@ export const indexNumbers = {
   TWO: 2,
   THREE: 2,
   FOUR: 2,
+  TEN: 10,
 };
 export const TASK_TABS_TYPES = {
   PENDING: 'Pending',
   INPROGRESS: 'Inprogress',
   COMPLETE: 'Complete',
+  InProgress: 'INPROGRESS',
 };
 export const TASK_STATUS = {
   CONTACTS: 'contacts',
@@ -325,6 +332,7 @@ export const Gmail_CONST = {
   TRASH: 'TRASH',
   Cc: 'Cc',
   cc: 'CC',
+  COMPANY: 'COMPANY',
 };
 
 export const EMAIL_ENUMS = {
@@ -361,6 +369,10 @@ export const ASSOCIATIONS_API_PARAMS_FOR = {
 export const MAIL_TYPES = {
   OUTLOOK: 'outlook',
   GMAIL: 'gmail',
+};
+export const MAIL_KEYS = {
+  OUTLOOK: 'OUTLOOK',
+  GMAIL: 'GMAIL',
 };
 
 export const DRAWER_TITLE = {
@@ -498,6 +510,7 @@ export const PROFILE_DROPDOWNS = {
   EDIT_PROFILE: 'Edit Profile',
   AIR_CUSTOMER_PORTAL: 'air-customer-portal',
   CHANGE_PASSWORD: 'Change Password',
+  ACTIVITY_LOGS: 'Activity Logs',
   DELEGATE: 'Delegate',
 };
 
@@ -529,10 +542,19 @@ export const ACTIVITY_STATUS_MENU = {
   EXPIRED: 'EXPIRED',
 };
 
+export const MODULE_NAME_FOR_MEETINGS = {
+  COMPANIES: 'COMPANIES',
+  DEALS: 'DEALS',
+  CONTACTS: 'CONTACT',
+};
 export const MARKETING_REPORTS_TYPES = {
   MONTHLY: 'MONTHLY',
   YEARLY: 'YEARLY',
   CUSTOM: 'CUSTOM',
   TODAY: 'TODAY',
   WEEKLY: 'WEEKLY',
+};
+
+export const ALL_COMPANIES = {
+  ALL_COMPANIES: 'All Companies',
 };

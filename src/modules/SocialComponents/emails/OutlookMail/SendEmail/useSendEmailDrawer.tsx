@@ -10,9 +10,12 @@ import {
   scheduleEmailDefaultValues,
   scheduleEmailValidationSchema,
 } from './SendEmailDrawer.data';
-import { enqueueSnackbar } from 'notistack';
 import { useAppSelector } from '@/redux/store';
-import { CREATE_EMAIL_TYPES, indexNumbers } from '@/constants';
+import {
+  CREATE_EMAIL_TYPES,
+  DATE_TIME_FORMAT,
+  indexNumbers,
+} from '@/constants';
 import { useEffect, useState } from 'react';
 import {
   useForwardEmailOutlookMutation,
@@ -29,7 +32,8 @@ import {
 } from './sendEmail.interface';
 import { useDispatch } from 'react-redux';
 import { setCurrentForwardAttachments } from '@/redux/slices/email/outlook/slice';
-
+import dayjs from 'dayjs';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 const useSendEmailDrawer = ({
   setOpenDrawer,
   drawerType,
@@ -40,19 +44,16 @@ const useSendEmailDrawer = ({
   const dispatch = useDispatch();
 
   const [isReplaceTemplate, setIsReplaceTemplate] = useState(false);
-
   const currentEmailAssets = useAppSelector(
     (state: any) => state?.outlook?.currentEmailAssets,
   );
-  const [isSendLater, setIsSendLater] = useState(false);
   const methodsDealsTasks: any = useForm({
-    resolver: yupResolver(emailValidationsSchema(drawerType, isSendLater)),
+    resolver: yupResolver(emailValidationsSchema(drawerType)),
     defaultValues: emailDefaultValues,
   });
   const currentForwardAttachments = useAppSelector(
     (state: any) => state?.outlook?.currentForwardAttachments,
   );
-
   const [autocompleteValues, setAutocompleteValues] = useState<string[]>([]);
   const [autocompleteCCValues, setAutocompleteCCValues] = useState<string[]>(
     [],
@@ -60,11 +61,11 @@ const useSendEmailDrawer = ({
   const [autocompleteBCCValues, setAutocompleteBCCValues] = useState<string[]>(
     [],
   );
-
   const [isLoadingProcessDraft, setIsLoadingProcessDraft] = useState(false);
   const [isProcessDraft, setIsProcessDraft] = useState(false);
-
   const [isToValid, setisToValid] = useState(false);
+
+  const [isScheduleDrawerOpen, setIsScheduleDrawerOpen] = useState(false);
 
   const { handleSubmit, watch, reset, setValue } = methodsDealsTasks;
   const watchEmailsForm = watch([
@@ -99,6 +100,7 @@ const useSendEmailDrawer = ({
     }
   }, [currentEmailAssets]);
 
+  // Update Fields Default Values
   const updateEmailValues = (
     drawerType: DrawerTypeI,
     setAutocompleteValues: SetAutocompleteValuesI,
@@ -130,7 +132,6 @@ const useSendEmailDrawer = ({
       setValue('bccChecked', false);
     }
   };
-
   useEffect(() => {
     updateEmailValues(
       drawerType,
@@ -158,6 +159,8 @@ const useSendEmailDrawer = ({
     }
   }, [templateMessage]);
 
+  // Replace email body with template
+
   const handleUseTemplate = () => {
     if (templateMessage) {
       setValue('description', templateMessage);
@@ -165,6 +168,7 @@ const useSendEmailDrawer = ({
     }
   };
 
+  // Post Mutations
   const [postSendOtherEmail, { isLoading: loadingOtherSend }] =
     usePostSendEmailOutlookMutation();
   const [postScheduleOtherEmail, { isLoading: loadingOtherScheduleSend }] =
@@ -172,13 +176,13 @@ const useSendEmailDrawer = ({
   const [postReplyOtherEmail, { isLoading: loadingOtherReply }] =
     usePostReplyEmailOutlookMutation();
   const [postDraftOtherEmail] = usePostDraftEmailOutlookMutation();
-
   const [postforwardOutlookEmail, { isLoading: isLoadingForward }] =
     useForwardEmailOutlookMutation();
 
   const isToExists = watchEmailsForm[indexNumbers?.TWO];
   const isSubjectExists = watchEmailsForm[indexNumbers?.FOUR];
 
+  // onClose Drawer
   const handleOnClose = () => {
     setisToValid(false);
     if (
@@ -187,31 +191,29 @@ const useSendEmailDrawer = ({
     ) {
       if (isToExists?.length > 0 && isSubjectExists?.length > 0) {
         setIsProcessDraft(true);
-        setIsSendLater(false);
       } else {
         reset();
+        scheduleReset();
         setOpenDrawer(false);
         setAutocompleteValues([]);
         dispatch(setCurrentForwardAttachments([]));
-        setIsSendLater(false);
       }
     } else {
       reset();
+      scheduleReset();
       setOpenDrawer(false);
       setAutocompleteValues([]);
       dispatch(setCurrentForwardAttachments([]));
-      setIsSendLater(false);
     }
   };
-
+  // Process Draft
   useEffect(() => {
     if (isProcessDraft) {
       handleSubmit(onSubmit)();
     }
   }, [isProcessDraft]);
 
-  const [sendLaterDate, setSendLaterDate] = useState<any>();
-
+  // To State Dependency
   const [toStateDep, setToStateDep] = useState(1);
   useEffect(() => {
     if (isToExists?.length === 0 || isToExists?.length === undefined) {
@@ -221,29 +223,38 @@ const useSendEmailDrawer = ({
     }
   }, [isToExists, toStateDep]);
 
-  const dateObject = watchEmailsForm[3] && new Date(watchEmailsForm[3]);
-  const isoString = dateObject?.toISOString();
+  // Schedule Email Operations
+  const methodsScheduleEmail = useForm<any>({
+    resolver: yupResolver(scheduleEmailValidationSchema),
+    defaultValues: scheduleEmailDefaultValues,
+  });
+  const {
+    handleSubmit: handleScheduleEmail,
+    watch: watchScheduleValues,
+    reset: scheduleReset,
+  } = methodsScheduleEmail;
+  const watchEmailsScheduleForm: any = watchScheduleValues();
+  const scheduleDate = watchEmailsScheduleForm.date;
+  const scheduleTime = watchEmailsScheduleForm.time;
+  const date = dayjs(scheduleDate);
+  const time = dayjs(scheduleTime);
+  const mergedDateTime = date
+    ?.hour(time?.hour())
+    ?.minute(time?.minute())
+    ?.second(time?.second())
+    ?.format(DATE_TIME_FORMAT?.YYYY_MM_DDTHH_MM_SS_Z);
+  const isScheduleExists =
+    scheduleDate?.toString()?.length > 0 &&
+    scheduleTime?.toString()?.length > 0;
 
-  const handelSendLaterAction = () => {
-    if (isSendLater) {
-      setIsSendLater(false);
-      reset({
-        sentDate: null,
-      });
-    } else {
-      setIsSendLater(true);
-    }
-  };
+  //Post or Schedule Email Mutations
+  const postEmail = isScheduleExists
+    ? postScheduleOtherEmail
+    : postSendOtherEmail;
 
-  useEffect(() => {
-    if (isoString) {
-      setSendLaterDate(isoString);
-    }
-  }, [isoString]);
-
-  const postEmail = isSendLater ? postScheduleOtherEmail : postSendOtherEmail;
   const onSubmit = async (values: any) => {
     setToStateDep(toStateDep + 1);
+
     if (
       (drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL &&
         isToExists?.length === 0) ||
@@ -252,6 +263,7 @@ const useSendEmailDrawer = ({
       setisToValid(true);
     } else {
       setisToValid(false);
+      // Create Draft
       if (isProcessDraft) {
         if (isToExists?.length > 0) {
           setIsLoadingProcessDraft(true);
@@ -269,7 +281,7 @@ const useSendEmailDrawer = ({
           if (values?.bcc?.length) {
             formDataSend.append('bcc', values?.bcc);
           }
-          if (!isSendLater && values?.attachments) {
+          if (values?.attachments) {
             if (Array?.isArray(values?.attachments)) {
               values?.attachments.forEach((file: File) => {
                 formDataSend?.append(`attachments`, file);
@@ -282,20 +294,18 @@ const useSendEmailDrawer = ({
             await postDraftOtherEmail({
               body: formDataSend,
             })?.unwrap();
-            enqueueSnackbar('Draft saved successfully', {
-              variant: 'success',
-            });
+            successSnackbar('Draft saved successfully');
             setIsProcessDraft(false);
             setIsLoadingProcessDraft(false);
+            scheduleReset();
             reset();
             setOpenDrawer(false);
             setAutocompleteValues([]);
           } catch (error: any) {
-            enqueueSnackbar('Something went wrong while saving draft !', {
-              variant: 'error',
-            });
+            errorSnackbar('Something went wrong while saving draft !');
             setIsProcessDraft(false);
             setIsLoadingProcessDraft(false);
+            scheduleReset();
             reset();
             setOpenDrawer(false);
           }
@@ -305,6 +315,7 @@ const useSendEmailDrawer = ({
           reset();
         }
       } else {
+        // Create Posts
         if (drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL) {
           const formDataSend = new FormData();
           formDataSend.append('to', values?.to);
@@ -326,7 +337,7 @@ const useSendEmailDrawer = ({
             </div>` || '<p></p>',
           );
 
-          if (!isSendLater && values?.attachments) {
+          if (!isScheduleExists && values?.attachments) {
             if (Array?.isArray(values?.attachments)) {
               values?.attachments.forEach((file: File) => {
                 formDataSend?.append(`attachments`, file);
@@ -335,38 +346,36 @@ const useSendEmailDrawer = ({
               formDataSend.append('attachments', values?.attachments);
             }
           }
-
           if (values?.cc?.length) {
             formDataSend.append('cc', values?.cc);
           }
           if (values?.bcc?.length) {
             formDataSend.append('bcc', values?.bcc);
           }
-          if (sendLaterDate) {
-            formDataSend.append('sentOn', sendLaterDate);
+          if (isScheduleExists) {
+            if (mergedDateTime) {
+              formDataSend.append('sentOn', mergedDateTime);
+            }
           }
           try {
             await postEmail({
               body: formDataSend,
             })?.unwrap();
-            enqueueSnackbar(
-              sendLaterDate
+            successSnackbar(
+              isScheduleExists
                 ? 'Email scheduled successfully'
                 : 'Email send successfully',
-              {
-                variant: 'success',
-              },
             );
             setOpenDrawer(false);
             reset();
+            scheduleReset();
+            setIsScheduleDrawerOpen(false);
             reset({
               sentDate: null,
             });
-            setIsSendLater(false);
-            setSendLaterDate(null);
             setAutocompleteValues([]);
           } catch (error: any) {
-            enqueueSnackbar('Something went wrong !', { variant: 'error' });
+            errorSnackbar('Something went wrong !');
           }
         }
         if (
@@ -385,19 +394,17 @@ const useSendEmailDrawer = ({
                   : 'reply',
               replyText: values?.description,
             })?.unwrap();
-            enqueueSnackbar(
+            successSnackbar(
               drawerType === CREATE_EMAIL_TYPES?.REPLY
                 ? 'Email reply send successfully'
                 : 'Reply all send successfully',
-              {
-                variant: 'success',
-              },
             );
             setOpenDrawer(false);
+            scheduleReset();
             reset();
             setAutocompleteValues([]);
           } catch (error: any) {
-            enqueueSnackbar('Something went wrong !', { variant: 'error' });
+            errorSnackbar('Something went wrong !');
           }
         }
         if (drawerType === CREATE_EMAIL_TYPES?.FORWARD) {
@@ -422,7 +429,6 @@ const useSendEmailDrawer = ({
           if (values?.bcc?.length) {
             formDataForward.append('bcc', values?.bcc);
           }
-
           currentForwardAttachments?.forEach((data: any) => {
             const base64 = data?.contentBytes;
             const contentType = data?.contentType;
@@ -433,32 +439,27 @@ const useSendEmailDrawer = ({
 
             formDataForward?.append(`attachments`, file);
           });
-
           try {
             await postforwardOutlookEmail({
               body: formDataForward,
             })?.unwrap();
-            enqueueSnackbar('Forward successfully', {
-              variant: 'success',
-            });
+            successSnackbar('Forward successfully');
             setOpenDrawer(false);
             reset();
+            scheduleReset();
             setAutocompleteValues([]);
           } catch (error: any) {
-            enqueueSnackbar('Something went wrong !', { variant: 'error' });
+            errorSnackbar('Something went wrong !');
           }
         }
       }
     }
   };
 
-  const methodsScheduleEmail = useForm({
-    resolver: yupResolver(scheduleEmailValidationSchema),
-    defaultValues: scheduleEmailDefaultValues,
-  });
-
-  const onSubmitEmail = () => {};
-  const { handleSubmit: handleScheduleEmail } = methodsScheduleEmail;
+  const onSubmitEmail = () => {
+    handleSubmit(onSubmit)();
+    setIsScheduleDrawerOpen(false);
+  };
 
   return {
     handleSubmit,
@@ -466,9 +467,6 @@ const useSendEmailDrawer = ({
     methodsDealsTasks,
     watchEmailsForm,
     theme,
-    handleScheduleEmail,
-    methodsScheduleEmail,
-    onSubmitEmail,
     reset,
     setValue,
     loadingOtherSend,
@@ -476,10 +474,6 @@ const useSendEmailDrawer = ({
     loadingOtherReply,
     isLoadingProcessDraft,
     handleOnClose,
-    sendLaterDate,
-    setIsSendLater,
-    isSendLater,
-    handelSendLaterAction,
     setAutocompleteValues,
     autocompleteValues,
 
@@ -498,6 +492,15 @@ const useSendEmailDrawer = ({
     setIsReplaceTemplate,
     isReplaceTemplate,
     handleUseTemplate,
+
+    methodsScheduleEmail,
+    handleScheduleEmail,
+    onSubmitEmail,
+
+    setIsScheduleDrawerOpen,
+    isScheduleDrawerOpen,
+    scheduleReset,
+    isScheduleExists,
   };
 };
 export default useSendEmailDrawer;

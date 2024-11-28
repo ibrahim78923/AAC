@@ -38,7 +38,6 @@ export const useSingleTicketDetails = () => {
     isError,
     singleTicketDetailTabs,
     refetch,
-    data,
     childComponentProps,
     router,
   };

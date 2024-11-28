@@ -25,6 +25,7 @@ import { DepartmentFieldDropdown } from '../ServiceTicketFormFields/DepartmentFi
 import { CategoryFieldDropdown } from '../ServiceTicketFormFields/CategoryFieldDropdown';
 import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
 import { localeDateTime } from '@/lib/date-time';
+import { formatDurationHourMinute } from '@/utils/dateTime';
 
 const { SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS } = CHARACTERS_LIMIT ?? {};
 
@@ -55,14 +56,24 @@ export const upsertTicketValidationSchema = (ticketId?: string, form?: any) => {
           priority: Yup?.mixed()?.nullable()?.required('Priority is required'),
           plannedEndDate: Yup?.date()
             ?.nullable()
-            ?.required('Planned end date is required'),
+            .min(
+              Yup?.ref('plannedStartDate'),
+              'Planned end date is after planned start date',
+            ),
         }
       : {}),
     department: Yup?.mixed()?.nullable(),
     source: Yup?.mixed()?.nullable(),
     impact: Yup?.mixed()?.nullable(),
     agent: Yup?.mixed()?.nullable(),
-    plannedStartDate: Yup?.date(),
+    plannedStartDate: Yup?.date()
+      ?.nullable()
+      ?.when('plannedEndDate', {
+        is: (value: any) => value !== null,
+        then: () =>
+          Yup?.date()?.nullable()?.required('Planned start date is required'),
+        otherwise: () => Yup?.date()?.nullable(),
+      }),
     plannedEffort: Yup?.string()?.trim(),
     associatesAssets: Yup?.mixed()?.nullable(),
     attachFile: Yup?.mixed()?.nullable(),
@@ -88,7 +99,7 @@ export const upsertTicketDefaultValuesFunction = (data?: any, form?: any) => {
     agent: data?.agentDetails ?? null,
     plannedStartDate: data?.plannedStartDate
       ? localeDateTime(data?.plannedStartDate)
-      : new Date(),
+      : null,
     plannedEndDate: data?.plannedEndDate
       ? localeDateTime(data?.plannedEndDate)
       : null,
@@ -100,7 +111,12 @@ export const upsertTicketDefaultValuesFunction = (data?: any, form?: any) => {
     ...initialValues,
   };
 };
-export const upsertTicketFormFieldsDynamic = (ticketId?: string) => {
+export const upsertTicketFormFieldsDynamic = (
+  ticketId?: string,
+  getValues?: any,
+  setValue?: any,
+  watch?: any,
+) => {
   return [
     {
       id: 1,
@@ -129,7 +145,19 @@ export const upsertTicketFormFieldsDynamic = (ticketId?: string) => {
       },
       component: RHFEditor,
     },
-
+    {
+      id: 6,
+      componentProps: {
+        name: 'priority',
+        label: 'Priority',
+        fullWidth: true,
+        required: true,
+        placeholder: 'Choose Priority',
+        options: ticketPriorityOptions,
+        getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
+      },
+      component: RHFAutocomplete,
+    },
     ...(!!!ticketId
       ? [
           {
@@ -149,19 +177,7 @@ export const upsertTicketFormFieldsDynamic = (ticketId?: string) => {
             },
             component: RHFAutocomplete,
           },
-          {
-            id: 6,
-            componentProps: {
-              name: 'priority',
-              label: 'Priority',
-              fullWidth: true,
-              required: true,
-              placeholder: 'Choose Priority',
-              options: ticketPriorityOptions,
-              getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
-            },
-            component: RHFAutocomplete,
-          },
+
           {
             id: 7,
             component: DepartmentFieldDropdown,
@@ -200,8 +216,8 @@ export const upsertTicketFormFieldsDynamic = (ticketId?: string) => {
               name: 'plannedStartDate',
               label: 'Planned Start Date',
               fullWidth: true,
-              disabled: true,
               ampm: false,
+              textFieldProps: { readOnly: true },
             },
             component: RHFDesktopDateTimePicker,
             md: 12,
@@ -212,10 +228,9 @@ export const upsertTicketFormFieldsDynamic = (ticketId?: string) => {
               name: 'plannedEndDate',
               label: 'Planned End Date',
               fullWidth: true,
-              disablePast: true,
-              required: true,
               ampm: false,
               textFieldProps: { readOnly: true },
+              minDateTime: watch('plannedStartDate'),
             },
             component: RHFDesktopDateTimePicker,
             md: 12,
@@ -225,9 +240,11 @@ export const upsertTicketFormFieldsDynamic = (ticketId?: string) => {
             componentProps: {
               name: 'plannedEffort',
               label: 'Planned Effort',
-              fullWidth: true,
-              multiple: true,
               placeholder: 'Eg: 1h10m',
+              onBlurHandler: () => {
+                const value = getValues('plannedEffort');
+                setValue('plannedEffort', formatDurationHourMinute(value));
+              },
             },
             component: RHFTextField,
           },

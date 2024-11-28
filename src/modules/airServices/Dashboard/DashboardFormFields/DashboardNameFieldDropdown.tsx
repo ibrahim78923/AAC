@@ -1,7 +1,8 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { PAGINATION } from '@/config';
-import useAuth from '@/hooks/useAuth';
 import { useLazyGetServicesDashboardDashboardNameDropdownListQuery } from '@/services/airServices/dashboard';
+import { getActiveProductSession } from '@/utils';
+import { useMemo } from 'react';
 
 const { DROPDOWNS_RECORD_LIMIT, CURRENT_PAGE } = PAGINATION ?? {};
 
@@ -9,8 +10,10 @@ export const DashboardNameFieldDropdown = () => {
   const apiQueryDashboardName =
     useLazyGetServicesDashboardDashboardNameDropdownListQuery();
 
-  const auth: any = useAuth();
-  const productId: any = auth?.product?._id ?? {};
+  const productId = useMemo(() => {
+    const product = getActiveProductSession() as any;
+    return product?._id ?? {};
+  }, []);
 
   return (
     <RHFAutocompleteAsync

@@ -25,6 +25,10 @@ const useRolesAndRights = () => {
     product: {},
   });
 
+  const [loadingState, setLoadingState] = useState<{ [key: string]: boolean }>(
+    {},
+  );
+
   const {
     useGetPermissionsRolesOrgadminQuery,
     useUpdateRoleRightsOrgadminMutation,
@@ -50,6 +54,7 @@ const useRolesAndRights = () => {
     data: getPermissions,
     isSuccess,
     isLoading,
+    isFetching,
   } = useGetPermissionsRolesOrgadminQuery(permissionParams, {
     skip: !user?.organization?._id,
   });
@@ -70,8 +75,28 @@ const useRolesAndRights = () => {
     });
   };
 
-  const updateStatus = async (id: string, val: any) => {
-    const status = val?.target?.checked ? 'ACTIVE' : 'INACTIVE';
+  // const updateStatus = async (id: string, val: any) => {
+  //   setLoadingState((prevState) => ({ ...prevState, [id]: true }));
+  //   const status = val?.target?.checked ? 'ACTIVE' : 'INACTIVE';
+  //   try {
+  //     await updateRoleRights({ id, body: { status: status } });
+  //     enqueueSnackbar('User updated successfully', {
+  //       variant: NOTISTACK_VARIANTS?.SUCCESS,
+  //     });
+  //   } catch (error: any) {
+  //     const errMsg = error?.data?.message;
+  //     const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+  //     enqueueSnackbar(errMessage ?? 'Error occurred', {
+  //       variant: NOTISTACK_VARIANTS?.ERROR,
+  //     });
+  //   } finally {
+  //     setLoadingState((prevState) => ({ ...prevState, [id]: false }));
+  //   }
+  // };
+
+  const updateStatus = async (id: string, isChecked: boolean) => {
+    setLoadingState((prevState) => ({ ...prevState, [id]: true }));
+    const status = isChecked ? 'ACTIVE' : 'INACTIVE';
     try {
       await updateRoleRights({ id, body: { status: status } });
       enqueueSnackbar('User updated successfully', {
@@ -83,6 +108,8 @@ const useRolesAndRights = () => {
       enqueueSnackbar(errMessage ?? 'Error occurred', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
+    } finally {
+      setLoadingState((prevState) => ({ ...prevState, [id]: false }));
     }
   };
 
@@ -108,6 +135,8 @@ const useRolesAndRights = () => {
     theme,
     isSuccess,
     isLoading,
+    isFetching,
+    loadingState,
   };
 };
 

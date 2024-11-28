@@ -12,7 +12,7 @@ const CompanyAccounts = (props: CompanyAccountsProps) => {
   const { organizationId, employeeDataById, searchAccount } = props;
   const { useGetUsersAccountsQuery } = userListApi;
   const { page, setPage, pageLimit, setPageLimit } = useCompanyAccounts();
-  const { handleStatusUpdate } = useAccounts();
+  const { handleStatusUpdate, isLoadingStatus } = useAccounts();
 
   const accountsParams = {
     page: page,
@@ -47,7 +47,7 @@ const CompanyAccounts = (props: CompanyAccountsProps) => {
         ]}
       >
         <TanstackTable
-          columns={companyColumns(handleStatusUpdate)}
+          columns={companyColumns(handleStatusUpdate, isLoadingStatus)}
           data={userAccounts?.data?.usercompanyaccounts}
           isPagination
           onPageChange={(page: any) => setPage(page)}

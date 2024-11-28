@@ -1,20 +1,39 @@
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { PAGINATION } from '@/config';
-import { useLazyGetTransactionListQuery } from '@/services/airLoyaltyProgram/giftCards/transactions';
+import { useGetTransactionListQuery } from '@/services/airLoyaltyProgram/giftCards/transactions';
+import { otherDateFormat } from '@/lib/date-time';
+import { CALENDAR_FORMAT } from '@/constants';
 
 export const useTransaction = () => {
   const [search, setSearch] = useState('');
-  const router = useRouter();
-  const [open, setOpen] = useState(false);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [openDrawer, setOpenDrawer] = useState<any>(false);
+  const [filterValues, setFilterValues] = useState<any>({});
 
   const transactionParams = {
     page,
     limit,
-    search,
+    ...(search && { search }),
+    ...(filterValues?.dateRange?.startDate && {
+      activeFrom: otherDateFormat(
+        filterValues?.dateRange?.startDate,
+        CALENDAR_FORMAT?.YMD,
+      ),
+    }),
+    ...(filterValues?.dateRange?.endDate && {
+      activeTo: otherDateFormat(
+        filterValues?.dateRange?.endDate,
+        CALENDAR_FORMAT?.YMD,
+      ),
+    }),
+    ...(filterValues?.recipient && { recipient: filterValues.recipient }),
+    ...(filterValues?.maxAmount && {
+      maxcurrentamount: filterValues?.maxAmount,
+    }),
+    ...(filterValues?.minAmount && {
+      minicurrentamount: filterValues?.minAmount,
+    }),
   };
 
   const handleSearch = (data: any) => {
@@ -22,38 +41,28 @@ export const useTransaction = () => {
     setSearch(data);
   };
 
-  const [
-    getTransactionTrigger,
-    { data, isFetching, isLoading, isError, isSuccess },
-  ] = useLazyGetTransactionListQuery();
-
-  const meta = data?.data?.meta;
-
-  const handleTransaction = async () => {
-    await getTransactionTrigger(transactionParams);
-  };
-
-  useEffect(() => {
-    handleTransaction();
-  }, [page, limit, search]);
+  const { data, isFetching, isLoading, isError, isSuccess } =
+    useGetTransactionListQuery<any>(
+      {},
+      {
+        refetchOnMountOrArgChange: true,
+      },
+    );
 
   return {
-    router,
     search,
     handleSearch,
-    open,
-    setOpen,
-    page,
     setPage,
-    limit,
     setLimit,
     data,
     isFetching,
     isLoading,
     isError,
     isSuccess,
-    meta,
     openDrawer,
     setOpenDrawer,
+    transactionParams,
+    setFilterValues,
+    filterValues,
   };
 };

@@ -3,13 +3,19 @@ import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { columns } from './DealsOverview.data';
 import { styles } from './DealsOverview.style';
-import useDealsReports from '../useDealsReports';
 import { DealsOverviewProps } from '../DealsReports-interface';
 
 const DealsOverview = (props: DealsOverviewProps) => {
-  const { dealsReportsTable, setSearchBy, setPage, setLimit } = props;
+  const {
+    dealsReportsTable,
+    setSearchBy,
+    setPage,
+    setLimit,
+    isLoading,
+    isError,
+    isSuccess,
+  } = props;
   const theme = useTheme<Theme>();
-  const { isLoading, isSuccess, isError, isFetching } = useDealsReports();
 
   return (
     <>
@@ -34,7 +40,6 @@ const DealsOverview = (props: DealsOverviewProps) => {
         totalRecords={dealsReportsTable?.meta?.total}
         isLoading={isLoading}
         isSuccess={isSuccess}
-        isFetching={isFetching}
         isError={isError}
         currentPage={dealsReportsTable?.meta?.page}
       />

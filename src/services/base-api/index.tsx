@@ -15,6 +15,7 @@ export const TAGS = [
   'SettingContactStatus',
   'INVENTORY_ACTIVITY',
   'EXPENSE',
+  'delegate-dashboard',
   'CUSTOMIZE',
   'WORKLOAD',
   'DROPDOWNS',
@@ -242,6 +243,9 @@ export const TAGS = [
   'PRODUCTS_CATEGORIES',
   'ASSETS_SOFTWARE_OVERVIEW',
   'AIR_LOYALTY_PROGRAM_CONSUMERS',
+  'DOWNLOAD_FOLDER',
+  'GMAIL',
+  'ASSOCIATION_EMAILS',
 ];
 
 const BYPASS_AUTH_API_ROUTES = [

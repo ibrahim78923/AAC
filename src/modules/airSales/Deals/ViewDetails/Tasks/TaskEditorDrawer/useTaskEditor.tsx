@@ -1,5 +1,4 @@
 import { useForm } from 'react-hook-form';
-
 import {
   createTaskDefaultValues,
   dealsTasksValidationSchema,
@@ -10,27 +9,35 @@ import {
   usePostDealsTasksManagementMutation,
   useUpdateDealsTasksManagementMutation,
 } from '@/services/airSales/deals/view-details/tasks';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_FORMAT, indexNumbers } from '@/constants';
 import dayjs from 'dayjs';
 import { enqueueSnackbar } from 'notistack';
 import { useAppSelector } from '@/redux/store';
+import { useGetDealsTaskDetailsQuery } from '@/services/airSales/deals/view-details/tasks';
+import { useEffect } from 'react';
+import { DRAWER_ACTIONS_TITLES } from '@/constants/strings';
 
-const useTaskEditor = ({
-  openDrawer,
-  setOpenDrawer,
-  selectedRecId,
-  taskData,
-}: any) => {
+const useTaskEditor = ({ openDrawer, setOpenDrawer, selectedRecId }: any) => {
   const selectedTaskIds = useAppSelector(
     (state: any) => state?.task_deals?.selectedDealsTaskIds,
   );
+
+  const { data: taskDataDefault, isLoading: getTaskDataLoading } =
+    useGetDealsTaskDetailsQuery(
+      {
+        id: selectedTaskIds[indexNumbers?.ZERO],
+      },
+      { skip: selectedTaskIds.length === indexNumbers?.ZERO },
+    );
+
   const methodsdealsTasks = useForm({
     resolver: yupResolver(dealsTasksValidationSchema),
-    defaultValues: createTaskDefaultValues({
-      data:
-        openDrawer === 'Edit' || openDrawer === 'View' ? taskData?.data : {},
-    }),
+    defaultValues: createTaskDefaultValues(),
   });
+  const { handleSubmit, reset } = methodsdealsTasks;
+  useEffect(() => {
+    reset(createTaskDefaultValues(taskDataDefault?.data));
+  }, [taskDataDefault?.data, reset]);
 
   const [postDealsTasksManagement, { isLoading: postIsLoading }] =
     usePostDealsTasksManagementMutation();
@@ -56,11 +63,11 @@ const useTaskEditor = ({
       contactsIds: [],
     };
 
-    if (openDrawer === 'Edit') {
+    if (openDrawer === DRAWER_ACTIONS_TITLES?.EDIT) {
       try {
         await updatedDealsTasksManagement({
           body: payload,
-          id: selectedTaskIds && selectedTaskIds[0],
+          id: selectedTaskIds && selectedTaskIds[indexNumbers?.ZERO],
         }).unwrap();
         enqueueSnackbar('Task Updated Successfully', {
           variant: 'success',
@@ -84,7 +91,6 @@ const useTaskEditor = ({
     }
   };
 
-  const { handleSubmit, reset } = methodsdealsTasks;
   const onCloseDrawer = () => {
     setOpenDrawer('');
     reset();
@@ -97,6 +103,7 @@ const useTaskEditor = ({
     onCloseDrawer,
     postIsLoading,
     updateIsLoading,
+    getTaskDataLoading,
   };
 };
 

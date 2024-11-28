@@ -10,6 +10,7 @@ import {
   Tooltip,
   Pagination,
   Skeleton,
+  CircularProgress,
 } from '@mui/material';
 
 import Search from '@/components/Search';
@@ -83,8 +84,7 @@ const UsersDetailsList = () => {
     setSearchAccount,
   }: any = useUserDetailsList();
 
-  const { handleUserSwitchChange } = useUserManagement();
-
+  const { handleUserSwitchChange, isLoadingStatus } = useUserManagement();
   const { id } = navigate.query;
   const { data: userDataById, isLoading: userDataLoading } =
     useGetUsersByIdQuery(id, { skip: !id });
@@ -101,16 +101,19 @@ const UsersDetailsList = () => {
     company: employeeFilter?.company?._id,
     status: employeeFilter?.status ? employeeFilter?.status : undefined,
   };
-  const { data: employeeList, isLoading: employeeListLoading } =
-    useGetEmployeeListQuery(
-      {
-        orgId: organizationId,
-        values: empListParams,
-      },
-      {
-        skip: !organizationId,
-      },
-    );
+  const {
+    data: employeeList,
+    isLoading: employeeListLoading,
+    isFetching: employeeListFetching,
+  } = useGetEmployeeListQuery(
+    {
+      orgId: organizationId,
+      values: empListParams,
+    },
+    {
+      skip: !organizationId,
+    },
+  );
   const empDetail = employeeList?.data?.users;
 
   const { data: profileData, isLoading: profileDataLoading } =
@@ -232,7 +235,7 @@ const UsersDetailsList = () => {
                 </Box>
               </Stack>
             </Box>
-            {employeeListLoading ? (
+            {employeeListLoading || employeeListFetching ? (
               <SkeletonComponent numberOfSkeletons={7} />
             ) : (
               <Box>
@@ -314,25 +317,29 @@ const UsersDetailsList = () => {
                                   SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.ACTIVE_INACTIVE_USERS,
                                 ]}
                               >
-                                <StatusBadge
-                                  defaultValue={item?.status}
-                                  value={item?.status}
-                                  onChange={(e: any) =>
-                                    handleUserSwitchChange(e, item?._id)
-                                  }
-                                  options={[
-                                    {
-                                      label: 'Active',
-                                      value: 'ACTIVE',
-                                      color: theme?.palette?.success?.main,
-                                    },
-                                    {
-                                      label: 'Inactive',
-                                      value: 'INACTIVE',
-                                      color: theme?.palette?.error?.main,
-                                    },
-                                  ]}
-                                />
+                                {isLoadingStatus[item?._id] ? (
+                                  <CircularProgress size={25} />
+                                ) : (
+                                  <StatusBadge
+                                    defaultValue={item?.status}
+                                    value={item?.status}
+                                    onChange={(e: any) =>
+                                      handleUserSwitchChange(item?._id, e)
+                                    }
+                                    options={[
+                                      {
+                                        label: 'Active',
+                                        value: 'ACTIVE',
+                                        color: theme?.palette?.success?.main,
+                                      },
+                                      {
+                                        label: 'Inactive',
+                                        value: 'INACTIVE',
+                                        color: theme?.palette?.error?.main,
+                                      },
+                                    ]}
+                                  />
+                                )}
                               </PermissionsGuard>
                             </Box>
                             <Typography>{item?.email}</Typography>

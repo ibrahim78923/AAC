@@ -25,8 +25,8 @@ export const useConversationList = () => {
     );
   };
 
-  const showLoader =
-    lazyGetServicesTicketsConversationListStatus?.isLoading ||
+  const showLoader = lazyGetServicesTicketsConversationListStatus?.isLoading;
+  const showMoreLoader =
     lazyGetServicesTicketsConversationListStatus?.isFetching;
 
   return {
@@ -34,5 +34,6 @@ export const useConversationList = () => {
     lazyGetServicesTicketsConversationListStatus,
     setAction,
     showLoader,
+    showMoreLoader,
   };
 };

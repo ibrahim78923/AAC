@@ -22,7 +22,7 @@ import {
   useGetEmailSettingsQuery,
   usePatchEmailSettingsMutation,
 } from '@/services/commonFeatures/email/others';
-import { enqueueSnackbar } from 'notistack';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const SettingsTabs = ['Email Settings', 'Calendar'];
 
@@ -71,12 +71,10 @@ const EmailSettingDrawer = ({
       await patchEmailSettings({
         body: payload,
       })?.unwrap();
-      enqueueSnackbar('Settings updated successfully', {
-        variant: 'success',
-      });
+      successSnackbar('Settings updated successfully');
       setIsOpenDrawer(false);
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      errorSnackbar('Something went wrong !');
     }
   };
 

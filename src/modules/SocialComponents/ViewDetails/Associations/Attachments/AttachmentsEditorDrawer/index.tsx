@@ -15,8 +15,13 @@ import { v4 as uuidv4 } from 'uuid';
 
 const AttachmentsEditorDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer, companyId, RowData } = props;
-  const { handleSubmit, onSubmit, methodsAttachments } =
-    useAttachmentsEditorDrawer(setOpenDrawer, companyId, RowData);
+  const {
+    handleSubmit,
+    onSubmit,
+    methodsAttachments,
+    AssociateIsLoading,
+    postIsLoading,
+  } = useAttachmentsEditorDrawer(setOpenDrawer, companyId, RowData);
 
   return (
     <div>
@@ -28,6 +33,7 @@ const AttachmentsEditorDrawer = (props: any) => {
         isOk={true}
         footer={openDrawer === 'View' ? false : true}
         submitHandler={handleSubmit(onSubmit)}
+        isLoading={AssociateIsLoading || postIsLoading}
       >
         <Box>
           <FormProvider

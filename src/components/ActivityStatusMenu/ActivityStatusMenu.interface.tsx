@@ -6,4 +6,5 @@ export interface IActivityStatusMenuProps {
   menuItemDataArray: { value: string; label: string }[];
   patchParameterProps?: any;
   refetchApi?: any;
+  hasPermission?: boolean;
 }

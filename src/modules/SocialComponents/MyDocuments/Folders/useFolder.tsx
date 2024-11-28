@@ -19,14 +19,10 @@ import {
 } from './Folder.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import { enqueueSnackbar } from 'notistack';
 // import { DOCUMENTS_ACTION_TYPES } from '@/constants';
 import { PAGINATION } from '@/config';
-import {
-  errorSnackbar,
-  filteredEmptyValues,
-  successSnackbar,
-} from '@/utils/api';
+import { filteredEmptyValues } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
 import useAuth from '@/hooks/useAuth';
 import {
@@ -67,6 +63,7 @@ const useFolder: any = () => {
 
   // handle Click Select Folder
   const [selectedFolderId, setSelectedFolderId] = useState<string | null>(null);
+  const [selectedFolder, setSelectedFolder] = useState(null);
   useEffect(() => {
     if (folderId) {
       if (typeof folderId === 'string') {
@@ -79,9 +76,10 @@ const useFolder: any = () => {
 
   const handleClickSelectFolder = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    id: string,
+    data: any,
   ) => {
-    setSelectedFolderId(id);
+    setSelectedFolderId(data?._id);
+    setSelectedFolder(data);
   };
 
   // Get Subfolders
@@ -98,7 +96,7 @@ const useFolder: any = () => {
     },
     { skip: !folderId },
   );
-  const sinngleFolderData = getFolderByIdData?.data[0];
+  const singleFolderData = getFolderByIdData?.data[0];
 
   function findFolderById(data: any, selectedFolderId: string | null) {
     if (data && selectedFolderId) {
@@ -140,7 +138,7 @@ const useFolder: any = () => {
 
   const selectedFolderData =
     modalHeading === MODAL_HEADING?.update
-      ? findFolderById(sinngleFolderData, selectedFolderId)
+      ? findFolderById(singleFolderData, selectedFolderId)
       : null;
 
   const getDynamicFormData = async () => {
@@ -226,13 +224,9 @@ const useFolder: any = () => {
           body: payload,
         }).unwrap();
         handleCloseCreateFolderModal();
-        enqueueSnackbar('Folder name update successfully.', {
-          variant: 'success',
-        });
+        successSnackbar('Folder name update successfully.');
       } catch (error: any) {
-        enqueueSnackbar('An error occured', {
-          variant: 'error',
-        });
+        errorSnackbar('An error occured');
       }
     } else {
       try {
@@ -244,13 +238,9 @@ const useFolder: any = () => {
           body: payload,
         }).unwrap();
         handleCloseCreateFolderModal();
-        enqueueSnackbar('Folder Created Successfully', {
-          variant: 'success',
-        });
+        successSnackbar('Folder Created Successfully');
       } catch (error: any) {
-        enqueueSnackbar('An error occured', {
-          variant: 'error',
-        });
+        errorSnackbar('An error occured');
       }
     }
   };
@@ -279,7 +269,7 @@ const useFolder: any = () => {
         }
       }
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong!', { variant: 'error' });
+      errorSnackbar('Something went wrong!');
     }
   };
 
@@ -328,12 +318,10 @@ const useFolder: any = () => {
 
     try {
       await postDocumentFiles({ body: formData }).unwrap();
-      enqueueSnackbar('Document Upload Successfully', {
-        variant: 'success',
-      });
+      successSnackbar('Document Upload Successfully');
       handleCloseUploadDocModal();
     } catch (error: any) {
-      enqueueSnackbar(error?.message, { variant: 'error' });
+      errorSnackbar(error?.message);
     }
   };
   const handleUploadDocumentSubmit = submitUploadDocument(
@@ -446,13 +434,11 @@ const useFolder: any = () => {
       await deleteFiles({
         ids: selectedRow.join(','),
       }).unwrap();
-      enqueueSnackbar('File Deleted Successfully', {
-        variant: 'success',
-      });
+      successSnackbar('File Deleted Successfully');
       setSelectedRow([]);
       setIsOpenDeleteFileModal(false);
     } catch (error: any) {
-      enqueueSnackbar(error?.message, { variant: 'error' });
+      errorSnackbar(error?.message);
     }
   };
 
@@ -518,15 +504,13 @@ const useFolder: any = () => {
             parentFolderId: selectedMoveToFolderId,
           },
         }).unwrap();
-        enqueueSnackbar('Folder Moved Successfully', {
-          variant: 'success',
-        });
+        successSnackbar('Folder Moved Successfully');
         handleCloseMoveDocumentDrawer();
         if (selectedFolderId === folderId) {
           router.push(Quick_Links_Routes?.DOCUMENT);
         }
       } catch (error: any) {
-        enqueueSnackbar('Something went wrong!', { variant: 'error' });
+        errorSnackbar('Something went wrong!');
       }
     }
 
@@ -540,9 +524,7 @@ const useFolder: any = () => {
           id: fileId,
           body: payload,
         }).unwrap();
-        enqueueSnackbar('File Update Successfully', {
-          variant: 'success',
-        });
+        successSnackbar('File Update Successfully');
         handleCloseMoveDocumentDrawer();
         setSelectedRow([]);
       } catch (error: any) {
@@ -617,10 +599,11 @@ const useFolder: any = () => {
     orgTeamsData,
     folderId,
     parentFolderName,
-    sinngleFolderData,
+    singleFolderData,
     fetchingGetFolder,
     loadingGetFolder,
     selectedFolderId,
+    selectedFolder,
     handleClickSelectFolder,
     isOpenDelete,
     setIsOpenDelete,

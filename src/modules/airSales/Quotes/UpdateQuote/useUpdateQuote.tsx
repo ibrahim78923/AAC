@@ -125,6 +125,48 @@ const useUpdateQuote = () => {
     }
   }, [singleQuote]);
 
+  const totalAdditionalPrice = productsArray?.reduce(
+    (accumulator: number, currentValue: any) => {
+      const additionalQuantity = currentValue?.additionalQuantity || 0;
+      const unitPrice = currentValue?.unitPrice || 0;
+      const unitDiscount = currentValue?.unitDiscount || 0;
+
+      const totalPrice =
+        additionalQuantity !== 0
+          ? unitPrice * additionalQuantity - additionalQuantity * unitDiscount
+          : 0;
+
+      return accumulator + totalPrice;
+    },
+    0,
+  );
+
+  const unitDiscount = productsArray?.reduce(
+    (accumulator: any, currentValue: any) =>
+      accumulator +
+      (currentValue?.unitDiscount * currentValue?.additionalQuantity || 0),
+    0,
+  );
+  const redeemDiscount = 0;
+  const totalDiscount = unitDiscount + redeemDiscount;
+
+  const sum = totalAdditionalPrice + singleQuote?.dealAmount - totalDiscount;
+
+  const total = (taxCalculation?.data / 100) * sum + sum;
+  const FinalTotal = parseFloat(total?.toFixed(2));
+
+  const calculations = {
+    calculationsArray: [
+      { name: 'Deal Amount', amount: `£ ${singleQuote?.dealAmount}` },
+      { name: 'Additional Amount', amount: `£ ${totalAdditionalPrice}` },
+      { name: 'Total Discount', amount: `£ ${unitDiscount}` },
+      { name: 'Redeem Discount', amount: `£ ${0}` },
+      { name: 'Sub Total', amount: `£ ${sum}` },
+      { name: 'Tax', amount: `${taxCalculation?.data}%` },
+    ],
+    finalTotal: FinalTotal,
+  };
+
   const onSubmit = async () => {
     try {
       putSubmitQuote({
@@ -133,6 +175,12 @@ const useUpdateQuote = () => {
           id: quoteId,
           status: quoteStatus?.draft,
           products: productsArray,
+          dealAmount: singleQuote?.dealAmount?.dealAmount,
+          subTotal: sum,
+          invoiceDiscount: 0,
+          RedeemedDiscount: redeemDiscount,
+          tax: taxCalculation?.data,
+          total: FinalTotal,
         },
       });
       enqueueSnackbar('Save as draft submit later', {
@@ -332,9 +380,7 @@ const useUpdateQuote = () => {
   const handleOpenFormCreateProduct = () => {
     setIsOpenFormCreateProduct(true);
   };
-  const handleCloseFormCreateProduct = () => {
-    setIsOpenFormCreateProduct(false);
-  };
+
   const handleOpenDialog = () => {
     setIsOpenDialog(true);
   };
@@ -370,7 +416,6 @@ const useUpdateQuote = () => {
     handleCloseFormAddCompany,
     isOpenFormCreateProduct,
     handleOpenFormCreateProduct,
-    handleCloseFormCreateProduct,
     handleOpenDialog,
     handleCloseDialog,
     isOpenDialog,
@@ -410,6 +455,8 @@ const useUpdateQuote = () => {
     setIsModalOpen,
     handleDeleteSubmitBtn,
     productsArray,
+    calculations,
+    setIsOpenFormCreateProduct,
   };
 };
 export default useUpdateQuote;

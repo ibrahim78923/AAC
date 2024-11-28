@@ -16,6 +16,8 @@ const ViewPerformance = () => {
   const theme = useTheme();
   const { setIsOpenAddAssets, handleCloseAddAssetsModal, isOpenAddAssets } =
     useCampaigns();
+  const { query } = router;
+  const CurrCampaignId = query?.id;
   return (
     <Box
       sx={{
@@ -47,12 +49,12 @@ const ViewPerformance = () => {
           </Button>
         </Box>
       </Box>
-      <ViewCompaignDetails />
+      <ViewCompaignDetails CurrCampaignId={CurrCampaignId} />
       <Box sx={{ padding: '0px 24px' }}>
         <CommonTabs tabsArray={['Performance', 'Assets', 'Tasks']}>
           <Performance />
           <Assets />
-          <Tasks />
+          <Tasks CurrCampaignId={CurrCampaignId} />
         </CommonTabs>
       </Box>
       {isOpenAddAssets && (

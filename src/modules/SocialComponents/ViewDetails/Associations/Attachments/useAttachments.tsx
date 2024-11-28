@@ -2,12 +2,12 @@ import { useState } from 'react';
 
 import { useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
-import { enqueueSnackbar } from 'notistack';
 import {
   useGetCompanyAssociationsQuery,
   usePostAssociationCompaniesMutation,
 } from '@/services/commonFeatures/companies';
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useAttachments = (companyId: any) => {
   const theme = useTheme();
@@ -52,12 +52,12 @@ const useAttachments = (companyId: any) => {
 
     try {
       await PostAssociationCompanies({ body: payload }).unwrap();
-      enqueueSnackbar('Record Deleted Successfully', { variant: 'success' });
+      successSnackbar('Record Deleted Successfully');
       setIsOpenAlert(false);
       setRowData('');
     } catch (error) {
       const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+      errorSnackbar(errMsg ?? 'Error occurred');
     }
   };
   return {

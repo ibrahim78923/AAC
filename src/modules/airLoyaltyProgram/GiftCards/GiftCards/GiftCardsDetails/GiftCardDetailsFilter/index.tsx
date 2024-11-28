@@ -2,17 +2,12 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useGiftCardDetailsFilter } from './useGiftCardDetailsFilter';
+import { giftCardDetailsFilterFromFields } from './GiftCardDetailsFilter.data';
 
 export const GiftCardDetailsFilter = (props: any) => {
   const { isPortalOpen } = props;
-  const {
-    giftCardDetailsFilterFromFields,
-    onSubmit,
-    closeFilterForm,
-    resetFilterForm,
-    methods,
-    handleSubmit,
-  } = useGiftCardDetailsFilter(props);
+  const { onSubmit, closeFilterForm, resetFilterForm, methods, handleSubmit } =
+    useGiftCardDetailsFilter(props);
   return (
     <Box>
       <CommonDrawer

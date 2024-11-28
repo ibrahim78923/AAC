@@ -1,19 +1,16 @@
 import { Box, Typography } from '@mui/material';
 import { DeleteCrossIcon, EditPenIcon } from '@/assets/icons';
-import { ActivityStatusMenu } from '@/components/ActivityStatusMenu';
 import { TruncateText } from '@/components/TruncateText';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
-
-const MenuItemDataArray = [
-  { value: 'ACTIVE', label: 'Active' },
-  { value: 'INACTIVE', label: 'Inactive' },
-];
+import RewardStatus from './RewardStatus';
 
 export const loyaltyRewardColumnDynamic: any = (
   setIsRewardDetailsOpen: any,
   activePermissionOfEditDelete: any,
   overallPermissions: any,
+  setIsRewardDrawerOpen: any,
+  setIsRewardDelete: any,
 ) => {
   const columns = [
     {
@@ -37,13 +34,7 @@ export const loyaltyRewardColumnDynamic: any = (
       header: 'Status',
       cell: (info: any) => {
         const status = info?.getValue()?.toUpperCase();
-        return (
-          <ActivityStatusMenu
-            info={info}
-            activityStatus={status}
-            MenuItemDataArray={MenuItemDataArray}
-          />
-        );
+        return <RewardStatus info={info} status={status} />;
       },
     },
     {
@@ -51,11 +42,11 @@ export const loyaltyRewardColumnDynamic: any = (
       id: 'quantity',
       isSortable: true,
       header: 'Quantity',
-      cell: (info: any) => info?.getValue()?.voucherCode ?? '---',
+      cell: (info: any) => info?.getValue() ?? '---',
     },
     {
-      accessorFn: (row: any) => row?.totalRedeemed,
-      id: 'totalRedeemed',
+      accessorFn: (row: any) => row?.totalQuantity,
+      id: 'totalQuantity',
       isSortable: true,
       header: 'Total redeemed',
       cell: (info: any) => (
@@ -80,8 +71,8 @@ export const loyaltyRewardColumnDynamic: any = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.cost,
-      id: 'cost',
+      accessorFn: (row: any) => row?.costPrice,
+      id: 'costPrice',
       isSortable: true,
       header: 'Cost',
       cell: (info: any) => info?.getValue() ?? '---',
@@ -100,17 +91,33 @@ export const loyaltyRewardColumnDynamic: any = (
       id: 'actions',
       isSortable: true,
       header: 'Action',
-      cell: () => (
+      cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: 1 }}>
           <PermissionsGuard
             permissions={[
               AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.EDIT_DELETE_REWARDS,
             ]}
           >
-            <Box sx={{ cursor: 'pointer' }}>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() =>
+                setIsRewardDrawerOpen({
+                  data: info?.row?.original?._id,
+                  isOpen: true,
+                })
+              }
+            >
               <EditPenIcon />
             </Box>
-            <Box sx={{ cursor: 'pointer' }}>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() =>
+                setIsRewardDelete({
+                  data: info?.row?.original?._id,
+                  isOpen: true,
+                })
+              }
+            >
               <DeleteCrossIcon />
             </Box>
           </PermissionsGuard>

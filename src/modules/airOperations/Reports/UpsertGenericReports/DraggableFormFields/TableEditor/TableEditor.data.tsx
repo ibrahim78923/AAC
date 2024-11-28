@@ -1,21 +1,22 @@
-import { COLLECTION_NAME, FIELD_TYPE } from '@/constants/strings';
+import { BACKEND_COLLECTION_NAME } from '@/constants/api';
+import { FIELD_TYPE } from '@/constants/strings';
 
 export const tableEditorData: any = {
   INVENTORY: [
     {
       fieldType: FIELD_TYPE?.OBJECT_ID,
       fieldName: 'assetType',
-      collectionName: COLLECTION_NAME?.ASSET_TYPES,
+      collectionName: BACKEND_COLLECTION_NAME?.ASSET_TYPES,
     },
     {
       fieldType: FIELD_TYPE?.OBJECT_ID,
       fieldName: 'locationId',
-      collectionName: COLLECTION_NAME?.LOCATION,
+      collectionName: BACKEND_COLLECTION_NAME?.LOCATION,
     },
     {
       fieldType: FIELD_TYPE?.OBJECT_ID,
       fieldName: 'departmentId',
-      collectionName: COLLECTION_NAME?.DEPARTMENT,
+      collectionName: BACKEND_COLLECTION_NAME?.DEPARTMENT,
     },
     {
       fieldType: FIELD_TYPE?.STRING,
@@ -36,7 +37,7 @@ export const tableEditorData: any = {
     {
       fieldType: FIELD_TYPE?.OBJECT_ID,
       fieldName: 'contractType',
-      collectionName: COLLECTION_NAME?.CONTRACT_TYPE,
+      collectionName: BACKEND_COLLECTION_NAME?.CONTRACT_TYPE,
     },
     {
       fieldType: FIELD_TYPE?.STRING,
@@ -45,29 +46,29 @@ export const tableEditorData: any = {
     {
       fieldType: FIELD_TYPE?.OBJECT_ID,
       fieldName: 'vendor',
-      collectionName: COLLECTION_NAME?.VENDORS,
+      collectionName: BACKEND_COLLECTION_NAME?.VENDORS,
     },
     {
       fieldType: FIELD_TYPE?.OBJECT_ID,
       fieldName: 'approver',
-      collectionName: COLLECTION_NAME?.USERS,
+      collectionName: BACKEND_COLLECTION_NAME?.USERS,
     },
   ],
   PURCHASE_ORDER: [
     {
       fieldType: FIELD_TYPE?.OBJECT_ID,
       fieldName: 'vendorId',
-      collectionName: COLLECTION_NAME?.VENDORS,
+      collectionName: BACKEND_COLLECTION_NAME?.VENDORS,
     },
     {
       fieldType: FIELD_TYPE?.OBJECT_ID,
       fieldName: 'locationId',
-      collectionName: COLLECTION_NAME?.LOCATION,
+      collectionName: BACKEND_COLLECTION_NAME?.LOCATION,
     },
     {
       fieldType: FIELD_TYPE?.OBJECT_ID,
       fieldName: 'departmentId',
-      collectionName: COLLECTION_NAME?.DEPARTMENT,
+      collectionName: BACKEND_COLLECTION_NAME?.DEPARTMENT,
     },
     {
       fieldType: FIELD_TYPE?.STRING,
@@ -78,12 +79,12 @@ export const tableEditorData: any = {
     {
       fieldType: FIELD_TYPE?.OBJECT_ID,
       fieldName: 'requester',
-      collectionName: COLLECTION_NAME?.USERS,
+      collectionName: BACKEND_COLLECTION_NAME?.USERS,
     },
     {
       fieldType: FIELD_TYPE?.OBJECT_ID,
       fieldName: 'category',
-      collectionName: COLLECTION_NAME?.SERVICE_CATEGORIES,
+      collectionName: BACKEND_COLLECTION_NAME?.SERVICE_CATEGORIES,
     },
     {
       fieldType: FIELD_TYPE?.STRING,
@@ -96,7 +97,7 @@ export const tableEditorData: any = {
     {
       fieldType: FIELD_TYPE?.OBJECT_ID,
       fieldName: 'department',
-      collectionName: COLLECTION_NAME?.DEPARTMENT,
+      collectionName: BACKEND_COLLECTION_NAME?.DEPARTMENT,
     },
     {
       fieldType: FIELD_TYPE?.STRING,
@@ -109,14 +110,14 @@ export const tableEditorData: any = {
     {
       fieldType: FIELD_TYPE?.OBJECT_ID,
       fieldName: 'agent',
-      collectionName: COLLECTION_NAME?.USERS,
+      collectionName: BACKEND_COLLECTION_NAME?.USERS,
     },
   ],
   DEALS: [
     {
       fieldType: FIELD_TYPE?.OBJECT_ID,
       fieldName: 'dealPipelineId',
-      collectionName: COLLECTION_NAME?.DEAL_PIPELINES,
+      collectionName: BACKEND_COLLECTION_NAME?.DEAL_PIPELINES,
     },
     {
       fieldType: FIELD_TYPE?.STRING,
@@ -135,7 +136,7 @@ export const tableEditorData: any = {
     {
       fieldType: FIELD_TYPE?.OBJECT_ID,
       fieldName: 'goalPipelineId',
-      collectionName: COLLECTION_NAME?.FORECAST_PIPELINES,
+      collectionName: BACKEND_COLLECTION_NAME?.FORECAST_PIPELINES,
     },
     {
       fieldType: FIELD_TYPE?.STRING,
@@ -154,7 +155,7 @@ export const tableEditorData: any = {
     {
       fieldType: FIELD_TYPE?.OBJECT_ID,
       fieldName: 'campaignOwner',
-      collectionName: COLLECTION_NAME?.USERS,
+      collectionName: BACKEND_COLLECTION_NAME?.USERS,
     },
     {
       fieldType: FIELD_TYPE?.STRING,

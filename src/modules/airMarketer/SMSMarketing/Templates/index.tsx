@@ -29,6 +29,7 @@ const Templates = () => {
     navigate,
     setPage,
     theme,
+    isFetching,
   } = useTemplates();
 
   const templatesDate = smsTemplateData?.data?.smstemplates;
@@ -108,7 +109,7 @@ const Templates = () => {
               count={smsTemplateData?.data?.meta?.pages}
               isPagination
               pageLimit={smsTemplateData?.data?.meta?.limit}
-              isLoading={isLoading}
+              isLoading={isLoading || isFetching}
               isSuccess={isSuccess}
             />
           </PermissionsGuard>

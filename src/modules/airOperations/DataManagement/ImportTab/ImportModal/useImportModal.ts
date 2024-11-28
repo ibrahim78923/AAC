@@ -9,7 +9,6 @@ import {
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  useImportFileMutation,
   useLazyGetSignedUrlForImportQuery,
   useNewImportFileForServicesMutation,
   useUploadFileTos3UsingSignedUrlMutation,
@@ -22,6 +21,7 @@ import {
   IMPORT_PRODUCTS_NAME,
   OBJECT_URL_IMPORT,
   PRODUCTS_LISTS,
+  SELECTED_ARRAY_LENGTH,
 } from '@/constants/strings';
 import { Theme, useTheme } from '@mui/material';
 import { useGetAuthAccountsForOperationsReportsQuery } from '@/services/airOperations/reports';
@@ -86,162 +86,101 @@ export const useImportModal = () => {
   const [lazyGetSignedUrlForImportTrigger, lazyGetSignedUrlForImportStatus] =
     useLazyGetSignedUrlForImportQuery?.();
 
-  const [importFileTrigger, importFileStatus] = useImportFileMutation?.();
-
   const submitImportModalForm = async (data: any) => {
     try {
-      if (data?.product === IMPORT_ACTION_TYPE?.SALES) {
-        if (modalStep === 1) {
-          setModalStep((prev: any) => ++prev);
-        } else if (modalStep === 2) {
-          const signedUrlApiDataParameter = {
-            queryParams: {
-              objectUrl: OBJECT_URL_IMPORT?.USERS_ATTACHMENT,
-            },
+      if (modalStep === SELECTED_ARRAY_LENGTH?.ONE) {
+        setModalStep((prev: any) => ++prev);
+      } else if (modalStep === SELECTED_ARRAY_LENGTH?.TWO) {
+        const signedUrlApiDataParameter = {
+          queryParams: {
+            objectUrl: `${OBJECT_URL_IMPORT?.USERS_ATTACHMENT}/${data?.importDeals?.path}`,
+          },
+        };
+
+        try {
+          const response: any = await lazyGetSignedUrlForImportTrigger?.(
+            signedUrlApiDataParameter,
+          )?.unwrap();
+          const s3Data = {
+            file: data?.importDeals,
+            signedUrl: response?.data,
           };
 
-          try {
-            const response: any = await lazyGetSignedUrlForImportTrigger?.(
-              signedUrlApiDataParameter,
-            )?.unwrap();
-            const s3Data = {
-              file: data?.importDeals,
-              signedUrl: response?.data,
-            };
-            await uploadToS3CsvFile?.(s3Data);
-          } catch (error: any) {
-            errorSnackbar(error?.data?.message);
-          }
-          setModalStep((prev: any) => ++prev);
-        } else {
-          const dataColumn = data?.importedFields?.reduce(
-            (acc: any, item: any) => ({
-              ...acc,
-              [item?.fileColumn]: item?.crmFields?._id,
-            }),
-            {},
-          );
-
-          const values = Object?.values(dataColumn);
-          const hasDuplicate = values?.some(
-            (value: any, index: any) => values?.indexOf(value) !== index,
-          );
-
-          const isRequiredFieldMap: any = values?.reduce(
-            (acc: any, curr: any) => ((acc[curr] = true), acc),
-            {},
-          );
-
-          const isAllRequiredFieldPresent = filterMandatoryFields()?.every(
-            (crmColumn: any) => isRequiredFieldMap?.[crmColumn?._id],
-          );
-
-          if (hasDuplicate) {
-            hasDuplicate &&
-              errorSnackbar('Duplicate crmFields are not allowed');
-          } else if (!isAllRequiredFieldPresent) {
-            !isAllRequiredFieldPresent &&
-              errorSnackbar('Select all mandatory field');
-          } else {
-            const apiData = {
-              body: {
-                filePath: `${OBJECT_URL_IMPORT?.USERS_ATTACHMENT}/${data?.importDeals?.name}`,
-                dataColumn: dataColumn,
-                actionType: importLog,
-              },
-            };
-            try {
-              const response: any =
-                await importFileTrigger?.(apiData)?.unwrap();
-              successSnackbar(response?.message);
-              handleClose();
-              reset();
-            } catch (error: any) {
-              errorSnackbar(error?.data?.message);
-            }
-          }
+          await uploadToS3CsvFile(s3Data);
+          setFileResponse(response);
+        } catch (error: any) {
+          errorSnackbar(error?.data?.message);
         }
+        setModalStep((prev: any) => ++prev);
       } else {
-        if (modalStep === 1) {
-          setModalStep((prev: any) => ++prev);
-        } else if (modalStep === 2) {
-          const signedUrlApiDataParameter = {
-            queryParams: {
-              objectUrl: `${OBJECT_URL_IMPORT?.USERS_ATTACHMENT}/${data?.importDeals?.path}`,
+        const dataColumn = data?.importedFields?.reduce(
+          (acc: any, item: any) => ({
+            ...acc,
+            [item?.fileColumn]: item?.crmFields?._id,
+          }),
+          {},
+        );
+
+        const values = Object?.values(dataColumn);
+        const hasDuplicate = values?.some(
+          (value: any, index: any) => values?.indexOf(value) !== index,
+        );
+
+        const isRequiredFieldMap: any = values?.reduce(
+          (acc: any, curr: any) => ((acc[curr] = true), acc),
+          {},
+        );
+
+        const isAllRequiredFieldPresent = filterMandatoryFields()?.every(
+          (crmColumn: any) => isRequiredFieldMap?.[crmColumn?._id],
+        );
+
+        if (hasDuplicate) {
+          errorSnackbar('Crm fields must be unique');
+        } else if (!isAllRequiredFieldPresent) {
+          errorSnackbar('Select all mandatory field(s)');
+        } else {
+          const url = new URL(`${fileResponse?.data}`);
+          const filePath = `${url?.origin}${url?.pathname}`;
+          let objectType;
+          switch (importLog) {
+            case IMPORT_ACTION_TYPE?.INVENTORIES:
+              objectType = IMPORT_OBJECT_TYPE?.ASSETS;
+              break;
+            case IMPORT_ACTION_TYPE?.VENDORS:
+            case IMPORT_ACTION_TYPE?.PRODUCT_CATALOG:
+              objectType = IMPORT_OBJECT_TYPE?.SETTINGS;
+              break;
+            case IMPORT_ACTION_TYPE?.DEALS:
+              objectType = IMPORT_OBJECT_TYPE?.DEALS;
+              break;
+            case IMPORT_ACTION_TYPE?.TASKS:
+              objectType = IMPORT_OBJECT_TYPE?.TASKS;
+              break;
+            default:
+              objectType = null;
+              break;
+          }
+          const apiData = {
+            body: {
+              filePath: filePath,
+              tableName: importLog,
+              product: IMPORT_PRODUCTS_NAME?.OPERATIONS,
+              object: objectType,
+              fileType: IMPORT_FILE_TYPE?.CSV,
+              dataColumn: dataColumn,
             },
           };
 
           try {
-            const response: any = await lazyGetSignedUrlForImportTrigger?.(
-              signedUrlApiDataParameter,
-            )?.unwrap();
-            const s3Data = {
-              file: data?.importDeals,
-              signedUrl: response?.data,
-            };
-
-            await uploadToS3CsvFile(s3Data);
-            setFileResponse(response);
+            const response: any =
+              await newImportFileForServicesTrigger?.(apiData)?.unwrap();
+            successSnackbar(response?.message);
+            handleClose();
+            reset();
+            setFileResponse(null);
           } catch (error: any) {
             errorSnackbar(error?.data?.message);
-          }
-          setModalStep((prev: any) => ++prev);
-        } else {
-          const dataColumn = data?.importedFields?.reduce(
-            (acc: any, item: any) => ({
-              ...acc,
-              [item?.fileColumn]: item?.crmFields?._id,
-            }),
-            {},
-          );
-
-          const values = Object?.values(dataColumn);
-          const hasDuplicate = values?.some(
-            (value: any, index: any) => values?.indexOf(value) !== index,
-          );
-
-          const isRequiredFieldMap: any = values?.reduce(
-            (acc: any, curr: any) => ((acc[curr] = true), acc),
-            {},
-          );
-
-          const isAllRequiredFieldPresent = filterMandatoryFields()?.every(
-            (crmColumn: any) => isRequiredFieldMap?.[crmColumn?._id],
-          );
-
-          if (hasDuplicate) {
-            hasDuplicate &&
-              errorSnackbar('Duplicate crmFields are not allowed');
-          } else if (!isAllRequiredFieldPresent) {
-            !isAllRequiredFieldPresent &&
-              errorSnackbar('Select all mandatory field');
-          } else {
-            const url = new URL(`${fileResponse?.data}`);
-            const filePath = `${url?.origin}${url?.pathname}`;
-            const apiData = {
-              body: {
-                filePath: filePath,
-                tableName: importLog,
-                product: IMPORT_PRODUCTS_NAME?.OPERATIONS,
-                object:
-                  importLog === IMPORT_ACTION_TYPE?.INVENTORIES
-                    ? IMPORT_OBJECT_TYPE?.ASSETS
-                    : IMPORT_OBJECT_TYPE?.SETTINGS,
-                fileType: IMPORT_FILE_TYPE?.CSV,
-                dataColumn: dataColumn,
-              },
-            };
-
-            try {
-              const response: any =
-                await newImportFileForServicesTrigger?.(apiData)?.unwrap();
-              successSnackbar(response?.message);
-              handleClose();
-              reset();
-              setFileResponse(null);
-            } catch (error: any) {
-              errorSnackbar(error?.data?.message);
-            }
           }
         }
       }
@@ -342,7 +281,6 @@ export const useImportModal = () => {
     remove,
     lazyGetSignedUrlForImportStatus,
     uploadFileTos3UsingSignedUrlStatus,
-    importFileStatus,
     newImportFileForServicesStatus,
     theme,
     productOptions,

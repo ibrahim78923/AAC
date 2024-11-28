@@ -24,7 +24,8 @@ export const TicketStatusCount = () => {
             borderRadius={2}
             border={`1px solid `}
             borderColor="custom.off_white_three"
-            p={1.5}
+            px={1.5}
+            py={1}
             height={'100%'}
           >
             <Box>
@@ -32,15 +33,15 @@ export const TicketStatusCount = () => {
                 alt={item?.label}
                 src={TicketStatusCountImage?.src}
                 sx={{
-                  width: 60,
-                  height: 60,
+                  width: 50,
+                  height: 50,
                   backgroundColor: item?.color,
                   p: 1,
                 }}
               />
             </Box>
             <Box>
-              <Typography variant="h3" color="slateBlue.main">
+              <Typography variant="h4" color="slateBlue.main">
                 {item?.count}
               </Typography>
               <Typography variant="body1" color="slateBlue.main">

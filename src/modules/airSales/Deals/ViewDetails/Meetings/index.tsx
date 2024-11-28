@@ -1,151 +1,143 @@
-import Image from 'next/image';
-
-import { Box, Button, Grid, Typography } from '@mui/material';
-
+import { Box, Button, Grid } from '@mui/material';
+import { useMeetings } from './useMeetings';
+import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
-import MeetingsDropDown from './MeetingsDropDown';
-import MeetingsEditorDrawer from './MeetingsEditorDrawer';
-
-import useMeetings from './useMeetings';
-
-import { isNullOrEmpty } from '@/utils';
-
-import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
-import { callsDetails, callsStatusColor, columns } from './Meetings.data';
-
-import { EmailMeetingImage } from '@/assets/images';
-import { MircosoftTeamsIcon, PlusIcon, ZoomIcon } from '@/assets/icons';
-
-import { styles } from './Meetings.style';
+import { listViewDetails } from './Meetings.data';
+import { MODULE_NAME_FOR_MEETINGS, SOCIAL_COMPONENTS } from '@/constants';
+import { AlertModals } from '@/components/AlertModals';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import { PlusIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
+import { SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS } from '@/constants/permission-keys';
+import { MeetingCards } from './MeetingCards';
 
 const Meetings = () => {
-  const { openDrawer, setOpenDrawer, theme } = useMeetings();
-
+  const {
+    meetings,
+    setSearch,
+    setCardValue,
+    theme,
+    setDeleteModal,
+    deleteModal,
+    submitDeleteModal,
+    router,
+    isActiveCard,
+    activeCard,
+    moduleId,
+    getMeetingListStatus,
+    setPageLimit,
+    setPage,
+    setOpenForm,
+    meetingActiveType,
+    deleteMeetingsStatus,
+  } = useMeetings();
   return (
-    <Box
-      sx={{
-        boxShadow: '0px 0px 4px 0px rgba(0, 0, 0, 0.10)',
-        padding: '15px 15px 25px 15px',
-        borderRadius: '10px',
-      }}
-    >
-      <Grid container spacing={3} sx={{ marginBottom: '25px' }}>
-        {Object?.entries(callsDetails)?.map(([key, value]) => (
-          <Grid item md={4} xs={12} key={key}>
-            <Box sx={styles?.callStatusBox(callsStatusColor, key)}>
-              <Typography variant="body2">{key}</Typography>
-              <Typography variant="subtitle2">{value}</Typography>
-            </Box>
-          </Grid>
-        ))}
-      </Grid>
-      <Grid container>
-        <Grid item xs={12}>
-          <Box sx={styles?.callsSpacingBetween}>
-            <Typography variant="h4"> Meetings</Typography>
-            {isNullOrEmpty(TasksTableData) && (
-              <Box
-                sx={{
-                  gap: 1,
-                  display: 'flex',
-                  flexDirection: { xs: 'column', sm: 'row' },
-                  alignItems: 'center',
-                }}
-              >
-                <MeetingsDropDown setOpenDrawer={setOpenDrawer} />
-                <PermissionsGuard
-                  permissions={[
-                    AIR_SALES_DEALS_PERMISSIONS?.DEAL_CREATE_MEETING,
-                  ]}
-                >
-                  <Button
-                    variant="contained"
-                    sx={{ gap: 0.5 }}
-                    onClick={() => setOpenDrawer('Add')}
-                    className="small"
-                  >
-                    <PlusIcon />
-                    <Typography variant="body2">Create Meeting</Typography>
-                  </Button>
-                </PermissionsGuard>
-              </Box>
-            )}
-          </Box>
+    <Box p={1}>
+      <PermissionsGuard
+        permissions={[
+          SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.SHOW_COUNT_WIDGETS,
+        ]}
+      >
+        <Grid container spacing={2}>
+          {meetings?.map((meeting: any) => (
+            <MeetingCards
+              key={meeting?.id}
+              meetingHeading={meeting?.meetingHeading}
+              meetingType={meeting?.meetingType}
+              meetingCount={meeting?.meetingCount}
+              color={meeting?.color}
+              setCardValue={setCardValue}
+              isActive={isActiveCard === meeting?.meetingType}
+              onClick={activeCard}
+            />
+          ))}
         </Grid>
-        {!isNullOrEmpty(TasksTableData) && (
-          <Grid item xs={12}>
-            <Box
-              sx={{
-                minHeight: '24vh',
-                display: 'flex',
-                justifyContent: 'center',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 1.5,
-              }}
+      </PermissionsGuard>
+      <Box
+        p={2}
+        border={`.1rem solid ${theme?.palette?.custom?.dark}`}
+        borderRadius={3}
+      >
+        <Box
+          display={'flex'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          flexWrap={'wrap'}
+          gap={1}
+        >
+          <PermissionsGuard
+            permissions={[
+              SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.SEARCH_RECORD,
+            ]}
+          >
+            <Search label="Search Here" setSearchBy={setSearch} />
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.CREATE_MEETING,
+            ]}
+          >
+            <Button
+              startIcon={<PlusIcon />}
+              variant="contained"
+              sx={{ cursor: 'pointer' }}
+              className="small"
+              onClick={() =>
+                router?.push({
+                  pathname: SOCIAL_COMPONENTS?.SCHEDULE_MEETING,
+                  query: {
+                    moduleId: moduleId,
+                    moduleType: MODULE_NAME_FOR_MEETINGS?.DEALS,
+                  },
+                })
+              }
             >
-              <Image src={EmailMeetingImage} alt="EmailMeetingImage" />
-              <Typography
-                variant="body2"
-                sx={{ color: theme?.palette?.grey[900] }}
-              >
-                Schedule virtual and in-person meetings right from the CRM.
-              </Typography>
-              <Button
-                variant="contained"
-                sx={{ gap: 0.5 }}
-                onClick={() => setOpenDrawer('Add')}
-                className="small"
-              >
-                <PlusIcon />
-                <Typography variant="body2">Create Meeting</Typography>
-              </Button>
-              <Typography
-                variant="body2"
-                sx={{ color: theme?.palette?.slateBlue?.main }}
-              >
-                Bring Your emails into the CRM
-              </Typography>
-              <Box
-                sx={{
-                  gap: 1,
-                  display: 'flex',
-                  flexDirection: { xs: 'column', sm: 'row' },
-                }}
-              >
-                <Button
-                  variant="outlined"
-                  sx={{ color: 'grey', gap: 0.5 }}
-                  className="small"
-                >
-                  <ZoomIcon /> <Typography variant="body2">Zoom</Typography>
-                </Button>
-
-                <Button
-                  variant="outlined"
-                  sx={{ color: 'grey', gap: 0.5 }}
-                  className="small"
-                >
-                  <MircosoftTeamsIcon />
-                  <Typography variant="body2">Microsoft Teams</Typography>
-                </Button>
-              </Box>
-            </Box>
-          </Grid>
-        )}
-        {isNullOrEmpty(TasksTableData) && (
-          <Grid item xs={12} sx={{ height: '24vh', overflow: 'auto' }}>
-            <TanstackTable columns={columns} data={TasksTableData} />
-          </Grid>
-        )}
-      </Grid>
-
-      <MeetingsEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
-      />
+              Schedule Meetings
+            </Button>
+          </PermissionsGuard>
+        </Box>
+        <br />
+        <PermissionsGuard
+          permissions={[SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.LIST_VIEW]}
+        >
+          <TanstackTable
+            columns={listViewDetails(
+              setDeleteModal,
+              setOpenForm,
+              router,
+              meetingActiveType,
+            )}
+            data={getMeetingListStatus?.data?.data?.meetings}
+            isLoading={getMeetingListStatus?.isLoading}
+            currentPage={getMeetingListStatus?.data?.data?.meta?.page}
+            count={getMeetingListStatus?.data?.data?.meta?.pages}
+            pageLimit={getMeetingListStatus?.data?.data?.meta?.limit}
+            totalRecords={getMeetingListStatus?.data?.data?.meta?.total}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+            isFetching={getMeetingListStatus?.isFetching}
+            isError={getMeetingListStatus?.isError}
+            isSuccess={getMeetingListStatus?.isSuccess}
+            onPageChange={(page: number) => setPage(page)}
+            isPagination
+          />
+        </PermissionsGuard>
+      </Box>
+      {deleteModal && (
+        <AlertModals
+          type={ALERT_MODALS_TYPE?.DELETE}
+          message={'Are you sure you want to delete this entry?'}
+          open={deleteModal?.isOpen ?? false}
+          handleClose={() => {
+            setDeleteModal({});
+          }}
+          handleSubmitBtn={() => {
+            submitDeleteModal();
+          }}
+          loading={deleteMeetingsStatus?.isLoading}
+          disableCancelBtn={deleteMeetingsStatus?.isLoading}
+        />
+      )}
     </Box>
   );
 };

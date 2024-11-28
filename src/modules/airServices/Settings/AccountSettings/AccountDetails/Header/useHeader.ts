@@ -1,6 +1,5 @@
 import useAuth from '@/hooks/useAuth';
 import { usePatchServiceAccountDetailProfileAvatarMutation } from '@/services/airServices/settings/account-settings/account-details';
-// import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useState } from 'react';
 import { IAuth } from '../AccountDetails.interface';

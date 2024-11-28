@@ -35,6 +35,7 @@ const useTeams = () => {
     data: teamsData,
     isSuccess,
     isLoading: teamsDataLoading,
+    isFetching,
   } = useGetMarketerTeamsQuery(params);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -82,6 +83,7 @@ const useTeams = () => {
     setTeamId,
     isOpenDelete,
     setIsOpenDelete,
+    isFetching,
     deleteTeamLoading,
     handleDeleteTeam,
     isTeamDrawer,

@@ -1,35 +1,47 @@
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { giftCardColumnsFunction } from './GiftCards.data';
 import { AddGiftCards } from './AddGiftCards';
 import { GiftCardFilter } from './GiftCardsFilter';
 import { PAGINATION } from '@/config';
-import { buildQueryParams } from '@/utils/api';
-import { useLazyGetGiftCardListQuery } from '@/services/airLoyaltyProgram/giftCards/giftCards';
+import {
+  useGetGiftCardListQuery,
+  usePutGiftCardStatusMutation,
+} from '@/services/airLoyaltyProgram/giftCards/giftCards';
+import { otherDateFormat } from '@/lib/date-time';
+import { CALENDAR_FORMAT } from '@/constants';
 
 export const useGiftCards = () => {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [filterGiftCard, setFilterGiftCard] = useState({});
+  const [limit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [filterGiftCard, setFilterGiftCard] = useState<any>({});
   const [isPortalOpen, setIsPortalOpen] = useState<any>({});
   const router = useRouter();
-  const [lazyGetGiftCardListTrigger, lazyGetGiftCardListStatus]: any =
-    useLazyGetGiftCardListQuery();
 
-  const getGiftCardList = async () => {
-    const additionalParams = [
-      ['page', page + ''],
-      ['limit', pageLimit + ''],
-    ];
-    const getGiftCardParam: any = buildQueryParams(
-      additionalParams,
-      filterGiftCard,
-    );
-    const apiDataParameter = { queryParams: getGiftCardParam };
-    try {
-      await lazyGetGiftCardListTrigger(apiDataParameter)?.unwrap();
-    } catch (error) {}
+  const giftCardParams = {
+    page,
+    limit,
+    ...(search && { search }),
+    ...(filterGiftCard?.maxAmount && {
+      maxcurrentamount: filterGiftCard?.maxAmount,
+    }),
+    ...(filterGiftCard?.minAmount && {
+      minicurrentamount: filterGiftCard?.minAmount,
+    }),
+    ...(filterGiftCard?.dateRange?.startDate && {
+      activeFrom: otherDateFormat(
+        filterGiftCard?.dateRange?.startDate,
+        CALENDAR_FORMAT?.YMD,
+      ),
+    }),
+    ...(filterGiftCard?.dateRange?.endDate && {
+      activeTo: otherDateFormat(
+        filterGiftCard?.dateRange?.endDate,
+        CALENDAR_FORMAT?.YMD,
+      ),
+    }),
+    ...(filterGiftCard?.status && { status: filterGiftCard?.status }),
   };
 
   const handleSearch = (data: any) => {
@@ -37,11 +49,18 @@ export const useGiftCards = () => {
     setSearch(data);
   };
 
-  useEffect(() => {
-    getGiftCardList?.();
-  }, [page, pageLimit, search, filterGiftCard]);
+  const { data, isFetching, isLoading, isError, isSuccess, refetch } =
+    useGetGiftCardListQuery(giftCardParams);
 
-  const giftCardColumns = giftCardColumnsFunction(router);
+  const handleRefetchList = async () => {
+    await refetch();
+  };
+
+  const giftCardColumns = giftCardColumnsFunction(
+    router,
+    usePutGiftCardStatusMutation,
+    handleRefetchList,
+  );
 
   const renderPortalComponent = () => {
     if (isPortalOpen?.isFilter) {
@@ -51,6 +70,7 @@ export const useGiftCards = () => {
           setIsPortalOpen={setIsPortalOpen}
           filterGiftCard={filterGiftCard}
           setFilterGiftCard={setFilterGiftCard}
+          setPage={setPage}
         />
       );
     }
@@ -59,6 +79,7 @@ export const useGiftCards = () => {
         <AddGiftCards
           isPortalOpen={isPortalOpen}
           setIsPortalOpen={setIsPortalOpen}
+          handleRefetchList={handleRefetchList}
         />
       );
     }
@@ -71,8 +92,12 @@ export const useGiftCards = () => {
     setIsPortalOpen,
     isPortalOpen,
     renderPortalComponent,
-    lazyGetGiftCardListStatus,
     setPage,
     setPageLimit,
+    data,
+    isFetching,
+    isLoading,
+    isError,
+    isSuccess,
   };
 };

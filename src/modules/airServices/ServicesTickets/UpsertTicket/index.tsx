@@ -44,7 +44,7 @@ export const UpsertTicket = () => {
       isOk
       footer
       isLoading={apiCallInProgress}
-      isDisabled={apiCallInProgress}
+      isDisabled={showLoader}
       disabledCancelBtn={apiCallInProgress}
     >
       {showLoader ? (

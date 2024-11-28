@@ -15,13 +15,14 @@ import {
   editGoalDefaultValues,
   editGoalValidationSchema,
 } from './GoalTab/GoalTab.data';
-import { enqueueSnackbar } from 'notistack';
 import { useLazyGetDynamicFieldsQuery } from '@/services/dynamic-fields';
 import {
   DYNAMIC_FIELDS,
   DYNAMIC_FORM_FIELDS_TYPES,
 } from '@/utils/dynamic-forms';
 import { filteredEmptyValues } from '@/utils/api';
+import { indexNumbers } from '@/constants';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const EditGoalsDrwaer = (props: any) => {
   const {
@@ -39,7 +40,8 @@ const EditGoalsDrwaer = (props: any) => {
     { skip: isNullOrEmpty(tableRowValues) },
   );
 
-  const notificationsData = getOneGoal?.data?.notification;
+  const notificationsData =
+    getOneGoal?.data?.goals[indexNumbers?.ZERO]?.notification;
   // State to manage selected notifications
 
   // Function to handle checkbox change
@@ -84,7 +86,10 @@ const EditGoalsDrwaer = (props: any) => {
 
   const methods: any = useForm({
     resolver: yupResolver(editGoalValidationSchema?.(form)),
-    defaultValues: editGoalDefaultValues?.(getOneGoal?.data, form),
+    defaultValues: editGoalDefaultValues?.(
+      getOneGoal?.data?.goals[indexNumbers?.ZERO],
+      form,
+    ),
   });
 
   const { handleSubmit, setValue } = methods;
@@ -121,9 +126,7 @@ const EditGoalsDrwaer = (props: any) => {
     }
 
     if (isNullOrEmpty(editNotificationOptions)) {
-      enqueueSnackbar('Please select a notification', {
-        variant: 'error',
-      });
+      errorSnackbar('Please select a notification');
     } else {
       const payload = {
         target: values?.target,
@@ -133,15 +136,11 @@ const EditGoalsDrwaer = (props: any) => {
 
       try {
         await patchGoal({ body: payload, id: tableRowValues })?.unwrap();
-        enqueueSnackbar('Goal update successfully', {
-          variant: 'success',
-        });
+        successSnackbar('Goal update successfully');
         setIsEditDrawer(false);
         setTableRowValues([]);
       } catch (error: any) {
-        enqueueSnackbar('An error occured', {
-          variant: 'error',
-        });
+        errorSnackbar('An error occured');
       }
     }
   };

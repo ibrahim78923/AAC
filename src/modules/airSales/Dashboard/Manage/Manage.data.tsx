@@ -1,4 +1,10 @@
-import { Avatar, Box, Stack, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  CircularProgress,
+  Stack,
+  Typography,
+} from '@mui/material';
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 import { AIR_SALES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
@@ -8,6 +14,7 @@ import dayjs from 'dayjs';
 import { SwitchBtn } from '@/components/SwitchButton';
 import { AIR_SALES } from '@/routesConstants/paths';
 import { generateImage } from '@/utils/avatarUtils';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 export const columns: any = (columnsProps: any) => {
   const {
@@ -16,6 +23,7 @@ export const columns: any = (columnsProps: any) => {
     router,
     handleUpdateDefault,
     currentUser,
+    loadingState,
   } = columnsProps;
 
   return [
@@ -29,16 +37,21 @@ export const columns: any = (columnsProps: any) => {
     {
       accessorFn: (row: any) => row?.isDefault,
       id: 'isDefault',
-      cell: (info: any) => (
-        <SwitchBtn
-          handleSwitchChange={(e: any) => {
-            handleUpdateDefault(info?.row?.original?._id, e?.target?.checked);
-          }}
-          checked={
-            currentUser === info?.row?.original?.createdBy && info?.getValue()
-          }
-        />
-      ),
+      cell: (info: any) => {
+        const rowId = info?.row?.original?._id;
+        const isLoading = loadingState[rowId] ?? false;
+
+        return isLoading ? (
+          <CircularProgress size={25} />
+        ) : (
+          <SwitchBtn
+            handleSwitchChange={(e: any) => {
+              handleUpdateDefault(rowId, e?.target?.checked);
+            }}
+            checked={info?.getValue()}
+          />
+        );
+      },
       header: 'Default',
       isSortable: false,
     },
@@ -111,7 +124,12 @@ export const columns: any = (columnsProps: any) => {
               onClick={() => {
                 router?.push({
                   pathname: `${AIR_SALES?.CREATE_DASHBOARD}`,
-                  query: { id: info?.row?.original?._id, type: 'view' },
+                  query: {
+                    id: info?.row?.original?._id,
+                    userId: currentUser,
+                    type: DRAWER_TYPES?.VIEW,
+                    mode: DRAWER_TYPES?.CREATE,
+                  },
                 });
               }}
             >
@@ -125,7 +143,12 @@ export const columns: any = (columnsProps: any) => {
               onClick={() => {
                 router?.push({
                   pathname: `${AIR_SALES?.CREATE_DASHBOARD}`,
-                  query: { id: info?.row?.original?._id, type: 'edit' },
+                  query: {
+                    id: info?.row?.original?._id,
+                    userId: currentUser,
+                    type: DRAWER_TYPES?.EDIT,
+                    mode: DRAWER_TYPES?.CREATE,
+                  },
                 });
               }}
             >

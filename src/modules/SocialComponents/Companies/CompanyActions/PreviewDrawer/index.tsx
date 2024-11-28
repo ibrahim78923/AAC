@@ -18,6 +18,7 @@ import {
   NoteImage,
   ActivitesTimeImage,
   NoteAddImage,
+  PdfPreviewImage,
 } from '@/assets/images';
 
 import CommonDrawer from '@/components/CommonDrawer';
@@ -25,10 +26,15 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { accordionData } from '@/mock/modules/SocialComponents/Companies';
 import usePreviewDrawer from './usePreviewDrawer';
 import { v4 as uuidv4 } from 'uuid';
+import { SOCIAL_COMPONENTS } from '@/constants';
+import { useRouter } from 'next/router';
+import { generateImage } from '@/utils/avatarUtils';
+import { ATTACHMENT_FILE_TYPE } from '@/constants/strings';
 
 const PreviewDrawer = ({ isPreview, setIsPreview, checkedRows }: any) => {
   const { theme, companyDetailsArray, companyDetails } =
     usePreviewDrawer(checkedRows);
+  const navigate = useRouter();
 
   return (
     <>
@@ -85,7 +91,16 @@ const PreviewDrawer = ({ isPreview, setIsPreview, checkedRows }: any) => {
           >
             <Box sx={{ cursor: 'pointer' }}>
               <Tooltip title="Email" placement="top">
-                <Image src={EmailImage} alt="Icon" />
+                <Image
+                  src={EmailImage}
+                  alt="Icon"
+                  onClick={() => {
+                    navigate?.push({
+                      pathname: SOCIAL_COMPONENTS?.VIEW_COMPANY_DETAILS,
+                      query: { id: companyDetails?._id, activeTab: 7 },
+                    });
+                  }}
+                />
               </Tooltip>
             </Box>
 
@@ -98,7 +113,16 @@ const PreviewDrawer = ({ isPreview, setIsPreview, checkedRows }: any) => {
             />
             <Box sx={{ cursor: 'pointer' }}>
               <Tooltip title="Call" placement="top">
-                <Image src={MobileImage} alt="Icon" />
+                <Image
+                  src={MobileImage}
+                  alt="Icon"
+                  onClick={() => {
+                    navigate?.push({
+                      pathname: SOCIAL_COMPONENTS?.VIEW_COMPANY_DETAILS,
+                      query: { id: companyDetails?._id, activeTab: 5 },
+                    });
+                  }}
+                />
               </Tooltip>
             </Box>
             <Divider
@@ -110,7 +134,16 @@ const PreviewDrawer = ({ isPreview, setIsPreview, checkedRows }: any) => {
             />
             <Box sx={{ cursor: 'pointer' }}>
               <Tooltip title="Notes" placement="top">
-                <Image src={NoteImage} alt="Icon" />
+                <Image
+                  src={NoteImage}
+                  alt="Icon"
+                  onClick={() => {
+                    navigate?.push({
+                      pathname: SOCIAL_COMPONENTS?.VIEW_COMPANY_DETAILS,
+                      query: { id: companyDetails?._id, activeTab: 4 },
+                    });
+                  }}
+                />
               </Tooltip>
             </Box>
             <Divider
@@ -122,7 +155,16 @@ const PreviewDrawer = ({ isPreview, setIsPreview, checkedRows }: any) => {
             />
             <Box sx={{ cursor: 'pointer' }}>
               <Tooltip title="Meeting" placement="top">
-                <Image src={NoteAddImage} alt="Icon" />
+                <Image
+                  src={NoteAddImage}
+                  alt="Icon"
+                  onClick={() => {
+                    navigate?.push({
+                      pathname: SOCIAL_COMPONENTS?.VIEW_COMPANY_DETAILS,
+                      query: { id: companyDetails?._id, activeTab: 6 },
+                    });
+                  }}
+                />
               </Tooltip>
             </Box>
             <Divider
@@ -134,7 +176,16 @@ const PreviewDrawer = ({ isPreview, setIsPreview, checkedRows }: any) => {
             />
             <Box sx={{ cursor: 'pointer' }}>
               <Tooltip title="Task" placement="top">
-                <Image src={ActivitesTimeImage} alt="Icon" />
+                <Image
+                  src={ActivitesTimeImage}
+                  alt="Icon"
+                  onClick={() => {
+                    navigate?.push({
+                      pathname: SOCIAL_COMPONENTS?.VIEW_COMPANY_DETAILS,
+                      query: { id: companyDetails?._id, activeTab: 3 },
+                    });
+                  }}
+                />
               </Tooltip>
             </Box>
           </Box>
@@ -173,13 +224,13 @@ const PreviewDrawer = ({ isPreview, setIsPreview, checkedRows }: any) => {
                     color: `${theme?.palette?.slateBlue?.main}`,
                   }}
                 >
-                  {item?.value}
+                  {item?.value ? item?.value : '--'}
                 </Typography>
               </Box>
             );
           })}
         </Box>
-        {accordionData?.map((item) => {
+        {accordionData(companyDetails)?.map((item) => {
           return (
             <>
               <Box sx={{ marginTop: '1rem' }}>
@@ -218,112 +269,112 @@ const PreviewDrawer = ({ isPreview, setIsPreview, checkedRows }: any) => {
                           fontSize: '12px',
                         }}
                       >
-                        {item.empNo}
+                        {item?.empNo}
                       </Box>
 
                       <Typography
                         variant="h6"
                         sx={{ color: `${theme?.palette?.slateBlue?.main}` }}
                       >
-                        {item.mainHeading}
+                        {item?.mainHeading}
                       </Typography>
                     </Box>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                      }}
-                    >
+                    {item?.items?.map((subItem: any) => (
                       <Box
+                        key={uuidv4()}
                         sx={{
                           display: 'flex',
+                          justifyContent: 'space-between',
                           alignItems: 'center',
-                          gap: '8px',
+                          padding: '8px 0',
+                          borderBottom: '1px solid lightgray',
                         }}
                       >
-                        {item.img ? (
-                          <Image
-                            src={item?.img}
-                            alt="Image"
-                            width={48}
-                            height={48}
-                          />
-                        ) : (
-                          ''
-                        )}
-
-                        <Box>
-                          <Typography
-                            variant="subtitle2"
-                            sx={{
-                              color: `${theme?.palette?.blue?.dull_blue}`,
-                              fontWeight: 500,
-                            }}
-                          >
-                            {item?.name}
-                          </Typography>
-                          <Typography
-                            variant="subtitle2"
-                            sx={{
-                              color: `${theme?.palette?.custom?.light}`,
-                              fontWeight: 500,
-                            }}
-                          >
-                            {item?.email}
-                          </Typography>
-                        </Box>
-                      </Box>
-
-                      <Box>
-                        {item?.stage ? (
-                          <Typography
-                            variant="subtitle2"
-                            sx={{
-                              color: `${theme?.palette?.custom?.light}`,
-                              fontWeight: 500,
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '4px',
-                            }}
-                          >
-                            Stage:
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                          }}
+                        >
+                          {subItem?.fileType === ATTACHMENT_FILE_TYPE?.PDF ? (
+                            <Image
+                              src={PdfPreviewImage}
+                              alt="Image"
+                              width={40}
+                              height={40}
+                            />
+                          ) : subItem?.img ? (
+                            <Image
+                              src={generateImage(subItem?.img)}
+                              alt="Image"
+                              width={40}
+                              height={40}
+                            />
+                          ) : (
+                            ''
+                          )}
+                          <Box>
                             <Typography
                               variant="subtitle2"
                               sx={{
                                 color: `${theme?.palette?.blue?.dull_blue}`,
-                                fontWeight: 600,
+                                fontWeight: 500,
                               }}
                             >
-                              {item.stage}
+                              {subItem?.name}
                             </Typography>
-                          </Typography>
-                        ) : item?.phoneNumber ? (
-                          <Typography
-                            variant="subtitle2"
-                            sx={{
-                              color: `${theme?.palette?.custom?.light}`,
-                              fontWeight: 500,
-                            }}
-                          >
-                            {item?.phoneNumber}
-                          </Typography>
-                        ) : (
-                          <Box sx={{ display: 'flex', justifyItems: 'start' }}>
                             <Typography
-                              variant="h6"
+                              variant="subtitle2"
                               sx={{
-                                color: `${theme?.palette?.blue?.dull_blue}`,
+                                color: `${theme?.palette?.custom?.light}`,
+                                fontWeight: 500,
                               }}
                             >
-                              {item?.description}
+                              {subItem?.email || subItem?.description}
                             </Typography>
                           </Box>
-                        )}
+                        </Box>
+
+                        <Box>
+                          {subItem?.stage ? (
+                            <Typography
+                              variant="subtitle2"
+                              sx={{
+                                color: `${theme?.palette?.custom?.light}`,
+                                fontWeight: 500,
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '4px',
+                              }}
+                            >
+                              Stage:
+                              <Typography
+                                variant="subtitle2"
+                                sx={{
+                                  color: `${theme?.palette?.blue?.dull_blue}`,
+                                  fontWeight: 600,
+                                }}
+                              >
+                                {subItem?.stage}
+                              </Typography>
+                            </Typography>
+                          ) : subItem?.phoneNumber ? (
+                            <Typography
+                              variant="subtitle2"
+                              sx={{
+                                color: `${theme?.palette?.custom?.light}`,
+                                fontWeight: 500,
+                              }}
+                            >
+                              {subItem?.phoneNumber}
+                            </Typography>
+                          ) : null}
+                        </Box>
                       </Box>
-                    </Box>
+                    ))}
                   </AccordionDetails>
                 </Accordion>
               </Box>

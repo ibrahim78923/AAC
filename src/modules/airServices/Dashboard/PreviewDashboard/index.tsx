@@ -6,12 +6,15 @@ import { StaticDashboardWidgets } from '../StaticDashboardWidgets';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setIsPortalClose } from '@/redux/slices/airServices/dashboard/slice';
 import { SERVICES_DASHBOARD_PORTAL_ACTIONS_CONSTANT } from '../Dashboard.data';
+import { dashboardIsPortalOpenSelector } from '@/redux/slices/airServices/dashboard/selectors';
+import { shallowEqual } from 'react-redux';
 
 export const PreviewDashboard = () => {
   const dispatch = useAppDispatch();
 
   const isPortalOpen = useAppSelector(
-    (state) => state?.servicesDashboard?.isPortalOpen,
+    dashboardIsPortalOpenSelector,
+    shallowEqual,
   );
 
   return (

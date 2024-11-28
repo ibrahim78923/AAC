@@ -2,11 +2,7 @@ import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import {
-  useDeleteProductsMutation,
-  useGetQuoteByIdQuery,
-  useGetTaxCalculationsQuery,
-} from '@/services/airSales/quotes';
+import { useGetQuoteByIdQuery } from '@/services/airSales/quotes';
 import { enqueueSnackbar } from 'notistack';
 import { usePutSubmitQuoteMutation } from '@/services/airSales/quotes';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
@@ -40,71 +36,30 @@ const useStepLineItems = (openCreateProduct?: any) => {
     ...(search && { productSearchKeyword: search }),
   });
 
-  const { data: taxCalculation } = useGetTaxCalculationsQuery({
-    applyOn: 'quotes',
-  });
-
-  const taxCalculationPerc = taxCalculation?.data?.taxCalculations;
-  const gettingDiscount =
-    dataGetQuoteById?.data?.products?.length > 0 &&
-    dataGetQuoteById?.data?.products[0]?.unitDiscount;
-
-  const sum =
-    productsData?.data?.products?.reduce(
-      (accumulator: any, currentValue: any) =>
-        accumulator + currentValue?.unitPrice * currentValue?.quantity,
-      0,
-    ) + productsData?.data?.dealAmount;
-
-  const unitDiscount = productsData?.data?.products?.reduce(
-    (accumulator: any, currentValue: any) =>
-      accumulator + (currentValue?.unitDiscount * currentValue?.quantity || 0),
-    0,
-  );
-
-  let totalPercentage = 0;
-  if (taxCalculationPerc && Array.isArray(taxCalculationPerc)) {
-    for (const tax of taxCalculationPerc) {
-      totalPercentage += tax.percentage;
-    }
-  }
-  const percentageOfSubtotal = sum * (totalPercentage / 100);
-
-  const discount = isNaN(gettingDiscount) ? 0 : gettingDiscount;
-
-  const subtotal = isNaN(sum) ? 0 : sum;
-
-  const totalDisc = subtotal * (unitDiscount / 100);
-
-  let FinalTotal;
-  if (!isNaN(percentageOfSubtotal) && !isNaN(discount)) {
-    FinalTotal = (percentageOfSubtotal - discount).toFixed(2);
-  } else {
-    FinalTotal = 'N/A';
-  }
-
-  const [deleteProducts] = useDeleteProductsMutation();
-
   const handleDeleteDeals = async (productId: string) => {
+    const remainingProducts = productsData?.data?.products?.filter(
+      (product: any) => product?.productId !== productId,
+    );
+
     try {
-      const DelProdBody = {
-        dealId: productsData?.data?.dealId,
-        product: {
-          productId,
-        },
+      const submitQuotesPayload = {
+        id: productsData?.data?._id,
+        status: 'DRAFT',
+        products: remainingProducts,
+        dealAmount: productsData?.data?.dealAmount,
       };
-      await deleteProducts({ body: DelProdBody })?.unwrap();
-      enqueueSnackbar('Deals deleted successfully', {
-        variant: 'success',
+
+      await putSubmitQuote({ body: submitQuotesPayload })?.unwrap();
+      enqueueSnackbar('Product deleted Successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
-      // setSelectedRows([]);
-      // handleDeleteModal();
-    } catch (error) {
-      enqueueSnackbar('Error while deleting deals', {
-        variant: 'error',
+    } catch {
+      enqueueSnackbar('Error while deleting product', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
   };
+
   const handleAction = (id: string, action: string) => {
     router.push(
       `?data=${quoteId}${
@@ -134,21 +89,15 @@ const useStepLineItems = (openCreateProduct?: any) => {
           break;
       }
 
-      const updatedProducts = productsData?.data?.products.filter(
-        (product: any) => product.productId !== data.productId,
+      const updatedProducts = productsData?.data?.products?.filter(
+        (product: any) => product?.productId !== data?.productId,
       );
-      updatedProducts.push(productRespParams);
+      updatedProducts?.push(productRespParams);
 
       const submitQuotesPayload = {
         id: dataGetQuoteById?.data?._id,
         status: 'DRAFT',
         products: updatedProducts,
-        dealAmount: dataGetQuoteById?.data?.dealAmount,
-        subTotal: 0,
-        invoiceDiscount: 0,
-        RedeemedDiscount: 0,
-        tax: 0,
-        total: 0,
       };
 
       await putSubmitQuote({ body: submitQuotesPayload })?.unwrap();
@@ -166,12 +115,6 @@ const useStepLineItems = (openCreateProduct?: any) => {
     setIsCheckedReward,
     methods,
     theme,
-    totalPercentage,
-    sum,
-    unitDiscount,
-    taxCalculationPerc,
-    totalDisc,
-    FinalTotal,
     handleDeleteDeals,
     handleAction,
     productsData,

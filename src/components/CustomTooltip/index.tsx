@@ -23,6 +23,7 @@ export const CustomTooltip = (props: any) => {
             borderRadius: 1,
             fontWeight: 'fontWeightBold',
             textTransform: isCapital ? 'capitalize' : 'none',
+            boxShadow: 1,
           },
         },
         arrow: {

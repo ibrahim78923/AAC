@@ -5,7 +5,7 @@ import EmailThisDashboard from '../EmailThisDashboard';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { DRAWER_TYPES } from '@/constants/strings';
 
-const ShareOptions = ({ selectedDashboard }: any) => {
+const ShareOptions = ({ selectedDashboard, currentUser, disabled }: any) => {
   const {
     handleClickActions,
     isShowDrawer,
@@ -49,12 +49,15 @@ const ShareOptions = ({ selectedDashboard }: any) => {
           </MenuItem>
 
           <MenuItem
+            disabled={disabled}
             onClick={() => {
               router?.push({
                 pathname: `${AIR_MARKETER?.CREATE_DASHBOARD}`,
                 query: {
                   id: selectedDashboard?.dashboard?._id,
                   type: DRAWER_TYPES?.EDIT,
+                  userId: currentUser,
+                  mode: 'dashboard_create',
                 },
               });
             }}

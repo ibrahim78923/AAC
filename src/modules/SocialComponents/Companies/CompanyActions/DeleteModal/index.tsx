@@ -1,7 +1,6 @@
 import { AlertModals } from '@/components/AlertModals';
 import useCompanies from '../../useCompanies';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const DeleteModal = ({
   isDeleteCompany,
@@ -14,15 +13,11 @@ const DeleteModal = ({
   const deleteTicket = async () => {
     try {
       await deleteCompanies({ ids: checkedRows })?.unwrap();
-      enqueueSnackbar(`Company deleted successfully`, {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar(`Company deleted successfully`);
       setIsDeleteCompany({ deleteModal: false });
       setCheckedRows([]);
     } catch (error: any) {
-      enqueueSnackbar(`something went wrong`, {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(`something went wrong`);
     }
   };
 

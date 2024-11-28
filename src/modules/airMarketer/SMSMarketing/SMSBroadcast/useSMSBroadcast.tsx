@@ -50,6 +50,7 @@ const useSMSBroadcast = () => {
     data: smsBroadcastData,
     isLoading,
     isSuccess,
+    isFetching,
   } = useGetSmsBroadcatsQuery(smsParams);
 
   const [deleteSmsBroadcast, { isLoading: deleteBroadcastLoading }] =
@@ -130,6 +131,7 @@ const useSMSBroadcast = () => {
     endedDate,
     recordStatus,
     setRecordStatus,
+    isFetching,
   };
 };
 

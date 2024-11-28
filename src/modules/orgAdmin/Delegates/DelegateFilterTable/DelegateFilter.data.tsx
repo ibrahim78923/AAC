@@ -1,21 +1,49 @@
 import Image from 'next/image';
+import { Avatar, AvatarGroup, Box, Typography, useTheme } from '@mui/material';
+import { ViewEyeImage } from '@/assets/images';
+import dayjs from 'dayjs';
+import { DATE_FORMAT, TASK_TABS_TYPES } from '@/constants';
+import { capitalizeFirstLetter } from '@/utils/api';
+import { generateImage } from '@/utils/avatarUtils';
+import { styles } from './DelegateFilterTable.style';
 
-import { Avatar, AvatarGroup, Box } from '@mui/material';
-
-import { CompanyLogoImage, ViewEyeImage } from '@/assets/images';
-
-import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
-
-export const columns = (
-  setInProgress: any,
-  setStatus: any,
-  setIsComplete: any,
-) => {
+export const columns: any = (setIsModalOpen: any, isModalOpen: any) => {
+  const theme = useTheme();
   return [
     {
-      accessorFn: (row: any) => row?.delegatesMember,
+      accessorFn: (row: any) => row,
       id: 'delegatesMember',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => (
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <Avatar
+            src={generateImage(info?.row?.original?.avatar?.url)}
+            alt="missing"
+            sx={{
+              color: theme?.palette?.grey[500],
+              fontSize: '14px',
+              fontWeight: '400',
+            }}
+          >
+            {capitalizeFirstLetter(info?.row?.original?.firstName?.charAt(0))}
+            {capitalizeFirstLetter(info?.row?.original?.lastName?.charAt(0))}
+          </Avatar>
+          <Box sx={{ display: 'grid', justifyItems: 'start' }}>
+            <Typography
+              variant="body3"
+              sx={{ fontWeight: 500, color: '#374151' }}
+            >
+              {capitalizeFirstLetter(info?.row?.original?.firstName)}{' '}
+              {capitalizeFirstLetter(info?.row?.original?.lastName)}
+            </Typography>
+            <Typography
+              variant="body3"
+              sx={{ fontWeight: 400, color: '#667085' }}
+            >
+              {info?.row?.original?.email}
+            </Typography>
+          </Box>
+        </Box>
+      ),
       header: 'Delegates Member',
       isSortable: true,
     },
@@ -27,69 +55,76 @@ export const columns = (
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.products,
+      accessorFn: (row: any) => row?.productsData,
       id: 'products',
       isSortable: true,
       header: 'Products',
-      cell: (
+      cell: (info: any) => (
         <Box sx={{ alignItems: 'center', display: 'flex' }}>
-          <AvatarGroup max={4}>
-            <Avatar
-              alt="Remy Sharp"
-              src={CompanyLogoImage.src}
-              sx={{ width: '25px', height: '25px' }}
-            />
-            <Avatar
-              alt="Travis Howard"
-              src={CompanyLogoImage.src}
-              sx={{ width: '25px', height: '25px' }}
-            />
-            <Avatar
-              alt="Cindy Baker"
-              src={CompanyLogoImage.src}
-              sx={{ width: '25px', height: '25px' }}
-            />
-            <Avatar
-              alt="Agnes Walker"
-              src={CompanyLogoImage.src}
-              sx={{ width: '25px', height: '25px' }}
-            />
-            <Avatar
-              alt="Trevor Henderson"
-              src={CompanyLogoImage.src}
-              sx={{ width: '25px', height: '25px' }}
-            />
+          <AvatarGroup max={4} sx={styles?.avatarStyle(theme)}>
+            {info?.getValue()?.map((product: any) => (
+              <Avatar
+                key={product?._id}
+                alt="Remy Sharp"
+                src={generateImage(product?.planProducts?.logo?.url)}
+                sx={{
+                  width: '25px',
+                  height: '25px',
+                  color: 'red',
+                  backgroundColor: 'yellow',
+                }}
+              />
+            ))}
           </AvatarGroup>
         </Box>
       ),
     },
     {
-      accessorFn: (row: any) => row?.organizationName,
+      accessorFn: (row: any) => row?.delegateOrganization?.name,
       id: 'organizationName',
       isSortable: true,
       header: 'Organization Name',
       cell: (info: any) => info.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.signUpDate,
+      accessorFn: (row: any) => row?.createdAt,
       id: 'signUpDate',
       isSortable: true,
       header: 'Sign Up Date',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT?.UI),
     },
     {
       accessorFn: (row: any) => row?.earnedAmount,
       id: 'earnedAmount',
       isSortable: true,
       header: 'Earned Amount',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => (info?.getValue() ? `£ ${info?.getValue()}` : 'N/A'),
     },
     {
-      accessorFn: (row: any) => row?.status,
+      accessorFn: (row: any) => row?.delegatedStatus,
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => (
+        <Box>
+          <Typography
+            variant="body3"
+            sx={{
+              color: theme?.palette?.common?.white,
+              padding: '4px 12px',
+              borderRadius: '16px',
+              backgroundColor:
+                info?.getValue() === TASK_TABS_TYPES?.InProgress
+                  ? theme?.palette?.warning?.main
+                  : theme?.palette?.success?.main,
+              fontWeight: 500,
+              fontSize: '14px',
+            }}
+          >
+            {capitalizeFirstLetter(info?.getValue())}
+          </Typography>
+        </Box>
+      ),
     },
     {
       accessorFn: (row: any) => row?.action,
@@ -99,9 +134,11 @@ export const columns = (
         <Box
           sx={{ cursor: 'pointer' }}
           onClick={() => {
-            setInProgress(true);
-            setIsComplete(true);
-            setStatus(info?.row?.original?.status);
+            setIsModalOpen({
+              ...isModalOpen,
+              viewDetail: true,
+              status: info?.row?.original?.delegatedStatus,
+            });
           }}
         >
           <Image src={ViewEyeImage} alt="no image" />
@@ -111,36 +148,3 @@ export const columns = (
     },
   ];
 };
-
-export const dataArray = [
-  {
-    componentProps: {
-      name: 'status',
-      label: 'Status',
-      fullWidth: true,
-      select: true,
-    },
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'fromDate',
-      label: 'From Date',
-      fullWidth: true,
-      select: true,
-    },
-    component: RHFDatePicker,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'fromDate',
-      label: 'To Date',
-      fullWidth: true,
-      select: true,
-    },
-    component: RHFDatePicker,
-    md: 12,
-  },
-];

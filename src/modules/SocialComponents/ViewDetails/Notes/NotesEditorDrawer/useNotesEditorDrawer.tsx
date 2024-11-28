@@ -10,7 +10,7 @@ import {
   usePostDealNoteMutation,
   useUpdateDealNoteMutation,
 } from '@/services/airSales/deals/view-details/note';
-import { enqueueSnackbar } from 'notistack';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useNotesEditorDrawer = (
   openDrawer: any,
@@ -19,8 +19,10 @@ const useNotesEditorDrawer = (
   rowData: any,
   setSelectedCheckboxes: any,
 ) => {
-  const [postDealNote] = usePostDealNoteMutation();
-  const [updateDealNote] = useUpdateDealNoteMutation();
+  const [postDealNote, { isLoading: postIsLoading }] =
+    usePostDealNoteMutation();
+  const [updateDealNote, { isLoading: updatedIsLoading }] =
+    useUpdateDealNoteMutation();
   const rowApiValues = {
     title: rowData?.title,
     description: rowData?.description,
@@ -69,20 +71,19 @@ const useNotesEditorDrawer = (
             id: rowData?._id,
           })?.unwrap()
         : await postDealNote({ body: formData })?.unwrap();
-      enqueueSnackbar(
+      successSnackbar(
         `Note ${openDrawer === 'Edit' ? 'Updated' : 'Added '} Successfully`,
-        { variant: 'success' },
       );
       setOpenDrawer('');
       setSelectedCheckboxes([]);
       reset();
     } catch (error) {
       const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+      errorSnackbar(errMsg ?? 'Error occurred');
     }
   };
 
-  return { handleSubmit, onSubmit, methods };
+  return { handleSubmit, onSubmit, methods, updatedIsLoading, postIsLoading };
 };
 
 export default useNotesEditorDrawer;

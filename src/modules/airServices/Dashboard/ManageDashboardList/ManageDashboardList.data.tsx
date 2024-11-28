@@ -3,8 +3,7 @@ import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
 import { DASHBOARD } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
-import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
+import { CancelRounded, VisibilityRounded } from '@mui/icons-material';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { UserInfo } from '@/components/UserInfo';
 import { TruncateText } from '@/components/TruncateText';
@@ -68,9 +67,6 @@ export const manageDashboardsListColumnsDynamic = (
       <UpdateDefaultDashboard
         currentId={info?.row?.original?._id}
         currentStatus={info?.getValue()}
-        isAuthUserDashboard={
-          authUserId !== info?.row?.original?.ownerDetails?._id
-        }
         hasPermission={canChangeDefaultDashboard}
       />
     ),
@@ -131,7 +127,7 @@ export const manageDashboardsListColumnsDynamic = (
     cell: (info: any) => (
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         <PermissionsGuard permissions={[VIEW_MANAGE_DASHBOARD]}>
-          <VisibilityRoundedIcon
+          <VisibilityRounded
             sx={{ color: 'blue.main', cursor: 'pointer' }}
             onClick={() =>
               setAction(SINGLE_DASHBOARD_DETAILS, info?.row?.original)
@@ -154,7 +150,7 @@ export const manageDashboardsListColumnsDynamic = (
         <PermissionsGuard permissions={[DELETE_DASHBOARD_PERMISSION]}>
           {authUserId === info?.row?.original?.ownerDetails?._id &&
             !info?.row?.original?.isDefault && (
-              <CancelRoundedIcon
+              <CancelRounded
                 color="error"
                 sx={{ fontSize: '20px', cursor: 'pointer' }}
                 onClick={() => setAction(DELETE_DASHBOARD, info?.row?.original)}

@@ -1,12 +1,11 @@
 import { PAGINATION } from '@/config';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
   useDeleteForecastGoalsMutation,
   useGetForecastTeamGoalsQuery,
   useGetForecastUserGoalsQuery,
 } from '@/services/airSales/forecast';
-import { successSnackbar } from '@/utils/api';
 import { useTheme } from '@mui/material';
-import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
 
 const useGoals = () => {
@@ -18,10 +17,9 @@ const useGoals = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState<any>('');
-  const [pageTeam, setPageTeam] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimitTeam, setPageLimitTeam] = useState(PAGINATION?.PAGE_LIMIT);
   const [isFilterDrawer, setIsFilterDrawer] = useState(false);
   const [filterValues, setFilterValues] = useState({});
+  const [selectedSerial, setSelectedSerial] = useState(null);
 
   const [alignment, setAlignment] = useState('User');
 
@@ -33,11 +31,13 @@ const useGoals = () => {
     setFilterValues('');
     setSearch('');
     setTableRowValues([]);
+    setPageLimit(PAGINATION?.PAGE_LIMIT);
+    setSelectedSerial(null);
   };
 
   const Params = {
-    page: alignment === 'User' ? page : pageTeam,
-    limit: alignment === 'User' ? pageLimit : pageLimitTeam,
+    page: page,
+    limit: pageLimit,
     search: search,
   };
 
@@ -84,7 +84,7 @@ const useGoals = () => {
       setTableRowValues([]);
       handleClose();
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong!', { variant: 'error' });
+      errorSnackbar('Something went wrong!');
     }
   };
 
@@ -116,14 +116,14 @@ const useGoals = () => {
     isErrorTeam,
     isSuccessTeam,
     isFetchingTeam,
-    setPageTeam,
-    setPageLimitTeam,
     alignment,
     handleChange,
     isFilterDrawer,
     setIsFilterDrawer,
     setFilterValues,
     filterValues,
+    selectedSerial,
+    setSelectedSerial,
   };
 };
 

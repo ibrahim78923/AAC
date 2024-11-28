@@ -185,9 +185,8 @@ const ManagePlan = () => {
                     <CustomLabel label={'Billing Cycle'} />
                     <Select
                       labelId="billingCycle"
-                      value={value}
-                      defaultValue="monthly"
-                      // label="Age"
+                      value={PLAN_PAYMENT_TYPE_TAGS?.MONTHLY ?? value}
+                      defaultValue={PLAN_PAYMENT_TYPE_TAGS?.MONTHLY}
                       onChange={handleChange}
                       disabled
                       size="small"
@@ -372,7 +371,6 @@ const ManagePlan = () => {
         typeImage={<WarningIcon />}
         message={`Are you sure you want to unassign plan`}
         open={isUnassignPlanAlertOpen}
-        disabled={false}
         handleClose={() => setIsUnassignPlanAlertOpen(false)}
         loading={unAssignPlanLoading}
         handleSubmitBtn={handelOnUnassignPlan}

@@ -164,6 +164,7 @@ interface QuotesUpdateI {
   handleCompanyChange: (ids: string[]) => void;
   selectedCompanyIds: string[];
   productsArray?: string[];
+  calculations?: any;
 }
 export const updateQuoteSteps = (params: QuotesUpdateI) => {
   return [
@@ -203,7 +204,10 @@ export const updateQuoteSteps = (params: QuotesUpdateI) => {
       key: 'lineItems',
       label: 'Line Items',
       component: (
-        <StepLineItems openCreateProduct={params?.openCreateProduct} />
+        <StepLineItems
+          calculations={params?.calculations}
+          openCreateProduct={params?.openCreateProduct}
+        />
       ),
     },
     {

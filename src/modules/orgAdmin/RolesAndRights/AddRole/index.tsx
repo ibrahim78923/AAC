@@ -20,7 +20,10 @@ import useAddRole from './useAddRole';
 
 import { ArrowBack } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
-import { useLazyGetDropdownProductsQuery } from '@/services/common-APIs';
+import {
+  useLazyGetCompanyAccountsListsQuery,
+  useLazyGetDropdownProductsQuery,
+} from '@/services/common-APIs';
 import { DRAWER_TYPES } from '@/constants/strings';
 
 const AddRole = () => {
@@ -42,7 +45,7 @@ const AddRole = () => {
   } = useAddRole();
 
   const productsData = useLazyGetDropdownProductsQuery();
-
+  const companyAccounts = useLazyGetCompanyAccountsListsQuery();
   const { watch } = methods;
   const { query } = navigate;
 
@@ -66,15 +69,17 @@ const AddRole = () => {
       <Box sx={{ my: 3 }}>
         <FormProvider methods={methods}>
           <Grid container spacing={2}>
-            {addUsersArrayData(productsData)?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={item.componentProps.name}>
-                <item.component
-                  {...item.componentProps}
-                  size={'small'}
-                  disabled={query?.type === DRAWER_TYPES?.VIEW ? true : false}
-                />
-              </Grid>
-            ))}
+            {addUsersArrayData(productsData, companyAccounts)?.map(
+              (item: any) => (
+                <Grid item xs={12} md={item?.md} key={item.componentProps.name}>
+                  <item.component
+                    {...item.componentProps}
+                    size={'small'}
+                    disabled={query?.type === DRAWER_TYPES?.VIEW ? true : false}
+                  />
+                </Grid>
+              ),
+            )}
           </Grid>
           {productVal && (
             <Grid container>

@@ -2,8 +2,9 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { useSaveReportDrawer } from './useSaveReportDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Grid } from '@mui/material';
-import { REPORT_TYPE, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
+import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { SaveReportDrawerI } from './SaveReportDrawer.interface';
+import { BACKEND_REPORT_ACCESS } from '@/constants/api';
 
 export const SaveReportDrawer = (props: SaveReportDrawerI) => {
   const { open, reportId, setOpen } = props;
@@ -75,12 +76,14 @@ export const SaveReportDrawer = (props: SaveReportDrawerI) => {
                     {item?.conditionalComponentFour}
                   </Grid>
                 )}
-                {selectAddToNewDashboard === REPORT_TYPE?.EVERYONE && (
+                {selectAddToNewDashboard ===
+                  BACKEND_REPORT_ACCESS?.EVERYONE && (
                   <Grid item xs={12} mx={4}>
                     {item?.conditionalComponentFive}
                   </Grid>
                 )}
-                {selectAddToNewDashboard === REPORT_TYPE?.SPECIFIC_USERS && (
+                {selectAddToNewDashboard ===
+                  BACKEND_REPORT_ACCESS?.SPECIFIC_USERS && (
                   <Grid item xs={12} mx={4}>
                     {item?.conditionalComponentSix}
                   </Grid>

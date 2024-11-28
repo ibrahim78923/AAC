@@ -36,6 +36,7 @@ export const ArticlesLists = () => {
       }}
       incrementPageClick={increment}
       decrementPageClick={decrement}
+      noDataTableText="No articles found"
     />
   );
 };

@@ -1,11 +1,12 @@
 import React from 'react';
-import PageHeader from './PageHeader';
-import { Box, Typography, Grid, Button } from '@mui/material';
+import PageHeader from '../components/PageHeader';
+import { Box, Typography, Grid } from '@mui/material';
 import { styles } from './Form.styles';
 import useFormHook from './useForm';
 import Loader from '@/components/Loader';
 import { generateFormFieldsData } from '@/utils/leadcapture-forms';
 import { FormProvider } from '@/components/ReactHookForm';
+import { LoadingButton } from '@mui/lab';
 
 export default function Form() {
   const {
@@ -15,6 +16,7 @@ export default function Form() {
     methods,
     handleSubmit,
     handlerOnSubmit,
+    loadingFormSubmission,
   } = useFormHook();
   const fieldsData = data ? data?.data?.fields : [];
   const formFields = generateFormFieldsData(fieldsData);
@@ -63,13 +65,14 @@ export default function Form() {
                   </Grid>
                 ))}
                 <Grid item xs={12}>
-                  <Button
+                  <LoadingButton
                     type={'submit'}
                     variant={'contained'}
                     className={'small'}
+                    loading={loadingFormSubmission}
                   >
                     Submit
-                  </Button>
+                  </LoadingButton>
                 </Grid>
               </Grid>
             </FormProvider>

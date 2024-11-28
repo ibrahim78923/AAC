@@ -2,8 +2,8 @@ import { ArticlesTableRowI } from '../Articles.interface';
 import { Checkbox, Chip, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { fullName } from '@/utils/avatarUtils';
-import { CustomChips } from '@/components/CustomChips';
 import { TruncateText } from '@/components/TruncateText';
+import { CustomArrayTooltipData } from '@/components/CustomArrayTooltipData';
 
 const bgColor: any = {
   published: 'blue.main',
@@ -102,6 +102,7 @@ export const articlesListColumnsDynamic = (
             <Typography
               component={'span'}
               style={{ textTransform: 'capitalize' }}
+              variant="body3"
             >
               {info?.getValue()?.toLowerCase()}
             </Typography>
@@ -119,23 +120,14 @@ export const articlesListColumnsDynamic = (
       id: 'ticketDetails',
       isSortable: true,
       header: `Inserted Tickets`,
-      cell: (info: any) =>
-        !!info?.getValue()?.length ? (
-          <CustomChips
-            data={info?.getValue()?.map((item: any) => ({
-              label: item?.subject,
-              _id: item?._id,
-            }))}
-          />
-        ) : (
-          <Chip
-            size="small"
-            label="---"
-            variant="filled"
-            color={'primary'}
-            sx={{ mx: 0.5, my: 0.5 }}
-          />
-        ),
+      cell: (info: any) => (
+        <CustomArrayTooltipData
+          data={info?.getValue()?.map((item: any) => ({
+            label: item?.subject,
+            _id: item?._id,
+          }))}
+        />
+      ),
     },
     {
       accessorFn: (row: ArticlesTableRowI) => row?.author,

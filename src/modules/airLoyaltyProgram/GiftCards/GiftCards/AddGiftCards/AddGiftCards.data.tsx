@@ -1,25 +1,27 @@
 import {
-  RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFDatePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const addGiftCardValidationSchema = Yup?.object()?.shape({
-  amount: Yup?.string()?.trim()?.required('Amount is Required'),
-  recipient: Yup?.mixed()?.nullable()?.required('Recipient is Required'),
-  activeFrom: Yup?.mixed()?.nullable()?.required('Active From is Required'),
-  activeTo: Yup?.mixed()?.nullable()?.required('Active From is Required'),
+  amount: Yup?.number()
+    ?.typeError('Amount must be a number')
+    ?.required('Amount is required'),
+  recipient: Yup?.array()?.min(1, 'At least one recipient is required'),
+  activeFrom: Yup?.mixed()?.nullable()?.required('Active from is required'),
+  activeTo: Yup?.mixed()?.nullable()?.required('Active to is required'),
 });
 
 export const addGiftCardDefaultValues = {
-  amount: '',
-  recipient: null,
+  amount: null,
+  recipient: [],
   activeFrom: null,
   activeTo: null,
 };
 
-export const addGiftCardFormFieldsDynamic = () => [
+export const addGiftCardFormFieldsDynamic = (apiQueryRecipient: any) => [
   {
     id: 1,
     componentProps: {
@@ -35,9 +37,14 @@ export const addGiftCardFormFieldsDynamic = () => [
       name: 'recipient',
       label: 'Recipient',
       placeholder: 'Select recipient',
-      fullWidth: true,
+      apiQuery: apiQueryRecipient,
+      getOptionLabel: (option: any) =>
+        `${option?.firstName}  ${option?.lastName}`,
+      isOptionEqualToValue: (option: any, newValue: any) =>
+        option?._id === newValue?._id,
+      multiple: true,
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
   },
   {
     id: 3,
@@ -50,7 +57,7 @@ export const addGiftCardFormFieldsDynamic = () => [
     component: RHFDatePicker,
   },
   {
-    id: 3,
+    id: 4,
     componentProps: {
       name: 'activeTo',
       label: 'Active To',

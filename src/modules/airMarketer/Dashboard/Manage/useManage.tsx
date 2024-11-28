@@ -31,26 +31,31 @@ const useManage = () => {
     accessRights: null,
   });
 
+  const [loadingState, setLoadingState] = useState<{ [key: string]: boolean }>(
+    {},
+  );
+
   const [deleteSalesDashboard, { isLoading: loadingDeleteDashboard }] =
     useDeleteMarketingDashboardMutation();
 
   const [updatesalesDashboard, { isLoading: loadingUpdateDashboard }] =
     useUpdateDefaultMarketingDashboardMutation();
 
-  const { data: marketingDashboardsListArray, isLoading } =
-    useGetMarketingDashboardsQuery({
-      params: {
-        page,
-        limit: pageLimit,
-        search: filterValues?.search ?? undefined,
-        owner: filterValues?.owner?._id
-          ? filterValues?.owner?._id
-          : currentUser,
-        accessRights: filterValues?.accessRights
-          ? filterValues?.accessRights
-          : undefined,
-      },
-    });
+  const {
+    data: marketingDashboardsListArray,
+    isLoading,
+    isFetching,
+  } = useGetMarketingDashboardsQuery({
+    params: {
+      page,
+      limit: pageLimit,
+      search: filterValues?.search ?? undefined,
+      owner: filterValues?.owner?._id ? filterValues?.owner?._id : currentUser,
+      accessRights: filterValues?.accessRights
+        ? filterValues?.accessRights
+        : undefined,
+    },
+  });
 
   const handleDelete = async (deleteId: any) => {
     try {
@@ -69,14 +74,23 @@ const useManage = () => {
   };
 
   const handleUpdateDefault = async (id: string, defaultVal: boolean) => {
+    setLoadingState((prevState) => ({ ...prevState, [id]: true }));
     const body = {
       id: id,
       isDefault: defaultVal,
     };
-    await updatesalesDashboard({ body: body })?.unwrap();
-    enqueueSnackbar('Default dashboard updated successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
+    try {
+      await updatesalesDashboard({ body: body })?.unwrap();
+      enqueueSnackbar('Dashboard set as default successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+    } catch (error) {
+      enqueueSnackbar('Something went wrong', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    } finally {
+      setLoadingState((prevState) => ({ ...prevState, [id]: false }));
+    }
   };
 
   const resetFilters = () => {
@@ -105,6 +119,8 @@ const useManage = () => {
     currentUser,
     isLoading,
     pageLimit,
+    loadingState,
+    isFetching,
     setPage,
     router,
     theme,

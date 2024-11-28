@@ -15,6 +15,7 @@ import {
   drawerTitle,
 } from './CompaniesEditorDrawer.data';
 import useCompaniesEditorDrawer from './useCompaniesEditorDrawer';
+import { DRAWER_ACTIONS_TITLES } from '@/constants/strings';
 
 const CompaniesEditorDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer, dealId, companyRecord } = props;
@@ -44,7 +45,7 @@ const CompaniesEditorDrawer = (props: any) => {
         title={drawerTitle[openDrawer]}
         okText={drawerButtonTitle[openDrawer]}
         isOk={true}
-        footer={openDrawer === 'View' ? false : true}
+        footer={openDrawer === DRAWER_ACTIONS_TITLES?.VIEW ? false : true}
         isLoading={postCompanyLoading || createAssociationLoading}
       >
         <Box sx={{ pt: 2 }}>
@@ -56,6 +57,9 @@ const CompaniesEditorDrawer = (props: any) => {
                   name="company"
                   label={false}
                   defaultValue="new-Company"
+                  disabled={
+                    openDrawer === DRAWER_ACTIONS_TITLES?.VIEW ? true : false
+                  }
                 />
               </Grid>
               {watchCompany === 'new-Company' ? (

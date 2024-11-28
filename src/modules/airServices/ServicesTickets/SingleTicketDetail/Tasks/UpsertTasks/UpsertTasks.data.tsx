@@ -17,6 +17,7 @@ import { AgentFieldDropdown } from '../../../ServiceTicketFormFields/AgentFieldD
 import { TICKET_TASKS_ACTIONS_CONSTANT } from '../Tasks.data';
 import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
 import { localeDateTime } from '@/lib/date-time';
+import { formatDurationHourMinute } from '@/utils/dateTime';
 
 const { SERVICES_TICKETS_TASKS_TITLE_MAX_CHARACTERS } = CHARACTERS_LIMIT ?? {};
 
@@ -67,8 +68,20 @@ export const upsertTicketTaskFormValidationSchema: any = (form: any) => {
     agent: Yup?.mixed()?.nullable(),
     notifyBefore: Yup?.mixed()?.nullable(),
     status: Yup?.mixed()?.required('Status is required'),
-    startDate: Yup?.date(),
-    endDate: Yup?.date()?.nullable()?.required('End date is required'),
+    startDate: Yup?.date()
+      ?.nullable()
+      ?.when('endDate', {
+        is: (value: any) => value !== null,
+        then: () =>
+          Yup?.date()?.nullable()?.required('Planned start date is required'),
+        otherwise: () => Yup?.date()?.nullable(),
+      }),
+    endDate: Yup?.date()
+      ?.nullable()
+      .min(
+        Yup?.ref('startDate'),
+        'Planned End date is after planned start date',
+      ),
     plannedEffort: Yup?.string()?.trim(),
     ...formSchema,
   });
@@ -89,16 +102,18 @@ export const upsertTicketTaskFormDefaultValues = (data?: any, form?: any) => {
           (item: any) => item?._id === +taskData?.notifyBefore,
         )
       : null,
-    startDate: taskData?.startDate
-      ? localeDateTime(taskData?.startDate)
-      : new Date(),
+    startDate: taskData?.startDate ? localeDateTime(taskData?.startDate) : null,
     endDate: taskData?.endDate ? localeDateTime(taskData?.endDate) : null,
     plannedEffort: taskData?.plannedEffort ?? '',
     ...initialValues,
   };
 };
 
-export const upsertTicketTaskFormFormFieldsDynamic = () => [
+export const upsertTicketTaskFormFormFieldsDynamic = (
+  getValues?: any,
+  setValue?: any,
+  watch?: any,
+) => [
   {
     id: 1,
     componentProps: {
@@ -173,9 +188,8 @@ export const upsertTicketTaskFormFormFieldsDynamic = () => [
       name: 'startDate',
       label: 'Planned Start Date',
       fullWidth: true,
-      disabled: true,
-      textFieldProps: { readOnly: true },
       ampm: false,
+      textFieldProps: { readOnly: true },
     },
     component: RHFDesktopDateTimePicker,
     md: 12,
@@ -186,10 +200,9 @@ export const upsertTicketTaskFormFormFieldsDynamic = () => [
       name: 'endDate',
       label: 'Planned End Date',
       fullWidth: true,
-      disablePast: true,
-      required: true,
-      textFieldProps: { readOnly: true },
       ampm: false,
+      textFieldProps: { readOnly: true },
+      minDateTime: watch('startDate'),
     },
     component: RHFDesktopDateTimePicker,
     md: 12,
@@ -200,7 +213,10 @@ export const upsertTicketTaskFormFormFieldsDynamic = () => [
       name: 'plannedEffort',
       label: 'Planned Effort',
       placeholder: 'Eg: 1h10m',
-      fullWidth: true,
+      onBlurHandler: () => {
+        const value = getValues('plannedEffort');
+        setValue('plannedEffort', formatDurationHourMinute(value));
+      },
     },
     component: RHFTextField,
     md: 12,

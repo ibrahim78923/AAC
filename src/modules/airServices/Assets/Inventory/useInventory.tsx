@@ -65,6 +65,7 @@ export const useInventory = () => {
       ['limit', pageLimit + ''],
       ['search', search],
       ['companyId', companyIdStorage],
+      ['meta', true + ''],
     ];
     const getInventoryParam: any = buildQueryParams(
       additionalParams,
@@ -84,6 +85,7 @@ export const useInventory = () => {
   const getInventoryListDataExport = async (type: any) => {
     const queryParams = {
       exportType: type,
+      meta: false,
     };
 
     const getInventoryParameter = {

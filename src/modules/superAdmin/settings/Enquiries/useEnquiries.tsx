@@ -3,13 +3,12 @@ import {
   useDeleteEnquiryMutation,
   useGetEnquiriesQuery,
   usePatchEnquiriesMutation,
+  useEnquiriesPostNewEmailMutation,
 } from '@/services/superAdmin/enquiries';
-import { enqueueSnackbar } from 'notistack';
 import { PAGINATION } from '@/config';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import { usePostNewEmailMutation } from '@/services/airServices/tickets/single-ticket-details/new-email';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { SelectChangeEvent } from '@mui/material/Select';
 
@@ -78,7 +77,7 @@ export const useEnquiries = () => {
 
   const [isQueryModalOpen, setIsQueryModalOpen] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState<any>(null);
-  const [trigger, status] = usePostNewEmailMutation();
+  const [trigger, status] = useEnquiriesPostNewEmailMutation();
   const methodsQueryForm: any = useForm({
     resolver: yupResolver(
       Yup?.object()?.shape({
@@ -136,13 +135,9 @@ export const useEnquiries = () => {
       await deleteEnquiriesMutation(items);
       handleCloseModalDelete();
       setSelectedRow([]);
-      enqueueSnackbar('Enquiries delete successfully', {
-        variant: 'success',
-      });
+      successSnackbar('Enquiries delete successfully');
     } catch (error) {
-      enqueueSnackbar('Error while deleting enquiries', {
-        variant: 'success',
-      });
+      errorSnackbar('Error while deleting enquiries');
     }
   };
 

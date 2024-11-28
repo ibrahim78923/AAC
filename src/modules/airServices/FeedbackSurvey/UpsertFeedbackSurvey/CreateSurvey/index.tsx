@@ -4,6 +4,7 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { LoadingButton } from '@mui/lab';
 import { useCreateSurvey } from './useCreateSurvey';
 import { ShareModal } from './ShareModal';
+import { AIR_SERVICES } from '@/constants/routes';
 export const CreateSurvey: React.FC<{
   methods: any;
   isLoading: boolean;
@@ -28,7 +29,12 @@ export const CreateSurvey: React.FC<{
             ? surveyConditions?.editSurveyTitle
             : surveyConditions?.createSurveyTitle
         }
-        moveBack={() => router?.back()}
+        moveBack={() =>
+          router?.push({
+            pathname: AIR_SERVICES?.FEEDBACK_SURVEY,
+            query: { type: router?.query?.type },
+          })
+        }
         canMovedBack
       />
       <Grid container spacing={2}>
@@ -95,7 +101,12 @@ export const CreateSurvey: React.FC<{
             color="secondary"
             className="small"
             disabled={isLoading}
-            onClick={() => router?.back()}
+            onClick={() =>
+              router?.push({
+                pathname: AIR_SERVICES?.FEEDBACK_SURVEY,
+                query: { type: router?.query?.type },
+              })
+            }
           >
             Cancel
           </Button>

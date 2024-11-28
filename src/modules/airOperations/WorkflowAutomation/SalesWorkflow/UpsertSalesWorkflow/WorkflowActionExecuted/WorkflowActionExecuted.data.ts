@@ -31,6 +31,8 @@ export const actionsExecutedFields = (
   watch: any,
   dealsDropdown: any,
   adminUserDropdown: any,
+  setFieldNameOnChange: any,
+  watchFieldName: (index?: number) => boolean,
 ) => {
   const moduleType = watch('module');
   const sessionUser: any = getSession()?.user;
@@ -159,6 +161,8 @@ export const actionsExecutedFields = (
         options: keyOptions,
         getOptionLabel: (option: any) =>
           option?.label ? option?.label : option,
+        onChangeHandler: (_: any, newValue: any) =>
+          setFieldNameOnChange({ index, newValue: newValue?.value }),
       },
       component: RHFAutocomplete,
     },
@@ -167,6 +171,7 @@ export const actionsExecutedFields = (
       gridLength: 6,
       componentProps: {
         name: `actions.${index}.fieldValue`,
+        disabled: !watchFieldName(index),
         ...componentProps,
       },
       component: component,

@@ -9,6 +9,7 @@ import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 export const useAgentRequest = () => {
   const [openRejectedModal, setOpenRejectedModal] = useState(false);
   const [selectedAgentRequest, setSelectedAgentRequest] = useState('');
+  const [requesterId, setRequesterId] = useState(null);
 
   const { data, isLoading, isFetching, isError }: any =
     useGetAgentRequesterQuery(
@@ -28,6 +29,7 @@ export const useAgentRequest = () => {
     usePatchApprovedRequestMutation();
 
   const handlerStatusApprove = async (_id: any) => {
+    setRequesterId(_id);
     const approvedRequestParams = new URLSearchParams();
     approvedRequestParams?.append('id', _id);
     const approvedRequestParameter = {
@@ -54,5 +56,6 @@ export const useAgentRequest = () => {
     patchApprovedRequestStatus,
     selectedAgentRequest,
     setSelectedAgentRequest,
+    requesterId,
   };
 };

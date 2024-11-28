@@ -18,7 +18,6 @@ import { OthersMail } from '@/assets/images';
 import Image from 'next/image';
 import OtherMailDrawer from './OthersMail/OtherMailDrawer';
 import { useGetMailFoldersQuery } from '@/services/commonFeatures/email/others';
-import { enqueueSnackbar } from 'notistack';
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { useRouter } from 'next/router';
 import { DRAWER_TYPES } from '@/constants/strings';
@@ -32,6 +31,7 @@ import {
 } from '@/services/commonFeatures/email/gmail';
 import EmailSettingDrawer from './EmailSettingDrawer';
 import { MAIL_TYPES } from '@/constants';
+import { errorSnackbar } from '@/lib/snackbar';
 
 const Email = () => {
   const theme = useTheme();
@@ -53,9 +53,7 @@ const Email = () => {
       if (foldersData?.data) {
         router.push(END_POINTS?.CONVERSATION_OTHERS_EMAIL_VIEW);
       } else {
-        enqueueSnackbar('Unable to configure email', {
-          variant: 'error',
-        });
+        errorSnackbar('Unable to configure email');
         setIsOtherEmailDrawerOpen(true);
         setIsOtherEmailDrawerType(DRAWER_TYPES?.ADD);
       }
@@ -71,7 +69,7 @@ const Email = () => {
   const { data: authURLOutlook } = useGetAuthURLOutlookQuery({});
   const handleOutLookClick = () => {
     if (!outlookFoldersLoading) {
-      if (outlookFoldersData?.data?.length > 0) {
+      if (outlookFoldersData?.data?.folders?.length) {
         router.push(END_POINTS?.CONVERSATION_OUTLOOK_EMAIL_VIEW);
       } else {
         const oauthUrl = `${authURLOutlook?.data}`;
@@ -83,7 +81,7 @@ const Email = () => {
   const { data: authUrlData } = useGetAuthURLGmailQuery({});
   const handleGmailClick = () => {
     if (!gmailFoldersLoading) {
-      if (gmailFoldersData?.data?.labels?.length > 0) {
+      if (gmailFoldersData?.data?.labels?.length) {
         router.push(END_POINTS?.CONVERSATION_GMAIL_EMAIL_VIEW);
       } else {
         const oauthUrl = `${authUrlData?.data}`;

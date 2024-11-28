@@ -34,6 +34,7 @@ export const useContracts = () => {
       ['page', pages + ''],
       ['limit', pageLimit + ''],
       ['search', search],
+      ['metaData', true + ''],
     ];
     const getContractParam: any = buildQueryParams(
       additionalParams,

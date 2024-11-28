@@ -16,9 +16,9 @@ import { dataArray } from './BillingAndInvoices.data';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SUPER_ADMIN_BILLING_INVOICES_PERMISSIONS } from '@/constants/permission-keys';
 import { AlertModals } from '@/components/AlertModals';
-import { enqueueSnackbar } from 'notistack';
 import { usePatchUnassignPlanMutation } from '@/services/superAdmin/billing-invoices';
 import { DataItemOptionI } from './billingandinvoices.interface';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const BillingAndInvoicesTable = () => {
   const {
@@ -68,13 +68,9 @@ const BillingAndInvoicesTable = () => {
       })?.unwrap();
       handleCloseModalDelete();
       setIsGetRowValues('');
-      enqueueSnackbar('plan unassign successfully', {
-        variant: 'success',
-      });
+      successSnackbar('plan unassign successfully');
     } catch (error) {
-      enqueueSnackbar('An error occured', {
-        variant: 'error',
-      });
+      errorSnackbar('An error occured');
     }
   };
 

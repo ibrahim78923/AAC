@@ -24,6 +24,7 @@ const RolesRight = () => {
     theme,
     isLoading,
     isSuccess,
+    isFetching,
   } = useRoleAndRight();
 
   const columnsProps = {
@@ -94,7 +95,7 @@ const RolesRight = () => {
             count={getPermissions?.data?.meta?.pages}
             isPagination
             pageLimit={getPermissions?.data?.meta?.limit}
-            isLoading={isLoading}
+            isLoading={isLoading || isFetching}
             isSuccess={isSuccess}
             currentPage={getPermissions?.data?.meta?.page}
           />

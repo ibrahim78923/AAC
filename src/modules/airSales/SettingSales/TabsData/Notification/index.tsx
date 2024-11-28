@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, CircularProgress, Typography } from '@mui/material';
 import useNotification from './useNotification';
 import { styles } from './Notification.style';
 import { NotificationIcon } from '@/assets/icons';
@@ -8,13 +8,14 @@ import { SwitchBtn } from '@/components/SwitchButton';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { v4 as uuidv4 } from 'uuid';
 
-const Notification = () => {
+const Notification: any = () => {
   const {
     theme,
     notificationList,
     getDataLoading,
     handleSwitchNotifications,
     notificationsStatus,
+    loadingState,
   } = useNotification();
 
   return (
@@ -106,12 +107,16 @@ const Notification = () => {
                   </Box>
                 </Box>
                 <PermissionsGuard permissions={[item?.permission]}>
-                  <SwitchBtn
-                    defaultChecked={item?.status}
-                    handleSwitchChange={(val: any) => {
-                      handleSwitchNotifications(val, item?.key);
-                    }}
-                  />
+                  {loadingState[item?.key] ? (
+                    <CircularProgress size={25} />
+                  ) : (
+                    <SwitchBtn
+                      defaultChecked={item?.status}
+                      handleSwitchChange={(val: any) => {
+                        handleSwitchNotifications(val, item?.key);
+                      }}
+                    />
+                  )}
                 </PermissionsGuard>
               </Box>
             ))}

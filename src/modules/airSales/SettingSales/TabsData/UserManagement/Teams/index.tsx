@@ -30,6 +30,7 @@ const Teams = () => {
     handleDeleteTeam,
     isTeamDrawer,
     setIsTeamDrawer,
+    isFetching,
   } = useTeams();
 
   const columnsProps = {
@@ -99,7 +100,7 @@ const Teams = () => {
               count={teamsData?.data?.meta?.pages}
               pageLimit={teamsData?.data?.meta?.limit}
               totalRecords={teamsData?.data?.meta?.total}
-              isLoading={teamsDataLoading}
+              isLoading={teamsDataLoading || isFetching}
               isSuccess={isSuccess}
               currentPage={teamsData?.data?.meta?.page}
             />

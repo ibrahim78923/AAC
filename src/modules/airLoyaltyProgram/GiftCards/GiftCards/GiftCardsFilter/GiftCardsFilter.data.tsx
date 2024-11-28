@@ -1,4 +1,8 @@
-import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
+import {
+  RHFAutocomplete,
+  RHFDateRangePicker,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 import { ACTIVITY_STATUS_MENU } from '@/constants';
 
 const statusOptions = [
@@ -6,14 +10,17 @@ const statusOptions = [
   ACTIVITY_STATUS_MENU?.INACTIVE,
   ACTIVITY_STATUS_MENU?.EXPIRED,
 ];
-const optionsUpgradeable = ['Yes', 'No'];
 
 export const giftCardDefaultValues = (data?: any) => {
   return {
+    dateRange: data?.dateRange ?? {
+      startDate: '',
+      endDate: '',
+      key: 'selection',
+    },
     minAmount: data?.minAmount ?? '',
     maxAmount: data?.maxAmount ?? '',
     status: data?.status ?? null,
-    upgradeable: data?.upgradeable ?? null,
   };
 };
 export const giftCardFilterFromFields = [
@@ -40,6 +47,7 @@ export const giftCardFilterFromFields = [
     componentProps: {
       name: 'status',
       label: 'Status',
+      placeholder: 'Enter status',
       options: statusOptions,
     },
     component: RHFAutocomplete,
@@ -47,11 +55,10 @@ export const giftCardFilterFromFields = [
   {
     id: 4,
     componentProps: {
-      name: 'upgradeable',
-      label: 'Upgradeable',
-      options: optionsUpgradeable,
-      placeholder: 'Yes',
+      name: 'dateRange',
+      label: 'Date Range',
+      placeholder: 'Select Date',
     },
-    component: RHFAutocomplete,
+    component: RHFDateRangePicker,
   },
 ];

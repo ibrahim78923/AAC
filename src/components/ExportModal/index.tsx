@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { ExportModalPropsI } from './ExportModal.interface';
 import { errorSnackbar } from '@/lib/snackbar';
 import { CustomCommonDialog } from '../CustomCommonDialog';
+import { ExportReportIcon } from '@/assets/icons';
 
 export const ExportModal = (props: ExportModalPropsI) => {
   const { open, onSubmit, handleClose, disableCancelBtn, loading } = props;
@@ -13,6 +14,7 @@ export const ExportModal = (props: ExportModalPropsI) => {
   return (
     <>
       <CustomCommonDialog
+        typeImage={<ExportReportIcon />}
         isPortalOpen={open}
         closePortal={() => {
           handleClose?.();
@@ -29,7 +31,7 @@ export const ExportModal = (props: ExportModalPropsI) => {
           setExportType?.('');
         }}
       >
-        <Typography variant="body1" color="slateBlue.main" my={2}>
+        <Typography variant="body1" color="slateBlue.main" mb={1}>
           File Format
         </Typography>
         <RadioGroup

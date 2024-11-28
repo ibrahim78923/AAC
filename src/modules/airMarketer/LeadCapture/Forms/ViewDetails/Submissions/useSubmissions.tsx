@@ -76,7 +76,7 @@ const useSubmissions = (formId: string) => {
     }
 
     if (customer) {
-      updateFilterParams('customer', customer);
+      updateFilterParams('customer', customer.email);
     } else {
       updateFilterParams('customer', undefined);
     }
@@ -84,6 +84,14 @@ const useSubmissions = (formId: string) => {
     handleCloseFilters();
   };
   const handleFiltersSubmit = handleMethodFilter(onSubmitFilters);
+
+  // Refresh
+  const handleRefresh = () => {
+    setPageLimit(PAGINATION?.PAGE_LIMIT);
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setFilterParams({});
+    resetFilters();
+  };
 
   const dataCustomers = useLazyGetFormSubmissionEmailsQuery();
 
@@ -100,6 +108,7 @@ const useSubmissions = (formId: string) => {
     handleCloseFilters,
     methodsFilter,
     handleFiltersSubmit,
+    handleRefresh,
     dataCustomers,
     resetFilters,
   };

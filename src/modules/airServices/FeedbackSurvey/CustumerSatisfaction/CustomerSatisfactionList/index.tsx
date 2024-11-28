@@ -39,9 +39,6 @@ export const CustomerSatisfactionList: React.FC<{ status?: string }> = (
     deleteLoading,
     feedbackDropdownOption,
     handleTitleClick,
-    handleDefaultSurvey,
-    patchLoading,
-    defaultLoading,
     handleFeedbackList,
   } = useCustomerSatisfactionList(props);
   return (
@@ -99,9 +96,6 @@ export const CustomerSatisfactionList: React.FC<{ status?: string }> = (
             setActiveCheck,
             feedbackTableData,
             handleTitleClick,
-            handleDefaultSurvey,
-            patchLoading,
-            defaultLoading,
           )}
           data={feedbackTableData}
           isPagination

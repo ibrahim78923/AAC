@@ -9,6 +9,11 @@ import {
   setPage,
 } from '@/redux/slices/airLoyaltyProgram/roles-and-right/slice';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import {
+  loyaltyProgramRoleAndRightsIsPortalOpenSelector,
+  loyaltyProgramRoleAndRightsSelectedRoleAndRightsListsSelector,
+  loyaltyProgramRoleAndRightsTotalRecordsSelector,
+} from '@/redux/slices/airLoyaltyProgram/roles-and-right/selectors';
 
 export const useDeleteRolesAndRight = () => {
   const [
@@ -22,15 +27,15 @@ export const useDeleteRolesAndRight = () => {
   const dispatch = useAppDispatch();
 
   const isPortalOpen = useAppSelector(
-    (state) => state?.loyaltyProgramRoleAndRights?.isPortalOpen,
+    loyaltyProgramRoleAndRightsIsPortalOpenSelector,
   );
 
   const selectedRoleAndRightsLists = useAppSelector(
-    (state) => state?.loyaltyProgramRoleAndRights?.selectedRoleAndRightsLists,
+    loyaltyProgramRoleAndRightsSelectedRoleAndRightsListsSelector,
   );
 
   const totalRecords = useAppSelector(
-    (state) => state?.loyaltyProgramRoleAndRights?.totalRecords,
+    loyaltyProgramRoleAndRightsTotalRecordsSelector,
   );
 
   const refetchApi = async () => {

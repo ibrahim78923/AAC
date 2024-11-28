@@ -43,6 +43,15 @@ import { AIR_MARKETER } from '@/routesConstants/paths';
 import dayjs from 'dayjs';
 import { useGetEmailSettingsIdentitiesQuery } from '@/services/airMarketer/email-settings';
 import { useRouter } from 'next/router';
+import { getSession } from '@/utils';
+
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import { convertTimezone } from '@/utils/dateTime';
+
+// Load plugins
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const CreateNewEmail = ({ edit, data, setIsEditEmailOpen }: any) => {
   const router = useRouter();
@@ -61,6 +70,8 @@ const CreateNewEmail = ({ edit, data, setIsEditEmailOpen }: any) => {
   const theme = useTheme();
 
   const { folder, id } = router.query;
+
+  const { user }: any = getSession();
 
   const [notesData, setNotesData] = useState<any>([]);
   const [isCcVisible, setIsCcVisible] = useState(false);
@@ -170,8 +181,12 @@ const CreateNewEmail = ({ edit, data, setIsEditEmailOpen }: any) => {
 
   const [deleteEmailTemplate] = useDeleteEmailMarketingMutation();
 
+  const fromZone = user?.timezone;
+  const toZone = process?.env?.NEXT_PUBLIC_TIME_ZONE;
+
   const onSubmit = async (values: any, status: any): Promise<void> => {
     setToStateDep(toStateDep + 1);
+
     if (isToExists?.length === 0 || isToExists?.length === undefined) {
       setisToValid(true);
     } else {
@@ -194,7 +209,8 @@ const CreateNewEmail = ({ edit, data, setIsEditEmailOpen }: any) => {
         formDataSend.append('bcc', values?.bcc);
       }
       if (sendLaterDate) {
-        formDataSend.append('sentOn', sendLaterDate);
+        const convertedDate = convertTimezone(sendLaterDate, fromZone, toZone);
+        formDataSend.append('sentOn', convertedDate);
       }
       if (id) {
         formDataSend.append('folderId', String(id));

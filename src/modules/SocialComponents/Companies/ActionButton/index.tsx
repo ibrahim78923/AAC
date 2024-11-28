@@ -1,11 +1,10 @@
 import { Box, Button, Menu, MenuItem } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
 import { DeleteIcon } from '@/assets/icons';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import useCompanies from '../useCompanies';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS } from '@/constants/permission-keys';
+import { successSnackbar } from '@/lib/snackbar';
 
 const ActionButton = (props?: any) => {
   const { checkedRows, setCheckedRows, isOpen, setIsOpen } = props;
@@ -28,9 +27,7 @@ const ActionButton = (props?: any) => {
             onClick={() => {
               deleteCompanies({ ids: checkedRows });
               setCheckedRows([]);
-              enqueueSnackbar(`Companies deleted successfully`, {
-                variant: NOTISTACK_VARIANTS?.SUCCESS,
-              });
+              successSnackbar(`Companies deleted successfully`);
             }}
           >
             Delete

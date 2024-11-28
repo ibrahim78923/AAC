@@ -44,6 +44,7 @@ const ContactStatus = () => {
     setSearchValue,
     loadingAddStatus,
     loadingDelete,
+    isFetching,
   } = useContactStatus();
 
   return (
@@ -103,7 +104,7 @@ const ContactStatus = () => {
             <TanstackTable
               columns={getRowValues}
               data={tableRow?.conatactStatus}
-              isLoading={loadingList}
+              isLoading={loadingList || isFetching}
               currentPage={tableRow?.meta?.page}
               count={tableRow?.meta?.pages}
               pageLimit={tableRow?.meta?.limit}

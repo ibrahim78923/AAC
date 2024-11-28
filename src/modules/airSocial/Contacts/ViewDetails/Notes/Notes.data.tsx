@@ -1,14 +1,13 @@
 import {
-  RHFDropZone,
   RHFEditor,
   RHFTextField,
+  RHFDropzonePreviewAllTypes,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const addNoteValidationSchema = Yup?.object()?.shape({
   title: Yup?.string()?.trim()?.required('Field is Required'),
   description: Yup?.string()?.trim()?.required('Field is Required'),
-  // attachment: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const addNoteDefaultValues = {
@@ -17,7 +16,7 @@ export const addNoteDefaultValues = {
   attachment: '',
 };
 
-export const addNoteFields = () => {
+export const addNoteFields = (disabled: boolean = false) => {
   return [
     {
       id: 'title',
@@ -26,6 +25,7 @@ export const addNoteFields = () => {
         label: 'Title',
         fullWidth: true,
         required: true,
+        disabled: disabled,
       },
       component: RHFTextField,
       md: 12,
@@ -38,6 +38,7 @@ export const addNoteFields = () => {
         label: 'Description',
         fullWidth: true,
         required: true,
+        disabled: disabled,
       },
       component: RHFEditor,
       md: 12,
@@ -46,10 +47,11 @@ export const addNoteFields = () => {
       id: 'attachment',
       componentProps: {
         name: 'attachment',
-        label: '',
+        label: 'Attachment',
         fullWidth: true,
+        disabled: disabled,
       },
-      component: RHFDropZone,
+      component: RHFDropzonePreviewAllTypes,
       md: 12,
     },
   ];

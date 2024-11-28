@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import dayjs from 'dayjs';
-import { enqueueSnackbar } from 'notistack';
 import {
   useGetQuickLinksQuery,
   useGetGroupQuickLinksQuery,
@@ -12,6 +11,7 @@ import {
 import { DATE_FORMAT } from '@/constants';
 import { PAGINATION } from '@/config';
 import { FilterValuesI } from './QuickLinks.interface';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useQuickLinks = () => {
   const [selectedRow, setSelectedRow] = useState<string[]>([]);
@@ -125,14 +125,10 @@ const useQuickLinks = () => {
       await deleteQuickLink(items)?.unwrap();
       handleCloseModalDelete();
       setSelectedRow([]);
-      enqueueSnackbar('Record has been deleted.', {
-        variant: 'success',
-      });
+      successSnackbar('Record has been deleted.');
       setIsActionsDisabled(true);
     } catch (error: any) {
-      enqueueSnackbar('An error occured', {
-        variant: 'error',
-      });
+      errorSnackbar('An error occured');
     }
   };
 
@@ -176,13 +172,9 @@ const useQuickLinks = () => {
 
     try {
       await updateFaq({ id: id, body: payload })?.unwrap();
-      enqueueSnackbar('Quick Link updated successfully', {
-        variant: 'success',
-      });
+      successSnackbar('Quick Link updated successfully');
     } catch (error: any) {
-      enqueueSnackbar('An error occured', {
-        variant: 'error',
-      });
+      errorSnackbar('An error occured');
     }
   };
 

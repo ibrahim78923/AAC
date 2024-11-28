@@ -2,7 +2,7 @@ import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { PAGINATION } from '@/config';
 import { useLazyGetAirServicesAssetsInventoryAssetTypeInventoryDropdownQuery } from '@/services/airServices/assets/inventory';
 
-const GetInventoryAssetsDropdown = () => {
+const GetInventoryAssetsDropdown = (props: any) => {
   const apiQueryAssetType =
     useLazyGetAirServicesAssetsInventoryAssetTypeInventoryDropdownQuery();
   return (
@@ -11,11 +11,11 @@ const GetInventoryAssetsDropdown = () => {
         name="assetType"
         label="Asset Type"
         placeholder="All Assets"
-        required
         size="small"
         apiQuery={apiQueryAssetType}
         externalParams={{ limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT }}
         fullWidth
+        {...props}
       />
     </>
   );

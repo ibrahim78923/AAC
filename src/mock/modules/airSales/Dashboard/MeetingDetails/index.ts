@@ -1,8 +1,11 @@
 export const MeetingDetailsTableData: any = [
   {
     Id: 1,
-    meetingName: `60 min ,30 min`,
-    organizer: 'Arlo',
+    title: `60 min ,30 min`,
+    createdByDetails: {
+      firstName: 'Arlo',
+      lastName: 'Dunstable',
+    },
     type: '1-to-1',
     duration: 'Multiple',
     businessUnit: 'Standard sandbook 1',
@@ -13,8 +16,11 @@ export const MeetingDetailsTableData: any = [
 
   {
     Id: 2,
-    meetingName: `60 min ,30 min`,
-    organizer: 'Arlo',
+    title: `60 min ,30 min`,
+    createdByDetails: {
+      firstName: 'Arlo',
+      lastName: 'Dunstable',
+    },
     type: '1-to-1',
     duration: 'Multiple',
     businessUnit: 'Standard sandbook 1',
@@ -24,8 +30,11 @@ export const MeetingDetailsTableData: any = [
   },
   {
     Id: 3,
-    meetingName: `60 min ,30 min`,
-    organizer: 'Arlo',
+    title: `60 min ,30 min`,
+    createdByDetails: {
+      firstName: 'Arlo',
+      lastName: 'Dunstable',
+    },
     type: '1-to-1',
     duration: 'Multiple',
     businessUnit: 'Standard sandbook 1',
@@ -35,8 +44,11 @@ export const MeetingDetailsTableData: any = [
   },
   {
     Id: 3,
-    meetingName: `60 min ,30 min`,
-    organizer: 'Arlo',
+    title: `60 min ,30 min`,
+    createdByDetails: {
+      firstName: 'Arlo',
+      lastName: 'Dunstable',
+    },
     type: '1-to-1',
     duration: 'Multiple',
     businessUnit: 'Standard sandbook 1',

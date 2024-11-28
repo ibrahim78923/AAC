@@ -1,7 +1,7 @@
 import Typography from '@mui/material/Typography';
 import { Box, Divider, useTheme } from '@mui/material';
 import { DATE_TIME_FORMAT } from '@/constants';
-import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
+import { FiberManualRecord } from '@mui/icons-material';
 import { otherDateFormat } from '@/lib/date-time';
 
 export const ActivityTimeline = ({ activityData }: any) => {
@@ -20,7 +20,7 @@ export const ActivityTimeline = ({ activityData }: any) => {
           {otherDateFormat(activityData?.createdAt, DATE_TIME_FORMAT?.DDMYHMA)}
         </Typography>
         <Box mt={0.2}>
-          <PanoramaFishEyeIcon color="primary" fontSize="small" />
+          <FiberManualRecord fontSize="small" color="primary" />
         </Box>
         <Typography
           variant="body2"

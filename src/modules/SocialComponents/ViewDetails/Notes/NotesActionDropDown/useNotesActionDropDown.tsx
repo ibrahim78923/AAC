@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { useTheme } from '@mui/material';
 import { useDeleteDealNoteMutation } from '@/services/airSales/deals/view-details/note';
-import { enqueueSnackbar } from 'notistack';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useNotesActionDropdown = ({
   setOpenDrawer,
@@ -50,13 +50,13 @@ const useNotesActionDropdown = ({
         : selectedCheckboxesIds[0];
     try {
       await deleteDealNote({ ids: SelectedNoteId })?.unwrap();
-      enqueueSnackbar(`Notes Deleted Successfully`, { variant: 'success' });
+      successSnackbar(`Notes Deleted Successfully`);
       handleCloseAlert();
       setSelectedCheckboxes([]);
       handleCloseMenu();
     } catch (error) {
       const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+      errorSnackbar(errMsg ?? 'Error occurred');
     }
   };
 

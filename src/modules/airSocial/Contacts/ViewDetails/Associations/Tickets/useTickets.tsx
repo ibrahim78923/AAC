@@ -6,7 +6,7 @@ import {
   useGetAssociationQuery,
   usePostAssociationMutation,
 } from '@/services/commonFeatures/contacts/associations';
-import { usePostTicketMutation } from '@/services/commonFeatures/contacts/associations/tickets';
+import { usePostTicketContactAssociationsMutation } from '@/services/commonFeatures/contacts/associations/tickets';
 import { DRAWER_TITLE } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import {
@@ -99,7 +99,7 @@ const useTickets = (contactId: string) => {
     setFormType(FORM_TYPE?.NEW);
   };
 
-  const [postTicket] = usePostTicketMutation();
+  const [postTicket] = usePostTicketContactAssociationsMutation();
 
   const [postAssociation, { isLoading: loadingPostAssociation }] =
     usePostAssociationMutation();

@@ -1,5 +1,8 @@
 import { PAGINATION } from '@/config';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import {
+  CAMPAIGNS_TASKS_CONSTANTS,
+  NOTISTACK_VARIANTS,
+} from '@/constants/strings';
 import {
   useDeleteCampaignTasksMutation,
   useGetCampaignsTasksQuery,
@@ -19,11 +22,16 @@ const useTasks = () => {
   const [isOpenDeleteDrawer, setIsOpenDeleteDrawer] = useState(false);
   const [isOpenChangeStatus, setIsOpenChangeStatus] = useState(false);
   const [selectedRec, setSelectedRec] = useState<string[]>([]);
+  const [selectedRowData, setSelectedRowData] = useState<any>([]);
   const [statusVariant, setStatusVariant] = useState<any>('');
   const [isListView, setIsListView] = useState('listView');
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [searchValue, setSearchValue] = useState('');
+  const [activeButton, setActiveButton] = useState(
+    CAMPAIGNS_TASKS_CONSTANTS?.LIST_VIEW,
+  );
+
   const actionMenuOpen = Boolean(anchorEl);
 
   const statusConstants = {
@@ -42,6 +50,7 @@ const useTasks = () => {
     data: getCampaignsTasks,
     isLoading,
     isSuccess,
+    isFetching,
   } = useGetCampaignsTasksQuery(taskParams);
 
   const compaignsTasksData = getCampaignsTasks?.data?.campaigntasks;
@@ -107,6 +116,11 @@ const useTasks = () => {
     }
   };
 
+  const handleButtonClick = (view: any) => {
+    setActiveButton(view);
+    handleListViewClick(view);
+  };
+
   return {
     setIsOpenEditTaskDrawer,
     handleActionsMenuClose,
@@ -124,23 +138,28 @@ const useTasks = () => {
     handleDeleteModal,
     deleteTaskLoading,
     updateTaskLoading,
+    handleButtonClick,
+    activeButton,
+    setStatusVariant,
     statusConstants,
     actionMenuOpen,
     setSearchValue,
     setSelectedRec,
     statusVariant,
-    setStatusVariant,
     setPageLimit,
     setAnchorEl,
     deleteTasks,
     searchValue,
     selectedRec,
     isListView,
+    isFetching,
     isLoading,
     isSuccess,
     anchorEl,
     setPage,
     theme,
+    selectedRowData,
+    setSelectedRowData,
   };
 };
 export default useTasks;

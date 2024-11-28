@@ -6,8 +6,7 @@ import {
   useGetCallsWidgetQuery,
 } from '@/services/commonFeatures/calling';
 import { PAGINATION } from '@/config';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useCalls = ({ companyId }: any) => {
   const theme = useTheme();
@@ -53,16 +52,12 @@ const useCalls = ({ companyId }: any) => {
   const deleteCallsHandler = async () => {
     try {
       await deleteCalls({ id: selectedCheckboxesId })?.unwrap();
-      enqueueSnackbar('Record Deleted Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar('Record Deleted Successfully');
       setOpenAlertModal('');
       setSelectedCheckboxes([]);
     } catch (error) {
       const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(errMsg ?? 'Error occurred');
     }
   };
 

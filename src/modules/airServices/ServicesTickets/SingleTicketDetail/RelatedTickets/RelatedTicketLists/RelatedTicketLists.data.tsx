@@ -150,10 +150,11 @@ export const relatedTicketsListsColumnDynamic: any = (
       header: 'Status',
       cell: (info: any) => (
         <Chip
-          label={info?.getValue() ?? '---'}
+          label={info?.getValue()?.toLowerCase() ?? '---'}
           variant="outlined"
           size="small"
           color={TICKET_STATUS_COLOR[info?.getValue()] ?? 'primary'}
+          sx={{ textTransform: 'capitalize' }}
         />
       ),
     },

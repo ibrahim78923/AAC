@@ -59,15 +59,18 @@ const RenderFolder: React.FC<FolderProps> = ({
 
       {folder?.nestedFolders?.length > 0 && (
         <List component="div" disablePadding sx={{ pl: '16px' }}>
-          {folder?.nestedFolders?.map((nestedItem: any) => (
-            <React.Fragment key={nestedItem?._id}>
-              <RenderFolder
-                folder={nestedItem}
-                selectedMoveToFolderId={selectedMoveToFolderId}
-                handleClickListItem={handleClickListItem}
-              />
-            </React.Fragment>
-          ))}
+          {folder?.nestedFolders?.map((nestedItem: any) => {
+            if (nestedItem?.level === 1) return;
+            return (
+              <React.Fragment key={nestedItem?._id}>
+                <RenderFolder
+                  folder={nestedItem}
+                  selectedMoveToFolderId={selectedMoveToFolderId}
+                  handleClickListItem={handleClickListItem}
+                />
+              </React.Fragment>
+            );
+          })}
         </List>
       )}
     </>

@@ -107,6 +107,10 @@ const typography = {
     fontWeight: 600,
     fontSize: pxToRem(22),
   },
+  avatarNameInitial: {
+    fontWeight: 500,
+    fontSize: pxToRem(10),
+  },
 };
 
 declare module '@mui/material/styles' {
@@ -128,6 +132,7 @@ declare module '@mui/material/Typography' {
     body3: true;
     body4: true;
     pageTitle: true;
+    avatarNameInitial: true;
   }
 }
 

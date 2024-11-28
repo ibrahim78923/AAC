@@ -7,7 +7,6 @@ import { campaignsOptions } from './Campaigns.data';
 import {
   useDeleteCampaignsMutation,
   useGetCampaignsSaveViewQuery,
-  usePostCampaignsCloneMutation,
   usePostCampaignsSaveViewMutation,
 } from '@/services/airMarketer/campaigns';
 import { compareInitialVals } from './Compaigns.data';
@@ -45,6 +44,11 @@ const useCampaigns = () => {
     recId: [],
   });
 
+  const [isCreateTask, setIsCreateTask] = useState({
+    isToggle: false,
+    type: '',
+  });
+
   const [isCompare, setIsCompare] = useState(false);
   const [isResetTaskFilter, setIsResetTaskFilter] = useState<boolean>(false);
   const userListData = useLazyGetUsersListDropdownQuery();
@@ -64,9 +68,6 @@ const useCampaigns = () => {
 
   const [deleteCampaigns, { isLoading: deleteCampaignsLoading }] =
     useDeleteCampaignsMutation();
-
-  const [postCampaignsClone, { isLoading: postCampaignsCloneLoading }] =
-    usePostCampaignsCloneMutation();
 
   const [postCampaignsSaveView, { isLoading: postCampaignsSaveViewLoading }] =
     usePostCampaignsSaveViewMutation();
@@ -117,7 +118,11 @@ const useCampaigns = () => {
         });
         break;
       case campaignsOptions?.VIEW_PERFORMANCE:
-        router.push(`${AIR_MARKETER?.VIEW_PERFORMANCE}`);
+        // router.push(`${AIR_MARKETER?.VIEW_PERFORMANCE}`);
+        router.push({
+          pathname: `${AIR_MARKETER?.VIEW_PERFORMANCE}`,
+          query: { id: selectedValue }, // Replace `selectedValue` with your actual id variable
+        });
         break;
       case campaignsOptions?.EDIT_COLUMNS:
         setActionsModalDetails({
@@ -132,13 +137,10 @@ const useCampaigns = () => {
         });
         break;
       case campaignsOptions?.CREATE_TASK:
-        setActionsModalDetails({
-          ...actionsModalDetails,
-          isCreateCampaign: {
-            isToggle: true,
-            type: DRAWER_TYPES?.CREATE,
-            recId: [],
-          },
+        setIsCreateTask({
+          ...isCreateTask,
+          isToggle: true,
+          type: 'add',
         });
         break;
       default:
@@ -167,8 +169,6 @@ const useCampaigns = () => {
     isResetTaskFilter,
     setIsResetTaskFilter,
     deleteCampaignsLoading,
-    postCampaignsCloneLoading,
-    postCampaignsClone,
     deleteCampaigns,
     postCampaignsSaveView,
     postCampaignsSaveViewLoading,
@@ -183,6 +183,8 @@ const useCampaigns = () => {
     setCreateCampaign,
     selectedRows,
     setSelectedRows,
+    isCreateTask,
+    setIsCreateTask,
   };
 };
 export default useCampaigns;

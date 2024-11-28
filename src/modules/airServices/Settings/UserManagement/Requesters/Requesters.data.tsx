@@ -31,13 +31,10 @@ export const requestersDropdown: any = (
       AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.CONVERT_TO_AGENT_REQUESTER,
     ],
     handleClick: (close: any) => {
-      if (selectedRequestersList?.length > 1) {
-        errorSnackbar('Please select only 1 requester');
-        return;
-      }
       setIsAgentConvert(true);
       close();
     },
+    disabled: selectedRequestersList?.length > 1,
   },
 ];
 

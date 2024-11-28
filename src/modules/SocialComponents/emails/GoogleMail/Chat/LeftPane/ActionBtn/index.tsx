@@ -7,7 +7,6 @@ import { useAppSelector } from '@/redux/store';
 import { CREATE_EMAIL_TYPES, Gmail_CONST, indexNumbers } from '@/constants';
 import { AlertModals } from '@/components/AlertModals';
 import { WarningIcon } from '@/assets/icons';
-import { enqueueSnackbar } from 'notistack';
 import {
   useDeleteGmailMutation,
   usePatchGmailMessageMutation,
@@ -30,6 +29,7 @@ import {
 } from './DealFilterDrawer.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { isNullOrEmpty } from '@/utils';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const ActionBtn = () => {
   const [isOpenSendEmailDrawer, setIsOpenSendEmailDrawer] = useState(false);
@@ -94,16 +94,14 @@ const ActionBtn = () => {
       await patchGmailMessage({
         body: payload,
       })?.unwrap();
-      enqueueSnackbar('Email restore successfully', {
-        variant: 'success',
-      });
+      successSnackbar('Email restore successfully');
       setIsRestoreEmail(false);
       handleClose();
       handleCloseSubMenu();
       dispatch(setSelectedGmailRecords([]));
       dispatch(setActiveGmailRecord({}));
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      errorSnackbar('Something went wrong !');
     }
   };
   const handelDelete = async () => {
@@ -114,15 +112,12 @@ const ActionBtn = () => {
       tabName === 'trash'
         ? await permanentlyDeleteGmail({ body: payload })?.unwrap()
         : await deleteGmail({ body: payload })?.unwrap();
-      enqueueSnackbar(
+      successSnackbar(
         `${
           tabName === 'trash'
             ? 'Email Permanently Deleted'
             : 'Email Move to Trash'
         }`,
-        {
-          variant: 'success',
-        },
       );
       handleClose();
       setIsDeleteModalOpen(false);
@@ -130,7 +125,7 @@ const ActionBtn = () => {
       dispatch(setActiveGmailRecord({}));
       dispatch(setGmailList('clear'));
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      errorSnackbar('Something went wrong !');
     }
   };
 
@@ -152,9 +147,7 @@ const ActionBtn = () => {
       dispatch(setGmailList('clear'));
       dispatch(setSelectedGmailRecords([]));
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong while updating message!', {
-        variant: 'error',
-      });
+      errorSnackbar('Something went wrong while updating message!');
     }
   };
 
@@ -185,14 +178,12 @@ const ActionBtn = () => {
       await PostLinkToDealGmail({
         body: payload,
       })?.unwrap();
-      enqueueSnackbar('Link with Deal successfully', {
-        variant: 'success',
-      });
+      successSnackbar('Link with Deal successfully');
       setIsLinkToDealModal(false);
       dispatch(setSelectedGmailRecords([]));
       reset();
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      errorSnackbar('Something went wrong !');
     }
   };
 

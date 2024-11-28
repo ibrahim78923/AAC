@@ -1,6 +1,7 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 const TAG = 'LOYALTY_REWARDS';
+
 const loyaltyRewardsApi = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getLoyaltyProgramRewardsList: builder?.query({
@@ -11,10 +12,10 @@ const loyaltyRewardsApi = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     getLoyaltyProgramRewardsById: builder?.query({
-      query: (apiDataParameter: any) => ({
-        url: END_POINTS?.GET_REWARDS_LIST,
+      query: (params) => ({
+        url: `${END_POINTS?.GET_REWARDS_LIST_BY_ID}`,
         method: 'GET',
-        params: apiDataParameter?.queryParams,
+        params,
       }),
       providesTags: [TAG],
     }),
@@ -28,27 +29,46 @@ const loyaltyRewardsApi = baseAPI?.injectEndpoints({
     }),
     addLoyaltyProgramRewards: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: '',
+        url: `${END_POINTS?.CREATE_PHYSICAL_REWARD}`,
         method: 'POST',
-        body: apiDataParameter?.queryParams,
+        body: apiDataParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),
     updateLoyaltyProgramRewards: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: '',
+        url: END_POINTS?.UPDATE_REWARDS,
         method: 'PATCH',
-        body: apiDataParameter?.queryParams,
+        body: apiDataParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    statusLoyaltyProgramRewards: builder?.mutation({
+      query: ({ body, params }) => ({
+        url: END_POINTS?.STATUS_REWARDS,
+        method: 'PATCH',
+        params,
+        body,
       }),
       invalidatesTags: [TAG],
     }),
     deleteLoyaltyProgramRewards: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: '',
+        url: END_POINTS?.DELETE_REWARDS,
         method: 'DELETE',
         params: apiDataParameter?.queryParams,
       }),
       invalidatesTags: [TAG],
+    }),
+    getLoyaltyProgramLoyaltyTiersListDropdown: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.GET_TIERS_LIST,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.mergedResults;
+      },
     }),
   }),
 });
@@ -60,4 +80,7 @@ export const {
   useUpdateLoyaltyProgramRewardsMutation,
   useDeleteLoyaltyProgramRewardsMutation,
   useGetLoyaltyProgramRewardsListQuery,
+  useLazyGetLoyaltyProgramLoyaltyTiersListDropdownQuery,
+  useGetLoyaltyProgramRewardsByIdQuery,
+  useStatusLoyaltyProgramRewardsMutation,
 } = loyaltyRewardsApi;

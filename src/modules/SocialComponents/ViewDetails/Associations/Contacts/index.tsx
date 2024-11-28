@@ -105,7 +105,7 @@ const Contacts = ({ companyId }: any) => {
         open={isOpenAlert}
         handleClose={handleCloseAlert}
         handleSubmitBtn={deleteContactHandler}
-        Loading={isLoadingRemoveContact}
+        loading={isLoadingRemoveContact}
       />
     </Box>
   );

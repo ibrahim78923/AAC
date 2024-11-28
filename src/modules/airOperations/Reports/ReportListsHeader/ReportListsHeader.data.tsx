@@ -1,5 +1,9 @@
 import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
-import { ARRAY_INDEX, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
+import {
+  ARRAY_INDEX,
+  MANAGE_ACCESS_TYPES,
+  SELECTED_ARRAY_LENGTH,
+} from '@/constants/strings';
 import { RenameReport } from '../RenameReport';
 import { CloneReport } from '../CloneReport';
 import { EmailReport } from '../EmailReport';
@@ -9,7 +13,9 @@ import { DeleteReport } from '../DeleteReport';
 import { ManageReportAccess } from '../ManageReportAccess';
 import { FilterReport } from '../FilterReport';
 import { ExportReport } from '../ExportReport';
-import { errorSnackbar } from '@/lib/snackbar';
+
+const { PRIVATE_CAPITAL, SPECIFIC_USERS, VIEW_ONLY_CAPITAL, EVERYONE_CAPITAL } =
+  MANAGE_ACCESS_TYPES ?? {};
 
 export const REPORT_LISTS_ACTION_CONSTANTS = {
   FILTER_REPORT: 'filter-report',
@@ -47,126 +53,151 @@ export const reportListsActionComponent = {
   [MANAGE_REPORT_ACCESS]: <ManageReportAccess />,
 };
 
+export const checkDashboardEditPermission = (data: any, isSingle = false) => {
+  const checkPermission = data?.selectedReportList?.[ARRAY_INDEX?.ZERO];
+  if (isSingle) return true;
+  if (checkPermission?.accessLevel?.type === PRIVATE_CAPITAL)
+    return data?.authUserId !== checkPermission?.owner?._id;
+  if (data?.authUserId === checkPermission?.owner?._id) return false;
+  if (checkPermission?.accessLevel?.type === EVERYONE_CAPITAL) {
+    return checkPermission?.accessLevel?.access === VIEW_ONLY_CAPITAL;
+  }
+  if (checkPermission?.accessLevel?.type === SPECIFIC_USERS)
+    return (
+      checkPermission?.accessLevel?.users?.find(
+        (user: any) => user?.id === data?.authUserId,
+      )?.access === VIEW_ONLY_CAPITAL
+    );
+  return false;
+};
+
 export const reportListsActionDropdownDynamic = (
   setReportsListAction: any,
   selectedReportList: any,
   editReportPath?: (reportId: string) => void,
   permission?: any,
-) => [
-  {
-    id: 1,
-    title: 'Customize',
-    permissionKey: [permission?.CUSTOMIZE],
-    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
-      editReportPath?.(selectedReportList[ARRAY_INDEX?.ZERO]?._id);
-      closeMenu();
+  authUserId?: any,
+) => {
+  return [
+    {
+      id: 1,
+      title: 'Customize',
+      permissionKey: [permission?.CUSTOMIZE],
+      disabled: checkDashboardEditPermission?.(
+        {
+          selectedReportList,
+          authUserId,
+        },
+        selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE,
+      ),
+      handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
+        editReportPath?.(selectedReportList[ARRAY_INDEX?.ZERO]?._id);
+        closeMenu();
+      },
     },
-  },
-  {
-    id: 2,
-    title: 'Rename',
-    permissionKey: [permission?.RENAME],
-    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
-      setReportsListAction?.(RENAME_REPORT);
-      closeMenu();
+    {
+      id: 2,
+      title: 'Rename',
+      permissionKey: [permission?.RENAME],
+      disabled: checkDashboardEditPermission?.(
+        {
+          selectedReportList,
+          authUserId,
+        },
+        selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE,
+      ),
+      handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
+        setReportsListAction?.(RENAME_REPORT);
+        closeMenu();
+      },
     },
-  },
-  {
-    id: 3,
-    title: 'Clone',
-    permissionKey: [permission?.CLONE],
-    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
-      setReportsListAction?.(CLONE_REPORT);
-      closeMenu();
+    {
+      id: 3,
+      title: 'Clone',
+      permissionKey: [permission?.CLONE],
+      disabled: selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE,
+      handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
+        setReportsListAction?.(CLONE_REPORT);
+        closeMenu();
+      },
     },
-  },
-  {
-    id: 4,
-    title: 'Export',
-    permissionKey: [permission?.EXPORT_RECORD],
-    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      setReportsListAction?.(EXPORT_REPORT);
-      closeMenu();
+    {
+      id: 4,
+      title: 'Export',
+      permissionKey: [permission?.EXPORT_RECORD],
+      handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
+        setReportsListAction?.(EXPORT_REPORT);
+        closeMenu();
+      },
     },
-  },
-  {
-    id: 5,
-    title: 'Email This Report',
-    permissionKey: [permission?.EMAIL_THIS_REPORT],
-    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
-      setReportsListAction?.(EMAIL_REPORT);
-      closeMenu();
+    {
+      id: 5,
+      title: 'Email This Report',
+      permissionKey: [permission?.EMAIL_THIS_REPORT],
+      disabled: selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE,
+      handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
+        setReportsListAction?.(EMAIL_REPORT);
+        closeMenu();
+      },
     },
-  },
-  {
-    id: 6,
-    title: 'Change Owner',
-    permissionKey: [permission?.CHANGE_OWNER],
-    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
-      setReportsListAction?.(CHANGE_REPORT_OWNER);
-      closeMenu();
+    {
+      id: 6,
+      title: 'Change Owner',
+      permissionKey: [permission?.CHANGE_OWNER],
+      disabled: checkDashboardEditPermission?.(
+        {
+          selectedReportList,
+          authUserId,
+        },
+        selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE,
+      ),
+      handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
+        setReportsListAction?.(CHANGE_REPORT_OWNER);
+        closeMenu();
+      },
     },
-  },
-  {
-    id: 7,
-    title: 'Add to Dashboard',
-    permissionKey: [permission?.ADD_TO_DASHBOARD],
-    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
-      setReportsListAction?.(ADD_REPORT_TO_DASHBOARD);
-      closeMenu();
+    {
+      id: 7,
+      title: 'Add to Dashboard',
+      permissionKey: [permission?.ADD_TO_DASHBOARD],
+      disabled: checkDashboardEditPermission?.(
+        {
+          selectedReportList,
+          authUserId,
+        },
+        selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE,
+      ),
+      handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
+        setReportsListAction?.(ADD_REPORT_TO_DASHBOARD);
+        closeMenu();
+      },
     },
-  },
-  {
-    id: 8,
-    title: 'Delete',
-    permissionKey: [permission?.DELETE],
-    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      setReportsListAction?.(DELETE_REPORT);
-      closeMenu();
+    {
+      id: 8,
+      title: 'Delete',
+      permissionKey: [permission?.DELETE],
+      disabled:
+        selectedReportList?.[ARRAY_INDEX?.ZERO]?.owner?._id !== authUserId,
+      handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
+        setReportsListAction?.(DELETE_REPORT);
+        closeMenu();
+      },
     },
-  },
-  {
-    id: 9,
-    title: 'Manage Access',
-    permissionKey: [permission?.MANAGE_ACCESS],
-    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
-      setReportsListAction?.(MANAGE_REPORT_ACCESS);
-      closeMenu();
+    {
+      id: 9,
+      title: 'Manage Access',
+      permissionKey: [permission?.MANAGE_ACCESS],
+      disabled: checkDashboardEditPermission?.(
+        {
+          selectedReportList,
+          authUserId,
+        },
+        selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE,
+      ),
+      handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
+        setReportsListAction?.(MANAGE_REPORT_ACCESS);
+        closeMenu();
+      },
     },
-  },
-];
+  ];
+};

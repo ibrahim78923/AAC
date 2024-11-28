@@ -7,6 +7,7 @@ import { TICKET_TYPE } from '@/constants/strings';
 import { TicketCardPropsI } from './TicketCard.interface';
 import { TruncateText } from '@/components/TruncateText';
 import { otherDateFormat } from '@/lib/date-time';
+import { capitalizeFirstLetter } from '@/utils/api';
 
 export const TicketsCard = (props: TicketCardPropsI) => {
   const { ticket } = props;
@@ -88,7 +89,7 @@ export const TicketsCard = (props: TicketCardPropsI) => {
       </Box>
       {!!ticket?.status ? (
         <Chip
-          label={ticket?.status ?? '---'}
+          label={capitalizeFirstLetter(ticket?.status) ?? '---'}
           sx={{
             backgroundColor: 'grey.400',
             color: 'slateBlue.main',

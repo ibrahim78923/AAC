@@ -36,7 +36,7 @@ export const useHeader = (props: any) => {
     router?.push({
       pathname: SOCIAL_COMPONENTS?.SCHEDULE_MEETING,
       query: {
-        ticketId: ticketId,
+        moduleId: ticketId,
         moduleType: MODULE_TYPE?.TICKET,
       },
     });

@@ -6,7 +6,6 @@ import {
   GENERIC_UPSERT_FORM_CONSTANT,
   SELECTED_ARRAY_LENGTH,
 } from '@/constants/strings';
-import { errorSnackbar } from '@/lib/snackbar';
 import { Checkbox } from '@mui/material';
 import {
   ICloseMenu,
@@ -30,11 +29,6 @@ export const actionButtonDropdownDynamic = (
       AIR_OPERATIONS_ROLES_AND_RIGHT_ROLES_LIST_PERMISSIONS?.EDIT_ROLE,
     ],
     handleClick: (closeMenu: ICloseMenu) => {
-      if (selectedRolesList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
       router?.push({
         pathname: AIR_OPERATIONS?.UPSERT_ROLES,
         query: {
@@ -44,6 +38,7 @@ export const actionButtonDropdownDynamic = (
       });
       closeMenu();
     },
+    disabled: selectedRolesList?.length > SELECTED_ARRAY_LENGTH?.ONE,
   },
   {
     id: 2,
@@ -52,11 +47,6 @@ export const actionButtonDropdownDynamic = (
       AIR_OPERATIONS_ROLES_AND_RIGHT_ROLES_LIST_PERMISSIONS?.VIEW_ROLE,
     ],
     handleClick: (closeMenu: ICloseMenu) => {
-      if (selectedRolesList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
       router?.push({
         pathname: AIR_OPERATIONS?.UPSERT_ROLES,
         query: {
@@ -66,6 +56,7 @@ export const actionButtonDropdownDynamic = (
       });
       closeMenu();
     },
+    disabled: selectedRolesList?.length > SELECTED_ARRAY_LENGTH?.ONE,
   },
   {
     id: 3,
@@ -74,14 +65,10 @@ export const actionButtonDropdownDynamic = (
       AIR_OPERATIONS_ROLES_AND_RIGHT_ROLES_LIST_PERMISSIONS?.DELETE_ROLE,
     ],
     handleClick: (closeMenu: ICloseMenu) => {
-      if (selectedRolesList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
       setIsPortalOpen({ isOpen: true, isDelete: true });
       closeMenu();
     },
+    disabled: selectedRolesList?.length > SELECTED_ARRAY_LENGTH?.ONE,
   },
 ];
 

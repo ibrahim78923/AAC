@@ -204,11 +204,18 @@ export default function RHFDropZone({
         )}
       </Box>
       {!!errors[name] && (!multiple || !!!getValues(name)?.length) && (
-        <Typography color="error">{errors[name]?.message}</Typography>
+        <Typography color={'error'} sx={{ wordBreak: 'break-all' }}>
+          {errors[name]?.message}
+        </Typography>
       )}
       {!!fileRejections?.length &&
         fileRejections?.map((fileError: any, index: any) => (
-          <Typography variant="body2" color="error" key={index ?? fileError}>
+          <Typography
+            variant={'body2'}
+            color={'error'}
+            key={index ?? fileError}
+            sx={{ wordBreak: 'break-all' }}
+          >
             {fileError?.errors?.some(
               (err: any) => err?.code === FILE_SIZE_MESSAGES?.FILE_TOO_LARGE,
             )

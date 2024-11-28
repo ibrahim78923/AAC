@@ -59,7 +59,7 @@ export const productsDefaultValues = {
   associate: '',
   description: '',
   isActive: false,
-  file: '',
+  image: '',
 };
 
 export const productsDataArray = (productCategories: any) => {
@@ -143,7 +143,7 @@ export const productsDataArray = (productCategories: any) => {
     },
     {
       componentProps: {
-        name: 'file',
+        name: 'image',
         label: 'Upload',
         fullWidth: true,
       },

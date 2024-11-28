@@ -21,6 +21,7 @@ import { AgentFieldDropdown } from '../../../ServiceTicketFormFields/AgentFieldD
 import { AssetFieldDropdown } from '../../../ServiceTicketFormFields/AssetFieldDropdown';
 import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
 import { localeDateTime } from '@/lib/date-time';
+import { formatDurationHourMinute } from '@/utils/dateTime';
 
 const { SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS } = CHARACTERS_LIMIT ?? {};
 
@@ -50,15 +51,30 @@ export const upsertTicketValidationSchema = (childTicketId: string) => {
           priority: Yup?.mixed()?.nullable()?.required('Priority is required'),
           plannedEndDate: Yup?.date()
             ?.nullable()
-            ?.required('Planned end date is required'),
+            .min(
+              Yup?.ref('plannedStartDate'),
+              'Planned end date is after planned start date',
+            ),
         }
       : {}),
     department: Yup?.mixed()?.nullable(),
     source: Yup?.mixed()?.nullable(),
     impact: Yup?.mixed()?.nullable(),
     agent: Yup?.mixed()?.nullable(),
-    plannedStartDate: Yup?.date(),
-    plannedEffort: Yup?.string()?.trim(),
+    plannedStartDate: Yup?.date()
+      ?.nullable()
+      ?.when('plannedEndDate', {
+        is: (value: any) => value !== null,
+        then: () =>
+          Yup?.date()?.nullable()?.required('Planned start date is required'),
+        otherwise: () => Yup?.date()?.nullable(),
+      }),
+    plannedEndDate: Yup?.date()
+      ?.nullable()
+      .min(
+        Yup?.ref('plannedStartDate'),
+        'Planned end date is after planned start date',
+      ),
     associatesAssets: Yup?.mixed()?.nullable(),
     attachFile: Yup?.mixed()?.nullable(),
   });
@@ -79,7 +95,7 @@ export const upsertTicketDefaultValuesFunction = (data?: any) => {
     agent: data?.agentDetails ?? null,
     plannedStartDate: !!data?.plannedStartDate
       ? localeDateTime(data?.plannedStartDate)
-      : new Date(),
+      : null,
     plannedEndDate: !!data?.plannedEndDate
       ? localeDateTime(data?.plannedEndDate)
       : null,
@@ -91,7 +107,12 @@ export const upsertTicketDefaultValuesFunction = (data?: any) => {
   };
 };
 
-export const upsertTicketFormFieldsDynamic = (childTicketId?: string) => [
+export const upsertTicketFormFieldsDynamic = (
+  childTicketId?: string,
+  getValues?: any,
+  setValue?: any,
+  watch?: any,
+) => [
   {
     id: 1,
     component: RequesterFieldDropdown,
@@ -188,8 +209,8 @@ export const upsertTicketFormFieldsDynamic = (childTicketId?: string) => [
             name: 'plannedStartDate',
             label: 'Planned Start Date',
             fullWidth: true,
-            disabled: true,
             ampm: false,
+            textFieldProps: { readOnly: true },
           },
           component: RHFDesktopDateTimePicker,
           md: 12,
@@ -200,10 +221,9 @@ export const upsertTicketFormFieldsDynamic = (childTicketId?: string) => [
             name: 'plannedEndDate',
             label: 'Planned End Date',
             fullWidth: true,
-            disablePast: true,
-            required: true,
             ampm: false,
             textFieldProps: { readOnly: true },
+            minDateTime: watch('plannedStartDate'),
           },
           component: RHFDesktopDateTimePicker,
           md: 12,
@@ -213,9 +233,11 @@ export const upsertTicketFormFieldsDynamic = (childTicketId?: string) => [
           componentProps: {
             name: 'plannedEffort',
             label: 'Planned Effort',
-            fullWidth: true,
-            multiple: true,
             placeholder: 'Eg: 1h10m',
+            onBlurHandler: () => {
+              const value = getValues('plannedEffort');
+              setValue('plannedEffort', formatDurationHourMinute(value));
+            },
           },
           component: RHFTextField,
         },

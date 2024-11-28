@@ -24,7 +24,7 @@ import { isoDateString, otherDateFormat } from '@/lib/date-time';
 export const useUpsertMeeting = () => {
   const router: any = useRouter();
   const { id: meetingId } = router?.query;
-  const moduleId = router?.query?.ticketId;
+  const moduleId = router?.query?.moduleId;
   const moduleType = router?.query?.moduleType;
 
   const [meetingTemplate, setMeetingTemplate] = useState<boolean>(false);
@@ -198,9 +198,10 @@ export const useUpsertMeeting = () => {
       router?.push({
         pathname: SOCIAL_COMPONENTS?.EMAIL_TEMPLATE,
         query: {
-          ...(moduleId && { ticketId: moduleId }),
-          meetingId: res?.data?._id,
           type: router?.query?.type,
+          meetingId: res?.data?._id,
+          ...(moduleId && { moduleId }),
+          ...(moduleType && { moduleType }),
         },
       });
     } catch (err: any) {
@@ -215,8 +216,8 @@ export const useUpsertMeeting = () => {
     router?.push({
       pathname: SOCIAL_COMPONENTS?.SCHEDULE_MEETING,
       query: {
+        ...(moduleId && { moduleId }),
         ...(moduleType && { moduleType }),
-        ...(moduleId && { ticketId: moduleId }),
       },
     });
   };

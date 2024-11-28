@@ -98,7 +98,7 @@ export const useUpsertTicket = () => {
     defaultValues: upsertTicketDefaultValuesFunction(),
   });
 
-  const { handleSubmit, reset, getValues, setError } = methods;
+  const { handleSubmit, reset, getValues, setError, setValue, watch } = methods;
 
   const ticketDetailsData = data?.data?.[ARRAY_INDEX?.ZERO];
 
@@ -188,7 +188,12 @@ export const useUpsertTicket = () => {
       !!newFormData?.plannedEndDate &&
         upsertTicketFormData?.append(
           'plannedEndDate',
-          newFormData?.plannedEndDate?.toISOString(),
+          isoDateString(newFormData?.plannedEndDate),
+        );
+      !!newFormData?.plannedStartDate &&
+        upsertTicketFormData?.append(
+          'plannedStartDate',
+          isoDateString(newFormData?.plannedStartDate),
         );
       !!newFormData?.plannedEffort &&
         upsertTicketFormData?.append(
@@ -260,7 +265,12 @@ export const useUpsertTicket = () => {
     dispatch(setIsPortalClose());
   };
 
-  const upsertTicketFormFields = upsertTicketFormFieldsDynamic(ticketId);
+  const upsertTicketFormFields = upsertTicketFormFieldsDynamic(
+    ticketId,
+    getValues,
+    setValue,
+    watch,
+  );
 
   const apiCallInProgress =
     putTicketStatus?.isLoading ||

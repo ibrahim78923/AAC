@@ -1,7 +1,7 @@
 import { EditYellowBGPenIcon } from '@/assets/icons';
 import { TruncateText } from '@/components/TruncateText';
 import { DeleteForever } from '@mui/icons-material';
-import { Box } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 
 export const getVendorsColumns = (
   setIsDeleteModalOpen: any,
@@ -48,22 +48,21 @@ export const getVendorsColumns = (
     id: '_id',
     header: 'Action',
     cell: (info: any) => (
-      <Box display={'flex'}>
-        <Box
+      <Box display={'flex'} alignItems="center">
+        <IconButton
           onClick={() => {
             setIsUpsertModalOpen({ open: true, data: info?.row?.original });
           }}
-          sx={{ cursor: 'pointer' }}
         >
           <EditYellowBGPenIcon />
-        </Box>
-        <DeleteForever
-          color={'error'}
-          sx={{ cursor: 'pointer' }}
+        </IconButton>
+        <IconButton
           onClick={() => {
             setIsDeleteModalOpen({ open: true, id: info?.getValue() });
           }}
-        />
+        >
+          <DeleteForever color={'error'} />
+        </IconButton>
       </Box>
     ),
   },

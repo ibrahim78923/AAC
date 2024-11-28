@@ -22,6 +22,10 @@ import { LOYALTY_PROGRAM_ROLE_AND_RIGHTS_ACTIONS_CONSTANT } from '../RolesAndRig
 import { getActiveAccountSession } from '@/utils';
 import { ROLE_AND_RIGHTS_STATUS } from '@/constants/api';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import {
+  loyaltyProgramRoleAndRightsIsPortalOpenSelector,
+  loyaltyProgramRoleAndRightsSelectedRoleAndRightsListsSelector,
+} from '@/redux/slices/airLoyaltyProgram/roles-and-right/selectors';
 
 export const useUpsertRolesAndRight = () => {
   const auth: any = useAuth();
@@ -29,11 +33,11 @@ export const useUpsertRolesAndRight = () => {
 
   const dispatch = useAppDispatch();
   const isPortalOpen = useAppSelector(
-    (state) => state?.loyaltyProgramRoleAndRights?.isPortalOpen,
+    loyaltyProgramRoleAndRightsIsPortalOpenSelector,
   );
 
   const selectedRoleAndRightsLists = useAppSelector(
-    (state) => state?.loyaltyProgramRoleAndRights?.selectedRoleAndRightsLists,
+    loyaltyProgramRoleAndRightsSelectedRoleAndRightsListsSelector,
   );
 
   const roleId =

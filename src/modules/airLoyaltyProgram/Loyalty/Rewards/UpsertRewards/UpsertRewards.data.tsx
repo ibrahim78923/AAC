@@ -1,5 +1,4 @@
 import {
-  RHFAutocomplete,
   RHFDatePicker,
   RHFDropZone,
   RHFRadioButtonTwoLabel,
@@ -7,6 +6,7 @@ import {
 } from '@/components/ReactHookForm';
 import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
 import * as Yup from 'yup';
+import AppliedToDropdown from '../RewardsDropdowns/AppliedToDropdown';
 
 const rewardsRadioGroupOptions = [
   {
@@ -19,13 +19,6 @@ const rewardsRadioGroupOptions = [
     labelOne: 'Limited redeemable',
     labelTwo: 'per consumer',
   },
-];
-
-const appliedToOptions = [
-  { label: 'Base', value: 'BASE' },
-  { label: 'Bronze', value: 'BRONZE' },
-  { label: 'Silver', value: 'SILVER' },
-  { label: 'Gold', value: 'GOLD' },
 ];
 
 export const rewardsValidationSchema: any = Yup?.object()?.shape({
@@ -44,7 +37,8 @@ export const rewardsValidationSchema: any = Yup?.object()?.shape({
   appliedTo: Yup?.mixed()?.nullable()?.required('Visible To is required'),
   costPrice: Yup?.number()
     ?.positive('Greater than zero')
-    ?.typeError('Not a number'),
+    ?.typeError('Not a number')
+    ?.required('Cost Price is required'),
   quantity: Yup?.number()
     ?.positive('Greater than zero')
     ?.typeError('Not a number'),
@@ -60,17 +54,19 @@ export const rewardsValidationSchema: any = Yup?.object()?.shape({
     }),
 });
 
-export const addRewardsDefaultValues = {
-  title: '',
-  requiredPoints: 0,
-  fileUrl: null,
-  appliedTo: null,
-  costPrice: 0,
-  quantity: 0,
-  activeFrom: new Date(),
-  activeTo: new Date(),
-  limitRewards: '',
-  limit: null,
+export const addRewardsDefaultValues = (data: any) => {
+  return {
+    title: data?.data?.title ?? '',
+    requiredPoints: data?.data?.requiredPoints ?? 0,
+    fileUrl: null,
+    appliedTo: data?.data?.appliedTo ?? null,
+    costPrice: data?.data?.costPrice ?? 0,
+    quantity: data?.data?.quantity ?? 0,
+    activeFrom: new Date(data?.data?.activeFrom) ?? new Date(),
+    activeTo: new Date(data?.data?.activeTo) ?? new Date(),
+    limitRewards: data?.data?.redeemedLimitType ?? 'unlimited',
+    limit: data?.data?.redemptionLimitPerConsumer ?? '',
+  };
 };
 
 export const upsertRewardsData = () => [
@@ -113,23 +109,14 @@ export const upsertRewardsData = () => [
   },
   {
     id: 4,
-    componentProps: {
-      name: 'appliedTo',
-      label: 'Applied To',
-      placeholder: 'Select Applied To',
-      fullWidth: true,
-      required: true,
-      options: appliedToOptions,
-      getOptionLabel: (option: any) => option?.label,
-    },
-    component: RHFAutocomplete,
-    md: 12,
+    component: AppliedToDropdown,
   },
   {
     id: 5,
     componentProps: {
       name: 'costPrice',
       label: 'Cost Price',
+      required: true,
       placeholder: 'Enter cost price',
       fullWidth: true,
     },

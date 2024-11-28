@@ -3,6 +3,7 @@ import { ARRAY_INDEX } from '@/constants/strings';
 import { uiDateFormat } from '@/lib/date-time';
 import { TruncateText } from '@/components/TruncateText';
 import { UserInfo } from '@/components/UserInfo';
+import { urlFileName } from '@/utils/file';
 
 export const importTabColumns = [
   {
@@ -32,13 +33,21 @@ export const importTabColumns = [
     ),
   },
   {
-    accessorFn: (row: any) => row?.fileName,
-    id: 'fileName',
+    accessorFn: (row: any) => row?.filePath,
+    id: 'filePath',
     isSortable: true,
     header: 'File Name',
-    cell: (info: any) => (
-      <TruncateText text={info?.getValue()?.toLowerCase()} />
-    ),
+    cell: (info: any) => {
+      const url = new URL(info?.getValue());
+      return (
+        <a href={url?.href} download={urlFileName(url)}>
+          <TruncateText
+            text={urlFileName(url)}
+            boxProps={{ color: 'primary.main' }}
+          />
+        </a>
+      );
+    },
   },
   {
     accessorFn: (row: any) => row?.product,

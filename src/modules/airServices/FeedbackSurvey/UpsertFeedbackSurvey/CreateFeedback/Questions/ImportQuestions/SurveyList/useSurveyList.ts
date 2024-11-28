@@ -14,7 +14,7 @@ export const useSurveyList = (props: SurveyListI) => {
     limit,
   };
   useEffect(() => {
-    getFeedbackList(queryParams);
+    getFeedbackList(queryParams)?.unwrap();
   }, [openImport, page, limit]);
   const handleSurveyClick = (id: string) => {
     setSurveyId(id);

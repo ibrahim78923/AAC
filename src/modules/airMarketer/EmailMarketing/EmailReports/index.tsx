@@ -41,10 +41,10 @@ import ReportsDatePicker from './datePicker';
 import { htmlToPngConvert } from '@/lib/html-to-image-converter';
 
 const getDefaultDateRange = () => {
-  const currentYear = dayjs().year(); // Get current year
-  const startOfYear = new Date(currentYear, 0, 1); // January 1st
-  const endOfYear = new Date(currentYear, 11, 31); // December 31st
-  return [startOfYear, endOfYear]; // Return start and end dates
+  const currentYear = dayjs().year();
+  const startOfYear = new Date(currentYear, 0, 1);
+  const endOfYear = new Date(currentYear, 11, 31);
+  return [startOfYear, endOfYear];
 };
 
 const EmailReports = () => {

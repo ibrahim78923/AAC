@@ -15,7 +15,11 @@ import Search from '@/components/Search';
 import TaskViewCard from './TaskCardView';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_CAMPAIGNS_PERMISSIONS } from '@/constants/permission-keys';
-import { CAMPAIGNS_TASKS_CONSTANTS, DRAWER_TYPES } from '@/constants/strings';
+import {
+  CAMPAIGNS_TASKS_CONSTANTS,
+  DRAWER_TYPES,
+  MEETINGS_DETAILS_TYPE,
+} from '@/constants/strings';
 
 const Tasks = () => {
   const {
@@ -25,25 +29,29 @@ const Tasks = () => {
     setIsOpenDeleteDrawer,
     setIsOpenChangeStatus,
     isOpenEditTaskDrawer,
-    handleListViewClick,
-    handleUpdateStatus,
+    setSelectedRowData,
     isOpenDeleteDrawer,
     compaignsTasksData,
-    getCampaignsTasks,
     handleChangeStatus,
+    handleUpdateStatus,
     isOpenChangeStatus,
     deleteTaskLoading,
     handleDeleteModal,
+    handleButtonClick,
+    getCampaignsTasks,
+    setStatusVariant,
     statusConstants,
     actionMenuOpen,
-    setSearchValue,
     setSelectedRec,
-    setStatusVariant,
+    setSearchValue,
     statusVariant,
+    activeButton,
+    selectedRowData,
     setPageLimit,
     setAnchorEl,
     selectedRec,
     isListView,
+    isFetching,
     isLoading,
     isSuccess,
     anchorEl,
@@ -56,6 +64,7 @@ const Tasks = () => {
     setSelectedRec,
     compaignsTasksData,
     setStatusVariant,
+    setSelectedRowData,
   };
 
   return (
@@ -116,7 +125,11 @@ const Tasks = () => {
                 permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.EDIT_TASK]}
               >
                 <MenuItem
-                  disabled={selectedRec?.length > 1 ? true : false}
+                  disabled={
+                    selectedRowData?.status === MEETINGS_DETAILS_TYPE?.COMPLETED
+                      ? true
+                      : false
+                  }
                   onClick={() => {
                     setAnchorEl(null);
                     setIsOpenEditTaskDrawer({
@@ -181,8 +194,14 @@ const Tasks = () => {
             >
               <Button
                 className="small"
+                sx={{
+                  backgroundColor:
+                    activeButton === CAMPAIGNS_TASKS_CONSTANTS?.LIST_VIEW
+                      ? theme?.palette?.grey[700]
+                      : 'inherit',
+                }}
                 onClick={() =>
-                  handleListViewClick(CAMPAIGNS_TASKS_CONSTANTS?.LIST_VIEW)
+                  handleButtonClick(CAMPAIGNS_TASKS_CONSTANTS?.LIST_VIEW)
                 }
               >
                 <ListViewIcon />
@@ -192,10 +211,16 @@ const Tasks = () => {
               permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.BOARD_VIEW]}
             >
               <Button
-                onClick={() =>
-                  handleListViewClick(CAMPAIGNS_TASKS_CONSTANTS?.GRID_VIEW)
-                }
                 className="small"
+                sx={{
+                  backgroundColor:
+                    activeButton === CAMPAIGNS_TASKS_CONSTANTS?.GRID_VIEW
+                      ? theme?.palette?.grey[700]
+                      : 'inherit',
+                }}
+                onClick={() =>
+                  handleButtonClick(CAMPAIGNS_TASKS_CONSTANTS?.GRID_VIEW)
+                }
               >
                 <GridViewIcon />
               </Button>
@@ -205,34 +230,34 @@ const Tasks = () => {
       </Box>
       {isListView === CAMPAIGNS_TASKS_CONSTANTS?.LIST_VIEW ? (
         <TanstackTable
-          columns={columns(columnsProps)}
-          data={compaignsTasksData}
           totalRecords={getCampaignsTasks?.data?.meta?.total}
-          onPageChange={(page: any) => setPage(page)}
-          count={getCampaignsTasks?.data?.meta?.pages}
-          pageLimit={getCampaignsTasks?.data?.meta?.limit}
           currentPage={getCampaignsTasks?.data?.meta?.page}
+          pageLimit={getCampaignsTasks?.data?.meta?.limit}
+          count={getCampaignsTasks?.data?.meta?.pages}
+          onPageChange={(page: any) => setPage(page)}
+          columns={columns(columnsProps)}
           setPageLimit={setPageLimit}
-          isLoading={isLoading}
+          data={compaignsTasksData}
+          isLoading={isLoading || isFetching}
           isSuccess={isSuccess}
           setPage={setPage}
           isPagination
         />
       ) : (
         <TaskViewCard
-          data={compaignsTasksData}
-          loading={isLoading}
-          selectedRec={selectedRec}
+          data={compaignsTasksData ? compaignsTasksData : []}
           setSelectedRec={setSelectedRec}
+          selectedRec={selectedRec}
+          loading={isLoading}
         />
       )}
 
       {isOpenEditTaskDrawer?.isToggle && (
         <EditTask
+          setIsOpenEditTaskDrawer={setIsOpenEditTaskDrawer}
           isOpenDrawer={isOpenEditTaskDrawer?.isToggle}
           isType={isOpenEditTaskDrawer?.type}
           selectedRec={selectedRec}
-          setIsOpenEditTaskDrawer={setIsOpenEditTaskDrawer}
           onClose={() => {
             {
               setSelectedRec([]);
@@ -245,12 +270,12 @@ const Tasks = () => {
       {isOpenDeleteDrawer && (
         <AlertModals
           message="You're about to delete a record. Are you sure?"
-          type="Delete"
-          typeImage={<AlertModalDeleteIcon />}
-          open={isOpenDeleteDrawer}
-          handleClose={() => setIsOpenDeleteDrawer(false)}
           handleSubmitBtn={() => handleDeleteModal(selectedRec)}
+          handleClose={() => setIsOpenDeleteDrawer(false)}
+          typeImage={<AlertModalDeleteIcon />}
           loading={deleteTaskLoading}
+          open={isOpenDeleteDrawer}
+          type="Delete"
         />
       )}
 

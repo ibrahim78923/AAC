@@ -37,7 +37,7 @@ const useAddRole = () => {
 
   const roleDefaultValues: any = {
     productId: null,
-    organizationCompanyAccountId: null,
+    organizationCompanyAccountId: [],
     name: '',
     description: '',
     status: '',
@@ -88,13 +88,13 @@ const useAddRole = () => {
           : null,
       organizationCompanyAccountId:
         query?.type !== DRAWER_TYPES?.ADD
-          ? data
-            ? {
+          ? [
+              {
                 _id: data?.companyAccountDetails?.id,
                 accountName: data?.companyAccountDetails?.name,
-              }
-            : null
-          : null,
+              },
+            ]
+          : [],
       name: query?.type !== DRAWER_TYPES?.ADD ? data?.name : '',
       description: query?.type !== DRAWER_TYPES?.ADD ? data?.description : '',
       status: query?.type !== DRAWER_TYPES?.ADD ? data?.status : '',
@@ -145,7 +145,11 @@ const useAddRole = () => {
     values.status = ROLE_AND_RIGHTS_STATUS?.ACTIVE;
     values.productId = values?.productId?._id;
     values.organizationCompanyAccountId =
-      values?.organizationCompanyAccountId?._id;
+      values?.organizationCompanyAccountId?.map((item: any) => {
+        return item?._id;
+      });
+    // values.organizationCompanyAccountId =
+    //   values?.organizationCompanyAccountId?._id;
     try {
       if (query?.type === DRAWER_TYPES?.ADD) {
         values.organizationId = user?.organization?._id;

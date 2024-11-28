@@ -24,6 +24,8 @@ const TicketsEditorDrawer = (props: any) => {
   } = props;
 
   const {
+    productId,
+    companyId,
     ticketsList,
     apiQueryRequester,
     apiQueryDepartment,
@@ -33,6 +35,8 @@ const TicketsEditorDrawer = (props: any) => {
   } = useTicketsEditorDrawer();
 
   const newFormFields = ticketFormFieldsDynamic(
+    productId,
+    companyId,
     apiQueryRequester,
     apiQueryDepartment,
     apiQueryAgent,

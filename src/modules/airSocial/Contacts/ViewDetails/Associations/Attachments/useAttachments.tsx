@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTheme } from '@mui/material';
 import { useGetContactAssociationsQuery } from '@/services/commonFeatures/contacts/associations';
 import { useForm } from 'react-hook-form';
@@ -32,9 +32,13 @@ const useAttachments = (contactId: any) => {
     });
 
   // Drawer Add/Edit/View Attachment
+  const [drawerTitle, setDrawerTitle] = useState('Add');
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const [attachmentData, setAttachmentData] = useState();
+
   const methodsAttachments = useForm({
     resolver: yupResolver(attachmentsValidationSchema),
-    defaultValues: attachmentsDefaultValues,
+    defaultValues: attachmentsDefaultValues(attachmentData),
   });
   const [postAttachment, { isLoading: loadingAddAttachment }] =
     usePostAttachmentMutation();
@@ -42,9 +46,11 @@ const useAttachments = (contactId: any) => {
     handleSubmit: handleMethodAddAttachment,
     reset: resetAddAttachmentForm,
   } = methodsAttachments;
-  const [drawerTitle, setDrawerTitle] = useState('Add');
-  const [openDrawer, setOpenDrawer] = useState(false);
-  const [attachmentData, setAttachmentData] = useState();
+
+  useEffect(() => {
+    resetAddAttachmentForm(attachmentsDefaultValues(attachmentData));
+  }, [attachmentData, resetAddAttachmentForm]);
+
   const handleOpenDrawer = (title: any, data: any) => {
     setDrawerTitle(title);
     setAttachmentData(data);

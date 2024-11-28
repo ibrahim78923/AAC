@@ -19,6 +19,8 @@ const Users = () => {
     resetFilter,
     handleEmpListPaginationChange,
     employeeMetaData,
+    employeeListFetching,
+    employeeListLoading,
   } = useUsers();
 
   return (
@@ -34,6 +36,8 @@ const Users = () => {
           resetFilter={resetFilter}
           handleEmpListPaginationChange={handleEmpListPaginationChange}
           employeeMetaData={employeeMetaData}
+          employeeListFetching={employeeListFetching}
+          employeeListLoading={employeeListLoading}
         />
       </Grid>
       <Grid item xl={9} lg={6} xs={12}>

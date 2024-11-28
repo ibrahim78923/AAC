@@ -14,16 +14,14 @@ export const UpsertRelatedTicket = () => {
     handleSubmit,
     submitUpsertTicket,
     methods,
-    isFetching,
     onClose,
-    isLoading,
     upsertTicketFormFields,
-    postChildTicketStatus,
-    putChildTicketStatus,
     isError,
     refetch,
     isPortalOpen,
     childTicketId,
+    apiCallInProgress,
+    showLoader,
   } = useUpsertRelatedTicket();
 
   return (
@@ -44,17 +42,11 @@ export const UpsertRelatedTicket = () => {
       isOk
       cancelText={'Cancel'}
       footer
-      isLoading={
-        postChildTicketStatus?.isLoading || putChildTicketStatus?.isLoading
-      }
-      isDisabled={
-        postChildTicketStatus?.isLoading || putChildTicketStatus?.isLoading
-      }
-      disabledCancelBtn={
-        postChildTicketStatus?.isLoading || putChildTicketStatus?.isLoading
-      }
+      isLoading={apiCallInProgress}
+      isDisabled={showLoader}
+      disabledCancelBtn={apiCallInProgress}
     >
-      {isLoading || isFetching ? (
+      {showLoader ? (
         <SkeletonForm />
       ) : isError ? (
         <ApiErrorState canRefresh refresh={refetch} />

@@ -5,8 +5,6 @@ import {
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import dayjs from 'dayjs';
 import { DATE_FORMAT, TIME_FORMAT } from '@/constants';
 import {
@@ -16,6 +14,7 @@ import {
 import { useGetEmployeeListQuery } from '@/services/superAdmin/user-management/UserList';
 import { useGetContactsQuery } from '@/services/commonFeatures/contacts';
 import { getSession } from '@/utils';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useCallsEditorDrawer = ({
   openDrawer,
@@ -113,21 +112,16 @@ const useCallsEditorDrawer = ({
             id: editCallValue?._id,
           })?.unwrap()
         : await postCalls({ body: payload })?.unwrap();
-      enqueueSnackbar(
+      successSnackbar(
         `Call Schedule ${
           openDrawer === 'Edit' ? 'Updated' : 'Added '
         } Successfully`,
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
       );
       onClose();
     } catch (error) {
       const errMsg = error?.data?.message;
       const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
-      enqueueSnackbar(errMessage ?? 'Error occurred', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(errMessage ?? 'Error occurred');
     }
   };
 

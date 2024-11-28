@@ -14,6 +14,7 @@ import { emailHtml, feedbackValuesType } from './CreateFeedback.data';
 import { getSession } from '@/utils';
 import { useTheme } from '@mui/material';
 import { CreateFeedbackI } from './CreateFeedback.interface';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export const useCreateFeedback = (props: CreateFeedbackI) => {
   const { methods } = props;
@@ -44,22 +45,22 @@ export const useCreateFeedback = (props: CreateFeedbackI) => {
       sectionId,
       surveyId,
     };
-    const response: any = await deleteSectionTrigger(deleteParams);
-    if (response?.data?.message) {
+    try {
+      await deleteSectionTrigger(deleteParams)?.unwrap();
       setClose();
       remove(index);
       return;
-    }
+    } catch (error) {}
   };
   const cloneSection = async (index: number, setClose: () => void) => {
     const watchSection = watch(`sections.${index}`);
     const sectionId = watch(`sections.${index}.id`);
     const cloneParams = { surveyId, sectionId };
-    const response: any = await cloneSectionTrigger(cloneParams);
-    if (response?.data?.message) {
+    try {
+      await cloneSectionTrigger(cloneParams)?.unwrap();
       setClose();
       append(watchSection);
-    }
+    } catch (error) {}
   };
   const mergeSection = async (index: number, setClose: () => void) => {
     const currentSection = watch(`sections.${index}`);
@@ -70,12 +71,12 @@ export const useCreateFeedback = (props: CreateFeedbackI) => {
     ];
     const sectionId = watch(`sections.${index}.id`);
     const mergeParams = { surveyId, sectionId };
-    const response: any = await mergeSectionTrigger(mergeParams);
-    if (response?.data?.message) {
+    try {
+      await mergeSectionTrigger(mergeParams)?.unwrap();
       setClose();
       setValue(`sections.${index - 1}.questions`, mergedQuestions);
       remove(index);
-    }
+    } catch (error) {}
   };
   const sendSurveyPeople = watch('sendSurveyPeople');
   const shareSurveyPeople = watch('shareSurveyPeople');
@@ -90,8 +91,7 @@ export const useCreateFeedback = (props: CreateFeedbackI) => {
           shareSurveyPeople?.length
         ? shareSurveyPeople
         : [];
-  const handlePublish = async (handleClose: () => void) => {
-    setIsStatus(true);
+  const handleSendEmail = async () => {
     if (!!sendSurveyPeople?.length || !!shareSurveyPeople?.length) {
       const emailParams = new FormData();
       emailParams?.append('recipients', recipientsEmails);
@@ -103,21 +103,31 @@ export const useCreateFeedback = (props: CreateFeedbackI) => {
         'html',
         emailHtml({ sessionData, theme, uuid, surveyTitle }),
       );
-      await postSurveyEmailTrigger(emailParams);
+      try {
+        await postSurveyEmailTrigger(emailParams)?.unwrap();
+      } catch (error) {}
     }
+  };
+  const handlePublish = async (handleClose: () => void) => {
+    setIsStatus(true);
     const publishParams = {
       body: {
         status: feedbackValuesType?.published,
       },
       params: { id: surveyId },
     };
-    const response: any = await patchFeedbackSurveyTrigger(publishParams);
-    if (response?.data?.message) {
+    try {
+      handleSendEmail();
+      await patchFeedbackSurveyTrigger(publishParams)?.unwrap();
       handleClose();
       successSnackbar('Survey published successfully');
-      router?.push(AIR_SERVICES?.FEEDBACK_SURVEY);
-    } else {
-      errorSnackbar(response?.error?.data?.message);
+      router?.push({
+        pathname: AIR_SERVICES?.FEEDBACK_SURVEY,
+        query: { type: router?.query?.type },
+      });
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
     setIsStatus(false);
   };
@@ -128,13 +138,17 @@ export const useCreateFeedback = (props: CreateFeedbackI) => {
       },
       params: { id: surveyId },
     };
-    const response: any = await patchFeedbackSurveyTrigger(draftParams);
-    if (response?.data?.message) {
+    try {
+      await patchFeedbackSurveyTrigger(draftParams)?.unwrap();
       handleClose();
       successSnackbar('Survey save as draft successfully');
-      router?.push(AIR_SERVICES?.FEEDBACK_SURVEY);
-    } else {
-      errorSnackbar(response?.error?.data?.message);
+      router?.push({
+        pathname: AIR_SERVICES?.FEEDBACK_SURVEY,
+        query: { type: router?.query?.type },
+      });
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   };
   return {

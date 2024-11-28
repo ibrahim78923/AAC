@@ -2,40 +2,90 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import { Box, Grid, InputAdornment } from '@mui/material';
 import { useGiftCards } from './useGiftCards';
-import { Paid } from '@mui/icons-material';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { LoadingButton } from '@mui/lab';
+import ApiErrorState from '@/components/ApiErrorState';
+import { PoundSignIcon } from '@/assets/icons';
 
 export const GiftCards = () => {
-  const { methods } = useGiftCards();
+  const {
+    methods,
+    handleSubmit,
+    submitGiftCard,
+    apiCallInProgress,
+    showLoader,
+    isError,
+  } = useGiftCards();
 
   return (
-    <>
+    <Box sx={{ minHeight: '100%', display: 'flex', flexDirection: 'column' }}>
       <PageTitledHeader title="Gift cards" />
-      <Box bgcolor="primary.lighter" p={1} borderRadius={2} mb={1}>
+      <Box bgcolor="primary.lighter" p={1} borderRadius={2} mb={3}>
         <PageTitledHeader
           title="General"
           titleVariant="h6"
           outerMarginBottom={0.1}
         />
       </Box>
-      <FormProvider methods={methods}>
-        <Grid container spacing={1}>
-          <Grid item xs={12} md={7}>
-            <RHFTextField
-              name="maxAmountLimit"
-              label="Maximum amount limit"
-              placeholder="Enter maximum amount limit (e.g., 1000)"
-              size="small"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Paid color="secondary" />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Grid>
-        </Grid>
-      </FormProvider>
-    </>
+      <Box sx={{ flexGrow: 1 }}>
+        {showLoader ? (
+          <SkeletonForm length={1} />
+        ) : isError ? (
+          <ApiErrorState />
+        ) : (
+          <FormProvider methods={methods}>
+            <Grid container spacing={1}>
+              <Grid item xs={12} md={7}>
+                <RHFTextField
+                  name="giftCardMaxAmount"
+                  label="Maximum amount limit"
+                  placeholder="Enter maximum amount limit (e.g., 1000)"
+                  size="small"
+                  type="number"
+                  inputProps={{
+                    min: 0,
+                  }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <PoundSignIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
+            </Grid>
+          </FormProvider>
+        )}
+      </Box>
+      <Box
+        sx={{
+          width: '100%',
+          textAlign: 'right',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          gap: 2,
+        }}
+      >
+        <LoadingButton
+          type="button"
+          variant="outlined"
+          color="inherit"
+          disabled={apiCallInProgress}
+          onClick={() => methods?.reset()}
+        >
+          Cancel
+        </LoadingButton>
+        <LoadingButton
+          type="submit"
+          variant="contained"
+          loading={apiCallInProgress}
+          onClick={handleSubmit(submitGiftCard)}
+        >
+          Save
+        </LoadingButton>
+      </Box>
+    </Box>
   );
 };

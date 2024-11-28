@@ -17,6 +17,7 @@ import { useGetProductsQuery } from '@/services/common-APIs';
 import { useGetOrganizationProductsQuery } from '@/services/orgAdmin/organization';
 import { AccountsDataProductI, ProductI } from './dashboard.interface';
 import { PRODUCT_EXTERNAl_LINKS, PRODUCT_LABELS } from '@/constants';
+import FreeTrialCountDown from './FreeTrialCountDown';
 
 const Dashboard = () => {
   const { theme } = useDashboard();
@@ -56,6 +57,14 @@ const Dashboard = () => {
   return (
     <>
       <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <FreeTrialCountDown
+              startDate={Date.now()}
+              duration={14 * 86400000}
+            />
+          </Box>
+        </Grid>
         <Grid item lg={8} md={6} sm={12} xs={12}>
           <Card>
             <ProfileCard

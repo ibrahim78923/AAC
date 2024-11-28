@@ -5,8 +5,11 @@ import {
 } from '@/services/commonFeatures/companies';
 import { getSession } from '@/utils';
 import { useEffect, useState } from 'react';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import {
+  errorSnackbar,
+  successSnackbar,
+  warningSnackbar,
+} from '@/lib/snackbar';
 
 const useCustomizeCompany = ({ setIsCustomize, isCustomize }: any) => {
   const theme = useTheme();
@@ -48,18 +51,14 @@ const useCustomizeCompany = ({ setIsCustomize, isCustomize }: any) => {
           .then((data) => {
             if (data?.data) {
               setIsCustomize({ ...isCustomize, customizeDrawer: false });
-              enqueueSnackbar(`Columns customized successfully`, {
-                variant: NOTISTACK_VARIANTS?.SUCCESS,
-              });
+              successSnackbar(`Columns customized successfully`);
             }
           });
       } catch (error) {
-        enqueueSnackbar(`${error}`, { variant: NOTISTACK_VARIANTS?.ERROR });
+        errorSnackbar(`${error}`);
       }
     } else {
-      enqueueSnackbar(`Please select atleast ONE column`, {
-        variant: NOTISTACK_VARIANTS?.WARNING,
-      });
+      warningSnackbar(`Please select atleast ONE column`);
     }
   };
 

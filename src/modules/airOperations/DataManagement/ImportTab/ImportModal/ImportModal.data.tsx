@@ -193,7 +193,7 @@ export const stepsData: any = {
       groupBy: FIELD_TYPES?.OPTIONAL_FIELD,
     },
   ],
-  DEALS: [
+  deals: [
     {
       _id: 'dealName',
       label: 'Deal Name',
@@ -230,7 +230,7 @@ export const stepsData: any = {
       groupBy: FIELD_TYPES?.OPTIONAL_FIELD,
     },
   ],
-  TASKS: [
+  tasks: [
     {
       _id: 'taskName',
       label: 'Task Name',

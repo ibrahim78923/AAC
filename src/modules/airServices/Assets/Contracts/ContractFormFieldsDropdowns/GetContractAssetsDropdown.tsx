@@ -20,7 +20,10 @@ const GetContractAssetsDropdown = ({ watchForContractType }: any) => {
           watchForContractType?.name === CONTRACT_TYPES_CHECK?.SOFTWARE_LICENSE
         }
         apiQuery={apiQueryAsset}
-        externalParams={{ limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT }}
+        externalParams={{
+          limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
+          meta: true,
+        }}
         getOptionLabel={(option: any) => option?.displayName}
       />
     </>

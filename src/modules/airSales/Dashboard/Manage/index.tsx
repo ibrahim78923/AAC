@@ -20,19 +20,21 @@ const Manage = () => {
     loadingDeleteDashboard,
     handleCloseDeleteModal,
     setIsDeleteModalOpen,
+    handleUpdateDefault,
     dashboardListArray,
     isDeleteModalOpen,
     setIsFilterDrawer,
     setFilterValues,
     isFilterDrawer,
     handelNavigate,
-    handleUpdateDefault,
+    loadingState,
+    resetFilters,
     handleDelete,
     filterValues,
     setPageLimit,
-    resetFilters,
-    isLoading,
     currentUser,
+    isFetching,
+    isLoading,
     setPage,
     router,
     theme,
@@ -44,10 +46,9 @@ const Manage = () => {
     router: router,
     handleUpdateDefault: handleUpdateDefault,
     currentUser: currentUser,
+    loadingState: loadingState,
   };
-
   const columnParams = columns(columnsProps);
-
   return (
     <>
       <Grid container spacing={3}>
@@ -130,7 +131,7 @@ const Manage = () => {
             pageLimit={dashboardListArray?.meta?.limit}
             currentPage={dashboardListArray?.meta?.page}
             setPageLimit={setPageLimit}
-            isLoading={isLoading}
+            isLoading={isLoading || isFetching}
             setPage={setPage}
             isPagination
           />

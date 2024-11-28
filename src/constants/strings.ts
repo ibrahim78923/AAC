@@ -22,9 +22,15 @@ export const TIME_PERIODS = {
   CUSTOM_RANGE: 'Custom Range',
 };
 
+export const INVENTORY_TITLE = {
+  ADD_NEW_INVENTORY: 'Add New Inventory',
+  UPDATE_INVENTORY: 'Update Inventory',
+  FILTER_INVENTORY: 'Filters',
+};
+
 export const EXPORT_TYPE = {
   CSV: 'CSV',
-  XLS: 'XLS',
+  XLS: 'XLSX',
   PDF: 'PDF',
 };
 
@@ -106,7 +112,7 @@ export const CONTRACT_STATUS = {
 export const LICENSE_TYPE = {
   VOLUME: 'VOLUME',
   ENTERPRISE: 'ENTERPRISE',
-  TRIAL: 'TRIAL',
+  TRIAL: 'TRAIL',
   OPEN_SOURCE: 'OPEN_SOURCE',
   FREE: 'FREE',
 };
@@ -462,6 +468,8 @@ export const MODULE_TYPE = {
   SOFTWARE: 'SOFTWARE',
   PURCHASE_ORDER: 'PURCHASE_ORDER',
   INVENTORY: 'INVENTORY',
+  REGISTER_DASHBOARD: 'REGISTER_DASHBOARD',
+  NON_REGISTER_DASHBOARD: 'NON_REGISTER_DASHBOARD',
 };
 export const TICKET_SELECTION_TYPE = {
   REQUESTER: 'REQUESTER',
@@ -544,8 +552,8 @@ export const IMPORT_ACTION_TYPE = {
   INVENTORIES: 'inventories',
   PRODUCT_CATALOG: 'productCatalog',
   VENDORS: 'vendors',
-  DEALS: 'DEALS',
-  TASKS: 'TASKS',
+  DEALS: 'deals',
+  TASKS: 'tasks',
   PRODUCT: 'product',
   SALES: 'Sales',
   SERVICES: 'Services',
@@ -558,6 +566,7 @@ export const OBJECT_URL_IMPORT = {
 export const AUTH_TOKEN_BYPASS_API = {
   UPLOAD_FILE_TO_S3_USING_SIGNED_URL: 'uploadFileTos3UsingSignedUrl',
 };
+
 export const WORKFLOW_TYPE = {
   SAVED: 'SAVED',
   CREATED: 'CREATED',
@@ -566,12 +575,12 @@ export const WORKFLOW_TYPE = {
 };
 
 export const LOYALTY_RULES_ATTRIBUTES = {
-  PURCHASE_AMOUNT: 'PURCHASE_AMOUNT',
-  ACCOUNT_CREATION: 'ACCOUNT_CREATION',
-  PRODUCT_QTY: 'PRODUCT_QTY',
-  NO_OF_VISITS: 'NO_OF_VISITS',
-  BIRTHDAY: 'BIRTHDAY',
-  FIRST_PURCHASE: 'FIRST_PURCHASE',
+  PURCHASE_AMOUNT: 'purchaseAmount',
+  ACCOUNT_CREATION: 'accountCreation',
+  PRODUCT_QTY: 'productQuantity',
+  NO_OF_VISITS: 'noOfVisits',
+  BIRTHDAY: 'birthday',
+  FIRST_PURCHASE: 'firstPurchase',
   MONEY_OFF: 'MONEY_OFF',
   FREE_SHIPPING: 'FREE_SHIPPING',
 };
@@ -660,21 +669,15 @@ export const DRAWER_TITLES = {
 export const DRAWER_ACTIONS_TITLES = {
   EDIT: 'Edit',
   ADD: 'ADD',
+  Add: 'Add',
   VIEW: 'View',
-};
-
-export const LOYALTY_SHOP_TYPE = {
-  ON_SITE: 'ONSITE',
-  DEPARTMENT: 'DEPARTMENT',
-  HEADQUARTERS: 'HEADQUARTERS',
-  POINT_OF_SALE: 'POINT_OF_SALES',
-  WEB_SHOP: 'WEBSHOP',
 };
 
 export const LOGICS = {
   AND: 'AND',
   OR: 'OR',
 };
+
 export const LOYALTY_REWARDS_STATUS = {
   ACTIVE: 'Active',
   EXPIRED: 'Expired',
@@ -800,6 +803,8 @@ export const IMPORT_OBJECT_TYPE = {
   RULES_AND_TIERS: 'RULES_AND_TIERS',
   COMPANIES: 'COMPANIES',
   LOYALTY_SHOPS: 'LOYALTY_SHOPS',
+  DEALS: 'DEALS',
+  TASKS: 'TASKS',
 };
 
 export const IMPORT_PRODUCTS_NAME = {
@@ -913,14 +918,6 @@ export const TIME_TO_RESTORE_DELETED_RECORD = {
 export const REPORT_TYPE = {
   TABLE: 'TABLE',
   TEXT: 'TEXT_FIELD',
-  EVERYONE: 'EVERYONE',
-  PRIVATE: 'PRIVATE',
-  SPECIFIC_USERS: 'SPECIFIC_USERS',
-  VIEW_AND_EDIT: 'VIEW_AND_EDIT',
-  VIEW_ONLY: 'VIEW_ONLY',
-  ADD_TO_EXISTING: 'ADD_TO_EXISTING_DASHBOARD',
-  ADD_TO_NEW: 'ADD_TO_NEW_DASHBOARD',
-  DO_NOT_ADD: 'DO_NOT_ADD_TO_DASHBOARD',
   ALL: 'All',
   INVENTORIES: 'INVENTORY',
   TICKETS: 'TICKETS',
@@ -929,13 +926,12 @@ export const REPORT_TYPE = {
   PURCHASE_ORDER: 'PURCHASE_ORDER',
   DEALS: 'DEALS',
   FORECAST: 'FORECAST',
-  NO_OF_RECORDS: 'NO_OF_RECORDS',
   TEMPLATE_TABLE: 'TEMPLATE_TABLE',
   TEMPLATE_TEXT: 'TEMPLATE_TEXT',
   LEADS: 'LEADS',
   CAMPAIGNS: 'CAMPAIGN',
-  CHART: 'chart',
-  COUNTER: 'counter',
+  CHART: 'CHART',
+  COUNTER: 'COUNTER',
 };
 
 export const ADD_TO = {
@@ -956,31 +952,6 @@ export const FIELD_TYPE = {
   STATIC: 'STATIC',
   OBJECT_ID: 'OBJECT_ID',
   STRING: 'STRING',
-};
-
-export const COLLECTION_NAME = {
-  ASSET_TYPES: 'assettypes',
-  LOCATION: 'locations',
-  DEPARTMENT: 'departments',
-  VENDORS: 'vendors',
-  USERS: 'users',
-  SERVICE_CATEGORIES: 'servicecategories',
-  DEAL_PIPELINES: 'dealpipelines',
-  FORECAST_PIPELINES: 'goals',
-  FORECAST_STAGES: 'forecastStage',
-  CONTRACT_TYPE: 'contracttypes',
-  EVERYONE: 'everyone',
-  SPECIFIC_USERS: 'specificUsers',
-  ADD_TO_EXISTING: 'addToExisting',
-  ADD_TO_NEW: 'addToNew',
-  ALL: 'All',
-  INVENTORIES: 'Inventory',
-  TICKETS: 'Tickets',
-  SOFTWARE: 'Software',
-  CONTRACTS: 'Contract',
-  PURCHASE_ORDER: 'Purchase Order',
-  DEALS: 'Deals',
-  FORECAST: 'Forecast',
 };
 
 export const MODAL_INITIAL_STATES: any = {
@@ -1233,7 +1204,26 @@ export const SERVICE_CATALOG_STATUSES = {
   PUBLISHED: 'PUBLISHED',
   DRAFT: 'DRAFT',
 };
-export const LOYALTY_CONSUMER_STATUS = {
+
+export const SALES_WORKFLOW_TYPES = {
+  DEALS: 'DEALS',
+  QUOTES: 'QUOTES',
+  SALES_TASKS: 'SALES_TASKS',
+};
+
+export const LOYALTY_VOUCHER_STATUS = {
+  ACTIVE_LABEL: 'Active',
+  INACTIVE_LABEL: 'Inactive',
+  ACTIVE_VALUE: 'ACTIVE',
+  INACTIVE_VALUE: 'INACTIVE',
+};
+
+export const WORKFLOW_STATUS = {
   ACTIVE: 'ACTIVE',
   INACTIVE: 'INACTIVE',
+};
+
+export const AVTIVITY_LOGS_ROLE = {
+  ORG_AMDIN: 'Org Admin',
+  SUPER_AMDIN: 'Super Admin',
 };

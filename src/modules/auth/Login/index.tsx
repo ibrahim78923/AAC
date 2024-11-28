@@ -17,7 +17,6 @@ import { styles } from './Login.style';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useAuthLoginMutation } from '@/services/auth';
-import { enqueueSnackbar } from 'notistack';
 import { v4 as uuidv4 } from 'uuid';
 import { LoadingButton } from '@mui/lab';
 import {
@@ -27,6 +26,7 @@ import {
 } from './Login.data';
 import { useRouter } from 'next/router';
 import { AUTH } from '@/constants';
+import { errorSnackbar } from '@/lib/snackbar';
 
 const Login = () => {
   const theme = useTheme();
@@ -61,9 +61,7 @@ const Login = () => {
       login(res);
     } catch (error: any) {
       const errMsg = res?.message;
-      enqueueSnackbar(errMsg ?? error?.data?.message ?? 'Error occured', {
-        variant: 'error',
-      });
+      errorSnackbar(errMsg ?? error?.data?.message ?? 'Error occured');
     }
   };
 

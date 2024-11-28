@@ -3,6 +3,8 @@ import { Loyalty } from './Loyalty';
 import { GiftCards } from './GiftCards';
 import { RolesAndRight } from '../RoleAndRights';
 import { UserManagement } from '../UserManagement';
+import { Permissions } from '@/constants/permissions';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const SETTINGS_MODULES = {
   GIFT_CARDS: 'Gift cards',
@@ -12,10 +14,34 @@ export const SETTINGS_MODULES = {
 };
 
 export const renderSettingsModule: any = {
-  [SETTINGS_MODULES?.LOYALTY]: <Loyalty />,
-  [SETTINGS_MODULES?.GIFT_CARDS]: <GiftCards />,
-  [SETTINGS_MODULES?.ROLE_AND_RIGHTS]: <RolesAndRight />,
-  [SETTINGS_MODULES?.USER_MANAGEMENT]: <UserManagement />,
+  [SETTINGS_MODULES?.LOYALTY]: (
+    <PermissionsGuard
+      permissions={Permissions?.AIR_LOYALTY_PROGRAM_SETTINGS_LOYALTY}
+    >
+      <Loyalty />
+    </PermissionsGuard>
+  ),
+  [SETTINGS_MODULES?.GIFT_CARDS]: (
+    <PermissionsGuard
+      permissions={Permissions?.AIR_LOYALTY_PROGRAM_SETTINGS_GIFT_CARD}
+    >
+      <GiftCards />
+    </PermissionsGuard>
+  ),
+  [SETTINGS_MODULES?.ROLE_AND_RIGHTS]: (
+    <PermissionsGuard
+      permissions={Permissions?.AIR_LOYALTY_PROGRAM_SETTINGS_ROLES_AND_RIGHT}
+    >
+      <RolesAndRight />
+    </PermissionsGuard>
+  ),
+  [SETTINGS_MODULES?.USER_MANAGEMENT]: (
+    <PermissionsGuard
+      permissions={Permissions?.AIR_LOYALTY_PROGRAM_SETTINGS_USER_MANAGEMENT}
+    >
+      <UserManagement />
+    </PermissionsGuard>
+  ),
 };
 
 export const tabComponentProps = {
@@ -51,6 +77,7 @@ export const settingsDataDynamic = (
       },
       onClick: () => setActiveModule(SETTINGS_MODULES?.LOYALTY),
     },
+    permissions: Permissions?.AIR_LOYALTY_PROGRAM_SETTINGS_LOYALTY,
     heading: SETTINGS_MODULES?.LOYALTY,
     component: Typography,
   },
@@ -68,6 +95,7 @@ export const settingsDataDynamic = (
       },
       onClick: () => setActiveModule(SETTINGS_MODULES?.GIFT_CARDS),
     },
+    permissions: Permissions?.AIR_LOYALTY_PROGRAM_SETTINGS_GIFT_CARD,
     heading: SETTINGS_MODULES?.GIFT_CARDS,
     component: Typography,
   },
@@ -85,6 +113,7 @@ export const settingsDataDynamic = (
       },
       onClick: () => setActiveModule(SETTINGS_MODULES?.ROLE_AND_RIGHTS),
     },
+    permissions: Permissions?.AIR_LOYALTY_PROGRAM_SETTINGS_ROLES_AND_RIGHT,
     heading: SETTINGS_MODULES?.ROLE_AND_RIGHTS,
     component: Typography,
   },
@@ -102,6 +131,7 @@ export const settingsDataDynamic = (
       },
       onClick: () => setActiveModule(SETTINGS_MODULES?.USER_MANAGEMENT),
     },
+    permissions: Permissions?.AIR_LOYALTY_PROGRAM_SETTINGS_USER_MANAGEMENT,
     heading: SETTINGS_MODULES?.USER_MANAGEMENT,
     component: Typography,
   },

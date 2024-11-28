@@ -9,10 +9,9 @@ import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 // import { END_POINTS } from '@/routesConstants/endpoints';
 import { usePostCompaniesViewMutation } from '@/services/commonFeatures/companies';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { getActiveProductSession } from '@/utils';
 import { useGetAllUserTeamsQuery } from '@/services/commonFeatures/contacts';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useCreateViewCompany = (setIsCreateView: any, isCreateView: any) => {
   const theme = useTheme<Theme>();
@@ -53,15 +52,11 @@ const useCreateViewCompany = (setIsCreateView: any, isCreateView: any) => {
 
     try {
       await postCompaniesView({ body })?.unwrap();
-      enqueueSnackbar('Company view created successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar('Company view created successfully');
       setIsCreateView(false);
       reset();
     } catch (error) {
-      enqueueSnackbar('Error while creating company view', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar('Error while creating company view');
     }
   };
 

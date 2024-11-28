@@ -1,5 +1,4 @@
 import { useForm } from 'react-hook-form';
-
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   productsDefaultValues,
@@ -80,8 +79,10 @@ const useProductsEditorDrawer = ({
           return;
         } else if (key === 'category') {
           formData.append(key, value?._id);
-        } else {
+        } else if (key === 'image') {
           formData.append(key, value);
+        } else {
+          formData.append(key, JSON?.stringify(value));
         }
       }
     });

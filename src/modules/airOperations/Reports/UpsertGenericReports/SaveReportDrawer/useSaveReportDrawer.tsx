@@ -24,6 +24,10 @@ import {
 } from '@/services/airOperations/reports/upsert-generic-reports';
 import { useRouter } from 'next/router';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import {
+  BACKEND_COLLECTION_NAME,
+  BACKEND_REPORT_ACCESS,
+} from '@/constants/api';
 
 export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
   const { form, reportId, metricType, data, handleMoveBack } = props;
@@ -99,13 +103,13 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
     if (
       allDashboardData?.dashboardDetails?.length === SELECTED_ARRAY_LENGTH?.ZERO
     ) {
-      setValue(ADD_TO?.ADD_TO_DASHBOARD, REPORT_TYPE?.DO_NOT_ADD);
+      setValue(ADD_TO?.ADD_TO_DASHBOARD, BACKEND_REPORT_ACCESS?.DO_NOT_ADD);
     } else {
       if (
         allDashboardData?.dashboardDetails[SELECTED_ARRAY_LENGTH?.ZERO]?.reports
-          ?.action === REPORT_TYPE?.ADD_TO_NEW
+          ?.action === BACKEND_REPORT_ACCESS?.ADD_TO_NEW
       ) {
-        setValue(ADD_TO?.ADD_TO_DASHBOARD, REPORT_TYPE?.ADD_TO_NEW);
+        setValue(ADD_TO?.ADD_TO_DASHBOARD, BACKEND_REPORT_ACCESS?.ADD_TO_NEW);
         setValue(
           ADD_TO?.ADD_TO_NEW_CONDITION_ONE,
           allDashboardData?.dashboardDetails[SELECTED_ARRAY_LENGTH?.ZERO]?.name,
@@ -134,9 +138,12 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
         );
       } else if (
         allDashboardData?.dashboardDetails[SELECTED_ARRAY_LENGTH?.ZERO]?.reports
-          ?.action === REPORT_TYPE?.ADD_TO_EXISTING
+          ?.action === BACKEND_REPORT_ACCESS?.ADD_TO_EXISTING
       ) {
-        setValue(ADD_TO?.ADD_TO_DASHBOARD, REPORT_TYPE?.ADD_TO_EXISTING);
+        setValue(
+          ADD_TO?.ADD_TO_DASHBOARD,
+          BACKEND_REPORT_ACCESS?.ADD_TO_EXISTING,
+        );
         const existingDashboardData = allDashboardData?.dashboardDetails?.map(
           (dashboard: any) => ({
             _id: dashboard?._id,
@@ -155,8 +162,8 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
       selectAddToNewDashboard,
     });
     if (
-      selectAddToDashboard === REPORT_TYPE?.ADD_TO_EXISTING ||
-      selectAddToDashboard === REPORT_TYPE?.DO_NOT_ADD
+      selectAddToDashboard === BACKEND_REPORT_ACCESS?.ADD_TO_EXISTING ||
+      selectAddToDashboard === BACKEND_REPORT_ACCESS?.DO_NOT_ADD
     ) {
       setValue(ADD_TO?.ADD_TO_NEW_CONDITION_TWO, null);
     }
@@ -269,7 +276,7 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
                   }),
                 },
                 yAxis: {
-                  fieldName: REPORT_TYPE?.NO_OF_RECORDS,
+                  fieldName: BACKEND_COLLECTION_NAME?.NO_OF_RECORDS,
                 },
               },
             }),
@@ -312,10 +319,10 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
         name: data?.reportName,
         accessLevel: {
           type: data?.sharedWith,
-          ...(data?.sharedWith === REPORT_TYPE?.EVERYONE && {
+          ...(data?.sharedWith === BACKEND_REPORT_ACCESS?.EVERYONE && {
             access: data?.everyoneCondition,
           }),
-          ...(data?.sharedWith === REPORT_TYPE?.SPECIFIC_USERS && {
+          ...(data?.sharedWith === BACKEND_REPORT_ACCESS?.SPECIFIC_USERS && {
             users: sharedWithSpecificUserWatch?.map(
               (item: UsersDropdownOptionsI) => ({
                 id: item?.userId,
@@ -328,13 +335,14 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
         linkDashboard: {
           action: data?.addToDashboard,
           productId: id,
-          ...(data?.addToDashboard === REPORT_TYPE?.ADD_TO_NEW && {
+          ...(data?.addToDashboard === BACKEND_REPORT_ACCESS?.ADD_TO_NEW && {
             name: data?.addToNewConditionOne,
           }),
-          ...(data?.addToDashboard === REPORT_TYPE?.ADD_TO_NEW && {
+          ...(data?.addToDashboard === BACKEND_REPORT_ACCESS?.ADD_TO_NEW && {
             access: data?.addToNewConditionTwo,
           }),
-          ...(data?.addToNewConditionTwo === REPORT_TYPE?.SPECIFIC_USERS && {
+          ...(data?.addToNewConditionTwo ===
+            BACKEND_REPORT_ACCESS?.SPECIFIC_USERS && {
             specialUsers: newDashboardSpecificUserWatch?.map(
               (item: UsersDropdownOptionsI) => ({
                 userId: item?.userId,
@@ -342,10 +350,12 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
               }),
             ),
           }),
-          ...(data?.addToNewConditionTwo === REPORT_TYPE?.EVERYONE && {
+          ...(data?.addToNewConditionTwo ===
+            BACKEND_REPORT_ACCESS?.EVERYONE && {
             permissions: data?.newDashboardEveryoneCondition,
           }),
-          ...(data?.addToDashboard === REPORT_TYPE?.ADD_TO_EXISTING && {
+          ...(data?.addToDashboard ===
+            BACKEND_REPORT_ACCESS?.ADD_TO_EXISTING && {
             existingDashboards: existingDashboardIds,
           }),
         },

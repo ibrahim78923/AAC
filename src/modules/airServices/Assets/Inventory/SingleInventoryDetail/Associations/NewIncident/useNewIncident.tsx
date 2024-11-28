@@ -1,4 +1,5 @@
 import {
+  getNewIncidentFormFieldsDynamic,
   newIncidentValidationSchema,
   newIncidentsDefaultValuesFunction,
 } from './NewIncident.data';
@@ -70,7 +71,7 @@ export const useNewIncident = (props: {
     defaultValues: newIncidentsDefaultValuesFunction?.(form),
   });
 
-  const { handleSubmit, reset, getValues } = methods;
+  const { handleSubmit, reset, getValues, setValue, watch } = methods;
 
   const onSubmit = async (formData: any) => {
     const newFormData = filteredEmptyValues(formData);
@@ -158,6 +159,11 @@ export const useNewIncident = (props: {
           'plannedEndDate',
           isoDateString(newFormData?.plannedEndDate),
         );
+      !!newFormData?.plannedStartDate &&
+        newIncidentTicketFormData?.append(
+          'plannedStartDate',
+          isoDateString(newFormData?.plannedStartDate),
+        );
       !!newFormData?.plannedEffort &&
         newIncidentTicketFormData?.append(
           'plannedEffort',
@@ -224,6 +230,12 @@ export const useNewIncident = (props: {
     reset?.();
   };
 
+  const newIncidentFormFieldsDynamic = getNewIncidentFormFieldsDynamic(
+    getValues,
+    setValue,
+    watch,
+  );
+
   return {
     handleSubmit,
     onSubmit,
@@ -235,5 +247,6 @@ export const useNewIncident = (props: {
     form,
     getDynamicFieldsStatus,
     postAttachmentStatus,
+    newIncidentFormFieldsDynamic,
   };
 };

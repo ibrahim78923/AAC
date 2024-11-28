@@ -18,8 +18,8 @@ import { API_STATUS, EMAIL_TABS_TYPES } from '@/constants';
 import { useDispatch } from 'react-redux';
 import { UnixDateFormatter } from '@/utils/dateTime';
 import { usePatchEmailMessageMutation } from '@/services/commonFeatures/email/others';
-import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
+import { errorSnackbar } from '@/lib/snackbar';
 
 const MailList = ({
   emailsByFolderIdData,
@@ -95,9 +95,7 @@ const MailList = ({
             data: updatedData,
           }));
         } catch (error: any) {
-          enqueueSnackbar('Something went wrong while updating message!', {
-            variant: 'error',
-          });
+          errorSnackbar('Something went wrong while updating message!');
         }
       }
     }

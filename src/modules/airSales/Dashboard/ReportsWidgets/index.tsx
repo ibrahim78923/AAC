@@ -16,7 +16,7 @@ export const ReportsWidgets = (props: any) => {
         {capitalizeFirstLetters(reportWidgets?.name)}
       </Typography>
 
-      <Grid container spacing={2}>
+      <Grid container spacing={3}>
         {reportWidgets?.widgets?.map((item: any, index: any) => (
           <Grid item xs={12} lg={6} key={item?._id}>
             {REPORTS_WIDGET_COMPONENT?.[item?.type] &&

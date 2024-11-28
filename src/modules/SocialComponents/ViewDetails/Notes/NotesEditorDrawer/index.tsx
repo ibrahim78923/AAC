@@ -22,13 +22,14 @@ const NotesEditorDrawer = (props: any) => {
     rowData,
     setSelectedCheckboxes,
   } = props;
-  const { handleSubmit, onSubmit, methods } = useNotesEditorDrawer(
-    openDrawer,
-    setOpenDrawer,
-    companyId,
-    rowData,
-    setSelectedCheckboxes,
-  );
+  const { handleSubmit, onSubmit, methods, updatedIsLoading, postIsLoading } =
+    useNotesEditorDrawer(
+      openDrawer,
+      setOpenDrawer,
+      companyId,
+      rowData,
+      setSelectedCheckboxes,
+    );
 
   return (
     <div>
@@ -40,6 +41,7 @@ const NotesEditorDrawer = (props: any) => {
         isOk={true}
         footer={openDrawer === 'View' ? false : true}
         submitHandler={handleSubmit(onSubmit)}
+        isLoading={updatedIsLoading || postIsLoading}
       >
         <Box sx={{ pt: 2 }}>
           <FormProvider methods={methods}>

@@ -12,8 +12,11 @@ const useAssociations = (selected: any) => {
     searchQuote: searchQuotes ? searchQuotes : undefined,
   };
 
-  const { data: assocaitionsCompleteData, isLoading } =
-    useGetDealsAssociationsQuery({ id: selected, params: associationParams });
+  const {
+    data: assocaitionsCompleteData,
+    isLoading,
+    isFetching: associationDataFetching,
+  } = useGetDealsAssociationsQuery({ id: selected, params: associationParams });
 
   const assocaitionData = assocaitionsCompleteData?.data;
 
@@ -23,6 +26,7 @@ const useAssociations = (selected: any) => {
     setSearchContacts,
     setSearchCompanies,
     setSearchQuotes,
+    associationDataFetching,
   };
 };
 

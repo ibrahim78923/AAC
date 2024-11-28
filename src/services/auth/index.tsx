@@ -106,6 +106,13 @@ export const authAPI = baseAPI.injectEndpoints({
         body: payload,
       }),
     }),
+    getDrnCheck: builder.query({
+      query: ({ drn }) => ({
+        url: `${END_POINTS?.EMAIL_DRN}?drn=${drn}`,
+        method: 'GET',
+      }),
+      providesTags: ['auth'],
+    }),
   }),
 });
 
@@ -124,4 +131,5 @@ export const {
   useChangePasswordMutation,
   useGetEmailCheckQuery,
   useSetPasswordMutation,
+  useGetDrnCheckQuery,
 } = authAPI;

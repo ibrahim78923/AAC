@@ -16,27 +16,22 @@ import { TruncateText } from '@/components/TruncateText';
 import { Autorenew } from '@mui/icons-material';
 import { pxToRem } from '@/utils/getFontValue';
 
-const { VIEW_MANAGE_DASHBOARD, SHARE_DASHBOARD, VIEW_DASHBOARD } =
-  AIR_SERVICES_DASHBOARD_PERMISSIONS ?? {};
-const { AIR_SERVICES_MANAGE_DASHBOARD } = Permissions ?? {};
-
 export const DashboardFilter = (props: any) => {
-  const { apiLoader } = props;
+  const { apiLoader, refetchApi, hasDefaultDashboard, hasError, showLoader } =
+    props;
   const {
     dashboardDropdownActions,
     isDrawerOpen,
     setIsDrawerOpen,
-    user,
-    apiCallInProgress,
     dashboardName,
     moveToManageDashboard,
-    refetch,
     timeLapse,
+    authUserName,
   } = useDashboardFilter(props);
 
   return (
     <>
-      {apiCallInProgress ? (
+      {showLoader ? (
         <Skeleton />
       ) : (
         <Typography variant="h3" color="primary.main">
@@ -49,7 +44,8 @@ export const DashboardFilter = (props: any) => {
         justifyContent={'space-between'}
         flexWrap={'wrap'}
         gap={1}
-        mt={1}
+        py={1}
+        overflow={'auto'}
       >
         <Typography
           variant="h4"
@@ -57,53 +53,74 @@ export const DashboardFilter = (props: any) => {
           color="blue.main"
         >
           <Typography component="span" variant="h4">
-            Hi {user?.firstName ?? '---'}!
+            Hi {authUserName}!
           </Typography>{' '}
           Happy to see you again
         </Typography>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1}>
-          <Button
-            className="small"
-            variant="outlined"
-            color="inherit"
-            size="small"
-            startIcon={<Autorenew />}
-            onClick={refetch}
-            disabled={apiCallInProgress}
-            sx={{
-              fontSize: pxToRem(12),
-              fontWeight: 'fontWeightRegular',
-              textTransform: 'lowercase',
-            }}
-          >
-            {!!apiCallInProgress ? (
-              <Box>
-                <LinearProgress sx={{ width: pxToRem(70) }} />
-              </Box>
-            ) : (
-              timeLapse?.lastFetchLapseTime
-            )}
-          </Button>
+          {hasError || hasDefaultDashboard ? (
+            <></>
+          ) : (
+            <>
+              <Button
+                className="small"
+                variant="outlined"
+                color="inherit"
+                size="small"
+                startIcon={<Autorenew />}
+                onClick={refetchApi}
+                disabled={showLoader}
+                sx={{
+                  fontSize: pxToRem(12),
+                  fontWeight: 'fontWeightRegular',
+                  textTransform: 'lowercase',
+                }}
+              >
+                {!!showLoader ? (
+                  <Box>
+                    <LinearProgress sx={{ width: pxToRem(70) }} />
+                  </Box>
+                ) : (
+                  timeLapse?.lastFetchLapseTime
+                )}
+              </Button>
+              <PermissionsGuard
+                permissions={[
+                  AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_MANAGE_DASHBOARD,
+                  AIR_SERVICES_DASHBOARD_PERMISSIONS?.SHARE_DASHBOARD,
+                ]}
+              >
+                <SingleDropdownButton
+                  dropdownOptions={dashboardDropdownActions}
+                  dropdownName="Actions"
+                  disabled={showLoader}
+                  color="inherit"
+                />
+              </PermissionsGuard>
+            </>
+          )}
+          {hasError ? (
+            <> </>
+          ) : (
+            <>
+              <PermissionsGuard
+                permissions={[
+                  AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD,
+                ]}
+              >
+                <DashboardListFieldDropdown disabled={showLoader} />
+              </PermissionsGuard>
+            </>
+          )}
           <PermissionsGuard
-            permissions={[VIEW_MANAGE_DASHBOARD, SHARE_DASHBOARD]}
+            permissions={Permissions?.AIR_SERVICES_MANAGE_DASHBOARD}
           >
-            <SingleDropdownButton
-              dropdownOptions={dashboardDropdownActions}
-              dropdownName="Actions"
-              disabled={apiCallInProgress}
-              color="inherit"
-            />
-          </PermissionsGuard>
-          <PermissionsGuard permissions={[VIEW_DASHBOARD]}>
-            <DashboardListFieldDropdown disabled={apiCallInProgress} />
-          </PermissionsGuard>
-          <PermissionsGuard permissions={AIR_SERVICES_MANAGE_DASHBOARD}>
             <Button
               className="small"
               color="inherit"
               variant="outlined"
               onClick={moveToManageDashboard}
-              disabled={apiCallInProgress}
+              disabled={showLoader}
             >
               Manage Dashboards
             </Button>

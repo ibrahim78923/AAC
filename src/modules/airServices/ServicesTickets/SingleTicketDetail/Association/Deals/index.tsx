@@ -2,12 +2,12 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
-import { CircularProgress, Typography } from '@mui/material';
 import useDeals from './useDeals';
 import AddDeals from './AddDeals';
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import ViewDeal from './ViewDeal';
+import { DataRecordCount } from '@/components/DataRecordCount';
 
 export default function Deals({ isDrawerOpen, setIsDrawerOpen }: any) {
   const {
@@ -54,27 +54,11 @@ export default function Deals({ isDrawerOpen, setIsDrawerOpen }: any) {
       <PermissionsGuard
         permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.DEALS_LIST_VIEW]}
       >
-        <Typography variant={'h5'}>
-          <Typography
-            variant={'body1'}
-            component={'span'}
-            bgcolor={'secondary.main'}
-            borderRadius={1}
-            p={0.4}
-            color={'common.white'}
-            mr={0.5}
-          >
-            {isLoading || isFetching ? (
-              <CircularProgress size={18} />
-            ) : data?.length < 10 ? (
-              `0${data?.length}`
-            ) : (
-              data?.length
-            )}
-          </Typography>
-          Deals
-        </Typography>
-
+        <DataRecordCount
+          recordName="Deals"
+          isCountLoading={isLoading || isFetching}
+          totalCount={data?.length}
+        />
         <TanstackTable
           columns={associateDealsColumns}
           data={data}

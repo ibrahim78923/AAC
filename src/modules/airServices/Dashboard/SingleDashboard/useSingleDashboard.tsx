@@ -1,23 +1,30 @@
-import { useRef, useState } from 'react';
-import { TICKET_GRAPH_TYPES } from '@/constants/strings';
+import { useEffect, useMemo, useRef } from 'react';
 import { NextRouter, useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import useAuth from '@/hooks/useAuth';
 import { useGetServicesDashboardSingleDashboardDetailsQuery } from '@/services/airServices/dashboard';
 import { AIR_SERVICES } from '@/constants/routes';
 import { AUTO_REFRESH_API_POLLING_TIME } from '@/config';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { getActiveProductSession } from '@/utils';
+import { resetSingleDashboardState } from '@/redux/slices/airServices/dashboard/slice';
+import { API_STATUS_CODE } from '@/constants/api';
+import {
+  dashboardTicketBasedGraphTypeSelector,
+  departmentWiseAgentSelector,
+} from '@/redux/slices/airServices/dashboard/selectors';
 
 export const useSingleDashboard = (props: any) => {
+  const dispatch = useAppDispatch();
   const { dashboardId } = props;
   const downloadRef = useRef(null);
   const router: NextRouter = useRouter();
-  const [ticketType, setTicketType] = useState(TICKET_GRAPH_TYPES?.STATUS);
-  const [departmentId, setDepartmentId] = useState<any>(null);
 
-  const auth: any = useAuth();
-  const productId = auth?.product?._id ?? {};
+  const productId = useMemo(() => {
+    const account = getActiveProductSession();
+    return account?._id;
+  }, []);
 
   const methods = useForm({
     defaultValues: { dashboardId: null },
@@ -30,10 +37,16 @@ export const useSingleDashboard = (props: any) => {
 
   const { watch } = methods;
 
+  const departmentWiseAgents = useAppSelector(departmentWiseAgentSelector);
+
+  const ticketBasedGraphType = useAppSelector(
+    dashboardTicketBasedGraphTypeSelector,
+  );
+
   const apiDataParameter = {
     queryParams: {
-      filterBy: ticketType,
-      departmentId: departmentId?._id,
+      filterBy: ticketBasedGraphType,
+      departmentId: departmentWiseAgents?._id,
       dashboardId:
         router?.query?.dashboardId ??
         dashboardId?._id ??
@@ -60,19 +73,28 @@ export const useSingleDashboard = (props: any) => {
   const apiSuspenseState =
     lazyGetSingleServicesDashboardStatus?.isLoading ||
     lazyGetSingleServicesDashboardStatus?.isFetching;
+  const hasError = lazyGetSingleServicesDashboardStatus?.isError;
+  const hasDefaultDashboard =
+    lazyGetSingleServicesDashboardStatus?.data?.statusCode ===
+    API_STATUS_CODE?.[404];
+  const refetchApi = lazyGetSingleServicesDashboardStatus?.refetch;
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetSingleDashboardState?.());
+    };
+  }, []);
 
   return {
     lazyGetSingleServicesDashboardStatus,
-    ticketType,
-    setTicketType,
-    departmentId,
-    setDepartmentId,
-    router,
     methods,
     downloadRef,
     moveToDashboard,
     dashboardName,
     reportsList,
     apiSuspenseState,
+    hasDefaultDashboard,
+    hasError,
+    refetchApi,
   };
 };

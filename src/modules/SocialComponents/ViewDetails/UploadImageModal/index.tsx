@@ -20,10 +20,10 @@ import {
 
 import { useState } from 'react';
 import { styles } from '../ViewDetails.style';
-import { enqueueSnackbar } from 'notistack';
 import { useCompanyUpdateMutation } from '@/services/commonFeatures/companies';
 import { LoadingButton } from '@mui/lab';
 import { generateImage } from '@/utils/avatarUtils';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const UploadImageModal = ({
   isUploadImageOpen,
@@ -59,11 +59,11 @@ const UploadImageModal = ({
         body: formData,
         id: companyId,
       }).unwrap();
-      enqueueSnackbar(`image Updated Successfully`, { variant: 'success' });
+      successSnackbar(`image Updated Successfully`);
       setIsUploadImageOpen(false);
     } catch (error: any) {
       const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+      errorSnackbar(errMsg ?? 'Error occurred');
     }
   };
 

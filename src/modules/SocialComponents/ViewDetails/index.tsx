@@ -14,7 +14,6 @@ import ActivityLog from './ActivityLog';
 import Tasks from './Tasks';
 import Notes from './Notes';
 import Calls from './Calls';
-import Emails from './Emails';
 import Meetings from './Meetings';
 import Associations from './Associations';
 
@@ -30,6 +29,7 @@ import { useState } from 'react';
 import UploadImageModal from './UploadImageModal';
 import { useRouter } from 'next/router';
 import { generateImage } from '@/utils/avatarUtils';
+import EmailComp from '@/modules/airSales/Deals/ViewDetails/Emails/EmailComp';
 const ViewDetails = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isUploadImageOpen, setIsUploadImageOpen] = useState(false);
@@ -40,6 +40,7 @@ const ViewDetails = () => {
   const { data, isLoading } = useGetCompaniesDetailsQuery({
     Id: query?.id,
   });
+  const activeTabValue = query?.activeTab;
 
   const date = new Date(data?.data?.createdAt);
   const hours = date.getHours();
@@ -275,7 +276,10 @@ const ViewDetails = () => {
 
         <Grid item xs={12}>
           <Box>
-            <HorizontalTabs tabsDataArray={singleUserDealTabsData}>
+            <HorizontalTabs
+              tabsDataArray={singleUserDealTabsData}
+              defaultValue={parseFloat(activeTabValue)}
+            >
               <Details data={data?.data} isLoading={isLoading} />
               <ActivityLog companyId={data?.data?._id} />
               <Associations companyId={data?.data?._id} />
@@ -283,7 +287,8 @@ const ViewDetails = () => {
               <Notes companyId={data?.data?._id} />
               <Calls companyId={data?.data?._id} />
               <Meetings />
-              <Emails />
+              {/* <Emails companyId={data?.data?._id} /> */}
+              <EmailComp moduleType="COMPANY" moduleId={data?.data?._id} />
             </HorizontalTabs>
           </Box>
         </Grid>

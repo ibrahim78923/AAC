@@ -10,7 +10,7 @@ const {
   OPERATIONS_TEAM_DETAIL,
 } = OPERATIONS_TEAM_ACTIONS_CONSTANT;
 
-export const operationsteamActionComponent = {
+export const operationsTeamActionComponent = {
   [ADD_OPERATIONS_TEAM]: <UpsertTeams />,
   [EDIT_OPERATIONS_TEAM]: <UpsertTeams />,
   [DELETE_OPERATIONS_TEAM]: <DeleteTeam />,

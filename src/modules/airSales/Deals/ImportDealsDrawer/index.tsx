@@ -1,7 +1,6 @@
 import useImportDeal from './useImportDeal';
 import { Import } from '@/components/Import';
 import { CRM_COLUMNS } from './ImportDealsDrawer.data';
-import { OBJECT_URL_IMPORT } from '@/constants/strings';
 import { ImportDealsDrawerProps } from './ImportDealDrawer-interface';
 
 const ImportDealsDrawer = ({
@@ -21,7 +20,6 @@ const ImportDealsDrawer = ({
       setDrawerDefaultState={setDrawerDefaultState}
       title="Import Deals"
       crmColumnsOptions={CRM_COLUMNS}
-      objectUrl={OBJECT_URL_IMPORT?.USERS_ATTACHMENT}
       submitImport={(apiData: any) => submitImport?.(apiData)}
       importFileStatus={importFileStatus}
       mandatoryColumnsList={filterMandatoryFields?.()}

@@ -1,31 +1,49 @@
 import { defaultValues } from './TransactionFilter.data';
 import { useForm } from 'react-hook-form';
-import { useLazyGetTransactionListQuery } from '@/services/airLoyaltyProgram/giftCards/transactions';
-import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { PAGINATION } from '@/config';
 
-export const useTransactionFilter = () => {
-  const [triggerGetTransactionList, getTransactionListStatus] =
-    useLazyGetTransactionListQuery();
+export const useTransactionFilter = (props: any) => {
+  const { setOpenDrawer, filterValues, setFilterValues, setPage } = props;
 
   const methods: any = useForm({
-    defaultValues,
+    defaultValues: defaultValues(filterValues),
   });
 
   const { handleSubmit, reset } = methods;
+
   const onSubmit = async (data: any) => {
-    try {
-      await triggerGetTransactionList(data)?.unwrap();
-      successSnackbar('Saved Successfully');
-      reset();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    const transactionFiltered: any = Object?.entries(data || {})
+      ?.filter(
+        ([, value]: any) => value !== undefined && value != '' && value != null,
+      )
+      ?.reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
+
+    if (!Object?.keys(transactionFiltered || {})?.length) {
+      setFilterValues?.(transactionFiltered);
+      onClose();
+      return;
     }
+    setPage?.(PAGINATION?.CURRENT_PAGE);
+    setFilterValues?.(transactionFiltered);
+    setOpenDrawer?.(false);
+  };
+
+  const clearFilter = () => {
+    reset?.();
+    setFilterValues?.(null);
+    setOpenDrawer?.(false);
+  };
+
+  const onClose = () => {
+    reset?.();
+    setOpenDrawer?.(false);
   };
 
   return {
     methods,
     handleSubmit,
     onSubmit,
-    getTransactionListStatus,
+    onClose,
+    clearFilter,
   };
 };

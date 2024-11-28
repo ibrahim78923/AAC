@@ -4,8 +4,7 @@ import { FormProvider, RHFSelect } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
 import useReassignModal from './useReassignModal';
 import { useChangeCompanyOwnerMutation } from '@/services/commonFeatures/companies';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const ReassignModal = ({
   isReassign,
@@ -47,13 +46,9 @@ const ReassignModal = ({
           });
           setIsReassign({ reassignModal: false });
           setCheckedRows([]);
-          enqueueSnackbar(`New owner has been assigned`, {
-            variant: NOTISTACK_VARIANTS?.SUCCESS,
-          });
+          successSnackbar(`New owner has been assigned`);
         } else {
-          enqueueSnackbar(`Please select company owner`, {
-            variant: NOTISTACK_VARIANTS?.ERROR,
-          });
+          errorSnackbar(`Please select company owner`);
         }
       }}
     />

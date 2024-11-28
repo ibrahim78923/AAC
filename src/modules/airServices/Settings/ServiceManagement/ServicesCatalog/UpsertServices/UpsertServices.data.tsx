@@ -4,7 +4,7 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { ASSET_TYPE } from '@/constants/strings';
-import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
+import { GLOBAL_CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 import { GetServicesCategoriesListDropdown } from '../ServicesCatalogFormFields/GetServicesCategoriesListDropdown';
@@ -40,6 +40,11 @@ export const upsertServiceValidationSchema: any = Yup?.object()?.shape({
     ?.max(
       GLOBAL_CHARACTERS_LIMIT?.DESCRIPTION,
       `Maximum Characters Limit is ${GLOBAL_CHARACTERS_LIMIT?.DESCRIPTION}`,
+    )
+    ?.test(
+      'contains-alphabet',
+      'Description must be a string',
+      (value) => !value || REGEX?.ALPHABETS?.test(value),
     ),
   fileUrl: Yup?.mixed()?.nullable(),
   categoryType: Yup?.string()?.nullable(),

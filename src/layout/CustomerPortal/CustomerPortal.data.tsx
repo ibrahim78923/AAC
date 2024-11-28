@@ -5,6 +5,7 @@ import {
   CustomerTicketsIcon,
 } from '@/assets/icons';
 import { AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS } from '@/constants/permission-keys';
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 
 export const drawerWidth = 230;
 
@@ -18,21 +19,21 @@ export const customizePortalDefaultValues = (theme?: any) => ({
 
 export const getCustomerPortalRoutes = (user: any, permissions: string[]) => [
   {
-    key: '/air-customer-portal',
+    key: AIR_CUSTOMER_PORTAL?.DASHBOARD,
     icon: CustomerDashboardIcon,
     label: 'Dashboard',
     role: 'CUSTOMER_PORTAL',
     permissions: true,
   },
   {
-    key: '/air-customer-portal/tickets',
+    key: AIR_CUSTOMER_PORTAL?.TICKETS,
     icon: CustomerTicketsIcon,
     label: 'Tickets',
     role: 'CUSTOMER_PORTAL',
     permissions: user,
   },
   {
-    key: '/air-customer-portal/knowledge-base',
+    key: AIR_CUSTOMER_PORTAL?.KNOWLEDGE_BASE,
     icon: CustomerKnowledgeBaseIcon,
     label: 'Knowledge Base',
     role: 'CUSTOMER_PORTAL',
@@ -42,7 +43,7 @@ export const getCustomerPortalRoutes = (user: any, permissions: string[]) => [
       ) || user,
   },
   {
-    key: '/air-customer-portal/catalog',
+    key: AIR_CUSTOMER_PORTAL?.CATALOG_SERVICES,
     icon: CustomerCatalogIcon,
     label: 'Catalog',
     role: 'CUSTOMER_PORTAL',

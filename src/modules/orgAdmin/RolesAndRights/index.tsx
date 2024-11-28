@@ -1,13 +1,10 @@
 import { Box, Button, Card, Stack, Tooltip, Typography } from '@mui/material';
-
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { ORG_ADMIN } from '@/constants';
-
 import { columns } from './RoleAndRights.data';
 import useRolesAndRights from './useRolesAndRights';
 import RoleFilters from './RoleFilters';
-
 import { FilterSharedIcon, PlusIcon, RefreshTasksIcon } from '@/assets/icons';
 import ActionButton from './ActionButton';
 import { DRAWER_TYPES } from '@/constants/strings';
@@ -28,12 +25,15 @@ const RolesAndRights = () => {
     updateStatus,
     isSuccess,
     isLoading,
+    isFetching,
+    loadingState,
   } = useRolesAndRights();
 
   const columnsProps = {
     updateStatus: updateStatus,
     checkedRows: checkedRows,
     setCheckedRows: setCheckedRows,
+    loadingState: loadingState,
   };
 
   const columnParams = columns(columnsProps);
@@ -118,7 +118,7 @@ const RolesAndRights = () => {
         pageLimit={getPermissions?.data?.meta?.limit}
         currentPage={getPermissions?.data?.meta?.page}
         setPageLimit={setPageLimit}
-        isLoading={isLoading}
+        isLoading={isLoading || isFetching}
         isSuccess={isSuccess}
         setPage={setPage}
         isPagination

@@ -6,7 +6,6 @@ import { detailsDefaultValues, detailsValidationSchema } from './Details.data';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useCompanyUpdateMutation } from '@/services/commonFeatures/companies';
-import { enqueueSnackbar } from 'notistack';
 import { useGetLifeCycleQuery } from '@/services/commonFeatures/contacts';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
@@ -20,6 +19,7 @@ import {
   dynamicFormInitialValue,
 } from '@/utils/dynamic-forms';
 import { filteredEmptyValues } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useDetails = (data: any) => {
   const [form, setForm] = useState<any>([]);
@@ -188,11 +188,9 @@ const useDetails = (data: any) => {
     try {
       await CompanyUpdate(updateCompanyApiParameters).unwrap();
 
-      enqueueSnackbar(`company updated Successfully`, { variant: 'success' });
+      successSnackbar(`company updated Successfully`);
     } catch (error) {
-      enqueueSnackbar('Some thing went wrong', {
-        variant: 'error',
-      });
+      errorSnackbar('Some thing went wrong');
     }
   };
   const { handleSubmit } = methodsDetails;

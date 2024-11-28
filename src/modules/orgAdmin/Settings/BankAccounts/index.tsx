@@ -23,6 +23,7 @@ const BankAccounts = () => {
     isSuccess,
     setPageLimit,
     setPage,
+    isFetching,
   } = useBankAccounts();
 
   const columnsProps = {
@@ -78,7 +79,7 @@ const BankAccounts = () => {
           count={receiversData?.data?.meta?.pages}
           isPagination
           pageLimit={receiversData?.data?.meta?.limit}
-          isLoading={isLoading}
+          isLoading={isLoading || isFetching}
           isSuccess={isSuccess}
         />
       </Stack>

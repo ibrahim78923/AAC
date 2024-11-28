@@ -42,7 +42,7 @@ export const useUpsertTasks = () => {
     (state) => state?.servicesTicketTasks?.isPortalOpen,
   );
 
-  const selectedTicketTasksLists = useAppSelector(
+  const selectedTicketTasksLists: any = useAppSelector(
     (state) => state?.servicesTicketTasks?.selectedTicketTasksLists,
   );
 
@@ -91,7 +91,7 @@ export const useUpsertTasks = () => {
     ),
   });
 
-  const { handleSubmit, reset, getValues, setError } = methods;
+  const { handleSubmit, reset, getValues, setError, setValue, watch } = methods;
 
   useEffect(() => {
     reset(() =>
@@ -155,15 +155,19 @@ export const useUpsertTasks = () => {
         body.customFields = customFields;
       }
 
-      const queryParams = {
+      const queryParams: any = {
         ...Object?.fromEntries(
           Object?.entries(filteredEmptyData)?.filter(
             ([key]) => !customFieldKeys?.has(key),
           ),
         ),
         ticketId: ticketId,
-        startDate: isoDateString(filteredEmptyData?.startDate),
-        endDate: isoDateString(filteredEmptyData?.endDate),
+        startDate: !!filteredEmptyData?.startDate
+          ? isoDateString(filteredEmptyData?.startDate)
+          : undefined,
+        endDate: !!filteredEmptyData?.endDate
+          ? isoDateString(filteredEmptyData?.endDate)
+          : undefined,
         assignTo: filteredEmptyData?.agent?._id,
         departmentId: filteredEmptyData?.department?._id,
         notifyBefore: filteredEmptyData?.notifyBefore?._id,
@@ -220,12 +224,15 @@ export const useUpsertTasks = () => {
   };
 
   const upsertTicketTaskFormFormFields =
-    upsertTicketTaskFormFormFieldsDynamic?.();
+    upsertTicketTaskFormFormFieldsDynamic?.(getValues, setValue, watch);
 
   const apiCallInProgress =
     postTicketTasksStatus?.isLoading ||
     patchTicketTasksStatus?.isLoading ||
     postAttachmentStatus?.isLoading;
+
+  const showLoader =
+    getDynamicFieldsStatus?.isLoading || getDynamicFieldsStatus?.isFetching;
 
   return {
     submitUpsertTicketTasks,
@@ -238,5 +245,6 @@ export const useUpsertTasks = () => {
     getDynamicFormData,
     isPortalOpen,
     apiCallInProgress,
+    showLoader,
   };
 };

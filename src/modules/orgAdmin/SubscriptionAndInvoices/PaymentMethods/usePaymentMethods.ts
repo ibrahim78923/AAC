@@ -6,9 +6,9 @@ import {
   useGetPaymentCardQuery,
   usePatchPaymentCardMutation,
 } from '@/services/orgAdmin/subscription-and-invoices';
-import { enqueueSnackbar } from 'notistack';
 import { successSnackbar } from '@/utils/api';
 import { getSession } from '@/utils';
+import { errorSnackbar } from '@/lib/snackbar';
 
 const usePaymentMethods = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -54,7 +54,7 @@ const usePaymentMethods = () => {
       handleCloseDeleteModal();
       handleClose();
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong!', { variant: 'error' });
+      errorSnackbar('Something went wrong!');
     }
   };
 
@@ -105,7 +105,7 @@ const usePaymentMethods = () => {
       handleCloseDefaultModal();
       handleClose();
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong!', { variant: 'error' });
+      errorSnackbar('Something went wrong!');
     }
   };
   const getRowValues = columns(

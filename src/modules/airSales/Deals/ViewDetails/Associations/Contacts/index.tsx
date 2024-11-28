@@ -73,8 +73,9 @@ const Contacts = ({
                 className="medium"
                 sx={{ minWidth: '0px', gap: 0.5 }}
                 onClick={() => setOpenDrawer({ isToggle: true, type: 'Add' })}
+                startIcon={<PlusIcon />}
               >
-                <PlusIcon /> Add Contacts
+                Add Contacts
               </Button>
             </PermissionsGuard>
           </Box>
@@ -87,6 +88,7 @@ const Contacts = ({
               setContactRecord,
             })}
             data={contactsData}
+            isLoading={isLoading}
           />
         </Grid>
       </Grid>

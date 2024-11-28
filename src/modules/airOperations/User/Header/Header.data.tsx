@@ -4,7 +4,6 @@ import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { OPERATIONS_USERS_ACTIONS_CONSTANT } from '../User.data';
 import { UpsertUser } from '../UpsertUser';
 import { DeleteUser } from '../DeleteUser';
-import { errorSnackbar } from '@/lib/snackbar';
 
 const {
   ADD_OPERATIONS_USERS,
@@ -30,12 +29,8 @@ export const actionsDropdownForOperationUserDynamic = (
     permissionKey: [
       AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.EDIT_USER,
     ],
+    disabled: selectedUserList?.length > SELECTED_ARRAY_LENGTH?.ONE,
     handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      if (selectedUserList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
       setAction?.(EDIT_OPERATIONS_USERS);
       closeMenu();
     },
@@ -46,12 +41,8 @@ export const actionsDropdownForOperationUserDynamic = (
     permissionKey: [
       AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.VIEW_USER_DETAIL,
     ],
+    disabled: selectedUserList?.length > SELECTED_ARRAY_LENGTH?.ONE,
     handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      if (selectedUserList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
       setAction?.(OPERATIONS_USERS_DETAIL);
       closeMenu();
     },

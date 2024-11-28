@@ -13,9 +13,12 @@ import { v4 as uuidv4 } from 'uuid';
 import CommonDrawer from '@/components/CommonDrawer';
 import useCampaigns from '../useCampaigns';
 import dayjs from 'dayjs';
-import { indexNumbers } from '@/constants';
+import { DATE_FORMAT, indexNumbers } from '@/constants';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
-import { useGetCampaignsByIdQuery } from '@/services/airMarketer/campaigns';
+import {
+  useGetCampaignsByIdQuery,
+  usePostCampaignsMutation,
+} from '@/services/airMarketer/campaigns';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const CloneModal = ({
@@ -25,11 +28,14 @@ const CloneModal = ({
   selectedRows,
 }: any) => {
   const {
-    createCampaignsLoading,
+    // createCampaignsLoading,
     userListData,
-    postCampaignsClone,
+    // postCampaignsClone,
     organizationId,
   }: any = useCampaigns();
+
+  const [postCampaigns, { isLoading: campaignsCloneLoading }] =
+    usePostCampaignsMutation();
 
   const { data: compaignsDataById, isLoading: campaignByIdLoading } =
     useGetCampaignsByIdQuery(selectedRows, {
@@ -66,25 +72,22 @@ const CloneModal = ({
   const { handleSubmit, reset, setValue } = methods;
 
   const onSubmit = async (values: any) => {
-    // commented for future use
-    // values.name = values?.title
-    // delete values.title
-    // const campaignBudget = values.campaignBudget
-    //   ? parseFloat(values.campaignBudget)
-    //   : null;
-    // values.campaignOwner = values?.campaignOwner?._id;
-    // const obj = {
-    //   ...values,
-    //   startDate: values?.startDate
-    //     ? dayjs(values?.startDate[0])?.format(DATE_FORMAT?.API)
-    //     : undefined,
-    //   endDate: values?.endDate
-    //     ? dayjs(values?.endDate[0])?.format(DATE_FORMAT?.API)
-    //     : undefined,
-    //   campaignBudget,
-    // };
+    const campaignBudget = values.campaignBudget
+      ? parseFloat(values.campaignBudget)
+      : null;
+    values.campaignOwner = values?.campaignOwner?._id;
+    const obj = {
+      ...values,
+      startDate: values?.startDate
+        ? dayjs(values?.startDate[0])?.format(DATE_FORMAT?.API)
+        : undefined,
+      endDate: values?.endDate
+        ? dayjs(values?.endDate[0])?.format(DATE_FORMAT?.API)
+        : undefined,
+      campaignBudget,
+    };
     try {
-      await postCampaignsClone(values.title)?.unwrap();
+      await postCampaigns({ body: obj })?.unwrap();
       enqueueSnackbar('Campaign cloned successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
@@ -107,7 +110,7 @@ const CloneModal = ({
       cancelText={'Cancel'}
       footer
       submitHandler={handleSubmit(onSubmit)}
-      isLoading={createCampaignsLoading}
+      isLoading={campaignsCloneLoading}
     >
       {campaignByIdLoading ? (
         <SkeletonTable />

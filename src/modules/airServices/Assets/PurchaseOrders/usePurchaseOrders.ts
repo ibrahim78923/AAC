@@ -20,11 +20,11 @@ const usePurchaseOrders = () => {
   const theme = useTheme();
   const [purchaseOrderData, setPurchaseOrderData] = useState([]);
   const [searchValue, setSearchValue] = useState<string>('');
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isNewPurchaseOrder, setIsNewPurchaseOrder] = useState(true);
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const [isNewPurchaseOrder, setIsNewPurchaseOrder] = useState<boolean>(true);
+  const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
   const [purchaseOrderFilter, setPurchaseOrderFilter] = useState({});
 
   const handleNewPurchaseOrder = () => {
@@ -63,6 +63,7 @@ const usePurchaseOrders = () => {
   const getPurchaseOrderListDataExport = async (type: any) => {
     const queryParams = {
       exportType: type,
+      meta: false,
     };
 
     const apiDataParameter = {
@@ -95,14 +96,6 @@ const usePurchaseOrders = () => {
     router,
   );
 
-  const onDeleteClick = () => {
-    if (purchaseOrderData?.length > 1) {
-      errorSnackbar('Please select only 1');
-      return;
-    }
-    setDeleteModalOpen?.(true);
-  };
-
   return {
     isDrawerOpen,
     setIsDrawerOpen,
@@ -126,7 +119,6 @@ const usePurchaseOrders = () => {
     purchaseOrderFilter,
     setPurchaseOrderFilter,
     getPurchaseOrderListData,
-    onDeleteClick,
     theme,
   };
 };

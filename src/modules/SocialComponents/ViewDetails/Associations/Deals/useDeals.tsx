@@ -5,10 +5,10 @@ import {
   useGetCompanyAssociationsQuery,
   usePostAssociationCompaniesMutation,
 } from '@/services/commonFeatures/companies';
-import { enqueueSnackbar } from 'notistack';
 import { PAGINATION } from '@/config';
 import { useGetDealsListQuery } from '@/services/airSales/deals';
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useDeals = (companyId: any) => {
   const theme = useTheme();
@@ -69,11 +69,11 @@ const useDeals = (companyId: any) => {
 
     try {
       await PostAssociationCompanies({ body: payload }).unwrap();
-      enqueueSnackbar('Record Deleted Successfully', { variant: 'success' });
+      successSnackbar('Record Deleted Successfully');
       setIsOpenAlert(false);
     } catch (error) {
       const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+      errorSnackbar(errMsg ?? 'Error occurred');
     }
   };
 

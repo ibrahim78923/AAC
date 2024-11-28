@@ -64,7 +64,7 @@ export const useAddTime = (props: any) => {
     defaultValues: addTimeFormDefaultValues?.(form),
   });
 
-  const { handleSubmit, reset, getValues, setError } = methods;
+  const { handleSubmit, reset, getValues, setError, setValue } = methods;
 
   const onSubmit = async (data: any) => {
     const { hours } = getValues();
@@ -147,7 +147,7 @@ export const useAddTime = (props: any) => {
     reset();
   };
 
-  const addTimeFormFields = addTimeFormFieldsDynamic();
+  const addTimeFormFields = addTimeFormFieldsDynamic(setValue, getValues);
 
   return {
     methods,

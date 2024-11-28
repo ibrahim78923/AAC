@@ -11,4 +11,7 @@ export interface DealsOverviewProps {
   setLimit: (limit: any) => void;
   setSearchBy: (value: string) => void;
   setPage: (page: any) => void;
+  isLoading: boolean;
+  isSuccess: boolean;
+  isError: boolean;
 }

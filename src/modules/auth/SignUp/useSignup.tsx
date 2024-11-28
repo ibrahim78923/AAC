@@ -5,16 +5,16 @@ import { useForm } from 'react-hook-form';
 import {
   useAuthCompanyVerificationMutation,
   useGetAuthCompaniesQuery,
+  useGetDrnCheckQuery,
   useGetEmailCheckQuery,
   useSignUpMutation,
 } from '@/services/auth';
 import { debouncedSearch } from '@/utils';
 import { useGetProductsBilingInvoicesQuery } from '@/services/superAdmin/billing-invoices';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useRouter } from 'next/router';
 import { AUTH } from '@/constants';
 import { debounce } from 'lodash';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useSignup = () => {
   const { push } = useRouter();
@@ -40,17 +40,17 @@ const useSignup = () => {
     const valuesNotEmpty = watchField?.every((value) => value?.trim() !== '');
 
     if (!valuesNotEmpty) {
-      enqueueSnackbar('All Fields are Required', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar('All Fields are Required');
     }
     return valuesNotEmpty;
   };
 
   const organizationNumber = watch('crn');
   const email = watch('email');
+  const DRN = watch('DRN');
 
   const [emailExists, setEmailExists] = useState(email);
+  const [drnExists, setDrnExists] = useState(DRN);
 
   const [orgNumber, setOrgNumber] = useState('');
 
@@ -65,6 +65,10 @@ const useSignup = () => {
     { email: emailExists },
     { skip: !emailExists },
   );
+  const { data: drnData, isSuccess: drnIsSuccess } = useGetDrnCheckQuery(
+    { drn: drnExists },
+    { skip: !drnExists },
+  );
 
   const validateEmailFormat = (email: any) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -72,9 +76,14 @@ const useSignup = () => {
   };
 
   const [debouncedEmail, setDebouncedEmail] = useState(email);
+  const [debouncedDrn, setDebouncedDrn] = useState(DRN);
 
   const debounceEmail = debounce((value: any) => {
     setDebouncedEmail(value);
+  }, 2000);
+
+  const debounceDrn = debounce((value: any) => {
+    setDebouncedDrn(value);
   }, 2000);
 
   useEffect(() => {
@@ -91,6 +100,17 @@ const useSignup = () => {
       setEmailExists('');
     }
   }, [debouncedEmail]);
+
+  useEffect(() => {
+    setDrnExists(debouncedDrn);
+  }, [debouncedDrn]);
+
+  useEffect(() => {
+    debounceDrn(DRN);
+    return () => {
+      debounceDrn?.cancel();
+    };
+  }, [DRN]);
 
   const [signUpValue, { isLoading }] = useSignUpMutation();
   const [authCompanyVerification, { isSuccess: isVerifiedSuccess }] =
@@ -112,27 +132,26 @@ const useSignup = () => {
       firstName: firstName?.trim(),
       lastName: lastName?.trim(),
       role: 'ORG_ADMIN',
+      drn: value?.DRN,
     };
 
     try {
       const response: any = await signUpValue({ user }).unwrap();
       if (response?.data) {
-        enqueueSnackbar('Check the Email for verification', {
-          variant: 'success',
-        });
         // bypassing the ig varification in future routing should be done on successful varification
         push(AUTH.LOGIN);
 
         try {
           await authCompanyVerification({ email: { email: email } }).unwrap();
+          successSnackbar('Check the Email for verification');
         } catch (error: any) {
           const errMsg = error?.data?.message;
-          enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+          errorSnackbar(errMsg ?? 'Error occurred');
         }
       }
     } catch (error: any) {
       const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+      errorSnackbar(errMsg ?? 'Error occurred');
     }
   };
 
@@ -165,19 +184,21 @@ const useSignup = () => {
 
   useEffect(() => {
     if (isEmailError) {
-      enqueueSnackbar('Email already exists', {
-        variant: 'error',
-      });
+      errorSnackbar('Email already exists');
     }
   }, [emailData, isEmailError]);
 
   useEffect(() => {
     if (isError) {
-      enqueueSnackbar('Please enter correct Organization Number', {
-        variant: 'error',
-      });
+      errorSnackbar('Please enter correct Organization Number');
     }
   }, [data, isError]);
+
+  useEffect(() => {
+    if (drnIsSuccess) {
+      errorSnackbar('DRN already exists');
+    }
+  }, [drnData, drnIsSuccess]);
 
   useEffect(() => {
     setValue('organizationName', companyDetails?.company_name);
@@ -197,6 +218,7 @@ const useSignup = () => {
     isError,
     isEmailError,
     email,
+    drnIsSuccess,
   };
 };
 

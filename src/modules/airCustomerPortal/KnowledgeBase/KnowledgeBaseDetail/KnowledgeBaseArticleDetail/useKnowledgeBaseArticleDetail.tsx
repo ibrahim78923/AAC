@@ -13,7 +13,7 @@ import {
   useGetSingleKnowledgeBaseArticleQuery,
   usePostArticleFeedbackMutation,
 } from '@/services/airCustomerPortal/KnowledgeBase';
-import { ARRAY_INDEX, ARTICLE_STATUS } from '@/constants/strings';
+import { ARRAY_INDEX, ARTICLE_STATUS, MODULE_TYPE } from '@/constants/strings';
 import { getActiveAccountSession, getSession } from '@/utils';
 import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
@@ -29,6 +29,7 @@ export const useKnowledgeBaseArticleDetail = () => {
   const companyIdStorage = product?.company?._id;
   const sessionUserId = session?.user?._id;
 
+  const { articlesRoute } = route?.query;
   const { companyId } = route?.query;
   const decryptedId = useMemo(() => {
     const id = Array.isArray(companyId)
@@ -71,8 +72,14 @@ export const useKnowledgeBaseArticleDetail = () => {
   const singleArticlesData = data?.data;
 
   const handlePageBack = () => {
+    const pathname =
+      articlesRoute === MODULE_TYPE?.REGISTER_DASHBOARD
+        ? AIR_CUSTOMER_PORTAL?.CUSTOMER_PORTAL_DASHBOARD
+        : articlesRoute === MODULE_TYPE?.NON_REGISTER_DASHBOARD
+          ? AIR_CUSTOMER_PORTAL?.NON_REGISTER_DASHBOARD
+          : AIR_CUSTOMER_PORTAL?.KNOWLEDGE_BASE_DETAIL;
     route?.push({
-      pathname: AIR_CUSTOMER_PORTAL?.KNOWLEDGE_BASE_DETAIL,
+      pathname,
       query: { folderId, ...(companyId && { companyId }) },
     });
   };
@@ -109,8 +116,8 @@ export const useKnowledgeBaseArticleDetail = () => {
     };
 
     try {
-      const res: any = await postArticleFeedbackTrigger(payload)?.unwrap();
-      successSnackbar(res?.message ?? 'Feedback Added Successfully');
+      await postArticleFeedbackTrigger(payload)?.unwrap();
+      successSnackbar('Feedback added successfully');
       setShowFeedbackField(false);
       setShowOkFeedback(true);
       reset(feedbackDefaultValues);
@@ -125,8 +132,8 @@ export const useKnowledgeBaseArticleDetail = () => {
       helpful: true,
     };
     try {
-      const res: any = await postArticleFeedbackTrigger(payload)?.unwrap();
-      successSnackbar(res?.message ?? 'This answer is helpful');
+      await postArticleFeedbackTrigger(payload)?.unwrap();
+      successSnackbar('This answer is helpful');
       setShowOkFeedback(true);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);

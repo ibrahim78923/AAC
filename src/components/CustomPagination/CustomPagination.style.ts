@@ -7,7 +7,7 @@ export const styles = {
       },
       '& .MuiPaginationItem-root': {
         height: '40px',
-        width: '40px',
+        minWidth: '40px',
         border: `1px solid ${theme?.palette?.custom?.dark}`,
         borderRadius: '1px',
         color: 'custom.main',

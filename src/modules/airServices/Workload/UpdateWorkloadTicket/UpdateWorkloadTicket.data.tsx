@@ -9,6 +9,7 @@ import * as Yup from 'yup';
 import { ticketStatusOptions } from '../../ServicesTickets/ServicesTickets.data';
 import { AssignToAndAgent } from '../WorkloadFields/AssignToAndAgent';
 import { REGEX } from '@/constants/validation';
+import { formatDurationHourMinute } from '@/utils/dateTime';
 
 export const getWorkloadTicketValidationSchema: any = Yup?.object()?.shape({
   subject: Yup?.string()?.trim()?.required('Subject is Required'),
@@ -23,10 +24,20 @@ export const getWorkloadTicketValidationSchema: any = Yup?.object()?.shape({
     }),
   agent: Yup?.mixed()?.nullable(),
   status: Yup?.mixed()?.nullable()?.required('Status is required'),
-  plannedStartDate: Yup?.date(),
+  plannedStartDate: Yup?.date()
+    ?.nullable()
+    ?.when('plannedEndDate', {
+      is: (value: any) => value !== null,
+      then: () =>
+        Yup?.date()?.nullable()?.required('Planned start date is required'),
+      otherwise: () => Yup?.date()?.nullable(),
+    }),
   plannedEndDate: Yup?.date()
     ?.nullable()
-    ?.required('Planned End Date is Required'),
+    .min(
+      Yup?.ref('plannedStartDate'),
+      'Planned end date is after planned start date',
+    ),
   plannedEffort: Yup?.string()?.trim(),
 });
 
@@ -37,12 +48,16 @@ export const getWorkloadTicketDefaultValues = (data?: any) => ({
     ? data?.agentDetails
     : null,
   status: data?.status ? { _id: data?.status, label: data?.status } : null,
-  plannedStartDate: data?.plannedStartDate ?? new Date(),
+  plannedStartDate: data?.plannedStartDate ?? null,
   plannedEndDate: data?.plannedEndDate ?? null,
   plannedEffort: data?.plannedEffort ?? '',
 });
 
-export const workloadTicketDataArray = [
+export const getWorkloadTicketDataArray = (
+  getValues?: any,
+  setValue?: any,
+  watch?: any,
+) => [
   {
     id: 1,
     componentProps: {
@@ -90,8 +105,8 @@ export const workloadTicketDataArray = [
       name: 'plannedStartDate',
       label: 'Planned Start Date',
       fullWidth: true,
-      disabled: true,
       ampm: false,
+      textFieldProps: { readOnly: true },
     },
     component: RHFDesktopDateTimePicker,
   },
@@ -101,10 +116,9 @@ export const workloadTicketDataArray = [
       name: 'plannedEndDate',
       label: 'Planned End Date',
       fullWidth: true,
-      disablePast: true,
-      required: true,
       textFieldProps: { readOnly: true },
       ampm: false,
+      minDateTime: watch('plannedStartDate'),
     },
     component: RHFDesktopDateTimePicker,
   },
@@ -114,6 +128,10 @@ export const workloadTicketDataArray = [
       name: 'plannedEffort',
       label: 'Planned Effort',
       placeholder: 'Eg: 1h10m',
+      onBlurHandler: () => {
+        const value = getValues('plannedEffort');
+        setValue('plannedEffort', formatDurationHourMinute(value));
+      },
     },
     component: RHFTextField,
   },

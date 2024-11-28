@@ -1,33 +1,8 @@
 import { UserInfo } from '@/components/UserInfo';
-import { uiDateFormat } from '@/lib/date-time';
-import { truncateText } from '@/utils/avatarUtils';
+import { DATE_TIME_FORMAT } from '@/constants';
+import { otherDateFormat } from '@/lib/date-time';
+import { fullNameInitial, truncateText } from '@/utils/avatarUtils';
 
-export const transactionTableData = [
-  {
-    id: 1,
-    cardNumber: `TVKP123451`,
-    cardRecipientEmail: 'saqibshah@gmail.com',
-    cardRecipientName: 'Saqib Shah',
-    amount: '£100.00',
-    redeemed: '2023-12-14T11:59:08.238Z',
-  },
-  {
-    id: 2,
-    cardNumber: `TVKP123451`,
-    cardRecipientEmail: 'saqibshah@gmail.com',
-    cardRecipientName: 'Saqib Shah',
-    amount: '£100.00',
-    redeemed: '2023-12-14T11:59:08.238Z',
-  },
-  {
-    id: 3,
-    cardNumber: `TVKP123451`,
-    cardRecipientEmail: 'saqibshah@gmail.com',
-    cardRecipientName: 'Saqib Shah',
-    amount: '£100.00',
-    redeemed: '2023-12-14T11:59:08.238Z',
-  },
-];
 export const UserList: any = [
   {
     accessorFn: (row: any) => row?.cardNumber,
@@ -37,30 +12,32 @@ export const UserList: any = [
     cell: (info: any) => truncateText(info?.getValue()),
   },
   {
-    accessorFn: (row: any) => row?.cardRecipientName,
+    accessorFn: (row: any) => row?.recipientName,
     id: 'cardRecipientEmail cardRecipientName',
     header: 'Card Recipient',
     isSortable: true,
     cell: (info: any) => (
       <UserInfo
-        name={info?.getValue()}
-        email={info?.row?.original?.cardRecipientEmail}
-        nameInitial={info?.getValue()}
+        name={info?.row?.original?.recipientName}
+        email={info?.row?.original?.recipientEmail}
+        nameInitial={fullNameInitial(info?.row?.original?.recipientName)}
       />
     ),
   },
   {
-    accessorFn: (row: any) => row?.amount,
-    id: 'amount',
+    accessorFn: (row: any) => row?.transactionAmount,
+    id: 'transactionAmount',
     isSortable: true,
     header: 'Amount',
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: any) =>
+      truncateText(info?.getValue() ? `£${info?.getValue()}` : '---'),
   },
   {
     accessorFn: (row: any) => row?.redeemed,
     id: 'redeemed',
     isSortable: true,
     header: 'Redeemed',
-    cell: (info: any) => uiDateFormat(info?.getValue()),
+    cell: (info: any) =>
+      otherDateFormat(info?.getValue(), DATE_TIME_FORMAT?.MMM_DD_YYYY_hh_mm_A),
   },
 ];

@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   jobPostingValidationSchema,
   jobPostingDefaultValues,
 } from './Jobs.data';
 import { usePostJobMutation } from '@/services/superAdmin/settings/jobs';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useJobs = () => {
   const [openAddJobPost, setOpenAddJobPost] = useState(false);
@@ -32,13 +32,9 @@ const useJobs = () => {
     try {
       await postAddJobPost({ body: values })?.unwrap();
       handleCloseAddJobPost();
-      enqueueSnackbar('Job Posted Successfully', {
-        variant: 'success',
-      });
+      successSnackbar('Job Posted Successfully');
     } catch (error: any) {
-      enqueueSnackbar('An error occured', {
-        variant: 'error',
-      });
+      errorSnackbar('An error occured');
     }
   };
   const handleSubmitAddJobPost = handleMethodAddJob(onSubmitAddJob);

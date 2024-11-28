@@ -44,6 +44,12 @@ const useNotesEditorDrawer = (props: any) => {
     },
   });
 
+  const attachmentData = {
+    fileUrl: editCheckBoxes?.file?.url,
+    orignalName: editCheckBoxes?.file?.name ?? 'Attachment',
+    fileSize: editCheckBoxes?.file?.size,
+  };
+
   const onSubmit = async (values: any) => {
     const formData = new FormData();
     const desc = 'description';
@@ -96,6 +102,7 @@ const useNotesEditorDrawer = (props: any) => {
     loadingNote,
     onSubmit,
     updateNotesLoading,
+    attachmentData,
   };
 };
 

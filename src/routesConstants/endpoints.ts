@@ -8,6 +8,7 @@ export const END_POINTS = {
   FORGOT_PASSWORD: 'auth/forgot-password',
   INVENTORY_ACTIVITY: 'assets/inventory',
   WORKLOAD: `/workload/workload-management`,
+  WORKLOAD_USER_TASK: `/workload/user-tasks`,
   INVENTORY_EXPENSE: '/expense/add-expense',
   GET_INVENTORY_EXPENSE: '/expense/get-expense',
   SUPER_ADMIN_ROLES: '/permissions/super-admin-roles',
@@ -162,6 +163,7 @@ export const END_POINTS = {
   ADD_HOLIDAY: `/business-hour/add-holiday`,
   DELETE_HOLIDAY: `/business-hour/delete-holiday`,
   COMPANY: `/companies`,
+  COMPANY_DELETE_ASSOCIATION: '/gmail/delete-associated-emails',
   DELETED_COMPANIES: '/companies/deleted',
   COMPANY_PREVIEW: '/companies/get-company-preview',
   COMPANY_DEALS: '/deals/get-company-deals',
@@ -169,6 +171,7 @@ export const END_POINTS = {
   MERGE_COMPANIES: '/companies/merge-company',
   REASSIGN_COMPANY_OWNER: '/companies/change-company-owner',
   GET_COMPANY_ASSOICATION: '/companies/get-company-associations',
+  GET_COMPANY_ASSOCIATION_GMAIL: '/gmail/get-all-associated-emails',
   COMPANY_VIEWS: '/company-views',
   CUSTOMIZE_COLUMNS: '/customized-columns',
   DROPDOWN_ACCOUNTS_ROLE: '/dropdown/company-accounts-roles',
@@ -218,6 +221,7 @@ export const END_POINTS = {
   AUTH_ACCOUNTS_SELECT: '/auth/accounts/select',
   AUTH_MY_ACCOUNT: '/auth/me',
   EMAIL_EXIST: '/users/email/exist',
+  EMAIL_DRN: '/users/drn/exist',
   ASSETS_SOFTWARE: '/assets/get-software',
   SOFTWARE_OVERVIEW: '/assets/software_overview',
   SOFTWARE_CONTRACT_UTILIZATION: '/assets/software-contract-utilization',
@@ -247,7 +251,7 @@ export const END_POINTS = {
   ASSETS_INVENTORY_SOFTWARE: '/assets/get-inventory-software',
   DELETE_INVENTORY_SOFTWARE: '/assets/delete-software',
   CHANGE_PASSWORD: '/auth/change-password',
-  SET_PASSWORD: '/auth/set-password',
+  SET_PASSWORD: '/auth/new-password',
   AGENT_REJECT_REQUEST: '/agent/reject-request',
   APPROVED_REQUEST: '/agent/approve-request',
   ADD_SOFTWARE_USERS: '/assets/add-software-users',
@@ -398,8 +402,12 @@ export const END_POINTS = {
   CREATE_DIGITAL_REWARD: `/rewards/create-digital-reward`,
   CREATE_PHYSICAL_REWARD: `/rewards/create-physical-reward`,
   GET_REWARDS_LIST: `/rewards/rewards-list`,
+  GET_REWARDS_LIST_BY_ID: `/rewards/get-reward-details`,
+  UPDATE_REWARDS: `/rewards/update-physical-rewards`,
+  STATUS_REWARDS: `/rewards/update-reward-status`,
   GET_VOUCHERS_REWARDS_DROPDOWN: `/vouchers/list-voucher`,
   TIERS_DROPDOWN_FOR_REWARDS: `/rules-and-tiers/tiers`,
+  DELETE_REWARDS: `/rewards/delete-rewards`,
   LEAD_CAPTURE_CTA: '/lead-capture-cta',
   CTA_ADD_VIEW_CLICK_COUNT: '/lead-capture-cta/addViewOrClickCount',
   DELETE_LEAD_CAPTURE_CTA: '/lead-capture-cta/multiple',
@@ -433,6 +441,8 @@ export const END_POINTS = {
   DELETE_TASKS: `/task/ids`,
   GET_OFFICE_365_CALENDAR: '/auth/office365-calendar/authorize',
   GET_MS_TEAMS: '/auth/msteams/authorize',
+  POST_DELEGATE_USER_INVITE: '/delegate-user/invite',
+  GET_DELEGATE_DASHBOARD: '/delegate-user/list-delegated-users',
   GET_GOOGLE_MEET: '/auth/google-meet/authorize',
   CREATE_FEEDBACK_SURVEY: '/feedback-survey/create-feedback-survey',
   CLONE_FEEDBACK_SURVEY: '/feedback-survey/clone-survey',
@@ -535,7 +545,19 @@ export const END_POINTS = {
     '/air-services-dashboard/dashboard-tickets-customer-portal',
   OPERATIONS_TEAM: '/teams',
   FORECAST: '/forecasts',
-  AIR_LOYALTY_PROGRAM_CONSUMERS_LIST: '',
+  AIR_LOYALTY_PROGRAM_CONSUMERS_LIST: '/consumers/list',
+  AIR_LOYALTY_PROGRAM_CONSUMERS_UPDATE: '/consumers/update/{id}',
+  AIR_LOYALTY_PROGRAM_CONSUMERS_GET_BY_ID: '/consumers/getby',
+  DELETE_PURCHASE_ORDER: `/assets/purchaseorder`,
+  GIFT_CARD_TRANSACTION: '/gift-cards/get-transaction',
+  GIFT_CARD_LIST: '/gift-cards/list',
+  POST_GIFT_CARD: '/gift-cards/create',
+  PUT_GIFT_CARD: '/gift-cards/update',
+  SINGLE_GIFT_CARD_LIST: '/gift-cards/getby',
+  CREATE_LOYALTY_GENERAL_SETTINGS: '/settings/create-general-setting',
+  UPDATE_LOYALTY_GENERAL_SETTINGS: '/settings/update-general-setting',
+  GET_LOYALTY_GENERAL_SETTINGS: '/settings/details-general-setting',
+  CONSUMERS_DROPDOWN: '/consumers/list',
 };
 
 export const LEAD_CAPTURE_FORM = {
@@ -568,7 +590,7 @@ export const EMAILS_MARKETING = {
   GET_ALL_FOLDERS: '/emails-marketing/get-all-folders',
   DUPLICATE_EMAIL: '/emails-marketing/duplicate-email',
   MARKETING_USERS: '/quote/all/user',
-  MARKETING_TEAMS: '/teams',
+  MARKETING_TEAMS: '/dropdown/organization-all-teams',
 };
 export const EMAILS_MARKETING_SETTINGS = {
   EMAIL_SETTINGS: 'emails-marketing/get-all-email-identities',
@@ -662,6 +684,7 @@ export const COMMON_DOCUMENTS = {
   DELETE_DOCUMENT_FOLDER_ID: '/documents/folder',
   DELETE_DOCUMENT_FILE_ID: '/documents/files',
   POST_FILE_SHARE: '/documents/file/share',
+  DOWNLOAD_FOLDER: '/documents/download-main-folder',
 };
 
 export const INVOICE = {
@@ -686,6 +709,11 @@ export const OPERATION = {
 
 export const AIR_SALES = {
   INVOICES: '/quote-invoice',
+};
+
+export const AIR_SALES_DEALS_EMAILS = {
+  GET_ASSOCIATED_EMAILS: '/gmail/get-all-associated-emails',
+  DELETE_ASSOCIATED_EMAILS: '/gmail/delete-associated-emails',
 };
 
 export const SUPER_ADMIN_SETTINGS = {

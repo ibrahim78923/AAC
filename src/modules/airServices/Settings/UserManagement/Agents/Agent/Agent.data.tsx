@@ -20,13 +20,10 @@ export const agentActionsDropdown = (
       AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.EDIT_DELETE_AGENTS,
     ],
     handleClick: (close: () => void) => {
-      if (selectedAgentList?.length > 1) {
-        errorSnackbar(`Can't update multiple records`);
-        return;
-      }
       setIsAgentModalOpen(true);
       close?.();
     },
+    disabled: selectedAgentList?.length > 1,
   },
   {
     id: 2,

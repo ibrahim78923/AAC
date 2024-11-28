@@ -1,13 +1,14 @@
 import { useForm } from 'react-hook-form';
-import {
-  giftCardDetailsDefaultValues,
-  giftCardDetailsFilterFromFieldsDynamic,
-} from './GiftCardDetailsFilter.data';
-import { filteredEmptyValues } from '@/utils/api';
+import { giftCardDetailsDefaultValues } from './GiftCardDetailsFilter.data';
+import { PAGINATION } from '@/config';
 
 export const useGiftCardDetailsFilter = (props: any) => {
-  const { filterGiftCardDetails, setFilterGiftCardDetails, setIsPortalOpen } =
-    props;
+  const {
+    filterGiftCardDetails,
+    setFilterGiftCardDetails,
+    setIsPortalOpen,
+    setPage,
+  } = props;
 
   const methods: any = useForm({
     defaultValues: giftCardDetailsDefaultValues(filterGiftCardDetails),
@@ -15,25 +16,34 @@ export const useGiftCardDetailsFilter = (props: any) => {
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async (data: any) => {
-    const filterValues = filteredEmptyValues?.(data);
-    setFilterGiftCardDetails?.(filterValues);
-    closeFilterForm?.();
+    const giftCardDetailsFilter: any = Object?.entries(data || {})
+      ?.filter(
+        ([, value]: any) => value !== undefined && value != '' && value != null,
+      )
+      ?.reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
+
+    if (!Object?.keys(giftCardDetailsFilter || {})?.length) {
+      setFilterGiftCardDetails?.(giftCardDetailsFilter);
+      closeFilterForm();
+      return;
+    }
+    setPage?.(PAGINATION?.CURRENT_PAGE);
+    setFilterGiftCardDetails?.(giftCardDetailsFilter);
+    setIsPortalOpen?.(false);
   };
 
   const resetFilterForm = () => {
-    setFilterGiftCardDetails?.({});
-    closeFilterForm?.();
-  };
-  const closeFilterForm = () => {
-    setIsPortalOpen({});
-    reset();
+    reset?.();
+    setFilterGiftCardDetails?.(null);
+    setIsPortalOpen?.(false);
   };
 
-  const giftCardDetailsFilterFromFields =
-    giftCardDetailsFilterFromFieldsDynamic?.();
+  const closeFilterForm = () => {
+    reset?.();
+    setIsPortalOpen?.(false);
+  };
 
   return {
-    giftCardDetailsFilterFromFields,
     onSubmit,
     closeFilterForm,
     resetFilterForm,

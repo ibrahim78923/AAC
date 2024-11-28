@@ -1,3 +1,8 @@
+import {
+  loyaltyProgramTiersPageLimitSelector,
+  loyaltyProgramTiersPageSelector,
+  loyaltyProgramTiersSearchSelector,
+} from '@/redux/slices/airLoyaltyProgram/tiers/selectors';
 import { setTiersListsTotalRecords } from '@/redux/slices/airLoyaltyProgram/tiers/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useLazyGetLoyaltyProgramLoyaltyTiersListQuery } from '@/services/airLoyaltyProgram/loyalty/rulesAndTiers/tiers';
@@ -13,13 +18,11 @@ export const useGetTiersLists = () => {
   ]: [LazyQueryTrigger<any>, any, UseLazyQueryLastPromiseInfo<any>] =
     useLazyGetLoyaltyProgramLoyaltyTiersListQuery?.();
 
-  const page = useAppSelector((state) => state?.loyaltyProgramTiers?.page);
   const dispatch = useAppDispatch();
-  const pageLimit = useAppSelector(
-    (state) => state?.loyaltyProgramTiers?.pageLimit,
-  );
 
-  const search = useAppSelector((state) => state?.loyaltyProgramTiers?.search);
+  const page = useAppSelector(loyaltyProgramTiersPageSelector);
+  const pageLimit = useAppSelector(loyaltyProgramTiersPageLimitSelector);
+  const search = useAppSelector(loyaltyProgramTiersSearchSelector);
 
   const getLoyaltyProgramTiersList = async (currentPage: number = page) => {
     const apiDataParameter = {

@@ -5,8 +5,13 @@ import { ColumnsI } from './Tasks.interface';
 import { capitalizeFirstLetters } from '@/utils';
 
 export const columns = (columnsProps: ColumnsI) => {
-  const { selectedRec, setSelectedRec, compaignsTasksData, setStatusVariant } =
-    columnsProps;
+  const {
+    selectedRec,
+    setSelectedRec,
+    compaignsTasksData,
+    setStatusVariant,
+    setSelectedRowData,
+  } = columnsProps;
 
   const handleSelectTaskById = (
     checked: boolean,
@@ -40,6 +45,7 @@ export const columns = (columnsProps: ColumnsI) => {
               original?._id,
               original?.status,
             );
+            setSelectedRowData(original);
           }}
         />
       ),

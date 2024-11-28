@@ -1,18 +1,12 @@
 import { Box, Grid, Typography, Button } from '@mui/material';
-
 import TaskEditorDrawer from './TaskEditorDrawer';
 import ActionDropdown from './ActionDropdown';
 import TanstackTable from '@/components/Table/TanstackTable';
-
 import useTasks from './useTasks';
-
 import { columns } from './Tasks.data';
-
 import { PlusIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
-import { useAppSelector } from '@/redux/store';
-import { useGetDealsTaskDetailsQuery } from '@/services/airSales/deals/view-details/tasks';
 
 const Tasks = (props: any) => {
   const { selectedRecId } = props;
@@ -28,12 +22,6 @@ const Tasks = (props: any) => {
     setSelectedCheckboxes,
   } = useTasks(selectedRecId);
 
-  const selectedTaskIds = useAppSelector(
-    (state: any) => state?.task_deals?.selectedDealsTaskIds,
-  );
-  const { data: taskDataDefault } = useGetDealsTaskDetailsQuery({
-    id: selectedTaskIds?.length === 1 && selectedTaskIds[0],
-  });
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
   };
@@ -97,10 +85,7 @@ const Tasks = (props: any) => {
         <TaskEditorDrawer
           openDrawer={openDrawer}
           setOpenDrawer={setOpenDrawer}
-          setSelectedCheckboxes={setSelectedCheckboxes}
-          selectedCheckboxes={selectedCheckboxes}
           selectedRecId={selectedRecId}
-          taskData={taskDataDefault}
         />
       )}
     </Box>

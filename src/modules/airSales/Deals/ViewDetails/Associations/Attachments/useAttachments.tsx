@@ -24,8 +24,11 @@ const useAttachments = (dealId: any) => {
     recordType: ASSOCIATIONS_API_PARAMS_FOR?.DEALS,
     associationType: ASSOCIATIONS_API_PARAMS_FOR?.ATTACHMENTS,
   };
-  const { data: attachmentsData, isLoading } =
-    useGetTicketsQuery(attachmentParams);
+  const {
+    data: attachmentsData,
+    isLoading,
+    isFetching,
+  } = useGetTicketsQuery(attachmentParams);
 
   const handleCloseAlert = () => {
     setIsOpenAlert(false);
@@ -67,6 +70,7 @@ const useAttachments = (dealId: any) => {
     handleCloseAlert,
     deleteAttachmentHandler,
     loadingDelete,
+    isFetching,
   };
 };
 

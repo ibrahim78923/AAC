@@ -126,6 +126,7 @@ export const AIR_MARKETER = {
   root: path(AIR_MARKETING_PAGE, '/dashboard'),
   CREATE_DASHBOARD: path(AIR_MARKETING_PAGE, '/dashboard/create'),
   MANAGE_DASHBOARD: path(AIR_MARKETING_PAGE, '/dashboard/manage'),
+  MARKETER_DASHBOARD: path(AIR_MARKETING_PAGE, '/dashboard'),
   PAID_ADS: path(AIR_MARKETING_PAGE, '/paid-ads'),
   CREATE_AD: path(AIR_MARKETING_PAGE, '/paid-ads/create-ad'),
   ENGAGEMENT_ADS: path(
@@ -247,6 +248,7 @@ export const LOYALTY_PROGRAM = {
 
 export const ORG_ADMIN = {
   DASHBOARD_EDIT_PROFILE: '/org-admin/dashboard/edit-profile',
+  ORG_ADMIN_ACTIVITY_LOGS: '/org-admin/dashboard/activity-logs',
   EDIT_PROFILE: '/edit-profile',
   ORGANIZATION: '/org-admin/organization-admin',
   DASHBOARD: '/org-admin',
@@ -254,6 +256,7 @@ export const ORG_ADMIN = {
 
 export const COMMON_ROUTES = {
   DELEGATE: '/delegates',
+  ACTIVITY_LOGS: '/activity-logs',
 };
 
 export const SOCIAL_FEATURES_CHAT = {
@@ -382,6 +385,7 @@ export const AIR_CALL_CENTER = {
 
 export const PUBLIC_LEAD_CAPTURE = {
   FORM: '/lead-capture/form',
+  THANK_YOU: '/lead-capture/form/thank-you',
   CTA: '/lead-capture/cta',
   EMBED_FORM: '/lead-capture/embed-form',
 };

@@ -4,36 +4,106 @@ import Link from 'next/link';
 
 import { Box, Typography } from '@mui/material';
 
-import { AvatarImage, EmpAvatarImage, TicketImage } from '@/assets/images';
+import { AvatarImage } from '@/assets/images';
 
-export const accordionData = [
-  {
-    empNo: '01',
-    mainHeading: 'Contacts',
-    img: EmpAvatarImage,
-    name: 'Olivya Rhye',
-    email: 'oivyerye@gmail.com',
-    phoneNumber: '+44 779 672 6637',
-  },
-  {
-    empNo: '01',
-    mainHeading: 'Deals',
-    img: TicketImage,
-    name: 'Sample',
-    email: '£ 200.00',
-    stage: 'Appointment Schedule',
-  },
-  {
-    empNo: '0',
-    mainHeading: 'Tickets',
-    description: 'No Tickets associated with this record',
-  },
-  {
-    empNo: '0',
-    mainHeading: 'Attachments',
-    description: 'No Attachments associated with this record',
-  },
-];
+export const accordionData = (apiData: any) => {
+  const data = [];
+
+  if (apiData?.contacts?.length) {
+    data?.push({
+      mainHeading: 'Contacts',
+      empNo: apiData?.contacts?.length,
+      items: apiData?.contacts?.map((contact: any) => ({
+        mainHeading: 'Contacts',
+        img: contact?.url,
+        name: `${contact?.firstName} ${contact?.lastName}`,
+        email: contact?.email,
+        phoneNumber: contact?.phoneNumber ? contact?.phoneNumber : '--',
+      })),
+    });
+  } else {
+    data?.push({
+      mainHeading: 'Contacts',
+      empNo: '0',
+      items: [
+        {
+          description: 'No Contacts associated with this record',
+        },
+      ],
+    });
+  }
+
+  // Group Deals
+  if (apiData?.dealsData?.length) {
+    data?.push({
+      mainHeading: 'Deals',
+      empNo: apiData?.dealsData?.length,
+      items: apiData?.dealsData?.map((deal: any) => ({
+        name: deal?.name,
+        email: deal?.dealPipelineData?.name
+          ? `${deal?.dealPipelineData?.name}`
+          : '---',
+        stage: deal?.dealStageData?.name || '---',
+      })),
+    });
+  } else {
+    data?.push({
+      mainHeading: 'Deals',
+      empNo: '0',
+      items: [
+        {
+          description: 'No Deals associated with this record',
+        },
+      ],
+    });
+  }
+
+  // Group Tickets
+  if (apiData?.tickets?.length) {
+    data?.push({
+      mainHeading: 'Tickets',
+      empNo: apiData?.tickets?.length,
+      items: apiData?.tickets?.map((ticket: any, index: any) => ({
+        description: `Ticket ${index + 1}: Associated ticket data`,
+      })),
+    });
+  } else {
+    data?.push({
+      mainHeading: 'Tickets',
+      empNo: '0',
+      items: [
+        {
+          description: 'No Tickets associated with this record',
+        },
+      ],
+    });
+  }
+
+  // Group Attachments
+  if (apiData?.attachments?.length) {
+    data?.push({
+      mainHeading: 'Attachments',
+      empNo: apiData?.attachments?.length,
+      items: apiData.attachments.map((attachment: any) => ({
+        img: attachment?.fileUrl,
+        description: `${attachment?.orignalName || 'Unnamed file'}`,
+        fileType: attachment?.fileType,
+      })),
+    });
+  } else {
+    data?.push({
+      mainHeading: 'Attachments',
+      empNo: '0',
+      items: [
+        {
+          description: 'No Attachments associated with this record',
+        },
+      ],
+    });
+  }
+
+  return data;
+};
 
 export const importColumnsData = [
   {

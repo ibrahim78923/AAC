@@ -5,12 +5,15 @@ import { useRouter } from 'next/router';
 import { SERVICES_DASHBOARD_PORTAL_ACTIONS_CONSTANT } from '../../Dashboard.data';
 import { PreviewDashboard } from '../../PreviewDashboard';
 import { AIR_SERVICES } from '@/constants/routes';
+import { dashboardIsPortalOpenSelector } from '@/redux/slices/airServices/dashboard/selectors';
+import { shallowEqual } from 'react-redux';
 
 export const Header = () => {
   const router = useRouter();
   const { action } = router?.query;
   const isPortalOpen = useAppSelector(
-    (state) => state?.servicesDashboard?.isPortalOpen,
+    dashboardIsPortalOpenSelector,
+    shallowEqual,
   );
 
   return (
@@ -22,7 +25,7 @@ export const Header = () => {
             : GENERIC_UPSERT_FORM_CONSTANT?.CREATE
         } Dashboard`}
         canMovedBack
-        moveBack={() => router?.push(AIR_SERVICES?.DASHBOARD)}
+        moveBack={() => router?.push(AIR_SERVICES?.MANAGE_DASHBOARD)}
       />
       {isPortalOpen?.isOpen &&
         isPortalOpen?.action ===

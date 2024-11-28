@@ -34,7 +34,7 @@ export default function useCustomerPortal() {
     return zeroPaddingRoutes?.includes(router?.pathname);
   }, [router?.pathname]);
 
-  const { logout, user } = useAuth();
+  const { logout, user }: any = useAuth();
   const product = useMemo(() => getActiveAccountSession(), []);
   const session: any = useMemo(() => getSession(), []);
   const sessionId = session?.user?.companyId; // Direct Logged In Requester

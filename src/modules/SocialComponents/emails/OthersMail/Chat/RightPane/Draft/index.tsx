@@ -21,11 +21,11 @@ import {
   useGetMailFoldersQuery,
   usePostSendOtherEmailMutation,
 } from '@/services/commonFeatures/email/others';
-import { enqueueSnackbar } from 'notistack';
 import { useDispatch } from 'react-redux';
 import { setMailTabType } from '@/redux/slices/email/others/slice';
 import { LoadingButton } from '@mui/lab';
 import { EMAIL_TABS_TYPES } from '@/constants';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const Draft = () => {
   const theme = useTheme();
@@ -67,13 +67,11 @@ const Draft = () => {
       await postSendOtherEmail({
         body: formDataSend,
       })?.unwrap();
-      enqueueSnackbar('Email send successfully', {
-        variant: 'success',
-      });
+      successSnackbar('Email send successfully');
       dispatch(setMailTabType(fetchedSentFolder));
       reset();
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      errorSnackbar('Something went wrong !');
     }
   };
 

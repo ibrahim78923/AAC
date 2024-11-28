@@ -40,6 +40,9 @@ export const convertIdToShortNumber = (mongodbId: string): any => {
   return uniqueFiveDigitNumber;
 };
 
+export const capitalizeStatus = (str: string) =>
+  str?.charAt(0)?.toUpperCase() + str?.slice(1)?.toLowerCase();
+
 export const capitalizeFirstLetters = (str: string): string => {
   return str
     ?.split(' ')
@@ -261,13 +264,6 @@ export const getCustomerPortalStyling = () => {
 
   return customerPortalStyling;
 };
-
-export function getFullURL() {
-  if (typeof window === 'undefined') return '';
-
-  const { protocol, hostname, port } = window.location;
-  return `${protocol}//${hostname}${port ? `:${port}` : ''}`;
-}
 
 // count length of last 24 hours latest data
 const countRecentContacts = (data: string[]) => {

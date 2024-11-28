@@ -1,14 +1,14 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
-import { Box, Checkbox, Chip } from '@mui/material';
+import { Box, Checkbox } from '@mui/material';
 import { MANAGE_REPORTS_ACCESS_TYPES_MAPPED } from '@/constants/api-mapped';
-import { CustomChips } from '@/components/CustomChips';
 import { Dispatch, SetStateAction } from 'react';
 import { ReportListsTableRowI } from '../ReportLists/ReportLists.interface';
 import { FavoriteReport } from '../FavoriteReport';
 import { UserInfo } from '@/components/UserInfo';
 import { TruncateText } from '@/components/TruncateText';
 import { uiDateFormat } from '@/lib/date-time';
+import { CustomArrayTooltipData } from '@/components/CustomArrayTooltipData';
 
 export const reportListsColumnsDynamic = (
   selectedReportList: any,
@@ -106,23 +106,14 @@ export const reportListsColumnsDynamic = (
     id: 'dashboardDetails',
     isSortable: true,
     header: 'Dashboard Name',
-    cell: (info: any) =>
-      !!info?.getValue()?.length ? (
-        <CustomChips
-          data={info?.getValue()?.map((item: any, index: number) => ({
-            label: item?.name,
-            _id: index + 1,
-          }))}
-        />
-      ) : (
-        <Chip
-          size="small"
-          label="---"
-          variant="filled"
-          color={'primary'}
-          sx={{ mx: 0.5, my: 0.5 }}
-        />
-      ),
+    cell: (info: any) => (
+      <CustomArrayTooltipData
+        data={info?.getValue()?.map((item: any, index: number) => ({
+          label: item?.name,
+          _id: index + 1,
+        }))}
+      />
+    ),
   },
   {
     accessorFn: (row: ReportListsTableRowI) => row?.type,

@@ -10,10 +10,10 @@ import {
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import useAuth from '@/hooks/useAuth';
-import { enqueueSnackbar } from 'notistack';
 import { defaultValuesFolder, validationSchema } from './Documents.data';
-import { filteredEmptyValues, successSnackbar } from '@/utils/api';
+import { filteredEmptyValues } from '@/utils/api';
 import { useLazyGetDynamicFieldsQuery } from '@/services/dynamic-fields';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
   DYNAMIC_FIELDS,
   DYNAMIC_FORM_FIELDS_TYPES,
@@ -23,8 +23,12 @@ import {
   useLazyGetOrganizationUsersQuery,
   useLazyGetOrganizationTeamsQuery,
 } from '@/services/dropdowns';
+import { downloadLink } from '@/utils/download-blob';
+import { useAppSelector } from '@/redux/store';
 
 const useDocuments = () => {
+  const socket = useAppSelector((state) => state?.chat?.socket);
+
   const theme = useTheme<Theme>();
   const { user }: any = useAuth();
   const orgId: any = user?.organization?._id;
@@ -120,7 +124,7 @@ const useDocuments = () => {
       setSelectedFolders([]);
       successSnackbar('Folder Deleted Successfully');
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong!', { variant: 'error' });
+      errorSnackbar('Something went wrong!');
     }
   };
 
@@ -129,10 +133,10 @@ const useDocuments = () => {
     usePostDocumentFolderMutation();
   const [updateFolder, { isLoading: loadingUpdate }] =
     useUpdateFolderMutation();
+
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [modalHeading, setModalHeading] = useState(MODAL_HEADING.create);
   const [form, setForm] = useState<any>([]);
-  const [visibleTo, setVisibleTo] = useState('');
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();
 
@@ -170,18 +174,12 @@ const useDocuments = () => {
   }, []);
 
   const methodsFolder: any = useForm<any>({
-    resolver: yupResolver(validationSchema?.(form, visibleTo)),
+    resolver: yupResolver(validationSchema?.(form)),
     defaultValues: defaultValuesFolder?.(selectedFolders[0], form),
   });
-  const {
-    handleSubmit: handleMethodCreateFolder,
-    reset: resetFolderForm,
-    watch,
-  } = methodsFolder;
-  const watchVisibleTo = watch('visibleTo');
-  useEffect(() => {
-    setVisibleTo(watchVisibleTo);
-  }, [watchVisibleTo]);
+  const { handleSubmit: handleMethodCreateFolder, reset: resetFolderForm } =
+    methodsFolder;
+
   useEffect(() => {
     resetFolderForm(() => defaultValuesFolder(selectedFolders[0], form));
   }, [selectedFolders, resetFolderForm, form]);
@@ -210,11 +208,7 @@ const useDocuments = () => {
           customFields[key] = value;
         }
       } else {
-        if (key === 'userIds' || key === 'teamIds') {
-          body[key] = value?.map((item: any) => item?._id);
-        } else {
-          body[key] = value;
-        }
+        body[key] = value;
       }
     });
 
@@ -232,25 +226,17 @@ const useDocuments = () => {
           body: payload,
         }).unwrap();
         handleCloseCreateFolderModal();
-        enqueueSnackbar('Folder name update successfully.', {
-          variant: 'success',
-        });
+        successSnackbar('Folder name update successfully.');
       } catch (error: any) {
-        enqueueSnackbar('An error occured', {
-          variant: 'error',
-        });
+        errorSnackbar('An error occured');
       }
     } else {
       try {
         await postDocumentFolder({ body: body }).unwrap();
         handleCloseCreateFolderModal();
-        enqueueSnackbar('Folder Created Successfully', {
-          variant: 'success',
-        });
+        successSnackbar('Folder Created Successfully');
       } catch (error: any) {
-        enqueueSnackbar('An error occured', {
-          variant: 'error',
-        });
+        errorSnackbar('An error occured');
       }
     }
   };
@@ -315,12 +301,37 @@ const useDocuments = () => {
           },
         }).unwrap();
       }
-      enqueueSnackbar('Folder Moved Successfully', {
-        variant: 'success',
-      });
+      successSnackbar('Folder Moved Successfully');
       handleCloseMoveFolderDrawer();
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong!', { variant: 'error' });
+      errorSnackbar('Something went wrong!');
+    }
+  };
+
+  const [isLoadingDownload, setIsLoadingDownload] = useState(false);
+  const handleDownloadFolder = (folderId: string) => {
+    const downloadFile = (payload: { url: string }) => {
+      setIsLoadingDownload(false);
+      handleClose();
+
+      if (payload && payload.url) {
+        downloadLink(payload.url);
+        successSnackbar('Download started. Please wait...');
+      } else {
+        errorSnackbar('Failed to retrieve download link.');
+      }
+    };
+
+    try {
+      setIsLoadingDownload(true);
+      socket.emit('downloadDocument', { id: folderId });
+      socket.once('download-link', downloadFile);
+    } catch (error: any) {
+      setIsLoadingDownload(false);
+      handleClose();
+      errorSnackbar(
+        error?.data?.message ?? 'An error occurred while downloading.',
+      );
     }
   };
 
@@ -348,7 +359,6 @@ const useDocuments = () => {
     handleOpenCreateFolderModal,
     handleCloseCreateFolderModal,
     methodsFolder,
-    watchVisibleTo,
     orgUsersData,
     orgTeamsData,
     orgId,
@@ -372,6 +382,8 @@ const useDocuments = () => {
     selectedMoveToFolderId,
     handleListItemClick,
     handleSubmitMoveToFolder,
+    handleDownloadFolder,
+    isLoadingDownload,
   };
 };
 

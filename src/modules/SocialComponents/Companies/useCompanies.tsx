@@ -4,6 +4,7 @@ import useToggle from '@/hooks/useToggle';
 import { companiesAPI } from '@/services/commonFeatures/companies';
 import { PAGINATION } from '@/config';
 import { useForm } from 'react-hook-form';
+import { ALL_COMPANIES } from '@/constants';
 
 const useCompanies = () => {
   const theme = useTheme<Theme>();
@@ -81,8 +82,8 @@ const useCompanies = () => {
       dateStart: tab?.dateStart,
       dateEnd: tab?.dateEnd,
     };
-    // setDateRange(tab?.name === 'All Deals' ? {} : startEndDate);
-    if (tab?.name === 'All Companies') {
+    setCheckedRows([]);
+    if (tab?.name === ALL_COMPANIES?.ALL_COMPANIES) {
       setFilterValues(defaultFilterValues);
     } else {
       setFilterValues({

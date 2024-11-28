@@ -1,12 +1,12 @@
 import { Box, Grid } from '@mui/material';
 import { createElement } from 'react';
-import {
-  REPORTS_WIDGETS,
-  REPORTS_WIDGET_COMPONENT,
-} from './ReportsWidgets.data';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { MUI_GRID_LENGTH } from '@/constants/strings';
 import { TruncateText } from '@/components/TruncateText';
+import {
+  REPORTS_WIDGET_COMPONENT,
+  REPORTS_WIDGETS,
+} from './ReportsWidgets.data';
 
 export const ReportsWidgets = (props: any) => {
   const { reportWidgets, reportResults } = props;

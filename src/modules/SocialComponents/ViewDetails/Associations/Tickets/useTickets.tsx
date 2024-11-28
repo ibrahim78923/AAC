@@ -7,7 +7,7 @@ import {
   useGetCompanyAssociationsQuery,
   usePostAssociationCompaniesMutation,
 } from '@/services/commonFeatures/companies';
-import { enqueueSnackbar } from 'notistack';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useTickets = (companyId: any) => {
   const theme = useTheme();
@@ -46,11 +46,11 @@ const useTickets = (companyId: any) => {
 
     try {
       await PostAssociationCompanies({ body: payload }).unwrap();
-      enqueueSnackbar('Record Deleted Successfully', { variant: 'success' });
+      successSnackbar('Record Deleted Successfully');
       setIsOpenAlert(false);
     } catch (error) {
       const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+      errorSnackbar(errMsg ?? 'Error occurred');
     }
   };
 

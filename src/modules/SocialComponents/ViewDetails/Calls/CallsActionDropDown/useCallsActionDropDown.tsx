@@ -11,11 +11,10 @@ import {
   reAssignCallDefaultValues,
   reAssignCallValidationSchema,
 } from './CallsActionDropDown.data';
-import { enqueueSnackbar } from 'notistack';
 import { useUpdateCallsMutation } from '@/services/commonFeatures/calling';
 import dayjs from 'dayjs';
 import { DATE_FORMAT, TIME_FORMAT } from '@/constants';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useCallsActionDropdown = ({
   setOpenDrawer,
@@ -92,16 +91,12 @@ const useCallsActionDropdown = ({
         id: selectedCheckboxes[0]?._id,
       })?.unwrap();
 
-      enqueueSnackbar(`Call Re-Scheduled Successfully`, {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar(`Call Re-Scheduled Successfully`);
       setOpenAlertModal('');
     } catch (error) {
       const errMsg = error?.data?.message;
       const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
-      enqueueSnackbar(errMessage ?? 'Error occurred', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(errMessage ?? 'Error occurred');
     }
   };
   const { handleSubmit: handleReAssignCall } = methodsReassignCall;
@@ -133,16 +128,12 @@ const useCallsActionDropdown = ({
         id: selectedCheckboxes[0]?._id,
       })?.unwrap();
 
-      enqueueSnackbar(`Outcomes Updated Successfully`, {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar(`Outcomes Updated Successfully`);
       setOpenAlertModal('');
     } catch (error) {
       const errMsg = error?.data?.message;
       const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
-      enqueueSnackbar(errMessage ?? 'Error occurred', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(errMessage ?? 'Error occurred');
     }
   };
 

@@ -11,6 +11,8 @@ import {
 import { PAGINATION } from '@/config';
 import { PERMISSIONS_REPORTS } from '../ReportLists/ReportLists.data';
 import { AIR_OPERATIONS } from '@/constants/routes';
+import { useMemo } from 'react';
+import { getSession } from '@/utils';
 
 const { FILTER_REPORT } = REPORT_LISTS_ACTION_CONSTANTS ?? {};
 
@@ -18,6 +20,11 @@ export const useReportListsHeader = () => {
   const router: NextRouter = useRouter();
   const id = router?.query?.id;
   const baseModule = router?.query?.baseModule;
+
+  const authUserId = useMemo(() => {
+    const userId = getSession() as any;
+    return userId?.user?._id;
+  }, []);
 
   const isPortalOpen = useAppSelector(
     (state) => state?.operationsReportsLists?.isPortalOpen,
@@ -60,6 +67,7 @@ export const useReportListsHeader = () => {
     selectedReportsList,
     editReportPath,
     permission,
+    authUserId,
   );
 
   const handleSetSearch = (newSearch: any) => {

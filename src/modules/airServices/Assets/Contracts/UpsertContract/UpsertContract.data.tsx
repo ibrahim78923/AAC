@@ -194,7 +194,9 @@ export const upsertContractFormSchemaFunction: any = (form?: any) => {
         then: (schema: any) => schema?.required('Required'),
         otherwise: (schema: any) => schema?.notRequired(),
       }),
-    cost: Yup?.string(),
+    cost: Yup?.number()
+      ?.typeError('Not a number')
+      ?.moreThan(-1, 'cost must be positive'),
     status: Yup?.mixed()?.nullable()?.required('Required'),
     vendor: Yup?.mixed()?.nullable(),
     approver: Yup?.mixed()?.nullable(),
@@ -249,7 +251,7 @@ export const upsertContractFormSchemaFunction: any = (form?: any) => {
           value?.name === CONTRACT_TYPES_CHECK?.SOFTWARE_LICENSE,
         then: (schema: any) =>
           schema
-            ?.matches(REGEX?.LICENSE_KEY_REGEX, 'must be a string')
+            ?.matches(REGEX?.ALPHABETS, 'Must be a string')
             ?.required('Required'),
         otherwise: (schema: any) => schema?.notRequired(),
       }),
@@ -258,8 +260,12 @@ export const upsertContractFormSchemaFunction: any = (form?: any) => {
         Yup?.object()?.shape({
           serviceName: Yup?.string(),
           priceModel: Yup?.mixed()?.nullable(),
-          cost: Yup?.number(),
-          count: Yup?.number(),
+          cost: Yup?.number()
+            ?.typeError('Not a number')
+            ?.moreThan(-1, 'cost must be positive'),
+          count: Yup?.number()
+            ?.typeError('Not a number')
+            ?.moreThan(-1, 'cost must be positive'),
           comments: Yup?.string()?.max(
             CHARACTERS_LIMIT?.SERVER_ASSETS_CONTRACTS_COMMENTS_MAX_CHARACTERS,
             `Max ${CHARACTERS_LIMIT?.SERVER_ASSETS_CONTRACTS_COMMENTS_MAX_CHARACTERS} characters`,
@@ -295,6 +301,7 @@ export const upsertContractFormSchemaFunction: any = (form?: any) => {
 export const upsertContractFormFieldsDataFunction = (
   watchForNotifyExpiry = false,
   watchForContractType: any,
+  watchStartDate: any,
 ) => [
   {
     id: 1,
@@ -321,6 +328,7 @@ export const upsertContractFormFieldsDataFunction = (
     id: 4,
     md: 6,
     component: GetContractContractTypeDropdown,
+    componentProps: { name: 'type' },
   },
   {
     id: 5,
@@ -376,7 +384,7 @@ export const upsertContractFormFieldsDataFunction = (
       name: 'startDate',
       label: 'Start Date',
       fullWidth: true,
-      disabled: true,
+      disablePast: true,
     },
     component: RHFDatePicker,
     md: 6,
@@ -389,6 +397,7 @@ export const upsertContractFormFieldsDataFunction = (
       fullWidth: true,
       disablePast: true,
       textFieldProps: { readOnly: true },
+      minDate: watchStartDate,
     },
     component: RHFDatePicker,
     md: 6,

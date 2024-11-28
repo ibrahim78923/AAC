@@ -81,6 +81,7 @@ export const CreateFeedback: React.FC<CreateFeedbackI> = (props) => {
                     deleteLoading,
                     mergeLoading,
                     cloneLoading,
+                    sectionVerification,
                   })}
                   hasEndIcon={false}
                   dropdownName={<MoreVert />}

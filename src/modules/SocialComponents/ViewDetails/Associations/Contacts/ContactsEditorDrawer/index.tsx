@@ -5,15 +5,11 @@ import CommonDrawer from '@/components/CommonDrawer';
 import {
   FormProvider,
   RHFRadioGroup,
-  RHFSearchableSelect,
+  RHFSelect,
 } from '@/components/ReactHookForm';
 
 import useContactsEditorDrawer from './useContactsEditorDrawer';
-import {
-  contactsDataArray,
-  drawerButtonTitle,
-  drawerTitle,
-} from './ContactsEditorDrawer.data';
+import { contactsDataArray, drawerTitle } from './ContactsEditorDrawer.data';
 
 import { v4 as uuidv4 } from 'uuid';
 import Image from 'next/image';
@@ -42,6 +38,7 @@ const ContactsEditorDrawer = (props: any) => {
     setImagePreview,
     watchContactStatus,
     isLoadingPostContact,
+    isLoadingUpdateContact,
   } = useContactsEditorDrawer({
     openDrawer,
     contactRecord,
@@ -61,11 +58,11 @@ const ContactsEditorDrawer = (props: any) => {
         isDrawerOpen={openDrawer}
         onClose={() => setOpenDrawer('')}
         title={drawerTitle[openDrawer]}
-        okText={drawerButtonTitle[openDrawer]}
+        okText={'Add'}
         isOk={true}
         footer={openDrawer === 'View' ? false : true}
         submitHandler={handleSubmit(onSubmit)}
-        isLoading={isLoadingPostContact}
+        isLoading={isLoadingPostContact || isLoadingUpdateContact}
       >
         <Box sx={{ pt: 2 }}>
           <FormProvider
@@ -175,11 +172,13 @@ const ContactsEditorDrawer = (props: any) => {
                         name={'contactStatus'}
                         row={true}
                       />
-                      <RHFSearchableSelect
-                        size="small"
-                        name="existingContact"
-                        options={existingContactData}
-                      />
+                      <RHFSelect size="small" name="existingContact">
+                        {existingContactData?.map((option: any) => (
+                          <option key={uuidv4()} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))}
+                      </RHFSelect>
                     </Grid>
                   )
                 ),

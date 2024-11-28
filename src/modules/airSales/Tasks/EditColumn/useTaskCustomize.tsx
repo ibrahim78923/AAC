@@ -33,7 +33,8 @@ const useTaskCustomize = ({ onClose }: any) => {
     } catch (error) {}
   };
 
-  const [putTaskCustomizedColumns] = usePutTaskCustomizedColumnsMutation();
+  const [putTaskCustomizedColumns, { isLoading }] =
+    usePutTaskCustomizedColumnsMutation();
   const handleUpdateColumns = async () => {
     if (selected?.length > 0) {
       try {
@@ -92,21 +93,6 @@ const useTaskCustomize = ({ onClose }: any) => {
     );
   }, [columnsData]);
 
-  // useEffect(() => {
-  //   const isColumnsDataChanged =
-  //     JSON.stringify(columnsData) !== JSON.stringify(columns);
-
-  //   if (isColumnsDataChanged) {
-  //     setColumns(JSON.parse(JSON.stringify(columnsData)));
-
-  //     setSelected(
-  //       columnsData
-  //         ?.filter((col: { active: boolean }) => col?.active)
-  //         ?.map((obj: { slug: string }) => obj?.slug),
-  //     );
-  //   }
-  // }, [columnsData, columns]);
-
   useEffect(() => {
     setOrder(taskCustomizeCol?.data?.columns);
   }, [taskCustomizeCol?.data?.columns]);
@@ -119,6 +105,7 @@ const useTaskCustomize = ({ onClose }: any) => {
     theme,
     order,
     onDragEnd,
+    isLoading,
   };
 };
 

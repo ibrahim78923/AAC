@@ -13,6 +13,8 @@ const useScheduleModals = ({ type }: { type: string }) => {
         return 'Reschedule Call';
       case MODAL_TYPES.OUTCOME:
         return 'Outcome';
+      case MODAL_TYPES.SCHEDULE:
+        return 'Schedule';
       default:
         return null;
     }

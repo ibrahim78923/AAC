@@ -64,6 +64,9 @@ const ContactsEditorDrawer = (props: ContactsEditorDrawerProps) => {
                   name="contactType"
                   label={false}
                   defaultValue="new-contact"
+                  disabled={
+                    openDrawer?.type === DRAWER_TYPES?.VIEW ? true : false
+                  }
                 />
               </Grid>
               {watchContacts === CONTACT_TYPE?.NEW_CONTACT ? (

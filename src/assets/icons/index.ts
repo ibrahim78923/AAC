@@ -561,3 +561,16 @@ export { default as TotalAmountRedeemedIcon } from './modules/airLoyaltyProgram/
 export { default as TotalAmountRewardsIcon } from './modules/airLoyaltyProgram/Dashboard/total-amount-rewards-icon';
 export { default as TotalAmountGiftCardIcon } from './modules/airLoyaltyProgram/Dashboard/total-amount-gift-card-icon';
 export { default as ConsumersCustomizeIcon } from './modules/airLoyaltyProgram/Consumers/consumers-customize-icon';
+export { default as IconPlainBack } from './modules/airSocial/contracts/icon-plain-back';
+export { default as IconDocumentsText } from './modules/airSocial/contracts/icon-document-text';
+export { default as IconTemplateView } from './modules/airSocial/contracts/icon-template-view';
+export { default as IconCreateDraft } from './modules/airSocial/contracts/icon-create-draft';
+export { default as IconContractShare } from './modules/airSocial/contracts/icon-contract-share';
+export { default as IconContractMore } from './modules/airSocial/contracts/icon-contract-more';
+export { default as IconContractPencil } from './modules/airSocial/contracts/icon-contract-pencil';
+export { default as IconContractView } from './modules/airSocial/contracts/icon-contract-view';
+export { default as IconExportFeatured } from './modules/airSocial/contracts/icon-export-featured';
+export { default as IconTrashContracts } from './modules/airSocial/contracts/icon-trash-contracts';
+export { default as IconUserParty } from './modules/airSocial/contracts/icon-user-party';
+export { default as IconAddParty } from './modules/airSocial/contracts/icon-add-party';
+export { default as PoundSignIcon } from './shared/pound-sign-icon';

@@ -12,6 +12,7 @@ export const ConversationList = () => {
     lazyGetServicesTicketsConversationListStatus,
     setAction,
     showLoader,
+    showMoreLoader,
   }: any = useConversationList();
 
   if (showLoader)
@@ -25,10 +26,15 @@ export const ConversationList = () => {
 
   return (
     <Box maxHeight={'80vh'} overflow={'auto'}>
+      <br />
       {lazyGetServicesTicketsConversationListStatus?.data?.data?.map(
         (conversation: any) => (
           <Fragment key={conversation?._id}>
-            <ConversationCard data={conversation} setAction={setAction} />
+            <ConversationCard
+              data={conversation}
+              setAction={setAction}
+              showMoreLoader={showMoreLoader}
+            />
           </Fragment>
         ),
       )}

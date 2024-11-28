@@ -1,5 +1,10 @@
 import useAuth from '@/hooks/useAuth';
 import {
+  loyaltyProgramRoleAndRightsPageLimitSelector,
+  loyaltyProgramRoleAndRightsPageSelector,
+  loyaltyProgramRoleAndRightsSearchSelector,
+} from '@/redux/slices/airLoyaltyProgram/roles-and-right/selectors';
+import {
   emptySelectedRoleAndRightsLists,
   setRoleAndRightsListsTotalRecords,
 } from '@/redux/slices/airLoyaltyProgram/roles-and-right/slice';
@@ -27,17 +32,13 @@ export const useGetRoleAndRightsList = () => {
 
   const dispatch = useAppDispatch();
 
-  const page = useAppSelector(
-    (state) => state?.loyaltyProgramRoleAndRights?.page,
-  );
+  const page = useAppSelector(loyaltyProgramRoleAndRightsPageSelector);
 
   const pageLimit = useAppSelector(
-    (state) => state?.loyaltyProgramRoleAndRights?.pageLimit,
+    loyaltyProgramRoleAndRightsPageLimitSelector,
   );
 
-  const search = useAppSelector(
-    (state) => state?.loyaltyProgramRoleAndRights?.search,
-  );
+  const search = useAppSelector(loyaltyProgramRoleAndRightsSearchSelector);
 
   const getLoyaltyProgramRoleAndRightsList = async (
     currentPage: number = page,
@@ -54,13 +55,13 @@ export const useGetRoleAndRightsList = () => {
     };
     try {
       const response =
-        await lazyGetLoyaltyProgramRoleAndRightsPermissionsRoleListTrigger?.(
+        (await lazyGetLoyaltyProgramRoleAndRightsPermissionsRoleListTrigger?.(
           apiDataParameter,
-        )?.unwrap();
+        )?.unwrap()) as any;
       dispatch(emptySelectedRoleAndRightsLists());
       dispatch(
         setRoleAndRightsListsTotalRecords(
-          response?.data?.usercompanyaccounts?.length,
+          response?.data?.companyaccountroles?.length,
         ),
       );
     } catch (error: any) {}

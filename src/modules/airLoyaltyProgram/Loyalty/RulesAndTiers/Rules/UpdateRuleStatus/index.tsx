@@ -7,6 +7,9 @@ export const UpdateRuleStatus = (props: any) => {
   const { currentStatus, currentId } = props;
   const { getLoyaltyProgramRulesList } = useGetRulesLists?.();
 
+  const changeStatusApiQuery =
+    useChangeLoyaltyProgramLoyaltySingleRuleStatusMutation?.();
+
   return (
     <ActivityStatusMenu
       info={currentId}
@@ -21,8 +24,9 @@ export const UpdateRuleStatus = (props: any) => {
           label: LOYALTY_PROGRAM_RULE_STATUS?.IN_ACTIVE,
         },
       ]}
-      apiQuery={useChangeLoyaltyProgramLoyaltySingleRuleStatusMutation?.()}
+      apiQuery={changeStatusApiQuery}
       refetchApi={getLoyaltyProgramRulesList}
+      hasPermission
     />
   );
 };

@@ -1,13 +1,18 @@
 import { Grid, Box } from '@mui/material';
-import { TicketInfoCard } from './TicketInfoCard';
-import { Fragment } from 'react';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import NoData from '@/components/NoData';
 import { useTicketsBoardView } from './useTicketsBoardView';
 import CustomPagination from '@/components/CustomPagination';
 import { DataRecordCount } from '@/components/DataRecordCount';
 import { RENDER_COLOR } from './TicketsBoardView.data';
+import { pxToRem } from '@/utils/getFontValue';
+import { TicketInfoCard } from './TicketInfoCard';
+import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
+import {
+  CustomDragDropContext,
+  CustomDraggable,
+  CustomDroppable,
+} from '@/components/DragAndDrop';
 
 export const TableBoardView = () => {
   const {
@@ -19,58 +24,81 @@ export const TableBoardView = () => {
     getTicketsListData,
     decrement,
     increment,
+    onDragEnd,
+    ticketLists,
+    apiCallSuccess,
   } = useTicketsBoardView();
 
   if (lazyGetTicketsStatus?.isError)
     return (
       <ApiErrorState canRefresh refresh={() => getTicketsListData?.(page)} />
     );
-  if (lazyGetTicketsStatus?.isLoading || lazyGetTicketsStatus?.isFetching)
-    return <SkeletonTable />;
+  if (
+    (lazyGetTicketsStatus?.isLoading || lazyGetTicketsStatus?.isFetching) &&
+    !apiCallSuccess
+  )
+    return (
+      <SkeletonCard
+        length={12}
+        flexDirectionRectangular="column"
+        circularSkeletonSize={{ width: 50, height: 50 }}
+      />
+    );
+
   if (!!!lazyGetTicketsStatus?.data?.data?.tickets?.length)
     return <NoData message="No ticket found" />;
 
   return (
     <>
-      <Grid
-        container
-        spacing={2}
-        flexWrap={'nowrap'}
-        sx={{ overflowX: 'auto', overflowY: 'hidden' }}
-      >
-        {HEAD_STATUS?.map((head: any) => {
-          const totalCount =
-            lazyGetTicketsStatus?.data?.data?.tickets?.filter(
-              (item: any) => head?.be === item?.status,
-            )?.length || 0;
-          return (
-            <Grid item xs={3} sx={{ minWidth: '400px' }} key={head?.heading}>
-              <DataRecordCount
-                totalCount={totalCount}
-                recordName={head?.heading}
-                color={RENDER_COLOR?.[head?.heading]}
-              />
-              <Box
-                height={'100%'}
-                overflow={'auto'}
-                bgcolor={'grey.400'}
-                p={2}
-                borderTop={'3px solid'}
-                borderColor={RENDER_COLOR?.[head?.heading]}
+      <Box>
+        <Grid
+          container
+          spacing={2}
+          flexWrap={'nowrap'}
+          sx={{ overflowX: 'auto', overflowY: 'hidden' }}
+        >
+          <CustomDragDropContext onDragEnd={onDragEnd}>
+            {HEAD_STATUS?.map((head: any) => (
+              <Grid
+                item
+                xs={3}
+                sx={{ minWidth: pxToRem(400) }}
+                key={head?.heading}
               >
-                {lazyGetTicketsStatus?.data?.data?.tickets?.map(
-                  (item: any) =>
-                    head?.be === item?.status && (
-                      <Fragment key={item?._id}>
-                        <TicketInfoCard details={item} />
-                      </Fragment>
-                    ),
-                )}
-              </Box>
-            </Grid>
-          );
-        })}
-      </Grid>
+                <Box mb={0.5}>
+                  <DataRecordCount
+                    totalCount={ticketLists?.[head?.be]?.length}
+                    recordName={head?.heading}
+                    color={RENDER_COLOR?.[head?.heading]}
+                  />
+                </Box>
+
+                <CustomDroppable
+                  droppableId={head?.be}
+                  droppableStyle={{
+                    height: '100%',
+                    overflow: 'auto',
+                    bgcolor: 'grey.400',
+                    p: 2,
+                    borderTop: '3px solid',
+                    borderColor: RENDER_COLOR?.[head?.heading],
+                  }}
+                >
+                  {ticketLists?.[head?.be]?.map((item: any, index: number) => (
+                    <CustomDraggable
+                      key={item?._id}
+                      draggableId={item?._id}
+                      index={index}
+                    >
+                      <TicketInfoCard details={item} id={item?._id} />
+                    </CustomDraggable>
+                  ))}
+                </CustomDroppable>
+              </Grid>
+            ))}
+          </CustomDragDropContext>
+        </Grid>
+      </Box>
       <CustomPagination
         count={lazyGetTicketsStatus?.data?.data?.meta?.pages}
         pageLimit={lazyGetTicketsStatus?.data?.data?.meta?.limit}

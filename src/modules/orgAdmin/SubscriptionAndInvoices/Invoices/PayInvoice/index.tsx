@@ -24,7 +24,7 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { useTheme } from '@emotion/react';
 import Loader from '@/components/Loader';
-import { enqueueSnackbar } from 'notistack';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const PayInvoice: FC<PayInvoiceI> = ({ open, onClose, invoiceId }) => {
   const theme = useTheme();
@@ -46,23 +46,17 @@ const PayInvoice: FC<PayInvoiceI> = ({ open, onClose, invoiceId }) => {
 
   const handleSubmit = async () => {
     if (isNullOrEmpty(selectedValue)) {
-      enqueueSnackbar('Please select card', {
-        variant: 'error',
-      });
+      errorSnackbar('Please select card');
     } else {
       try {
         await postPayNow({
           invoiceId: invoiceId,
           paymentId: selectedValue,
         })?.unwrap();
-        enqueueSnackbar('Pay Successful', {
-          variant: 'success',
-        });
+        successSnackbar('Pay Successful');
         onClose();
       } catch (error: any) {
-        enqueueSnackbar('something went wrong', {
-          variant: 'error',
-        });
+        errorSnackbar('something went wrong');
       }
     }
   };

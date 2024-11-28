@@ -7,26 +7,35 @@ export const airLoyaltyProgramConsumersAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getLoyaltyProgramConsumersList: builder?.query({
       query: (params) => ({
-        url: `${END_POINTS?.AIR_LOYALTY_PROGRAM_CONSUMERS_LIST}/${params?.path}`,
+        url: END_POINTS?.AIR_LOYALTY_PROGRAM_CONSUMERS_LIST,
         method: 'GET',
-        params: params?.queryParams,
+        params,
       }),
 
       providesTags: [TAG],
     }),
 
-    patchLoyaltyProgramConsumersStatus: builder?.mutation({
-      query: (patchLoyaltyProgramConsumersStatusParameter: any) => ({
-        url: `${END_POINTS?.AIR_LOYALTY_PROGRAM_CONSUMERS_LIST}/${patchLoyaltyProgramConsumersStatusParameter?.queryParams}`,
-        method: 'PATCH',
-        body: patchLoyaltyProgramConsumersStatusParameter?.body,
+    putLoyaltyProgramConsumersStatus: builder?.mutation({
+      query: (body: any) => ({
+        url: END_POINTS?.AIR_LOYALTY_PROGRAM_CONSUMERS_UPDATE,
+        method: 'PUT',
+        body,
       }),
       invalidatesTags: [TAG],
+    }),
+
+    getConsumerDetailsById: builder?.query({
+      query: (params) => ({
+        url: `${END_POINTS?.AIR_LOYALTY_PROGRAM_CONSUMERS_GET_BY_ID}/${params}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
     }),
   }),
 });
 
 export const {
   useGetLoyaltyProgramConsumersListQuery,
-  usePatchLoyaltyProgramConsumersStatusMutation,
+  usePutLoyaltyProgramConsumersStatusMutation,
+  useGetConsumerDetailsByIdQuery,
 } = airLoyaltyProgramConsumersAPI;

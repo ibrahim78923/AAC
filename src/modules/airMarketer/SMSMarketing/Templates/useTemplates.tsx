@@ -33,6 +33,7 @@ const useTemplatese = () => {
     data: smsTemplateData,
     isLoading,
     isSuccess,
+    isFetching,
   } = useGetSmsTemplatesQuery(templateParams);
 
   const deleteTemplete = async (id: any) => {
@@ -62,6 +63,7 @@ const useTemplatese = () => {
     setFilterValues,
     smsTemplateData,
     deleteTempLoading,
+    isFetching,
   };
 };
 

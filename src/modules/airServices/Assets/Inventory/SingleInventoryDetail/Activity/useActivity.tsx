@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { PAGINATION } from '@/config';
 import { useGetAirServicesAssetsInventoryActivityLogQuery } from '@/services/airServices/assets/inventory/single-inventory-details/activity';
-import { MODULE_TYPE } from '@/constants/strings';
+import { ACTIVITY_LOGS_MODULE } from '@/constants/activity-logs';
 
 export const useActivity = () => {
   const inventoryId = useSearchParams()?.get('inventoryId');
@@ -17,7 +17,7 @@ export const useActivity = () => {
         page,
         limit: pageLimit,
         moduleId: inventoryId,
-        module: MODULE_TYPE?.INVENTORIES,
+        module: ACTIVITY_LOGS_MODULE?.INVENTORIES,
       },
       {
         refetchOnMountOrArgChange: true,

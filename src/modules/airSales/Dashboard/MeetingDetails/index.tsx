@@ -1,7 +1,12 @@
 import { Box, Card, Typography, useTheme } from '@mui/material';
 import Table from './Table';
+import { MeetingDetailsTableData } from '@/mock/modules/airSales/Dashboard/MeetingDetails';
 
-const MeetingDetails = (meetingsData: any) => {
+const MeetingDetails = (props: any) => {
+  const { isStatic = true, meetingsData } = props;
+  const meetingDetails = isStatic
+    ? MeetingDetailsTableData
+    : meetingsData?.meetingsData;
   const theme = useTheme();
   return (
     <Card>
@@ -19,7 +24,7 @@ const MeetingDetails = (meetingsData: any) => {
         </Box>
       </Box>
       <Box pb={3}>
-        <Table data={meetingsData?.meetingsData} />
+        <Table data={meetingDetails} />
       </Box>
     </Card>
   );

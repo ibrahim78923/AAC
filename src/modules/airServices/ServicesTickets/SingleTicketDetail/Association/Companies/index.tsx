@@ -4,13 +4,13 @@ import { TYPE_VALUES } from './Companies.data';
 import { FormProvider, RHFRadioGroup } from '@/components/ReactHookForm';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
-import { CircularProgress, Typography } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import NewCompany from './NewCompany';
 import ExistingCompany from './ExistingCompany';
 import ViewCompany from './ViewCompany';
+import { DataRecordCount } from '@/components/DataRecordCount';
 
 export default function Companies({ isDrawerOpen, setIsDrawerOpen }: any) {
   const {
@@ -98,27 +98,11 @@ export default function Companies({ isDrawerOpen, setIsDrawerOpen }: any) {
           AIR_SERVICES_TICKETS_TICKETS_DETAILS?.COMPANIES_LIST_VIEW,
         ]}
       >
-        <Typography variant={'h5'}>
-          <Typography
-            variant={'body1'}
-            component={'span'}
-            bgcolor={'secondary.main'}
-            borderRadius={1}
-            p={0.4}
-            color={'common.white'}
-            mr={0.5}
-          >
-            {isLoading || isFetching ? (
-              <CircularProgress size={18} />
-            ) : data?.length < 10 ? (
-              `0${data?.length}`
-            ) : (
-              data?.length
-            )}
-          </Typography>
-          Companies
-        </Typography>
-
+        <DataRecordCount
+          recordName="Companies"
+          isCountLoading={isLoading || isFetching}
+          totalCount={data?.length}
+        />
         <TanstackTable
           columns={associateCompanyColumns}
           data={data}

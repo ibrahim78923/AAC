@@ -7,11 +7,9 @@ import { DragIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
-import useDealTab from '../DealTab/useDealTab';
 import { CreateDealProps } from '../CreateDeal/CreateDeal-interface';
 
 const DealCustomize = ({ open, onClose }: CreateDealProps) => {
-  const { customizeLoading } = useDealTab();
   const {
     handleChackboxChange,
     handleUpdateColumns,
@@ -19,6 +17,7 @@ const DealCustomize = ({ open, onClose }: CreateDealProps) => {
     theme,
     order,
     onDragEnd,
+    cutomizeColumnsLoading,
   } = useDealCustomize({ onClose, open });
 
   return (
@@ -30,9 +29,9 @@ const DealCustomize = ({ open, onClose }: CreateDealProps) => {
       submitHandler={handleUpdateColumns}
       okText="Save"
       title="Customize Columns"
-      isLoading={customizeLoading}
+      isLoading={cutomizeColumnsLoading}
     >
-      {customizeLoading ? (
+      {cutomizeColumnsLoading ? (
         <SkeletonTable />
       ) : (
         <DragDropContext onDragEnd={onDragEnd}>

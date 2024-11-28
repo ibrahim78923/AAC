@@ -18,6 +18,7 @@ import { optionsConstants } from './WorkflowConditions/SubWorkflowConditions/Sub
 import { useDispatch } from 'react-redux';
 import { setTestServicesWorkflowBody } from '@/redux/slices/servicesWorkflow';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { isoDateString } from '@/lib/date-time';
 
 export const useRulesWorkflow = () => {
   const [validation, setValidation] = useState('');
@@ -50,6 +51,8 @@ export const useRulesWorkflow = () => {
     setCategoryAs: 'Set Category as',
     category: 'servicecategories',
     users: 'users',
+    plannedEndDate: 'plannedEndDate',
+    plannedStartDate: 'plannedStartDate',
   };
 
   const router = useRouter();
@@ -122,9 +125,13 @@ export const useRulesWorkflow = () => {
     conditions: group?.conditions?.map((condition: any) => ({
       condition: condition?.condition,
       fieldName: condition?.fieldName?.value,
-      fieldValue: condition?.fieldValue?._id
-        ? condition?.fieldValue?._id
-        : condition?.fieldValue,
+      fieldValue:
+        condition?.fieldName?.value === collectionNameData?.plannedStartDate ||
+        condition?.fieldName?.value === collectionNameData?.plannedEndDate
+          ? isoDateString(condition?.fieldValue)
+          : condition?.fieldValue?._id
+            ? condition?.fieldValue?._id
+            : condition?.fieldValue,
       fieldType: mapField(condition),
       collectionName:
         condition?.condition === optionsConstants?.isEmpty ||
@@ -138,9 +145,13 @@ export const useRulesWorkflow = () => {
   const mapAction = (action: any) => ({
     ...action,
     fieldName: action?.fieldName?.value,
-    fieldValue: action?.fieldValue?._id
-      ? action?.fieldValue?._id
-      : action?.fieldValue,
+    fieldValue:
+      action?.fieldName?.value === collectionNameData?.plannedStartDate ||
+      action?.fieldName?.value === collectionNameData?.plannedEndDate
+        ? isoDateString(action?.fieldValue)
+        : action?.fieldValue?._id
+          ? action?.fieldValue?._id
+          : action?.fieldValue,
     fieldType: mapField(action),
     collectionName: getCollectionName(action?.fieldName),
   });

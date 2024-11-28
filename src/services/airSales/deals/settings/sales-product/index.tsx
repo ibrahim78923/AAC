@@ -1,7 +1,8 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
-import { baseAPI } from '@/services/base-api';
-const DEALS_ASSOCIATION = 'DEALS_ASSOCIATION';
+import { baseAPI, TAGS } from '@/services/base-api';
+
 const TAG = 'SETTINGS_SALE_PRODUCT';
+
 export const SalesProductAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getSalesProduct: builder.query({
@@ -24,7 +25,7 @@ export const SalesProductAPI = baseAPI.injectEndpoints({
         method: 'POST',
         body: body,
       }),
-      invalidatesTags: [TAG, DEALS_ASSOCIATION],
+      invalidatesTags: TAGS,
     }),
     updateSalesProduct: builder.mutation({
       query: ({ id, body }: any) => ({

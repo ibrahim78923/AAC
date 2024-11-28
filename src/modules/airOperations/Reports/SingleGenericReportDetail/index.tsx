@@ -7,9 +7,9 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { MUI_GRID_LENGTH } from '@/constants/strings';
 import {
-  REPORTS_WIDGETS,
   REPORTS_WIDGET_COMPONENT,
-} from '../ReportsWidgets/ReportsWidgets.data';
+  REPORTS_WIDGETS,
+} from './SingleGenericReportDetail.data';
 
 export const SingleGenericReportDetail = () => {
   const {
@@ -25,7 +25,8 @@ export const SingleGenericReportDetail = () => {
   if (singleReportApi?.isLoading || singleReportApi?.isFetching)
     return <SkeletonTable />;
 
-  if (singleReportApi?.isError) return <ApiErrorState />;
+  if (singleReportApi?.isError)
+    return <ApiErrorState canRefresh refresh={singleReportApi?.refetch} />;
 
   return (
     <>

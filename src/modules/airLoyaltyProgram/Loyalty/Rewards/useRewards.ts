@@ -3,15 +3,23 @@ import { useEffect, useState } from 'react';
 import { LOYALTY_REWARDS_TYPE } from '@/constants/strings';
 import { loyaltyRewardColumnDynamic } from './Rewards.data';
 import { useRouter } from 'next/router';
-import { useLazyGetLoyaltyProgramRewardsListQuery } from '@/services/airLoyaltyProgram/loyalty/rewards';
+import {
+  useDeleteLoyaltyProgramRewardsMutation,
+  useLazyGetLoyaltyProgramRewardsListQuery,
+} from '@/services/airLoyaltyProgram/loyalty/rewards';
 import { getActivePermissionsSession } from '@/utils';
 import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useRewards = () => {
   const router = useRouter();
   const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState<string>('');
+  const [isRewardDelete, setIsRewardDelete] = useState({
+    isOpen: false,
+    data: '',
+  });
   const [isRewardDrawerOpen, setIsRewardDrawerOpen] = useState({
     isOpen: false,
     data: '',
@@ -21,6 +29,7 @@ export const useRewards = () => {
     isOpen: false,
     rewardType: '',
   });
+
   const [
     lazyGetLoyaltyRewardsListTrigger,
     lazyGetLoyaltyRewardsListStatus,
@@ -53,6 +62,8 @@ export const useRewards = () => {
     setIsRewardDetailsOpen,
     activePermissionOfEditDelete,
     overallPermissions,
+    setIsRewardDrawerOpen,
+    setIsRewardDelete,
   );
 
   const refetch = () => getLoyaltyRewardsList?.();
@@ -60,6 +71,24 @@ export const useRewards = () => {
   const handleSearch = (data: any) => {
     setPage(PAGINATION?.CURRENT_PAGE);
     setSearch(data);
+  };
+
+  const [rewardDeleteTrigger, rewardDeleteStatus] =
+    useDeleteLoyaltyProgramRewardsMutation();
+
+  const handleDeleteSubmit = async () => {
+    const deleteRewardParameter = {
+      queryParams: {
+        id: isRewardDelete?.data,
+      },
+    };
+    try {
+      await rewardDeleteTrigger?.(deleteRewardParameter)?.unwrap();
+      setIsRewardDelete({ isOpen: false, data: '' });
+      successSnackbar('Reward deleted successfully');
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
   };
 
   return {
@@ -74,5 +103,9 @@ export const useRewards = () => {
     isRewardDrawerOpen,
     setIsRewardDrawerOpen,
     handleSearch,
+    isRewardDelete,
+    setIsRewardDelete,
+    handleDeleteSubmit,
+    rewardDeleteStatus,
   };
 };

@@ -73,6 +73,7 @@ export const useAddItemsToInventory = (props: any) => {
       page: 1,
       limit: 50,
       search: assetsSearch,
+      meta: true,
     },
   };
 

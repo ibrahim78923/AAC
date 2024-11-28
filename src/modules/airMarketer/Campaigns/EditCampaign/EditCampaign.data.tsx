@@ -18,6 +18,10 @@ export const validationSchema = (form: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
   return Yup?.object()?.shape({
     title: Yup?.string()?.required('Field is Required'),
+    startDate: Yup?.date()?.required('Start Date is required'),
+    endDate: Yup?.date()
+      ?.required('End Date is required')
+      ?.min(Yup.ref('startDate'), 'End Date cannot be before Start Date'),
     ...formSchema,
   });
 };
@@ -76,6 +80,7 @@ export const dataArray = (userListData: any, organizationId: any) => {
         label: 'Start Date',
         minDate: new Date(),
         fullWidth: true,
+        required: true,
       },
       component: RHFDatePicker,
       md: 12,
@@ -86,6 +91,7 @@ export const dataArray = (userListData: any, organizationId: any) => {
         label: 'End Date',
         minDate: new Date(),
         fullWidth: true,
+        required: true,
       },
       component: RHFDatePicker,
       md: 12,

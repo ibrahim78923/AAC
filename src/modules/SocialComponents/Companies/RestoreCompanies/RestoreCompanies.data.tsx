@@ -58,12 +58,16 @@ export const columns: any = (columnsProps: any) => {
       cell: (info: any) => info?.getValue() ?? 'N/A',
     },
     {
-      accessorFn: (row: any) => row?.createdAt,
-      id: 'timeDeleted',
+      accessorFn: (row: any) => row?.deletedAt,
+      id: 'deletedAt',
       isSortable: true,
       header: 'Time Deleted',
       cell: (info: any) =>
-        dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.UI) ?? 'N/A',
+        info?.getValue()
+          ? dayjs(info?.getValue())?.format(
+              DATE_TIME_FORMAT?.DDDD_MMMM_D_YYYY_HH_M_A,
+            )
+          : 'N/A',
     },
   ];
 };

@@ -33,6 +33,7 @@ const UserTable = () => {
     setCheckedUser,
     isAddUserDrawer,
     setIsAddUserDrawer,
+    isFetching,
   } = useUsers();
 
   return (
@@ -165,7 +166,7 @@ const UserTable = () => {
           count={productsUsers?.data?.meta?.pages}
           pageLimit={productsUsers?.data?.meta?.limit}
           totalRecords={productsUsers?.data?.meta?.total}
-          isLoading={isLoading}
+          isLoading={isLoading || isFetching}
           isSuccess={isSuccess}
           currentPage={productsUsers?.data?.meta?.page}
         />

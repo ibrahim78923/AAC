@@ -26,7 +26,6 @@ import { emailDraftValidationsSchema } from './draft.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAppSelector } from '@/redux/store';
 import { ClearIcon, MailColoredIcon } from '@/assets/icons';
-import { enqueueSnackbar } from 'notistack';
 import { LoadingButton } from '@mui/lab';
 import {
   useDeleteEmailOutlookMutation,
@@ -42,6 +41,7 @@ import {
 import { useDispatch } from 'react-redux';
 import { ImageComponentAttachment } from '../index';
 import { base64ToBlob } from '../../../SendEmail/useSendEmailDrawer';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const Draft = ({ messageDetailsData }: any) => {
   const theme = useTheme();
@@ -149,21 +149,17 @@ const Draft = ({ messageDetailsData }: any) => {
             messageIds: [activeRecord?.id],
           },
         })?.unwrap();
-        enqueueSnackbar('Mail permanently deleted', {
-          variant: 'success',
-        });
+        successSnackbar('Mail permanently deleted');
         dispatch(setFilterMailList(activeRecord?.id ? [activeRecord?.id] : []));
         dispatch(setSelectedRecords([]));
         dispatch(setActiveRecord({}));
       } catch (error: any) {
-        enqueueSnackbar('Something went wrong !', { variant: 'error' });
+        errorSnackbar('Something went wrong !');
       }
-      enqueueSnackbar('Email send successfully', {
-        variant: 'success',
-      });
+      successSnackbar('Email send successfully');
       reset();
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      errorSnackbar('Something went wrong !');
     }
   };
 

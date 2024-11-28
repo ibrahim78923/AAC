@@ -5,7 +5,7 @@ import {
   setPageIncrement,
   setPageLimit,
   setPageDecrement,
-} from '@/redux/slices/airLoyaltyProgram/rules/slice';
+} from '@/redux/slices/airLoyaltyProgram/tiers/slice';
 import { setIsPortalOpen } from '@/redux/slices/airLoyaltyProgram/tiers/slice';
 import { useGetTiersLists } from '../TiersHooks/useGetTiersLists';
 import { tiersListColumnsDynamic } from './TiersList.data';

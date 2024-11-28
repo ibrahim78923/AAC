@@ -3,7 +3,6 @@ import { FormProvider, RHFRadioGroup } from '@/components/ReactHookForm';
 import { TYPE_VALUES } from './Contacts.data';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
-import { CircularProgress, Typography } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import ExistingContact from './ExistingContact';
 import NewContact from './NewContact';
@@ -11,6 +10,7 @@ import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import useContacts from './useContacts';
 import ViewContact from './ViewContact';
+import { DataRecordCount } from '@/components/DataRecordCount';
 
 export default function Contacts({ isDrawerOpen, setIsDrawerOpen }: any) {
   const {
@@ -97,27 +97,11 @@ export default function Contacts({ isDrawerOpen, setIsDrawerOpen }: any) {
       <PermissionsGuard
         permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.CONTACT_LIST_VIEW]}
       >
-        <Typography variant={'h5'}>
-          <Typography
-            variant={'body1'}
-            component={'span'}
-            bgcolor={'secondary.main'}
-            borderRadius={1}
-            p={0.4}
-            color={'common.white'}
-            mr={0.5}
-          >
-            {isLoading || isFetching ? (
-              <CircularProgress size={18} />
-            ) : data?.length < 10 ? (
-              `0${data?.length}`
-            ) : (
-              data?.length
-            )}
-          </Typography>
-          Contacts
-        </Typography>
-
+        <DataRecordCount
+          recordName="Contacts"
+          isCountLoading={isLoading || isFetching}
+          totalCount={data?.length}
+        />
         <TanstackTable
           columns={associateContactsColumns}
           data={data}

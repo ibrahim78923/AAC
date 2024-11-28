@@ -74,6 +74,7 @@ const PipelineForecastReports = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
+          flexWrap: 'wrap',
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -91,63 +92,82 @@ const PipelineForecastReports = () => {
             Pipeline Forecast Report
           </Typography>
         </Box>
-        <Box sx={{ display: 'flex', gap: 1 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 1,
+            justifyContent: 'center',
+          }}
+        >
           <FormProvider methods={methods} onSubmit={handleSubmit}>
-            <Box sx={{ display: 'flex', gap: 1 }}>
-              <Box>
-                <ToggleButtonGroup
-                  color="primary"
-                  value={alignment}
-                  exclusive
-                  onChange={handleChange}
-                  aria-label="Platform"
+            <Box
+              sx={{
+                display: 'flex',
+                gap: 1,
+                justifyContent: 'center',
+                alignItems: {
+                  xs: 'center',
+                  sm: 'start',
+                },
+                flexDirection: {
+                  xs: 'column',
+                  sm: 'row',
+                },
+              }}
+            >
+              <ToggleButtonGroup
+                color="primary"
+                value={alignment}
+                exclusive
+                onChange={handleChange}
+                aria-label="Platform"
+              >
+                <ToggleButton
+                  disableRipple
+                  value="User"
+                  sx={{
+                    color: theme?.palette?.primary?.main,
+                    backgroundColor: '#fff',
+                    border: `1px solid ${theme?.palette?.grey[0]}`,
+                    height: '38px',
+                    '&.Mui-selected': {
+                      backgroundColor: theme?.palette?.primary?.main,
+                      color: '#fff',
+                    },
+                    '&.Mui-selected:hover': {
+                      backgroundColor: theme?.palette?.primary?.main,
+                    },
+                    '&:hover': {
+                      backgroundColor: theme?.palette?.primary?.light,
+                    },
+                  }}
                 >
-                  <ToggleButton
-                    disableRipple
-                    value="User"
-                    sx={{
-                      color: theme?.palette?.primary?.main,
-                      backgroundColor: '#fff',
-                      border: `1px solid ${theme?.palette?.grey[0]}`,
-                      height: '38px',
-                      '&.Mui-selected': {
-                        backgroundColor: theme?.palette?.primary?.main,
-                        color: '#fff',
-                      },
-                      '&.Mui-selected:hover': {
-                        backgroundColor: theme?.palette?.primary?.main,
-                      },
-                      '&:hover': {
-                        backgroundColor: theme?.palette?.primary?.light,
-                      },
-                    }}
-                  >
-                    Users
-                  </ToggleButton>
-                  <ToggleButton
-                    disableRipple
-                    value="Team"
-                    sx={{
-                      color: theme?.palette?.primary?.main,
-                      backgroundColor: '#fff',
-                      border: `1px solid ${theme?.palette?.grey[0]}`,
-                      height: '38px',
-                      '&.Mui-selected': {
-                        backgroundColor: theme?.palette?.primary?.main,
-                        color: '#fff',
-                      },
-                      '&.Mui-selected:hover': {
-                        backgroundColor: theme?.palette?.primary?.main,
-                      },
-                      '&:hover': {
-                        backgroundColor: theme?.palette?.primary?.light,
-                      },
-                    }}
-                  >
-                    Teams
-                  </ToggleButton>
-                </ToggleButtonGroup>
-              </Box>
+                  Users
+                </ToggleButton>
+                <ToggleButton
+                  disableRipple
+                  value="Team"
+                  sx={{
+                    color: theme?.palette?.primary?.main,
+                    backgroundColor: '#fff',
+                    border: `1px solid ${theme?.palette?.grey[0]}`,
+                    height: '38px',
+                    '&.Mui-selected': {
+                      backgroundColor: theme?.palette?.primary?.main,
+                      color: '#fff',
+                    },
+                    '&.Mui-selected:hover': {
+                      backgroundColor: theme?.palette?.primary?.main,
+                    },
+                    '&:hover': {
+                      backgroundColor: theme?.palette?.primary?.light,
+                    },
+                  }}
+                >
+                  Teams
+                </ToggleButton>
+              </ToggleButtonGroup>
 
               <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
                 <Button

@@ -212,14 +212,16 @@ function AuthProvider({ children }: { children: ReactNode }) {
       user,
       refreshToken,
       challengeName,
+      session,
     }: {
       accessToken: string;
       refreshToken: string;
       user: any;
       challengeName: any;
+      session: any;
     } = response?.data;
 
-    setSession({ accessToken, user, refreshToken, challengeName });
+    setSession({ accessToken, user, refreshToken, challengeName, session });
     dispatch({
       type: 'LOGIN',
       payload: {

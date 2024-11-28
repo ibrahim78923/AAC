@@ -34,7 +34,7 @@ export const submissionsArray = (customers: any, formId: string) => [
 export const columns: any = () => {
   return [
     {
-      accessorFn: (row: any) => row?.submission?.emailAddress,
+      accessorFn: (row: any) => row?.submission?.email,
       id: 'email',
       header: 'Email',
       isSortable: true,

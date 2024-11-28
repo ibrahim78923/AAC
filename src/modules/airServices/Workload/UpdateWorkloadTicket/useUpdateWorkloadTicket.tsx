@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { usePutAirServicesWorkloadTicketsMutation } from '@/services/airServices/workload';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
+  getWorkloadTicketDataArray,
   getWorkloadTicketDefaultValues,
   getWorkloadTicketValidationSchema,
 } from './UpdateWorkloadTicket.data';
@@ -18,14 +19,15 @@ export const useUpdateWorkloadTicket = ({ onClose, dataGet }: any) => {
     defaultValues: getWorkloadTicketDefaultValues?.(dataGet?.extendedProps),
   });
 
-  const { handleSubmit, reset, getValues } = methods;
+  const { handleSubmit, reset, getValues, setValue, setError, watch } = methods;
 
   const onSubmit = async (data: any) => {
     const { plannedEffort } = getValues();
     if (plannedEffort?.trim() !== '' && !/^\d+h\d+m$/?.test(plannedEffort)) {
-      errorSnackbar(
-        'Invalid format for Planned Effort. Please use format like 1h10m',
-      );
+      setError('plannedEffort', {
+        message:
+          'Invalid format for Planned Effort. Please use format like 1h10m',
+      });
       return;
     }
 
@@ -38,6 +40,11 @@ export const useUpdateWorkloadTicket = ({ onClose, dataGet }: any) => {
       !!data?.status && formData?.append('status', data?.status?._id);
       !!data?.plannedEndDate &&
         formData?.append('plannedEndDate', isoDateString(data?.plannedEndDate));
+      !!data?.plannedStartDate &&
+        formData?.append(
+          'plannedStartDate',
+          isoDateString(data?.plannedStartDate),
+        );
       !!data?.plannedEffort &&
         formData?.append('plannedEffort', data?.plannedEffort);
       formData?.append('moduleType', dataGet?.extendedProps?.moduleType);
@@ -60,10 +67,17 @@ export const useUpdateWorkloadTicket = ({ onClose, dataGet }: any) => {
     reset(getWorkloadTicketDefaultValues?.(dataGet?.extendedProps));
   }, [dataGet, reset]);
 
+  const workloadTicketDataArray = getWorkloadTicketDataArray(
+    getValues,
+    setValue,
+    watch,
+  );
+
   return {
     handleSubmit,
     onSubmit,
     methods,
     patchTicketStatus,
+    workloadTicketDataArray,
   };
 };

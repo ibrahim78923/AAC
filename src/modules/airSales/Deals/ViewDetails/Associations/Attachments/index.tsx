@@ -24,6 +24,7 @@ const Attachments = ({ dealId }: AttachmentsProps) => {
     deleteAttachmentHandler,
     attachmentsData,
     isLoading,
+    isFetching,
   } = useAttachments(dealId);
 
   return (
@@ -75,8 +76,9 @@ const Attachments = ({ dealId }: AttachmentsProps) => {
                 onClick={() =>
                   setOpenDrawer({ isToggle: true, type: 'Add', recData: {} })
                 }
+                startIcon={<PlusIcon />}
               >
-                <PlusIcon /> Add Attachments
+                Add Attachments
               </Button>
             </PermissionsGuard>
           </Box>
@@ -88,6 +90,7 @@ const Attachments = ({ dealId }: AttachmentsProps) => {
               setIsOpenAlert,
             })}
             data={attachmentsData}
+            isLoading={isLoading || isFetching}
           />
         </Grid>
       </Grid>

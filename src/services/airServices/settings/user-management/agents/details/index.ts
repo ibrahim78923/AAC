@@ -21,7 +21,7 @@ export const agentDetailsAPI = baseAPI?.injectEndpoints({
     }),
     getAgentTaskDetails: builder?.query({
       query: (getAgentTaskDetailsParameter: any) => ({
-        url: `${END_POINTS?.WORKLOAD}`,
+        url: `${END_POINTS?.WORKLOAD_USER_TASK}`,
         method: 'GET',
         params: getAgentTaskDetailsParameter?.queryParams,
       }),

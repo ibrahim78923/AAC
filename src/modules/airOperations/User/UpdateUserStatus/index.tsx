@@ -5,7 +5,7 @@ import { useUpdateUserStatus } from './useUpdateUserStatus';
 const { ACTIVE } = PRODUCT_USER_STATUS ?? {};
 
 export const UpdateUserStatus = (props: any) => {
-  const { currentStatus } = props;
+  const { currentStatus, canChangeUserStatus } = props;
 
   const { changeOperationUserStatus, changeSingleUserStatusStatus } =
     useUpdateUserStatus(props);
@@ -15,7 +15,7 @@ export const UpdateUserStatus = (props: any) => {
       checked={currentStatus === ACTIVE}
       onChange={changeOperationUserStatus}
       isLoading={changeSingleUserStatusStatus?.isLoading}
-      disabled={changeSingleUserStatusStatus?.isLoading}
+      disabled={!canChangeUserStatus || changeSingleUserStatusStatus?.isLoading}
     />
   );
 };

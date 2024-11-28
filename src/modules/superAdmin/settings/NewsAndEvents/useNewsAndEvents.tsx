@@ -18,6 +18,7 @@ import {
   newsAndEventsFormValidationSchema,
 } from './NewsAndEventsModal/NewsAndEventsModal.data';
 import { FilterValuesI, AddNewsEventValuesI } from './NewsAndEvents.interface';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const useNewsAndEvents = () => {
   const theme = useTheme();
@@ -126,21 +127,16 @@ const useNewsAndEvents = () => {
             body: payload,
           })?.unwrap()
         : await postNewsEvents({ body: payload })?.unwrap();
-      enqueueSnackbar(
+      successSnackbar(
         `News Events ${
           titleAddModal === MODAL_TITLE.UPDATE ? 'updated' : 'added'
         } Successfully`,
-        {
-          variant: 'success',
-        },
       );
       handleCloseAddModal();
       resetAddNewsEvents();
       setSelectedRow([]);
     } catch (error: any) {
-      enqueueSnackbar('An error occured', {
-        variant: 'error',
-      });
+      errorSnackbar('An error occured');
     }
   };
   const handleAddNewsEventsSubmit = handleMethodAddNewsEvent(
@@ -157,15 +153,11 @@ const useNewsAndEvents = () => {
     const selectedRowIds = selectedRow?.join(',');
     try {
       await deleteNewsEvents(selectedRowIds)?.unwrap();
-      enqueueSnackbar('Record has been deleted.', {
-        variant: 'success',
-      });
+      successSnackbar('Record has been deleted.');
       setisNewsAndEventsDeleteModal(false);
       setSelectedRow([]);
     } catch (error: any) {
-      enqueueSnackbar('An error occured', {
-        variant: 'error',
-      });
+      errorSnackbar('An error occured');
     }
   };
   useEffect(() => {
@@ -181,9 +173,7 @@ const useNewsAndEvents = () => {
 
   const handleUpdateStatus = async (status: string) => {
     if (tableRowValues?.status === status) {
-      enqueueSnackbar(`${tableRowValues?.name} is already ${status}`, {
-        variant: 'error',
-      });
+      errorSnackbar(`${tableRowValues?.name} is already ${status}`);
     } else {
       try {
         await updateNewsEvents({
@@ -198,9 +188,7 @@ const useNewsAndEvents = () => {
         setSelectedRow([]);
         reset();
       } catch (error: any) {
-        enqueueSnackbar('An error occured', {
-          variant: 'error',
-        });
+        errorSnackbar('An error occured');
       }
     }
   };

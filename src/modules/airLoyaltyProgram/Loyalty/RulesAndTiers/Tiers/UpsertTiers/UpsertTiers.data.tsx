@@ -3,7 +3,7 @@ import {
   RHFDropZone,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { Typography } from '@mui/material';
+import { Box, InputAdornment, Typography } from '@mui/material';
 import * as Yup from 'yup';
 import { GetTierAttributeListDropdown } from '../TiersFormFields/GetTierAttributeListDropdown';
 import { GetContactsListDropdown } from '../TiersFormFields/GetContactsListDropdown';
@@ -13,6 +13,9 @@ import {
   LOYALTY_PROGRAM_LOYALTY_TIERS_TYPE,
 } from '@/constants/api';
 import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
+import { PoundSignIcon } from '@/assets/icons';
+import { Attachments } from '@/components/Attachments';
+import { AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS } from '@/constants/permission-keys';
 
 const {
   LOYALTY_PROGRAM_TIERS_NAME_MAX_CHARACTERS,
@@ -66,7 +69,7 @@ export const tiersAttributesOptions = [
     description: 'The number of loyalty transaction the contact has had',
   },
   {
-    _id: LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES?.CURRENT_POINTS__BALANCE,
+    _id: LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES?.CURRENT_POINTS_BALANCE,
     label: 'Current points balance',
     description: 'Contact Current points balance',
   },
@@ -90,14 +93,6 @@ export const stringsOperatorOptions = [
     _id: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.CONTAINS,
     label: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.CONTAINS,
   },
-  {
-    _id: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.IS_KNOWN,
-    label: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.IS_KNOWN,
-  },
-  {
-    _id: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.IS_UNKNOWN,
-    label: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.IS_UNKNOWN,
-  },
 ];
 
 export const numberOperatorOptions = [
@@ -116,14 +111,6 @@ export const numberOperatorOptions = [
   {
     _id: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.LESS_THAN,
     label: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.LESS_THAN,
-  },
-  {
-    _id: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.IS_KNOWN,
-    label: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.IS_KNOWN,
-  },
-  {
-    _id: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.IS_UNKNOWN,
-    label: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.IS_UNKNOWN,
   },
 ];
 
@@ -164,24 +151,12 @@ export const dateOperatorOptions = [
     label: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.NOT_EQUAL,
   },
   {
-    _id: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.CONTAINS,
-    label: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.CONTAINS,
+    _id: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.BEFORE,
+    label: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.BEFORE,
   },
   {
-    _id: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.IS_KNOWN,
-    label: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.IS_KNOWN,
-  },
-  {
-    _id: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.IS_UNKNOWN,
-    label: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.IS_UNKNOWN,
-  },
-  {
-    _id: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.GREATER_THAN,
-    label: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.GREATER_THAN,
-  },
-  {
-    _id: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.LESS_THAN,
-    label: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.LESS_THAN,
+    _id: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.AFTER,
+    label: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.AFTER,
   },
 ];
 
@@ -196,7 +171,11 @@ export const ATTRIBUTE_OPERATOR_MAP = {
   [LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES?.LAST_TRANSACTION_AT]:
     dateOperatorOptions,
   [LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES?.NO_OF_TRANSACTIONS]:
-    dateOperatorOptions,
+    numberOperatorOptions,
+  [LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES?.CURRENT_POINTS_BALANCE]:
+    numberOperatorOptions,
+  [LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES?.TOTAL_POINTS_REDEEMED]:
+    numberOperatorOptions,
 };
 
 export const upsertTiersFormDefaultValue = (data?: any) => {
@@ -231,7 +210,11 @@ export const upsertTiersFormValidationSchema = (formStep: number) =>
               LOYALTY_PROGRAM_TIERS_NAME_MAX_CHARACTERS,
               `Maximum characters limit is ${LOYALTY_PROGRAM_TIERS_NAME_MAX_CHARACTERS}`,
             )
-            ?.matches(REGEX?.ALPHABETS_AND_SPACE, 'must be a string'),
+            ?.test(
+              'contains-alphabet',
+              'Description must be a string',
+              (value) => !value || REGEX?.ALPHABETS?.test(value),
+            ),
           description: Yup?.string()
             ?.trim()
             ?.required('Description is required')
@@ -239,7 +222,11 @@ export const upsertTiersFormValidationSchema = (formStep: number) =>
               LOYALTY_PROGRAM_TIERS_DESCRIPTION_MAX_CHARACTERS,
               `Maximum characters limit is ${LOYALTY_PROGRAM_TIERS_DESCRIPTION_MAX_CHARACTERS}`,
             )
-            ?.matches(REGEX?.ALPHABETS_AND_SPACE, 'must be a string'),
+            ?.test(
+              'contains-alphabet',
+              'Description must be a string',
+              (value) => !value || REGEX?.ALPHABETS?.test(value),
+            ),
           logo: Yup?.mixed()?.nullable(),
           amount: Yup?.number()
             ?.typeError('Not a number')
@@ -291,6 +278,7 @@ export const upsertTiersBasicFormFieldsDynamic = (
   clearErrors: any,
   setValue: any,
   trigger: any,
+  tierId: string,
 ) => {
   return [
     ...(formStep === FORM_STEP_CONSTANT?.FIRST_STEP
@@ -334,6 +322,37 @@ export const upsertTiersBasicFormFieldsDynamic = (
               },
             },
           },
+          ...(!!tierId
+            ? [
+                {
+                  id: 3.5,
+                  component: Box,
+                  heading: (
+                    <>
+                      <Typography
+                        variant="body1"
+                        fontWeight={'fontWeightSmall'}
+                        color="slateBlue.main"
+                        mb={2}
+                      >
+                        {' '}
+                        Attachments{' '}
+                      </Typography>
+                      <Box maxHeight={'20vh'}>
+                        <Attachments
+                          recordId={tierId}
+                          permissionKey={[
+                            AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS?.EDIT_OR_DELETE_TIERS,
+                          ]}
+                          colSpan={{ sm: 12, lg: 12 }}
+                        />
+                      </Box>
+                    </>
+                  ),
+                  componentProps: {},
+                },
+              ]
+            : []),
           {
             id: 4,
             component: Typography,
@@ -356,6 +375,13 @@ export const upsertTiersBasicFormFieldsDynamic = (
               type: 'number',
               inputProps: {
                 min: 0,
+              },
+              InputProps: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <PoundSignIcon />
+                  </InputAdornment>
+                ),
               },
               onBlurHandler: async () => await trigger('amount'),
             },

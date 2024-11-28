@@ -32,7 +32,7 @@ export const AssetFieldDropdown = (props: any) => {
       size="small"
       apiQuery={apiQueryAssociateAsset}
       EndIcon={AddCircle}
-      externalParams={{ companyId }}
+      externalParams={{ companyId, meta: true }}
       endIconSx={{ color: 'primary.main' }}
       endIconClick={() => {
         router?.push(AIR_SERVICES?.UPSERT_INVENTORY);

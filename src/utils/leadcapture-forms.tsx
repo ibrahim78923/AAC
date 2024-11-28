@@ -39,7 +39,7 @@ const getFieldComponent = (field: any) => {
 
 export const validationSchema = (data: any) => {
   const schema: any = {
-    emailAddress: Yup.string().email().required('Email Address is required'),
+    email: Yup.string().email().required('Email Address is required'),
   };
   data?.forEach((field: any) => {
     if (
@@ -61,7 +61,7 @@ export const validationSchema = (data: any) => {
 };
 
 export const defaultValues = (data: any) => {
-  const defaultValues: any = { emailAddress: '' };
+  const defaultValues: any = { email: '' };
   data?.forEach((field: any) => {
     defaultValues[field?.name] = field?.value ?? null;
   });
@@ -73,7 +73,7 @@ export const generateFormFieldsData = (data: any) => {
     component: RHFTextField,
     md: 12,
     componentProps: {
-      name: 'emailAddress',
+      name: 'email',
       label: 'Email Address',
       placeholder: 'Enter your email address',
       required: true,

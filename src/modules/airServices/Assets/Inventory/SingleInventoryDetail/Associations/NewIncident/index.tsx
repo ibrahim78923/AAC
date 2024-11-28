@@ -6,7 +6,6 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
-import { newIncidentFormFieldsDynamic } from './NewIncident.data';
 
 export const NewIncident: React.FC<{
   openDrawer: boolean;
@@ -23,6 +22,7 @@ export const NewIncident: React.FC<{
     form,
     getDynamicFieldsStatus,
     postAttachmentStatus,
+    newIncidentFormFieldsDynamic,
   } = useNewIncident(props);
 
   return (

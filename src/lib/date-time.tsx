@@ -169,3 +169,9 @@ export const startOfAddTime = (
   const result = dayjs(date)?.startOf(unitStart)?.add(value, unitAdd);
   return toDate ? result?.toDate() : result?.toISOString();
 };
+
+export const diffDateTime = (
+  dateString: Date | string,
+  unit: any = 'minute',
+  baseDate?: Date | string,
+) => dayjs(dateString)?.diff(dayjs(baseDate), unit);

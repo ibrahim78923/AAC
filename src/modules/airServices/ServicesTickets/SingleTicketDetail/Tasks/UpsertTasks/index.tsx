@@ -21,6 +21,7 @@ export const UpsertTasks = () => {
     getDynamicFormData,
     isPortalOpen,
     apiCallInProgress,
+    showLoader,
   } = useUpsertTasks?.();
 
   return (
@@ -34,12 +35,11 @@ export const UpsertTasks = () => {
         isOk
         okText={BUTTON_TITLE_FORM_USER?.[isPortalOpen?.action as string]}
         isLoading={apiCallInProgress}
-        isDisabled={apiCallInProgress}
+        isDisabled={showLoader}
         disabledCancelBtn={apiCallInProgress}
       >
         <Box mt={1}>
-          {getDynamicFieldsStatus?.isLoading ||
-          getDynamicFieldsStatus?.isFetching ? (
+          {showLoader ? (
             <SkeletonForm />
           ) : getDynamicFieldsStatus?.isError ? (
             <ApiErrorState canRefresh refresh={() => getDynamicFormData?.()} />

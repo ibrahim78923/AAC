@@ -25,10 +25,10 @@ import {
   useUpdateEmailTemplatesMutation,
 } from '@/services/airMarketer/emailMarketing';
 import { getActiveProductSession } from '@/utils';
-import { PAGINATION } from '@/config';
 import { MANAGE_ACCESS_VISIBLE } from '@/constants';
 
 import { LoadingButton } from '@mui/lab';
+import useAuth from '@/hooks/useAuth';
 
 const ManageAccess = ({
   isOpenManageAccessModal,
@@ -37,6 +37,8 @@ const ManageAccess = ({
   setSelectedRecords,
 }: any) => {
   const theme = useTheme();
+  const auth: any = useAuth();
+  const productId = auth?.product?._id ?? {};
 
   const [accessValue, setAccessValue] = React.useState('');
 
@@ -62,9 +64,9 @@ const ManageAccess = ({
             values?.access === 'TEAMS'
               ? values?.teams?.map((item: any) => item?._id)
               : [],
-          userAccoutIds:
+          userIds:
             values?.access === 'USERS'
-              ? values?.users?.map((item: any) => item?._id)
+              ? values?.users?.map((item: any) => item?.user)
               : [],
         },
       })?.unwrap();
@@ -151,8 +153,9 @@ const ManageAccess = ({
                   fullWidth
                   multiple
                   externalParams={{
-                    page: PAGINATION?.CURRENT_PAGE,
-                    limit: PAGINATION?.PAGE_LIMIT,
+                    productId: productId,
+                    meta: false,
+                    onlyMyTeams: true,
                   }}
                   apiQuery={apiQueryTeams}
                   size="small"

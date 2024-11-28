@@ -3,10 +3,7 @@ import { CALENDAR_FORMAT } from '@/constants';
 import { AIR_LOYALTY_PROGRAM } from '@/constants/routes';
 import { AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS } from '@/constants/permission-keys';
 import { otherDateFormat } from '@/lib/date-time';
-import {
-  useGetVouchersQuery,
-  usePatchVoucherMutation,
-} from '@/services/airLoyaltyProgram/loyalty/vouchers';
+import { useGetVouchersQuery } from '@/services/airLoyaltyProgram/loyalty/vouchers';
 import { getActivePermissionsSession } from '@/utils';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
@@ -34,8 +31,6 @@ export const useVouchers = () => {
     ...filterBody,
     meta: true,
   };
-  const patchVouchersTrigger = usePatchVoucherMutation();
-
   const { data, isLoading, isError, isSuccess, isFetching } =
     useGetVouchersQuery(vouchersParameter, {
       refetchOnMountOrArgChange: true,
@@ -71,9 +66,6 @@ export const useVouchers = () => {
   const checkActionPermissions = getActivePermissionsSession()?.includes(
     AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.EDIT_DELETE,
   );
-  const checkStatusPermissions = getActivePermissionsSession()?.includes(
-    AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.ACTIVE_INACTIVE,
-  );
 
   return {
     page,
@@ -95,7 +87,5 @@ export const useVouchers = () => {
     setIsPortal,
     handleDeleteSubmit,
     checkActionPermissions,
-    patchVouchersTrigger,
-    checkStatusPermissions,
   };
 };

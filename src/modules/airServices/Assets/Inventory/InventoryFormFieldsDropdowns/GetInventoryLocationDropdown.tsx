@@ -1,13 +1,13 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { useLazyGetAirServicesAssetsInventoryLocationsDropdownQuery } from '@/services/airServices/assets/inventory';
 
-const GetInventoryLocationDropdown = () => {
+const GetInventoryLocationDropdown = ({ name }: any) => {
   const apiQueryLocationType =
     useLazyGetAirServicesAssetsInventoryLocationsDropdownQuery();
   return (
     <>
       <RHFAutocompleteAsync
-        name="location"
+        name={name}
         label="Location"
         placeholder="Select Location"
         apiQuery={apiQueryLocationType}

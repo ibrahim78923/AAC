@@ -1,6 +1,7 @@
 import { PAGINATION } from '@/config';
 import { createSlice } from '@reduxjs/toolkit';
 import { servicesDashboardReducersList } from './reducers';
+import { TICKET_GRAPH_TYPES } from '@/constants/strings';
 
 export const isPortalOpenInitialState = {
   isOpen: false,
@@ -8,6 +9,7 @@ export const isPortalOpenInitialState = {
   data: {} as any,
 };
 
+export const ticketBasedGraphTypeInitialState = TICKET_GRAPH_TYPES?.STATUS;
 export const lastFetchTimeInitialState = null;
 export const lastFetchLapseTimeInitialState = '0 minutes ago';
 
@@ -29,6 +31,10 @@ const {
   setFilterDashboardListsReducer,
   emptyFilterDashboardListsReducer,
   setLastFetchTimeApiReducer,
+  setDepartmentWiseAgentsReducer,
+  setTicketBasedGraphTypeReducer,
+  resetTicketBasedGraphTypeReducer,
+  resetSingleDashboardStateReducer,
 } = servicesDashboardReducersList;
 
 const servicesDashboardInitialState = {
@@ -42,6 +48,8 @@ const servicesDashboardInitialState = {
   isTotalCountLoading: true,
   lastFetchTime: lastFetchTimeInitialState,
   lastFetchLapseTime: lastFetchLapseTimeInitialState,
+  departmentWiseAgent: null,
+  ticketBasedGraphType: ticketBasedGraphTypeInitialState,
 };
 
 const servicesDashboardSlice = createSlice({
@@ -65,6 +73,10 @@ const servicesDashboardSlice = createSlice({
     setFilterDashboardLists: setFilterDashboardListsReducer,
     emptyFilterDashboardLists: emptyFilterDashboardListsReducer,
     setLastFetchTimeApi: setLastFetchTimeApiReducer,
+    setDepartmentWiseAgents: setDepartmentWiseAgentsReducer,
+    setTicketBasedGraphType: setTicketBasedGraphTypeReducer,
+    resetTicketBasedGraphType: resetTicketBasedGraphTypeReducer,
+    resetSingleDashboardState: resetSingleDashboardStateReducer,
   },
 });
 
@@ -86,6 +98,10 @@ export const {
   setFilterDashboardLists,
   emptyFilterDashboardLists,
   setLastFetchTimeApi,
+  setDepartmentWiseAgents,
+  setTicketBasedGraphType,
+  resetTicketBasedGraphType,
+  resetSingleDashboardState,
 } = servicesDashboardSlice?.actions;
 
 export default servicesDashboardSlice?.reducer;

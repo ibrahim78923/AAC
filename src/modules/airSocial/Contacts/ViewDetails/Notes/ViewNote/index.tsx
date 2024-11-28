@@ -1,10 +1,10 @@
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
-import { viewNoteFields } from './ViewNote.data';
+import { addNoteFields } from '../Notes.data';
 
 const ViewNote = ({ isDrawerOpen, onClose, methods, isLoading }: any) => {
-  const formFields = viewNoteFields();
+  const formFields = addNoteFields(true);
 
   return (
     <CommonDrawer

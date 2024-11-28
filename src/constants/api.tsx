@@ -36,7 +36,7 @@ export const LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES = {
   AGE: 'AGE',
   LAST_TRANSACTION_AT: 'lastTransactionAt',
   NO_OF_TRANSACTIONS: 'numberOfTransactions',
-  CURRENT_POINTS__BALANCE: 'currentPointsBalance',
+  CURRENT_POINTS_BALANCE: 'currentPointsBalance',
   TOTAL_POINTS_REDEEMED: 'totalPointsRedeemed',
 };
 
@@ -50,8 +50,37 @@ export const LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR = {
   BEFORE: 'before',
   AFTER: 'after',
   CONTAINS: 'contains',
+  BASE: 'base',
 };
 
 export const LOYALTY_PROGRAM_LOYALTY_TIERS_TYPE = {
   CONTACTS: 'CONTACTS',
+};
+
+export const BACKEND_COLLECTION_NAME = {
+  ASSET_TYPES: 'assettypes',
+  LOCATION: 'locations',
+  DEPARTMENT: 'departments',
+  VENDORS: 'vendors',
+  USERS: 'users',
+  SERVICE_CATEGORIES: 'servicecategories',
+  DEAL_PIPELINES: 'dealpipelines',
+  FORECAST_PIPELINES: 'goals',
+  CONTRACT_TYPE: 'contracttypes',
+  NO_OF_RECORDS: 'NO_OF_RECORDS',
+};
+
+export const BACKEND_REPORT_ACCESS = {
+  EVERYONE: 'EVERYONE',
+  PRIVATE: 'PRIVATE',
+  SPECIFIC_USERS: 'SPECIFIC_USERS',
+  VIEW_AND_EDIT: 'VIEW_AND_EDIT',
+  VIEW_ONLY: 'VIEW_ONLY',
+  ADD_TO_EXISTING: 'ADD_TO_EXISTING_DASHBOARD',
+  ADD_TO_NEW: 'ADD_TO_NEW_DASHBOARD',
+  DO_NOT_ADD: 'DO_NOT_ADD_TO_DASHBOARD',
+};
+
+export const API_STATUS_CODE = {
+  404: 404,
 };

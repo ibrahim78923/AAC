@@ -28,7 +28,6 @@ const PurchaseOrder = () => {
     purchaseOrderFilter,
     setPurchaseOrderFilter,
     getPurchaseOrderListData,
-    onDeleteClick,
     theme,
   }: any = usePurchaseOrders();
 
@@ -58,7 +57,7 @@ const PurchaseOrder = () => {
           deleteButtonDisabled={!!!purchaseOrderData?.length}
           setSearchValue={handleSearch}
           onFilterClick={() => setIsDrawerOpen?.(true)}
-          onDeleteClick={() => onDeleteClick?.()}
+          onDeleteClick={() => setDeleteModalOpen?.(true)}
         />
         <br />
         <PermissionsGuard

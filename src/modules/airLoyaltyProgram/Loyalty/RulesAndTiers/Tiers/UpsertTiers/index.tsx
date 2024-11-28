@@ -5,6 +5,8 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { FORM_STEP_CONSTANT } from './UpsertTiers.data';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
+import { RULES_AND_TIERS_PORTAL_ACTION_CONSTANTS } from '../../RulesAndTiers.constant';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
 export const UpsertTiers = () => {
   const {
@@ -31,7 +33,13 @@ export const UpsertTiers = () => {
         formStep === FORM_STEP_CONSTANT?.FIRST_STEP ||
         (formStep === FORM_STEP_CONSTANT?.SECOND_STEP && !!watch('attribute'))
       }
-      okText={formStep === FORM_STEP_CONSTANT?.FIRST_STEP ? 'Next' : 'Save'}
+      okText={
+        formStep === FORM_STEP_CONSTANT?.FIRST_STEP
+          ? GENERIC_UPSERT_FORM_CONSTANT?.NEXT
+          : RULES_AND_TIERS_PORTAL_ACTION_CONSTANTS?.EDIT_TIERS
+            ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
+            : GENERIC_UPSERT_FORM_CONSTANT?.SAVE
+      }
       title={isPortalOpen?.action}
       onClose={closePortal}
       cancelBtnHandler={cancelBtnHandler}
@@ -39,7 +47,9 @@ export const UpsertTiers = () => {
       isLoading={apiCallInProgress}
       isDisabled={!isFormValid}
       cancelText={
-        formStep === FORM_STEP_CONSTANT?.SECOND_STEP ? 'Back' : 'Cancel'
+        formStep === FORM_STEP_CONSTANT?.SECOND_STEP
+          ? GENERIC_UPSERT_FORM_CONSTANT?.BACK
+          : GENERIC_UPSERT_FORM_CONSTANT?.CANCEL
       }
       disabledCancelBtn={apiCallInProgress}
     >

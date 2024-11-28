@@ -51,10 +51,13 @@ const useQuotes = () => {
   const methodsFilter: any = useForm();
   const { handleSubmit: handleMethodFilter, reset: resetFilters } =
     methodsFilter;
-  const { data: dataGetQuotes, isLoading: loagingGetQuotes } =
-    useGetQuotesQuery({
-      params: { ...filterParams, ...searchPayLoad, ...paginationParams },
-    });
+  const {
+    data: dataGetQuotes,
+    isLoading: loagingGetQuotes,
+    isFetching: fetchingQuotesList,
+  } = useGetQuotesQuery({
+    params: { ...filterParams, ...searchPayLoad, ...paginationParams },
+  });
 
   const [DeleteQuotes, { isLoading: loadingDeleteQuote }] =
     useDeleteQuotesMutation();
@@ -181,6 +184,7 @@ const useQuotes = () => {
     dataGetQuotes,
     loagingGetQuotes,
     loadingDeleteQuote,
+    fetchingQuotesList,
   };
 };
 
