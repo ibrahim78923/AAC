@@ -558,6 +558,8 @@ export const END_POINTS = {
   UPDATE_LOYALTY_GENERAL_SETTINGS: '/settings/update-general-setting',
   GET_LOYALTY_GENERAL_SETTINGS: '/settings/details-general-setting',
   CONSUMERS_DROPDOWN: '/consumers/list',
+  DELETE_LOYALTY_RULES: '/rules-and-tiers/delete-rule',
+  DELETE_LOYALTY_TIERS: '/rules-and-tiers/delete-tier',
 };
 
 export const LEAD_CAPTURE_FORM = {
