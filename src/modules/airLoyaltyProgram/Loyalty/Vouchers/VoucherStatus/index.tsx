@@ -23,7 +23,7 @@ export const VoucherStatus = ({ info }: any) => {
     <ActivityStatusMenu
       info={info}
       menuItemDataArray={tableStatusArray}
-      activityStatus={info?.getValue()}
+      activityStatus={info?.getValue()?.toUpperCase()}
       hasPermission={checkStatusPermissions}
       apiQuery={patchVouchersTrigger}
     />

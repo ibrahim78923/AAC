@@ -6,6 +6,10 @@ import {
   RHFRadioButtonTwoLabel,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { VOUCHERS_CONSTANTS } from '@/constants/strings';
+import { REGEX } from '@/constants/validation';
+import * as Yup from 'yup';
+
 const vouchersRadioGroupOptions = [
   {
     value: 'unlimited',
@@ -37,26 +41,61 @@ const addAmountOperatorOptions = [
   'Less than or equal to',
   'Greater than or equal to',
 ];
+export const vouchersValidationSchema = Yup?.object()?.shape({
+  name: Yup?.string()?.required('Required'),
+  description: Yup?.string(),
+  fileUrl: Yup?.mixed()?.nullable()?.required('Required'),
+  appliedTo: Yup?.object()?.required('Required'),
+  operator: Yup?.string()?.required('Required'),
+  addAmount: Yup?.number()
+    ?.typeError('Required')
+    ?.min(1, 'Minimum 1')
+    ?.required('Required'),
+  percentageOff: Yup?.number()
+    ?.typeError('Percentage off must be a number')
+    ?.min(1, 'Minimum 1')
+    ?.max(100, 'Maximum 100')
+    ?.required('Required'),
+  activeFrom: Yup?.date()?.required('Required'),
+  activeTo: Yup?.date()?.required('Required'),
+  voucherCode: Yup?.string()
+    ?.length(8, 'Voucher code must be 8 letters')
+    ?.required('Required'),
+  redemptionLimitType: Yup?.string()?.required('Required'),
+  redemptionLimitPerConsumer: Yup?.string()?.when('redemptionLimitType', {
+    is: (type: any) => type === VOUCHERS_CONSTANTS?.LIMITED,
+    then: (schema: Yup.StringSchema) => schema?.required('Required'),
+    otherwise: (schema: Yup.StringSchema) => schema?.notRequired(),
+  }),
+  voucherLimitType: Yup?.string()?.required('Required'),
+  voucherLimitValue: Yup?.string()?.when('voucherLimitType', {
+    is: (type: any) => type === VOUCHERS_CONSTANTS?.LIMITED,
+    then: (schema: Yup.StringSchema) => schema?.required('Required'),
+    otherwise: (schema: Yup.StringSchema) => schema?.notRequired(),
+  }),
+});
 export const addVouchersFormFieldsDefaultValues = (data?: any) => {
   return {
     name: data?.name ?? '',
     description: data?.description ?? '',
-    image: data?.image ?? '',
-    appliedTo: data?.assignTo ?? null,
-    addAmountOperator: data?.addAmountOperator ?? '',
+    fileUrl: !!data?.voucherAttachment
+      ? { url: data?.voucherAttachment }
+      : null,
+    appliedTo: data?.tierDetails ?? null,
+    operator: data?.operator ?? '',
     addAmount: data?.addAmount ?? '',
     percentageOff: data?.percentageOff ?? '',
-    activeFrom: data?.activeFrom ?? null,
-    activeTo: data?.activeTo ?? null,
+    activeFrom: !!data?.activeFrom ? new Date(data?.activeFrom) : null,
+    activeTo: !!data?.activeTo ? new Date(data?.activeTo) : null,
     voucherCode: data?.voucherCode ?? '',
-    redeemType: data?.redeemType ?? '',
-    limitRedemptions: data?.limitRedemptions ?? '',
-    voucherType: data?.voucherType ?? '',
-    limitVouchers: data?.limitVouchers ?? '',
+    redemptionLimitType: data?.redemptionLimitType ?? '',
+    redemptionLimitPerConsumer: data?.redemptionLimitPerConsumer ?? '',
+    voucherLimitType: data?.voucherLimitType ?? '',
+    voucherLimitValue: data?.voucherLimitValue ?? '',
   };
 };
 export const addVouchersFormFieldsDataFunction = (
-  apiQueryTiers: any,
+  apiQueryVoucherTiers: any,
   activeFromValue: any,
 ) => [
   {
@@ -81,7 +120,7 @@ export const addVouchersFormFieldsDataFunction = (
   {
     id: 165,
     componentProps: {
-      name: 'image',
+      name: 'fileUrl',
       label: 'Add Image',
       required: true,
       fileName: 'Image',
@@ -99,8 +138,9 @@ export const addVouchersFormFieldsDataFunction = (
     componentProps: {
       name: 'voucherCode',
       label: 'Voucher code',
-      placeholder: 'Enter 8 digit code OR Click Button',
+      placeholder: 'Enter 8 digit code OR click Generate button',
       required: true,
+      inputProps: { style: { textTransform: 'uppercase' } },
     },
     component: RHFTextField,
   },
@@ -111,9 +151,7 @@ export const addVouchersFormFieldsDataFunction = (
       label: 'Applied to',
       placeholder: 'Select Tier',
       required: true,
-      getOptionLabel: (option: any) =>
-        `${option?.firstName} ${option?.lastName}`,
-      apiQuery: apiQueryTiers,
+      apiQuery: apiQueryVoucherTiers,
     },
     component: RHFAutocompleteAsync,
   },
@@ -121,7 +159,7 @@ export const addVouchersFormFieldsDataFunction = (
     id: 84,
     gridLength: 6,
     componentProps: {
-      name: 'addAmountOperator',
+      name: 'operator',
       label: 'Add amount',
       placeholder: 'operator',
       required: true,
@@ -133,10 +171,11 @@ export const addVouchersFormFieldsDataFunction = (
     id: 86,
     gridLength: 6,
     componentProps: {
-      name: 'add Amount',
-      label: '\u00a0\u00a0',
+      name: 'addAmount',
+      label: REGEX?.NON_BREAKING_SPACE,
       placeholder: '00',
       type: 'number',
+      sx: { mt: '2px' },
     },
     component: RHFTextField,
   },
@@ -178,7 +217,7 @@ export const addVouchersRadioButtonsFormFields = [
   {
     id: 2,
     componentProps: {
-      name: 'redeemType',
+      name: 'redemptionLimitType',
       label: 'Redeem Limit',
       options: redemptionsRadioGroupOptions,
       required: true,
@@ -186,17 +225,18 @@ export const addVouchersRadioButtonsFormFields = [
     component: RHFRadioButtonTwoLabel,
     conditionalComponentOne: (
       <RHFTextField
-        name="limitRedemptions"
+        name="redemptionLimitPerConsumer"
         label="Limit"
         size="small"
         type="number"
+        required
       />
     ),
   },
   {
     id: 342,
     componentProps: {
-      name: 'voucherType',
+      name: 'voucherLimitType',
       label: 'Voucher Limit',
       options: vouchersRadioGroupOptions,
       required: true,
@@ -204,10 +244,11 @@ export const addVouchersRadioButtonsFormFields = [
     component: RHFRadioButtonTwoLabel,
     conditionalComponentOne: (
       <RHFTextField
-        name="limitVouchers"
+        name="voucherLimitValue"
         label="Limit"
         size="small"
         type="number"
+        required
       />
     ),
   },

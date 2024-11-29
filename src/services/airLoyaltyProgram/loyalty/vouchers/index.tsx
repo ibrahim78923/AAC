@@ -14,8 +14,8 @@ export const vouchersAPI = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     getSingleVouchers: builder?.query({
-      query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.GET_SINGLE_VOUCHERS}/${apiDataParameter}`,
+      query: (id: any) => ({
+        url: `${END_POINTS?.GET_SINGLE_VOUCHERS}/${id}`,
         method: 'GET',
       }),
       providesTags: [TAG],
@@ -45,15 +45,29 @@ export const vouchersAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
-    getContactsList: builder?.query({
+    deleteVoucher: builder?.mutation({
+      query: (id: any) => ({
+        url: `${END_POINTS?.DELETE_VOUCHERS}/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: [TAG],
+    }),
+    vouchersTiersDropdownList: builder?.query({
       query: ({ params }: any) => ({
-        url: `${END_POINTS?.CONTACTS}`,
+        url: `${END_POINTS?.GET_TIERS_LIST}`,
         method: 'GET',
         params,
       }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.contacts;
-      },
+      transformResponse: (response: any) => response?.data?.mergedResults,
+      providesTags: [TAG],
+    }),
+    editVoucher: builder?.mutation({
+      query: (body: any) => ({
+        url: `${END_POINTS?.UPDATE_VOUCHER}`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: [TAG],
     }),
   }),
 });
@@ -64,6 +78,8 @@ export const {
   useLazyGetVoucherRedemptionListQuery,
   usePostVouchersMutation,
   usePatchVoucherMutation,
-  useLazyGetContactsListQuery,
   useGetSingleVouchersQuery,
+  useDeleteVoucherMutation,
+  useLazyVouchersTiersDropdownListQuery,
+  useEditVoucherMutation,
 } = vouchersAPI;

@@ -20,7 +20,7 @@ export const vouchersColumns = (
         <UserInfo
           name={info?.getValue()}
           optionDetail={info?.row?.original?.voucherCode}
-          avatarSrc={info?.row?.original?.avatar}
+          avatarSrc={info?.row?.original?.voucherAttachment}
           nameInitial={info?.getValue()?.slice(0, 2)}
           handleBoxClick={() => handleVoucherClick(info?.row?.original)}
           boxProps={{ sx: { cursor: 'pointer' } }}
@@ -40,7 +40,7 @@ export const vouchersColumns = (
             {info?.getValue()?.voucherValue ?? '0'} /{' '}
           </Typography>
           <Typography fontSize={'0.9rem'}>
-            {info?.getValue() ?? 'Unlimited'}
+            {info?.getValue() || 'Unlimited'}
           </Typography>
         </Box>
       ),

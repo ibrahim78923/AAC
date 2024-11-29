@@ -32,6 +32,7 @@ export const Vouchers = () => {
     setIsPortal,
     handleDeleteSubmit,
     checkActionPermissions,
+    deleteVoucherStatus,
   } = useVouchers();
   return (
     <>
@@ -88,6 +89,8 @@ export const Vouchers = () => {
           handleSubmitBtn={handleDeleteSubmit}
           handleClose={() => setIsPortal({})}
           message="Are you sure you want to delete this voucher?"
+          loading={deleteVoucherStatus?.isLoading}
+          disableCancelBtn={deleteVoucherStatus?.isLoading}
         />
       )}
       {isPortal?.upsert && (

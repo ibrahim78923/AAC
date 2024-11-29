@@ -123,7 +123,7 @@ export default function RHFDropzonePreview({
               generateImage(file?.url) ||
               URL?.createObjectURL(file)
             }
-            alt={file?.name}
+            alt={name}
             width={100}
             height={100}
             style={{

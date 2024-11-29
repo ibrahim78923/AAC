@@ -3,7 +3,10 @@ import { CALENDAR_FORMAT } from '@/constants';
 import { AIR_LOYALTY_PROGRAM } from '@/constants/routes';
 import { AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS } from '@/constants/permission-keys';
 import { otherDateFormat } from '@/lib/date-time';
-import { useGetVouchersQuery } from '@/services/airLoyaltyProgram/loyalty/vouchers';
+import {
+  useDeleteVoucherMutation,
+  useGetVouchersQuery,
+} from '@/services/airLoyaltyProgram/loyalty/vouchers';
 import { getActivePermissionsSession } from '@/utils';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
@@ -18,11 +21,8 @@ export const useVouchers = () => {
   const router = useRouter();
   const filterBody = {
     dateStart:
-      filterValues?.date &&
-      otherDateFormat(filterValues?.date, CALENDAR_FORMAT?.YMD),
-    dateEnd:
-      filterValues?.date &&
-      otherDateFormat(filterValues?.date, CALENDAR_FORMAT?.YMD),
+      filterValues?.dateStart &&
+      otherDateFormat(filterValues?.dateStart, CALENDAR_FORMAT?.YMD),
     status: filterValues?.status,
   };
   const vouchersParameter = {
@@ -42,15 +42,19 @@ export const useVouchers = () => {
     const checkPermissions = getActivePermissionsSession()?.includes(
       AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.VIEW_DETAILS,
     );
-    if (!checkPermissions) {
+    if (checkPermissions) {
       router?.push({
         pathname: AIR_LOYALTY_PROGRAM?.VOUCHER_REDEMPTION_LIST,
         query: { voucherId: data?._id },
       });
     }
   };
+  const [deleteVoucherTrigger, deleteVoucherStatus] =
+    useDeleteVoucherMutation();
   const handleDeleteSubmit = async () => {
     try {
+      await deleteVoucherTrigger(isPortal?.id)?.unwrap();
+      setIsPortal({});
       successSnackbar('Voucher Deleted Successfully');
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
@@ -87,5 +91,6 @@ export const useVouchers = () => {
     setIsPortal,
     handleDeleteSubmit,
     checkActionPermissions,
+    deleteVoucherStatus,
   };
 };

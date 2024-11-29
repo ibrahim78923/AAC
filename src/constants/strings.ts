@@ -1227,3 +1227,8 @@ export const AVTIVITY_LOGS_ROLE = {
   ORG_AMDIN: 'Org Admin',
   SUPER_AMDIN: 'Super Admin',
 };
+
+export const VOUCHERS_CONSTANTS = {
+  LIMITED: 'limited',
+  UNLIMITED: 'unlimited',
+};

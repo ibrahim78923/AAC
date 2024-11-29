@@ -141,3 +141,11 @@ export const splitCapitalizedWords = (str: string) => {
 export const capitalizeFirstWord = (str: string = '---') => {
   return str?.charAt(0)?.toUpperCase() + str?.slice?.(1)?.toLowerCase();
 };
+
+export const generateRadomString = (length = 8) => {
+  const CHARACTERS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  let result = '';
+  for (let i = length; i > 0; --i)
+    result += CHARACTERS[Math?.floor(Math?.random() * CHARACTERS?.length)];
+  return result;
+};

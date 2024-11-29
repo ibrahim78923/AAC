@@ -1,54 +1,88 @@
-import { addVouchersFormFieldsDefaultValues } from './AddVouchers.data';
+import {
+  addVouchersFormFieldsDefaultValues,
+  vouchersValidationSchema,
+} from './AddVouchers.data';
 import { useForm } from 'react-hook-form';
 import {
-  useLazyGetContactsListQuery,
+  useGetSingleVouchersQuery,
+  useLazyVouchersTiersDropdownListQuery,
   usePostVouchersMutation,
+  useEditVoucherMutation,
 } from '@/services/airLoyaltyProgram/loyalty/vouchers';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useEffect } from 'react';
+import { generateRadomString } from '@/utils/api';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 export const useAddVouchers = (props: any) => {
   const { addVouchersOpen, setAddVouchersOpen } = props;
-  const apiQueryOrganizations = useLazyGetContactsListQuery();
-  const methods: any = useForm({
-    defaultValues: addVouchersFormFieldsDefaultValues({}),
-  });
-  const { handleSubmit, watch, reset, setValue } = methods;
+  const apiQueryVoucherTiers = useLazyVouchersTiersDropdownListQuery();
   const [postVouchersTrigger, postVouchersStatus] = usePostVouchersMutation();
+  const [editVouchersTrigger, editVouchersStatus] = useEditVoucherMutation();
+  const {
+    data: getVoucherById,
+    isLoading,
+    isFetching,
+  } = useGetSingleVouchersQuery(addVouchersOpen?.id, {
+    skip: !addVouchersOpen?.id && addVouchersOpen?.upsert,
+    refetchOnMountOrArgChange: true,
+  });
+  const methods = useForm<any>({
+    defaultValues: addVouchersFormFieldsDefaultValues(
+      getVoucherById?.data?.[ARRAY_INDEX?.ZERO],
+    ),
+    resolver: yupResolver(vouchersValidationSchema),
+  });
+  const { handleSubmit, watch, reset, setValue, clearErrors } = methods;
+  useEffect(() => {
+    reset(
+      addVouchersFormFieldsDefaultValues(
+        getVoucherById?.data?.[ARRAY_INDEX?.ZERO],
+      ),
+    );
+  }, [addVouchersOpen?.id, getVoucherById, reset]);
+
   const randomString = () => {
-    const CHARACTERS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const LENGTH = 8;
-    let result = '';
-    for (let i = LENGTH; i > 0; --i)
-      result += CHARACTERS[Math?.floor(Math?.random() * CHARACTERS?.length)];
-    setValue('voucherCode', result);
+    setValue('voucherCode', generateRadomString());
+    clearErrors('voucherCode');
   };
-  const submitAddVouchersForm = async (data: any) => {
-    const apiData = {
-      name: data?.name,
-      description: data?.description,
-      image: data?.image,
-      addAmountOperator: data?.addAmountOperator,
-      addAmount: +data?.addAmount,
-      percentageOff: +data?.percentageOff,
-      activeFrom: data?.activeFrom,
-      activeTo: data?.activeTo,
-      voucherCode: data?.voucherCode,
-      appliedTo: data?.appliedTo?._id,
-      voucherLimitType: data?.voucherType,
-      voucherLimitValue: +data?.limitVouchers,
-      redemptionLimitType: data?.redeemType,
-      redemptionLimitValue: +data?.limitRedemptions,
-    };
-    const postVouchersParameter = {
-      body: apiData,
-    };
+  const handleUpsertVoucher = async (postParams: any) => {
     try {
-      await postVouchersTrigger(postVouchersParameter)?.unwrap();
+      await postVouchersTrigger(postParams)?.unwrap();
       successSnackbar('Voucher added  successfully!');
       setAddVouchersOpen?.({});
       reset();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
+    }
+  };
+  const handleEditVoucher = async (editParams: any) => {
+    try {
+      await editVouchersTrigger(editParams)?.unwrap();
+      successSnackbar('Voucher Edited Successfully!');
+      setAddVouchersOpen?.({});
+      reset();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
+  const submitAddVouchersForm = (data: any) => {
+    const vouchersFormData = new FormData();
+    Object?.keys(data)?.forEach((key) => {
+      if (data[key] instanceof Date) {
+        vouchersFormData?.append(key, data[key]?.toISOString());
+      } else {
+        vouchersFormData?.append(key, data[key]?._id ?? data[key]);
+      }
+    });
+    const postVouchersParameter = {
+      body: vouchersFormData,
+    };
+    if (addVouchersOpen?.id) {
+      handleEditVoucher(vouchersFormData);
+    } else {
+      handleUpsertVoucher(postVouchersParameter);
     }
   };
   const activeFromValue = watch('activeFrom');
@@ -58,10 +92,13 @@ export const useAddVouchers = (props: any) => {
     handleSubmit,
     submitAddVouchersForm,
     methods,
-    apiQueryOrganizations,
+    apiQueryVoucherTiers,
     watch,
     postVouchersStatus,
     randomString,
     activeFromValue,
+    isLoading,
+    editVouchersStatus,
+    isFetching,
   };
 };

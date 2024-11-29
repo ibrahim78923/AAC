@@ -423,6 +423,8 @@ export const END_POINTS = {
   GET_VOUCHERS: '/vouchers/list-voucher',
   GET_SINGLE_VOUCHERS: '/vouchers/get-voucher-details',
   UPDATE_VOUCHERS_STATUS: '/vouchers/update-voucher-status',
+  UPDATE_VOUCHER: '/vouchers/update-voucher',
+  DELETE_VOUCHERS: '/vouchers/delete-voucher',
   ADD_LOYALTY_TRANSACTION: `/Transactions/add-transaction`,
   GET_LOYALTY_TRANSACTION: `/Transactions/get-transaction-details`,
   CHANGE_RULES_STATUS: `/rules-and-tiers/rule`,
