@@ -59,7 +59,7 @@ export const addRewardsDefaultValues = (data: any) => {
     title: data?.data?.title ?? '',
     requiredPoints: data?.data?.requiredPoints ?? 0,
     fileUrl: null,
-    appliedTo: data?.data?.appliedTo ?? null,
+    appliedTo: data?.data?.tierDetails ?? null,
     costPrice: data?.data?.costPrice ?? 0,
     quantity: data?.data?.quantity ?? 0,
     activeFrom: new Date(data?.data?.activeFrom) ?? new Date(),

@@ -401,6 +401,7 @@ export const END_POINTS = {
   UPDATE_TIERS: `/rules-and-tiers/tier`,
   CREATE_DIGITAL_REWARD: `/rewards/create-digital-reward`,
   CREATE_PHYSICAL_REWARD: `/rewards/create-physical-reward`,
+  REDEEM_REWARDS_DETAILS: `/rewards/get-redeemed-reward-consumer`,
   GET_REWARDS_LIST: `/rewards/rewards-list`,
   GET_REWARDS_LIST_BY_ID: `/rewards/get-reward-details`,
   UPDATE_REWARDS: `/rewards/update-physical-rewards`,

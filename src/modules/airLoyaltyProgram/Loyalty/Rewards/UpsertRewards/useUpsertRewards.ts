@@ -40,11 +40,14 @@ export const useUpsertRewards = (props: any) => {
   const [rewardsTrigger, rewardsStatus] = useAddLoyaltyProgramRewardsMutation();
   const onSubmit = async (formData: any) => {
     const rewardFormData = new FormData();
+    rewardFormData?.append('title', formData?.title);
     rewardFormData?.append('requiredPoints', formData?.requiredPoints);
     !!formData?.fileUrl && rewardFormData?.append('fileUrl', formData?.fileUrl);
     rewardFormData?.append('appliedTo', formData?.appliedTo?._id);
     rewardFormData?.append('costPrice', formData?.costPrice);
+    rewardFormData?.append('quantity', formData?.quantity);
     rewardFormData?.append('activeTo', isoDateString(formData?.activeTo));
+    rewardFormData?.append('activeFrom', isoDateString(formData?.activeFrom));
     rewardFormData?.append('redeemedLimitType', formData?.limitRewards);
     rewardFormData?.append('redemptionLimitPerConsumer', formData?.limit);
     if (!!rewardId) {

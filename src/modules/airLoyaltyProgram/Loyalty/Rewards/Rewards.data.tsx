@@ -4,6 +4,8 @@ import { TruncateText } from '@/components/TruncateText';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
 import RewardStatus from './RewardStatus';
+import { otherDateFormat } from '@/lib/date-time';
+import { DATE_TIME_FORMAT } from '@/constants';
 
 export const loyaltyRewardColumnDynamic: any = (
   setIsRewardDetailsOpen: any,
@@ -45,8 +47,8 @@ export const loyaltyRewardColumnDynamic: any = (
       cell: (info: any) => info?.getValue() ?? '---',
     },
     {
-      accessorFn: (row: any) => row?.totalQuantity,
-      id: 'totalQuantity',
+      accessorFn: (row: any) => row?.redeemedQuantity,
+      id: 'redeemedQuantity',
       isSortable: true,
       header: 'Total redeemed',
       cell: (info: any) => (
@@ -62,7 +64,7 @@ export const loyaltyRewardColumnDynamic: any = (
               return;
             setIsRewardDetailsOpen?.({
               isOpen: true,
-              rewardType: info?.row?.original?.rewardType,
+              rewardType: info?.row?.original?._id,
             });
           }}
         >
@@ -82,7 +84,13 @@ export const loyaltyRewardColumnDynamic: any = (
       id: 'createdAt',
       isSortable: true,
       header: 'Created at',
-      cell: (info: any) => info?.getValue() ?? '---',
+      cell: (info: any) =>
+        info?.getValue()
+          ? otherDateFormat(
+              info?.getValue(),
+              DATE_TIME_FORMAT?.MMM_DD_YYYY_hh_mm_A,
+            )
+          : '---',
     },
   ];
   if (activePermissionOfEditDelete) {

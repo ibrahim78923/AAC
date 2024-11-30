@@ -30,8 +30,8 @@ export const UpsertRewards = (props: any) => {
       <CommonDrawer
         isDrawerOpen={isRewardDrawerOpen?.isOpen}
         onClose={() => setIsRewardDrawerOpen?.(false)}
-        okText={'Create'}
-        title={'Create Reward'}
+        okText={rewardId ? 'Update' : 'Create'}
+        title={rewardId ? 'Update Reward' : 'Create Reward'}
         submitHandler={handleSubmit(onSubmit)}
         isOk
         cancelText={'Cancel'}
