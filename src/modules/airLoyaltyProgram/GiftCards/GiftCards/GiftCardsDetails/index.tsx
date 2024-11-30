@@ -13,7 +13,7 @@ export const GiftCardsDetails = () => {
     isPortalOpen,
     renderPortalComponent,
     setPage,
-    setPageLimit,
+    setLimit,
     router,
     data,
     isFetching,
@@ -67,7 +67,7 @@ export const GiftCardsDetails = () => {
         <Box mt={2}>
           <TanstackTable
             columns={giftCardDetailsColumn}
-            data={data?.data?.transactions}
+            data={data?.data?.giftcards}
             isLoading={isLoading}
             isFetching={isFetching}
             isError={isError}
@@ -78,7 +78,7 @@ export const GiftCardsDetails = () => {
             totalRecords={data?.data?.meta?.total}
             onPageChange={(page: any) => setPage(page)}
             setPage={setPage}
-            setPageLimit={setPageLimit}
+            setPageLimit={setLimit}
             isPagination
           />
         </Box>

@@ -7,7 +7,6 @@ export const defaultValues = (filterValues: any) => {
       endDate: '',
       key: 'selection',
     },
-    recipient: filterValues?.recipient ?? '',
     minAmount: filterValues?.minAmount ?? '',
     maxAmount: filterValues?.maxAmount ?? '',
   };
@@ -26,15 +25,6 @@ export const transactionFilterData = [
   {
     id: 2,
     componentProps: {
-      name: 'recipient',
-      label: 'Recipient',
-      placeholder: 'Enter Recipient',
-    },
-    component: RHFTextField,
-  },
-  {
-    id: 3,
-    componentProps: {
       name: 'minAmount',
       label: 'Minimum Amount',
       placeholder: 'Enter Minimum Amount',
@@ -42,7 +32,7 @@ export const transactionFilterData = [
     component: RHFTextField,
   },
   {
-    id: 5,
+    id: 3,
     componentProps: {
       name: 'maxAmount',
       label: 'Maximum Amount',

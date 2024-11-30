@@ -7,17 +7,15 @@ import { EXPORT_FILE_TYPE } from '@/constants/strings';
 import { downloadFile } from '@/utils/file';
 import { GiftCardDetailsFilter } from './GiftCardDetailsFilter';
 import { AddGiftCardDetails } from './AddGiftCardDetails';
-import {
-  useLazyExportGiftCardDetailsListQuery,
-  useGetGiftCardDetailsListQuery,
-} from '@/services/airLoyaltyProgram/giftCards/giftCards';
+import { useLazyExportGiftCardDetailsListQuery } from '@/services/airLoyaltyProgram/giftCards/giftCards';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { otherDateFormat } from '@/lib/date-time';
 import { CALENDAR_FORMAT } from '@/constants';
+import { useGetTransactionListQuery } from '@/services/airLoyaltyProgram/giftCards/transactions';
 
 export const useGiftCardsDetails = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [filterGiftCardDetails, setFilterGiftCardDetails] = useState<any>({});
   const [isPortalOpen, setIsPortalOpen] = useState<any>({});
 
@@ -28,6 +26,8 @@ export const useGiftCardsDetails = () => {
     useLazyExportGiftCardDetailsListQuery();
 
   const giftCardParams = {
+    page,
+    limit,
     cardNumber: giftCardNumber,
     ...(filterGiftCardDetails?.dateRange?.startDate && {
       activeFrom: otherDateFormat(
@@ -50,7 +50,9 @@ export const useGiftCardsDetails = () => {
   };
 
   const { data, isFetching, isLoading, isError, isSuccess, refetch } =
-    useGetGiftCardDetailsListQuery<any>(giftCardParams);
+    useGetTransactionListQuery<any>(giftCardParams, {
+      refetchOnMountOrArgChange: true,
+    });
 
   const handleRefetchList = async () => {
     await refetch();
@@ -59,7 +61,7 @@ export const useGiftCardsDetails = () => {
   const handleFileExportSubmit = async (type: any) => {
     const additionalParams = [
       ['page', page + ''],
-      ['limit', pageLimit + ''],
+      ['limit', setLimit + ''],
     ];
     const getExportGiftCardParam: any = buildQueryParams(
       additionalParams,
@@ -114,7 +116,7 @@ export const useGiftCardsDetails = () => {
     isPortalOpen,
     renderPortalComponent,
     setPage,
-    setPageLimit,
+    setLimit,
     router,
     data,
     isFetching,

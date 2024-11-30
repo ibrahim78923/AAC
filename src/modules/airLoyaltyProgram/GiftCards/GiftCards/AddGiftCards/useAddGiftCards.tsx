@@ -22,9 +22,10 @@ export const useAddGiftCards = (props: any) => {
   const { handleSubmit, reset } = methods;
   const apiQueryRecipient = useLazyGetRecipientDropdownListQuery();
   const onSubmit = async (formData: any) => {
+    const recipientIds = formData?.recipient?.map((item: any) => item?._id);
     const body = {
       amount: formData?.amount,
-      recipient: ['6736eb0da7c5474399c53584'],
+      recipient: recipientIds,
       activeFrom: isoDateString(formData?.activeFrom),
       activeTo: isoDateString(formData?.activeTo),
     };

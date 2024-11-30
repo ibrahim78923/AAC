@@ -45,6 +45,7 @@ export const giftCardColumnsFunction = (
     isSortable: true,
     cell: (info: any) => (
       <UserInfo
+        avatarSrc={info?.row?.original?.avatar?.url}
         name={info?.row?.original?.recipientName}
         email={info?.row?.original?.recipientEmail}
         nameInitial={fullNameInitial(info?.row?.original?.recipientName)}
