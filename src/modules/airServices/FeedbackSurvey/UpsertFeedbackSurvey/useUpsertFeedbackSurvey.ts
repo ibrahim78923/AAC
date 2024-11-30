@@ -93,7 +93,7 @@ export const useUpsertFeedbackSurvey = () => {
       })?.unwrap();
       router?.push({
         ...router?.basePath,
-        query: { ...router?.query, id: response?.data?.data?._id },
+        query: { ...router?.query, id: response?.data?._id },
       });
       setCreateSurvey(feedbackTypes?.feedback);
     } catch (error) {
@@ -239,7 +239,7 @@ export const useUpsertFeedbackSurvey = () => {
       params: {
         surveyId,
         sectionId: patchResponse?.data
-          ? patchResponse?.data?.data?.sections?.[submitIndex?.index]?._id
+          ? patchResponse?.data?.sections?.[submitIndex?.index]?._id
           : submitIndex?.sectionId,
       },
     };
