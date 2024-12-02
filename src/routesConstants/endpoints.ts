@@ -1,4 +1,5 @@
 export const END_POINTS = {
+  GLOBAL_SEARCH: '/global-search',
   LOGIN: 'auth/signin',
   SIGNUP: 'auth/signup',
   verify_token: 'auth/verify-token',

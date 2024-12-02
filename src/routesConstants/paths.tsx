@@ -96,6 +96,8 @@ export const AIR_SALES = {
   CREATE_DASHBOARD: path(AIR_SALES_PAGE, '/dashboard/create'),
   SETTINGS: '/air-sales/settings',
   RESTORE_DEALS: '/air-sales/deals/restore',
+  FORECAST: '/air-sales/forecast',
+  TASKS: '/air-sales/tasks',
 };
 
 export const SUPER_ADMIN_PLAN_MANAGEMENT: any = {
@@ -252,6 +254,14 @@ export const ORG_ADMIN = {
   EDIT_PROFILE: '/edit-profile',
   ORGANIZATION: '/org-admin/organization-admin',
   DASHBOARD: '/org-admin',
+  USERS: '/org-admin/users',
+  Subscription_Invoices: '/org-admin/subscription-and-invoices',
+  Properties: '/org-admin/properties',
+  ROLES_AND_RIGHTS: '/org-admin/roles-and-rights',
+  SALES_PRODUCT_CATEGORIES: '/org-admin/settings/sales-product-categories',
+  LIFE_CYCLE_STAGE: '/org-admin/settings/life-cycle-stage',
+  CONTACT_STATUS: '/org-admin/settings/contact-status',
+  BANK_ACCOUNT: '/org-admin/settings/bank-accounts',
 };
 
 export const COMMON_ROUTES = {

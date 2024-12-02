@@ -90,6 +90,14 @@ export const SUPER_ADMIN: any = {
     '/air-sales/contacts/import/import-history/import-record-created',
   IMPORTRECORD_RESTORE:
     '/air-sales/contacts/import/import-history/import-record-created/restore',
+  REPORTS: '/super-admin/reports',
+  FAQS: '/super-admin/settings/faqs',
+  ENQUIRIES: '/super-admin/settings/enquiries',
+  TAX_CALCULATION: '/super-admin/settings/tax-calculation',
+  QUICK_LINK: '/super-admin/settings/quick-links',
+  NEWS_EVENTS: '/super-admin/settings/news-and-events',
+  PRODUCT_LIST: '/super-admin/settings/product-list',
+  PRODUCT_FEATURES: '/super-admin/settings/product-features',
 };
 
 export const ORG_ADMIN: any = {
@@ -99,6 +107,7 @@ export const ORG_ADMIN: any = {
   PROPERTIES: '/org-admin/properties',
   MODULE_FORMS: '/org-admin/properties/module-forms',
   DYNAMIC_FIELDS: '/org-admin/properties/dynamic-fields',
+  USERS: '/org-admin/users',
 };
 
 export const AIR_CALL_CENTER = {
@@ -139,6 +148,7 @@ export const Quick_Links_Routes = {
   EMAIL: '/social-components/email',
   COMPANIES: '/social-components/companies',
   MEETINGS: '/social-components/meetings',
+  CONTACTS: '/air-social/contacts',
 };
 
 export const EMAIL_SUB_ROUTES = {
@@ -557,4 +567,98 @@ export const MARKETING_REPORTS_TYPES = {
 
 export const ALL_COMPANIES = {
   ALL_COMPANIES: 'All Companies',
+};
+
+export const GlobalSearchSuperAdminModules = {
+  USER_MANAGEMENT: 'User_management',
+  PLAN_MANAGEMENT: 'Plan_management',
+  BILLING_INVOICES: 'Billing_invoices',
+  REPORTS: 'Reports',
+  FAQs: 'Faqs',
+  ENQUIRIES: 'Enquiries',
+  TAX_CALCULATION: 'Tax_calculation',
+  QUICK_LINKS: 'Quick_links',
+  NEWS_EVENTS: 'News_and_events',
+  MODULE_CREATION: 'Module_Creation',
+  PRODUCT_FEATURES: 'Product_features',
+};
+
+export const GlobalSearchOrgAdminModules = {
+  USERS: 'Users',
+  Organization: 'Organizations',
+  Subscription_Invoice: 'Subscription & Invoices',
+  Properties: 'Properties',
+  Roles_Rights: 'Role and Rights',
+  sales_product_categories: 'Sales Product categories',
+  Life_Cycle_stages: 'Life Cycle Stage',
+  Contact_Status: 'Contact Status',
+  Receiver_Bank_Account: 'Receiver Bank Account',
+};
+
+export const GlobalSearchAirSalesModules = {
+  Deals: 'Deals',
+  Forecast: 'Forecast',
+  Quotes: 'Quotes',
+  Tasks: 'Tasks',
+  Invoices: 'Invoices',
+  Reports: 'Reports',
+  Settings: 'Settings',
+  Sales_Product: 'Sales Product',
+  Deal_Pipelines: 'Deal Pipelines',
+  Roles_Rights: 'Roles and Rights',
+  User_Management: 'User Management',
+  Notifications: 'Notifications',
+  Setting_Forecast: 'Forecasts',
+  CALLS: 'Calls',
+  CONTACTS: 'Contacts',
+  MEETINGS: 'Meetings',
+  DOCUMENTS: 'Documents',
+  CHATS: 'Chats',
+  EMAILS: 'Emails',
+  COMPANIES: 'Companies',
+};
+
+export const GlobalSearchAirServicesModules = {
+  Tickets: 'Tickets',
+  Inventory: 'INVENTORYS',
+  Software: 'SOFTWARES',
+  Contracts: 'CONTRACTS',
+  Purchase_Orders: 'PURCHAHSE_ORDERS',
+  knowledge_base: 'Knowledge Base',
+  WorkLoad: 'WorkLoad',
+  Feedback_Survey: 'Feedback Survey',
+  Reports: 'REPORTS',
+  Enquiries: 'ENQUIRIES',
+  Signup_Leads: 'Signup Leads',
+  Account_Settings: 'Account Settings',
+  User_Management: 'User Management',
+  departments: 'DEPARTMENTS',
+  agents: 'AGENTS',
+  AGENT_REQUESTERS: 'AGENT_REQUESTERS',
+  Requesters: 'REQUESTERS',
+  Roles: 'ROLES_AND_RIGHTS',
+  Asset_Management: 'Asset Management',
+  ASSET_TYPES: 'ASSET_TYPES',
+  PRODUCT_CATALOGS: 'PRODUCT_CATALOGS',
+  VENDORS: 'VENDORS',
+  Agent_Productivity: 'Agent Productivity & Workload Management',
+  CANNED_RESPONSES: 'CANNED_RESPONSES',
+  WORKLOADS: 'WORKLOADS',
+  Service_Management: 'Service Management',
+  BUSINESS_HOURS: 'BUSINESS_HOURS',
+  Customer_Portal: 'Customer portal',
+  CATALOGS: 'CATALOGS',
+  KNOWLEDGE_BASE: 'KNOWLEDGE_BASE',
+};
+
+export const GlobalSearchAirOperationModules = {
+  Data_Management: 'Data Management',
+  Integrations: 'Integrations',
+  Workflow_Automation: 'Workflow Automation',
+  Reports: 'Reports',
+  Roles_Right: 'Roles and Right',
+  User_Management: 'User Management',
+  DEALS: 'DEALS',
+  QUOTES: 'QUOTES',
+  TASKS: 'TASKS',
 };
