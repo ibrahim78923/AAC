@@ -6,7 +6,6 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 export const Table = (props: any) => {
   const { tableColumns, title, data = [] } = props;
   const tableColumn = makeDynamicColumn(tableColumns);
-
   const tableData = data?.[title] ?? data ?? [];
 
   return (
@@ -19,10 +18,7 @@ export const Table = (props: any) => {
     >
       <PageTitledHeader title={title} />
       <Box>
-        <TanstackTable
-          data={tableData?.slice?.(-5)?.reverse()}
-          columns={tableColumn}
-        />
+        <TanstackTable data={tableData?.slice?.(0, 5)} columns={tableColumn} />
       </Box>
     </Box>
   );
