@@ -6,6 +6,7 @@ import { AddWhiteBgIcon, ExportBlackIcon } from '@/assets/icons';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useGiftCardsDetails } from './useGiftCardDetails';
 import { AIR_LOYALTY_PROGRAM } from '@/constants/routes';
+import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 
 export const GiftCardsDetails = () => {
   const {
@@ -23,26 +24,30 @@ export const GiftCardsDetails = () => {
   } = useGiftCardsDetails?.();
   return (
     <>
-      <Box>
-        <PageTitledHeader
-          title={isLoading ? <Skeleton width={200} /> : data?.data?.cardNumber}
-          addTitle={'Add Transaction'}
-          canMovedBack
-          handleAction={() => setIsPortalOpen({ isOpen: true, isAdd: true })}
-          moveBack={() => {
-            router?.push(AIR_LOYALTY_PROGRAM?.GIFT_CARDS);
-          }}
+      <PageTitledHeader
+        title={
+          isLoading ? (
+            <Skeleton width={200} />
+          ) : (
+            data?.data?.giftcards[SELECTED_ARRAY_LENGTH?.ZERO]?.cardNumber
+          )
+        }
+        addTitle={'Add Transaction'}
+        canMovedBack
+        handleAction={() => setIsPortalOpen({ isOpen: true, isAdd: true })}
+        moveBack={() => {
+          router?.push(AIR_LOYALTY_PROGRAM?.GIFT_CARDS);
+        }}
+      >
+        <Button
+          variant="contained"
+          className="small"
+          startIcon={<AddWhiteBgIcon />}
+          onClick={() => setIsPortalOpen({ isOpen: true, isAdd: true })}
         >
-          <Button
-            variant="contained"
-            className="small"
-            startIcon={<AddWhiteBgIcon />}
-            onClick={() => setIsPortalOpen({ isOpen: true, isAdd: true })}
-          >
-            Add Transaction
-          </Button>
-        </PageTitledHeader>
-      </Box>
+          Add Transaction
+        </Button>
+      </PageTitledHeader>
       <Box mt={2} border={'1px solid lightgrey'} borderRadius={3}>
         <Box display={'flex'} justifyContent={'flex-end'} mx={2} gap={1} mt={2}>
           <Button

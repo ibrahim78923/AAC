@@ -14,7 +14,7 @@ export const singleRewardDetailsColumnsDynamic = () => [
       <UserInfo
         nameInitial={fullNameInitial(info?.row?.original?.consumerName)}
         name={fullName(info?.row?.original.consumerName)}
-        avatarSrc={info?.row?.original?.avatar?.url}
+        avatarSrc={info?.row?.original?.avatarUrl}
         email={info?.row?.original.email}
       />
     ),

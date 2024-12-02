@@ -21,8 +21,9 @@ const loyaltyRewardsApi = baseAPI?.injectEndpoints({
     }),
     getLoyaltyProgramRewardsDetailsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.REDEEM_REWARDS_DETAILS}/${apiDataParameter?.pathParams?.id}`,
+        url: `${END_POINTS?.REDEEM_REWARDS_DETAILS}`,
         method: 'GET',
+        params: apiDataParameter?.queryParams,
       }),
       providesTags: [TAG],
     }),

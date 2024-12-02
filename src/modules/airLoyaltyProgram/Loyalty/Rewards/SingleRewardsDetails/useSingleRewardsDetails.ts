@@ -15,7 +15,10 @@ export const useSingleRewardsDetails = (props: any) => {
 
   const getRewardsList = async () => {
     const apiDataParameter = {
-      pathParams: {
+      queryParams: {
+        page,
+        limit: pageLimit,
+        search,
         id: isRewardDetailsOpen?.rewardType,
       },
     };
@@ -36,7 +39,7 @@ export const useSingleRewardsDetails = (props: any) => {
   };
 
   const redeemRewardData =
-    lazyGetRewardsListStatus?.data?.data?.redeemedConsumersList;
+    lazyGetRewardsListStatus?.data?.data?.physicalrewards;
 
   return {
     singleRewardDetailsColumns,
