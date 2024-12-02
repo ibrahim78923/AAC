@@ -47,6 +47,7 @@ import {
   EnquiriesImage,
   SignupLeadsImage,
   ConsumerImage,
+  ContractsImage,
 } from '@/assets/images';
 import { PROFILE_DROPDOWNS, Quick_Links_Routes } from '@/constants';
 import {
@@ -846,6 +847,12 @@ export const QuickLinkData = [
     key: '7',
     icon: CompaniesImage,
     path: Quick_Links_Routes?.COMPANIES,
+    permissions: Permissions?.SOCIAL_COMPONENTS_COMPANIES,
+  },
+  {
+    key: '8',
+    icon: ContractsImage,
+    path: Quick_Links_Routes?.CONTRACTS,
     permissions: Permissions?.SOCIAL_COMPONENTS_COMPANIES,
   },
 ];

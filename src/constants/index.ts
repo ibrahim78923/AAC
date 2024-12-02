@@ -147,6 +147,7 @@ export const Quick_Links_Routes = {
   CHAT: '/social-components/chat',
   EMAIL: '/social-components/email',
   COMPANIES: '/social-components/companies',
+  CONTRACTS: '/air-social/contracts',
   MEETINGS: '/social-components/meetings',
   CONTACTS: '/air-social/contacts',
 };
@@ -569,6 +570,24 @@ export const ALL_COMPANIES = {
   ALL_COMPANIES: 'All Companies',
 };
 
+export const CONTRACTS_STATUS = {
+  DRAFT: 'DRAFT',
+  SIGNED: 'SIGNED',
+  PENDING: 'PENDING',
+  REJECTED: 'REJECTED',
+  CHANGE_REQUEST: 'CHANGE_REQUEST',
+  VIEWED: 'VIEWED',
+  SENT: 'SENT',
+  ALL: 'ALL',
+};
+
+export const CONTRACTS_STATUS_TITLES = {
+  ALL_CONTRACTS: 'All Contracts',
+  DRAFT: 'Draft',
+  PENDING: 'Pending',
+  SIGNED: 'Signed',
+  REJECTED: 'Rejected',
+};
 export const GlobalSearchSuperAdminModules = {
   USER_MANAGEMENT: 'User_management',
   PLAN_MANAGEMENT: 'Plan_management',

@@ -195,6 +195,18 @@ const CUSTOM_COLORS = {
   warning_light: '#FFF4D3',
   maroon_dark: '#9747FF',
   light_greenish: '#D1FADF',
+
+  tr_purple: '#EBE9FE',
+  tr_green: '#D1FADF',
+  tr_red: '#FFEEEE',
+  tr_yellow: '#FEF0C7',
+
+  br_purple: '#4A1FB8',
+  br_green: '#05603A',
+  br_red: '#912018',
+  br_yellow: '#912018',
+
+  slate_blue: '#98A2B3',
 };
 
 const GRAPH = {

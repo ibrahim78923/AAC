@@ -574,3 +574,6 @@ export { default as IconTrashContracts } from './modules/airSocial/contracts/ico
 export { default as IconUserParty } from './modules/airSocial/contracts/icon-user-party';
 export { default as IconAddParty } from './modules/airSocial/contracts/icon-add-party';
 export { default as PoundSignIcon } from './shared/pound-sign-icon';
+export { default as SentIcon } from './modules/airSocial/contracts/sent';
+export { default as ViewedIcon } from './modules/airSocial/contracts/viewed';
+export { default as SignedIcon } from './modules/airSocial/contracts/signed';
