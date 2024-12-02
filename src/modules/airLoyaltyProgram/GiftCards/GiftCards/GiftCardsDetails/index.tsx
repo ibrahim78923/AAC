@@ -1,4 +1,4 @@
-import { Box, Button, Skeleton } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { giftCardDetailsColumn } from './GiftCardDetails.data';
 import FilterListIcon from '@mui/icons-material/FilterList';
@@ -6,7 +6,6 @@ import { AddWhiteBgIcon, ExportBlackIcon } from '@/assets/icons';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useGiftCardsDetails } from './useGiftCardDetails';
 import { AIR_LOYALTY_PROGRAM } from '@/constants/routes';
-import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 
 export const GiftCardsDetails = () => {
   const {
@@ -21,17 +20,13 @@ export const GiftCardsDetails = () => {
     isLoading,
     isError,
     isSuccess,
+    giftCardNumber,
   } = useGiftCardsDetails?.();
+
   return (
     <>
       <PageTitledHeader
-        title={
-          isLoading ? (
-            <Skeleton width={200} />
-          ) : (
-            data?.data?.giftcards[SELECTED_ARRAY_LENGTH?.ZERO]?.cardNumber
-          )
-        }
+        title={giftCardNumber}
         addTitle={'Add Transaction'}
         canMovedBack
         handleAction={() => setIsPortalOpen({ isOpen: true, isAdd: true })}

@@ -123,5 +123,6 @@ export const useGiftCardsDetails = () => {
     isLoading,
     isError,
     isSuccess,
+    giftCardNumber,
   };
 };
