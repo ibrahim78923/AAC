@@ -45,7 +45,6 @@ const giftCardApi = baseAPI?.injectEndpoints({
         params: apiDataParameter?.queryParams,
         responseHandler: (response: any) => response?.blob(),
       }),
-      invalidatesTags: [TAG],
     }),
     addGiftCardDetails: builder?.mutation({
       query: (apiDataParameter: any) => ({

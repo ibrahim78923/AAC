@@ -21,6 +21,7 @@ export const UserList: any = [
         name={info?.row?.original?.recipientName}
         email={info?.row?.original?.recipientEmail}
         nameInitial={fullNameInitial(info?.row?.original?.recipientName)}
+        avatarSrc={info?.row?.original?.recipientAvatar}
       />
     ),
   },

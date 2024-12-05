@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { ExportModal } from '@/components/ExportModal';
 import { PAGINATION } from '@/config';
-import { buildQueryParams } from '@/utils/api';
 import { EXPORT_FILE_TYPE } from '@/constants/strings';
 import { downloadFile } from '@/utils/file';
 import { GiftCardDetailsFilter } from './GiftCardDetailsFilter';
@@ -22,8 +21,10 @@ export const useGiftCardsDetails = () => {
   const router = useRouter();
   const { giftCardNumber } = router?.query;
 
-  const [lazyExportGiftCardDetailsListTrigger]: any =
-    useLazyExportGiftCardDetailsListQuery();
+  const [
+    lazyExportGiftCardDetailsListTrigger,
+    lazyExportGiftCardDetailsListStatus,
+  ]: any = useLazyExportGiftCardDetailsListQuery();
 
   const giftCardParams = {
     page,
@@ -59,20 +60,23 @@ export const useGiftCardsDetails = () => {
   };
 
   const handleFileExportSubmit = async (type: any) => {
-    const additionalParams = [
-      ['page', page + ''],
-      ['limit', setLimit + ''],
-    ];
-    const getExportGiftCardParam: any = buildQueryParams(
-      additionalParams,
-      filterGiftCardDetails,
-    );
-    const apiDataParameter = { queryParams: getExportGiftCardParam };
+    const params = {
+      exportType: type,
+      meta: false,
+    };
+
+    const exportListParameter = {
+      queryParams: params,
+    };
+
     try {
       const response: any =
-        await lazyExportGiftCardDetailsListTrigger(apiDataParameter)?.unwrap();
-      downloadFile(response, 'CardList', EXPORT_FILE_TYPE?.[type]);
-      successSnackbar(`File Exported successfully`);
+        await lazyExportGiftCardDetailsListTrigger(
+          exportListParameter,
+        )?.unwrap();
+      downloadFile(response, 'Gift Card List', EXPORT_FILE_TYPE?.[type]);
+      successSnackbar('File exported successfully');
+      setIsPortalOpen({});
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -105,6 +109,14 @@ export const useGiftCardsDetails = () => {
           open={isPortalOpen?.isExport}
           onSubmit={(exportType: any) => handleFileExportSubmit?.(exportType)}
           handleClose={() => setIsPortalOpen({})}
+          disableCancelBtn={
+            lazyExportGiftCardDetailsListStatus?.isLoading ||
+            lazyExportGiftCardDetailsListStatus?.isFetching
+          }
+          loading={
+            lazyExportGiftCardDetailsListStatus?.isLoading ||
+            lazyExportGiftCardDetailsListStatus?.isFetching
+          }
         />
       );
     }
