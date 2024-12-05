@@ -20,12 +20,15 @@ export const useAddVouchers = (props: any) => {
   const apiQueryVoucherTiers = useLazyVouchersTiersDropdownListQuery();
   const [postVouchersTrigger, postVouchersStatus] = usePostVouchersMutation();
   const [editVouchersTrigger, editVouchersStatus] = useEditVoucherMutation();
+  const getByIdParams = {
+    voucherCode: addVouchersOpen?.voucherCode,
+  };
   const {
     data: getVoucherById,
     isLoading,
     isFetching,
-  } = useGetSingleVouchersQuery(addVouchersOpen?.id, {
-    skip: !addVouchersOpen?.id && addVouchersOpen?.upsert,
+  } = useGetSingleVouchersQuery(getByIdParams, {
+    skip: !addVouchersOpen?.voucherCode && addVouchersOpen?.upsert,
     refetchOnMountOrArgChange: true,
   });
   const methods = useForm<any>({
@@ -41,7 +44,7 @@ export const useAddVouchers = (props: any) => {
         getVoucherById?.data?.[ARRAY_INDEX?.ZERO],
       ),
     );
-  }, [addVouchersOpen?.id, getVoucherById, reset]);
+  }, [addVouchersOpen?.voucherCode, getVoucherById, reset]);
 
   const randomString = () => {
     setValue('voucherCode', generateRadomString());
@@ -75,7 +78,7 @@ export const useAddVouchers = (props: any) => {
       } else if (key === VOUCHERS_CONSTANTS?.FILE_URL) {
         vouchersFormData?.append(
           key,
-          !addVouchersOpen?.id
+          data[key] instanceof File
             ? data[key]
             : new File([data[key]], data[key]?.url),
         );
@@ -86,7 +89,7 @@ export const useAddVouchers = (props: any) => {
     const postVouchersParameter = {
       body: vouchersFormData,
     };
-    if (addVouchersOpen?.id) {
+    if (addVouchersOpen?.voucherCode) {
       handleEditVoucher(vouchersFormData);
     } else {
       handleUpsertVoucher(postVouchersParameter);

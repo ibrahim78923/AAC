@@ -62,7 +62,7 @@ export const useVouchers = () => {
   };
 
   const handleEditVoucher = (rowData: any) => {
-    setIsPortal({ id: rowData?._id, upsert: true });
+    setIsPortal({ voucherCode: rowData?.voucherCode, upsert: true });
   };
   const handleDeleteVoucher = (rowData: any) => {
     setIsPortal({ id: rowData?._id, delete: true });

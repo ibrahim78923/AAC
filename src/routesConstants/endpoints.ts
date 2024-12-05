@@ -430,6 +430,7 @@ export const END_POINTS = {
   UPDATE_VOUCHERS_STATUS: '/vouchers/update-voucher-status',
   UPDATE_VOUCHER: '/vouchers/update-voucher',
   DELETE_VOUCHERS: '/vouchers/delete-voucher',
+  GET_VOUCHERS_REDEMPTION: '/vouchers/get-redeemed-voucher-consumer',
   ADD_LOYALTY_TRANSACTION: `/Transactions/add-transaction`,
   GET_VOUCHER_TRANSACTION: `/vouchers/list-voucher-transactions`,
   CHANGE_RULES_STATUS: `/rules-and-tiers/rule`,
@@ -568,6 +569,7 @@ export const END_POINTS = {
   DELETE_LOYALTY_RULES: '/rules-and-tiers/delete-rule',
   DELETE_LOYALTY_TIERS: '/rules-and-tiers/delete-tier',
   GET_REWARDS_TRANSACTION: '/rewards/list-reward-transactions',
+  GET_POINTS_TRANSACTION: '/consumers/get-transaction-points',
   LOYALTY_REWARDS_DROPDOWN: 'rewards/rewards-list',
 };
 

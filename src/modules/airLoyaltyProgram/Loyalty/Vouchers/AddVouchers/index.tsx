@@ -31,8 +31,10 @@ export const AddVouchers = (props: any) => {
       <CommonDrawer
         isDrawerOpen={addVouchersOpen?.upsert}
         onClose={() => setAddVouchersOpen?.({})}
-        okText={addVouchersOpen?.id ? 'Update' : 'Create'}
-        title={addVouchersOpen?.id ? 'Update voucher' : 'Create voucher'}
+        okText={addVouchersOpen?.voucherCode ? 'Update' : 'Create'}
+        title={
+          addVouchersOpen?.voucherCode ? 'Update voucher' : 'Create voucher'
+        }
         submitHandler={() => handleSubmit(submitAddVouchersForm)()}
         isOk
         isLoading={

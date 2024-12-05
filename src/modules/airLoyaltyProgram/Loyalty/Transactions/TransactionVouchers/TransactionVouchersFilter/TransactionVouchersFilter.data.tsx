@@ -46,7 +46,7 @@ export const vouchersFilterFormFieldsDynamic = (
     id: 5,
     componentProps: {
       name: 'dateRange',
-      label: 'Credits',
+      label: 'Date Range',
       placeholder: 'Select',
     },
     component: RHFDateRangePicker,

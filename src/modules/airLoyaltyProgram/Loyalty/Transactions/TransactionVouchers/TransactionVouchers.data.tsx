@@ -19,6 +19,7 @@ export const transactionsPointsColumns: any = (
         nameProps={{ fontWeight: 700 }}
         avatarSize={{ width: 40, height: 40, variant: 'circular' }}
         handleBoxClick={() => handleVoucherClick(info?.row?.original)}
+        boxProps={{ sx: { cursor: 'pointer' } }}
       />
     ),
   },
@@ -35,6 +36,7 @@ export const transactionsPointsColumns: any = (
         nameProps={{ fontWeight: 700 }}
         avatarSize={{ width: 40, height: 40, variant: 'circular' }}
         handleBoxClick={() => handleConsumerClick(info?.row?.original)}
+        boxProps={{ sx: { cursor: 'pointer' } }}
       />
     ),
   },

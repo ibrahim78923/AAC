@@ -63,17 +63,17 @@ export const useTransactionVouchers = () => {
     const checkPermissions = getActivePermissionsSession()?.includes(
       AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.VIEW_DETAILS,
     );
-    if (!checkPermissions) {
+    if (checkPermissions) {
       router?.push({
         pathname: AIR_LOYALTY_PROGRAM?.VOUCHER_REDEMPTION_LIST,
-        query: { voucherId: rowData?.voucher?._id },
+        query: { voucherId: rowData?._id },
       });
     }
   };
   const handleConsumerClick = async (rowData: any) => {
     router?.push({
       pathname: AIR_LOYALTY_PROGRAM?.UPSERT_CONSUMER,
-      query: { consumerId: rowData?.consumer?._id },
+      query: { id: rowData?.consumerId },
     });
   };
   const transactionsPointsListColumn = transactionsPointsColumns(

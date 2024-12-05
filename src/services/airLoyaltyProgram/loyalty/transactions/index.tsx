@@ -24,9 +24,13 @@ const loyaltyTransactionsApi = baseAPI?.injectEndpoints({
         method: 'GET',
         params,
       }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.shops ?? [];
-      },
+    }),
+    getPointTransactionsList: builder?.query({
+      query: (params: any) => ({
+        url: END_POINTS?.GET_POINTS_TRANSACTION,
+        method: 'GET',
+        params,
+      }),
     }),
     getVouchersDropdownTransaction: builder?.query({
       query: ({ params }: any) => ({
@@ -63,4 +67,5 @@ export const {
   useLazyGetVouchersDropdownTransactionQuery,
   useLazyGetConsumerDropdownTransactionQuery,
   useLazyGetRewardsDropdownTransactionQuery,
+  useLazyGetPointTransactionsListQuery,
 } = loyaltyTransactionsApi;

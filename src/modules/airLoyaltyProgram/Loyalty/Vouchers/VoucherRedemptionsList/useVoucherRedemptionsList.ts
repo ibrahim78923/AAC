@@ -13,40 +13,37 @@ export const useVoucherRedemptionsList = () => {
   getVoucherRedemptionListParam?.append('page', page + '');
   getVoucherRedemptionListParam?.append('limit', pageLimit + '');
   getVoucherRedemptionListParam?.append('search', search);
-  const getVoucherRedemptionListParameter = {
-    queryParams: getVoucherRedemptionListParam,
-  };
-
+  getVoucherRedemptionListParam?.append(
+    'id',
+    router?.query?.voucherId as string,
+  );
   const [
     lazyGetVoucherRedemptionListTrigger,
     lazyGetVoucherRedemptionListStatus,
   ] = useLazyGetVoucherRedemptionListQuery();
-  const voucherRedemptionList =
-    lazyGetVoucherRedemptionListStatus?.data?.data?.responses;
-  const voucherRedemptionListMetaData =
-    lazyGetVoucherRedemptionListStatus?.data?.data?.meta;
   const getVoucherRedemptionListListData = async () => {
-    return;
     try {
       await lazyGetVoucherRedemptionListTrigger(
-        getVoucherRedemptionListParameter,
+        getVoucherRedemptionListParam,
       )?.unwrap();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
+  const handleSearch = (value: string) => {
+    setSearch(value);
+    setPage(PAGINATION?.CURRENT_PAGE);
+  };
   useEffect(() => {
     getVoucherRedemptionListListData();
-  }, [page, pageLimit]);
+  }, [page, pageLimit, search]);
   return {
     page,
     setPage,
     pageLimit,
     setPageLimit,
     router,
-    voucherRedemptionList,
-    voucherRedemptionListMetaData,
     lazyGetVoucherRedemptionListStatus,
-    setSearch,
+    handleSearch,
   };
 };

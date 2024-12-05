@@ -3,19 +3,17 @@ import {
   filtersDefaultValues,
   pointsFilterFormFieldsDynamic,
 } from './TransactionPointsFilter.data';
-import { filteredEmptyValues } from '@/utils/api';
-import { useLazyGetShopDropdownForLoyaltyTransactionQuery } from '@/services/airLoyaltyProgram/loyalty/transactions';
+import { useLazyGetConsumerDropdownTransactionQuery } from '@/services/airLoyaltyProgram/loyalty/transactions';
 
 export const useTransactionPointsFilter = (props: any) => {
-  const { setIsDrawerOpen, isFilters, setIsFilter } = props;
+  const { setIsDrawerOpen, isFilter, setIsFilter } = props;
   const methods: any = useForm({
-    defaultValues: filtersDefaultValues?.(isFilters),
+    defaultValues: filtersDefaultValues?.(isFilter),
   });
   const { handleSubmit, reset } = methods;
 
   const submit = async (data: any) => {
-    const filterValues = filteredEmptyValues?.(data);
-    setIsFilter?.(filterValues);
+    setIsFilter?.(data);
     closeFilterForm?.();
   };
 
@@ -28,9 +26,9 @@ export const useTransactionPointsFilter = (props: any) => {
     reset?.();
     setIsDrawerOpen?.(false);
   };
-  const shopApiQuery = useLazyGetShopDropdownForLoyaltyTransactionQuery?.();
+  const consumerApiQuery = useLazyGetConsumerDropdownTransactionQuery?.();
   const transactionFilterFormFields =
-    pointsFilterFormFieldsDynamic?.(shopApiQuery);
+    pointsFilterFormFieldsDynamic?.(consumerApiQuery);
   return {
     methods,
     handleSubmit,

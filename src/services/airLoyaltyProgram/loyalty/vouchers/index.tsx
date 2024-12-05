@@ -14,9 +14,10 @@ export const vouchersAPI = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     getSingleVouchers: builder?.query({
-      query: (id: any) => ({
-        url: `${END_POINTS?.GET_SINGLE_VOUCHERS}/${id}`,
+      query: (params: any) => ({
+        url: `${END_POINTS?.GET_SINGLE_VOUCHERS}`,
         method: 'GET',
+        params,
       }),
       providesTags: [TAG],
     }),
@@ -38,10 +39,10 @@ export const vouchersAPI = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     getVoucherRedemptionList: builder?.query({
-      query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.GET_VOUCHERS}`,
+      query: (params: any) => ({
+        url: `${END_POINTS?.GET_VOUCHERS_REDEMPTION}`,
         method: 'GET',
-        params: apiDataParameter?.queryParams,
+        params,
       }),
       providesTags: [TAG],
     }),
