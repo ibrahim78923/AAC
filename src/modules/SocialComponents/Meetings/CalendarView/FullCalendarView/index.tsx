@@ -25,6 +25,7 @@ export const FullCalendarView = (props: any) => {
   } = props;
   const router = useRouter();
   const statusData = status?.data?.data;
+
   if (status?.isLoading || status?.isFetching) return <SkeletonForm />;
   return (
     <Box
@@ -64,7 +65,6 @@ export const FullCalendarView = (props: any) => {
           eventTimeFormat={{
             hour: 'numeric',
             minute: '2-digit',
-            timeZone: 'UTC',
           }}
           events={statusData}
           eventClick={handleEventClick}
@@ -165,7 +165,6 @@ export const FullCalendarView = (props: any) => {
           eventTimeFormat={{
             hour: 'numeric',
             minute: '2-digit',
-            timeZone: 'UTC',
           }}
           events={statusData}
           eventClick={handleEventClick}
@@ -267,7 +266,6 @@ export const FullCalendarView = (props: any) => {
           eventTimeFormat={{
             hour: 'numeric',
             minute: '2-digit',
-            timeZone: 'UTC',
           }}
           events={statusData}
           eventContent={(eventInfo: any) => {
@@ -361,7 +359,6 @@ export const FullCalendarView = (props: any) => {
           eventTimeFormat={{
             hour: 'numeric',
             minute: '2-digit',
-            timeZone: 'UTC',
           }}
           events={statusData}
           eventContent={(eventInfo: any) => {

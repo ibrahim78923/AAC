@@ -69,6 +69,14 @@ export const makeDateTime = (date: any, time: any) => {
   const combined: any = new Date(year, month, day, hour, minutes, 0);
   return combined;
 };
+export const combineDateTime = (date: string, time?: string): Date => {
+  const datePart = new Date(date);
+  if (time) {
+    const [hours, minutes] = time.split(':').map(Number);
+    datePart.setHours(hours, minutes, 0, 0);
+  }
+  return datePart;
+};
 
 export const addDateTimeParam = (
   getQueryParam: any,
