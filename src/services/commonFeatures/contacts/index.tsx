@@ -228,6 +228,15 @@ export const contactsAPI = baseAPI.injectEndpoints({
       },
       providesTags: ['CONTACT_OWNER'],
     }),
+    getContactsListAsExport: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.CONTACTS}`,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+        responseHandler: (response: any) => response?.blob(),
+      }),
+      providesTags: TAG,
+    }),
   }),
 });
 
@@ -255,4 +264,5 @@ export const {
   useLazyGetContactsStatusListQuery,
   useLazyGetContactsLifeCycleStagesQuery,
   useLazyGetContactsOwnerListQuery,
+  useLazyGetContactsListAsExportQuery,
 } = contactsAPI;

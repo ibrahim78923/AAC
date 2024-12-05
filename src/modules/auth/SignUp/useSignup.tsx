@@ -65,7 +65,7 @@ const useSignup = () => {
     { email: emailExists },
     { skip: !emailExists },
   );
-  const { data: drnData, isSuccess: drnIsSuccess } = useGetDrnCheckQuery(
+  const { data: drnData, isError: drnIsError } = useGetDrnCheckQuery(
     { drn: drnExists },
     { skip: !drnExists },
   );
@@ -195,10 +195,10 @@ const useSignup = () => {
   }, [data, isError]);
 
   useEffect(() => {
-    if (drnIsSuccess) {
-      errorSnackbar('DRN already exists');
+    if (drnIsError) {
+      errorSnackbar('DRN does not exist');
     }
-  }, [drnData, drnIsSuccess]);
+  }, [drnData, drnIsError]);
 
   useEffect(() => {
     setValue('organizationName', companyDetails?.company_name);
@@ -218,7 +218,7 @@ const useSignup = () => {
     isError,
     isEmailError,
     email,
-    drnIsSuccess,
+    drnIsError,
   };
 };
 

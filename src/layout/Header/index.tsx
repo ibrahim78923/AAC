@@ -371,6 +371,9 @@ const Header = (props: any) => {
             <Box
               component="form"
               sx={styles?.searchAnimation(isExpanded, theme)}
+              onSubmit={(e) => {
+                e.preventDefault();
+              }}
             >
               <InputBase
                 fullWidth

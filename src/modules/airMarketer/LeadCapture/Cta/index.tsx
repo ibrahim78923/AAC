@@ -1,22 +1,17 @@
 import React from 'react';
 import useCta from './useCta';
-import {
-  Box,
-  Grid,
-  Typography,
-  Button,
-  FormControlLabel,
-  Checkbox,
-} from '@mui/material';
+import { Box, Grid, Typography, Button } from '@mui/material';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { ScheduleModals } from '@/components/ScheduleModals';
-import { DRAWER_TITLE, columns, exportData } from './Cta.data';
+import { DRAWER_TITLE, RecordModalData, columns } from './Cta.data';
 import { DeleteIcon, ExportDownloadIcon, PlusIcon } from '@/assets/icons';
 import { AlertModals } from '@/components/AlertModals';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS } from '@/constants/permission-keys';
 import CreateCTADrawer from './CreateCTADrawer';
+import { FormProvider } from '@/components/ReactHookForm';
+import { v4 as uuidv4 } from 'uuid';
 
 const CTA = () => {
   const {
@@ -44,8 +39,9 @@ const CTA = () => {
     handleOpenModalExport,
     handleCloseModalExport,
     handleExportSubmit,
-    handleChangeCheckbox,
-    checkedValue,
+    methods,
+    handleSubmit,
+    isLoading,
   } = useCta();
 
   const tableColumns = columns(selectedRow, setSelectedRow, handleOpenDrawer);
@@ -174,9 +170,9 @@ const CTA = () => {
         type={'export'}
         open={openModalExport}
         handleClose={handleCloseModalExport}
-        handleSubmit={handleExportSubmit}
+        handleSubmit={handleSubmit(handleExportSubmit)}
         isFooter={true}
-        disabledSubmitButton={!checkedValue}
+        loading={isLoading}
       >
         <Grid
           container
@@ -186,21 +182,18 @@ const CTA = () => {
           <Grid item xs={12}>
             <Typography variant="body2">File Format</Typography>
           </Grid>
-          {exportData?.map((item) => (
-            <Grid item md={4} xs={12} key={item?.value}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    color="primary"
-                    name={item?.value}
-                    onChange={() => handleChangeCheckbox(item?.value)}
-                    checked={checkedValue === item?.value}
-                  />
-                }
-                label={item?.label}
-              />
-            </Grid>
-          ))}
+          <FormProvider methods={methods}>
+            {RecordModalData?.map((item: any) => {
+              return (
+                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  <item.component
+                    {...item?.componentProps}
+                    size={'small'}
+                  ></item.component>
+                </Grid>
+              );
+            })}
+          </FormProvider>
         </Grid>
       </ScheduleModals>
     </Box>

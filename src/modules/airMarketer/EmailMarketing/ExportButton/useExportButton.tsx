@@ -29,10 +29,8 @@ export const useExportButton = ({ handleExportModalOpen }: any) => {
   const radioGroup = watch('radio');
 
   const FILE_FORMATS: any = {
-    CSV: 'csv',
-    PDF: 'pdf',
-    XLS: 'xls',
-    ZIP: 'zip',
+    CSV: 'CSV',
+    XLS: 'XLSX',
   };
 
   const onSubmit = async (values: any) => {

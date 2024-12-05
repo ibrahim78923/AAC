@@ -87,7 +87,7 @@ const ActionButton = (props?: any) => {
               </MenuItem>
             </PermissionsGuard>
 
-            <PermissionsGuard
+            {/* <PermissionsGuard
               permissions={[
                 SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS?.EXPORT_ALL_COMPANIES,
               ]}
@@ -100,7 +100,7 @@ const ActionButton = (props?: any) => {
               >
                 Export
               </MenuItem>
-            </PermissionsGuard>
+            </PermissionsGuard> */}
 
             <PermissionsGuard
               permissions={[

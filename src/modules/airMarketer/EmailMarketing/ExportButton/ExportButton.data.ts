@@ -16,7 +16,7 @@ export const exportButtonFormFields = [
     },
     options: [
       { value: 'CSV', label: 'CSV' },
-      { value: 'XLS', label: 'XLS' },
+      { value: 'XLSX', label: 'XLSX' },
     ],
     component: RHFSelect,
     md: 12,

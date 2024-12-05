@@ -11,16 +11,34 @@ import {
 import { ExportRecordIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { ExportRecordModalI } from '../DealsModalBox-interface';
+import { downloadFile } from '@/utils/file';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { EXPORT_FILE_TYPE } from '@/constants/strings';
+import { useLazyGetDealsListAsExportQuery } from '@/services/airSales/deals';
 
 const ExportRecordModal = ({ open, onClose }: ExportRecordModalI) => {
+  const [lazyGetExportDealsTrigger, { isLoading }] =
+    useLazyGetDealsListAsExportQuery();
+
   const methods: any = useForm({
     resolver: yupResolver(customValidationSchema),
     defaultValues: customDefaultValues,
   });
 
-  const { handleSubmit } = methods;
-  const onSubmit = async () => {
-    onClose();
+  const { handleSubmit, reset } = methods;
+  const onSubmit = async (value: any) => {
+    const queryParams = {
+      exportType: value?.file,
+    };
+    try {
+      const response = await lazyGetExportDealsTrigger(queryParams)?.unwrap();
+      downloadFile(response, 'DealsLists', EXPORT_FILE_TYPE?.[value?.file]);
+      onClose();
+      reset();
+      successSnackbar(`Deals Exported successfully`);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
   };
 
   return (
@@ -34,6 +52,7 @@ const ExportRecordModal = ({ open, onClose }: ExportRecordModalI) => {
       footer
       headerIcon={<ExportRecordIcon />}
       handleCancel={onClose}
+      isLoading={isLoading}
     >
       <FormProvider methods={methods}>
         {recordData?.map((item: any) => {

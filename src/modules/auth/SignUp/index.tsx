@@ -48,7 +48,7 @@ const SignUp = () => {
     setIsStepComplete,
     isError,
     isEmailError,
-    drnIsSuccess,
+    drnIsError,
   } = useSignup();
 
   const products = productData?.data.map((product: any) => {
@@ -261,7 +261,7 @@ const SignUp = () => {
                             sx={{ width: '100%' }}
                             type="submit"
                             loading={isLoading}
-                            disabled={drnIsSuccess}
+                            disabled={drnIsError}
                           >
                             Submit
                           </LoadingButton>

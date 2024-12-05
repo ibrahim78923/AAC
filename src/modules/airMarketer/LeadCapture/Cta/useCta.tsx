@@ -4,8 +4,15 @@ import { PAGINATION } from '@/config';
 import {
   useGetLeadCaptureCTAQuery,
   useDeleteLeadCaptureCTAMutation,
+  useLazyGetCTAsListAsExportQuery,
 } from '@/services/airMarketer/lead-capture/cta';
 import { enqueueSnackbar } from 'notistack';
+import { useForm } from 'react-hook-form';
+import { customDefaultValues } from './Cta.data';
+import { downloadFile } from '@/utils/file';
+import { EXPORT_FILE_TYPE } from '@/constants/strings';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { isNullOrEmpty } from '@/utils';
 
 const useCta = () => {
   const theme = useTheme();
@@ -90,8 +97,31 @@ const useCta = () => {
     setCheckedValue(value === checkedValue ? null : value);
   };
 
-  const handleExportSubmit = () => {
-    handleCloseModalExport();
+  const methods: any = useForm({
+    defaultValues: customDefaultValues,
+  });
+
+  const { handleSubmit, reset } = methods;
+  const [lazyGetExportCTAsTrigger, { isLoading }] =
+    useLazyGetCTAsListAsExportQuery();
+
+  const handleExportSubmit = async (value: any) => {
+    if (!isNullOrEmpty(value?.file)) {
+      const queryParams = {
+        exportType: value?.file,
+      };
+      try {
+        const response = await lazyGetExportCTAsTrigger(queryParams)?.unwrap();
+        downloadFile(response, 'CTAsLists', EXPORT_FILE_TYPE?.[value?.file]);
+        handleCloseModalExport();
+        reset();
+        successSnackbar(`CTAs Exported successfully`);
+      } catch (error: any) {
+        errorSnackbar(error?.data?.message);
+      }
+    } else {
+      errorSnackbar(`Enter File Format`);
+    }
   };
 
   return {
@@ -122,6 +152,9 @@ const useCta = () => {
     handleExportSubmit,
     handleChangeCheckbox,
     checkedValue,
+    methods,
+    handleSubmit,
+    isLoading,
   };
 };
 

@@ -120,6 +120,15 @@ export const socialMarketerAPI: any = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+    getCampaignsListAsExport: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${AIR_MARKETER?.CAMPAIGNS}`,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+        responseHandler: (response: any) => response?.blob(),
+      }),
+      providesTags: TAG,
+    }),
   }),
 });
 
@@ -137,4 +146,5 @@ export const {
   usePostCampaignsCloneMutation,
   usePostCampaignsSaveViewMutation,
   useGetCampaignsSaveViewQuery,
+  useLazyGetCampaignsListAsExportQuery,
 } = socialMarketerAPI;

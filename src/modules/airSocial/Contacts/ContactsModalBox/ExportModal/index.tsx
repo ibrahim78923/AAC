@@ -9,26 +9,57 @@ import { ExportRecordIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
 import { RecordModalData, customDefaultValues } from './ExportModal.data';
+import { downloadFile } from '@/utils/file';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { EXPORT_FILE_TYPE } from '@/constants/strings';
+import { useLazyGetContactsListAsExportQuery } from '@/services/commonFeatures/contacts';
+import { isNullOrEmpty } from '@/utils';
 
 const ExportModal = ({ open, onClose }: any) => {
+  const [lazyGetExportContactsTrigger, { isLoading }] =
+    useLazyGetContactsListAsExportQuery();
+
+  const handleClose = () => {
+    onClose(false);
+  };
+
   const methods: any = useForm({
     defaultValues: customDefaultValues,
   });
 
-  const { handleSubmit } = methods;
-  const onSubmit = async () => {};
+  const { handleSubmit, reset } = methods;
+  const onSubmit = async (value: any) => {
+    if (!isNullOrEmpty(value?.file)) {
+      const queryParams = {
+        exportType: value?.file,
+      };
+      try {
+        const response =
+          await lazyGetExportContactsTrigger(queryParams)?.unwrap();
+        downloadFile(response, 'ContactLists', EXPORT_FILE_TYPE?.[value?.file]);
+        handleClose();
+        reset();
+        successSnackbar(`Contacts Exported successfully`);
+      } catch (error: any) {
+        errorSnackbar(error?.data?.message);
+      }
+    } else {
+      errorSnackbar(`Enter File Format`);
+    }
+  };
 
   return (
     <CommonModal
       open={open}
-      handleClose={() => onClose(false)}
-      handleCancel={() => onClose(false)}
+      handleClose={handleClose}
+      handleCancel={handleClose}
       handleSubmit={handleSubmit(onSubmit)}
       title="Export Record"
       okText={'Export'}
       cancelText={'Cancel'}
       footer={true}
       headerIcon={<ExportRecordIcon />}
+      isLoading={isLoading}
     >
       <Typography fontWeight={500} sx={{ fontSize: '14px' }}>
         File Format
@@ -37,14 +68,10 @@ const ExportModal = ({ open, onClose }: any) => {
         {RecordModalData?.map((item: any) => {
           return (
             <Grid item xs={12} md={item?.md} key={uuidv4()}>
-              <item.component {...item?.componentProps} size={'small'}>
-                {item?.componentProps?.select &&
-                  item?.options?.map((option: any) => (
-                    <option key={uuidv4()} value={option?.value}>
-                      {option?.label}
-                    </option>
-                  ))}
-              </item.component>
+              <item.component
+                {...item?.componentProps}
+                size={'small'}
+              ></item.component>
             </Grid>
           );
         })}

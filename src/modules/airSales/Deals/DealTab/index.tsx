@@ -16,6 +16,7 @@ import DealsActions from '../DealsActions';
 import {
   CutomizeIcon,
   DeleteIcon,
+  ExportCloudIcon,
   FilterIcon,
   GridViewIcon,
   ListViewIcon,
@@ -145,13 +146,7 @@ const DealsTab = ({ dealViewsData }: any) => {
             </PermissionsGuard>
           ) : (
             <DealsActions
-              menuItem={[
-                'Preview',
-                'Re-assign',
-                'Export',
-                'Delete',
-                'View Details',
-              ]}
+              menuItem={['Preview', 'Re-assign', 'Delete', 'View Details']}
               onChange={handleActions}
               checkedRows={selectedRows}
             />
@@ -184,6 +179,18 @@ const DealsTab = ({ dealViewsData }: any) => {
               Customize
             </Button>
           </PermissionsGuard>
+
+          <Button
+            variant="outlined"
+            className="small"
+            color="inherit"
+            sx={{ color: theme?.palette?.custom['main'] }}
+            onClick={handleExportRecord}
+          >
+            <ExportCloudIcon />
+            &nbsp; Export
+          </Button>
+
           <PermissionsGuard
             permissions={[AIR_SALES_DEALS_PERMISSIONS?.REFRESH]}
           >

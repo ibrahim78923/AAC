@@ -7,6 +7,7 @@ import { Box } from '@mui/material';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import Link from 'next/link';
+import { RHFRadioGroup } from '@/components/ReactHookForm';
 
 export const columns = (
   selectedRow: any,
@@ -131,12 +132,8 @@ export const exportData = [
     label: 'CSV',
   },
   {
-    value: 'XLS',
-    label: 'XLS',
-  },
-  {
-    value: 'PDF',
-    label: 'PDF',
+    value: 'XLSX',
+    label: 'XLSX',
   },
 ];
 
@@ -150,3 +147,21 @@ export const BUTTON_TYPE = {
   image: 'image',
   customized: 'customized',
 };
+
+export const customDefaultValues = {
+  file: [],
+};
+
+export const RecordModalData = [
+  {
+    componentProps: {
+      name: 'file',
+      GridView: 6,
+      options: [
+        { value: 'CSV', label: 'CSV' },
+        { value: 'XLSX', label: 'XLSX' },
+      ],
+    },
+    component: RHFRadioGroup,
+  },
+];

@@ -12,6 +12,7 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import {
   CompanyIcon,
   CustomizeIcon,
+  ExportCloudIcon,
   FilterIcon,
   ImportCompaniesIcon,
   RefreshTasksIcon,
@@ -263,6 +264,25 @@ const CompanyTabs = () => {
                     }
                   >
                     Customize
+                  </Button>
+                </PermissionsGuard>
+
+                <PermissionsGuard
+                  permissions={[
+                    SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS?.EXPORT_ALL_COMPANIES,
+                  ]}
+                >
+                  <Button
+                    variant="outlined"
+                    className="small"
+                    color="inherit"
+                    sx={{ color: theme?.palette?.custom['main'] }}
+                    onClick={() => {
+                      setIsOpen({ ...isOpen, exportModal: true });
+                    }}
+                  >
+                    <ExportCloudIcon />
+                    &nbsp; Export
                   </Button>
                 </PermissionsGuard>
 
