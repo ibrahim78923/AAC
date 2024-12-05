@@ -49,7 +49,6 @@ export const styles = {
     boxShadow: '0px 2.25px 4.5px 0px #6B72801A',
     backgroundColor: '#EDFBFB',
     mb: '18px',
-    mt: '30px',
   }),
 
   headingBarTitle: () => ({

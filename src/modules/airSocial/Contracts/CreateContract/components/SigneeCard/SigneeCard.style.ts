@@ -1,7 +1,7 @@
 import { Theme } from '@mui/material';
 
 export const styles = {
-  partyCard: (theme: Theme) => ({
+  signeeCard: (theme: Theme) => ({
     backgroundColor: theme?.palette?.custom?.pale_grayish_blue,
     border: `1px solid ${theme?.palette?.custom?.light_lavender_gray}`,
     p: '24px 18px 10px',
@@ -32,7 +32,7 @@ export const styles = {
   }),
 
   cardTitle: () => ({
-    color: '#1D2939',
+    color: 'secondary.main',
     fontSize: '12px',
     lineHeight: '1.25',
   }),

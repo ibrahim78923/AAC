@@ -9,7 +9,13 @@ import { FormProvider } from '@/components/ReactHookForm';
 import ContractTitle from './form-fields/ContractTitle';
 import ContractLogo from './form-fields/ContractLogo';
 import PartyCard from './components/PartyCard';
-import AddPartyCard from './components/AddPartyCard';
+import AddCard from './components/AddCard';
+import SigneeCard from './components/SigneeCard';
+import DefaultAttachment from './form-fields/DefaultAttachment';
+import MessageToRecipient from './form-fields/MessageToRecipient';
+import DefaultSignatures from './form-fields/DefaultSignatures';
+import ModalManageSignatures from './components/ModalManageSignatures';
+import DocumentHistory from './components/DocumentHistory';
 
 export default function CreateContract() {
   const {
@@ -18,6 +24,15 @@ export default function CreateContract() {
     parties,
     handleAddParty,
     handleDeleteParty,
+    signees,
+    handleAddSigneeCard,
+    handleDeleteSigneeCard,
+
+    openManageSignatureModal,
+    handleOpenModalManageSignature,
+    handleCloseModalManageSignature,
+    handleChangeSignatureMethod,
+
     methods,
     handleSubmit,
     onSubmit,
@@ -52,44 +67,96 @@ export default function CreateContract() {
                   <Grid item xs={12} md={4}>
                     <ContractLogo />
                   </Grid>
-                </Grid>
+                  {/* Parties Card */}
+                  <Grid item xs={12}>
+                    <Box sx={styles?.headingBar}>
+                      <Box sx={styles?.headingBarTitle}>Parties</Box>
+                    </Box>
+                    <Grid container spacing={'30px'}>
+                      {parties?.map((party, index) => (
+                        <Grid
+                          item
+                          xs={12}
+                          md={4}
+                          key={party?._id}
+                          sx={styles?.partyCardgridItem}
+                        >
+                          <PartyCard
+                            onDelete={() =>
+                              index !== 0 && handleDeleteParty(party?._id)
+                            }
+                          />
+                        </Grid>
+                      ))}
 
-                <Box sx={styles?.headingBar}>
-                  <Box sx={styles?.headingBarTitle}>Parties</Box>
-                </Box>
+                      <Grid item xs={12} md={4}>
+                        <AddCard title={'Add Party'} onClick={handleAddParty} />
+                      </Grid>
+                    </Grid>
+                  </Grid>
 
-                <Grid container spacing={'30px'}>
-                  {parties.map((party, index) => (
-                    <Grid
-                      item
-                      xs={12}
-                      md={4}
-                      key={party?._id}
-                      sx={styles?.partyCardgridItem}
+                  {/* Signatures */}
+                  <Grid item xs={12}>
+                    <Box sx={styles?.headingBar}>
+                      <Box sx={styles?.headingBarTitle}>Signatures</Box>
+                    </Box>
+                    <Grid container spacing={'30px'}>
+                      {signees?.map((signee: any, index: any) => (
+                        <Grid
+                          item
+                          xs={12}
+                          md={4}
+                          key={signee?._id}
+                          sx={styles?.partyCardgridItem}
+                        >
+                          <SigneeCard
+                            signeeId={signee?._id}
+                            onDelete={() =>
+                              index !== 0 && handleDeleteSigneeCard(signee?._id)
+                            }
+                          />
+                        </Grid>
+                      ))}
+
+                      <Grid item xs={12} md={4}>
+                        <AddCard
+                          title={'Add Signee'}
+                          onClick={handleAddSigneeCard}
+                        />
+                      </Grid>
+                    </Grid>
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <DefaultAttachment />
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <MessageToRecipient />
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <DefaultSignatures
+                      signees={signees}
+                      onClickChange={handleOpenModalManageSignature}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <Button
+                      type={'submit'}
+                      variant={'contained'}
+                      className={'small'}
+                      fullWidth
                     >
-                      <PartyCard
-                        onDelete={() =>
-                          index !== 0 && handleDeleteParty(party._id)
-                        }
-                      />
-                    </Grid>
-                  ))}
+                      Sign & Send
+                    </Button>
+                  </Grid>
 
-                  {parties.length < 3 && (
-                    <Grid item xs={12} md={4}>
-                      <AddPartyCard onClick={handleAddParty} />
-                    </Grid>
-                  )}
+                  <Grid item xs={12}>
+                    <DocumentHistory />
+                  </Grid>
                 </Grid>
-
-                <Button
-                  type={'submit'}
-                  variant={'contained'}
-                  className={'small'}
-                  fullWidth
-                >
-                  Sign & Send
-                </Button>
               </FormProvider>
             )}
             {activeView === 'preview' && (
@@ -102,6 +169,13 @@ export default function CreateContract() {
           <Box sx={styles?.sidebar}>Sidebar</Box>
         </Box>
       </Box>
+
+      <ModalManageSignatures
+        open={openManageSignatureModal}
+        onClose={handleCloseModalManageSignature}
+        value={methods?.signatureMethod}
+        handleChange={handleChangeSignatureMethod}
+      />
     </>
   );
 }

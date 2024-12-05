@@ -1,32 +1,39 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { initialParties, initialSignees } from './CreateContract.data';
 // import { yupResolver } from '@hookform/resolvers/yup';
 
 export default function useCreateContract() {
+  /* VARIABLE DECLERATION
+  -------------------------------------------------------------------------------------*/
   const [activeView, setActiveView] = useState<string>('create');
+  const [parties, setParties] = useState(initialParties);
+  const [signees, setSignees] = useState<any>(initialSignees);
+  const [openManageSignatureModal, setOpenManageSignatureModal] =
+    useState<boolean>(false);
+  const methods: any = useForm({
+    // resolver: yupResolver(validationSchema),
+    // defaultValues: initialValues,
+  });
+  const { handleSubmit } = methods;
+
+  /* EVENT LISTENERS
+  -------------------------------------------------------------------------------------*/
+  // useEffect(() => {
+  //   reset(initialValues);
+  // }, [initialValues, methods, reset]);
+
+  /* ASYNC FUNCTIONS
+  -------------------------------------------------------------------------------------*/
+  const onSubmit = () => {
+    // console.log('Form values:::', values);
+  };
+
+  /* EVENT FUNCTIONS
+  -------------------------------------------------------------------------------------*/
   const handlePreviewToggle = (view: string) => {
     setActiveView(view);
   };
-
-  const initialParties = [
-    {
-      _id: '1',
-      type: 'Individual',
-      name: '',
-      address: '',
-      nationalID: '',
-      referredAs: '',
-    },
-    {
-      _id: '2',
-      type: 'Individual',
-      name: '',
-      address: '',
-      nationalID: '',
-      referredAs: '',
-    },
-  ];
-  const [parties, setParties] = useState(initialParties);
 
   const handleAddParty = () => {
     setParties([
@@ -46,19 +53,39 @@ export default function useCreateContract() {
     setParties(parties.filter((party: any) => party._id !== id));
   };
 
-  const methods: any = useForm({
-    // resolver: yupResolver(validationSchema),
-    // defaultValues: initialValues,
-  });
+  const handleAddSigneeCard = () => {
+    setSignees([
+      ...signees,
+      {
+        _id: `${Date.now()}`,
+        signeeOrder: '',
+        onBehalfOf: '',
+        personalTitle: '',
+        email: '',
+      },
+    ]);
+  };
 
-  const { handleSubmit } = methods;
+  const handleDeleteSigneeCard = (id: string) => {
+    setSignees(signees.filter((signee: any) => signee._id !== id));
+  };
 
-  // useEffect(() => {
-  //   reset(initialValues);
-  // }, [initialValues, methods, reset]);
+  const handleOpenModalManageSignature = () => {
+    setOpenManageSignatureModal(true);
+  };
+  const handleCloseModalManageSignature = () => {
+    setOpenManageSignatureModal(false);
+  };
 
-  const onSubmit = () => {
-    // console.log('Form values:::', values);
+  const handleChangeSignatureMethod = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setSignees([
+      ...signees,
+      {
+        signatureMethod: (event.target as HTMLInputElement).value,
+      },
+    ]);
   };
 
   return {
@@ -67,6 +94,16 @@ export default function useCreateContract() {
     parties,
     handleAddParty,
     handleDeleteParty,
+
+    signees,
+    handleAddSigneeCard,
+    handleDeleteSigneeCard,
+
+    openManageSignatureModal,
+    handleOpenModalManageSignature,
+    handleCloseModalManageSignature,
+    handleChangeSignatureMethod,
+
     methods,
     handleSubmit,
     onSubmit,
