@@ -125,6 +125,13 @@ export const operationsUsersManagementAPI = baseAPI?.injectEndpoints({
         if (response) return response?.data?.userTeams;
       },
     }),
+    verifyOperationUserManagementUserViaIg: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.AUTH_IG_VERIFICATION,
+        method: 'POST',
+        body: apiDataParameter?.email,
+      }),
+    }),
   }),
 });
 
@@ -142,4 +149,5 @@ export const {
   useLazyGetOperationsUserManagementProductUsersListDropdownQuery,
   useLazyGetOperationsUserManagementPermissionsRolesDropdownQuery,
   useLazyGetOperationsUserManagementTeamsDropdownQuery,
+  useVerifyOperationUserManagementUserViaIgMutation,
 } = operationsUsersManagementAPI;

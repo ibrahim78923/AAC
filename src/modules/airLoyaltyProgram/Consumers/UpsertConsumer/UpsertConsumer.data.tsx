@@ -19,7 +19,7 @@ export const consumerFormFieldDefaultValues = (data: any) => ({
   totalPointsEarned: data?.totalPointsEarned ?? 0,
   status: data?.status ?? '',
   phoneNumber: data?.phoneNumber ?? '',
-  tier: data?.tier ?? '',
+  tier: data?.tierDetails?.name ?? '',
 });
 
 export const upsertConsumerData: ReactHookFormFieldsI[] = [

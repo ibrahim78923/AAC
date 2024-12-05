@@ -10,12 +10,12 @@ import {
   useAddOperationsUserManagementSingleProductUserMutation,
   useGetOperationsUserManagementSingleProductUserDetailsQuery,
   useUpdateOperationsUserManagementSingleProductUserMutation,
+  useVerifyOperationUserManagementUserViaIgMutation,
 } from '@/services/airOperations/user-management/user';
 import {
   UpsertUserFormI,
   UserManagementResponseI,
 } from './UpsertUser.interface';
-import { useAuthCompanyVerificationMutation } from '@/services/auth';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { OPERATIONS_USERS_ACTIONS_CONSTANT } from '../User.data';
@@ -53,7 +53,7 @@ export const useUpsertUser = () => {
   ]: any = useAddOperationsUserManagementSingleProductUserMutation?.();
 
   const [igVerificationTrigger, igVerificationStatus] =
-    useAuthCompanyVerificationMutation();
+    useVerifyOperationUserManagementUserViaIgMutation();
 
   const getSingleUserApiParameter = {
     pathParams: {
@@ -153,8 +153,9 @@ export const useUpsertUser = () => {
   };
 
   const verifyUserViaIg = async (email?: string) => {
+    const apiDataParameter = { email: { email } };
     try {
-      await igVerificationTrigger({ email })?.unwrap();
+      await igVerificationTrigger(apiDataParameter)?.unwrap();
     } catch (error) {}
   };
 

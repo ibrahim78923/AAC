@@ -160,10 +160,11 @@ export const useUpsertUser = () => {
   };
 
   const verifyUserViaIg = async (email?: string) => {
+    const apiDataParameter = { email: { email } };
     try {
-      await verifyLoyaltyProgramUserManagementUserViaIgTrigger({
-        email,
-      })?.unwrap();
+      await verifyLoyaltyProgramUserManagementUserViaIgTrigger(
+        apiDataParameter,
+      )?.unwrap();
     } catch (error) {}
   };
 
