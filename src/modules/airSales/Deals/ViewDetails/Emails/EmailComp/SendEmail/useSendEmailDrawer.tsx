@@ -273,10 +273,9 @@ const useSendEmailDrawer = ({
 
   const onSubmit = async (values: any) => {
     setToStateDep(toStateDep + 1);
-
     if (
-      drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL ||
-      (drawerType === CREATE_EMAIL_TYPES?.FORWARD &&
+      ((drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL ||
+        drawerType === CREATE_EMAIL_TYPES?.FORWARD) &&
         isToExists?.length === 0) ||
       isToExists?.length === undefined
     ) {
@@ -428,7 +427,10 @@ const useSendEmailDrawer = ({
         }
         formDataForward.append('to', values?.to);
         if (valueProvider === MAIL_KEYS?.OUTLOOK) {
-          formDataForward.append('subject', values?.subject);
+          formDataForward.append(
+            'subject',
+            currentEmailAssets?.others?.subject,
+          );
         }
         formDataForward.append(
           'content',
