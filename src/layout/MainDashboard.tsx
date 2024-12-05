@@ -485,7 +485,6 @@ const DashboardLayout = ({ children, window }: any) => {
         variant: 'error',
       });
     }
-
     const pingInterval = setInterval(() => {
       socket.emit(CHAT_SOCKETS?.PING);
     }, 5000);
@@ -597,6 +596,7 @@ const DashboardLayout = ({ children, window }: any) => {
         }
       }
     };
+
     const handleRecieveNotification = (payload: any) => {
       dispatch(setNotifications(payload));
     };
@@ -678,6 +678,7 @@ const DashboardLayout = ({ children, window }: any) => {
       }
     };
   }, [activeChatId, chatContacts, dispatch, socket]);
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />

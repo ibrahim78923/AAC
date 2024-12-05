@@ -33,6 +33,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
   addNewFolderDefaultValues,
   addNewFolderValidationSchema,
+  contractsFilterData,
+  contractsFiltersDefaultValues,
+  contractsFiltersValidationSchema,
   contractsSideBarData,
   renameFolderDefaultValues,
   renameFolderValidationSchema,
@@ -78,6 +81,16 @@ const Contracts = () => {
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
+
+  //Filters
+  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
+
+  const methodsFilter: any = useForm({
+    resolver: yupResolver(contractsFiltersValidationSchema),
+    defaultValues: contractsFiltersDefaultValues,
+  });
+  const { handleSubmit: handleSubmitFilter } = methodsFilter;
+  const onSubmitFilter = () => {};
 
   return (
     <Box>
@@ -346,6 +359,7 @@ const Contracts = () => {
                 startIcon={<FilterrIcon />}
                 variant="outlined"
                 color="inherit"
+                onClick={() => setIsFilterDrawerOpen(true)}
                 sx={{
                   width: { xs: '100%', sm: 'auto', md: 'auto', lg: 'auto' },
                 }}
@@ -381,6 +395,38 @@ const Contracts = () => {
           </Grid>
         </FormProvider>
       </CommonModal>
+
+      <CommonDrawer
+        footer
+        isDrawerOpen={isFilterDrawerOpen}
+        onClose={() => setIsFilterDrawerOpen(false)}
+        title="Filter"
+        okText="Apply"
+        cancelText="cancel"
+        submitHandler={handleSubmitFilter(onSubmitFilter)}
+        isOk
+      >
+        <>
+          <Box mt={1}>
+            <FormProvider methods={methodsFilter}>
+              <Grid container spacing={2}>
+                {contractsFilterData()?.map((item: any) => (
+                  <Grid item xs={12} md={item?.md} key={item?.id}>
+                    <item.component {...item?.componentProps} size={'small'}>
+                      {item?.componentProps?.select &&
+                        item?.options?.map((option: any) => (
+                          <option key={option?.value} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))}
+                    </item.component>
+                  </Grid>
+                ))}
+              </Grid>
+            </FormProvider>
+          </Box>
+        </>
+      </CommonDrawer>
     </Box>
   );
 };

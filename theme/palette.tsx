@@ -207,6 +207,9 @@ const CUSTOM_COLORS = {
   br_yellow: '#912018',
 
   slate_blue: '#98A2B3',
+
+  light_blue_bg_two: '#EDFBFB',
+  light_blue_bg_three: '#CAF4F3',
 };
 
 const GRAPH = {

@@ -6,7 +6,7 @@ import { CONTRACTS_STATUS } from '@/constants';
 import { Box, Button, Checkbox, Typography, useTheme } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 
-export const contractsColumns = () => {
+export const contractsColumns = ({ setIsViewAllActivityDrawerOpen }: any) => {
   const theme = useTheme();
 
   const handelStatusSwitch = (status: string) => {
@@ -71,7 +71,6 @@ export const contractsColumns = () => {
         return '';
     }
   };
-
   const StatusChip = ({ background, color, title }: any) => {
     return (
       <Box
@@ -170,7 +169,7 @@ export const contractsColumns = () => {
         <>
           <Box>
             <Box>
-              {info?.getValue()?.map((item: any) => (
+              {info?.getValue()?.map((item: any, index: any) => (
                 <Box
                   key={uuidv4()}
                   display="flex"
@@ -184,6 +183,13 @@ export const contractsColumns = () => {
                           <CustomTooltip title="Signed">
                             <Box>
                               <SignedIcon />
+                            </Box>
+                          </CustomTooltip>
+                        )}
+                        {status?.includes(CONTRACTS_STATUS?.REJECTED) && (
+                          <CustomTooltip title="Rejected">
+                            <Box>
+                              <SignedIcon color={theme?.palette?.error?.main} />
                             </Box>
                           </CustomTooltip>
                         )}
@@ -217,16 +223,21 @@ export const contractsColumns = () => {
                     >
                       {item?.userName}
                     </Box>
-                    <Button sx={{ marginLeft: '-10px' }}>
-                      <Typography
-                        sx={{
-                          fontSize: '12px',
-                          color: theme?.palette?.primary?.main,
-                        }}
+                    {info?.row?.original?.activity?.length === index + 1 && (
+                      <Button
+                        sx={{ marginLeft: '-10px', height: '30px' }}
+                        onClick={() => setIsViewAllActivityDrawerOpen(true)}
                       >
-                        View all
-                      </Typography>
-                    </Button>
+                        <Typography
+                          sx={{
+                            fontSize: '12px',
+                            color: theme?.palette?.primary?.main,
+                          }}
+                        >
+                          View all
+                        </Typography>
+                      </Button>
+                    )}
                   </Box>
                 </Box>
               ))}
@@ -242,6 +253,12 @@ export const contractsColumns = () => {
       cell: (info: any) => (
         <>{handelStatusSwitch(info?.row?.original?.status)}</>
       ),
+    },
+    {
+      accessorFn: (row: any) => row?.createdAt,
+      id: 'createdAt',
+      header: 'Created at',
+      cell: (info: any) => <> {info?.getValue()}</>,
     },
   ];
 };
@@ -259,6 +276,7 @@ export const contractsData = [
     owner: 'Owner 1',
     creationDate: 'Creation Date 1',
     status: 'DRAFT',
+    createdAt: 'May 04, 2023',
   },
   {
     contracts: 'Contract 1',
@@ -278,6 +296,7 @@ export const contractsData = [
     owner: 'Owner 1',
     creationDate: 'Creation Date 1',
     status: 'SIGNED',
+    createdAt: 'May 04, 2023',
   },
   {
     contracts: 'Contract 1',
@@ -292,6 +311,7 @@ export const contractsData = [
     owner: 'Owner 1',
     creationDate: 'Creation Date 1',
     status: 'PENDING',
+    createdAt: 'May 04, 2023',
   },
   {
     contracts: 'Contract 1',
@@ -306,6 +326,7 @@ export const contractsData = [
     owner: 'Owner 1',
     creationDate: 'Creation Date 1',
     status: 'REJECTED',
+    createdAt: 'May 04, 2023',
   },
   {
     contracts: 'Contract 1',
@@ -314,11 +335,45 @@ export const contractsData = [
       {
         company: 'MarketiconLTD',
         userName: 'John Doe',
-        statuses: ['SENT'],
+        statuses: ['SENT', 'REJECTED'],
       },
     ],
     owner: 'Owner 1',
     creationDate: 'Creation Date 1',
     status: 'CHANGE_REQUEST',
+    createdAt: 'May 04, 2023',
+  },
+];
+
+export const viewActivityData = [
+  {
+    category: 'Signed',
+    activity: [
+      {
+        company: 'MarketiconLTD',
+        userName: 'John Doe',
+        statuses: ['SIGNED', 'SENT', 'VIEWED'],
+      },
+      {
+        company: 'Orcalo LTD',
+        userName: 'Ali Wahab',
+        statuses: ['VIEWED', 'SENT'],
+      },
+    ],
+  },
+  {
+    category: 'Private',
+    activity: [
+      {
+        company: 'MarketiconLTD',
+        userName: 'John Doe',
+        statuses: ['SIGNED', 'SENT', 'VIEWED'],
+      },
+      {
+        company: 'Orcalo LTD',
+        userName: 'Ali Wahab',
+        statuses: ['VIEWED', 'REJECTED'],
+      },
+    ],
   },
 ];
