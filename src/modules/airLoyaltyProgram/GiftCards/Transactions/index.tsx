@@ -35,6 +35,7 @@ export const Transactions = () => {
           alignItems={'center'}
           justifyContent={'space-between'}
           flexWrap={'wrap'}
+          gap={1}
         >
           <PermissionsGuard
             permissions={[

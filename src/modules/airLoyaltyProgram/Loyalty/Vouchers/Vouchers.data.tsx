@@ -4,6 +4,7 @@ import { EditYellowBGPenIcon, TrashIcon } from '@/assets/icons';
 import { UserInfo } from '@/components/UserInfo';
 import { otherDateFormat } from '@/lib/date-time';
 import { VoucherStatus } from './VoucherStatus';
+import { LOYALTY_VOUCHER_STATUS } from '@/constants/strings';
 export const vouchersColumns = (
   handleVoucherClick: any,
   handleEditVoucher: any,
@@ -69,7 +70,20 @@ export const vouchersColumns = (
       header: 'Actions',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <IconButton onClick={() => handleEditVoucher(info?.row?.original)}>
+          <IconButton
+            onClick={() => handleEditVoucher(info?.row?.original)}
+            disabled={
+              info?.row?.original?.status ===
+              LOYALTY_VOUCHER_STATUS?.EXPIRED_LABEL
+            }
+            sx={{
+              opacity:
+                info?.row?.original?.status ===
+                LOYALTY_VOUCHER_STATUS?.EXPIRED_LABEL
+                  ? 0.5
+                  : 1,
+            }}
+          >
             <EditYellowBGPenIcon />
           </IconButton>
           <IconButton onClick={() => handleDeleteVoucher(info?.row?.original)}>

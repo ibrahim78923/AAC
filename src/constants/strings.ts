@@ -1217,8 +1217,10 @@ export const SALES_WORKFLOW_TYPES = {
 export const LOYALTY_VOUCHER_STATUS = {
   ACTIVE_LABEL: 'Active',
   INACTIVE_LABEL: 'Inactive',
+  EXPIRED_LABEL: 'Expired',
   ACTIVE_VALUE: 'ACTIVE',
   INACTIVE_VALUE: 'INACTIVE',
+  EXPIRED_VALUE: 'EXPIRED',
 };
 
 export const WORKFLOW_STATUS = {
@@ -1234,4 +1236,5 @@ export const AVTIVITY_LOGS_ROLE = {
 export const VOUCHERS_CONSTANTS = {
   LIMITED: 'limited',
   UNLIMITED: 'unlimited',
+  FILE_URL: 'fileUrl',
 };

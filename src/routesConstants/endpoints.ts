@@ -431,7 +431,7 @@ export const END_POINTS = {
   UPDATE_VOUCHER: '/vouchers/update-voucher',
   DELETE_VOUCHERS: '/vouchers/delete-voucher',
   ADD_LOYALTY_TRANSACTION: `/Transactions/add-transaction`,
-  GET_LOYALTY_TRANSACTION: `/Transactions/get-transaction-details`,
+  GET_VOUCHER_TRANSACTION: `/vouchers/list-voucher-transactions`,
   CHANGE_RULES_STATUS: `/rules-and-tiers/rule`,
   NEW_IMPORT_FILE: `/new-import-file/new-import-file`,
   SIGN_UP_LEADS: '/contact/signup-leads',
@@ -567,6 +567,8 @@ export const END_POINTS = {
   CONSUMERS_DROPDOWN: '/consumers/list',
   DELETE_LOYALTY_RULES: '/rules-and-tiers/delete-rule',
   DELETE_LOYALTY_TIERS: '/rules-and-tiers/delete-tier',
+  GET_REWARDS_TRANSACTION: '/rewards/list-reward-transactions',
+  LOYALTY_REWARDS_DROPDOWN: 'rewards/rewards-list',
 };
 
 export const LEAD_CAPTURE_FORM = {

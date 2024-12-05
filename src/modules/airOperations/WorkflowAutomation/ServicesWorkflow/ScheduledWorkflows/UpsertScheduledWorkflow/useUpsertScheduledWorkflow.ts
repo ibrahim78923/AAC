@@ -19,11 +19,7 @@ import { optionsConstants } from './WorkflowConditions/SubWorkflowConditions/Sub
 import { setTestServicesWorkflowBody } from '@/redux/slices/servicesWorkflow';
 import { useDispatch } from 'react-redux';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
-import {
-  isoDateString,
-  localeDateTime,
-  otherDateFormat,
-} from '@/lib/date-time';
+import { isoDateString, otherDateFormat } from '@/lib/date-time';
 
 export const useUpsertScheduledWorkflow = () => {
   const [validation, setValidation] = useState('');
@@ -266,8 +262,8 @@ export const useUpsertScheduledWorkflow = () => {
           time: timeRange,
         },
         custom: {
-          startDate: localeDateTime(data?.custom?.startDate),
-          endDate: localeDateTime(data?.custom?.endDate),
+          startDate: isoDateString(data?.custom?.startDate),
+          endDate: isoDateString(data?.custom?.endDate),
           time: timeRange,
         },
       },

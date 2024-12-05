@@ -1,20 +1,21 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
+import { transformResponse } from '@/utils/api';
 
-const loyaltyTransactionsApi: any = baseAPI?.injectEndpoints({
+const loyaltyTransactionsApi = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
-    getLoyaltyTransactionsList: builder?.query({
-      query: (apiDataParameter: any) => ({
-        url: END_POINTS?.GET_LOYALTY_TRANSACTION,
+    getVoucherTransactionsList: builder?.query({
+      query: (params: any) => ({
+        url: END_POINTS?.GET_VOUCHER_TRANSACTION,
         method: 'GET',
-        params: apiDataParameter?.queryParams,
+        params,
       }),
     }),
-    postLoyaltyTransactions: builder?.mutation({
-      query: (apiDataParameter: any) => ({
-        url: END_POINTS?.ADD_LOYALTY_TRANSACTION,
-        method: 'POST',
-        body: apiDataParameter?.body,
+    getRewardTransactionsList: builder?.query({
+      query: (params: any) => ({
+        url: END_POINTS?.GET_REWARDS_TRANSACTION,
+        method: 'GET',
+        params,
       }),
     }),
     getShopDropdownForLoyaltyTransaction: builder?.query({
@@ -27,11 +28,39 @@ const loyaltyTransactionsApi: any = baseAPI?.injectEndpoints({
         if (response) return response?.data?.shops ?? [];
       },
     }),
+    getVouchersDropdownTransaction: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_VOUCHERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse,
+    }),
+    getRewardsDropdownTransaction: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.LOYALTY_REWARDS_DROPDOWN}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) =>
+        response?.data?.physicalrewards ?? [],
+    }),
+    getConsumerDropdownTransaction: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.CONSUMERS_DROPDOWN}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => response?.data?.consumers ?? [],
+    }),
   }),
 });
 
 export const {
-  useLazyGetLoyaltyTransactionsListQuery,
-  usePostLoyaltyTransactionsMutation,
+  useLazyGetVoucherTransactionsListQuery,
+  useLazyGetRewardTransactionsListQuery,
   useLazyGetShopDropdownForLoyaltyTransactionQuery,
+  useLazyGetVouchersDropdownTransactionQuery,
+  useLazyGetConsumerDropdownTransactionQuery,
+  useLazyGetRewardsDropdownTransactionQuery,
 } = loyaltyTransactionsApi;

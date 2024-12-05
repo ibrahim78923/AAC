@@ -34,6 +34,7 @@ export const GiftCards = () => {
           alignItems={'center'}
           flexWrap={'wrap'}
           p={1}
+          gap={1}
         >
           <PermissionsGuard
             permissions={[

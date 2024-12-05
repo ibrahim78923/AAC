@@ -13,7 +13,7 @@ import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useEffect } from 'react';
 import { generateRadomString } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ARRAY_INDEX } from '@/constants/strings';
+import { ARRAY_INDEX, VOUCHERS_CONSTANTS } from '@/constants/strings';
 
 export const useAddVouchers = (props: any) => {
   const { addVouchersOpen, setAddVouchersOpen } = props;
@@ -72,6 +72,13 @@ export const useAddVouchers = (props: any) => {
     Object?.keys(data)?.forEach((key) => {
       if (data[key] instanceof Date) {
         vouchersFormData?.append(key, data[key]?.toISOString());
+      } else if (key === VOUCHERS_CONSTANTS?.FILE_URL) {
+        vouchersFormData?.append(
+          key,
+          !addVouchersOpen?.id
+            ? data[key]
+            : new File([data[key]], data[key]?.url),
+        );
       } else {
         vouchersFormData?.append(key, data[key]?._id ?? data[key]);
       }
