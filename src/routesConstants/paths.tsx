@@ -70,6 +70,7 @@ export const AIR_SOCIAL = {
   IMPORTHISTORY: `${AIR_SOCIAL_PAGE}/contacts/import/import-history`,
   IMPORT_RECORD_CREATED: `${AIR_SOCIAL_PAGE}/contacts/import/import-history/import-record-created`,
   IMPORT_RECORD_RESTORE: `${AIR_SOCIAL_PAGE}/contacts/import/import-history/import-record-created/restore`,
+  CONTRACTS: `${AIR_SOCIAL_PAGE}/contracts`,
 };
 
 export const AIR_SALES = {

@@ -1,6 +1,8 @@
 import {
   Box,
   Button,
+  Checkbox,
+  Divider,
   // Checkbox,
   // Divider,
   Grid,
@@ -9,17 +11,14 @@ import {
 } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
-import {
-  AddCircleSmallIcon,
-  // InfoIconBlueBg
-} from '@/assets/icons';
+import { AddCircleSmallIcon, InfoIconBlueBg } from '@/assets/icons';
 import { styles } from './StepLineItems.style';
-// import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
+import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import useStepLineItems from './useStepLineItems';
 import {
-  // discountsData,
+  discountsData,
   lineItemsColumns,
-  // rewardsData,
+  rewardsData,
 } from './StepLineItems.data';
 
 const StepLineItems = (props: any) => {
@@ -27,16 +26,17 @@ const StepLineItems = (props: any) => {
 
   const {
     setSearch,
-    // isChecked,
-    // setIsChecked,
-    // isCheckedReward,
-    // setIsCheckedReward,
-    // methods,
-    // theme,
+    isChecked,
+    setIsChecked,
+    checkedIs,
+    setCheckedIs,
+    methods,
+    theme,
     handleAction,
     handleDeleteDeals,
     productsData,
     handleQuantityChange,
+    consumerTotalPoints,
   } = useStepLineItems(openCreateProduct);
 
   return (
@@ -105,8 +105,7 @@ const StepLineItems = (props: any) => {
           </Box>
         </Grid>
 
-        {/* // useable after some time */}
-        {/* <Grid item xs={12} md={12} sm={12} lg={8}>
+        <Grid item xs={12} md={12} sm={12} lg={8}>
           <Box
             sx={{
               background: '#fff',
@@ -150,7 +149,7 @@ const StepLineItems = (props: any) => {
                     <Typography
                       sx={{ color: theme?.palette?.custom?.main, mx: 0.5 }}
                     >
-                      2000pts = £2
+                      {consumerTotalPoints}pts = £2
                     </Typography>
                     <InfoIconBlueBg />
                   </Box>
@@ -223,7 +222,14 @@ const StepLineItems = (props: any) => {
                 Vouchers and gift cards
               </Typography>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <Checkbox />
+                <Checkbox
+                  onChange={(event: any) =>
+                    setCheckedIs({
+                      ...checkedIs,
+                      voucher: event?.target?.checked,
+                    })
+                  }
+                />
                 <Typography
                   sx={{
                     fontSize: '14px',
@@ -231,13 +237,31 @@ const StepLineItems = (props: any) => {
                     color: theme?.palette?.blue?.dull_blue,
                   }}
                 >
-                  Rewards
+                  Voucher
                 </Typography>
+              </Box>
+              <Box sx={{ mx: 2 }}>
+                {checkedIs?.voucher && (
+                  <Box>
+                    <FormProvider methods={methods}>
+                      <RHFTextField
+                        size="small"
+                        required
+                        name="name"
+                        label="Enter Voucher Number"
+                        placeholder="Enter here"
+                      />
+                    </FormProvider>
+                  </Box>
+                )}
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Checkbox
                   onChange={(event: any) =>
-                    setIsCheckedReward(event?.target?.checked)
+                    setCheckedIs({
+                      ...checkedIs,
+                      giftBox: event?.target?.checked,
+                    })
                   }
                 />
                 <Typography
@@ -250,21 +274,21 @@ const StepLineItems = (props: any) => {
                   gift card
                 </Typography>
               </Box>
-            </Box>
-            <Box sx={{ mx: 2 }}>
-              {isCheckedReward && (
-                <Box>
-                  <FormProvider methods={methods}>
-                    <RHFTextField
-                      size="small"
-                      required
-                      name="name"
-                      label="Enter Points you want to redeem"
-                      placeholder="Enter here"
-                    />
-                  </FormProvider>
-                </Box>
-              )}
+              <Box sx={{ mx: 2 }}>
+                {checkedIs?.giftBox && (
+                  <Box>
+                    <FormProvider methods={methods}>
+                      <RHFTextField
+                        size="small"
+                        required
+                        name="name"
+                        label="Enter Gift Card Number"
+                        placeholder="Enter here"
+                      />
+                    </FormProvider>
+                  </Box>
+                )}
+              </Box>
             </Box>
             <Divider sx={{ mx: 2 }} />
             <Box>
@@ -300,7 +324,7 @@ const StepLineItems = (props: any) => {
               ))}
             </Box>
           </Box>
-        </Grid> */}
+        </Grid>
       </Grid>
     </>
   );

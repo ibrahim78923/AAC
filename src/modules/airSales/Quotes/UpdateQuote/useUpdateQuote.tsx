@@ -147,8 +147,7 @@ const useUpdateQuote = () => {
       (currentValue?.unitDiscount * currentValue?.additionalQuantity || 0),
     0,
   );
-  const redeemDiscount = 0;
-  const totalDiscount = unitDiscount + redeemDiscount;
+  const totalDiscount = unitDiscount || 0;
 
   const sum = totalAdditionalPrice + singleQuote?.dealAmount - totalDiscount;
 
@@ -160,7 +159,6 @@ const useUpdateQuote = () => {
       { name: 'Deal Amount', amount: `£ ${singleQuote?.dealAmount}` },
       { name: 'Additional Amount', amount: `£ ${totalAdditionalPrice}` },
       { name: 'Total Discount', amount: `£ ${unitDiscount}` },
-      { name: 'Redeem Discount', amount: `£ ${0}` },
       { name: 'Sub Total', amount: `£ ${sum}` },
       { name: 'Tax', amount: `${taxCalculation?.data}%` },
     ],
@@ -178,7 +176,6 @@ const useUpdateQuote = () => {
           dealAmount: singleQuote?.dealAmount?.dealAmount,
           subTotal: sum,
           invoiceDiscount: 0,
-          RedeemedDiscount: redeemDiscount,
           tax: taxCalculation?.data,
           total: FinalTotal,
         },

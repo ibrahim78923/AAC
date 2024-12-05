@@ -16,6 +16,7 @@ export const formFields = [
     componentProps: {
       name: 'email',
       label: 'Email',
+      required: true,
       placeholder: 'abc@gmail.co.uk',
     },
   },

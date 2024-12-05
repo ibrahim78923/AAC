@@ -1,11 +1,15 @@
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useGetQuoteByIdQuery } from '@/services/airSales/quotes';
 import { enqueueSnackbar } from 'notistack';
 import { usePutSubmitQuoteMutation } from '@/services/airSales/quotes';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import {
+  useCreateConsumerMutation,
+  useGetConsumerDetailQuery,
+} from '@/services/airSales/quotes/loyality';
 
 const useStepLineItems = (openCreateProduct?: any) => {
   const theme = useTheme();
@@ -14,7 +18,10 @@ const useStepLineItems = (openCreateProduct?: any) => {
 
   const [search, setSearch] = useState('');
   const [isChecked, setIsChecked] = useState(false);
-  const [isCheckedReward, setIsCheckedReward] = useState(false);
+  const [checkedIs, setCheckedIs] = useState({
+    voucher: false,
+    giftBox: false,
+  });
 
   let quoteId: any;
   if (router?.query?.data) {
@@ -29,12 +36,40 @@ const useStepLineItems = (openCreateProduct?: any) => {
   };
 
   const { data: dataGetQuoteById } = useGetQuoteByIdQuery({ id: quoteId });
+  const [createConsumer] = useCreateConsumerMutation();
   const [putSubmitQuote] = usePutSubmitQuoteMutation();
 
   const { data: productsData } = useGetQuoteByIdQuery({
     id: quoteId,
     ...(search && { productSearchKeyword: search }),
   });
+
+  const {
+    data: consumerDetails,
+    //  isLoading: consumerDetailLoading,
+    ...response
+  }: any = useGetConsumerDetailQuery(
+    // dataGetQuoteById?.data?.buyerContactId,
+    '674d7c5fc66ce35124023575',
+    // { skip: !dataGetQuoteById?.data?.buyerContactId }
+  );
+  const consumerTotalPoints = consumerDetails?.data?.totalPointsEarned;
+  const createConsumerFunction = async () => {
+    if (response.error?.data?.message === 'Consumer not found.') {
+      const consumerPayload = {
+        firstName: dataGetQuoteById?.data?.buyerContact?.firstName,
+        lastName: dataGetQuoteById?.data?.buyerContact?.lastName,
+        email: dataGetQuoteById?.data?.buyerContact?.email,
+        address: dataGetQuoteById?.data?.buyerContact?.address,
+        phoneNumber: dataGetQuoteById?.data?.buyerContact?.phoneNumber,
+        contactId: dataGetQuoteById?.data?.buyerContactId,
+      };
+      await createConsumer({ body: consumerPayload })?.unwrap();
+    }
+  };
+  useEffect(() => {
+    createConsumerFunction();
+  }, [response.error?.data?.message === 'Consumer not found.']);
 
   const handleDeleteDeals = async (productId: string) => {
     const remainingProducts = productsData?.data?.products?.filter(
@@ -111,8 +146,8 @@ const useStepLineItems = (openCreateProduct?: any) => {
     setSearch,
     isChecked,
     setIsChecked,
-    isCheckedReward,
-    setIsCheckedReward,
+    checkedIs,
+    setCheckedIs,
     methods,
     theme,
     handleDeleteDeals,
@@ -121,6 +156,7 @@ const useStepLineItems = (openCreateProduct?: any) => {
     handleQuantityChange,
     producttUpdateType,
     router,
+    consumerTotalPoints,
   };
 };
 
