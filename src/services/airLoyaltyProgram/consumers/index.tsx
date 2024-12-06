@@ -26,8 +26,9 @@ export const airLoyaltyProgramConsumersAPI = baseAPI?.injectEndpoints({
 
     getConsumerDetailsById: builder?.query({
       query: (params) => ({
-        url: `${END_POINTS?.AIR_LOYALTY_PROGRAM_CONSUMERS_GET_BY_ID}/${params}`,
+        url: `${END_POINTS?.AIR_LOYALTY_PROGRAM_CONSUMERS_GET_BY_ID}/{id}`,
         method: 'GET',
+        params: { id: params },
       }),
       providesTags: [TAG],
     }),
