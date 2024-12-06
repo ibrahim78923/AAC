@@ -28,7 +28,7 @@ export default function CreateContract() {
     handleAddSigneeCard,
     handleDeleteSigneeCard,
 
-    openManageSignatureModal,
+    openModalManageSignature,
     handleOpenModalManageSignature,
     handleCloseModalManageSignature,
     handleChangeSignatureMethod,
@@ -42,8 +42,6 @@ export default function CreateContract() {
     <>
       <PlainHeader>
         <HeaderCreateContract
-          onClickShare={() => alert('Share')}
-          onClickMore={() => alert('More')}
           onClickSave={() => alert('Save')}
           onClickSign={() => alert('Sign')}
         />
@@ -171,7 +169,7 @@ export default function CreateContract() {
       </Box>
 
       <ModalManageSignatures
-        open={openManageSignatureModal}
+        open={openModalManageSignature}
         onClose={handleCloseModalManageSignature}
         value={methods?.signatureMethod}
         handleChange={handleChangeSignatureMethod}

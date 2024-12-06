@@ -9,7 +9,7 @@ export default function useCreateContract() {
   const [activeView, setActiveView] = useState<string>('create');
   const [parties, setParties] = useState(initialParties);
   const [signees, setSignees] = useState<any>(initialSignees);
-  const [openManageSignatureModal, setOpenManageSignatureModal] =
+  const [openModalManageSignature, setOpenModalManageSignature] =
     useState<boolean>(false);
   const methods: any = useForm({
     // resolver: yupResolver(validationSchema),
@@ -71,10 +71,10 @@ export default function useCreateContract() {
   };
 
   const handleOpenModalManageSignature = () => {
-    setOpenManageSignatureModal(true);
+    setOpenModalManageSignature(true);
   };
   const handleCloseModalManageSignature = () => {
-    setOpenManageSignatureModal(false);
+    setOpenModalManageSignature(false);
   };
 
   const handleChangeSignatureMethod = (
@@ -99,7 +99,7 @@ export default function useCreateContract() {
     handleAddSigneeCard,
     handleDeleteSigneeCard,
 
-    openManageSignatureModal,
+    openModalManageSignature,
     handleOpenModalManageSignature,
     handleCloseModalManageSignature,
     handleChangeSignatureMethod,

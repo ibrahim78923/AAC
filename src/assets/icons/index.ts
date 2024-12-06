@@ -578,3 +578,4 @@ export { default as IconDocHistory } from './modules/airSocial/contracts/icon-do
 export { default as SentIcon } from './modules/airSocial/contracts/sent';
 export { default as ViewedIcon } from './modules/airSocial/contracts/viewed';
 export { default as SignedIcon } from './modules/airSocial/contracts/signed';
+export { default as IconAddCollaborator } from './modules/airSocial/contracts/icon-add-collaborator';

@@ -15,7 +15,11 @@ const CustomLabel = (props: any) => {
     >
       {label}
       {required && (
-        <Typography color={palette?.error?.main} component="span">
+        <Typography
+          color={palette?.error?.main}
+          component="span"
+          sx={{ lineHeight: '1' }}
+        >
           {' '}
           *{' '}
         </Typography>

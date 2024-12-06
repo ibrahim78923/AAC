@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-
+import CustomLabel from '../CustomLabel';
 import Image from 'next/image';
 import {
   Box,
@@ -30,7 +30,6 @@ export default function RHFMultiSearchableSelect({
   footerText,
   footerActionHandler,
   setIsDropdownClose,
-  label,
   size,
   currentPage,
   setCurrentPage,
@@ -42,6 +41,7 @@ export default function RHFMultiSearchableSelect({
   isPagination = false,
   defaultValues = [],
   isFooterActionLoading = false,
+  required,
   ...other
 }: any) {
   const { control } = useFormContext();
@@ -130,8 +130,11 @@ export default function RHFMultiSearchableSelect({
       control={control}
       render={({ field, fieldState: { error } }) => (
         <>
-          <Typography sx={{ margin: '0px 0px 6px 0px' }}>{label}</Typography>
+          {other?.label && (
+            <CustomLabel label={other?.label} required={required} />
+          )}
           <TextField
+            variant="outlined"
             {...field}
             fullWidth
             error={!!error}
@@ -149,6 +152,7 @@ export default function RHFMultiSearchableSelect({
               ),
             }}
             sx={{ height: '40px' }}
+            label=""
           />
           <Menu
             id="basic-menu"

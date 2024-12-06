@@ -51,8 +51,11 @@ import { styles } from './contracts.style';
 import Actions from './Actions';
 import CommonDrawer from '@/components/CommonDrawer';
 import { AlertModals } from '@/components/AlertModals';
+import { useRouter } from 'next/router';
+import { AIR_SOCIAL_CONTRACTS } from '@/constants/routes';
 
 const Contracts = () => {
+  const router = useRouter();
   const isSmallScreen = useMediaQuery('(max-width: 1000px)');
 
   const [isAddFolderDrawerOpen, setIsAddFolderDrawerOpen] = useState(false);
@@ -274,7 +277,12 @@ const Contracts = () => {
                   'aria-labelledby': 'basic-button',
                 }}
               >
-                <MenuItem onClick={handleClose}>
+                <MenuItem
+                  onClick={() => {
+                    handleClose();
+                    router?.push(AIR_SOCIAL_CONTRACTS?.CONTRACTS_TEMPLATES);
+                  }}
+                >
                   <Box sx={{ display: 'flex', gap: '10px' }}>
                     <Box>
                       <DraftIcon />
