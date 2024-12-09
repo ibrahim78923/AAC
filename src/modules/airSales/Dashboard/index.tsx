@@ -51,7 +51,6 @@ const Dashboard = () => {
     router,
     user,
   } = useDashboard();
-
   return (
     <>
       <Grid container spacing={1}>

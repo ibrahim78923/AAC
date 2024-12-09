@@ -155,6 +155,13 @@ const useCreateForm = (formType: any) => {
       }),
       isDefault: values?.isDefault,
     };
+
+    // Check if specialUsers is present and update permissions accordingly
+    if (payload?.specialUsers && payload?.specialUsers?.length > 0) {
+      payload.permissions = payload?.specialUsers
+        ?.map((user: any) => user?.permission)
+        ?.join(', ');
+    }
     try {
       if (formType === DRAWER_TYPES?.EDIT) {
         await updatesalesDashboard({

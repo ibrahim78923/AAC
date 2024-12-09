@@ -1,7 +1,7 @@
 import { Box, Card, Typography, useTheme } from '@mui/material';
 import Table from './Table';
 
-const TotalMarketingEmail = () => {
+const TotalMarketingEmail = ({ data }: any) => {
   const theme = useTheme();
   return (
     <Card>
@@ -20,7 +20,7 @@ const TotalMarketingEmail = () => {
           </Box>
         </Box>
       </Box>
-      <Table />
+      <Table tableData={data} />
     </Card>
   );
 };

@@ -20,7 +20,11 @@ const CreateDashboardOptions = (props: any) => {
     useCreateDashboardOptions(setSelectedDashboard);
   const methods = useForm({
     defaultValues: {
-      dashboardId: selectedDashboard ? selectedDashboard : defaultDashboard,
+      dashboardId: defaultDashboard
+        ? null
+        : selectedDashboard
+          ? selectedDashboard
+          : defaultDashboard,
     },
   });
   const { watch } = methods;
