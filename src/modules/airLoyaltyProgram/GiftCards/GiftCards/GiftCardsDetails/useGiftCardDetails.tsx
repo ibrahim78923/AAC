@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { ExportModal } from '@/components/ExportModal';
 import { PAGINATION } from '@/config';
-import { EXPORT_FILE_TYPE } from '@/constants/strings';
+import { EXPORT_FILE_TYPE, EXPORT_TYPE } from '@/constants/strings';
 import { downloadFile } from '@/utils/file';
 import { GiftCardDetailsFilter } from './GiftCardDetailsFilter';
 import { AddGiftCardDetails } from './AddGiftCardDetails';
@@ -43,10 +43,10 @@ export const useGiftCardsDetails = () => {
       ),
     }),
     ...(filterGiftCardDetails?.maxAmount && {
-      maxcurrentamount: filterGiftCardDetails?.maxAmount,
+      maxTransactionAmount: filterGiftCardDetails?.maxAmount,
     }),
     ...(filterGiftCardDetails?.minAmount && {
-      minicurrentamount: filterGiftCardDetails?.minAmount,
+      minTransactionAmount: filterGiftCardDetails?.minAmount,
     }),
   };
 
@@ -61,8 +61,8 @@ export const useGiftCardsDetails = () => {
 
   const handleFileExportSubmit = async (type: any) => {
     const params = {
-      exportType: type,
-      meta: false,
+      cardNumber: giftCardNumber,
+      exportType: type === EXPORT_TYPE?.XLS ? EXPORT_TYPE?.XLS_TYPE : type,
     };
 
     const exportListParameter = {

@@ -561,7 +561,6 @@ export const END_POINTS = {
   GIFT_CARD_LIST: '/gift-cards/list',
   POST_GIFT_CARD: '/gift-cards/create',
   PUT_GIFT_CARD: '/gift-cards/update',
-  SINGLE_GIFT_CARD_LIST: '/gift-cards/getby',
   CREATE_LOYALTY_GENERAL_SETTINGS: '/settings/create-general-setting',
   UPDATE_LOYALTY_GENERAL_SETTINGS: '/settings/update-general-setting',
   GET_LOYALTY_GENERAL_SETTINGS: '/settings/details-general-setting',
