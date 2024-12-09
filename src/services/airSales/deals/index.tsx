@@ -218,15 +218,6 @@ export const dealsApi = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAGS,
     }),
-    getDealsListAsExport: builder?.query({
-      query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.DEALS_LIST_VIEW}`,
-        method: 'GET',
-        params: apiDataParameter?.queryParams,
-        responseHandler: (response: any) => response?.blob(),
-      }),
-      providesTags: TAGS,
-    }),
   }),
 });
 
@@ -256,5 +247,4 @@ export const {
   useUpdatedGridDealsMutation,
   usePutCustomizedColumnsMutation,
   useLazyGetUsersListDropdownQuery,
-  useLazyGetDealsListAsExportQuery,
 } = dealsApi;

@@ -41,7 +41,7 @@ const CTA = () => {
     handleExportSubmit,
     methods,
     handleSubmit,
-    isLoading,
+    isLoadingDownload,
   } = useCta();
 
   const tableColumns = columns(selectedRow, setSelectedRow, handleOpenDrawer);
@@ -172,7 +172,7 @@ const CTA = () => {
         handleClose={handleCloseModalExport}
         handleSubmit={handleSubmit(handleExportSubmit)}
         isFooter={true}
-        loading={isLoading}
+        loading={isLoadingDownload}
       >
         <Grid
           container

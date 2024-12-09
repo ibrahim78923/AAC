@@ -185,15 +185,6 @@ export const leadCaptureFormsAPI = baseAPI.injectEndpoints({
       },
       providesTags: ['LEADCAPTURE_FORM_SUBMISSION_EMAIL'],
     }),
-    getFormsListAsExport: builder?.query({
-      query: (apiDataParameter: any) => ({
-        url: `${LEAD_CAPTURE_FORM?.GET_FORM}`,
-        method: 'GET',
-        params: apiDataParameter?.queryParams,
-        responseHandler: (response: any) => response?.blob(),
-      }),
-      providesTags: [TAG],
-    }),
   }),
 });
 
@@ -217,5 +208,4 @@ export const {
   usePutAddEntranceFormMutation,
   usePostLeadCaptureFormSendEmailMutation,
   useLazyGetFormSubmissionEmailsQuery,
-  useLazyGetFormsListAsExportQuery,
 } = leadCaptureFormsAPI;

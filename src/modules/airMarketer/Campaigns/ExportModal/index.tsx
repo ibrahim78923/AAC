@@ -9,16 +9,13 @@ import { ExportRecordIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
 import { RecordModalData, customDefaultValues } from './ExportModal.data';
-import { downloadFile } from '@/utils/file';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
-import { EXPORT_FILE_TYPE } from '@/constants/strings';
-import { useLazyGetCampaignsListAsExportQuery } from '@/services/airMarketer/campaigns';
 import { isNullOrEmpty } from '@/utils';
+import { useAppSelector } from '@/redux/store';
+import { useState } from 'react';
+import { downloadLink } from '@/utils/download-blob';
 
 const ExportModal = ({ open, onClose }: any) => {
-  const [lazyGetExportCampaignsTrigger, { isLoading }] =
-    useLazyGetCampaignsListAsExportQuery();
-
   const handleClose = () => {
     onClose(false);
   };
@@ -28,24 +25,51 @@ const ExportModal = ({ open, onClose }: any) => {
   });
 
   const { handleSubmit, reset } = methods;
+
+  const socket = useAppSelector((state) => state?.chat?.socket);
+  const [isLoadingDownload, setIsLoadingDownload] = useState(false);
+
+  const downloadFile = (payload: { url: string }) => {
+    setIsLoadingDownload(false);
+    handleClose();
+
+    if (payload && payload.url) {
+      downloadLink(payload.url);
+      successSnackbar('File Downloaded');
+      handleClose();
+      reset();
+    } else {
+      errorSnackbar('Failed to retrieve download link.');
+    }
+  };
+
   const onSubmit = async (value: any) => {
     if (!isNullOrEmpty(value?.file)) {
+      let downloadHandled = false;
       const queryParams = {
         exportType: value?.file,
       };
       try {
-        const response =
-          await lazyGetExportCampaignsTrigger(queryParams)?.unwrap();
-        downloadFile(
-          response,
-          'CampaignsLists',
-          EXPORT_FILE_TYPE?.[value?.file],
-        );
-        handleClose();
-        reset();
-        successSnackbar(`Campaigns Exported successfully`);
+        setIsLoadingDownload(true);
+        socket.emit('exportCampaigns', queryParams);
+        socket.once('download-link', (payload: any) => {
+          downloadHandled = true;
+          downloadFile(payload);
+        });
+        socket.once('exception', (error: any) => {
+          if (!downloadHandled) {
+            setIsLoadingDownload(false);
+            handleClose();
+            reset();
+            errorSnackbar(error?.message ?? 'error occurred');
+          }
+        });
       } catch (error: any) {
-        errorSnackbar(error?.data?.message);
+        setIsLoadingDownload(false);
+        handleClose();
+        errorSnackbar(
+          error?.data?.message ?? 'An error occurred while downloading.',
+        );
       }
     } else {
       errorSnackbar(`Enter File Format`);
@@ -63,7 +87,7 @@ const ExportModal = ({ open, onClose }: any) => {
       cancelText={'Cancel'}
       footer={true}
       headerIcon={<ExportRecordIcon />}
-      isLoading={isLoading}
+      isLoading={isLoadingDownload}
     >
       <Typography fontWeight={500} sx={{ fontSize: '14px' }}>
         File Format

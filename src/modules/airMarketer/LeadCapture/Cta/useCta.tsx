@@ -4,15 +4,14 @@ import { PAGINATION } from '@/config';
 import {
   useGetLeadCaptureCTAQuery,
   useDeleteLeadCaptureCTAMutation,
-  useLazyGetCTAsListAsExportQuery,
 } from '@/services/airMarketer/lead-capture/cta';
 import { enqueueSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 import { customDefaultValues } from './Cta.data';
-import { downloadFile } from '@/utils/file';
-import { EXPORT_FILE_TYPE } from '@/constants/strings';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { isNullOrEmpty } from '@/utils';
+import { useAppSelector } from '@/redux/store';
+import { downloadLink } from '@/utils/download-blob';
 
 const useCta = () => {
   const theme = useTheme();
@@ -102,22 +101,52 @@ const useCta = () => {
   });
 
   const { handleSubmit, reset } = methods;
-  const [lazyGetExportCTAsTrigger, { isLoading }] =
-    useLazyGetCTAsListAsExportQuery();
+
+  const socket = useAppSelector((state) => state?.chat?.socket);
+  const [isLoadingDownload, setIsLoadingDownload] = useState(false);
+
+  const downloadFile = (payload: { url: string }) => {
+    setIsLoadingDownload(false);
+    handleCloseModalExport();
+
+    if (payload && payload.url) {
+      downloadLink(payload.url);
+      successSnackbar('File Downloaded');
+      handleCloseModalExport();
+      reset();
+    } else {
+      errorSnackbar('Failed to retrieve download link.');
+    }
+  };
 
   const handleExportSubmit = async (value: any) => {
     if (!isNullOrEmpty(value?.file)) {
+      let downloadHandled = false;
       const queryParams = {
         exportType: value?.file,
       };
+
       try {
-        const response = await lazyGetExportCTAsTrigger(queryParams)?.unwrap();
-        downloadFile(response, 'CTAsLists', EXPORT_FILE_TYPE?.[value?.file]);
-        handleCloseModalExport();
-        reset();
-        successSnackbar(`CTAs Exported successfully`);
+        setIsLoadingDownload(true);
+        socket.emit('exportLeadCaptureCTAs', queryParams);
+        socket.once('download-link', (payload: any) => {
+          downloadHandled = true;
+          downloadFile(payload);
+        });
+        socket.once('exception', (error: any) => {
+          if (!downloadHandled) {
+            setIsLoadingDownload(false);
+            handleCloseModalExport();
+            reset();
+            errorSnackbar(error?.message ?? 'error occurred');
+          }
+        });
       } catch (error: any) {
-        errorSnackbar(error?.data?.message);
+        setIsLoadingDownload(false);
+        handleCloseModalExport();
+        errorSnackbar(
+          error?.data?.message ?? 'An error occurred while downloading.',
+        );
       }
     } else {
       errorSnackbar(`Enter File Format`);
@@ -154,7 +183,7 @@ const useCta = () => {
     checkedValue,
     methods,
     handleSubmit,
-    isLoading,
+    isLoadingDownload,
   };
 };
 

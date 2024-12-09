@@ -11,7 +11,7 @@ export const RecordModalData = [
       GridView: 6,
       options: [
         { value: 'CSV', label: 'CSV' },
-        { value: 'XLSX', label: 'XLSX' },
+        { value: 'XLS', label: 'XLS' },
       ],
     },
     component: RHFRadioGroup,

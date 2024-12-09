@@ -112,6 +112,12 @@ const useSignup = () => {
     };
   }, [DRN]);
 
+  const router = useRouter();
+  const { drn }: any = router?.query;
+  useEffect(() => {
+    setValue('DRN', drn);
+  }, [drn]);
+
   const [signUpValue, { isLoading }] = useSignUpMutation();
   const [authCompanyVerification, { isSuccess: isVerifiedSuccess }] =
     useAuthCompanyVerificationMutation();

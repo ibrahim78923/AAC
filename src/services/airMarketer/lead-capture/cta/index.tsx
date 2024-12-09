@@ -48,15 +48,6 @@ export const leadCaptureCtaAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    getCTAsListAsExport: builder?.query({
-      query: (apiDataParameter: any) => ({
-        url: URL,
-        method: 'GET',
-        params: apiDataParameter?.queryParams,
-        responseHandler: (response: any) => response?.blob(),
-      }),
-      providesTags: [TAG],
-    }),
   }),
 });
 
@@ -66,5 +57,4 @@ export const {
   usePostLeadCaptureCTAMutation,
   useUpdateLeadCaptureCTAMutation,
   useDeleteLeadCaptureCTAMutation,
-  useLazyGetCTAsListAsExportQuery,
 } = leadCaptureCtaAPI;

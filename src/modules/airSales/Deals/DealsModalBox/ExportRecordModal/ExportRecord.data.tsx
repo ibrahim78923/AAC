@@ -19,7 +19,7 @@ export const recordData = [
     },
     options: [
       { label: 'CSV', value: 'CSV' },
-      { label: 'XLSX', value: 'XLSX' },
+      { label: 'XLS', value: 'XLS' },
     ],
     component: RHFSelect,
     md: 4,

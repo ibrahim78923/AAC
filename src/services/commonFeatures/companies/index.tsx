@@ -209,15 +209,6 @@ export const companiesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['COMPANY'],
     }),
-    getCompaniesListAsExport: builder?.query({
-      query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.COMPANY}`,
-        method: 'GET',
-        params: apiDataParameter?.queryParams,
-        responseHandler: (response: any) => response?.blob(),
-      }),
-      providesTags: ['COMPANY'],
-    }),
   }),
 });
 
@@ -245,5 +236,4 @@ export const {
   useLazyGetAllUsersAsRequestersDropdownForCompaniesTicketsQuery,
   useGetAllEmailsCompaniesQuery,
   useDeleteEmailCompaniesMutation,
-  useLazyGetCompaniesListAsExportQuery,
 } = companiesAPI;

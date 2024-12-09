@@ -8,17 +8,14 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { ExportRecordIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
-import { downloadFile } from '@/utils/file';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
-import { EXPORT_FILE_TYPE } from '@/constants/strings';
 import { customDefaultValues, RecordModalData } from './ExportModal.data';
-import { useLazyGetCompaniesListAsExportQuery } from '@/services/commonFeatures/companies';
 import { isNullOrEmpty } from '@/utils';
+import { useAppSelector } from '@/redux/store';
+import { useState } from 'react';
+import { downloadLink } from '@/utils/download-blob';
 
 const ExportModal = ({ setIsExport, isExport }: any) => {
-  const [lazyGetExportCompaniesTrigger, { isLoading }] =
-    useLazyGetCompaniesListAsExportQuery();
-
   const handleClose = () => {
     setIsExport(false);
   };
@@ -27,21 +24,51 @@ const ExportModal = ({ setIsExport, isExport }: any) => {
     defaultValues: customDefaultValues,
   });
 
+  const socket = useAppSelector((state) => state?.chat?.socket);
+  const [isLoadingDownload, setIsLoadingDownload] = useState(false);
+
+  const downloadFile = (payload: { url: string }) => {
+    setIsLoadingDownload(false);
+    handleClose();
+
+    if (payload && payload.url) {
+      downloadLink(payload.url);
+      successSnackbar('File Downloaded');
+      handleClose();
+      reset();
+    } else {
+      errorSnackbar('Failed to retrieve download link.');
+    }
+  };
   const { handleSubmit, reset } = methods;
   const onSubmit = async (value: any) => {
     if (!isNullOrEmpty(value?.file)) {
+      let downloadHandled = false;
       const queryParams = {
         exportType: value?.file,
       };
       try {
-        const response =
-          await lazyGetExportCompaniesTrigger(queryParams)?.unwrap();
-        downloadFile(response, 'CompanyLists', EXPORT_FILE_TYPE?.[value?.file]);
-        handleClose();
-        reset();
-        successSnackbar(`Companies Exported successfully`);
+        setIsLoadingDownload(true);
+        socket.emit('exportCompanies', queryParams);
+
+        socket.once('download-link', (payload: any) => {
+          downloadHandled = true;
+          downloadFile(payload);
+        });
+        socket.once('exception', (error: any) => {
+          if (!downloadHandled) {
+            setIsLoadingDownload(false);
+            handleClose();
+            reset();
+            errorSnackbar(error?.message ?? 'An error occurred.');
+          }
+        });
       } catch (error: any) {
-        errorSnackbar(error?.data?.message);
+        setIsLoadingDownload(false);
+        handleClose();
+        errorSnackbar(
+          error?.data?.message ?? 'An error occurred while downloading.',
+        );
       }
     } else {
       errorSnackbar(`Enter File Format`);
@@ -59,7 +86,7 @@ const ExportModal = ({ setIsExport, isExport }: any) => {
       cancelText={'Cancel'}
       footer={true}
       headerIcon={<ExportRecordIcon />}
-      isLoading={isLoading}
+      isLoading={isLoadingDownload}
     >
       <Typography fontWeight={500} sx={{ fontSize: '14px' }}>
         File Format

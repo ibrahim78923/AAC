@@ -6,7 +6,6 @@ import { exportButtonFormFields } from './ExportButton.data';
 import { v4 as uuidv4 } from 'uuid';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 import { useEffect, useState } from 'react';
-import { API_STATUS } from '@/constants';
 
 export const ExportButton = (props: any) => {
   const { isExportModalOpen, handleExportModalOpen } = props;
@@ -19,8 +18,8 @@ export const ExportButton = (props: any) => {
     handleSubmit,
     onSubmit,
     radioGroup,
-    lazyGetEmailMarketingListAsExportStatus,
     setDatePickerSubmitVal,
+    isLoadingDownload,
   } = useExportButton({ handleExportModalOpen });
 
   useEffect(() => {
@@ -43,9 +42,7 @@ export const ExportButton = (props: any) => {
       onClose={handleExportModalOpen}
       okText="Apply"
       cancelText={'Cancel'}
-      isLoading={
-        lazyGetEmailMarketingListAsExportStatus?.status === API_STATUS?.PENDING
-      }
+      isLoading={isLoadingDownload}
       footer
       submitHandler={handleSubmit(onSubmit)}
     >

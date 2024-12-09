@@ -11,6 +11,7 @@ import useSubmissions from './useSubmissions';
 import CommonDrawer from '@/components/CommonDrawer';
 import { v4 as uuidv4 } from 'uuid';
 import { FormProvider } from '@/components/ReactHookForm';
+import ExportModal from '../../ExportModal';
 
 const Submissions = ({ formId }: any) => {
   const {
@@ -28,6 +29,9 @@ const Submissions = ({ formId }: any) => {
     handleFiltersSubmit,
     handleRefresh,
     dataCustomers,
+    handleOpenModalExport,
+    handleCloseModalExport,
+    openModalExport,
   } = useSubmissions(formId);
 
   return (
@@ -76,6 +80,7 @@ const Submissions = ({ formId }: any) => {
             color="inherit"
             className="small"
             startIcon={<ExportSubmissionIcon />}
+            onClick={handleOpenModalExport}
           >
             Export
           </Button>
@@ -130,6 +135,7 @@ const Submissions = ({ formId }: any) => {
           </FormProvider>
         </Box>
       </CommonDrawer>
+      <ExportModal open={openModalExport} onClose={handleCloseModalExport} />
     </Box>
   );
 };

@@ -9,34 +9,62 @@ import { ExportRecordIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
 import { RecordModalData, customDefaultValues } from './ExportModal.data';
-import { downloadFile } from '@/utils/file';
-import { EXPORT_FILE_TYPE } from '@/constants/strings';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
-import { useLazyGetFormsListAsExportQuery } from '@/services/airMarketer/lead-capture/forms';
 import { isNullOrEmpty } from '@/utils';
+import { useAppSelector } from '@/redux/store';
+import { useState } from 'react';
+import { downloadLink } from '@/utils/download-blob';
 
 const ExportModal = ({ open, onClose }: any) => {
-  const [lazyGetExportFormsTrigger, { isLoading }] =
-    useLazyGetFormsListAsExportQuery();
-
   const methods: any = useForm({
     defaultValues: customDefaultValues,
   });
+  const socket = useAppSelector((state) => state?.chat?.socket);
+  const [isLoadingDownload, setIsLoadingDownload] = useState(false);
+
+  const downloadFile = (payload: { url: string }) => {
+    setIsLoadingDownload(false);
+    onClose(false);
+
+    if (payload && payload.url) {
+      downloadLink(payload.url);
+      successSnackbar('File Downloaded');
+      onClose(false);
+      reset();
+    } else {
+      errorSnackbar('Failed to retrieve download link.');
+    }
+  };
 
   const { handleSubmit, reset } = methods;
   const onSubmit = async (value: any) => {
     if (!isNullOrEmpty(value?.file)) {
+      let downloadHandled = false;
       const queryParams = {
         exportType: value?.file,
       };
+
       try {
-        const response = await lazyGetExportFormsTrigger(queryParams)?.unwrap();
-        downloadFile(response, 'FormsLists', EXPORT_FILE_TYPE?.[value?.file]);
-        onClose(false);
-        reset();
-        successSnackbar(`Forms Exported successfully`);
+        setIsLoadingDownload(true);
+        socket.emit('exportLeadCaptureForms', queryParams);
+        socket.once('download-link', (payload: any) => {
+          downloadHandled = true;
+          downloadFile(payload);
+        });
+        socket.once('exception', (error: any) => {
+          if (!downloadHandled) {
+            setIsLoadingDownload(false);
+            onClose(false);
+            reset();
+            errorSnackbar(error?.message ?? 'error occurred');
+          }
+        });
       } catch (error: any) {
-        errorSnackbar(error?.data?.message);
+        setIsLoadingDownload(false);
+        onClose(false);
+        errorSnackbar(
+          error?.data?.message ?? 'An error occurred while downloading.',
+        );
       }
     } else {
       errorSnackbar(`Enter File Format`);
@@ -54,7 +82,7 @@ const ExportModal = ({ open, onClose }: any) => {
       cancelText={'Cancel'}
       footer={true}
       headerIcon={<ExportRecordIcon />}
-      isLoading={isLoading}
+      isLoading={isLoadingDownload}
     >
       <Typography fontWeight={500} sx={{ fontSize: '14px' }}>
         File Format
