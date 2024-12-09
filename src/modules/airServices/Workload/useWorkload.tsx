@@ -46,8 +46,8 @@ export default function useWorkload() {
 
   const firstTrigger = () => {
     trigger({
-      startDate: startOfAddTime(new Date(), 'week', 1, 'day'),
-      endDate: endOfTime(new Date(), 'week'),
+      startDate: startOfAddTime(dateCalendar, 'week', 1, 'day'),
+      endDate: endOfTime(dateCalendar, 'week'),
       agent: selected?._id,
       assignTo: selected?._id,
       moduleType: filterByTypeState,
@@ -60,11 +60,14 @@ export default function useWorkload() {
 
   useEffect(() => {
     triggerFilter({
-      startDate: startOfAddTime(new Date(), 'week', 1, 'day'),
-      endDate: endOfTime(new Date(), 'week'),
+      startDate: startOfAddTime(dateCalendar, 'week', 1, 'day'),
+      endDate: endOfTime(dateCalendar, 'week'),
+      agent: selected?._id,
+      assignTo: selected?._id,
       countDayWise: filter?.countDayWise,
       countDayWiseHours: filter?.countDayWiseHours,
       countDayWiseHoursAverage: filter?.countDayWiseHoursAverage,
+      moduleType: filterByTypeState,
     });
   }, [filter]);
 
@@ -82,6 +85,8 @@ export default function useWorkload() {
       await triggerFilter({
         startDate: startOfAddTime(date, 'week', 1, 'day'),
         endDate: endOfTime(date, 'week'),
+        agent: selected?._id,
+        assignTo: selected?._id,
         countDayWise: filter?.countDayWise,
         countDayWiseHours: filter?.countDayWiseHours,
         countDayWiseHoursAverage: filter?.countDayWiseHoursAverage,
