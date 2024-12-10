@@ -32,7 +32,6 @@ export const EXPORT_TYPE = {
   CSV: 'CSV',
   XLS: 'XLSX',
   PDF: 'PDF',
-  XLS_TYPE: 'XLS',
 };
 
 export const TICKET_STATUS = {

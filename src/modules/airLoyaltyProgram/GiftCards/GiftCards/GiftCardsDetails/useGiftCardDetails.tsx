@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { ExportModal } from '@/components/ExportModal';
 import { PAGINATION } from '@/config';
-import { EXPORT_FILE_TYPE, EXPORT_TYPE } from '@/constants/strings';
+import { EXPORT_FILE_TYPE } from '@/constants/strings';
 import { downloadFile } from '@/utils/file';
 import { GiftCardDetailsFilter } from './GiftCardDetailsFilter';
 import { AddGiftCardDetails } from './AddGiftCardDetails';
@@ -62,7 +62,7 @@ export const useGiftCardsDetails = () => {
   const handleFileExportSubmit = async (type: any) => {
     const params = {
       cardNumber: giftCardNumber,
-      exportType: type === EXPORT_TYPE?.XLS ? EXPORT_TYPE?.XLS_TYPE : type,
+      exportType: type,
     };
 
     const exportListParameter = {
