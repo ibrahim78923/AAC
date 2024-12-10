@@ -16,6 +16,8 @@ import MessageToRecipient from './form-fields/MessageToRecipient';
 import DefaultSignatures from './form-fields/DefaultSignatures';
 import ModalManageSignatures from './components/ModalManageSignatures';
 import DocumentHistory from './components/DocumentHistory';
+import ModalConfirmationSignDoc from './components/ModalConfirmationSignDoc';
+import ModalPhoneNumber from './components/ModalPhoneNumber';
 
 export default function CreateContract() {
   const {
@@ -36,6 +38,14 @@ export default function CreateContract() {
     methods,
     handleSubmit,
     onSubmit,
+
+    openModalConfirmationSignDoc,
+    handleOpenModalConfirmationSignDoc,
+    handleCloseModalConfirmationSignDoc,
+
+    openModalPhoneNumber,
+    handleOpenModalPhoneNumber,
+    handleCloseModalPhoneNumber,
   } = useCreateContract();
 
   return (
@@ -43,7 +53,7 @@ export default function CreateContract() {
       <PlainHeader>
         <HeaderCreateContract
           onClickSave={() => alert('Save')}
-          onClickSign={() => alert('Sign')}
+          onClickSign={handleOpenModalConfirmationSignDoc}
         />
       </PlainHeader>
 
@@ -146,6 +156,7 @@ export default function CreateContract() {
                       variant={'contained'}
                       className={'small'}
                       fullWidth
+                      onClick={handleOpenModalConfirmationSignDoc}
                     >
                       Sign & Send
                     </Button>
@@ -173,6 +184,20 @@ export default function CreateContract() {
         onClose={handleCloseModalManageSignature}
         value={methods?.signatureMethod}
         handleChange={handleChangeSignatureMethod}
+      />
+
+      <ModalConfirmationSignDoc
+        open={openModalConfirmationSignDoc}
+        onClose={handleCloseModalConfirmationSignDoc}
+        onSubmit={() => {
+          handleCloseModalConfirmationSignDoc();
+          handleOpenModalPhoneNumber();
+        }}
+      />
+
+      <ModalPhoneNumber
+        open={openModalPhoneNumber}
+        onClose={handleCloseModalPhoneNumber}
       />
     </>
   );

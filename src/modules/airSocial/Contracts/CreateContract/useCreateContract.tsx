@@ -16,6 +16,10 @@ export default function useCreateContract() {
     // defaultValues: initialValues,
   });
   const { handleSubmit } = methods;
+  const [openModalConfirmationSignDoc, setOpenModalConfirmationSignDoc] =
+    useState<boolean>(false);
+  const [openModalPhoneNumber, setOpenModalPhoneNumber] =
+    useState<boolean>(false);
 
   /* EVENT LISTENERS
   -------------------------------------------------------------------------------------*/
@@ -88,6 +92,20 @@ export default function useCreateContract() {
     ]);
   };
 
+  const handleOpenModalConfirmationSignDoc = () => {
+    setOpenModalConfirmationSignDoc(true);
+  };
+  const handleCloseModalConfirmationSignDoc = () => {
+    setOpenModalConfirmationSignDoc(false);
+  };
+
+  const handleOpenModalPhoneNumber = () => {
+    setOpenModalPhoneNumber(true);
+  };
+  const handleCloseModalPhoneNumber = () => {
+    setOpenModalPhoneNumber(false);
+  };
+
   return {
     activeView,
     handlePreviewToggle,
@@ -107,5 +125,13 @@ export default function useCreateContract() {
     methods,
     handleSubmit,
     onSubmit,
+
+    openModalConfirmationSignDoc,
+    handleOpenModalConfirmationSignDoc,
+    handleCloseModalConfirmationSignDoc,
+
+    openModalPhoneNumber,
+    handleOpenModalPhoneNumber,
+    handleCloseModalPhoneNumber,
   };
 }
