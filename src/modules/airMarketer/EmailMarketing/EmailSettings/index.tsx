@@ -63,7 +63,8 @@ const EmailSettings = () => {
     defaultValues: defaultValues,
   });
 
-  const { handleSubmit: handelSubmitFilters } = methodsFilters;
+  const { handleSubmit: handelSubmitFilters, reset: resetValues } =
+    methodsFilters;
   const onSubmitFilters = async (values: any) => {
     setFiltersData({ ...filtersData, ...values });
     setIsOpenFilter(false);
@@ -106,6 +107,26 @@ const EmailSettings = () => {
   const { handleSubmit, reset } = methods;
   const [otp, setOtp] = useState('');
 
+  const [timeLeft, setTimeLeft] = useState(0);
+  const [isTimerRunning, setIsTimerRunning] = useState(false);
+
+  useEffect(() => {
+    if (timeLeft === 0) return;
+
+    const timer = setInterval(() => {
+      setTimeLeft((prevTime) => {
+        if (prevTime <= 1) {
+          clearInterval(timer); // Clear the interval when the timer ends
+          setIsTimerRunning(false);
+          return 0;
+        }
+        return prevTime - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer); // Clean up on component unmount
+  }, [timeLeft]);
+
   const handleChange = (value: any) => {
     setOtp(value);
   };
@@ -118,6 +139,8 @@ const EmailSettings = () => {
       enqueueSnackbar('Request Successful', {
         variant: 'success',
       });
+      setTimeLeft(30);
+      setIsTimerRunning(true);
       if (emailState) {
         setCurrentEmailAddress(emailState);
         handleClose();
@@ -151,11 +174,17 @@ const EmailSettings = () => {
       enqueueSnackbar('Request Successful', {
         variant: 'success',
       });
+      setOtp('');
       setCurrentEmailAddress('');
       setVerifyOTPModal(false);
       setSelectedRecords([]);
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      enqueueSnackbar(
+        error?.data?.message === 'Invalid code'
+          ? 'Invalid OTP entered'
+          : 'Something went wrong !',
+        { variant: 'error' },
+      );
     }
   };
   const onSubmit = async (values: any) => {
@@ -171,10 +200,13 @@ const EmailSettings = () => {
       });
       setActiveEmailState(values?.email);
       setCurrentEmailAddress(values?.email);
+      resetValues();
       setAddNewEmailModal(false);
       setVerifyOTPModal(true);
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      enqueueSnackbar(error?.data?.message ?? 'Something went wrong !', {
+        variant: 'error',
+      });
     }
   };
 
@@ -267,11 +299,24 @@ const EmailSettings = () => {
         >
           {selectedRecords[indexNumbers?.ZERO]?.status === 'PENDING' && (
             <MenuItem
-              onClick={handelActionResendOTP}
-              disabled={selectedRecords?.length > 1}
+              onClick={() => {
+                if (!isTimerRunning) {
+                  handelActionResendOTP();
+                }
+              }}
+              disabled={selectedRecords?.length > 1 || isTimerRunning}
             >
-              Resend OTP &nbsp;{' '}
-              {loadingResendEmailOTP && <CircularProgress size={15} />}
+              {isTimerRunning ? (
+                <>
+                  {' '}
+                  Resend Otp in <strong>{timeLeft}s</strong>
+                </>
+              ) : (
+                <>
+                  Resend OTP &nbsp;{' '}
+                  {loadingResendEmailOTP && <CircularProgress size={15} />}
+                </>
+              )}
             </MenuItem>
           )}
           <MenuItem
@@ -402,9 +447,16 @@ const EmailSettings = () => {
       </CommonModal>
 
       <CommonModal
+        // open={true}
         open={verifyOTPModal}
-        handleClose={() => setVerifyOTPModal(false)}
-        handleCancel={() => setVerifyOTPModal(false)}
+        handleClose={() => {
+          setVerifyOTPModal(false);
+          setOtp('');
+        }}
+        handleCancel={() => {
+          setVerifyOTPModal(false);
+          setOtp('');
+        }}
         title="Enter Verification Code"
         titleDescription="Enter Verification code we send to your email address"
         footer={false}
@@ -453,16 +505,40 @@ const EmailSettings = () => {
                 justifyContent: 'space-between',
               }}
             >
-              <Box
-                sx={{
-                  color: theme?.palette?.primary?.main,
-                  fontWeight: '500',
-                  fontSize: '14px',
-                }}
-                onClick={resendOTP}
-              >
-                Resend OTP
-              </Box>
+              <div>
+                {isTimerRunning ? (
+                  <Box
+                    sx={{
+                      color: theme?.palette?.grey[500],
+                      fontWeight: '500',
+                      fontSize: '14px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Resend Otp in <strong>{timeLeft}s</strong>
+                  </Box>
+                ) : (
+                  <Box
+                    sx={{
+                      color: theme?.palette?.primary?.main,
+                      fontWeight: '500',
+                      fontSize: '14px',
+                      cursor: loadingResendEmailOTP ? 'not-allowed' : 'pointer',
+                    }}
+                    onClick={() => {
+                      if (!loadingResendEmailOTP) {
+                        resendOTP({
+                          emailState:
+                            selectedRecords[indexNumbers?.ZERO]?.email,
+                        });
+                      }
+                    }}
+                  >
+                    {loadingResendEmailOTP && <CircularProgress size={12} />}
+                    &nbsp; Resend OTP
+                  </Box>
+                )}
+              </div>
 
               <Box
                 sx={{
