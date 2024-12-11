@@ -68,7 +68,6 @@ const ProductSuite = () => {
       setLoading(true);
       const response = await PostAuthAccountSelect(payload)?.unwrap();
       const routes = getRoutes(product);
-
       if (response?.data && routes) {
         setPermissions();
         setSelectedProduct(routes);

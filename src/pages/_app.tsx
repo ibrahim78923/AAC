@@ -92,19 +92,19 @@ export default function App(props: any) {
       </Head>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <Provider store={store}>
-          <AuthProvider>
-            <ThemeLocalization>
-              <SnackbarProvider
-                preventDuplicate
-                anchorOrigin={{
-                  horizontal: 'center',
-                  vertical: 'top',
-                }}
-              >
+          <SnackbarProvider
+            preventDuplicate
+            anchorOrigin={{
+              horizontal: 'center',
+              vertical: 'top',
+            }}
+          >
+            <AuthProvider>
+              <ThemeLocalization>
                 {getLayout(<Component {...pageProps} />)}
-              </SnackbarProvider>
-            </ThemeLocalization>
-          </AuthProvider>
+              </ThemeLocalization>
+            </AuthProvider>
+          </SnackbarProvider>
         </Provider>
       </LocalizationProvider>
     </ThemeProvider>
