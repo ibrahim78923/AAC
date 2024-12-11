@@ -191,7 +191,7 @@ export const editTicketDetailsFormFieldsDynamic = (
   {
     id: 8,
     componentProps: {
-      disabled: data?.ticketType === SR,
+      disabled: data?.ticketType === SR && !!data?.serviceDetails?._id,
     },
     component: CategoryFieldDropdown,
   },
@@ -201,7 +201,7 @@ export const editTicketDetailsFormFieldsDynamic = (
           id: 9,
           componentProps: {
             categoryId: watch('category')?._id,
-            disabled: data?.ticketType === SR,
+            disabled: data?.ticketType === SR && !!data?.serviceDetails?._id,
           },
           component: ServicesFieldDropdown,
         },
@@ -218,7 +218,7 @@ export const editTicketDetailsFormFieldsDynamic = (
             fullWidth: true,
             required: true,
             type: 'number',
-            disabled: data?.ticketType === SR,
+            disabled: data?.ticketType === SR && !!data?.serviceDetails?._id,
             inputProps: { min: 0 },
           },
           component: RHFTextField,
