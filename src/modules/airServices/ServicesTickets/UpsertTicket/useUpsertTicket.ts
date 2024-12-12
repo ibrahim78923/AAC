@@ -32,17 +32,19 @@ import {
 import { REGEX } from '@/constants/validation';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { isoDateString } from '@/lib/date-time';
+import {
+  servicesTicketsIsPortalOpenSelector,
+  servicesTicketsSelectedTicketListsSelector,
+} from '@/redux/slices/airServices/tickets/selectors';
 
 export const useUpsertTicket = () => {
   const dispatch = useAppDispatch();
   const { getTicketsListData } = useGetTicketList();
   const selectedTicketLists = useAppSelector(
-    (state) => state?.servicesTickets?.selectedTicketLists,
+    servicesTicketsSelectedTicketListsSelector,
   );
 
-  const isPortalOpen = useAppSelector(
-    (state) => state?.servicesTickets?.isPortalOpen,
-  );
+  const isPortalOpen = useAppSelector(servicesTicketsIsPortalOpenSelector);
 
   const ticketId =
     isPortalOpen?.action === TICKETS_ACTION_CONSTANTS?.EDIT_TICKET

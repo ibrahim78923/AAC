@@ -12,13 +12,12 @@ import {
   sendTicketEmailFormValidationSchema,
 } from './EmailTicket.data';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { servicesTicketsIsPortalOpenSelector } from '@/redux/slices/airServices/tickets/selectors';
 
 export const useEmailTicket = () => {
   const dispatch = useAppDispatch();
 
-  const isPortalOpen = useAppSelector(
-    (state) => state?.servicesTickets?.isPortalOpen,
-  );
+  const isPortalOpen = useAppSelector(servicesTicketsIsPortalOpenSelector);
 
   const [
     sendServicesSingleTicketEmailTrigger,

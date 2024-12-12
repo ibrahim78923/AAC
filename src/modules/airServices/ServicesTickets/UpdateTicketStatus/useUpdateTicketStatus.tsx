@@ -10,6 +10,11 @@ import { PAGINATION } from '@/config';
 import { useUpdateBulkServicesTicketsMutation } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { AIR_SERVICES } from '@/constants/routes';
+import {
+  servicesTicketsIsPortalOpenSelector,
+  servicesTicketsSelectedTicketListsSelector,
+  servicesTicketsTotalRecordsSelector,
+} from '@/redux/slices/airServices/tickets/selectors';
 
 export const useUpdateTicketStatus = () => {
   const router = useRouter();
@@ -19,16 +24,12 @@ export const useUpdateTicketStatus = () => {
 
   const dispatch = useAppDispatch();
   const selectedTicketLists = useAppSelector(
-    (state) => state?.servicesTickets?.selectedTicketLists,
+    servicesTicketsSelectedTicketListsSelector,
   );
 
-  const isPortalOpen = useAppSelector(
-    (state) => state?.servicesTickets?.isPortalOpen,
-  );
+  const isPortalOpen = useAppSelector(servicesTicketsIsPortalOpenSelector);
 
-  const totalRecords = useAppSelector(
-    (state) => state?.servicesTickets?.totalRecords,
-  );
+  const totalRecords = useAppSelector(servicesTicketsTotalRecordsSelector);
 
   const isMoveBack = !!ticketId;
 

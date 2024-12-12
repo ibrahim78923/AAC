@@ -12,22 +12,23 @@ import {
 import { useGetTicketList } from '../TicketsServicesHooks/useGetTicketList';
 import { PAGINATION } from '@/config';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import {
+  servicesTicketsIsPortalOpenSelector,
+  servicesTicketsSelectedTicketListsSelector,
+  servicesTicketsTotalRecordsSelector,
+} from '@/redux/slices/airServices/tickets/selectors';
 
 export const useAssignedTickets = () => {
   const dispatch = useAppDispatch();
   const { getTicketsListData, page } = useGetTicketList();
 
-  const totalRecords = useAppSelector(
-    (state) => state?.servicesTickets?.totalRecords,
-  );
+  const totalRecords = useAppSelector(servicesTicketsTotalRecordsSelector);
 
   const selectedTicketLists = useAppSelector(
-    (state) => state?.servicesTickets?.selectedTicketLists,
+    servicesTicketsSelectedTicketListsSelector,
   );
 
-  const isPortalOpen = useAppSelector(
-    (state) => state?.servicesTickets?.isPortalOpen,
-  );
+  const isPortalOpen = useAppSelector(servicesTicketsIsPortalOpenSelector);
 
   const [patchBulkUpdateTicketsTrigger, patchBulkUpdateTicketsStatus] =
     useUpdateBulkServicesTicketsMutation();

@@ -5,16 +5,18 @@ import {
   setTicketsListsActiveColumn,
 } from '@/redux/slices/airServices/tickets/slice';
 import { ticketsListsColumnDynamic } from '../TicketsLists/TicketsTableView/TicketsTableView.data';
+import {
+  servicesTicketsIsPortalOpenSelector,
+  servicesTicketsListsActiveColumnSelector,
+} from '@/redux/slices/airServices/tickets/selectors';
 
 export const useCustomizeTicketColumn = () => {
   const dispatch = useAppDispatch();
   const ticketsListsActiveColumn = useAppSelector(
-    (state) => state?.servicesTickets?.ticketsListsActiveColumn,
+    servicesTicketsListsActiveColumnSelector,
   );
 
-  const isPortalOpen = useAppSelector(
-    (state) => state?.servicesTickets?.isPortalOpen,
-  );
+  const isPortalOpen = useAppSelector(servicesTicketsIsPortalOpenSelector);
 
   const [customizeColumn, setCustomizeColumn]: any = useState<any>(
     ticketsListsActiveColumn,

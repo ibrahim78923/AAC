@@ -12,14 +12,16 @@ import {
   setIsPortalClose,
 } from '@/redux/slices/airServices/tickets/slice';
 import { PAGINATION } from '@/config';
+import {
+  servicesTicketsFilterTicketListsSelector,
+  servicesTicketsIsPortalOpenSelector,
+} from '@/redux/slices/airServices/tickets/selectors';
 
 export const useFilterTickets = () => {
-  const isPortalOpen = useAppSelector(
-    (state) => state?.servicesTickets?.isPortalOpen,
-  );
+  const isPortalOpen = useAppSelector(servicesTicketsIsPortalOpenSelector);
 
   const filterTicketLists = useAppSelector(
-    (state) => state?.servicesTickets?.filterTicketLists,
+    servicesTicketsFilterTicketListsSelector,
   );
 
   const dispatch = useAppDispatch();

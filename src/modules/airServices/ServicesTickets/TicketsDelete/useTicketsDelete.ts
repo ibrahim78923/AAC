@@ -10,6 +10,11 @@ import {
 import { useDeleteMultipleServicesTicketsMutation } from '@/services/airServices/tickets';
 import { AIR_SERVICES } from '@/constants/routes';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import {
+  servicesTicketsIsPortalOpenSelector,
+  servicesTicketsSelectedTicketListsSelector,
+  servicesTicketsTotalRecordsSelector,
+} from '@/redux/slices/airServices/tickets/selectors';
 
 export const useTicketDelete = () => {
   const router = useRouter();
@@ -19,14 +24,10 @@ export const useTicketDelete = () => {
   const { getTicketsListData, page } = useGetTicketList();
 
   const selectedTicketLists = useAppSelector(
-    (state) => state?.servicesTickets?.selectedTicketLists,
+    servicesTicketsSelectedTicketListsSelector,
   );
-  const isPortalOpen = useAppSelector(
-    (state) => state?.servicesTickets?.isPortalOpen,
-  );
-  const totalRecords = useAppSelector(
-    (state) => state?.servicesTickets?.totalRecords,
-  );
+  const isPortalOpen = useAppSelector(servicesTicketsIsPortalOpenSelector);
+  const totalRecords = useAppSelector(servicesTicketsTotalRecordsSelector);
   const isMoveBack = !!ticketId;
 
   const refetchApi = async () => {
