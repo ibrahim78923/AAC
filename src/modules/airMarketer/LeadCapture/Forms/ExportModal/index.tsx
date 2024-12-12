@@ -28,7 +28,7 @@ const ExportModal = ({ open, onClose }: any) => {
 
     if (payload && payload.url) {
       downloadLink(payload.url);
-      successSnackbar('File Downloaded');
+      successSnackbar('Your download will start soon');
       onClose(false);
       reset();
     } else {

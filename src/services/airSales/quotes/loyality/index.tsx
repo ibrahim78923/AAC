@@ -7,7 +7,7 @@ export const quotesLoaylityAPI = baseAPI.injectEndpoints({
   endpoints: (builder: any) => ({
     getConsumerDetail: builder.query({
       query: (id: any) => ({
-        url: `${END_POINTS?.GET_CONSUMER_DETAIL}/${id}`,
+        url: `${END_POINTS?.GET_CONSUMER_DETAIL}/{id}?id=${id}`,
         method: 'GET',
       }),
       providesTags: TAG,
@@ -38,6 +38,45 @@ export const quotesLoaylityAPI = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+    getExchangeRate: builder.query({
+      query: (points: any) => ({
+        url: `${END_POINTS?.GET_ExchangeRate}?points=${points}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
+    getReward: builder.query({
+      query: (id: any) => ({
+        url: `${END_POINTS?.GET_REWARD}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
+    updateRedeemReward: builder.mutation({
+      query: ({ id, body }: any) => ({
+        url: `${END_POINTS?.UPDATE_REWARDS_QUOTES}?id=${id}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
+    putLoyaltyProgramConsumersPointsUpdate: builder?.mutation({
+      query: (body: any) => ({
+        url: END_POINTS?.AIR_LOYALTY_PROGRAM_CONSUMERS_UPDATE,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    putGiftCardValue: builder?.mutation({
+      query: (patchParameter: any) => ({
+        url: END_POINTS?.PUT_GIFT_CARD,
+        method: 'PUT',
+        params: patchParameter?.queryParams,
+        body: patchParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -46,4 +85,9 @@ export const {
   useCreateConsumerMutation,
   useGetRewardListQuery,
   useGetGiftCardGetBYQuery,
+  useGetExchangeRateQuery,
+  useGetRewardQuery,
+  useUpdateRedeemRewardMutation,
+  usePutLoyaltyProgramConsumersPointsUpdateMutation,
+  usePutGiftCardValueMutation,
 } = quotesLoaylityAPI;

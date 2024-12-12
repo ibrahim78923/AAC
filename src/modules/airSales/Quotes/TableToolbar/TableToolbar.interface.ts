@@ -8,4 +8,5 @@ export interface TableToolbarI {
   handleOpenDeleteQuote: () => void;
   isActionsDisabled: boolean;
   rowId: any;
+  onClickExport: any;
 }

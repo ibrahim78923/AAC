@@ -9,7 +9,15 @@ import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   useCreateConsumerMutation,
   useGetConsumerDetailQuery,
+  useGetExchangeRateQuery,
+  useGetGiftCardGetBYQuery,
+  useGetRewardQuery,
+  usePutGiftCardValueMutation,
+  usePutLoyaltyProgramConsumersPointsUpdateMutation,
+  useUpdateRedeemRewardMutation,
 } from '@/services/airSales/quotes/loyality';
+import { isNullOrEmpty } from '@/utils';
+import { debounce } from 'lodash';
 
 const useStepLineItems = (openCreateProduct?: any) => {
   const theme = useTheme();
@@ -38,6 +46,9 @@ const useStepLineItems = (openCreateProduct?: any) => {
   const { data: dataGetQuoteById } = useGetQuoteByIdQuery({ id: quoteId });
   const [createConsumer] = useCreateConsumerMutation();
   const [putSubmitQuote] = usePutSubmitQuoteMutation();
+  const [checkedItems, setCheckedItems] = useState({});
+  const [debouncedValue, setDebouncedValue] = useState('');
+  const [inputValue, setInputValue] = useState('');
 
   const { data: productsData } = useGetQuoteByIdQuery({
     id: quoteId,
@@ -50,10 +61,81 @@ const useStepLineItems = (openCreateProduct?: any) => {
     ...response
   }: any = useGetConsumerDetailQuery(
     // dataGetQuoteById?.data?.buyerContactId,
-    '674d7c5fc66ce35124023575',
+    '672b49c61c76da9dcf9fd990',
     // { skip: !dataGetQuoteById?.data?.buyerContactId }
   );
   const consumerTotalPoints = consumerDetails?.data?.totalPointsEarned;
+
+  const { data: ExchangeRate }: any = useGetExchangeRateQuery(
+    consumerTotalPoints,
+    { skip: isNullOrEmpty(consumerTotalPoints) },
+  );
+
+  const { data: singleTierDetails, isLoading: loadingSingleTierDetails }: any =
+    useGetRewardQuery('672b49c61c76da9dcf9fd990');
+
+  const param = {
+    cardNumber: debouncedValue,
+  };
+  const {
+    data: giftCardData,
+    isError: isErrorGiftCard,
+    refetch,
+  }: any = useGetGiftCardGetBYQuery(param, {
+    skip: isNullOrEmpty(debouncedValue),
+  });
+
+  // Debounce the input value
+  useEffect(() => {
+    const handler = debounce(() => {
+      setDebouncedValue(inputValue);
+    }, 300); // Adjust the debounce delay as needed
+
+    handler();
+
+    return () => {
+      handler?.cancel();
+    };
+  }, [inputValue]);
+
+  const [updateRedeemReward, { isLoading: loadingUpdateRedeemReward }] =
+    useUpdateRedeemRewardMutation();
+  const [trigger, { isLoading: loadingUpdateConsumer }] =
+    usePutLoyaltyProgramConsumersPointsUpdateMutation();
+
+  const handleCheckboxChange = async (item: any) => {
+    const isChecked = !checkedItems[item?._id];
+    setCheckedItems((prev) => ({ ...prev, [item?._id]: isChecked }));
+
+    const payLoad = {
+      redeemedPoints: isChecked ? item?.requiredPoints : 0,
+      redeemedRewardPerConsumer: {
+        consumerId: '672b49c61c76da9dcf9fd990',
+        redeemedLimit: 1,
+      },
+    };
+
+    const consumersPayLoad = {
+      currentPointBalance: item?.requiredPoints,
+      totalPointRedeemed: consumerDetails?.data?.totalPointRedeemed,
+      totalPointsEarned: consumerTotalPoints,
+      numberofTransactions: 1,
+      ids: ['672b49c61c76da9dcf9fd990'],
+    };
+
+    try {
+      await updateRedeemReward({ id: item?._id, body: payLoad })?.unwrap();
+      await trigger(consumersPayLoad)?.unwrap();
+      enqueueSnackbar('Reward updated', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+    } catch (error: any) {
+      enqueueSnackbar('Error while updating reward', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
+
   const createConsumerFunction = async () => {
     if (response.error?.data?.message === 'Consumer not found.') {
       const consumerPayload = {
@@ -141,6 +223,55 @@ const useStepLineItems = (openCreateProduct?: any) => {
       });
     }
   };
+  const [disabledButton, setDisabledButton] = useState(true);
+
+  const handleInputChange = (e: any) => {
+    const value = e.target.value;
+    setInputValueDiscount(value);
+
+    // Real-time validation
+    if (Number(value) > giftCardData?.data?.currentamount) {
+      setDisabledButton(true);
+      enqueueSnackbar(
+        `Value cannot exceed ${giftCardData?.data?.currentamount}`,
+        {
+          variant: NOTISTACK_VARIANTS?.ERROR,
+        },
+      );
+    } else {
+      setDisabledButton(false);
+    }
+  };
+
+  const [inputValueDiscount, setInputValueDiscount] = useState();
+  const [updateApi, { isLoading: updateGiftCardIsLoading }] =
+    usePutGiftCardValueMutation();
+
+  const onSubmit = async (event: any) => {
+    event.preventDefault();
+    const patchParameter = {
+      queryParams: { cardNumber: giftCardData?.data?.cardNumber },
+      body: {
+        currentamount: giftCardData?.data?.currentamount - inputValueDiscount,
+        escrowAmount: inputValueDiscount,
+        transactionAmount: inputValueDiscount,
+        escrowAmountStatus: 'Pending',
+        quotesId: quoteId,
+      },
+    };
+
+    try {
+      await updateApi(patchParameter).unwrap();
+      enqueueSnackbar('Update successful', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+      refetch();
+    } catch (error) {
+      enqueueSnackbar('Error while updating', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
 
   return {
     setSearch,
@@ -157,6 +288,22 @@ const useStepLineItems = (openCreateProduct?: any) => {
     producttUpdateType,
     router,
     consumerTotalPoints,
+    ExchangeRate,
+    singleTierDetails,
+    handleCheckboxChange,
+    checkedItems,
+    loadingUpdateRedeemReward,
+    loadingSingleTierDetails,
+    loadingUpdateConsumer,
+    setInputValue,
+    inputValue,
+    isErrorGiftCard,
+    giftCardData,
+    onSubmit,
+    inputValueDiscount,
+    handleInputChange,
+    disabledButton,
+    updateGiftCardIsLoading,
   };
 };
 

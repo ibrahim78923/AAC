@@ -6,7 +6,9 @@ import {
   // Checkbox,
   // Divider,
   Grid,
+  Skeleton,
   Stack,
+  TextField,
   Typography,
 } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
@@ -15,11 +17,8 @@ import { AddCircleSmallIcon, InfoIconBlueBg } from '@/assets/icons';
 import { styles } from './StepLineItems.style';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import useStepLineItems from './useStepLineItems';
-import {
-  discountsData,
-  lineItemsColumns,
-  rewardsData,
-} from './StepLineItems.data';
+import { discountsData, lineItemsColumns } from './StepLineItems.data';
+import { v4 as uuidv4 } from 'uuid';
 
 const StepLineItems = (props: any) => {
   const { openCreateProduct, calculations } = props;
@@ -37,6 +36,22 @@ const StepLineItems = (props: any) => {
     productsData,
     handleQuantityChange,
     consumerTotalPoints,
+    ExchangeRate,
+    singleTierDetails,
+    handleCheckboxChange,
+    checkedItems,
+    loadingUpdateRedeemReward,
+    loadingSingleTierDetails,
+    loadingUpdateConsumer,
+    setInputValue,
+    inputValue,
+    isErrorGiftCard,
+    giftCardData,
+    onSubmit,
+    inputValueDiscount,
+    handleInputChange,
+    disabledButton,
+    updateGiftCardIsLoading,
   } = useStepLineItems(openCreateProduct);
 
   return (
@@ -149,7 +164,8 @@ const StepLineItems = (props: any) => {
                     <Typography
                       sx={{ color: theme?.palette?.custom?.main, mx: 0.5 }}
                     >
-                      {consumerTotalPoints}pts = £2
+                      {consumerTotalPoints}pts = £
+                      {ExchangeRate?.data?.calculatedExchangeRate}
                     </Typography>
                     <InfoIconBlueBg />
                   </Box>
@@ -166,7 +182,7 @@ const StepLineItems = (props: any) => {
                   Available Rewards
                 </Box>
                 <Box>
-                  {rewardsData?.map((item: any) => (
+                  {/* {rewardsData?.map((item: any) => (
                     <Box key={item?.label}>
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <Checkbox />
@@ -191,7 +207,44 @@ const StepLineItems = (props: any) => {
                         </Box>
                       </Box>
                     </Box>
-                  ))}
+                  ))} */}
+                  {loadingUpdateRedeemReward ||
+                  loadingSingleTierDetails ||
+                  loadingUpdateConsumer ? (
+                    <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
+                  ) : (
+                    singleTierDetails?.data?.map((item: any) => (
+                      <Box key={uuidv4()}>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                          <Checkbox
+                            checked={!!checkedItems[item?._id]}
+                            onChange={() => handleCheckboxChange(item)}
+                          />
+                          <Box sx={{ display: 'flex' }}>
+                            <Typography
+                              sx={{
+                                fontSize: '14px',
+                                color: theme?.palette?.blue?.dull_blue,
+                              }}
+                            >
+                              {item?.title}
+                            </Typography>
+                            {item?.requiredPoints && (
+                              <Typography
+                                sx={{
+                                  fontSize: '14px',
+                                  color: theme?.palette?.custom?.main,
+                                  mx: '3px',
+                                }}
+                              >
+                                {item?.requiredPoints} (pts)
+                              </Typography>
+                            )}
+                          </Box>
+                        </Box>
+                      </Box>
+                    ))
+                  )}
                 </Box>
               </Box>
             </Box>
@@ -284,9 +337,51 @@ const StepLineItems = (props: any) => {
                         name="name"
                         label="Enter Gift Card Number"
                         placeholder="Enter here"
+                        value={inputValue}
+                        onChange={(e: any) => setInputValue(e.target.value)}
                       />
                     </FormProvider>
                   </Box>
+                )}
+                {isErrorGiftCard && (
+                  <Typography
+                    sx={{
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      color: theme?.palette?.error?.main,
+                    }}
+                  >
+                    Gift Card Number not found
+                  </Typography>
+                )}
+                {giftCardData && (
+                  <>
+                    <Typography sx={{ fontSize: '14px', marginY: '5px' }}>
+                      <b>Current Amount:- </b>
+                      {giftCardData?.data?.currentamount}
+                    </Typography>
+
+                    <Box component="form" onSubmit={onSubmit}>
+                      <TextField
+                        size="small"
+                        required
+                        name="name"
+                        // label="Enter Amount for Discount"
+                        placeholder="Enter Amount for Discount"
+                        value={inputValueDiscount}
+                        onChange={handleInputChange}
+                        sx={{ marginRight: '10px', width: '80%' }}
+                      />
+                      <Button
+                        type="submit"
+                        variant={'contained'}
+                        className={'small'}
+                        disabled={disabledButton || updateGiftCardIsLoading}
+                      >
+                        Apply
+                      </Button>
+                    </Box>
+                  </>
                 )}
               </Box>
             </Box>
