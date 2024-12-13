@@ -34,6 +34,13 @@ export const UserList: any = [
       truncateText(info?.getValue() ? `£${info?.getValue()}` : '---'),
   },
   {
+    accessorFn: (info: any) => info?.escrowAmountStatus,
+    id: 'escrowAmountStatus',
+    header: 'Escrow Amount Status',
+    isSortable: true,
+    cell: (info: any) => truncateText(info?.getValue() ?? '---'),
+  },
+  {
     accessorFn: (row: any) => row?.redeemed,
     id: 'redeemed',
     isSortable: true,

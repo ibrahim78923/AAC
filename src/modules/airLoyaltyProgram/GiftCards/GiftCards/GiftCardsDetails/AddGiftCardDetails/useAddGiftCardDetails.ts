@@ -32,8 +32,9 @@ export const useAddGiftCardDetails = (props: any) => {
       },
     };
     try {
-      await addDigitalGiftCardDetailsTrigger(apiDataParameter)?.unwrap();
-      successSnackbar('Transaction Added Successfully');
+      const res: any =
+        await addDigitalGiftCardDetailsTrigger(apiDataParameter)?.unwrap();
+      successSnackbar(res?.message ?? 'Transaction added successfully');
       handleRefetchList();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);

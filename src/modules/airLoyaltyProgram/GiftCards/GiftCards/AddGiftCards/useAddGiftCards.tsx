@@ -30,8 +30,8 @@ export const useAddGiftCards = (props: any) => {
       activeTo: isoDateString(formData?.activeTo),
     };
     try {
-      await addGiftCardTrigger(body)?.unwrap();
-      successSnackbar('Card Added Successfully');
+      const res: any = await addGiftCardTrigger(body)?.unwrap();
+      successSnackbar(res?.message ?? 'Card added successfully');
       handleRefetchList();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
