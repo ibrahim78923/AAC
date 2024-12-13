@@ -1,29 +1,40 @@
-import { STATICTICS_STATUS } from '@/constants/strings';
 import { Theme, useTheme } from '@mui/material';
 
-const useStatisticsCard = (whatsappAnalytics: any) => {
+const STATICTICS_STATUS = {
+  RECEIVED: 'Received',
+  SENT: 'Sent',
+  FAILED: 'Failed',
+};
+
+const useStatisticsCard = (data: any) => {
   const theme = useTheme<Theme>();
 
-  const series = [{ name: 'Received' }, { name: 'Sent' }, { name: 'Failed' }];
+  // Define series names
+  const series = [
+    { name: STATICTICS_STATUS.RECEIVED },
+    { name: STATICTICS_STATUS.SENT },
+    { name: STATICTICS_STATUS.FAILED },
+  ];
 
-  const updatedSeries: any = series?.map((serie) => {
-    if (serie?.name === STATICTICS_STATUS?.RECIEVED) {
+  // Map apiData to series
+  const updatedSeries = series?.map((ele) => {
+    if (ele.name === STATICTICS_STATUS?.RECEIVED) {
       return {
-        ...serie,
-        data: whatsappAnalytics?.map((item: any) => item?.delivered),
+        ...ele,
+        data: data?.map((item: any) => item?.delivered),
       };
-    } else if (serie?.name === STATICTICS_STATUS?.SENT) {
+    } else if (ele.name === STATICTICS_STATUS?.SENT) {
       return {
-        ...serie,
-        data: whatsappAnalytics?.map((item: any) => item?.sent),
+        ...ele,
+        data: data?.map((item: any) => item?.sent),
       };
-    } else if (serie?.name === STATICTICS_STATUS?.FAILED) {
+    } else if (ele.name === STATICTICS_STATUS?.FAILED) {
       return {
-        ...serie,
-        data: whatsappAnalytics?.map((item: any) => item?.failed),
+        ...ele,
+        data: data?.map((item: any) => item?.failed),
       };
     } else {
-      return serie;
+      return ele;
     }
   });
 

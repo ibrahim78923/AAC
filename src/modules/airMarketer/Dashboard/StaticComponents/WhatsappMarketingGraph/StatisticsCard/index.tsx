@@ -2,11 +2,15 @@ import dynamic from 'next/dynamic';
 import { Box, Typography } from '@mui/material';
 import useStatisticsCard from './useStatisticsCard';
 import { styles } from './StatisticsCard.style';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
-const StatisticsCard = ({ loading, whatsappAnalytics }: any) => {
-  const { options, theme, updatedSeries } =
-    useStatisticsCard(whatsappAnalytics);
+const StatisticsCard = ({ data }: any) => {
+  const { options, theme, updatedSeries } = useStatisticsCard(
+    data?.statistics,
+  ) as {
+    options: any;
+    theme: any;
+    updatedSeries: { name?: string; data: any[] }[];
+  };
 
   const ReactApexChart = dynamic(() => import('react-apexcharts'), {
     ssr: false,
@@ -24,16 +28,14 @@ const StatisticsCard = ({ loading, whatsappAnalytics }: any) => {
         >
           Total Conversion
         </Typography>
-        {loading ? (
-          <SkeletonTable />
-        ) : (
-          <ReactApexChart
-            options={options}
-            series={updatedSeries}
-            type="area"
-            height={450}
-          />
-        )}
+        {/* <SkeletonTable /> */}
+
+        <ReactApexChart
+          options={options}
+          series={updatedSeries}
+          type="area"
+          height={450}
+        />
       </Box>
     </Box>
   );

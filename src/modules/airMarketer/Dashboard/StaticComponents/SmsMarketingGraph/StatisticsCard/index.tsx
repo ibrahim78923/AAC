@@ -2,45 +2,32 @@ import dynamic from 'next/dynamic';
 import { Box, Typography } from '@mui/material';
 import useStatisticsCard from './useStatisticsCard';
 import { styles } from './StatisticsCard.style';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
-import useSMSDashboard from '@/modules/airMarketer/SMSMarketing/SMSDashboard/useSMSDashboard';
-import { StatusCardsProps } from '../SMSDashboard-interface';
 
-const StatisticsCard = ({
-  analytics,
-  isDashboard = true,
-}: StatusCardsProps) => {
-  const { series, options, theme } = useStatisticsCard();
+const StatisticsCard = ({ data }: any) => {
+  const { series, options, theme } = useStatisticsCard({ data });
   const ReactApexChart = dynamic(() => import('react-apexcharts'), {
     ssr: false,
   });
 
-  const { dashboardGraphData, dashboardLoading } = useSMSDashboard();
-  const analyticsGraphData = isDashboard ? dashboardGraphData : analytics;
-
   return (
     <>
-      {dashboardLoading ? (
-        <SkeletonTable />
-      ) : (
-        <Box sx={styles?.staticCardStyle}>
-          <Typography
-            variant="body2"
-            sx={{
-              color: `${theme?.palette?.custom?.dark_blue}`,
-              fontWeight: 600,
-            }}
-          >
-            SMS Conversation
-          </Typography>
-          <ReactApexChart
-            options={options}
-            series={series(analyticsGraphData)}
-            type="bar"
-            height={450}
-          />
-        </Box>
-      )}
+      <Box sx={styles?.staticCardStyle}>
+        <Typography
+          variant="body2"
+          sx={{
+            color: `${theme?.palette?.custom?.dark_blue}`,
+            fontWeight: 600,
+          }}
+        >
+          SMS Conversation
+        </Typography>
+        <ReactApexChart
+          options={options}
+          series={series}
+          type="bar"
+          height={450}
+        />
+      </Box>
     </>
   );
 };

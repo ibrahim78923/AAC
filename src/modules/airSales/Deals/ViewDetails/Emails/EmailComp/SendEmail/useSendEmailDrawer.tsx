@@ -402,7 +402,7 @@ const useSendEmailDrawer = ({
           enqueueSnackbar(
             drawerType === CREATE_EMAIL_TYPES?.REPLY
               ? 'Email reply send successfully'
-              : 'Reply all send successfully',
+              : 'Reply send successfully',
             {
               variant: 'success',
             },
@@ -432,14 +432,30 @@ const useSendEmailDrawer = ({
             currentEmailAssets?.others?.subject,
           );
         }
+
+        if (!isScheduleExists && values?.attachments) {
+          if (Array?.isArray(values?.attachments)) {
+            values?.attachments.forEach((file: File) => {
+              formDataForward?.append(`attachments`, file);
+            });
+          } else {
+            formDataForward.append('attachments', values?.attachments);
+          }
+        }
+
         formDataForward.append(
           'content',
           `<div 
-          style="font-family:${emailSettingsData?.data?.emailSettings?.fontName}; 
-          font-size:${emailSettingsData?.data?.emailSettings?.fontSize}px ">
+          style="font-family:${emailSettingsData?.data?.emailSettings
+            ?.fontName}; 
+          font-size:${
+            emailSettingsData?.data?.emailSettings?.fontSize ?? '16'
+          }px ">
           ${values?.description} 
           <br> 
-          <div style="font-size:16px;" >${emailSettingsData?.data?.emailSettings?.signature}</div> 
+          <div style="font-size:16px;" >${
+            emailSettingsData?.data?.emailSettings?.signature ?? ''
+          }</div> 
           </div>` || '<p></p>',
         );
 
@@ -459,6 +475,7 @@ const useSendEmailDrawer = ({
 
           formDataForward?.append(`attachments`, file);
         });
+
         try {
           await postForwardCase({
             body: formDataForward,

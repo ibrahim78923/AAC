@@ -482,6 +482,9 @@ export const AIR_MARKETER_DASHBOARD_REPORTS_TYPES = {
   PROFILE_STATS: 'Profile_Stats',
   SMS_MARKETING_GRAPH: 'SMS_Marketing_Graph',
   WHATSAPP_MARKETING_GRAPH: 'Whatsapp_Marketing_Graph',
+
+  SMS_MARKETING: 'SmsMarketing',
+  WHATSAPP_MARKETING: 'WhatsappMarketing',
 };
 
 export const AIR_MARKETER_DASHBOARD = {

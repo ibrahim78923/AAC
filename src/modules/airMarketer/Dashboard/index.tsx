@@ -9,8 +9,6 @@ import {
 } from '@mui/material';
 import { createElement } from 'react';
 import FormsTable from './StaticComponents/FormsTable';
-import ContactCustomerGraph from './StaticComponents/ContactCustomerGraph';
-import CtaViews from './StaticComponents/CtaViews';
 import ManageDashboardOptions from './ManageDashboardOptions';
 import ShareOptions from './ShareOptions';
 import useDashboard from './useDashboard';
@@ -30,6 +28,8 @@ import { TruncateText } from '@/components/TruncateText';
 import { ReportsWidgets } from './ReportsWidgets';
 import { REPORT_TYPES } from '@/constants/strings';
 import TotalMarketingEmail from './StaticComponents/TotalMarketingEmail';
+import SmsMarketingGraph from './StaticComponents/SmsMarketingGraph';
+import WhatsappMarketingGraph from './StaticComponents/WhatsappMarketingGraph';
 
 const Dashboard = () => {
   const {
@@ -174,16 +174,16 @@ const Dashboard = () => {
               <ProfileStatistics />
             </Grid>
           )}
-          {dashboardsData?.ctaTotalViewsAndAdsSubmissions && (
+          {/* {dashboardsData?.ctaTotalViewsAndAdsSubmissions && (
             <Grid item xs={12} lg={6}>
               <CtaViews />
             </Grid>
-          )}
-          {dashboardsData?.newContactsAndCustomers && (
+          )} */}
+          {/* {dashboardsData?.newContactsAndCustomers && (
             <Grid item xs={12} lg={6}>
               <ContactCustomerGraph />
             </Grid>
-          )}
+          )} */}
 
           {dashboardsData?.totalMarketingEmail && (
             <Grid item xs={12} lg={6}>
@@ -201,12 +201,18 @@ const Dashboard = () => {
             </Grid>
           )}
           {/* commented for future use  */}
-          {/* <Grid item xs={12}>
-                    <SmsMarketingGraph />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <WhatsappMarketingGraph />
-              </Grid> */}
+          {dashboardsData?.smsMarketing && (
+            <Grid item xs={12}>
+              <SmsMarketingGraph data={dashboardsData?.smsMarketing} />
+            </Grid>
+          )}
+          {dashboardsData?.whatsappMarketing && (
+            <Grid item xs={12}>
+              <WhatsappMarketingGraph
+                data={dashboardsData?.whatsappMarketing}
+              />
+            </Grid>
+          )}
 
           {/* Dynamic Components */}
           {dashboardLoading ? (

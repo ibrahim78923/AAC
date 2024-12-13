@@ -4,7 +4,7 @@ import useWhatsappMarketing from './useWhatsappMarketingGraph';
 import StatusCards from './StatusCards';
 import StatisticsCard from './StatisticsCard';
 
-const WhatsappMarketingGraph = () => {
+const WhatsappMarketingGraph = ({ data }: any) => {
   const { theme } = useWhatsappMarketing();
   return (
     <Card>
@@ -19,10 +19,10 @@ const WhatsappMarketingGraph = () => {
         </Stack>
         <Grid container>
           <Grid item xs={12}>
-            <StatusCards />
+            <StatusCards data={data} />
           </Grid>
           <Grid item xs={12}>
-            <StatisticsCard />
+            <StatisticsCard data={data} />
           </Grid>
         </Grid>
       </Box>
