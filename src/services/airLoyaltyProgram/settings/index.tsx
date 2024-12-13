@@ -28,6 +28,7 @@ export const loyaltyProgramSettingsAPI = baseAPI?.injectEndpoints({
 });
 
 export const {
+  useLazyGetLoyaltyProgramSettingsGeneralSettingsQuery,
   useGetLoyaltyProgramSettingsGeneralSettingsQuery,
   useAddLoyaltyProgramSettingsGeneralSettingsMutation,
   useUpdateLoyaltyProgramSettingsGeneralSettingsMutation,

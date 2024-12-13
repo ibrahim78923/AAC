@@ -72,37 +72,53 @@ export const TopPerformer = (props: any) => {
             >
               {hasTopPerformer?.badges}
             </Typography>
-            <Typography variant="body3" color={'slateBlue.main'}>
-              {!!!hasTopPerformer?.masterPoints
-                ? `${hasTopPerformer?.totalPoints} 
+            {hasTopPerformer?.badges !== AGENT_LEVELS?.MASTER ? (
+              <>
+                <Typography variant="body3" color={'slateBlue.main'}>
+                  {!!!hasTopPerformer?.masterPoints
+                    ? `${hasTopPerformer?.totalPoints} 
             points and has ${hasTopPerformer?.badges} level`
-                : `${hasTopPerformer?.totalPoints} + 
+                    : `${hasTopPerformer?.totalPoints} + 
             ${hasTopPerformer?.masterPoints - hasTopPerformer?.totalPoints}
             points to ${AGENT_LEVELS?.MASTER} level`}
-            </Typography>
-            <br />
-            <Typography variant="body3" color={'primary.main'}>
-              {!!!hasTopPerformer?.masterPoints
-                ? 0
-                : +Math?.round(
-                    (hasTopPerformer?.totalPoints /
-                      hasTopPerformer?.masterPoints) *
-                      100,
-                  )?.toFixed?.(2)}
-              %
-            </Typography>
-            <LinearProgress
-              value={
-                !!!hasTopPerformer?.masterPoints
-                  ? 0
-                  : +Math?.round(
-                      (hasTopPerformer?.totalPoints /
-                        hasTopPerformer?.masterPoints) *
-                        100,
-                    )?.toFixed?.(2)
-              }
-              variant="determinate"
-            />
+                </Typography>
+                <br />
+                <Typography variant="body3" color={'primary.main'}>
+                  {!!!hasTopPerformer?.masterPoints
+                    ? 0
+                    : +Math?.round(
+                        (hasTopPerformer?.totalPoints /
+                          hasTopPerformer?.masterPoints) *
+                          100,
+                      )?.toFixed?.(2)}
+                  %
+                </Typography>
+                <LinearProgress
+                  value={
+                    !!!hasTopPerformer?.masterPoints
+                      ? 0
+                      : +Math?.round(
+                          (hasTopPerformer?.totalPoints /
+                            hasTopPerformer?.masterPoints) *
+                            100,
+                        )?.toFixed?.(2)
+                  }
+                  variant="determinate"
+                />
+              </>
+            ) : (
+              <>
+                <Typography variant="body3" my={1} color={'slateBlue.main'}>
+                  {`${hasTopPerformer?.totalPoints} 
+                    points and has ${hasTopPerformer?.badges} level`}
+                </Typography>
+                <br />
+                <Typography variant="body3" color={'primary.main'}>
+                  100%
+                </Typography>
+                <LinearProgress value={100} variant="determinate" />
+              </>
+            )}
           </>
         )}
       </Box>

@@ -1,11 +1,11 @@
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
   useAddLoyaltyProgramSettingsGeneralSettingsMutation,
-  useGetLoyaltyProgramSettingsGeneralSettingsQuery,
   useUpdateLoyaltyProgramSettingsGeneralSettingsMutation,
 } from '@/services/airLoyaltyProgram/settings';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useGetLoyaltySettings } from '../SettingsHooks/useGetLoyaltySettings';
 
 export const useLoyalty = () => {
   const methods = useForm({
@@ -15,10 +15,14 @@ export const useLoyalty = () => {
     },
   });
 
-  const { data, refetch, isLoading, isFetching, isError } =
-    useGetLoyaltyProgramSettingsGeneralSettingsQuery(null, {
-      refetchOnMountOrArgChange: true,
-    });
+  const {
+    getLoyaltySettings,
+    lazyGetLoyaltyProgramSettingsGeneralSettingsStatus,
+    addLoyaltyProgramSettingsGeneralSettingsFirstTimeStatus,
+  } = useGetLoyaltySettings();
+
+  const { data, isLoading, isFetching, isError } =
+    lazyGetLoyaltyProgramSettingsGeneralSettingsStatus;
 
   const [
     addLoyaltyProgramSettingsGeneralSettingsTrigger,
@@ -56,6 +60,10 @@ export const useLoyalty = () => {
     }
   };
 
+  useEffect(() => {
+    getLoyaltySettings?.();
+  }, []);
+
   const updateLoyalty = async (formData: any) => {
     const body = {
       maxPointLimit: formData?.maxPointLimit,
@@ -72,7 +80,7 @@ export const useLoyalty = () => {
       )?.unwrap();
       successSnackbar('Loyalty program settings updated successfully');
       reset?.();
-      refetch?.();
+      getLoyaltySettings?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -85,7 +93,11 @@ export const useLoyalty = () => {
     }));
   }, [data, reset]);
 
-  const showLoader = isLoading || isFetching;
+  const showLoader =
+    isLoading ||
+    isFetching ||
+    addLoyaltyProgramSettingsGeneralSettingsFirstTimeStatus.isLoading;
+
   const apiCallInProgress =
     addLoyaltyProgramSettingsGeneralSettingsStatus.isLoading ||
     updateLoyaltyProgramSettingsGeneralSettingsStatus.isLoading;

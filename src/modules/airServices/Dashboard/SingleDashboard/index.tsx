@@ -64,7 +64,7 @@ export const SingleDashboard = (props: any) => {
           <Box ref={downloadRef}>
             <TicketStatusCount />
             <br />
-            {apiSuspenseState || !!!reportsList?.length ? (
+            {apiSuspenseState || hasError || !!!reportsList?.length ? (
               <ApiStatusSuspense
                 lazyGetSingleServicesDashboardStatus={
                   lazyGetSingleServicesDashboardStatus
