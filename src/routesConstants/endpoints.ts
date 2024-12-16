@@ -411,7 +411,7 @@ export const END_POINTS = {
   GET_GIFT_CARD_GETBY_CARD: '/gift-cards/getby',
   GET_REWARDS_LIST_BY_ID: `/rewards/get-reward-details`,
   UPDATE_REWARDS_QUOTES: `/rewards/redeem-reward`,
-  UPDATE_REWARDS: `/rewards/update-physical-rewards`,
+  UPDATE_REWARDS: `/rewards/update-physical-reward`,
   STATUS_REWARDS: `/rewards/update-reward-status`,
   GET_VOUCHERS_REWARDS_DROPDOWN: `/vouchers/list-voucher`,
   TIERS_DROPDOWN_FOR_REWARDS: `/rules-and-tiers/tiers`,
