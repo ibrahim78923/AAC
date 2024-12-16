@@ -18,6 +18,7 @@ import ModalManageSignatures from './components/ModalManageSignatures';
 import DocumentHistory from './components/DocumentHistory';
 import ModalConfirmationSignDoc from './components/ModalConfirmationSignDoc';
 import ModalPhoneNumber from './components/ModalPhoneNumber';
+import CreateContractSidebar from './CreateContractSidebar';
 
 export default function CreateContract() {
   const {
@@ -58,16 +59,16 @@ export default function CreateContract() {
       </PlainHeader>
 
       <Box sx={styles?.container}>
-        <Box sx={styles?.contentRow}>
-          <Box sx={styles?.content}>
-            <Box sx={styles.contentTopbar}>
-              <PreviewToggle
-                active={activeView}
-                handleToggle={handlePreviewToggle}
-              />
-            </Box>
-            {activeView === 'create' && (
-              <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+          <Box sx={styles?.contentRow}>
+            <Box sx={styles?.content}>
+              <Box sx={styles.contentTopbar}>
+                <PreviewToggle
+                  active={activeView}
+                  handleToggle={handlePreviewToggle}
+                />
+              </Box>
+              {activeView === 'create' && (
                 <Grid container spacing={'30px'}>
                   <Grid item xs={12} md={8}>
                     <ContractTitle />
@@ -166,17 +167,19 @@ export default function CreateContract() {
                     <DocumentHistory />
                   </Grid>
                 </Grid>
-              </FormProvider>
-            )}
-            {activeView === 'preview' && (
-              <Box>
-                <Button>Preview</Button>
-              </Box>
-            )}
-          </Box>
+              )}
+              {activeView === 'preview' && (
+                <Box>
+                  <Button>Preview</Button>
+                </Box>
+              )}
+            </Box>
 
-          <Box sx={styles?.sidebar}>Sidebar</Box>
-        </Box>
+            <Box sx={styles?.sidebar}>
+              <CreateContractSidebar />
+            </Box>
+          </Box>
+        </FormProvider>
       </Box>
 
       <ModalManageSignatures

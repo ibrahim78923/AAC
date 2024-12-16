@@ -1,8 +1,8 @@
 import { DialogProps } from '@mui/material/Dialog';
 
-export interface CommonDialogProps extends DialogProps {
+export interface CommonDialogProps extends Omit<DialogProps, 'title'> {
+  title?: React.ReactNode;
   width?: string;
-  dialogTitle?: React.ReactNode;
   closeIcon?: boolean;
   onSubmit?: () => void;
   okText?: string;

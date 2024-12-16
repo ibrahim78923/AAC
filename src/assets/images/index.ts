@@ -233,3 +233,5 @@ export { default as StatsYoutubeImage } from './modules/airMarketer/Dashboard/yo
 export { default as NoDashboardWidgetImage } from './modules/airServices/Dashboard/no-dashboard-widget-image.svg';
 export { default as ConsumerImage } from './modules/HeaderAndSidebar/consumer-image.png';
 export { default as ContractsImage } from './modules/HeaderAndSidebar/contracts.png';
+export { default as SignDrawImg } from './modules/socialComponents/contracts/sign-draw-method.svg';
+export { default as SignOtherImg } from './modules/socialComponents/contracts/sign-other-method.svg';

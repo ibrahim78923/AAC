@@ -53,8 +53,12 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { AlertModals } from '@/components/AlertModals';
 import { useRouter } from 'next/router';
 import { AIR_SOCIAL_CONTRACTS } from '@/constants/routes';
+import useContracts from './useContracts';
+import ModalSignPdf from './ModalSignPdf';
 
 const Contracts = () => {
+  const { openModalSignPdf, setOpenModalSignPdf } = useContracts();
+
   const router = useRouter();
   const isSmallScreen = useMediaQuery('(max-width: 1000px)');
 
@@ -295,7 +299,12 @@ const Contracts = () => {
                     </Box>
                   </Box>
                 </MenuItem>
-                <MenuItem onClick={handleClose}>
+                <MenuItem
+                  onClick={() => {
+                    handleClose();
+                    setOpenModalSignPdf(true);
+                  }}
+                >
                   <Box sx={{ display: 'flex', gap: '10px' }}>
                     <Box>
                       <SignIcon />
@@ -435,6 +444,12 @@ const Contracts = () => {
           </Box>
         </>
       </CommonDrawer>
+
+      <ModalSignPdf
+        open={openModalSignPdf}
+        onClose={() => setOpenModalSignPdf(false)}
+        onSubmit={() => setOpenModalSignPdf(false)}
+      />
     </Box>
   );
 };

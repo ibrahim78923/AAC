@@ -580,3 +580,8 @@ export { default as ViewedIcon } from './modules/airSocial/contracts/viewed';
 export { default as SignedIcon } from './modules/airSocial/contracts/signed';
 export { default as IconAddCollaborator } from './modules/airSocial/contracts/icon-add-collaborator';
 export { default as IconCloseDialog } from './shared/icon-close-dialog';
+export { default as IconPlusAddContractsFields } from './modules/airSocial/contracts/icon-plus-add-fields';
+export { default as IconFieldCheckbox } from './modules/airSocial/contracts/field-type-checkbox';
+export { default as IconFieldNumber } from './modules/airSocial/contracts/field-type-number';
+export { default as IconFieldText } from './modules/airSocial/contracts/field-type-text';
+export { default as IconFieldDate } from './modules/airSocial/contracts/field-type-date';

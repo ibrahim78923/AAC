@@ -24,12 +24,13 @@ export default function CommonDialog(props: CommonDialogProps) {
     renderFooter,
     width = 'sm',
     isFooter = true,
+    ...dialogProps
   } = props;
 
   const isTitle = () => !!title;
 
   return (
-    <Dialog {...props} fullWidth sx={styles.dialog(width)}>
+    <Dialog {...dialogProps} fullWidth sx={styles.dialog(width)}>
       {title && <DialogTitle sx={styles.dialogTitle}>{title}</DialogTitle>}
 
       {closeIcon && (
