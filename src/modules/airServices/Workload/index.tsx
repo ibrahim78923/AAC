@@ -178,6 +178,7 @@ export const Workload = () => {
               </Box>
             );
           }}
+          initialDate={dateCalendar}
           headerToolbar={false}
           plugins={[dayGridPlugin, interactionPlugin]}
           initialView={'dayGridWeek'}
