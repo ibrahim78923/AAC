@@ -8,9 +8,11 @@ export const addGiftCardDetailsValidationSchema = (currentAmount: any) =>
       ?.required('Amount is required')
       ?.max(
         currentAmount,
-        `Amount cannot exceed the total amount of ${currentAmount}`,
+        currentAmount === '0'
+          ? 'No funds available. Current amount is 0'
+          : `Amount cannot exceed the current amount of ${currentAmount}`,
       )
-      ?.min(1, `Amount must be grater then zero`),
+      ?.min(1, 'Amount must be greater then 0'),
   });
 
 export const addGiftCardDetailsDefaultValues = () => {
