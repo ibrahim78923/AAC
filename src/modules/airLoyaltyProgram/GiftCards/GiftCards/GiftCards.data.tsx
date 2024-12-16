@@ -29,6 +29,8 @@ export const giftCardColumnsFunction = (
             pathname: AIR_LOYALTY_PROGRAM?.GIFT_CARDS_DETAIL,
             query: {
               giftCardNumber: info?.getValue(),
+              currentamount: info?.row?.original?.currentamount,
+              spentamount: info?.row?.original?.spentamount,
             },
           });
         }}

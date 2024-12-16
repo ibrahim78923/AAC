@@ -1238,3 +1238,8 @@ export const VOUCHERS_CONSTANTS = {
   UNLIMITED: 'unlimited',
   FILE_URL: 'fileUrl',
 };
+export const STATUS = {
+  DONE: 'Done',
+  REJECTED: 'Rejected',
+  PENDING: 'Pending',
+};
