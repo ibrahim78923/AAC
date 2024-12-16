@@ -45,6 +45,7 @@ const useOrganizationCard = () => {
 
   const { handleSubmit, reset, watch, setValue } = methods;
   const formValues = watch();
+
   const addressValues = formValues?.composite?.address
     ? formValues?.composite?.address
     : `${formValues?.flat ? `Flat # ${formValues?.flat}, ` : ''}` +
@@ -71,19 +72,33 @@ const useOrganizationCard = () => {
         .then((res) => {
           if (res) {
             const fieldsData = res?.data[0];
+
+            let addressOthFields;
+            if (typeof fieldsData?.address === 'string') {
+              if (fieldsData?.address?.startsWith('{')) {
+                addressOthFields = JSON.parse(fieldsData?.address);
+              } else {
+                addressOthFields = {
+                  composite: fieldsData?.address ?? '',
+                };
+              }
+            } else {
+              addressOthFields = fieldsData?.address;
+            }
+
             reset({
               registrationNumber: fieldsData?.crn,
               name: fieldsData?.name,
               email: fieldsData?.owner?.email,
               phoneNo: fieldsData?.owner?.phoneNumber,
               postCode: fieldsData?.postCode,
-              compositeAddress: fieldsData?.address?.composite,
-              flat: fieldsData?.address?.flat ?? '',
-              city: fieldsData?.address?.city ?? '',
-              country: fieldsData?.address?.country ?? '',
-              buildingName: fieldsData?.address?.buildingName ?? '',
-              buildingNumber: fieldsData?.address?.buildingNumber ?? '',
-              streetName: fieldsData?.address?.street ?? '',
+
+              flat: addressOthFields?.flatNumber ?? '',
+              city: addressOthFields?.city ?? '',
+              country: addressOthFields?.country ?? '',
+              buildingName: addressOthFields?.buildingName ?? '',
+              buildingNumber: addressOthFields?.buildingNumber ?? '',
+              streetName: addressOthFields?.streetName ?? '',
             });
           }
         });
@@ -93,7 +108,7 @@ const useOrganizationCard = () => {
   // Set value of address fields
   useEffect(() => {
     setValue('compositeAddress', addressValues);
-  }, [addressValues]);
+  }, [addressValues, currentOrganizationId, isOpenDrawer?.isToggled]);
 
   useEffect(() => {
     setCurrOrg(currentOrganization);
@@ -171,7 +186,7 @@ const useOrganizationCard = () => {
   };
 
   const handleCloseDrawer = () => {
-    setIsOpenDrawer({ ...isOpenDrawer, isToggled: false }), reset();
+    setIsOpenDrawer({ ...isOpenDrawer, isToggled: false });
   };
   return {
     theme,

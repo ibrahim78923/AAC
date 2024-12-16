@@ -12,7 +12,6 @@ import InnerTab from './InnerTab';
 import {
   SideBarArray,
   customersAttributesArray,
-  headerArray,
   sideBarMenuArray,
 } from './CreateTemplatesForm.data';
 import { v4 as uuidv4 } from 'uuid';
@@ -27,11 +26,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useEffect, useState } from 'react';
 import FormBuilder from './FormBuilder';
 import PreviewTemplate from './PreviewTemplate';
-import {
-  HeaderItemI,
-  OptionI,
-  SideBarItemI,
-} from './CreateTemplateForm.interface';
+import { OptionI, SideBarItemI } from './CreateTemplateForm.interface';
 import { useRouter } from 'next/router';
 import { useGetEmailTemplatesByIDQuery } from '@/services/airMarketer/emailTemplates';
 import { AIR_MARKETER } from '@/routesConstants/paths';
@@ -115,42 +110,6 @@ const CreateTemplatesForm = () => {
     <>
       <Box sx={{ position: 'relative' }}>
         <Grid sx={styles?.mainDiv()}>
-          <Grid container sx={styles?.headerBar}>
-            {headerArray?.map((item: HeaderItemI, index: number) => (
-              <>
-                <Grid item xs={6} md={4} lg={2} key={uuidv4()}>
-                  <Box
-                    display={'flex'}
-                    alignItems={'center'}
-                    justifyContent={'center'}
-                    onClick={() => {
-                      setHeaderValue(item?.name);
-                    }}
-                  >
-                    <Box sx={styles.headerIcon(theme, headerValue, index)}>
-                      {item?.icon}
-                      <Typography
-                        variant="body2"
-                        sx={{ marginLeft: '10px', fontWeight: '500' }}
-                      >
-                        {item?.name}
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Grid>
-                <Box
-                  sx={{
-                    borderRight:
-                      index != 3
-                        ? `1px solid ${theme?.palette?.grey[700]}`
-                        : 'none',
-                    height: '100px',
-                  }}
-                ></Box>
-              </>
-            ))}
-          </Grid>
-
           <Box sx={{ pt: 2 }}>
             <DndProvider backend={HTML5Backend}>
               <FormBuilder
