@@ -77,6 +77,14 @@ export const quotesLoaylityAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    getSingleVouchersQuotes: builder?.query({
+      query: (params: any) => ({
+        url: `${END_POINTS?.GET_SINGLE_VOUCHERS}`,
+        method: 'GET',
+        params,
+      }),
+      providesTags: [TAG],
+    }),
   }),
 });
 
@@ -90,4 +98,5 @@ export const {
   useUpdateRedeemRewardMutation,
   usePutLoyaltyProgramConsumersPointsUpdateMutation,
   usePutGiftCardValueMutation,
+  useGetSingleVouchersQuotesQuery,
 } = quotesLoaylityAPI;

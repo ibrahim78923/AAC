@@ -496,13 +496,13 @@ export const useAddPlan = () => {
         });
       }
 
-      const hasEmptyPermissionSlugs = planPermission?.some(
-        (product) => product?.permissionSlugs?.length === 0,
-      );
-      if (hasEmptyPermissionSlugs) {
-        errorSnackbar('Please select permissions');
-        return;
-      }
+      // const hasEmptyPermissionSlugs = planPermission?.some(
+      //   (product) => product?.permissionSlugs?.length === 0,
+      // );
+      // if (hasEmptyPermissionSlugs) {
+      //   errorSnackbar('Please select permissions');
+      //   return;
+      // }
 
       const transformedModulesFormData = { planPermission };
 

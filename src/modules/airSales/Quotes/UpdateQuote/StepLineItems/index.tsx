@@ -17,8 +17,9 @@ import { AddCircleSmallIcon, InfoIconBlueBg } from '@/assets/icons';
 import { styles } from './StepLineItems.style';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import useStepLineItems from './useStepLineItems';
-import { discountsData, lineItemsColumns } from './StepLineItems.data';
+import { lineItemsColumns } from './StepLineItems.data';
 import { v4 as uuidv4 } from 'uuid';
+import { isNullOrEmpty } from '@/utils';
 
 const StepLineItems = (props: any) => {
   const { openCreateProduct, calculations } = props;
@@ -35,14 +36,12 @@ const StepLineItems = (props: any) => {
     handleDeleteDeals,
     productsData,
     handleQuantityChange,
-    consumerTotalPoints,
+    ConsumerTotalPointsValue,
     ExchangeRate,
     singleTierDetails,
     handleCheckboxChange,
     checkedItems,
-    loadingUpdateRedeemReward,
     loadingSingleTierDetails,
-    loadingUpdateConsumer,
     setInputValue,
     inputValue,
     isErrorGiftCard,
@@ -51,8 +50,16 @@ const StepLineItems = (props: any) => {
     inputValueDiscount,
     handleInputChange,
     disabledButton,
-    updateGiftCardIsLoading,
-  } = useStepLineItems(openCreateProduct);
+    VoucherInputValue,
+    setVoucherInputValue,
+    isErrorVoucher,
+    discountsData,
+    updateSubTotal,
+    setDiscountVoucherValue,
+    setUpdateSubTotal,
+    discountVoucherValue,
+    setInputValueDiscount,
+  } = useStepLineItems(openCreateProduct, calculations);
 
   return (
     <>
@@ -136,7 +143,7 @@ const StepLineItems = (props: any) => {
                 }}
                 variant="h6"
               >
-                Loyalty Discounts
+                Loyalty Discounts {updateSubTotal}
               </Typography>
             </Box>
 
@@ -164,7 +171,7 @@ const StepLineItems = (props: any) => {
                     <Typography
                       sx={{ color: theme?.palette?.custom?.main, mx: 0.5 }}
                     >
-                      {consumerTotalPoints}pts = £
+                      {ConsumerTotalPointsValue}pts = £
                       {ExchangeRate?.data?.calculatedExchangeRate}
                     </Typography>
                     <InfoIconBlueBg />
@@ -208,9 +215,7 @@ const StepLineItems = (props: any) => {
                       </Box>
                     </Box>
                   ))} */}
-                  {loadingUpdateRedeemReward ||
-                  loadingSingleTierDetails ||
-                  loadingUpdateConsumer ? (
+                  {loadingSingleTierDetails ? (
                     <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
                   ) : (
                     singleTierDetails?.data?.map((item: any) => (
@@ -237,7 +242,7 @@ const StepLineItems = (props: any) => {
                                   mx: '3px',
                                 }}
                               >
-                                {item?.requiredPoints} (pts)
+                                ({item?.requiredPoints} pts)
                               </Typography>
                             )}
                           </Box>
@@ -248,7 +253,7 @@ const StepLineItems = (props: any) => {
                 </Box>
               </Box>
             </Box>
-            <Box sx={{ mx: 2 }}>
+            {/* <Box sx={{ mx: 2 }}>
               {isChecked && (
                 <Box>
                   <FormProvider methods={methods}>
@@ -262,7 +267,7 @@ const StepLineItems = (props: any) => {
                   </FormProvider>
                 </Box>
               )}
-            </Box>
+            </Box> */}
             <Box sx={{ mx: 2 }}>
               <Typography
                 sx={{
@@ -272,50 +277,25 @@ const StepLineItems = (props: any) => {
                 }}
                 variant="h5"
               >
-                Vouchers and gift cards
+                Vouchers and Gift cards
               </Typography>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Checkbox
-                  onChange={(event: any) =>
-                    setCheckedIs({
-                      ...checkedIs,
-                      voucher: event?.target?.checked,
-                    })
-                  }
-                />
-                <Typography
-                  sx={{
-                    fontSize: '14px',
-                    fontWeight: 500,
-                    color: theme?.palette?.blue?.dull_blue,
-                  }}
-                >
-                  Voucher
-                </Typography>
-              </Box>
-              <Box sx={{ mx: 2 }}>
-                {checkedIs?.voucher && (
-                  <Box>
-                    <FormProvider methods={methods}>
-                      <RHFTextField
-                        size="small"
-                        required
-                        name="name"
-                        label="Enter Voucher Number"
-                        placeholder="Enter here"
-                      />
-                    </FormProvider>
-                  </Box>
-                )}
-              </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <Checkbox
-                  onChange={(event: any) =>
+                  checked={checkedIs.giftBox}
+                  onChange={(event: any) => {
                     setCheckedIs({
                       ...checkedIs,
                       giftBox: event?.target?.checked,
-                    })
-                  }
+                    });
+                    if (!isChecked) {
+                      // Call the function to update the state and set the value to 0
+                      setInputValueDiscount(0);
+                      setInputValue('');
+                      setUpdateSubTotal(
+                        updateSubTotal + parseFloat(inputValueDiscount),
+                      );
+                    }
+                  }}
                 />
                 <Typography
                   sx={{
@@ -324,7 +304,7 @@ const StepLineItems = (props: any) => {
                     color: theme?.palette?.blue?.dull_blue,
                   }}
                 >
-                  gift card
+                  Gift card
                 </Typography>
               </Box>
               <Box sx={{ mx: 2 }}>
@@ -354,36 +334,95 @@ const StepLineItems = (props: any) => {
                     Gift Card Number not found
                   </Typography>
                 )}
-                {giftCardData && (
-                  <>
-                    <Typography sx={{ fontSize: '14px', marginY: '5px' }}>
-                      <b>Current Amount:- </b>
-                      {giftCardData?.data?.currentamount}
-                    </Typography>
+                {checkedIs?.giftBox &&
+                  giftCardData &&
+                  !isErrorGiftCard &&
+                  !isNullOrEmpty(inputValue) && (
+                    <>
+                      <Typography sx={{ fontSize: '14px', marginY: '5px' }}>
+                        <b>Current Amount:- </b>
+                        {giftCardData?.data?.currentamount - inputValueDiscount}
+                      </Typography>
 
-                    <Box component="form" onSubmit={onSubmit}>
-                      <TextField
+                      <Box component="form" onSubmit={onSubmit}>
+                        <TextField
+                          size="small"
+                          required
+                          name="name"
+                          // label="Enter Amount for Discount"
+                          placeholder="Enter Amount for Discount"
+                          value={inputValueDiscount}
+                          onChange={handleInputChange}
+                          sx={{ marginRight: '10px', width: '80%' }}
+                        />
+                        <Button
+                          type="submit"
+                          variant={'contained'}
+                          className={'small'}
+                          disabled={disabledButton}
+                        >
+                          Apply
+                        </Button>
+                      </Box>
+                    </>
+                  )}
+              </Box>
+
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Checkbox
+                  onChange={(event: any) => {
+                    setCheckedIs({
+                      ...checkedIs,
+                      voucher: event?.target?.checked,
+                    });
+                    if (!isChecked) {
+                      // Call the function to update the state and set the value to 0
+                      setDiscountVoucherValue(0);
+                      setVoucherInputValue('');
+                      setUpdateSubTotal(updateSubTotal + discountVoucherValue);
+                    }
+                  }}
+                />
+                <Typography
+                  sx={{
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    color: theme?.palette?.blue?.dull_blue,
+                  }}
+                >
+                  Voucher
+                </Typography>
+              </Box>
+              <Box sx={{ mx: 2 }}>
+                {checkedIs?.voucher && (
+                  <Box>
+                    <FormProvider methods={methods}>
+                      <RHFTextField
                         size="small"
                         required
                         name="name"
-                        // label="Enter Amount for Discount"
-                        placeholder="Enter Amount for Discount"
-                        value={inputValueDiscount}
-                        onChange={handleInputChange}
-                        sx={{ marginRight: '10px', width: '80%' }}
+                        label="Enter Voucher Number"
+                        placeholder="Enter here"
+                        value={VoucherInputValue}
+                        onChange={(e: any) =>
+                          setVoucherInputValue(e.target.value)
+                        }
                       />
-                      <Button
-                        type="submit"
-                        variant={'contained'}
-                        className={'small'}
-                        disabled={disabledButton || updateGiftCardIsLoading}
-                      >
-                        Apply
-                      </Button>
-                    </Box>
-                  </>
+                    </FormProvider>
+                  </Box>
                 )}
               </Box>
+              {isErrorVoucher && (
+                <Typography
+                  sx={{
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    color: theme?.palette?.error?.main,
+                  }}
+                >
+                  Voucher not Available
+                </Typography>
+              )}
             </Box>
             <Divider sx={{ mx: 2 }} />
             <Box>
@@ -413,7 +452,7 @@ const StepLineItems = (props: any) => {
                       color: theme?.palette?.blue?.dull_blue,
                     }}
                   >
-                    {item?.value}
+                    £ {item?.value}
                   </Typography>
                 </Box>
               ))}

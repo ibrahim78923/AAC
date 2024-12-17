@@ -200,3 +200,11 @@ export const rewardsData = [
   { label: 'Diary', pts: '200pts' },
   { label: 'Pen', pts: '50pts' },
 ];
+
+export const voucherOperator = {
+  LESS_THAN: 'Less than',
+  GREATER_THAN: 'Greater than',
+  EQUAL_TO: 'Equal to',
+  LESS_THAN_OR_EQUAL: 'Less than or equal to',
+  GREATER_THAN_OR_EQUAL: 'Greater than or equal to',
+};
