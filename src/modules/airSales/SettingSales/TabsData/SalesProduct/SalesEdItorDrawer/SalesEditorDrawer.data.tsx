@@ -16,8 +16,18 @@ import * as Yup from 'yup';
 export const salesProductvalidationSchema = (form: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
   return Yup?.object()?.shape({
-    purchasePrice: Yup?.number()?.positive()?.required('Field is Required'),
-    unitPrice: Yup?.number()?.positive()?.required('Field is Required'),
+    purchasePrice: Yup?.number()
+      ?.transform((value, originalValue) =>
+        originalValue === '' ? undefined : value,
+      )
+      ?.positive('Purchase price must be a positive number')
+      ?.required('Field is Required'),
+    unitPrice: Yup?.number()
+      ?.transform((value, originalValue) =>
+        originalValue === '' ? undefined : value,
+      )
+      ?.positive('Unit price must be a positive number')
+      ?.required('Field is Required'),
     name: Yup?.string()?.required('Field is Required'),
     category: Yup?.object()?.required('Field is Required'),
     description: Yup?.string(),
