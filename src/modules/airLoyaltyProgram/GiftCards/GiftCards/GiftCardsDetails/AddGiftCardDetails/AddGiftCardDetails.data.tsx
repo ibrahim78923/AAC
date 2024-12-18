@@ -10,7 +10,7 @@ export const addGiftCardDetailsValidationSchema = (currentAmount: any) =>
         currentAmount,
         currentAmount === '0'
           ? 'No funds available. Current amount is 0'
-          : `Amount cannot exceed the current amount of ${currentAmount}`,
+          : `Amount cannot exceed the current amount of £${currentAmount}`,
       )
       ?.min(1, 'Amount must be greater then 0'),
   });

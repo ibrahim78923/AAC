@@ -55,7 +55,7 @@ export const useGiftCardsDetails = () => {
       refetchOnMountOrArgChange: true,
     });
 
-  const handleRefetchList = async () => {
+  const handleRefetchTransactionsList = async () => {
     await refetch();
   };
 
@@ -99,7 +99,7 @@ export const useGiftCardsDetails = () => {
         <AddGiftCardDetails
           isPortalOpen={isPortalOpen}
           setIsPortalOpen={setIsPortalOpen}
-          handleRefetchList={handleRefetchList}
+          handleRefetchTransactionsList={handleRefetchTransactionsList}
         />
       );
     }

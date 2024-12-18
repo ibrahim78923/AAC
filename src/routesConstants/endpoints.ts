@@ -408,7 +408,7 @@ export const END_POINTS = {
   GET_ExchangeRate: '/settings/get-exchange-rate-from-points',
   GET_REWARD: '/consumers/list-reward-by-consumer',
   POST_CONSUMER: '/consumers/create',
-  GET_GIFT_CARD_GETBY_CARD: '/gift-cards/getby',
+  GET_GIFT_CARD_BY_ID: '/gift-cards/getby',
   GET_REWARDS_LIST_BY_ID: `/rewards/get-reward-details`,
   UPDATE_REWARDS_QUOTES: `/rewards/redeem-reward`,
   UPDATE_REWARDS: `/rewards/update-physical-reward`,

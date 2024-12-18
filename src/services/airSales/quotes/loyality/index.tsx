@@ -32,7 +32,7 @@ export const quotesLoaylityAPI = baseAPI.injectEndpoints({
     }),
     getGiftCardGetBY: builder.query({
       query: (params: any) => ({
-        url: END_POINTS?.GET_GIFT_CARD_GETBY_CARD,
+        url: END_POINTS?.GET_GIFT_CARD_BY_ID,
         method: 'GET',
         params: params,
       }),

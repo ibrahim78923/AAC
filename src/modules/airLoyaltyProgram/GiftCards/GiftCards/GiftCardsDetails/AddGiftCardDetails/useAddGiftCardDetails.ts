@@ -5,21 +5,42 @@ import {
   addGiftCardDetailsFormFieldsDynamic,
   addGiftCardDetailsValidationSchema,
 } from './AddGiftCardDetails.data';
-import { useAddGiftCardDetailsMutation } from '@/services/airLoyaltyProgram/giftCards/giftCards';
+import {
+  useAddGiftCardDetailsMutation,
+  useGetSingleGiftCardQuery,
+} from '@/services/airLoyaltyProgram/giftCards/giftCards';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
 import { STATUS } from '@/constants/strings';
 
 export const useAddGiftCardDetails = (props: any) => {
-  const { setIsPortalOpen, handleRefetchList } = props;
+  const { setIsPortalOpen, handleRefetchTransactionsList } = props;
   const router = useRouter();
-  const { giftCardNumber, currentamount, spentamount }: any = router?.query;
+  const { giftCardNumber }: any = router?.query;
+
+  const singleGiftCardParams = {
+    cardNumber: giftCardNumber,
+  };
+
+  const { data, refetch } = useGetSingleGiftCardQuery<any>(
+    singleGiftCardParams,
+    {
+      refetchOnMountOrArgChange: true,
+    },
+  );
+
+  const handleRefetchSingleGiftCard = async () => {
+    await refetch();
+  };
+
+  const currentAmount = data?.data?.currentamount;
+  const spentAmount = data?.data?.spentamount;
 
   const [addDigitalGiftCardDetailsTrigger, addDigitalGiftCardDetailsStatus] =
     useAddGiftCardDetailsMutation();
 
   const methods: any = useForm<any>({
-    resolver: yupResolver(addGiftCardDetailsValidationSchema(currentamount)),
+    resolver: yupResolver(addGiftCardDetailsValidationSchema(currentAmount)),
     defaultValues: addGiftCardDetailsDefaultValues?.(),
   });
 
@@ -29,8 +50,8 @@ export const useAddGiftCardDetails = (props: any) => {
     const apiDataParameter = {
       queryParams: { cardNumber: giftCardNumber },
       body: {
-        currentamount: Number(currentamount) - Number(formData?.amount),
-        spentamount: Number(spentamount) + Number(formData?.amount),
+        currentamount: Number(currentAmount) - Number(formData?.amount),
+        spentamount: Number(spentAmount) + Number(formData?.amount),
         transactionAmount: Number(formData?.amount),
         escrowAmountStatus: STATUS?.DONE,
       },
@@ -40,7 +61,8 @@ export const useAddGiftCardDetails = (props: any) => {
       const res: any =
         await addDigitalGiftCardDetailsTrigger(apiDataParameter)?.unwrap();
       successSnackbar(res?.message ?? 'Transaction added successfully');
-      handleRefetchList();
+      handleRefetchTransactionsList();
+      handleRefetchSingleGiftCard();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

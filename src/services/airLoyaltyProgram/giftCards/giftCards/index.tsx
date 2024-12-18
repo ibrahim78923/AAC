@@ -55,6 +55,14 @@ const giftCardApi = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    getSingleGiftCard: builder?.query({
+      query: (params: any) => ({
+        url: END_POINTS?.GET_GIFT_CARD_BY_ID,
+        method: 'GET',
+        params,
+      }),
+      invalidatesTags: [TAG],
+    }),
     getRecipientDropdownList: builder?.query({
       query: ({ params }: any) => ({
         url: END_POINTS?.CONTACTS,
@@ -75,4 +83,5 @@ export const {
   useAddGiftCardDetailsMutation,
   useLazyGetRecipientDropdownListQuery,
   usePutGiftCardStatusMutation,
+  useGetSingleGiftCardQuery,
 } = giftCardApi;
