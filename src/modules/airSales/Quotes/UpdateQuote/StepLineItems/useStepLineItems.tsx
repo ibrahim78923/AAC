@@ -48,14 +48,15 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
   const { data: dataGetQuoteById } = useGetQuoteByIdQuery({ id: quoteId });
   const [createConsumer] = useCreateConsumerMutation();
   const [putSubmitQuote] = usePutSubmitQuoteMutation();
-  const [checkedItems, setCheckedItems] = useState({});
+  const [checkedItems, setCheckedItems] = useState<any>({});
   const [debouncedValue, setDebouncedValue] = useState('');
   const [inputValue, setInputValue] = useState('');
-  const [VoucherInputValue, setVoucherInputValue] = useState('');
-  const [VoucherDebouncedValue, setVoucherDebouncedValue] = useState('');
-  const [ConsumerTotalPointsValue, setConsumerTotalPointsValue] = useState();
-  const [updateSubTotal, setUpdateSubTotal] = useState();
-  const [onePointExchangeRate, setOnePointExchangeRate] = useState(0);
+  const [VoucherInputValue, setVoucherInputValue] = useState<any>('');
+  const [VoucherDebouncedValue, setVoucherDebouncedValue] = useState<any>('');
+  const [ConsumerTotalPointsValue, setConsumerTotalPointsValue] =
+    useState<any>();
+  const [updateSubTotal, setUpdateSubTotal] = useState<any>();
+  const [onePointExchangeRate, setOnePointExchangeRate] = useState<any>(0);
 
   const { data: productsData } = useGetQuoteByIdQuery({
     id: quoteId,
@@ -152,16 +153,16 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
       return;
     }
 
-    setCheckedItems((prev) => ({ ...prev, [item?._id]: isChecked }));
+    setCheckedItems((prev: any) => ({ ...prev, [item?._id]: isChecked }));
 
-    setConsumerTotalPointsValue((prevValue) =>
+    setConsumerTotalPointsValue((prevValue: any) =>
       isChecked
         ? prevValue - item?.requiredPoints
         : prevValue + item?.requiredPoints,
     );
 
-    setOnePointExchangeRate((prevValue) => {
-      const exchangeRate = (
+    setOnePointExchangeRate((prevValue: any) => {
+      const exchangeRate: any = (
         ExchangeRate?.data?.calculatedExchangeRate / ConsumerTotalPointsValue
       )?.toFixed(2);
       const newValue = isChecked
@@ -170,8 +171,8 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
       return prevValue + newValue;
     });
 
-    setUpdateSubTotal((prevValue) => {
-      const exchangeRate = (
+    setUpdateSubTotal((prevValue: any) => {
+      const exchangeRate: any = (
         ExchangeRate?.data?.calculatedExchangeRate / ConsumerTotalPointsValue
       )?.toFixed(2);
       const newValue = !isChecked
@@ -317,7 +318,7 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
     }
   };
 
-  const [inputValueDiscount, setInputValueDiscount] = useState(0);
+  const [inputValueDiscount, setInputValueDiscount] = useState<any>(0);
   // const [updateApi, { isLoading: updateGiftCardIsLoading }] =
   //   usePutGiftCardValueMutation();
   const [discountsData, setDiscountsData] = useState([
@@ -377,34 +378,44 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
   useEffect(() => {
     if (VoucherData?.data?.length > 0) {
       const voucher = VoucherData.data[0];
-      const { addAmount, percentageOff } = voucher;
+      const { addAmount, percentageOff }: any = voucher;
       let discountVoucher = 0;
 
       if (
         voucher.operator === voucherOperator.LESS_THAN &&
         updateSubTotal < addAmount
       ) {
-        discountVoucher = parseFloat(updateSubTotal * (percentageOff / 100));
+        discountVoucher = parseFloat(
+          String(updateSubTotal * (percentageOff / 100)),
+        );
       } else if (
         voucher.operator === voucherOperator.GREATER_THAN &&
         updateSubTotal > addAmount
       ) {
-        discountVoucher = parseFloat(updateSubTotal * (percentageOff / 100));
+        discountVoucher = parseFloat(
+          String(updateSubTotal * (percentageOff / 100)),
+        );
       } else if (
         voucher.operator === voucherOperator.EQUAL_TO &&
         updateSubTotal === addAmount
       ) {
-        discountVoucher = parseFloat(updateSubTotal * (percentageOff / 100));
+        discountVoucher = parseFloat(
+          String(updateSubTotal * (percentageOff / 100)),
+        );
       } else if (
         voucher.operator === voucherOperator.LESS_THAN_OR_EQUAL &&
         updateSubTotal <= addAmount
       ) {
-        discountVoucher = parseFloat(updateSubTotal * (percentageOff / 100));
+        discountVoucher = parseFloat(
+          String(updateSubTotal * (percentageOff / 100)),
+        );
       } else if (
         voucher.operator === voucherOperator.GREATER_THAN_OR_EQUAL &&
         updateSubTotal >= addAmount
       ) {
-        discountVoucher = parseFloat(updateSubTotal * (percentageOff / 100));
+        discountVoucher = parseFloat(
+          String(updateSubTotal * (percentageOff / 100)),
+        );
       } else {
         enqueueSnackbar('you can not avail this voucher', {
           variant: NOTISTACK_VARIANTS?.ERROR,
