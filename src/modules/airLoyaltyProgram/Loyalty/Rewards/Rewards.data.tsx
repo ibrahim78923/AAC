@@ -55,6 +55,13 @@ export const loyaltyRewardColumnDynamic: any = (
       cell: (info: any) => info?.getValue() ?? '---',
     },
     {
+      accessorFn: (row: any) => row?.escrowRedeemedPoints,
+      id: 'escrowRedeemedPoints',
+      isSortable: true,
+      header: 'Escrow Redeemed Points',
+      cell: (info: any) => info?.getValue() ?? '---',
+    },
+    {
       accessorFn: (row: any) => row?.redeemedQuantity,
       id: 'redeemedQuantity',
       isSortable: true,

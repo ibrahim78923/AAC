@@ -50,7 +50,7 @@ export const UpsertRewards = (props: any) => {
           <Box mt={1}>
             <FormProvider methods={methods}>
               <Grid container spacing={2}>
-                {upsertRewardsData()?.map((item: any) => (
+                {upsertRewardsData(watch)?.map((item: any) => (
                   <Grid item xs={12} md={item?.md} key={item?.id}>
                     <item.component {...item?.componentProps} size={'small'} />
                   </Grid>

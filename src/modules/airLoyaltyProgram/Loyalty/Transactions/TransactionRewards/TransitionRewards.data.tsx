@@ -38,6 +38,12 @@ export const transactionsRewardsColumns: any = () => [
     cell: (info: any) => `-${info?.getValue()}` || '---',
   },
   {
+    accessorFn: (row: any) => row?.escrowRedeemedQuantity,
+    id: 'escrowRedeemedQuantity',
+    header: 'Escrow Redeemed Quantity',
+    cell: (info: any) => info?.getValue() ?? '---',
+  },
+  {
     accessorFn: (row: any) => row?.createdAt,
     id: 'createdAt',
     header: 'CreatedAt',

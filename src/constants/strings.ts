@@ -1243,3 +1243,9 @@ export const STATUS = {
   REJECTED: 'Rejected',
   PENDING: 'Pending',
 };
+
+export const ESCROW_STATUS = {
+  RESERVED: 'Reserved',
+  COMPLETED: 'Completed',
+  REJECTED: 'Rejected',
+};

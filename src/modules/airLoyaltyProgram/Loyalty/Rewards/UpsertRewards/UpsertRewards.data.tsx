@@ -43,7 +43,12 @@ export const rewardsValidationSchema: any = Yup?.object()?.shape({
     ?.positive('Greater than zero')
     ?.typeError('Not a number'),
   activeFrom: Yup?.date()?.nullable(),
-  activeTo: Yup?.date()?.nullable(),
+  activeTo: Yup?.date()
+    ?.nullable()
+    .min(
+      Yup?.ref('activeFrom'),
+      'The active to date must be later than or equal to the active from date.',
+    ),
   limitRewards: Yup?.string()?.nullable(),
   limit: Yup?.mixed()
     ?.nullable()
@@ -69,7 +74,7 @@ export const addRewardsDefaultValues = (data: any) => {
   };
 };
 
-export const upsertRewardsData = () => [
+export const upsertRewardsData = (watch: any) => [
   {
     id: 1,
     componentProps: {
@@ -140,6 +145,7 @@ export const upsertRewardsData = () => [
       name: 'activeFrom',
       label: 'Active from',
       fullWidth: true,
+      disablePast: true,
     },
     component: RHFDatePicker,
     md: 12,
@@ -150,7 +156,7 @@ export const upsertRewardsData = () => [
       name: 'activeTo',
       label: 'Active to',
       fullWidth: true,
-      disablePast: true,
+      minDateTime: watch('activeFrom'),
     },
     component: RHFDatePicker,
     md: 12,

@@ -1,6 +1,7 @@
 import { TruncateText } from '@/components/TruncateText';
 import { UserInfo } from '@/components/UserInfo';
 import { DATE_TIME_FORMAT } from '@/constants';
+import { ESCROW_STATUS } from '@/constants/strings';
 import { otherDateFormat } from '@/lib/date-time';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 
@@ -25,6 +26,19 @@ export const singleRewardDetailsColumnsDynamic = () => [
     isSortable: true,
     header: 'Address',
     cell: (info: any) => <TruncateText text={info?.getValue()} size={40} />,
+  },
+  {
+    accessorFn: (row: any) => row?.escrowStatus,
+    id: 'escrowStatus',
+    isSortable: true,
+    header: 'Escrow Status',
+    cell: (info: any) => {
+      const value = info?.getValue();
+      const status = Object.values(ESCROW_STATUS).includes(value)
+        ? value
+        : '---';
+      return status;
+    },
   },
   {
     accessorFn: (row: any) => row?.createdAt,

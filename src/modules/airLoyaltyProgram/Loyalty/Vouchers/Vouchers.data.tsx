@@ -47,6 +47,13 @@ export const vouchersColumns = (
       ),
     },
     {
+      accessorFn: (row: any) => row?.ascrowRedeemedVoucherLimit,
+      id: 'ascrowRedeemedVoucherLimit',
+      isSortable: true,
+      header: 'Escrow Redeemed Voucher',
+      cell: (info: any) => info.getValue() ?? '---',
+    },
+    {
       accessorFn: (row: any) => row?.status,
       id: 'status',
       isSortable: true,
