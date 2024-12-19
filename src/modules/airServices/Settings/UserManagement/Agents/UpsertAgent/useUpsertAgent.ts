@@ -3,6 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   usePatchAgentMutation,
   usePostAddAgentMutation,
+  useVerifyServicesSettingsUserManagementAgentViaIgMutation,
 } from '@/services/airServices/settings/user-management/agents';
 import {
   agentFieldsData,
@@ -24,7 +25,6 @@ import {
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
 import { IAgentsProps } from '../Agents.interface';
-import { useAuthCompanyVerificationMutation } from '@/services/auth';
 import { UpsertAgentResponseI } from './UpsertAgent.interface';
 import { isoDateString } from '@/lib/date-time';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
@@ -38,8 +38,11 @@ export const useUpsertAgent = (props: IAgentsProps) => {
 
   const [postAgentTrigger, postAgentStatus] = usePostAddAgentMutation();
   const [patchAgentTrigger, patchAgentStatus] = usePatchAgentMutation();
-  const [igVerificationTrigger, igVerificationStatus] =
-    useAuthCompanyVerificationMutation();
+
+  const [
+    verifyServicesSettingsUserManagementAgentViaIgTrigger,
+    verifyServicesSettingsUserManagementAgentViaIgStatus,
+  ] = useVerifyServicesSettingsUserManagementAgentViaIgMutation();
 
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();
@@ -77,6 +80,15 @@ export const useUpsertAgent = (props: IAgentsProps) => {
   useEffect(() => {
     reset(() => defaultValues(selectedAgentList, form));
   }, [selectedAgentList, reset, form]);
+
+  const verifyUserViaIg = async (email?: string) => {
+    const apiDataParameter = { email: { email } };
+    try {
+      await verifyServicesSettingsUserManagementAgentViaIgTrigger(
+        apiDataParameter,
+      )?.unwrap();
+    } catch (error) {}
+  };
 
   const handleUpsertAgentSubmit = async (data: any) => {
     const filteredEmptyData = filteredEmptyValues(data);
@@ -149,9 +161,10 @@ export const useUpsertAgent = (props: IAgentsProps) => {
       const email = {
         email: response?.email,
       };
-      await igVerificationTrigger({ email })?.unwrap();
+
       successSnackbar('Invite Agent Successfully!');
       handleClose?.();
+      await verifyUserViaIg(email?.email);
     } catch (e: any) {
       errorSnackbar(e?.data?.message);
     }
@@ -199,17 +212,20 @@ export const useUpsertAgent = (props: IAgentsProps) => {
 
   const upsertAgentFormFields = agentFieldsData(selectedAgentList);
 
+  const apiCallInProgress =
+    patchAgentStatus?.isLoading ||
+    postAgentStatus?.isLoading ||
+    postAttachmentStatus?.isLoading ||
+    verifyServicesSettingsUserManagementAgentViaIgStatus?.isLoading;
+
   return {
     method,
     handleSubmit,
     handleUpsertAgentSubmit,
-    patchAgentStatus,
-    postAgentStatus,
     handleClose,
     upsertAgentFormFields,
     getDynamicFieldsStatus,
-    postAttachmentStatus,
     form,
-    igVerificationStatus,
+    apiCallInProgress,
   };
 };

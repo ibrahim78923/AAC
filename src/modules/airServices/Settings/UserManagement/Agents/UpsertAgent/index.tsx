@@ -17,6 +17,7 @@ import ApiErrorState from '@/components/ApiErrorState';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
 import { IAgentsProps } from '../Agents.interface';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
 export const UpsertAgent = (props: IAgentsProps) => {
   const { isAgentModalOpen, selectedAgentList } = props;
@@ -24,14 +25,11 @@ export const UpsertAgent = (props: IAgentsProps) => {
     method,
     handleSubmit,
     handleUpsertAgentSubmit,
-    patchAgentStatus,
-    postAgentStatus,
     handleClose,
     upsertAgentFormFields,
     getDynamicFieldsStatus,
-    postAttachmentStatus,
     form,
-    igVerificationStatus,
+    apiCallInProgress,
   } = useUpsertAgent(props);
 
   return (
@@ -94,12 +92,7 @@ export const UpsertAgent = (props: IAgentsProps) => {
               variant="outlined"
               color="secondary"
               className="small"
-              disabled={
-                patchAgentStatus?.isLoading ||
-                postAgentStatus?.isLoading ||
-                postAttachmentStatus?.isLoading ||
-                igVerificationStatus?.isLoading
-              }
+              disabled={apiCallInProgress}
             >
               Cancel
             </LoadingButton>
@@ -107,19 +100,12 @@ export const UpsertAgent = (props: IAgentsProps) => {
               variant="contained"
               className="small"
               onClick={handleSubmit(handleUpsertAgentSubmit)}
-              disabled={
-                patchAgentStatus?.isLoading ||
-                postAgentStatus?.isLoading ||
-                postAttachmentStatus?.isLoading
-              }
-              loading={
-                patchAgentStatus?.isLoading ||
-                postAgentStatus?.isLoading ||
-                postAttachmentStatus?.isLoading ||
-                igVerificationStatus?.isLoading
-              }
+              disabled={apiCallInProgress}
+              loading={apiCallInProgress}
             >
-              {!!selectedAgentList?.length ? 'Update' : 'Save'}
+              {!!selectedAgentList?.length
+                ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
+                : GENERIC_UPSERT_FORM_CONSTANT?.SAVE}
             </LoadingButton>
           </DialogActions>
         </>
