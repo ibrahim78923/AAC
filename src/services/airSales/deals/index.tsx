@@ -151,7 +151,7 @@ export const dealsApi = baseAPI.injectEndpoints({
     }),
     updateRestoreDeals: builder.mutation({
       query: ({ id, action }: any) => ({
-        url: `${END_POINTS?.PATCH_RESTORE_DEAL_ACTION}?id=${id}&action=${action}`,
+        url: `${END_POINTS?.PATCH_RESTORE_DEAL_ACTION}?ids=${id}&action=${action}`,
         method: 'PATCH',
       }),
       invalidatesTags: TAGS,
