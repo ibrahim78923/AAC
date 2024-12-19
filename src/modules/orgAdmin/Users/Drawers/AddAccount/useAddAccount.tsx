@@ -9,6 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { usePostUsersAccountMutation } from '@/services/superAdmin/user-management/UserList';
 import { useEffect } from 'react';
+import { MESSAGES } from '@/constants/messages';
 
 const useAddAccount = (
   employeeDataById?: any,
@@ -56,13 +57,18 @@ const useAddAccount = (
     };
 
     try {
-      await postUsersAccount({
+      const data = await postUsersAccount({
         id: user?.organization?._id,
         body: postAccountBody,
       })?.unwrap();
-      enqueueSnackbar('User Added Successfully', {
-        variant: 'success',
-      });
+      enqueueSnackbar(
+        data?.message === MESSAGES?.SUCCESS
+          ? 'User Added Successfully'
+          : data?.message,
+        {
+          variant: 'success',
+        },
+      );
       setIsOpenAddAccountDrawer(false);
       reset();
     } catch (error: any) {
