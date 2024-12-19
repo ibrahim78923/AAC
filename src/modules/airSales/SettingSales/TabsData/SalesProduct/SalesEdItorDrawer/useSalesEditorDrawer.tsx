@@ -91,6 +91,10 @@ const useSalesEditorDrawer = ({
   }, [productsById?.data, reset, form]);
 
   const onSubmit = async (data: any) => {
+    if (data?.sku !== undefined) {
+      data.sku = String(data?.sku);
+    }
+
     const filteredEmptyData = filteredEmptyValues(data);
     const customFields: any = {};
     const body: any = {};
@@ -162,6 +166,10 @@ const useSalesEditorDrawer = ({
   };
 
   const submitUpdateSalesProduct = async (data: any) => {
+    if (data?.sku !== undefined) {
+      data.sku = String(data?.sku);
+    }
+
     data.category = data?.category?._id;
     const formData = new FormData();
     formData.append('image', data?.image);
