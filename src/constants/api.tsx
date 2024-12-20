@@ -86,3 +86,7 @@ export const BACKEND_REPORT_ACCESS = {
 export const API_STATUS_CODE = {
   404: 404,
 };
+
+export const STATIC_CONTRACT_TYPES = {
+  SOFTWARE_LICENSE: 'software_licence',
+};

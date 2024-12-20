@@ -16,6 +16,7 @@ import { useEffect } from 'react';
 import { AIR_SERVICES } from '@/constants/routes';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { isoDateString } from '@/lib/date-time';
+import { STATIC_CONTRACT_TYPES } from '@/constants/api';
 
 export const useUpsertContract = () => {
   const theme = useTheme();
@@ -60,13 +61,13 @@ export const useUpsertContract = () => {
 
   useEffect(() => {
     const params = new URLSearchParams();
-    params.append('search', 'software licences');
+    params.append('search', STATIC_CONTRACT_TYPES?.SOFTWARE_LICENSE);
     params.append('meta', 'false');
     triggerContractSoftware({ params });
   }, []);
 
   const softwareFind = contractSoftwareStatus?.data?.find(
-    (item: any) => item?.name === 'software licences',
+    (item: any) => item?.name === STATIC_CONTRACT_TYPES?.SOFTWARE_LICENSE,
   );
 
   useEffect(() => {
