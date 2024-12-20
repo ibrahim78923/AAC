@@ -1,21 +1,25 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
-import { ARRAY_INDEX } from '@/constants/strings';
+import { PAGINATION } from '@/config';
 import useAuth from '@/hooks/useAuth';
 import { useLazyGetPermissionsRoleForUpsertAgentQuery } from '@/services/airServices/settings/user-management/agents';
+import { getActiveAccountSession } from '@/utils';
+import { useMemo } from 'react';
 
-export const RoleListDropdown = () => {
-  const auth: any = useAuth();
+export const RoleListDropdown = (props: any) => {
+  const { required = false } = props;
   const roleApiQuery = useLazyGetPermissionsRoleForUpsertAgentQuery?.();
-  const { _id: productId } = auth?.product;
-  const { _id: organizationCompanyAccountId } =
-    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company;
-  const { _id: organizationId } = auth?.user?.organization;
+
+  const product = useMemo(() => getActiveAccountSession(), []);
+  const auth: any = useAuth();
+  const productId = auth?.product?._id ?? {};
+  const organizationId = auth?.user?.organization?._id ?? {};
+  const organizationCompanyAccountId = product?.company?._id ?? {};
 
   const roleApiQueryParams = {
     productId,
     organizationCompanyAccountId,
     organizationId,
-    limit: 50,
+    limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
   };
 
   return (
@@ -27,6 +31,7 @@ export const RoleListDropdown = () => {
       fullWidth={true}
       apiQuery={roleApiQuery}
       externalParams={roleApiQueryParams}
+      required={required}
     />
   );
 };

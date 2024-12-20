@@ -31,7 +31,7 @@ export const validationSchemaAgentFields: any = (form: any) => {
         return true;
       }),
     departmentId: yup?.mixed()?.nullable(),
-    permissionsRole: yup?.mixed()?.nullable(),
+    permissionsRole: yup?.mixed()?.nullable()?.required('Role is required'),
     timezone: yup?.mixed()?.nullable(),
     ...formSchema,
   });
@@ -112,6 +112,9 @@ export const agentFieldsData = (selectedAgentList: any) => [
     id: 6,
     gridLength: 12,
     component: RoleListDropdown,
+    componentProps: {
+      required: true,
+    },
   },
   {
     id: 7,
