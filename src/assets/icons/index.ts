@@ -585,3 +585,6 @@ export { default as IconFieldCheckbox } from './modules/airSocial/contracts/fiel
 export { default as IconFieldNumber } from './modules/airSocial/contracts/field-type-number';
 export { default as IconFieldText } from './modules/airSocial/contracts/field-type-text';
 export { default as IconFieldDate } from './modules/airSocial/contracts/field-type-date';
+export { default as IconSigningDigitally } from './modules/airSocial/contracts/icon-signing-digitally';
+export { default as IconDefaultAttachment } from './modules/airSocial/contracts/icon-default-attachment';
+export { default as IconAttachmentTrash } from './modules/airSocial/contracts/icon-attachment-trash';

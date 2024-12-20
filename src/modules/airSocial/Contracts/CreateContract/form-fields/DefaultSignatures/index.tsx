@@ -1,20 +1,27 @@
 import React from 'react';
 import { Box, FormControlLabel, Switch } from '@mui/material';
 import { styles } from './DefaultSignatures.style';
-import useDefaultSignatures from './useDefaultSignatures';
 import IndividualSignature from './IndividualSignature';
 
 interface DefaultSignaturesProps {
   signees: any;
   onClickChange: () => void;
+  isIndividualSignature: boolean;
+  onChangeIndividualSignature: (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => void;
+  setSelectedSigneeId: (id: string | null) => void;
 }
 
 export default function DefaultSignatures({
   signees,
   onClickChange,
+  isIndividualSignature,
+  onChangeIndividualSignature,
+  setSelectedSigneeId,
 }: DefaultSignaturesProps) {
-  const { isIndividualSignature, handleChangeIndividualSignature } =
-    useDefaultSignatures();
+  // const { isIndividualSignature, handleChangeIndividualSignature } =
+  //   useDefaultSignatures();
 
   return (
     <Box>
@@ -26,7 +33,7 @@ export default function DefaultSignatures({
             control={
               <Switch
                 checked={isIndividualSignature}
-                onChange={handleChangeIndividualSignature}
+                onChange={onChangeIndividualSignature}
                 inputProps={{ 'aria-label': 'signature-types' }}
               />
             }
@@ -40,6 +47,7 @@ export default function DefaultSignatures({
             <IndividualSignature
               key={signee?._id}
               isIndividualSignature={isIndividualSignature}
+              setSelectedSigneeId={setSelectedSigneeId}
               signatureType="SMS Verification"
               onClickChange={onClickChange}
               signee={signee}
@@ -52,6 +60,7 @@ export default function DefaultSignatures({
             isIndividualSignature={isIndividualSignature}
             signatureType="SMS Verification"
             onClickChange={onClickChange}
+            setSelectedSigneeId={setSelectedSigneeId}
           />
         </Box>
       )}

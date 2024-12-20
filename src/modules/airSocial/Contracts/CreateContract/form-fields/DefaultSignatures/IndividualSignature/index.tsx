@@ -4,6 +4,7 @@ import { styles } from './IndividualSignature.style';
 
 interface IndividualSignatureProps {
   isIndividualSignature: boolean;
+  setSelectedSigneeId: (id: string | null) => void;
   onClickChange: () => void;
   signatureType: string;
   signee?: any;
@@ -11,6 +12,7 @@ interface IndividualSignatureProps {
 
 export default function IndvidualSignature({
   isIndividualSignature,
+  setSelectedSigneeId,
   onClickChange,
   signee,
   signatureType,
@@ -46,7 +48,10 @@ export default function IndvidualSignature({
           color="inherit"
           size="small"
           className="small"
-          onClick={onClickChange}
+          onClick={() => {
+            setSelectedSigneeId(signee?._id || null);
+            onClickChange();
+          }}
         >
           Change
         </Button>

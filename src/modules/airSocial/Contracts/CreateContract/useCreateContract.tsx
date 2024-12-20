@@ -1,25 +1,27 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { initialParties, initialSignees } from './CreateContract.data';
+import { defaultValues, mockContract } from './CreateContract.data';
+import { generateUniqueId } from '@/utils/dynamic-forms';
 // import { yupResolver } from '@hookform/resolvers/yup';
 
 export default function useCreateContract() {
   /* VARIABLE DECLERATION
   -------------------------------------------------------------------------------------*/
+  const [contractData, setContractData] = useState(mockContract);
   const [activeView, setActiveView] = useState<string>('create');
-  const [parties, setParties] = useState(initialParties);
-  const [signees, setSignees] = useState<any>(initialSignees);
   const [openModalManageSignature, setOpenModalManageSignature] =
     useState<boolean>(false);
   const methods: any = useForm({
     // resolver: yupResolver(validationSchema),
-    // defaultValues: initialValues,
+    defaultValues: defaultValues,
   });
   const { handleSubmit } = methods;
   const [openModalConfirmationSignDoc, setOpenModalConfirmationSignDoc] =
     useState<boolean>(false);
   const [openModalPhoneNumber, setOpenModalPhoneNumber] =
     useState<boolean>(false);
+  const [isIndividualSignature, setIsIndividualSignature] = useState(false);
+  const [selectedSigneeId, setSelectedSigneeId] = useState<string | null>(null);
 
   /* EVENT LISTENERS
   -------------------------------------------------------------------------------------*/
@@ -39,57 +41,90 @@ export default function useCreateContract() {
     setActiveView(view);
   };
 
-  const handleAddParty = () => {
-    setParties([
-      ...parties,
-      {
-        _id: `${Date.now()}`,
-        type: '',
-        name: '',
-        address: '',
-        nationalID: '',
-        referredAs: '',
-      },
-    ]);
-  };
+  const handleAddParty = useCallback(() => {
+    setContractData((prevState) => ({
+      ...prevState,
+      parties: [
+        ...prevState.parties,
+        {
+          _id: generateUniqueId(),
+          name: '',
+          address: '',
+          idNumber: '',
+          email: '',
+          referredAs: '',
+          moduleType: '',
+          moduleId: '',
+        },
+      ],
+    }));
+  }, []);
 
-  const handleDeleteParty = (id: string) => {
-    setParties(parties.filter((party: any) => party._id !== id));
-  };
+  const handleDeleteParty = useCallback((partyId: string) => {
+    setContractData((prevState) => ({
+      ...prevState,
+      parties: prevState.parties.filter((party) => party._id !== partyId),
+    }));
+  }, []);
 
-  const handleAddSigneeCard = () => {
-    setSignees([
-      ...signees,
-      {
-        _id: `${Date.now()}`,
-        signeeOrder: '',
-        onBehalfOf: '',
-        personalTitle: '',
-        email: '',
-      },
-    ]);
-  };
+  const handleAddSigneeCard = useCallback(() => {
+    setContractData((prevState) => ({
+      ...prevState,
+      signees: [
+        ...prevState.signees,
+        {
+          _id: generateUniqueId(),
+          signingOrder: prevState.signees.length + 1,
+          onBehalfOf: '',
+          personalTitle: '',
+          fullName: '',
+          email: '',
+          signatureStatus: 'PENDING',
+          signatureType: 'MANUAL',
+          moduleId: '',
+        },
+      ],
+    }));
+  }, []);
 
-  const handleDeleteSigneeCard = (id: string) => {
-    setSignees(signees.filter((signee: any) => signee._id !== id));
-  };
+  const handleDeleteSigneeCard = useCallback((signeeId: string) => {
+    setContractData((prevState) => ({
+      ...prevState,
+      signees: prevState.signees.filter((signee) => signee?._id !== signeeId),
+    }));
+  }, []);
 
   const handleOpenModalManageSignature = () => {
     setOpenModalManageSignature(true);
   };
   const handleCloseModalManageSignature = () => {
+    setSelectedSigneeId(null);
     setOpenModalManageSignature(false);
+  };
+
+  const handleChangeIndividualSignature = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setIsIndividualSignature(event.target.checked);
   };
 
   const handleChangeSignatureMethod = (
     event: React.ChangeEvent<HTMLInputElement>,
+    signeeId: string | null,
   ) => {
-    setSignees([
-      ...signees,
-      {
-        signatureMethod: (event.target as HTMLInputElement).value,
-      },
-    ]);
+    setContractData((prevState) => ({
+      ...prevState,
+      signees: signeeId
+        ? prevState.signees.map((signee) =>
+            signee._id === signeeId
+              ? { ...signee, signatureType: event.target.value }
+              : signee,
+          )
+        : prevState.signees.map((signee) => ({
+            ...signee,
+            signatureType: event.target.value,
+          })),
+    }));
   };
 
   const handleOpenModalConfirmationSignDoc = () => {
@@ -107,13 +142,13 @@ export default function useCreateContract() {
   };
 
   return {
+    contractData,
     activeView,
     handlePreviewToggle,
-    parties,
+
     handleAddParty,
     handleDeleteParty,
 
-    signees,
     handleAddSigneeCard,
     handleDeleteSigneeCard,
 
@@ -133,5 +168,10 @@ export default function useCreateContract() {
     openModalPhoneNumber,
     handleOpenModalPhoneNumber,
     handleCloseModalPhoneNumber,
+
+    isIndividualSignature,
+    handleChangeIndividualSignature,
+    selectedSigneeId,
+    setSelectedSigneeId,
   };
 }

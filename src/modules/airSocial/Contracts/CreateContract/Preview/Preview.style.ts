@@ -1,0 +1,140 @@
+import { Theme } from '@mui/material';
+
+export const styles = {
+  contractTitle: (theme: Theme) => ({
+    fontSize: '18px',
+    lineHeight: '1.25',
+    color: theme?.palette?.slateBlue?.main,
+  }),
+  contractLogo: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  logo: {
+    maxWidth: '100%',
+    height: 'auto',
+    width: 'auto',
+  },
+  fieldCard: (theme: Theme) => ({
+    backgroundColor: theme?.palette?.custom?.pale_grayish_blue,
+    padding: '20px',
+    border: `1px solid ${theme?.palette?.custom?.border_grayish_blue}`,
+    borderRadius: '6px',
+    height: '100%',
+  }),
+  fieldCardField: {
+    mt: '18px',
+    '&:first-child': {
+      mt: 0,
+    },
+  },
+  fieldCardLabel: (theme: Theme) => ({
+    fontSize: '11px',
+    lineHeight: '1.25',
+    color: theme?.palette?.custom?.light,
+  }),
+  fieldCardValue: (theme: Theme) => ({
+    fontSize: '14px',
+    lineHeight: '1.25',
+    color: theme?.palette?.slateBlue?.main,
+  }),
+  signatureCard: (theme: Theme) => ({
+    backgroundColor: theme?.palette?.custom?.pale_grayish_blue,
+    border: `1px solid ${theme?.palette?.custom?.border_grayish_blue}`,
+    borderRadius: '6px',
+    height: '100%',
+    overflow: 'hidden',
+  }),
+  signatureCardBody: {
+    padding: '15px',
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  signatureCardField: {
+    flex: '0 0 auto',
+    width: '50%',
+    padding: '9px',
+  },
+  signatureCardFooter: (theme: Theme) => ({
+    borderTop: `1px solid ${theme?.palette?.custom?.border_grayish_blue}`,
+  }),
+  signatureCardFooterInner: {
+    padding: '24px',
+  },
+  signingDigitally: (theme: Theme) => ({
+    display: 'flex',
+    alignItems: 'center',
+    gap: '18px',
+    fontSize: '12px',
+    color: theme?.palette?.custom?.light,
+  }),
+  signatureCardFooterStripe: () => ({
+    borderTop: `2px solid #344054`,
+    height: '9px',
+    background: `repeating-linear-gradient(
+      -55deg,
+      #344054,
+      #344054 48px,
+      #ffffff 48px,
+      #ffffff 54px
+    )`,
+  }),
+
+  attachmentPreview: (theme: Theme) => ({
+    '& .previewLabel': {
+      color: theme?.palette?.grey[600],
+      fontSize: '14px',
+      fontWeight: 500,
+      lineHeight: '22px',
+      marginBottom: '6px',
+    },
+    '& .previewInfobar': {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '12px',
+      backgroundColor: theme?.palette?.custom?.pale_grayish_blue,
+      border: `1px solid ${theme?.palette?.custom?.border_grayish_blue}`,
+      borderRadius: '6px',
+      padding: '10px',
+
+      '& .previewInfo': {
+        display: 'flex',
+        alignItems: 'center',
+        gap: '12px',
+
+        '& .previewFileIcon': {
+          height: '30px',
+          width: '30px',
+        },
+        '& .previewFileName': {
+          fontSize: '14px',
+          lineHeight: '22px',
+          color: theme?.palette?.slateBlue?.main,
+        },
+        '& .previewFileSize': {
+          fontSize: '12px',
+          lineHeight: '18px',
+          color: theme?.palette?.custom?.light,
+        },
+      },
+
+      '& .previewInfobarAction': {
+        ml: 'auto',
+      },
+    },
+  }),
+  embedPdf: {
+    height: '530px',
+    position: 'relative',
+
+    '& embed': {
+      position: 'absolute',
+      left: 0,
+      top: 0,
+      right: 0,
+      bottom: 0,
+      width: '100%',
+      height: '100%',
+    },
+  },
+};

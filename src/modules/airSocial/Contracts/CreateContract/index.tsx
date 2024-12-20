@@ -19,15 +19,15 @@ import DocumentHistory from './components/DocumentHistory';
 import ModalConfirmationSignDoc from './components/ModalConfirmationSignDoc';
 import ModalPhoneNumber from './components/ModalPhoneNumber';
 import CreateContractSidebar from './CreateContractSidebar';
+import Preview from './Preview';
 
 export default function CreateContract() {
   const {
+    contractData,
     activeView,
     handlePreviewToggle,
-    parties,
     handleAddParty,
     handleDeleteParty,
-    signees,
     handleAddSigneeCard,
     handleDeleteSigneeCard,
 
@@ -47,6 +47,11 @@ export default function CreateContract() {
     openModalPhoneNumber,
     handleOpenModalPhoneNumber,
     handleCloseModalPhoneNumber,
+
+    isIndividualSignature,
+    handleChangeIndividualSignature,
+    selectedSigneeId,
+    setSelectedSigneeId,
   } = useCreateContract();
 
   return (
@@ -82,7 +87,7 @@ export default function CreateContract() {
                       <Box sx={styles?.headingBarTitle}>Parties</Box>
                     </Box>
                     <Grid container spacing={'30px'}>
-                      {parties?.map((party, index) => (
+                      {contractData?.parties?.map((party, index) => (
                         <Grid
                           item
                           xs={12}
@@ -110,7 +115,7 @@ export default function CreateContract() {
                       <Box sx={styles?.headingBarTitle}>Signatures</Box>
                     </Box>
                     <Grid container spacing={'30px'}>
-                      {signees?.map((signee: any, index: any) => (
+                      {contractData?.signees?.map((signee: any, index: any) => (
                         <Grid
                           item
                           xs={12}
@@ -146,8 +151,13 @@ export default function CreateContract() {
 
                   <Grid item xs={12}>
                     <DefaultSignatures
-                      signees={signees}
+                      isIndividualSignature={isIndividualSignature}
+                      onChangeIndividualSignature={
+                        handleChangeIndividualSignature
+                      }
+                      signees={contractData?.signees}
                       onClickChange={handleOpenModalManageSignature}
+                      setSelectedSigneeId={setSelectedSigneeId}
                     />
                   </Grid>
 
@@ -168,11 +178,7 @@ export default function CreateContract() {
                   </Grid>
                 </Grid>
               )}
-              {activeView === 'preview' && (
-                <Box>
-                  <Button>Preview</Button>
-                </Box>
-              )}
+              {activeView === 'preview' && <Preview />}
             </Box>
 
             <Box sx={styles?.sidebar}>
@@ -184,9 +190,19 @@ export default function CreateContract() {
 
       <ModalManageSignatures
         open={openModalManageSignature}
-        onClose={handleCloseModalManageSignature}
-        value={methods?.signatureMethod}
+        onClose={() => {
+          setSelectedSigneeId(null);
+          handleCloseModalManageSignature();
+        }}
+        value={
+          selectedSigneeId
+            ? contractData.signees.find(
+                (signee) => signee._id === selectedSigneeId,
+              )?.signatureType || ''
+            : ''
+        }
         handleChange={handleChangeSignatureMethod}
+        selectedSigneeId={selectedSigneeId}
       />
 
       <ModalConfirmationSignDoc
