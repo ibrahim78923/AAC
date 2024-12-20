@@ -215,7 +215,7 @@ export const updateQuoteSteps = (params: QuotesUpdateI) => {
       label: 'Signature',
       component: (
         <StepSignature
-          // values={params?.signatureValue}
+          quotesData={params?.data}
           methods={params?.methodsSignature}
         />
       ),

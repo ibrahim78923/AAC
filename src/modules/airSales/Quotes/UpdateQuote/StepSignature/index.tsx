@@ -6,7 +6,7 @@ import { styles } from './StepSignature.style';
 import { signatureFormData } from '../UpdateQuote.data';
 import { FormProvider } from '@/components/ReactHookForm';
 
-const StepSignature = ({ values, methods }: any) => {
+const StepSignature = ({ quotesData, methods }: any) => {
   return (
     <FormProvider methods={methods}>
       <Grid container spacing={'40px'}>
@@ -39,7 +39,7 @@ const StepSignature = ({ values, methods }: any) => {
         </Grid>
         <Grid item lg={7} md={12} sm={12}>
           <TemplateFrame>
-            <TemplateBasic values={values} />
+            <TemplateBasic quotesData={quotesData} />
           </TemplateFrame>
         </Grid>
       </Grid>
