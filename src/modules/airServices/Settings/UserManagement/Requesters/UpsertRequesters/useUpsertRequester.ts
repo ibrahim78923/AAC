@@ -81,6 +81,13 @@ export const useUpsertRequester = (props: IRequestersProps) => {
     reset(() => upsertRequestersDefaultValues(singleRequesterDetails, form));
   }, [singleRequesterDetails, reset, form]);
 
+  const verifyUserViaIg = async (email?: string) => {
+    const apiDataParameter = { email: { email } };
+    try {
+      await igVerificationTrigger(apiDataParameter)?.unwrap();
+    } catch (error) {}
+  };
+
   const submitUpsertRequester = async (data: any) => {
     const filteredEmptyData = filteredEmptyValues(data);
 
@@ -148,9 +155,10 @@ export const useUpsertRequester = (props: IRequestersProps) => {
       const email = {
         email: response?.email,
       };
-      await igVerificationTrigger({ email })?.unwrap();
+
       handleClose?.();
       successSnackbar('Requesters Added Successfully');
+      await verifyUserViaIg(email?.email);
     } catch (e: any) {
       errorSnackbar(e?.data?.message);
     }
