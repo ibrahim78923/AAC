@@ -1,5 +1,4 @@
 import { NextRouter, useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
 import { filteredEmptyValues } from '@/utils/api';
 import { useRef, useState } from 'react';
 import {
@@ -16,6 +15,7 @@ import {
 import { useApiPolling } from '@/hooks/useApiPolling';
 import { htmlToPdfConvert } from '@/lib/html-to-pdf-converter';
 import { isoDateString } from '@/lib/date-time';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const usePurchaseOrderReports = () => {
   const router: NextRouter = useRouter();
@@ -27,7 +27,7 @@ export const usePurchaseOrderReports = () => {
   });
   const downloadRef = useRef(null);
 
-  const methods: any = useForm({
+  const purchaseOrderReportMethodProps = {
     defaultValues: {
       status: purchaseOrderTableFilterOptions?.[ARRAY_INDEX?.ZERO],
       createdDate: {
@@ -36,9 +36,11 @@ export const usePurchaseOrderReports = () => {
         key: 'selection',
       },
     },
-  });
+  };
 
-  const { handleSubmit, getValues, setValue, watch } = methods;
+  const { handleSubmit, getValues, watch, setValue, methods } = useFormLib(
+    purchaseOrderReportMethodProps,
+  );
   watch?.();
 
   const apiDataParameter = {

@@ -9,7 +9,7 @@ import { BACKEND_REPORT_ACCESS } from '@/constants/api';
 export const SaveReportDrawer = (props: SaveReportDrawerI) => {
   const { open, reportId, setOpen } = props;
   const {
-    saveReportsMethods,
+    methods,
     watch,
     handleSubmit,
     onSubmit,
@@ -40,7 +40,7 @@ export const SaveReportDrawer = (props: SaveReportDrawerI) => {
           : postGenericReportStatus?.isLoading
       }
     >
-      <FormProvider methods={saveReportsMethods}>
+      <FormProvider methods={methods}>
         <Grid container spacing={1}>
           {reportsArray?.map((item: any) => {
             return (

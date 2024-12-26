@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { useFieldArray } from 'react-hook-form';
 import {
   importDefaultValues,
   importValidationSchema,
@@ -7,7 +7,6 @@ import {
   stepsData,
 } from './ImportModal.data';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useLazyGetSignedUrlForImportQuery,
   useNewImportFileForServicesMutation,
@@ -25,6 +24,7 @@ import {
 } from '@/constants/strings';
 import { Theme, useTheme } from '@mui/material';
 import { useGetAuthAccountsForOperationsReportsQuery } from '@/services/airOperations/reports';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useImportModal = () => {
   const [csvFileData, setCsvFileData] = useState<any[]>([]);
@@ -35,13 +35,15 @@ export const useImportModal = () => {
   const [fileResponse, setFileResponse] = useState<any>(null);
   const theme: Theme = useTheme();
 
-  const methodsImportModalForm = useForm<any>({
-    resolver: yupResolver(importValidationSchema(modalStep)),
+  const importModalMethodProps = {
+    validationSchema: importValidationSchema(modalStep),
     defaultValues: importDefaultValues,
-  });
+  };
 
-  const { control, handleSubmit, reset, watch, setValue } =
-    methodsImportModalForm;
+  const { control, handleSubmit, reset, watch, setValue, methods } = useFormLib(
+    importModalMethodProps,
+  );
+
   const importDeals = watch('importDeals');
   const product = watch('product');
 
@@ -264,7 +266,7 @@ export const useImportModal = () => {
   return {
     isDrawerOpen,
     setIsDrawerOpen,
-    methodsImportModalForm,
+    methods,
     control,
     submitImportModalForm,
     resetImportModalForm,
