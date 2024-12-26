@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import {
   defaultValues,
   newPurchaseFieldsFunction,
   validationSchema,
 } from './NewPurchaseOrder.data';
 import { useRouter } from 'next/router';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { AIR_SERVICES } from '@/constants/routes';
 import {
   useGetAirServicesAssetsPurchaseOrderByIdQuery,
@@ -26,6 +24,7 @@ import {
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
 import { isoDateString } from '@/lib/date-time';
+import { useFormLib } from '@/hooks/useFormLib';
 
 const { PURCHASE_ORDER } = AIR_SERVICES;
 
@@ -76,12 +75,13 @@ const useNewPurchaseOrders = () => {
     postPurchaseOrderStatus?.isLoading ||
     postAttachmentStatus?.isLoading;
 
-  const methods = useForm({
-    resolver: yupResolver(validationSchema?.(form)),
+  const useFormValues = {
+    validationSchema: validationSchema?.(form),
     defaultValues: defaultValues?.(),
-  });
+  };
 
-  const { watch, reset } = methods;
+  const { watch, reset, methods } = useFormLib(useFormValues);
+
   const vendorValue = watch('vendor');
 
   const submit = async (data: any) => {

@@ -8,7 +8,7 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 
 export const UpsertContract = () => {
   const {
-    upsertContractFormMethods,
+    methods,
     handleSubmit,
     submitUpsertContractForm,
     theme,
@@ -31,7 +31,7 @@ export const UpsertContract = () => {
         title={'Add Contract'}
       />
       <FormProvider
-        methods={upsertContractFormMethods}
+        methods={methods}
         onSubmit={handleSubmit?.(submitUpsertContractForm)}
       >
         <Grid

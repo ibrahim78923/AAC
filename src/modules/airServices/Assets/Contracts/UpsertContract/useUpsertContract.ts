@@ -1,4 +1,4 @@
-import { useForm, useWatch } from 'react-hook-form';
+import { useWatch } from 'react-hook-form';
 import {
   billingCycleOptions,
   CONTRACT_TYPES_CHECK,
@@ -8,7 +8,6 @@ import {
   upsertContractFormFieldsDataFunction,
   upsertContractFormSchemaFunction,
 } from './UpsertContract.data';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
@@ -30,6 +29,7 @@ import {
 import { AIR_SERVICES } from '@/constants/routes';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { isoDateString } from '@/lib/date-time';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertContract = () => {
   const theme = useTheme();
@@ -54,10 +54,10 @@ export const useUpsertContract = () => {
       skip: !!!contractId,
     });
 
-  const upsertContractFormMethods = useForm<any>({
-    resolver: yupResolver<any>(upsertContractFormSchemaFunction?.(form)),
+  const useFormValues = {
+    validationSchema: upsertContractFormSchemaFunction?.(form),
     defaultValues: upsertContractFormDefaultValuesFunction?.(data, form),
-  });
+  };
 
   const {
     handleSubmit,
@@ -67,7 +67,8 @@ export const useUpsertContract = () => {
     clearErrors,
     reset,
     watch,
-  } = upsertContractFormMethods;
+    methods,
+  } = useFormLib(useFormValues);
 
   const watchForNotifyExpiry = useWatch({
     control,
@@ -321,7 +322,7 @@ export const useUpsertContract = () => {
   );
 
   return {
-    upsertContractFormMethods,
+    methods,
     handleSubmit,
     submitUpsertContractForm,
     upsertContractFormFieldsData,

@@ -18,7 +18,7 @@ import GetSoftwareDevicesDropdown from '../../../SoftwareFormFieldsDropdowns/Get
 const AddDevice = () => {
   const {
     handleAddDevice,
-    addDeviceMethods: methods,
+    methods,
     isAddDeviceModalOpen,
     handleCloseModal,
     onAddDeviceSubmit,

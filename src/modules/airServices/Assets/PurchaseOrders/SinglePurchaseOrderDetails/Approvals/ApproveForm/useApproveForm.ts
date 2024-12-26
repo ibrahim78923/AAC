@@ -1,19 +1,19 @@
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema, defaultValues } from './ApproveForm.data';
 import { usePatchAirServicesAssetsPurchaseOrderApprovalRequestApprovalMutation } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/approvals';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { approvalStatus } from '../Approvals.data';
 import { useState } from 'react';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useApproveForm = (approvalId: any) => {
   const [approveDialog, setApproveDialog] = useState(false);
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues,
-  });
 
-  const { handleSubmit, reset } = methods;
+  const useFormValues = {
+    validationSchema,
+    defaultValues,
+  };
+
+  const { handleSubmit, reset, methods } = useFormLib(useFormValues);
 
   const [patchRequestApprovalTrigger, patchRequestApprovalStatus] =
     usePatchAirServicesAssetsPurchaseOrderApprovalRequestApprovalMutation();

@@ -1,25 +1,26 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   usePostInstallationMutation,
   useLazyGetAssetsDropdownQuery,
 } from '@/services/airServices/assets/software/single-software-detail/installations';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useAddDevice = () => {
   const [isAddDeviceModalOpen, setIsAddDeviceModalOpen] =
     useState<boolean>(false);
-  const addDeviceMethods = useForm<any>({
+
+  const useFormValues = {
+    validationSchema: Yup?.object()?.shape({
+      device: Yup?.mixed()?.required('Required'),
+    }),
     defaultValues: { device: null },
-    resolver: yupResolver(
-      Yup?.object()?.shape({
-        device: Yup?.mixed()?.required('Required'),
-      }),
-    ),
-  });
+  };
+
+  const { reset, methods } = useFormLib(useFormValues);
+
   const searchParams = useRouter();
   const softwareId = searchParams?.query?.softwareId;
   const [postDeviceTrigger, { isLoading }] = usePostInstallationMutation();
@@ -36,7 +37,7 @@ export const useAddDevice = () => {
     try {
       const response: any = await postDeviceTrigger(formData);
       successSnackbar(response?.data?.message && 'Device Added Successfully');
-      addDeviceMethods?.reset();
+      reset();
       setIsAddDeviceModalOpen(false);
     } catch (error: any) {
       errorSnackbar(error?.data?.message ?? 'An error occurred');
@@ -47,12 +48,12 @@ export const useAddDevice = () => {
   };
   const handleCloseModal = () => {
     setIsAddDeviceModalOpen(false);
-    addDeviceMethods?.reset();
+    reset();
   };
   const devicesQuery = useLazyGetAssetsDropdownQuery();
   return {
     handleAddDevice,
-    addDeviceMethods,
+    methods,
     isAddDeviceModalOpen,
     handleCloseModal,
     onAddDeviceSubmit,

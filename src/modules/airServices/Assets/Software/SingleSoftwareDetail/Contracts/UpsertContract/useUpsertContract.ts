@@ -1,10 +1,9 @@
-import { useForm, useWatch } from 'react-hook-form';
+import { useWatch } from 'react-hook-form';
 import {
   upsertContractFormDefaultValuesFunction,
   upsertContractFormFieldsDataFunction,
   upsertContractFormSchemaFunction,
 } from './UpsertContract.data';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import {
@@ -17,17 +16,21 @@ import { AIR_SERVICES } from '@/constants/routes';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { isoDateString } from '@/lib/date-time';
 import { STATIC_CONTRACT_TYPES } from '@/constants/api';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertContract = () => {
   const theme = useTheme();
   const router = useRouter();
   const { softwareId }: any = router?.query;
   const [postContractTrigger, postContractStatus] = usePostContractMutation();
-  const upsertContractFormMethods = useForm<any>({
-    resolver: yupResolver<any>(upsertContractFormSchemaFunction),
+
+  const useFormValues = {
+    validationSchema: upsertContractFormSchemaFunction,
     defaultValues: upsertContractFormDefaultValuesFunction(),
-  });
-  const { handleSubmit, control, reset, watch } = upsertContractFormMethods;
+  };
+
+  const { handleSubmit, control, reset, watch, methods } =
+    useFormLib(useFormValues);
 
   const getSingleSoftwareParameter = {
     queryParams: {
@@ -118,7 +121,7 @@ export const useUpsertContract = () => {
     watchStartDate,
   );
   return {
-    upsertContractFormMethods,
+    methods,
     handleSubmit,
     submitUpsertContractForm,
     upsertContractFormFieldsData,
