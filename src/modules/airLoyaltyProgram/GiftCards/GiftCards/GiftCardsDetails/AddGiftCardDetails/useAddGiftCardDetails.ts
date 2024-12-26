@@ -1,5 +1,3 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
 import {
   addGiftCardDetailsDefaultValues,
   addGiftCardDetailsFormFieldsDynamic,
@@ -12,6 +10,7 @@ import {
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
 import { STATUS } from '@/constants/strings';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useAddGiftCardDetails = (props: any) => {
   const { setIsPortalOpen, handleRefetchTransactionsList } = props;
@@ -39,12 +38,14 @@ export const useAddGiftCardDetails = (props: any) => {
   const [addDigitalGiftCardDetailsTrigger, addDigitalGiftCardDetailsStatus] =
     useAddGiftCardDetailsMutation();
 
-  const methods: any = useForm<any>({
-    resolver: yupResolver(addGiftCardDetailsValidationSchema(currentAmount)),
+  const addGiftCardDetailsMethodProps = {
+    validationSchema: addGiftCardDetailsValidationSchema(currentAmount),
     defaultValues: addGiftCardDetailsDefaultValues?.(),
-  });
+  };
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, methods } = useFormLib(
+    addGiftCardDetailsMethodProps,
+  );
 
   const onSubmit = async (formData: any) => {
     const apiDataParameter = {

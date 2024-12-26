@@ -1,15 +1,17 @@
+import { useFormLib } from '@/hooks/useFormLib';
 import { defaultValues } from './TransactionFilter.data';
-import { useForm } from 'react-hook-form';
 import { PAGINATION } from '@/config';
 
 export const useTransactionFilter = (props: any) => {
   const { setOpenDrawer, filterValues, setFilterValues, setPage } = props;
 
-  const methods: any = useForm({
+  const transactionFilterMethodProps = {
     defaultValues: defaultValues(filterValues),
-  });
+  };
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, methods } = useFormLib(
+    transactionFilterMethodProps,
+  );
 
   const onSubmit = async (data: any) => {
     const transactionFiltered: any = Object?.entries(data || {})

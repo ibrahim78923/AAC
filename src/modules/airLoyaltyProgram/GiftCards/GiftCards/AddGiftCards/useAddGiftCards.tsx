@@ -1,5 +1,3 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
 import {
   addGiftCardDefaultValues,
   addGiftCardFormFieldsDynamic,
@@ -12,17 +10,20 @@ import {
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { isoDateString } from '@/lib/date-time';
 import { useEffect } from 'react';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useAddGiftCards = (props: any) => {
   const { setIsPortalOpen, handleRefetchList } = props;
   const [addGiftCardTrigger, addGiftCardStatus] = useAddGiftCardMutation();
   const apiQueryRecipient = useLazyGetRecipientDropdownListQuery();
 
-  const methods: any = useForm<any>({
-    resolver: yupResolver(addGiftCardValidationSchema),
+  const addGiftCardsMethodProps: any = {
+    validationSchema: addGiftCardValidationSchema,
     defaultValues: addGiftCardDefaultValues,
-  });
-  const { handleSubmit, reset, watch, setValue } = methods;
+  };
+  const { handleSubmit, reset, watch, setValue, methods } = useFormLib(
+    addGiftCardsMethodProps,
+  );
 
   const onSubmit = async (formData: any) => {
     const recipientIds = formData?.recipient?.map((item: any) => item?._id);
