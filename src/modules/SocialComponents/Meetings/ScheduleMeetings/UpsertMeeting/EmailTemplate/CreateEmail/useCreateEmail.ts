@@ -2,8 +2,6 @@ import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { defaultValues, emailTemplateSchema } from '../EmailTemplate.data';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useAddMeetingTemplateMutation,
   useGetByIdMeetingsEmailTemplatesQuery,
@@ -11,6 +9,7 @@ import {
 } from '@/services/commonFeatures/meetings';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { AIR_SERVICES, SOCIAL_COMPONENTS } from '@/constants/routes';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const apiKeys = [
   { id: 1, label: 'Host Name', value: '{{name}}' },
@@ -40,11 +39,12 @@ export const useCreateEmail = () => {
       skip: !!!templateId,
     });
 
-  const methods = useForm({
+  const useFormValues = {
     defaultValues: defaultValues(data),
-    resolver: yupResolver(emailTemplateSchema),
-  });
-  const { handleSubmit, reset, getValues } = methods;
+    validationSchema: emailTemplateSchema,
+  };
+
+  const { handleSubmit, reset, getValues, methods } = useFormLib(useFormValues);
   useEffect(() => {
     reset(defaultValues(data));
   }, [data]);

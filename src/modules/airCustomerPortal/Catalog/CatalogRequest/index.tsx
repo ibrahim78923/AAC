@@ -21,7 +21,7 @@ export const CatalogRequest = (props: CatalogRequestI) => {
     catalogRequestFormField,
     onSubmitRequest,
     handleSubmit,
-    methodRequest,
+    methods,
     handleClose,
     postTicketStatus,
     portalStyles,
@@ -50,7 +50,7 @@ export const CatalogRequest = (props: CatalogRequestI) => {
 
       <DialogContent>
         <FormProvider
-          methods={methodRequest}
+          methods={methods}
           onSubmit={handleSubmit(onSubmitRequest)}
         >
           <Grid container>

@@ -1,5 +1,3 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
 import {
   upsertLocationsDefaultValues,
   upsertLocationsFormFieldsDynamic,
@@ -14,6 +12,7 @@ import {
   usePatchCommonMeetingsLocationsMutation,
   usePostCommonMeetingsLocationsMutation,
 } from '@/services/commonFeatures/meetings/settings/locations';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertLocations = (props: any) => {
   const { setIsPortalOpen, isPortalOpen } = props;
@@ -28,12 +27,12 @@ export const useUpsertLocations = (props: any) => {
     patchCommonMeetingsLocationsStatus,
   ] = usePatchCommonMeetingsLocationsMutation();
 
-  const methods = useForm<any>({
+  const useFormValues = {
     defaultValues: upsertLocationsDefaultValues?.(isPortalOpen?.data),
-    resolver: yupResolver(upsertLocationsFormValidationSchema),
-  });
+    validationSchema: upsertLocationsFormValidationSchema,
+  };
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, methods } = useFormLib(useFormValues);
 
   const submitUpsertLocationForm = async (formData: any) => {
     const newFormData = filteredEmptyValues(formData);
