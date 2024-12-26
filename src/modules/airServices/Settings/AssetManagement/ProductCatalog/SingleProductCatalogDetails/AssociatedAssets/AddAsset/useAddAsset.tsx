@@ -1,5 +1,3 @@
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   addAssetDefaultValues,
   addAssetValidationSchema,
@@ -7,17 +5,16 @@ import {
 import { usePostAssociatedAssetMutation } from '@/services/airServices/settings/asset-management/product-catalog';
 import { useRouter } from 'next/router';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useAddAsset = (setAddModalOpen: any) => {
   const router: any = useRouter();
   const { productCatalogId } = router?.query;
 
-  const methods: any = useForm({
-    resolver: yupResolver(addAssetValidationSchema),
+  const { methods, handleSubmit } = useFormLib({
+    validationSchema: addAssetValidationSchema,
     defaultValues: addAssetDefaultValues,
   });
-
-  const { handleSubmit } = methods;
 
   const [postAssociatedAssetTrigger, postAssociatedAssetStatus] =
     usePostAssociatedAssetMutation();

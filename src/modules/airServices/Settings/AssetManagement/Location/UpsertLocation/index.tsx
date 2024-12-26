@@ -8,7 +8,7 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 
 const UpsertLocation = () => {
   const {
-    AddNewLocationMethods,
+    methods,
     moveToLocationPage,
     handleCancel,
     type,
@@ -27,8 +27,8 @@ const UpsertLocation = () => {
   return (
     <>
       <FormProvider
-        methods={AddNewLocationMethods}
-        onSubmit={AddNewLocationMethods?.handleSubmit(upsertLocation)}
+        methods={methods}
+        onSubmit={methods?.handleSubmit(upsertLocation)}
       >
         <Grid container spacing={2}>
           <Grid item lg={9}>

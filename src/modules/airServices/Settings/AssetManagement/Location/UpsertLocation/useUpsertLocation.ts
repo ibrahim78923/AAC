@@ -1,5 +1,3 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
 import {
   validationSchemaAddNewLocation,
   locationDefaultValues,
@@ -17,6 +15,7 @@ import { filteredEmptyValues } from '@/utils/api';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useEffect } from 'react';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertLocation = () => {
   const router = useRouter();
@@ -36,12 +35,11 @@ export const useUpsertLocation = () => {
     },
   );
 
-  const AddNewLocationMethods = useForm({
-    resolver: yupResolver(validationSchemaAddNewLocation),
+  const { reset, handleSubmit, methods } = useFormLib({
+    validationSchema: validationSchemaAddNewLocation,
     defaultValues: locationDefaultValues(),
   });
 
-  const { reset, handleSubmit } = AddNewLocationMethods;
   const [postLocationTrigger, postLocationStatus] = usePostLocationMutation();
   const [postChildLocationTrigger, postChildLocationStatus] =
     usePostChildLocationMutation();
@@ -127,7 +125,7 @@ export const useUpsertLocation = () => {
   }, [data, reset, type]);
 
   return {
-    AddNewLocationMethods,
+    methods,
     moveToLocationPage,
     parentId,
     childId,

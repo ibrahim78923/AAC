@@ -1,5 +1,3 @@
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { IChildModalState } from '../Enquiries.interface';
 import { ARRAY_INDEX } from '@/constants/strings';
@@ -7,28 +5,26 @@ import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { CHARACTERS_LIMIT } from '@/constants/validation';
 import { usePostServiceEnquiriesViewListMutation } from '@/services/airServices/enquiries';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useViewEnquiry = ({ isModalOpen, onClose }: IChildModalState) => {
   const [trigger, status] = usePostServiceEnquiriesViewListMutation();
 
-  const methods = useForm({
-    resolver: yupResolver(
-      Yup?.object()?.shape({
-        reply: Yup?.string()
-          ?.trim()
-          ?.max(
-            CHARACTERS_LIMIT?.SERVICES_ENQUIRIES_VIEW_REPLY_MAX_CHARACTERS,
-            `Maximum Characters Limit is ${CHARACTERS_LIMIT?.SERVICES_ENQUIRIES_VIEW_REPLY_MAX_CHARACTERS} `,
-          )
-          ?.required('Reply is Required'),
-      }),
-    ),
+  const { methods, handleSubmit } = useFormLib({
+    validationSchema: Yup?.object()?.shape({
+      reply: Yup?.string()
+        ?.trim()
+        ?.max(
+          CHARACTERS_LIMIT?.SERVICES_ENQUIRIES_VIEW_REPLY_MAX_CHARACTERS,
+          `Maximum Characters Limit is ${CHARACTERS_LIMIT?.SERVICES_ENQUIRIES_VIEW_REPLY_MAX_CHARACTERS} `,
+        )
+        ?.required('Reply is Required'),
+    }),
+
     defaultValues: {
       reply: '',
     },
   });
-
-  const { handleSubmit } = methods;
 
   const onSubmit = async (data: any) => {
     const emailFormData = new FormData();

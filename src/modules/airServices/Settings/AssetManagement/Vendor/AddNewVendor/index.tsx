@@ -13,7 +13,7 @@ const AddNewVendor = (props: IVendorProps) => {
   const { isADrawerOpen, update } = props;
 
   const {
-    methodsNewVendor,
+    methods,
     handleSubmit,
     onSubmit,
     isLoading,
@@ -58,7 +58,7 @@ const AddNewVendor = (props: IVendorProps) => {
         ) : getDynamicFieldsStatus?.isError ? (
           <ApiErrorState />
         ) : (
-          <FormProvider methods={methodsNewVendor}>
+          <FormProvider methods={methods}>
             <Grid container spacing={2}>
               {newVendorDataArray?.map((item: any) => (
                 <Grid item xs={12} key={item?.id}>

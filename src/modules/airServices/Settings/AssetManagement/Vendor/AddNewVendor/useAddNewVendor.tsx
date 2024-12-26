@@ -1,9 +1,7 @@
-import { useForm } from 'react-hook-form';
 import {
   newVendorDefaultValues,
   newVendorValidationSchema,
 } from './AddNewVendor.data';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useGetVendorsByIdQuery,
   usePatchNewVendorMutation,
@@ -24,6 +22,7 @@ import {
 } from '@/utils/dynamic-forms';
 import { IVendorProps } from '../Vendor.interface';
 import { isoDateString } from '@/lib/date-time';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useAddNewVendor = (props: IVendorProps) => {
   const router = useRouter();
@@ -74,12 +73,10 @@ export const useAddNewVendor = (props: IVendorProps) => {
     },
   );
 
-  const methodsNewVendor: any = useForm<any>({
-    resolver: yupResolver(newVendorValidationSchema?.(form)),
+  const { methods, reset, handleSubmit } = useFormLib({
+    validationSchema: newVendorValidationSchema?.(form),
     defaultValues: newVendorDefaultValues?.(),
   });
-
-  const { handleSubmit, reset } = methodsNewVendor;
 
   useEffect(() => {
     reset(() => newVendorDefaultValues(vinData?.data, form));
@@ -165,7 +162,7 @@ export const useAddNewVendor = (props: IVendorProps) => {
   };
 
   return {
-    methodsNewVendor,
+    methods,
     newVendorValidationSchema,
     newVendorDefaultValues,
     handleSubmit,
