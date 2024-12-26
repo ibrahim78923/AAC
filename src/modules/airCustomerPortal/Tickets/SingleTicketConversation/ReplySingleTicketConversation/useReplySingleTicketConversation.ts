@@ -1,40 +1,36 @@
-import { UseFormReturn, useForm } from 'react-hook-form';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
-import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { usePostReplyForCustomerTicketConversationMutation } from '@/services/airCustomerPortal/Tickets';
 import { ARRAY_INDEX, TICKET_CONVERSATIONS_TYPE } from '@/constants/strings';
 import { ReplySingleTicketConversationPropsI } from '../useSingleTicketConversation.interface';
 import { REGEX } from '@/constants/validation';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useReplySingleTicketConversation = (
   props: ReplySingleTicketConversationPropsI,
 ) => {
   const { singleTicketData, setIsReplyOpen, isReplyOpen } = props;
 
-  const methods: UseFormReturn<any> = useForm({
+  const { methods, handleSubmit, reset } = useFormLib({
     defaultValues: { yourReply: '', attachFile: null },
-    resolver: yupResolver(
-      Yup?.object()?.shape({
-        yourReply: Yup?.string()
-          ?.trim()
-          ?.required('Reply is required')
-          ?.test('is-not-empty', 'Reply is required', (value) => {
-            const strippedContent = value
-              ?.replace(REGEX?.GLOBAL_HTML_TAG, '')
-              ?.trim();
-            return strippedContent !== '';
-          }),
-        attachFile: Yup?.mixed()?.nullable(),
-      }),
-    ),
+    validationSchema: Yup?.object()?.shape({
+      yourReply: Yup?.string()
+        ?.trim()
+        ?.required('Reply is required')
+        ?.test('is-not-empty', 'Reply is required', (value) => {
+          const strippedContent = value
+            ?.replace(REGEX?.GLOBAL_HTML_TAG, '')
+            ?.trim();
+          return strippedContent !== '';
+        }),
+      attachFile: Yup?.mixed()?.nullable(),
+    }),
   });
 
   const [
     postReplyForCustomerTicketConversationTrigger,
     postReplyForCustomerTicketConversationStatus,
   ] = usePostReplyForCustomerTicketConversationMutation();
-  const { handleSubmit, reset } = methods;
 
   const onSubmit = async (data: { attachFile: any; yourReply: string }) => {
     const emailFormData = new FormData();

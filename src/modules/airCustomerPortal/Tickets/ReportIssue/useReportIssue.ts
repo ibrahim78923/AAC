@@ -2,8 +2,6 @@ import {
   reportIssueFormDefaultValues,
   reportIssueFormValidationSchema,
 } from './ReportIssue.data';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
   ARRAY_INDEX,
@@ -27,6 +25,7 @@ import useAuth from '@/hooks/useAuth';
 import { ReportIssuePropsI } from './ReportIssue.interface';
 import { useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useReportIssue = (props: ReportIssuePropsI) => {
   const { setIsPortalOpen } = props;
@@ -54,14 +53,10 @@ export const useReportIssue = (props: ReportIssuePropsI) => {
       AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SUGGEST_ARTICLES_TO_EVERYONE,
     );
 
-  const methods = useForm<any>({
-    resolver: yupResolver(
-      reportIssueFormValidationSchema(checkRequesterPermission),
-    ),
+  const { methods, handleSubmit, reset, watch } = useFormLib({
+    validationSchema: reportIssueFormValidationSchema(checkRequesterPermission),
     defaultValues: reportIssueFormDefaultValues?.(),
   });
-
-  const { handleSubmit, reset, watch } = methods;
 
   const [postReportAnIssueTrigger, postReportAnIssueStatus] =
     usePostReportAnIssueTicketsMutation();

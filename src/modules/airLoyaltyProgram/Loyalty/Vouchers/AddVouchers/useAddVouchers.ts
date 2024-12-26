@@ -2,7 +2,6 @@ import {
   addVouchersFormFieldsDefaultValues,
   vouchersValidationSchema,
 } from './AddVouchers.data';
-import { useForm } from 'react-hook-form';
 import {
   useGetSingleVouchersQuery,
   useLazyVouchersTiersDropdownListQuery,
@@ -12,8 +11,8 @@ import {
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useEffect } from 'react';
 import { generateRadomString } from '@/utils/api';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { ARRAY_INDEX, VOUCHERS_CONSTANTS } from '@/constants/strings';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useAddVouchers = (props: any) => {
   const { addVouchersOpen, setAddVouchersOpen } = props;
@@ -31,13 +30,13 @@ export const useAddVouchers = (props: any) => {
     skip: !addVouchersOpen?.voucherCode && addVouchersOpen?.upsert,
     refetchOnMountOrArgChange: true,
   });
-  const methods = useForm<any>({
-    defaultValues: addVouchersFormFieldsDefaultValues(
-      getVoucherById?.data?.[ARRAY_INDEX?.ZERO],
-    ),
-    resolver: yupResolver(vouchersValidationSchema),
-  });
-  const { handleSubmit, watch, reset, setValue, clearErrors } = methods;
+  const { methods, handleSubmit, watch, reset, setValue, clearErrors } =
+    useFormLib({
+      defaultValues: addVouchersFormFieldsDefaultValues(
+        getVoucherById?.data?.[ARRAY_INDEX?.ZERO],
+      ),
+      validationSchema: vouchersValidationSchema,
+    });
   useEffect(() => {
     reset(
       addVouchersFormFieldsDefaultValues(

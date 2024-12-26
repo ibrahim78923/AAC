@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { useFormLib } from '@/hooks/useFormLib';
 import {
   filtersDefaultValues,
   rewardsFilterFormFieldsDynamic,
@@ -10,10 +10,9 @@ import {
 
 export const useTransactionRewardsFilter = (props: any) => {
   const { setIsDrawerOpen, isFilter, setIsFilter } = props;
-  const methods: any = useForm({
+  const { methods, handleSubmit, reset }: any = useFormLib({
     defaultValues: filtersDefaultValues?.(isFilter),
   });
-  const { handleSubmit, reset } = methods;
 
   const submit = async (data: any) => {
     setIsFilter?.(data);

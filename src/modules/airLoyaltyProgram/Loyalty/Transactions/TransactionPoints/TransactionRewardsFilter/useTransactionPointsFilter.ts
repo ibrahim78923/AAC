@@ -1,16 +1,15 @@
-import { useForm } from 'react-hook-form';
 import {
   filtersDefaultValues,
   pointsFilterFormFieldsDynamic,
 } from './TransactionPointsFilter.data';
 import { useLazyGetConsumerDropdownTransactionQuery } from '@/services/airLoyaltyProgram/loyalty/transactions';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useTransactionPointsFilter = (props: any) => {
   const { setIsDrawerOpen, isFilter, setIsFilter } = props;
-  const methods: any = useForm({
+  const { methods, handleSubmit, reset } = useFormLib({
     defaultValues: filtersDefaultValues?.(isFilter),
   });
-  const { handleSubmit, reset } = methods;
 
   const submit = async (data: any) => {
     setIsFilter?.(data);

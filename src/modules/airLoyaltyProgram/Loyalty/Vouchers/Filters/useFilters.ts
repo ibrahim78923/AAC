@@ -1,6 +1,6 @@
-import { useForm } from 'react-hook-form';
 import { filtersFormFieldsDefaultValues } from './Filters.data';
 import { filteredEmptyValues } from '@/utils/api';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useFilters = (props: any) => {
   const {
@@ -11,10 +11,9 @@ export const useFilters = (props: any) => {
     setPage,
   } = props;
 
-  const methods: any = useForm({
+  const { methods, reset, handleSubmit } = useFormLib({
     defaultValues: filtersFormFieldsDefaultValues(filterValues),
   });
-  const { handleSubmit, reset } = methods;
 
   const submitFiltersForm = async (data: any) => {
     const softwareFiltered = filteredEmptyValues(data);
