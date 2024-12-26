@@ -1,10 +1,12 @@
 import { useUpdateSingleServicesTicketsApprovalMutation } from '@/services/airServices/tickets/single-ticket-details/approvals';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
-import * as Yup from 'yup';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setIsPortalClose } from '@/redux/slices/airServices/tickets-approvals/slice';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
+import {
+  updateRequestStatusDefaultValues,
+  updateRequestStatusValidationSchema,
+} from './UpdateRequestStatus.data';
 
 export const useUpdateRequestStatus = () => {
   const [patchApprovalTicketsTrigger, patchApprovalTicketsStatus] =
@@ -16,18 +18,13 @@ export const useUpdateRequestStatus = () => {
     (state) => state?.servicesTicketApprovals?.isPortalOpen,
   );
 
-  const methods = useForm({
-    defaultValues: {
-      reason: '',
-    },
-    resolver: yupResolver(
-      Yup?.object()?.shape({
-        reason: Yup?.string()?.trim()?.required('Remark is required'),
-      }),
-    ),
-  });
+  const formLibProps = {
+    validationSchema: updateRequestStatusValidationSchema,
+    defaultValues: updateRequestStatusDefaultValues,
+  };
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
+
   const submitRequestConfirm = async (data: any) => {
     const patchParameterData = {
       queryParams: {

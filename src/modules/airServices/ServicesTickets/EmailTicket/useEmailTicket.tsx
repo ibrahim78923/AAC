@@ -1,5 +1,3 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm, UseFormReturn } from 'react-hook-form';
 import { EmailTicketFormFieldsI } from './EmailTicket.interface';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
@@ -13,6 +11,7 @@ import {
 } from './EmailTicket.data';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { servicesTicketsIsPortalOpenSelector } from '@/redux/slices/airServices/tickets/selectors';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useEmailTicket = () => {
   const dispatch = useAppDispatch();
@@ -24,14 +23,12 @@ export const useEmailTicket = () => {
     sendServicesSingleTicketEmailStatus,
   ] = useSendServicesSingleTicketEmailMutation();
 
-  const methods: UseFormReturn<EmailTicketFormFieldsI> = useForm<
-    EmailTicketFormFieldsI | any
-  >({
-    resolver: yupResolver(sendTicketEmailFormValidationSchema),
+  const formLibProps = {
     defaultValues: sendTicketEmailFormDefaultValues,
-  });
+    validationSchema: sendTicketEmailFormValidationSchema,
+  };
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
 
   const onClose = () => {
     reset();

@@ -7,7 +7,7 @@ import { CrispTicketInfo } from '../CrispTicketInfo';
 
 export const MergeTickets = () => {
   const {
-    mergedTicketsFormMethod,
+    methods,
     closeMergedTicketsModal,
     handleSubmit,
     submitMergedTicketsForm,
@@ -28,7 +28,7 @@ export const MergeTickets = () => {
       handleSubmitButton={handleSubmit(submitMergedTicketsForm)}
     >
       <FormProvider
-        methods={mergedTicketsFormMethod}
+        methods={methods}
         onSubmit={handleSubmit(submitMergedTicketsForm)}
       >
         <Grid container spacing={1}>

@@ -1,5 +1,5 @@
 import { drawerInitialState } from '../Association.data';
-import { useForm, useWatch } from 'react-hook-form';
+import { useWatch } from 'react-hook-form';
 import {
   TYPE_VALUES,
   getAssociateContactsColumns,
@@ -15,8 +15,8 @@ import {
   usePostAirServicesRemoveAssociateTicketsMutation,
 } from '@/services/airServices/tickets/single-ticket-details/association';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { isoDateString } from '@/lib/date-time';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export default function useContacts({ setIsDrawerOpen }: any) {
   const router = useRouter();
@@ -30,16 +30,22 @@ export default function useContacts({ setIsDrawerOpen }: any) {
 
   const { ticketId } = router?.query;
 
-  const methodsNewContact = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues,
-  });
-  const { handleSubmit, reset: resetNewContact } = methodsNewContact;
+  const formLibProps = {
+    validationSchema: validationSchema,
+    defaultValues: defaultValues,
+  };
 
-  const methods = useForm({
+  const {
+    handleSubmit,
+    reset: resetNewContact,
+    methods: methodsNewContact,
+  } = useFormLib(formLibProps);
+
+  const formLibPropsTwo = {
     defaultValues: { type: TYPE_VALUES?.EXISTING_CONTACT },
-  });
-  const { control, reset } = methods;
+  };
+
+  const { control, reset, methods } = useFormLib(formLibPropsTwo);
 
   const type = useWatch({
     control,

@@ -7,8 +7,6 @@ import {
   isReplyAddedNeglect,
 } from './TicketsBulkUpdate.data';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   emptySelectedTicketLists,
   setIsPortalClose,
@@ -27,6 +25,7 @@ import {
   servicesTicketsSelectedTicketListsSelector,
   servicesTicketsTotalRecordsSelector,
 } from '@/redux/slices/airServices/tickets/selectors';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useTicketBulkUpdate = () => {
   const dispatch = useAppDispatch();
@@ -43,14 +42,14 @@ export const useTicketBulkUpdate = () => {
   const [patchBulkUpdateTicketsTrigger, patchBulkUpdateTicketsStatus] =
     useUpdateBulkServicesTicketsMutation();
 
-  const methodsBulkUpdateForm: any = useForm({
-    resolver: yupResolver(
-      ticketsBulkUpdateFormValidationSchemaFunction?.(isReplyAdded),
-    ),
+  const formLibProps = {
     defaultValues: ticketsBulkUpdateDefaultFormValues,
-  });
+    validationSchema:
+      ticketsBulkUpdateFormValidationSchemaFunction?.(isReplyAdded),
+  };
 
-  const { handleSubmit, reset } = methodsBulkUpdateForm;
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
+
   const [postAddReplyToBulkUpdateTrigger, postAddReplyToBulkUpdateStatus] =
     useSendReplyToServicesTicketsBulkUpdateMutation();
 
@@ -133,7 +132,7 @@ export const useTicketBulkUpdate = () => {
     ticketsBulkUpdateFormFields,
     theme,
     ticketsBulkUpdateAddReplyFormFieldsData,
-    methodsBulkUpdateForm,
+    methods,
     handleSubmit,
     isReplyAdded,
     setIsReplyAdded,

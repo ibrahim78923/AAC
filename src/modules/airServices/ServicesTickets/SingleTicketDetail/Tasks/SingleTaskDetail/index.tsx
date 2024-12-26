@@ -22,7 +22,7 @@ import { uiDateFormat } from '@/lib/date-time';
 export const SingleTaskDetail = () => {
   const {
     theme,
-    method,
+    methods,
     handleSubmit,
     onSubmitDrawer,
     isLoading,
@@ -51,7 +51,7 @@ export const SingleTaskDetail = () => {
         >
           <FormProvider
             onSubmit={handleSubmit(onSubmitDrawer)}
-            methods={method}
+            methods={methods}
           >
             <Typography variant="body2" mb={-2}>
               {isPortalOpen?.data?.assignedUser?.email ?? '---'}

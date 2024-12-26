@@ -1,11 +1,9 @@
-import { useForm } from 'react-hook-form';
 import {
   moveTicketsDefaultValue,
   moveTicketsFormFieldsDynamic,
   moveTicketsValidationSchema,
 } from './MoveTickets.data';
 import { useUpdateSingleServicesTicketByIdMutation } from '@/services/airServices/tickets';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { useGetTicketList } from '../TicketsServicesHooks/useGetTicketList';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
@@ -21,6 +19,7 @@ import {
   servicesTicketsSelectedTicketListsSelector,
   servicesTicketsTotalRecordsSelector,
 } from '@/redux/slices/airServices/tickets/selectors';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useMoveTickets = () => {
   const dispatch = useAppDispatch();
@@ -40,12 +39,12 @@ export const useMoveTickets = () => {
   const [putTicketTrigger, putTicketStatus] =
     useUpdateSingleServicesTicketByIdMutation();
 
-  const methods = useForm<any>({
+  const formLibProps = {
     defaultValues: moveTicketsDefaultValue,
-    resolver: yupResolver(moveTicketsValidationSchema),
-  });
+    validationSchema: moveTicketsValidationSchema,
+  };
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
 
   const refetchApi = async () => {
     const newPage =

@@ -1,5 +1,3 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
 import {
   upsertTicketTaskFormDefaultValues,
   upsertTicketTaskFormFormFieldsDynamic,
@@ -31,6 +29,7 @@ import {
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { isoDateString } from '@/lib/date-time';
 import { REGEX } from '@/constants/validation';
+import { useFormLib } from '@/hooks/useFormLib';
 
 const { EDIT_TICKET_TASKS } = TICKET_TASKS_ACTIONS_CONSTANT;
 
@@ -83,15 +82,16 @@ export const useUpsertTasks = () => {
     getDynamicFormData();
   }, []);
 
-  const methods = useForm({
-    resolver: yupResolver(upsertTicketTaskFormValidationSchema?.(form)),
+  const formLibProps = {
+    validationSchema: upsertTicketTaskFormValidationSchema?.(form),
     defaultValues: upsertTicketTaskFormDefaultValues?.(
       selectedTicketTasksLists,
       form,
     ),
-  });
+  };
 
-  const { handleSubmit, reset, getValues, setError, setValue, watch } = methods;
+  const { handleSubmit, reset, getValues, setError, setValue, watch, methods } =
+    useFormLib(formLibProps);
 
   useEffect(() => {
     reset(() =>

@@ -1,6 +1,4 @@
 import { NextRouter, useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   upsertTicketDefaultValuesFunction,
   upsertTicketFormFieldsDynamic,
@@ -23,6 +21,7 @@ import { useGetServicesSingleTicketDetailByIdQuery } from '@/services/airService
 import { isoDateString } from '@/lib/date-time';
 import { REGEX } from '@/constants/validation';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertRelatedTicket = () => {
   const { getChildTicketsListData } = useGetRelatedTicketList();
@@ -60,12 +59,13 @@ export const useUpsertRelatedTicket = () => {
       skip: !!!childTicketId,
     });
 
-  const methods: any = useForm<any>({
-    resolver: yupResolver(upsertTicketValidationSchema?.(childTicketId)),
-    defaultValues: upsertTicketDefaultValuesFunction(),
-  });
+  const formLibProps = {
+    validationSchema: upsertTicketDefaultValuesFunction(),
+    defaultValues: upsertTicketValidationSchema?.(childTicketId),
+  };
 
-  const { handleSubmit, reset, getValues, setError, setValue, watch } = methods;
+  const { handleSubmit, reset, getValues, setError, setValue, watch, methods } =
+    useFormLib(formLibProps);
 
   const submitUpsertTicket = async (data: any) => {
     const { plannedEffort } = getValues();

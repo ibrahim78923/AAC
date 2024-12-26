@@ -21,6 +21,7 @@ export const useFormLib = (props: any) => {
     setValue,
     watch,
     control,
+    clearErrors,
     register,
   } = methods;
 
@@ -33,6 +34,7 @@ export const useFormLib = (props: any) => {
     setValue,
     watch,
     control,
+    clearErrors,
     register,
   };
 };

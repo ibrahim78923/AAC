@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { useForm, useWatch } from 'react-hook-form';
+import { useWatch } from 'react-hook-form';
 import {
   TYPE_VALUES,
   getAssociateCompanyColumns,
@@ -14,8 +14,8 @@ import {
   usePostAirServicesCompanyMutation,
   usePostAirServicesRemoveAssociateTicketsMutation,
 } from '@/services/airServices/tickets/single-ticket-details/association';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export default function useCompanies({ setIsDrawerOpen }: any) {
   const router = useRouter();
@@ -29,16 +29,22 @@ export default function useCompanies({ setIsDrawerOpen }: any) {
 
   const { ticketId } = router?.query;
 
-  const methodsNewCompany = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues,
-  });
-  const { handleSubmit, reset: resetNewCompany } = methodsNewCompany;
+  const formLibProps = {
+    validationSchema: validationSchema,
+    defaultValues: defaultValues,
+  };
 
-  const methods = useForm({
+  const {
+    handleSubmit,
+    reset: resetNewCompany,
+    methods: methodsNewCompany,
+  } = useFormLib(formLibProps);
+
+  const formLibPropsTwo = {
     defaultValues: { type: TYPE_VALUES?.EXISTING_COMPANY },
-  });
-  const { control, reset } = methods;
+  };
+
+  const { control, reset, methods } = useFormLib(formLibPropsTwo);
 
   const type = useWatch({
     control,

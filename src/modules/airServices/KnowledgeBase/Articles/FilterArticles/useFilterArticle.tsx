@@ -1,4 +1,3 @@
-import { useForm, UseFormReturn } from 'react-hook-form';
 import {
   filterArticlesDataDefaultValues,
   filterArticlesFormFieldsDynamic,
@@ -12,21 +11,23 @@ import {
   setIsPortalClose,
 } from '@/redux/slices/airServices/knowledge-base/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useFilterArticles = () => {
   const dispatch = useAppDispatch();
+
   const isPortalOpen = useAppSelector(
     (state) => state?.servicesKnowledgeBase?.isPortalOpen,
   );
   const filterArticlesList = useAppSelector(
     (state) => state?.servicesKnowledgeBase?.filterArticlesList,
   );
-  const methods: UseFormReturn<FilterArticlesFormFieldsI> =
-    useForm<FilterArticlesFormFieldsI>({
-      defaultValues: filterArticlesDataDefaultValues?.(filterArticlesList),
-    });
 
-  const { handleSubmit, reset } = methods;
+  const formLibProps = {
+    defaultValues: filterArticlesDataDefaultValues?.(filterArticlesList),
+  };
+
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
 
   const submitHandler = (data: FilterArticlesFormFieldsI) => {
     const articleFilter = filteredEmptyValues(data);

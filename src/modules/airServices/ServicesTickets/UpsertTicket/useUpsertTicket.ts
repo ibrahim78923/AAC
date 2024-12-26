@@ -1,5 +1,3 @@
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   upsertTicketDefaultValuesFunction,
   upsertTicketFormFieldsDynamic,
@@ -36,6 +34,7 @@ import {
   servicesTicketsIsPortalOpenSelector,
   servicesTicketsSelectedTicketListsSelector,
 } from '@/redux/slices/airServices/tickets/selectors';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertTicket = () => {
   const dispatch = useAppDispatch();
@@ -95,12 +94,13 @@ export const useUpsertTicket = () => {
       skip: !!!ticketId,
     });
 
-  const methods: any = useForm<any>({
-    resolver: yupResolver(upsertTicketValidationSchema?.(ticketId, form)),
-    defaultValues: upsertTicketDefaultValuesFunction(),
-  });
+  const formLibProps = {
+    validationSchema: upsertTicketValidationSchema?.(ticketId, form),
+    defaultValues: upsertTicketDefaultValuesFunction?.(),
+  };
 
-  const { handleSubmit, reset, getValues, setError, setValue, watch } = methods;
+  const { handleSubmit, reset, getValues, setError, setValue, watch, methods } =
+    useFormLib(formLibProps);
 
   const ticketDetailsData = data?.data?.[ARRAY_INDEX?.ZERO];
 

@@ -1,4 +1,4 @@
-import { useForm, useWatch } from 'react-hook-form';
+import { useWatch } from 'react-hook-form';
 import {
   mergeTicketsFormDefaultValue,
   mergeTicketsFormFieldsDynamic,
@@ -6,7 +6,6 @@ import {
 } from './MergeTickets.data';
 import { useMergeServicesTicketsMutation } from '@/services/airServices/tickets';
 import { ARRAY_INDEX, TICKET_SELECTION_TYPE } from '@/constants/strings';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
 import {
   emptySelectedTicketLists,
@@ -18,6 +17,7 @@ import {
   servicesTicketsIsPortalOpenSelector,
   servicesTicketsSelectedTicketListsSelector,
 } from '@/redux/slices/airServices/tickets/selectors';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useMergedTickets = () => {
   const dispatch = useAppDispatch();
@@ -31,13 +31,13 @@ export const useMergedTickets = () => {
   const [postMergeTicketsTrigger, postMergeTicketsStatus] =
     useMergeServicesTicketsMutation();
 
-  const mergedTicketsFormMethod = useForm({
+  const formLibProps = {
     defaultValues: mergeTicketsFormDefaultValue,
-    resolver: yupResolver(mergeTicketsFormValidationSchema),
-  });
+    validationSchema: mergeTicketsFormValidationSchema,
+  };
 
-  const { handleSubmit, reset, control, clearErrors, watch } =
-    mergedTicketsFormMethod;
+  const { handleSubmit, reset, methods, control, clearErrors, watch } =
+    useFormLib(formLibProps);
 
   const watchForTicketSelection: any = useWatch({
     control,
@@ -87,7 +87,7 @@ export const useMergedTickets = () => {
   );
 
   return {
-    mergedTicketsFormMethod,
+    methods,
     closeMergedTicketsModal,
     handleSubmit,
     submitMergedTicketsForm,
