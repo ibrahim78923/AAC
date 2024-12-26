@@ -1,17 +1,17 @@
-import { useForm } from 'react-hook-form';
 import { salesWorkflowsFilterValues } from './FilterSalesWorkflow.data';
 import { useState } from 'react';
 import { useLazyGetAdminUserDropdownListQuery } from '@/services/airOperations/workflow-automation/sales-workflow';
 import { getSession } from '@/utils';
 import { FilterSalesWorkflowI } from './FilterSalesWorkflow.interface';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useFilterSalesWorkflow = (props: FilterSalesWorkflowI) => {
   const { setIsFilterOpen, handleWorkflow } = props;
-  const filterMethod = useForm({
+  const filterMethodProps = {
     defaultValues: salesWorkflowsFilterValues,
-  });
+  };
   const [buttonCalled, setButtonCalled] = useState(false);
-  const { handleSubmit, reset, watch } = filterMethod;
+  const { handleSubmit, reset, watch, methods } = useFormLib(filterMethodProps);
   const userDropdown = useLazyGetAdminUserDropdownListQuery();
   const handleReset = async () => {
     setButtonCalled(true);
@@ -26,7 +26,7 @@ export const useFilterSalesWorkflow = (props: FilterSalesWorkflowI) => {
   const sessionUserData = getSession()?.user;
   return {
     handleSubmit,
-    filterMethod,
+    methods,
     userDropdown,
     handleReset,
     buttonCalled,

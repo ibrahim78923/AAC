@@ -1,5 +1,3 @@
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   eventBasedSaveWorkflowSchema,
   eventBasedWorkflowSchema,
@@ -19,6 +17,7 @@ import { setTestServicesWorkflowBody } from '@/redux/slices/servicesWorkflow';
 import { useDispatch } from 'react-redux';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { isoDateString } from '@/lib/date-time';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertEventBasedWorkflow = () => {
   const [validation, setValidation] = useState('');
@@ -81,15 +80,16 @@ export const useUpsertEventBasedWorkflow = () => {
   );
   const singleWorkflowData = data?.data;
 
-  const eventMethod = useForm({
+  const eventMethodProps = {
     defaultValues: eventBasedWorkflowValues(singleWorkflowData),
-    resolver:
+    validationSchema:
       validation === buttonData?.upsert || validation === buttonData?.test
-        ? yupResolver(eventBasedWorkflowSchema)
-        : yupResolver(eventBasedSaveWorkflowSchema),
-  });
+        ? eventBasedWorkflowSchema
+        : eventBasedSaveWorkflowSchema,
+  };
 
-  const { reset, watch, handleSubmit, setValue, control } = eventMethod;
+  const { reset, watch, handleSubmit, setValue, control, methods } =
+    useFormLib(eventMethodProps);
 
   const mapField = (field: any) => {
     const fieldValue = field?.fieldValue;
@@ -246,7 +246,7 @@ export const useUpsertEventBasedWorkflow = () => {
   const { palette } = useTheme();
 
   return {
-    eventMethod,
+    methods,
     handleFormSubmit,
     handleSubmit,
     palette,

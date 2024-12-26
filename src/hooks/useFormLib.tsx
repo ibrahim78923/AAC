@@ -13,8 +13,16 @@ export const useFormLib = (props: any) => {
       : {}),
   });
 
-  const { reset, handleSubmit, getValues, setError, setValue, watch, control } =
-    methods;
+  const {
+    reset,
+    handleSubmit,
+    getValues,
+    setError,
+    setValue,
+    watch,
+    control,
+    register,
+  } = methods;
 
   return {
     methods,
@@ -25,5 +33,6 @@ export const useFormLib = (props: any) => {
     setValue,
     watch,
     control,
+    register,
   };
 };

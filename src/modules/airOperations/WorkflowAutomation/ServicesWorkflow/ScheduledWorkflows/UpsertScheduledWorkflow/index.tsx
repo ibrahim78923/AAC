@@ -11,7 +11,7 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 export const UpsertScheduledWorkflow = () => {
   const {
-    scheduledWorkflowMethod,
+    methods,
     handleFormSubmit,
     handleSubmit,
     palette,
@@ -35,10 +35,7 @@ export const UpsertScheduledWorkflow = () => {
 
   return (
     <Box>
-      <FormProvider
-        methods={scheduledWorkflowMethod}
-        onSubmit={handleSubmit(handleFormSubmit)}
-      >
+      <FormProvider methods={methods} onSubmit={handleSubmit(handleFormSubmit)}>
         <Box mb={2}>
           <WorkflowHeader
             setValidation={setValidation}

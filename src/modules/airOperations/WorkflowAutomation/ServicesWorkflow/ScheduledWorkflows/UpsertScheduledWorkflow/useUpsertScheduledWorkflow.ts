@@ -1,5 +1,3 @@
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   scheduledSaveWorkflowSchema,
   scheduledWorkflowSchema,
@@ -20,6 +18,7 @@ import { setTestServicesWorkflowBody } from '@/redux/slices/servicesWorkflow';
 import { useDispatch } from 'react-redux';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { isoDateString, otherDateFormat } from '@/lib/date-time';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertScheduledWorkflow = () => {
   const [validation, setValidation] = useState('');
@@ -83,15 +82,16 @@ export const useUpsertScheduledWorkflow = () => {
   );
   const singleWorkflowData = data?.data;
 
-  const scheduledWorkflowMethod = useForm({
+  const scheduledWorkflowMethodProps = {
     defaultValues: scheduledWorkflowValues(singleWorkflowData),
-    resolver:
+    validationSchema:
       validation === buttonData?.upsert || validation === buttonData?.test
-        ? yupResolver(scheduledWorkflowSchema)
-        : yupResolver(scheduledSaveWorkflowSchema),
-  });
-  const { reset, watch, handleSubmit, setValue, control } =
-    scheduledWorkflowMethod;
+        ? scheduledWorkflowSchema
+        : scheduledSaveWorkflowSchema,
+  };
+  const { reset, watch, handleSubmit, setValue, control, methods } = useFormLib(
+    scheduledWorkflowMethodProps,
+  );
 
   const mapField = (field: any) => {
     const fieldValue = field?.fieldValue;
@@ -291,7 +291,7 @@ export const useUpsertScheduledWorkflow = () => {
   const moduleType = watch('module');
 
   return {
-    scheduledWorkflowMethod,
+    methods,
     handleFormSubmit,
     handleSubmit,
     palette,
