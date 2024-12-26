@@ -28,7 +28,7 @@ export const UpsertDepartment = (props: IDepartmentsProps) => {
     handleSubmit,
     submitUpsertDepartment,
     postDepartmentStatus,
-    method,
+    methods,
     updateDepartmentStatus,
     form,
     getDynamicFieldsStatus,
@@ -65,7 +65,7 @@ export const UpsertDepartment = (props: IDepartmentsProps) => {
         ) : getDynamicFieldsStatus?.isError ? (
           <ApiErrorState />
         ) : (
-          <FormProvider methods={method}>
+          <FormProvider methods={methods}>
             <Grid container spacing={1}>
               {departmentFormFieldsDynamic?.map((item: any) => (
                 <Grid item key={item?.id} xs={12}>

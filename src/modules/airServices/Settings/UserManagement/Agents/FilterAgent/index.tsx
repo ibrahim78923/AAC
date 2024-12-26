@@ -13,7 +13,7 @@ const AgentFilter = (props: IAgentsProps) => {
     handleCloseDrawer,
     resetAgentFilterForm,
     handleSubmit,
-    agentFilterDrawerMethods,
+    methods,
   } = useAgentFilter(props);
 
   return (
@@ -30,7 +30,7 @@ const AgentFilter = (props: IAgentsProps) => {
         cancelBtnHandler={() => resetAgentFilterForm?.()}
       >
         <Box mt={1}>
-          <FormProvider methods={agentFilterDrawerMethods}>
+          <FormProvider methods={methods}>
             <Grid container spacing={2}>
               {agentFilterFields?.map((form: any) => (
                 <Grid item xs={12} key={form?.id}>

@@ -1,5 +1,3 @@
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   usePatchAgentMutation,
   usePostAddAgentMutation,
@@ -28,6 +26,7 @@ import { IAgentsProps } from '../Agents.interface';
 import { UpsertAgentResponseI } from './UpsertAgent.interface';
 import { isoDateString } from '@/lib/date-time';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertAgent = (props: IAgentsProps) => {
   const [form, setForm] = useState<any>([]);
@@ -70,12 +69,12 @@ export const useUpsertAgent = (props: IAgentsProps) => {
     getDynamicFormData();
   }, []);
 
-  const method = useForm({
-    resolver: yupResolver(validationSchemaAgentFields?.(form)),
+  const upsertAgentMethodProps = {
+    validationSchema: validationSchemaAgentFields?.(form),
     defaultValues: defaultValues?.(selectedAgentList, form),
-  });
+  };
 
-  const { handleSubmit, reset } = method;
+  const { handleSubmit, reset, methods } = useFormLib(upsertAgentMethodProps);
 
   useEffect(() => {
     reset(() => defaultValues(selectedAgentList, form));
@@ -219,7 +218,7 @@ export const useUpsertAgent = (props: IAgentsProps) => {
     verifyServicesSettingsUserManagementAgentViaIgStatus?.isLoading;
 
   return {
-    method,
+    methods,
     handleSubmit,
     handleUpsertAgentSubmit,
     handleClose,

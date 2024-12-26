@@ -1,6 +1,4 @@
 import { useTheme } from '@mui/material';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { usePatchAirServicesWorkloadTaskMutation } from '@/services/airServices/workload';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
@@ -8,16 +6,17 @@ import {
   overviewDataArray,
   validationSchema,
 } from './ViewWorkloadDrawer.data';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export default function useViewWorkloadDrawer({ onClose, dataGet }: any) {
   const theme = useTheme();
 
-  const methods = useForm({
-    resolver: yupResolver(validationSchema),
+  const viewWorkloadMethodProps = {
+    validationSchema: validationSchema,
     defaultValues: defaultValues(dataGet?.extendedProps),
-  });
+  };
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, methods } = useFormLib(viewWorkloadMethodProps);
 
   const [patchTaskTrigger, patchTaskStatus] =
     usePatchAirServicesWorkloadTaskMutation();

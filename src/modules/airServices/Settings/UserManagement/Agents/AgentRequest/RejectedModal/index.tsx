@@ -17,12 +17,8 @@ import { IAgentsProps } from '../../Agents.interface';
 
 const RejectedModal = (props: IAgentsProps) => {
   const { openRejectedModal } = props;
-  const {
-    handleCloseModal,
-    onSubmit,
-    rejectedRequestMethods,
-    patchRejectRequestStatus,
-  } = useRejectedModal(props);
+  const { handleCloseModal, onSubmit, methods, patchRejectRequestStatus } =
+    useRejectedModal(props);
   return (
     <>
       <Dialog
@@ -32,8 +28,8 @@ const RejectedModal = (props: IAgentsProps) => {
         maxWidth={'sm'}
       >
         <FormProvider
-          methods={rejectedRequestMethods}
-          onSubmit={rejectedRequestMethods?.handleSubmit?.(onSubmit)}
+          methods={methods}
+          onSubmit={methods?.handleSubmit?.(onSubmit)}
         >
           <DialogTitle>
             <Box

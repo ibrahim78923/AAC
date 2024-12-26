@@ -1,7 +1,5 @@
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
 import {
   upsertRolesDefaultValues,
   upsertRolesValidationSchema,
@@ -16,6 +14,7 @@ import {
 } from '@/services/airServices/settings/user-management/roles';
 import { useEffect, useMemo } from 'react';
 import { getActiveAccountSession } from '@/utils';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export default function useUpsertRoles() {
   const router: any = useRouter();
@@ -25,12 +24,14 @@ export default function useUpsertRoles() {
 
   const auth: any = useAuth();
 
-  const methods: any = useForm({
-    resolver: yupResolver(upsertRolesValidationSchema),
+  const upsertRolesMethodProps = {
+    validationSchema: upsertRolesValidationSchema,
     defaultValues: upsertRolesDefaultValues(),
-  });
+  };
 
-  const { handleSubmit, reset, setValue } = methods;
+  const { handleSubmit, reset, setValue, methods } = useFormLib(
+    upsertRolesMethodProps,
+  );
 
   const {
     data: getRolesData,

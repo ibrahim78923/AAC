@@ -22,7 +22,7 @@ import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 export const UpsertAgent = (props: IAgentsProps) => {
   const { isAgentModalOpen, selectedAgentList } = props;
   const {
-    method,
+    methods,
     handleSubmit,
     handleUpsertAgentSubmit,
     handleClose,
@@ -66,7 +66,7 @@ export const UpsertAgent = (props: IAgentsProps) => {
             </Box>
           </DialogTitle>
           <DialogContent>
-            <FormProvider methods={method}>
+            <FormProvider methods={methods}>
               <Grid container spacing={1}>
                 {upsertAgentFormFields?.map((form: any) => (
                   <Grid item xs={12} md={form?.gridLength} key={form?.id}>

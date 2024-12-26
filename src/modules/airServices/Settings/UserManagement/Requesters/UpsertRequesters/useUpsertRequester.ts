@@ -1,7 +1,5 @@
 import { ROLES } from '@/constants/strings';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
 import {
   upsertRequestersArray,
   upsertRequestersDefaultValues,
@@ -27,6 +25,7 @@ import { useAuthCompanyVerificationMutation } from '@/services/auth';
 import { UpsertRequestersResponseI } from './UpsertRequesters.interface';
 import { isoDateString } from '@/lib/date-time';
 import { filteredEmptyValues } from '@/utils/api';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertRequester = (props: IRequestersProps) => {
   const { setIsDrawerOpen, singleRequesterDetails } = props;
@@ -67,15 +66,17 @@ export const useUpsertRequester = (props: IRequestersProps) => {
     getDynamicFormData();
   }, []);
 
-  const methods: any = useForm({
-    resolver: yupResolver(upsertRequestersValidationSchema?.(form)),
+  const upsertRequesterMethodProps = {
+    validationSchema: upsertRequestersValidationSchema?.(form),
     defaultValues: upsertRequestersDefaultValues?.(
       singleRequesterDetails,
       form,
     ),
-  });
+  };
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, methods } = useFormLib(
+    upsertRequesterMethodProps,
+  );
 
   useEffect(() => {
     reset(() => upsertRequestersDefaultValues(singleRequesterDetails, form));

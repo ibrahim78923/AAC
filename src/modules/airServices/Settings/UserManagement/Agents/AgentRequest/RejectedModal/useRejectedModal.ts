@@ -1,12 +1,11 @@
-import { useForm } from 'react-hook-form';
 import {
   defaultValuesRejectedModal,
   validationSchemaRejectedModal,
 } from './RejectedModal.data';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { usePatchRejectRequestMutation } from '@/services/airServices/settings/user-management/agents';
 import { IAgentsProps } from '../../Agents.interface';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useRejectedModal = (props: IAgentsProps) => {
   const {
@@ -15,10 +14,12 @@ export const useRejectedModal = (props: IAgentsProps) => {
     setSelectedAgentRequest,
   } = props;
 
-  const rejectedRequestMethods: any = useForm({
-    resolver: yupResolver(validationSchemaRejectedModal),
+  const rejectedRequestMethodProps = {
+    validationSchema: validationSchemaRejectedModal,
     defaultValues: defaultValuesRejectedModal,
-  });
+  };
+
+  const { methods } = useFormLib(rejectedRequestMethodProps);
 
   const [patchRejectRequestTrigger, patchRejectRequestStatus] =
     usePatchRejectRequestMutation();
@@ -46,7 +47,7 @@ export const useRejectedModal = (props: IAgentsProps) => {
   return {
     handleCloseModal,
     onSubmit,
-    rejectedRequestMethods,
+    methods,
     patchRejectRequestStatus,
   };
 };

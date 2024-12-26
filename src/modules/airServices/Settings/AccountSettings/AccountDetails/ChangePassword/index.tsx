@@ -11,7 +11,7 @@ import { IFieldConfig } from './ChangePassword.interface';
 export const ChangePassword = () => {
   const {
     changePasswordFields,
-    ChangePasswordMethods,
+    methods,
     reset,
     handleSubmitChangePassword,
     theme,
@@ -31,10 +31,7 @@ export const ChangePassword = () => {
           <Typography variant="h6">Change Password</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <FormProvider
-            methods={ChangePasswordMethods}
-            onSubmit={handleSubmitChangePassword}
-          >
+          <FormProvider methods={methods} onSubmit={handleSubmitChangePassword}>
             <Grid
               container
               spacing={1}

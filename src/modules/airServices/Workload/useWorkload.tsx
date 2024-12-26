@@ -1,4 +1,5 @@
 import { DATE_FORMAT } from '@/constants';
+import { useFormLib } from '@/hooks/useFormLib';
 import { endOfTime, startOfAddTime, startOfFormat } from '@/lib/date-time';
 import {
   useLazyGetAirServicesWorkloadFilterQuery,
@@ -6,7 +7,6 @@ import {
 } from '@/services/airServices/workload';
 import { NextRouter, useRouter } from 'next/router';
 import { RefObject, useEffect, useMemo, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
 
 export default function useWorkload() {
   const calendarRef: RefObject<any> = useRef<any>(null);
@@ -36,9 +36,11 @@ export default function useWorkload() {
   const [selected, setSelected] = useState<any>(null);
   const [filterByTypeState, setFilterByTypeState] = useState('ALL');
 
-  const methods = useForm({
+  const workloadMethodProps = {
     defaultValues: { filterModuleType: filterByTypeState ?? 'ALL' },
-  });
+  };
+
+  const { methods } = useFormLib(workloadMethodProps);
 
   const [trigger, status] = useLazyGetAirServicesWorkloadQuery();
   const [triggerFilter, statusFilter] =
