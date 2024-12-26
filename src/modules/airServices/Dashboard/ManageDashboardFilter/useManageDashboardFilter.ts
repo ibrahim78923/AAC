@@ -1,4 +1,3 @@
-import { useForm } from 'react-hook-form';
 import {
   manageDashboardFilterFormDefaultValuesDynamic,
   manageDashboardsFilterFormFieldsDynamic,
@@ -16,6 +15,7 @@ import {
   dashboardFilterSelector,
   dashboardIsPortalOpenSelector,
 } from '@/redux/slices/airServices/dashboard/selectors';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useManageDashboardFilter = () => {
   const dispatch = useAppDispatch();
@@ -30,12 +30,12 @@ export const useManageDashboardFilter = () => {
     shallowEqual,
   );
 
-  const methods = useForm({
+  const formLibProps = {
     defaultValues:
       manageDashboardFilterFormDefaultValuesDynamic(filterDashboardLists),
-  });
+  };
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
 
   const onSubmit = async (data: any) => {
     const dashboardFilteredFields: any = filteredEmptyValues(data);

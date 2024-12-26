@@ -1,5 +1,4 @@
-import { useForm, useWatch } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { useWatch } from 'react-hook-form';
 import {
   EMAIL_SEND_TYPE,
   createEmailThisDashboardDefaultValues,
@@ -16,17 +15,19 @@ import {
 import { getActiveAccountSession } from '@/utils';
 import { AIR_SERVICES } from '@/constants/routes';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useEmailThisDashboard = (props: any) => {
   const { setIsDrawerOpen, apiLoader } = props;
   const account = useMemo(() => getActiveAccountSession(), []);
 
-  const methods: any = useForm({
-    resolver: yupResolver(createEmailThisDashboardValidationSchema),
+  const formLibProps = {
+    validationSchema: createEmailThisDashboardValidationSchema,
     defaultValues: createEmailThisDashboardDefaultValues,
-  });
+  };
 
-  const { handleSubmit, control, reset, clearErrors } = methods;
+  const { handleSubmit, control, reset, clearErrors, methods } =
+    useFormLib(formLibProps);
 
   const [
     sendServiceDashboardViaEmailTrigger,

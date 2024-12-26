@@ -1,11 +1,12 @@
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
-import { useForm } from 'react-hook-form';
-import * as Yup from 'yup';
-import { agentAvailabilityCountDynamic } from './AgentAvailability.data';
+import {
+  agentAvailabilityCountDynamic,
+  agentsAvailabilityValidationSchema,
+} from './AgentAvailability.data';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setDepartmentWiseAgents } from '@/redux/slices/airServices/dashboard/slice';
 import { departmentWiseAgentSelector } from '@/redux/slices/airServices/dashboard/selectors';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useAgentAvailability = (props: any) => {
   const { data } = props;
@@ -16,14 +17,12 @@ export const useAgentAvailability = (props: any) => {
 
   const theme = useTheme();
 
-  const methods = useForm({
+  const formLibProps = {
     defaultValues: { departmentId: departmentWiseAgents },
-    resolver: yupResolver(
-      Yup?.object()?.shape({
-        departmentId: Yup?.mixed()?.nullable(),
-      }),
-    ),
-  });
+    validationSchema: agentsAvailabilityValidationSchema,
+  };
+
+  const { methods } = useFormLib(formLibProps);
 
   const onChangeHandler = (_: any, data: any) => {
     dispatch(setDepartmentWiseAgents?.(data));

@@ -1,8 +1,5 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { NextRouter, useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
 import { useGetServicesDashboardSingleDashboardDetailsQuery } from '@/services/airServices/dashboard';
 import { AIR_SERVICES } from '@/constants/routes';
 import { AUTO_REFRESH_API_POLLING_TIME } from '@/config';
@@ -14,6 +11,11 @@ import {
   dashboardTicketBasedGraphTypeSelector,
   departmentWiseAgentSelector,
 } from '@/redux/slices/airServices/dashboard/selectors';
+import { useFormLib } from '@/hooks/useFormLib';
+import {
+  singleDashboardDefaultValues,
+  singleDashboardValidationSchema,
+} from './SingleDashboard.data';
 
 export const useSingleDashboard = (props: any) => {
   const dispatch = useAppDispatch();
@@ -26,16 +28,12 @@ export const useSingleDashboard = (props: any) => {
     return account?._id;
   }, []);
 
-  const methods = useForm({
-    defaultValues: { dashboardId: null },
-    resolver: yupResolver(
-      Yup?.object()?.shape({
-        dashboardId: Yup?.mixed()?.nullable(),
-      }),
-    ),
-  });
+  const formLibProps = {
+    validationSchema: singleDashboardValidationSchema,
+    defaultValues: singleDashboardDefaultValues,
+  };
 
-  const { watch } = methods;
+  const { watch, methods } = useFormLib(formLibProps);
 
   const departmentWiseAgents = useAppSelector(departmentWiseAgentSelector);
 

@@ -4,6 +4,8 @@ import {
   Person,
 } from '@mui/icons-material';
 
+import * as Yup from 'yup';
+
 export const agentAvailabilityCountDynamic = (pieCharts: any) => [
   {
     title: 'Total Agents',
@@ -21,3 +23,7 @@ export const agentAvailabilityCountDynamic = (pieCharts: any) => [
     count: pieCharts?.unAvailableAgents,
   },
 ];
+
+export const agentsAvailabilityValidationSchema = Yup?.object()?.shape({
+  departmentId: Yup?.mixed()?.nullable(),
+});

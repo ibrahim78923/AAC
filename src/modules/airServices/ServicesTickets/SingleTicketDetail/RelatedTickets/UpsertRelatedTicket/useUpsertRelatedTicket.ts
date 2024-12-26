@@ -60,8 +60,8 @@ export const useUpsertRelatedTicket = () => {
     });
 
   const formLibProps = {
-    validationSchema: upsertTicketDefaultValuesFunction(),
-    defaultValues: upsertTicketValidationSchema?.(childTicketId),
+    defaultValues: upsertTicketDefaultValuesFunction(),
+    validationSchema: upsertTicketValidationSchema?.(childTicketId),
   };
 
   const { handleSubmit, reset, getValues, setError, setValue, watch, methods } =
