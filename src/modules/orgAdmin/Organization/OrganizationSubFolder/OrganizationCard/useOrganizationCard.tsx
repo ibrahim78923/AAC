@@ -65,6 +65,10 @@ const useOrganizationCard = () => {
       `${formValues?.city ? `${formValues?.city}, ` : ''}` +
       `${formValues?.country ? `${formValues?.country}` : ''}`;
 
+  function removeUndefined(input: any) {
+    return input?.replace(/\bundefined\b/g, '')?.trim();
+  }
+
   useEffect(() => {
     if (currentOrganizationId) {
       organiztionDetails({ id: currentOrganizationId })
@@ -98,7 +102,10 @@ const useOrganizationCard = () => {
               country: addressOthFields?.country ?? '',
               buildingName: addressOthFields?.buildingName ?? '',
               buildingNumber: addressOthFields?.buildingNumber ?? '',
-              streetName: addressOthFields?.streetName ?? '',
+              streetName:
+                removeUndefined(addressOthFields?.streetName) ??
+                removeUndefined(addressOthFields?.street) ??
+                '',
             });
           }
         });

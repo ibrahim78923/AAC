@@ -109,6 +109,10 @@ const useOrganizationTable = () => {
     setSelectedProducts;
   }, [editData]);
 
+  function removeUndefined(input: any) {
+    return input?.replace(/\bundefined\b/g, '')?.trim();
+  }
+
   useEffect(() => {
     if (Object?.keys(editData)?.length > 0) {
       const { accountName, phoneNo, address, postCode } = editData;
@@ -136,7 +140,7 @@ const useOrganizationTable = () => {
       methods.setValue('streetName', addressOthFields?.streetName);
       methods.setValue('city', addressOthFields?.city);
       methods.setValue('country', addressOthFields?.country);
-      methods.setValue('address', addressOthFields?.composite);
+      methods.setValue('address', removeUndefined(addressOthFields?.composite));
     }
   }, [editData, methods, isOpenDrawer]);
 
