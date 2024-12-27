@@ -1,5 +1,3 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm, UseFormReturn } from 'react-hook-form';
 import {
   emailReportDefaultValues,
   emailReportValidationSchema,
@@ -16,6 +14,7 @@ import {
 } from '@/redux/slices/airOperations/reports/slice';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { AIR_OPERATIONS } from '@/constants/routes';
+import { useFormLib } from '@/hooks/useFormLib';
 
 const { ZERO } = ARRAY_INDEX ?? {};
 
@@ -42,12 +41,12 @@ export const useEmailReport = () => {
     sender: user?.email,
   };
 
-  const methods: UseFormReturn<EmailReportFormFieldsI> = useForm<any>({
-    resolver: yupResolver(emailReportValidationSchema),
+  const formLibProps = {
+    validationSchema: emailReportValidationSchema,
     defaultValues: emailReportDefaultValues?.(data),
-  });
+  };
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
 
   const onSubmit = async (data: EmailReportFormFieldsI) => {
     const emailFormData = new FormData();

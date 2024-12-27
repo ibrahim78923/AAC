@@ -1,11 +1,5 @@
 import { filteredEmptyValues } from '@/utils/api';
-import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  useFieldArray,
-  useForm,
-  UseFormReturn,
-  useWatch,
-} from 'react-hook-form';
+import { useFieldArray, useWatch } from 'react-hook-form';
 import {
   MANAGE_REPORT_ACCESS_TYPES,
   manageReportAccessDefaultValues,
@@ -14,7 +8,6 @@ import {
 } from './ManageReportAccess.data';
 import { useEffect } from 'react';
 import { ARRAY_INDEX } from '@/constants/strings';
-import { ManageAccessReportFormFieldsI } from './ManageReportAccess.interface';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { useGetReportLists } from '../ReportHooks/useGetReportLists';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
@@ -26,6 +19,7 @@ import {
 } from '@/redux/slices/airOperations/reports/slice';
 import { useManageOperationsReportAccessLevelMutation } from '@/services/airOperations/reports';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useManageReportAccess = () => {
   const [manageReportAccessTrigger, manageReportAccessStatus] =
@@ -55,13 +49,20 @@ export const useManageReportAccess = () => {
     await getReportsList?.(newPage);
   };
 
-  const methods: UseFormReturn<ManageAccessReportFormFieldsI> = useForm<any>({
+  const formLibProps = {
+    validationSchema: manageReportAccessValidationSchema,
     defaultValues: manageReportAccessDefaultValues?.(),
-    resolver: yupResolver(manageReportAccessValidationSchema),
-  });
+  };
 
-  const { handleSubmit, reset, control, clearErrors, setValue, getValues } =
-    methods;
+  const {
+    handleSubmit,
+    reset,
+    methods,
+    control,
+    clearErrors,
+    setValue,
+    getValues,
+  } = useFormLib(formLibProps);
 
   const watchForAccessType = useWatch({
     control,

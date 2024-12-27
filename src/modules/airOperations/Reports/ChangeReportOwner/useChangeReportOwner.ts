@@ -1,8 +1,5 @@
 import { ARRAY_INDEX } from '@/constants/strings';
 import { useChangeOperationsReportOwnerMutation } from '@/services/airOperations/reports';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm, UseFormReturn } from 'react-hook-form';
-import * as Yup from 'yup';
 import { ChangeReportOwnerFormFieldsI } from './ChangeReportOwner.interface';
 import { useGetReportLists } from '../ReportHooks/useGetReportLists';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
@@ -13,6 +10,11 @@ import {
 } from '@/redux/slices/airOperations/reports/slice';
 import { PAGINATION } from '@/config';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import {
+  changeReportOwnerFormDefaultValuesDynamic,
+  changeReportOwnerFormValidationSchemaDynamic,
+} from './ChangeReportOwner.data';
+import { useFormLib } from '@/hooks/useFormLib';
 
 const { CURRENT_PAGE } = PAGINATION ?? {};
 const { ZERO } = ARRAY_INDEX ?? {};
@@ -44,19 +46,12 @@ export const useChangeReportOwner = () => {
     await getReportsList?.(newPage);
   };
 
-  const methods: UseFormReturn<ChangeReportOwnerFormFieldsI | any> =
-    useForm<any>({
-      defaultValues: {
-        owner: null,
-      },
-      resolver: yupResolver(
-        Yup?.object()?.shape({
-          owner: Yup?.mixed()?.nullable()?.required('Owner name is Required'),
-        }),
-      ),
-    });
+  const formLibProps = {
+    validationSchema: changeReportOwnerFormValidationSchemaDynamic,
+    defaultValues: changeReportOwnerFormDefaultValuesDynamic?.(),
+  };
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
 
   const submitChangeOwner = async (formData: ChangeReportOwnerFormFieldsI) => {
     const apiDataParameter = {

@@ -1,6 +1,3 @@
-import { useForm, UseFormReturn } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
 import { useRenameOperationsReportsMutation } from '@/services/airOperations/reports';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { RenameReportFormFieldsI } from './RenameReport.interface';
@@ -13,6 +10,11 @@ import { useGetReportLists } from '../ReportHooks/useGetReportLists';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { PAGINATION } from '@/config';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import {
+  renameReportFormDefaultValuesDynamic,
+  renameReportFormValidationSchemaDynamic,
+} from './RenameReport.data';
+import { useFormLib } from '@/hooks/useFormLib';
 
 const { CURRENT_PAGE } = PAGINATION ?? {};
 const { ZERO } = ARRAY_INDEX ?? {};
@@ -43,16 +45,12 @@ export const useRenameReport = () => {
     await getReportsList?.(newPage);
   };
 
-  const methods: UseFormReturn<RenameReportFormFieldsI> = useForm({
-    resolver: yupResolver(
-      Yup?.object()?.shape({
-        name: Yup?.string()?.trim()?.required('Report name is required'),
-      }),
-    ),
-    defaultValues: { name: '' },
-  });
+  const formLibProps = {
+    validationSchema: renameReportFormValidationSchemaDynamic,
+    defaultValues: renameReportFormDefaultValuesDynamic?.(),
+  };
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
 
   const onSubmit = async (formData: RenameReportFormFieldsI) => {
     const apiDataParameter = {
