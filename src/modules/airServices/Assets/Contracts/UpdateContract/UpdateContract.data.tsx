@@ -29,7 +29,7 @@ export const updateContractFormFieldsFunction = (
   actionRenewExtend: any,
 ) => [
   {
-    id: 5,
+    id: 1,
     componentProps: {
       variant: 'h5',
     },
@@ -38,7 +38,7 @@ export const updateContractFormFieldsFunction = (
     component: Typography,
   },
   {
-    id: 5,
+    id: 2,
     componentProps: {
       name: 'startDate',
       label: 'Start Date',
@@ -49,7 +49,7 @@ export const updateContractFormFieldsFunction = (
     md: 6,
   },
   {
-    id: 6,
+    id: 3,
     componentProps: {
       name: 'endDate',
       label: 'End Date',
@@ -59,7 +59,7 @@ export const updateContractFormFieldsFunction = (
     md: 6,
   },
   {
-    id: 7,
+    id: 4,
     componentProps: {
       name: 'cost',
       label: 'Cost (£)',
@@ -71,7 +71,7 @@ export const updateContractFormFieldsFunction = (
   },
 
   {
-    id: 8,
+    id: 5,
     component: RHFAutocompleteAsync,
     md: 6,
     componentProps: {
