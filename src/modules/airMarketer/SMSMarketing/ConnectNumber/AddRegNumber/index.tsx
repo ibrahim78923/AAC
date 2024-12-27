@@ -7,12 +7,14 @@ import {
   IconButton,
   DialogContent,
   DialogActions,
+  Typography,
 } from '@mui/material';
 import { CloseModalIcon } from '@/assets/icons';
 import { AddRegNumberI } from './AddRegNumber.interface';
 import { styles } from './AddRegNumber.style';
 import PhoneNumberInput from '@/components/PhoneNumberInput';
 import { LoadingButton } from '@mui/lab';
+import Link from 'next/link';
 
 const AddRegNumber: FC<AddRegNumberI> = ({
   open,
@@ -38,8 +40,30 @@ const AddRegNumber: FC<AddRegNumberI> = ({
         </IconButton>
       </DialogTitle>
       <DialogContent sx={{ p: '12px 24px 24px' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: '20px',
+            alignItems: 'center',
+            mt: 1,
+            mb: 1,
+          }}
+        >
+          <Typography
+            variant="body2"
+            sx={{ fontWeight: '600', fontSize: '16px' }}
+          >
+            Integrate your Twilio Account
+          </Typography>
+          <Link href="./sms-marketing/connect-account">
+            <Button variant="contained" color="primary">
+              Connect
+            </Button>
+          </Link>
+        </Box>
+
         <Box sx={styles?.regNumText}>
-          Register phone number to get started WhatsApp broadcast
+          Connect phone number to get started SMS broadcast
         </Box>
         <Box sx={{ mt: '20px' }}>
           <PhoneNumberInput

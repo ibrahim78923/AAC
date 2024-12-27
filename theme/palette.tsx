@@ -210,6 +210,15 @@ const CUSTOM_COLORS = {
 
   light_blue_bg_two: '#EDFBFB',
   light_blue_bg_three: '#CAF4F3',
+  lighter_slate_blue: '#EDF4FE',
+
+  linkedin_blue: '#439A97',
+  linkedin_blue_two: '#5CAEA7',
+  linkedin_blue_three: '#7CC8BC',
+  linkedin_blue_four: '#90D8C9',
+  linkedin_blue_five: '#97DECE',
+
+  light_red: '#F12E45',
 };
 
 const GRAPH = {

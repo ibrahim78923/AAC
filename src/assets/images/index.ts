@@ -235,3 +235,5 @@ export { default as ConsumerImage } from './modules/HeaderAndSidebar/consumer-im
 export { default as ContractsImage } from './modules/HeaderAndSidebar/contracts.png';
 export { default as SignDrawImg } from './modules/socialComponents/contracts/sign-draw-method.svg';
 export { default as SignOtherImg } from './modules/socialComponents/contracts/sign-other-method.svg';
+export { default as TwilioImg } from './shared/twilio.png';
+export { default as BrandImg } from './shared/brand.png';

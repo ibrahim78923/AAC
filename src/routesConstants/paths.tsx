@@ -154,6 +154,10 @@ export const AIR_MARKETER = {
   COMPARE_POST: path(AIR_MARKETING_PAGE, '/social-marketing/compare-post'),
   CALENDER: path(AIR_MARKETING_PAGE, '/social-marketing/calender'),
   SMS_MARKETING: path(AIR_MARKETING_PAGE, '/sms-marketing'),
+  SMS_MARKETING_CONNECT_ACCOUNT: path(
+    AIR_MARKETING_PAGE,
+    '/sms-marketing/connect-account',
+  ),
   WHATSAPP_MARKETING: path(AIR_MARKETING_PAGE, '/whatsapp-marketing'),
   WHATSAPP_MARKETING_CREATE_TEMPLATE:
     '/air-marketer/whatsapp-marketing/create-template',

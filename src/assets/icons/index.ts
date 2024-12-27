@@ -588,3 +588,8 @@ export { default as IconFieldDate } from './modules/airSocial/contracts/field-ty
 export { default as IconSigningDigitally } from './modules/airSocial/contracts/icon-signing-digitally';
 export { default as IconDefaultAttachment } from './modules/airSocial/contracts/icon-default-attachment';
 export { default as IconAttachmentTrash } from './modules/airSocial/contracts/icon-attachment-trash';
+export { default as IconArrowSwitch } from './shared/arrow-switch';
+export { default as IconArrowRounded } from './shared/arrow-rounded';
+export { default as IconAirFP } from './shared/air-fp-logo';
+export { default as IconTwilio } from './shared/twilio';
+export { default as IconConnect } from './shared/connect';
