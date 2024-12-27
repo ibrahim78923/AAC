@@ -1,14 +1,13 @@
 import { CANNED_RESPONSES } from '@/constants/strings';
-import { useForm } from 'react-hook-form';
 import {
   selectAgentDefaultValues,
   selectAgentSchema,
 } from './SelectAgentsModal.data';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
 import { successSnackbar } from '@/lib/snackbar';
 import { useLazyGetAirServicesSettingsCannedResponseAgentsQuery } from '@/services/airServices/settings/agent-performance-management/canned-responses';
 import useAuth from '@/hooks/useAuth';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useSelectAgentsModal = (props: any) => {
   const {
@@ -25,12 +24,14 @@ export const useSelectAgentsModal = (props: any) => {
 
   const apiQueryAgents =
     useLazyGetAirServicesSettingsCannedResponseAgentsQuery();
-  const method = useForm({
-    defaultValues: selectAgentDefaultValues(agentsDetails),
-    resolver: yupResolver(selectAgentSchema),
-  });
 
-  const { watch, reset }: any = method;
+  const formLibProps = {
+    validationSchema: selectAgentSchema,
+    defaultValues: selectAgentDefaultValues(agentsDetails),
+  };
+
+  const { watch, reset, methods } = useFormLib(formLibProps);
+
   const selectedAgentsList = watch(CANNED_RESPONSES?.AGENTS);
 
   const mergeUniqueObjects = (agentsDetails: any, agents: any) => {
@@ -61,7 +62,7 @@ export const useSelectAgentsModal = (props: any) => {
   }, [openSelectAgentsModal]);
 
   return {
-    method,
+    methods,
     onSubmit,
     selectedAgentsList,
     openSelectAgentsModal,

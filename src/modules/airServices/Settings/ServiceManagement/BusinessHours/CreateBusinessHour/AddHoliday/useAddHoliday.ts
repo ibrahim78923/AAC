@@ -1,15 +1,14 @@
-import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 import {
   holidayDefaultValues,
   holidayValidationSchema,
 } from './AddHoliday.data';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { usePostAirServicesSettingsServiceBusinessHourHolidayMutation } from '@/services/airServices/settings/service-management/business-hours';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { CALENDAR_FORMAT } from '@/constants';
 import { otherDateFormat } from '@/lib/date-time';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useAddHoliday = (props: any) => {
   const {
@@ -19,15 +18,15 @@ export const useAddHoliday = (props: any) => {
     businessHourId,
   } = props;
 
-  const method = useForm({
+  const formLibProps = {
+    validationSchema: holidayValidationSchema,
     defaultValues: holidayDefaultValues,
-    resolver: yupResolver(holidayValidationSchema),
-  });
+  };
+
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
 
   const [postHolidayTrigger, postHolidayStatus] =
     usePostAirServicesSettingsServiceBusinessHourHolidayMutation();
-
-  const { handleSubmit, reset } = method;
 
   const closeHolidayModal = () => {
     setOpenAddHolidayModal(false);
@@ -72,7 +71,7 @@ export const useAddHoliday = (props: any) => {
   return {
     openAddHolidayModal,
     setOpenAddHolidayModal,
-    method,
+    methods,
     reset,
     onSubmitRequest,
     postHolidayStatus,

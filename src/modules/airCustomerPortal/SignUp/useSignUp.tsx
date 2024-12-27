@@ -1,7 +1,5 @@
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import {
   SignUpDefaultValues,
   SignUpValidationSchema,
@@ -14,6 +12,7 @@ import {
 } from '@/services/airCustomerPortal/auth';
 import { GLOBAL_CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
 import { AUTH } from '@/constants';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export default function useSignUp() {
   const [stepState, setStepState] = useState(false);
@@ -27,11 +26,12 @@ export default function useSignUp() {
 
   const { companyId } = router?.query;
 
-  const method = useForm({
-    resolver: yupResolver(SignUpValidationSchema),
+  const formLibProps = {
+    validationSchema: SignUpValidationSchema,
     defaultValues: SignUpDefaultValues,
-  });
-  const { handleSubmit, reset, getValues } = method;
+  };
+
+  const { handleSubmit, reset, getValues, methods } = useFormLib(formLibProps);
 
   const togglePasswordVisibility = (field: any) => {
     setPasswordVisibility((prev: any) => ({
@@ -129,7 +129,7 @@ export default function useSignUp() {
   };
 
   return {
-    method,
+    methods,
     handleSubmit,
     onSubmit,
     stepState,

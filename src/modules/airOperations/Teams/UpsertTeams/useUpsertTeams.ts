@@ -1,5 +1,3 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
 import {
   upsertTeamDefaultValues,
   upsertTeamFormFieldsDynamic,
@@ -15,6 +13,7 @@ import { UpsertTeamsFormI } from './UpsertTeams.interface';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setIsPortalClose } from '@/redux/slices/airOperations/teams/slice';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertTeams = () => {
   const dispatch = useAppDispatch();
@@ -22,12 +21,13 @@ export const useUpsertTeams = () => {
   const isPortalOpen = useAppSelector(
     (state) => state?.operationsTeam?.isPortalOpen,
   );
-  const methods = useForm({
-    resolver: yupResolver(upsertTeamValidationSchema),
-    defaultValues: upsertTeamDefaultValues(),
-  });
 
-  const { handleSubmit, reset } = methods;
+  const formLibProps = {
+    validationSchema: upsertTeamValidationSchema,
+    defaultValues: upsertTeamDefaultValues(),
+  };
+
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
 
   const { data, isLoading, isFetching, isError, refetch }: any =
     useGetOperationsUserManagementSingleTeamDetailsByIdQuery(

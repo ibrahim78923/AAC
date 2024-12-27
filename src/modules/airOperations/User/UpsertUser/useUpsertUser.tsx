@@ -1,10 +1,8 @@
-import { useForm } from 'react-hook-form';
 import {
   upsertUserDefaultValues,
   upsertUserFormFieldsDynamic,
   upsertUserValidationSchema,
 } from './UpsertUser.data';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
 import {
   useAddOperationsUserManagementSingleProductUserMutation,
@@ -25,6 +23,7 @@ import {
   setIsPortalClose,
 } from '@/redux/slices/airOperations/users/slice';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 const { EDIT_OPERATIONS_USERS, OPERATIONS_USERS_DETAIL } =
   OPERATIONS_USERS_ACTIONS_CONSTANT;
@@ -76,12 +75,12 @@ export const useUpsertUser = () => {
       },
     );
 
-  const methods = useForm<any>({
+  const formLibProps = {
+    validationSchema: upsertUserValidationSchema,
     defaultValues: upsertUserDefaultValues(),
-    resolver: yupResolver(upsertUserValidationSchema),
-  });
+  };
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
 
   const submitButtonHandler = () => {
     if (isPortalOpen?.action === OPERATIONS_USERS_DETAIL) {

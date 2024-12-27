@@ -4,16 +4,18 @@ import {
   useUpdateLoyaltyProgramSettingsGeneralSettingsMutation,
 } from '@/services/airLoyaltyProgram/settings';
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
 import { useGetLoyaltySettings } from '../SettingsHooks/useGetLoyaltySettings';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useLoyalty = () => {
-  const methods = useForm({
+  const formLibProps = {
     defaultValues: {
       maxPointLimit: '',
       exchangeRate: '',
     },
-  });
+  };
+
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
 
   const {
     getLoyaltySettings,
@@ -33,8 +35,6 @@ export const useLoyalty = () => {
     updateLoyaltyProgramSettingsGeneralSettingsTrigger,
     updateLoyaltyProgramSettingsGeneralSettingsStatus,
   ] = useUpdateLoyaltyProgramSettingsGeneralSettingsMutation();
-
-  const { handleSubmit, reset } = methods;
 
   const submitLoyalty = async (formData: any) => {
     const body = {

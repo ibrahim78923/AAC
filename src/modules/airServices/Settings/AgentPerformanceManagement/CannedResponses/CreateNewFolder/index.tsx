@@ -17,7 +17,7 @@ import { ICannedResponsesProps } from '../CannedResponses.interface';
 
 export const CreateNewFolder = (props: ICannedResponsesProps) => {
   const {
-    method,
+    methods,
     handleSubmit,
     onSubmit,
     openCreateNewFolderModal,
@@ -56,7 +56,7 @@ export const CreateNewFolder = (props: ICannedResponsesProps) => {
       </DialogTitle>
 
       <DialogContent>
-        <FormProvider methods={method} onSubmit={handleSubmit(onSubmit)}>
+        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={1.4}>
             {createNewFolderArray?.map((item: any) => (
               <Grid key={item?.id} item xs={12}>

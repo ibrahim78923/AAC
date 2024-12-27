@@ -20,7 +20,7 @@ import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 
 export const SelectAgentsModal = (props: any) => {
   const {
-    method,
+    methods,
     onSubmit,
     selectedAgentsList,
     openSelectAgentsModal,
@@ -86,8 +86,8 @@ export const SelectAgentsModal = (props: any) => {
             </Box>
           </DialogTitle>
           <FormProvider
-            methods={method}
-            onSubmit={method?.handleSubmit(onSubmit)}
+            methods={methods}
+            onSubmit={methods?.handleSubmit(onSubmit)}
           >
             <DialogContent>
               <Grid container gap={1.4}>

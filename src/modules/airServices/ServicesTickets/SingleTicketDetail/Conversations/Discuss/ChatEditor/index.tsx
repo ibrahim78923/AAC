@@ -7,14 +7,14 @@ export const ChatEditor = (props: any) => {
   const { selectedMessage, setSelectedMessage } = props;
   const {
     handleSubmit,
-    method,
+    methods,
     submitMessage,
     postDiscussionsOfTicketConversationStatus,
     updateDiscussionsOfTicketConversationStatus,
   } = useChatEditor(props);
 
   return (
-    <FormProvider methods={method} onSubmit={handleSubmit(submitMessage)}>
+    <FormProvider methods={methods} onSubmit={handleSubmit(submitMessage)}>
       {(selectedMessage?.isReply || selectedMessage?.isEdit) && (
         <Box
           bgcolor={'grey.700'}

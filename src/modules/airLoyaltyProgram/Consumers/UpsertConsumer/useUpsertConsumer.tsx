@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
 import { consumerFormFieldDefaultValues } from './UpsertConsumer.data';
 import { useGetConsumerDetailsByIdQuery } from '@/services/airLoyaltyProgram/consumers';
 import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertConsumer = () => {
   const router = useRouter();
@@ -13,11 +13,11 @@ export const useUpsertConsumer = () => {
   const { data, isLoading, isFetching, isError, refetch } =
     useGetConsumerDetailsByIdQuery(id, { refetchOnMountOrArgChange: true });
 
-  const methods: any = useForm({
+  const formLibProps = {
     defaultValues: consumerFormFieldDefaultValues(data?.data),
-  });
+  };
 
-  const { reset } = methods;
+  const { reset, methods } = useFormLib(formLibProps);
 
   useEffect(() => {
     reset(consumerFormFieldDefaultValues(data?.data));

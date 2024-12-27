@@ -3,10 +3,10 @@ import {
   inventoryFilterFormDefaultValues,
   inventoryFilterFormFieldsDataFunction,
 } from './FilterInventory.data';
-import { useForm } from 'react-hook-form';
 import usePath from '@/hooks/usePath';
 import { FilterInventoryI } from './FilterInventory.interface';
 import { PAGINATION } from '@/config';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useFilterInventory = (props: FilterInventoryI) => {
   const {
@@ -17,12 +17,14 @@ export const useFilterInventory = (props: FilterInventoryI) => {
   } = props;
   const router = useRouter();
 
-  const methods: any = useForm({
-    defaultValues: inventoryFilterFormDefaultValues(inventoryFilterLists),
-  });
-
   const { makePath } = usePath();
-  const { handleSubmit, reset } = methods;
+
+  const formLibProps = {
+    defaultValues: inventoryFilterFormDefaultValues(inventoryFilterLists),
+  };
+
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
+
   const submitInventoryFilterForm = async (data: any) => {
     const inventoryFilteredFields = Object?.entries(data || {})
       ?.filter(

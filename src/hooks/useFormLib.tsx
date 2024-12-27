@@ -23,6 +23,7 @@ export const useFormLib = (props: any) => {
     control,
     clearErrors,
     register,
+    trigger,
   } = methods;
 
   return {
@@ -36,5 +37,6 @@ export const useFormLib = (props: any) => {
     control,
     clearErrors,
     register,
+    trigger,
   };
 };

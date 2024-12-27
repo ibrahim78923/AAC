@@ -25,7 +25,7 @@ import { otherDateFormat } from '@/lib/date-time';
 export const CreateBusinessHour = () => {
   const {
     router,
-    businessHourMethod,
+    methods,
     control,
     watch,
     onSubmitRequest,
@@ -54,7 +54,7 @@ export const CreateBusinessHour = () => {
 
       <br />
 
-      <FormProvider methods={businessHourMethod} onSubmit={onSubmitRequest}>
+      <FormProvider methods={methods} onSubmit={onSubmitRequest}>
         <Grid container spacing={3}>
           <Grid item lg={6} xs={12}>
             <Box

@@ -8,7 +8,7 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 const AgentLevels = () => {
   const {
-    agentLevelsPointsMethod,
+    methods,
     onSubmit,
     handleSubmit,
     isLoading,
@@ -20,10 +20,7 @@ const AgentLevels = () => {
   if (isLoading || isFetching) return <SkeletonForm />;
 
   return (
-    <FormProvider
-      methods={agentLevelsPointsMethod}
-      onSubmit={handleSubmit?.(onSubmit)}
-    >
+    <FormProvider methods={methods} onSubmit={handleSubmit?.(onSubmit)}>
       <Typography fontWeight={600} pb={1.2}>
         Agent Levels
       </Typography>

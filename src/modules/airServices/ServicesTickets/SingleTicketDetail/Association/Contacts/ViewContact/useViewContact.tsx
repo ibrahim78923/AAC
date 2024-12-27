@@ -1,7 +1,7 @@
-import { useForm } from 'react-hook-form';
 import { getDefaultValues } from './ViewContact.data';
 import { useEffect } from 'react';
 import { useGetAirServicesTicketContactByIdQuery } from '@/services/airServices/tickets/single-ticket-details/association';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export default function useViewContact({ modalId, setModalId }: any) {
   const { data, isLoading, isFetching, isError } =
@@ -11,11 +11,11 @@ export default function useViewContact({ modalId, setModalId }: any) {
     );
   const defaultValues = getDefaultValues(data?.data);
 
-  const methodsNewContact = useForm({
+  const formLibProps = {
     defaultValues,
-  });
+  };
 
-  const { reset } = methodsNewContact;
+  const { reset, methods: methodsNewContact } = useFormLib(formLibProps);
 
   useEffect(() => {
     reset(defaultValues);

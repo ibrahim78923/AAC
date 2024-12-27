@@ -1,5 +1,3 @@
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   moveFolderDefaultValues,
   moveFolderSchema,
@@ -13,6 +11,7 @@ import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useMoveFolderModal = (props: any) => {
   const {
@@ -34,11 +33,12 @@ export const useMoveFolderModal = (props: any) => {
 
   const apiQueryFolders = useLazyGetAirServicesSettingsCannedFoldersQuery();
 
-  const method = useForm({
+  const formLibProps = {
+    validationSchema: moveFolderSchema,
     defaultValues: moveFolderDefaultValues,
-    resolver: yupResolver(moveFolderSchema),
-  });
-  const { reset } = method;
+  };
+
+  const { reset, methods } = useFormLib(formLibProps);
 
   const [moveResponsesTrigger, { isLoading }] =
     usePatchAirServicesSettingsCannedAddMoveResponsesMutation();
@@ -69,7 +69,7 @@ export const useMoveFolderModal = (props: any) => {
   };
 
   return {
-    method,
+    methods,
     onSubmit,
     openMoveFolderModal,
     closeMoveFolderModal,

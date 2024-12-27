@@ -14,7 +14,7 @@ import { LoadingButton } from '@mui/lab';
 
 export const MoveFolderModal = (props: any) => {
   const {
-    method,
+    methods,
     onSubmit,
     openMoveFolderModal,
     closeMoveFolderModal,
@@ -39,8 +39,8 @@ export const MoveFolderModal = (props: any) => {
           }}
         >
           <FormProvider
-            methods={method}
-            onSubmit={method?.handleSubmit(onSubmit)}
+            methods={methods}
+            onSubmit={methods?.handleSubmit(onSubmit)}
           >
             <DialogTitle
               display="flex"
@@ -80,7 +80,7 @@ export const MoveFolderModal = (props: any) => {
                 <LoadingButton
                   onClick={() => {
                     closeMoveFolderModal();
-                    method?.reset();
+                    methods?.reset();
                   }}
                   variant={'outlined'}
                   color={'secondary'}

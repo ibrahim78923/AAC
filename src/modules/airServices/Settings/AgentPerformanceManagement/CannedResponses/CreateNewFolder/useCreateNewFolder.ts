@@ -1,5 +1,3 @@
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   createNewFolderSchema,
   upsertFolderDefaultValuesFunction,
@@ -12,24 +10,25 @@ import {
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { ICannedResponsesProps } from '../CannedResponses.interface';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useCreateNewFolder = (props: ICannedResponsesProps) => {
   const { openCreateNewFolderModal, closeCreateNewFolderModal } = props;
 
-  const method = useForm({
+  const formLibProps = {
+    validationSchema: createNewFolderSchema,
     defaultValues: upsertFolderDefaultValuesFunction(
       openCreateNewFolderModal?.editData,
     ),
-    resolver: yupResolver(createNewFolderSchema),
-  });
+  };
+
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
 
   const [postCannedResponseTrigger, postCannedResponseStatus] =
     usePostAirServicesSettingsCannedResponsesMutation();
 
   const [patchCannedResponseTrigger, patchCannedResponseStatus] =
     usePatchAirServicesSettingsCannedResponseMutation();
-
-  const { reset, handleSubmit } = method;
 
   const onSubmit = async (data: any) => {
     const postCannedResponseParameter = {
@@ -74,7 +73,7 @@ export const useCreateNewFolder = (props: ICannedResponsesProps) => {
   }, [openCreateNewFolderModal]);
 
   return {
-    method,
+    methods,
     onSubmit,
     handleSubmit,
     openCreateNewFolderModal,

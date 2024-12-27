@@ -12,8 +12,9 @@ import {
 } from '@/services/airServices/tickets/single-ticket-details/association';
 import { useEffect, useState } from 'react';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
-import { useForm, useWatch } from 'react-hook-form';
+import { useWatch } from 'react-hook-form';
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export default function useAssets({ setIsDrawerOpen }: any) {
   const theme: any = useTheme();
@@ -28,11 +29,11 @@ export default function useAssets({ setIsDrawerOpen }: any) {
 
   const { ticketId } = router?.query;
 
-  const methods = useForm({
+  const formLibProps = {
     defaultValues: { type: TYPE_VALUES?.ASSETS },
-  });
+  };
 
-  const { control, reset } = methods;
+  const { control, reset, methods } = useFormLib(formLibProps);
 
   const type = useWatch({
     control,

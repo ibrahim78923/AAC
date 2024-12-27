@@ -6,8 +6,6 @@ import {
   upsertTiersFormDefaultValue,
   upsertTiersFormValidationSchema,
 } from './UpsertTiers.data';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useState } from 'react';
 import {
   useAddLoyaltyProgramLoyaltySingleTierMutation,
@@ -19,6 +17,7 @@ import { RULES_AND_TIERS_PORTAL_ACTION_CONSTANTS } from '../../RulesAndTiers.con
 import { useGetTiersLists } from '../TiersHooks/useGetTiersLists';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { loyaltyProgramTiersIsPortalOpenSelector } from '@/redux/slices/airLoyaltyProgram/tiers/selectors';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertTiers = () => {
   const [formStep, setFormStep] = useState(FORM_STEP_CONSTANT?.FIRST_STEP);
@@ -57,13 +56,20 @@ export const useUpsertTiers = () => {
     },
   );
 
-  const methods = useForm<any>({
-    resolver: yupResolver(upsertTiersFormValidationSchema?.(formStep)),
+  const formLibProps = {
+    validationSchema: upsertTiersFormValidationSchema?.(formStep),
     defaultValues: upsertTiersFormDefaultValue?.(),
-  });
+  };
 
-  const { handleSubmit, watch, setValue, clearErrors, trigger, reset } =
-    methods;
+  const {
+    handleSubmit,
+    watch,
+    setValue,
+    clearErrors,
+    trigger,
+    reset,
+    methods,
+  } = useFormLib(formLibProps);
 
   const isFormValid =
     !!watch('name') &&

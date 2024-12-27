@@ -10,7 +10,7 @@ import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 export const AddHoliday = (props: any) => {
   const {
     openAddHolidayModal,
-    method,
+    methods,
     onSubmitRequest,
     postHolidayStatus,
     closeHolidayModal,
@@ -27,7 +27,7 @@ export const AddHoliday = (props: any) => {
         disabledCancelButton={postHolidayStatus?.isLoading}
         handleSubmitButton={onSubmitRequest}
       >
-        <FormProvider methods={method}>
+        <FormProvider methods={methods}>
           <Grid container gap={2}>
             <Grid item xs={12}>
               <RHFTextField

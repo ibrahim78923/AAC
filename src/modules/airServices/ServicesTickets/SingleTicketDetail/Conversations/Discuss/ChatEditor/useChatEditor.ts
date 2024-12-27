@@ -1,9 +1,7 @@
-import { useForm } from 'react-hook-form';
 import {
   chatEditorFormDefaultValues,
   chatEditorFormValidationSchema,
 } from './ChatEditor.data';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   usePostDiscussionsOfTicketConversationMutation,
   useUpdateDiscussionsOfTicketConversationMutation,
@@ -11,6 +9,7 @@ import {
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useChatEditor = (props: any) => {
   const { selectedMessage, setSelectedMessage } = props;
@@ -18,10 +17,12 @@ export const useChatEditor = (props: any) => {
   const router = useRouter();
   const { ticketId } = router?.query;
 
-  const method = useForm({
+  const formLibProps = {
+    validationSchema: chatEditorFormValidationSchema,
     defaultValues: chatEditorFormDefaultValues?.(),
-    resolver: yupResolver(chatEditorFormValidationSchema),
-  });
+  };
+
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
 
   const [
     postDiscussionsOfTicketConversationTrigger,
@@ -32,8 +33,6 @@ export const useChatEditor = (props: any) => {
     updateDiscussionsOfTicketConversationTrigger,
     updateDiscussionsOfTicketConversationStatus,
   ] = useUpdateDiscussionsOfTicketConversationMutation();
-
-  const { handleSubmit, reset } = method;
 
   useEffect(() => {
     reset(() => chatEditorFormDefaultValues?.(selectedMessage));
@@ -104,7 +103,7 @@ export const useChatEditor = (props: any) => {
   return {
     handleSubmit,
     reset,
-    method,
+    methods,
     submitMessage,
     postDiscussionsOfTicketConversationStatus,
     updateDiscussionsOfTicketConversationStatus,
