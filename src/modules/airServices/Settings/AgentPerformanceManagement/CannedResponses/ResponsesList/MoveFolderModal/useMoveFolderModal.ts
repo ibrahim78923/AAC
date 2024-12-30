@@ -38,7 +38,7 @@ export const useMoveFolderModal = (props: any) => {
     defaultValues: moveFolderDefaultValues,
   };
 
-  const { reset, methods } = useFormLib(formLibProps);
+  const { reset, methods, handleSubmit } = useFormLib(formLibProps);
 
   const [moveResponsesTrigger, { isLoading }] =
     usePatchAirServicesSettingsCannedAddMoveResponsesMutation();
@@ -75,5 +75,7 @@ export const useMoveFolderModal = (props: any) => {
     closeMoveFolderModal,
     apiQueryFolders,
     isLoading,
+    reset,
+    handleSubmit,
   };
 };

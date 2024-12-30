@@ -30,7 +30,7 @@ export const useSelectAgentsModal = (props: any) => {
     defaultValues: selectAgentDefaultValues(agentsDetails),
   };
 
-  const { watch, reset, methods } = useFormLib(formLibProps);
+  const { watch, reset, methods, handleSubmit } = useFormLib(formLibProps);
 
   const selectedAgentsList = watch(CANNED_RESPONSES?.AGENTS);
 
@@ -70,5 +70,6 @@ export const useSelectAgentsModal = (props: any) => {
     apiQueryAgents,
     setValue,
     productId,
+    handleSubmit,
   };
 };

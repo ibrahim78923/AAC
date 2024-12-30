@@ -15,6 +15,7 @@ export const Loyalty = () => {
     apiCallInProgress,
     showLoader,
     isError,
+    reset,
   } = useLoyalty();
 
   return (
@@ -85,7 +86,7 @@ export const Loyalty = () => {
           variant="outlined"
           color="inherit"
           disabled={apiCallInProgress}
-          onClick={() => methods?.reset()}
+          onClick={() => reset()}
         >
           Cancel
         </LoadingButton>

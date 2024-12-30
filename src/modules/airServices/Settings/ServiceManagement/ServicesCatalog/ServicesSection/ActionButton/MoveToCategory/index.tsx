@@ -6,7 +6,7 @@ export default function MoveToCategory(props: any) {
   const { open } = props;
 
   const {
-    methodAdd,
+    methods,
     handleSubmit,
     onSubmit,
     apiQueryCategory,
@@ -25,7 +25,7 @@ export default function MoveToCategory(props: any) {
       handleSubmitButton={handleSubmit(onSubmit)}
       showSubmitLoader={patchServiceCatalogTriggerStatus?.isLoading}
     >
-      <FormProvider methods={methodAdd} onSubmit={handleSubmit(onSubmit)}>
+      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <RHFAutocompleteAsync
           name={'category'}
           label={'Category'}

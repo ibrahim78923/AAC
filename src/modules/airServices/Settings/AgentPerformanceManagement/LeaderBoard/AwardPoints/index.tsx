@@ -8,22 +8,20 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 const AwardPoints = () => {
   const {
-    awardPointsMethod,
+    methods,
     awardCardBorderColors,
     handleSubmit,
     isLoading,
     isFetching,
     addAwardPointsStatus,
     router,
+    submitAwardForm,
   } = useAwardPoints();
 
   if (isLoading || isFetching) return <SkeletonForm />;
 
   return (
-    <FormProvider
-      methods={awardPointsMethod}
-      onSubmit={awardPointsMethod?.handleSubmit?.(handleSubmit)}
-    >
+    <FormProvider methods={methods} onSubmit={handleSubmit?.(submitAwardForm)}>
       <Box
         sx={{
           display: 'flex',

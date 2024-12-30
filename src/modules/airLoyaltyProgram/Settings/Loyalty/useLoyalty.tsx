@@ -109,5 +109,6 @@ export const useLoyalty = () => {
     apiCallInProgress,
     showLoader,
     isError,
+    reset,
   };
 };

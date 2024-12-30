@@ -28,6 +28,7 @@ export const SelectAgentsModal = (props: any) => {
     apiQueryAgents,
     setValue,
     productId,
+    handleSubmit,
   } = useSelectAgentsModal(props);
 
   return (
@@ -85,10 +86,7 @@ export const SelectAgentsModal = (props: any) => {
               <CloseModalIcon />
             </Box>
           </DialogTitle>
-          <FormProvider
-            methods={methods}
-            onSubmit={methods?.handleSubmit(onSubmit)}
-          >
+          <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <DialogContent>
               <Grid container gap={1.4}>
                 <Grid item xs={12}>

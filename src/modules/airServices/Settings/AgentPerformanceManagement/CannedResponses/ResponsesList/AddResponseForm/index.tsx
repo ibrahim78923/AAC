@@ -21,7 +21,7 @@ import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 
 export const AddResponseForm = (props: any) => {
   const {
-    methodsAddResponseForm,
+    methods,
     handleSubmit,
     submitAddResponse,
     selectedAgentsList,
@@ -50,7 +50,7 @@ export const AddResponseForm = (props: any) => {
             : GENERIC_UPSERT_FORM_CONSTANT?.ADD
         } Response`}
         submitHandler={() => {
-          methodsAddResponseForm?.handleSubmit(submitAddResponse)();
+          handleSubmit(submitAddResponse)();
         }}
         isOk
         isLoading={
@@ -68,7 +68,7 @@ export const AddResponseForm = (props: any) => {
       >
         <Box mt={1}>
           <FormProvider
-            methods={methodsAddResponseForm}
+            methods={methods}
             onSubmit={handleSubmit(submitAddResponse)}
           >
             <Grid container spacing={2}>

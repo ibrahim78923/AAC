@@ -1,6 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import {
   addResponseDefaultValues,
   addResponseValidationSchema,
@@ -14,6 +12,7 @@ import { useSearchParams } from 'next/navigation';
 import { getSession } from '@/utils';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useAddResponseForm = (props: any) => {
   const { open, setDrawerOpen, folderName, selectedData, setSelectedData } =
@@ -33,12 +32,14 @@ export const useAddResponseForm = (props: any) => {
   const [hasAttachment, setHasAttachment] = useState(false);
   const [selectedAgentsList, setSelectedAgentsList] = useState<any>([]);
 
-  const methodsAddResponseForm = useForm<any>({
-    resolver: yupResolver(addResponseValidationSchema),
+  const formLibProps = {
+    validationSchema: addResponseValidationSchema,
     defaultValues: addResponseDefaultValues(folderName),
-  });
+  };
 
-  const { handleSubmit, watch, reset, setValue } = methodsAddResponseForm;
+  const { handleSubmit, watch, reset, setValue, methods } =
+    useFormLib(formLibProps);
+
   const availableForChanged = watch(CANNED_RESPONSES?.AVAILABLE_FOR);
 
   const closeDrawer = () => {
@@ -112,7 +113,7 @@ export const useAddResponseForm = (props: any) => {
   }, [open]);
 
   return {
-    methodsAddResponseForm,
+    methods,
     handleSubmit,
     submitAddResponse,
     selectedAgentsList,

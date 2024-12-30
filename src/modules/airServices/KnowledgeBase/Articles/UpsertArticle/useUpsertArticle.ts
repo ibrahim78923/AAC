@@ -171,5 +171,6 @@ export const useUpsertArticle: any = () => {
     moveToHome,
     showLoader,
     apiCallInProgress,
+    handleSubmit,
   };
 };

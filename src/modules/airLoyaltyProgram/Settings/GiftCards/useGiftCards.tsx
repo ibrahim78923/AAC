@@ -103,5 +103,6 @@ export const useGiftCards = () => {
     showLoader,
     isError,
     moveToSettings,
+    reset,
   };
 };

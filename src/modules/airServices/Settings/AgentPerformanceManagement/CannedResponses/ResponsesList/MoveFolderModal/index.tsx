@@ -20,6 +20,8 @@ export const MoveFolderModal = (props: any) => {
     closeMoveFolderModal,
     apiQueryFolders,
     isLoading,
+    reset,
+    handleSubmit,
   } = useMoveFolderModal(props);
   return (
     <>
@@ -28,7 +30,7 @@ export const MoveFolderModal = (props: any) => {
           open={openMoveFolderModal}
           onClose={() => {
             closeMoveFolderModal();
-            method?.reset();
+            reset();
           }}
           aria-labelledby="responsive-dialog-title"
           PaperProps={{
@@ -38,10 +40,7 @@ export const MoveFolderModal = (props: any) => {
             },
           }}
         >
-          <FormProvider
-            methods={methods}
-            onSubmit={methods?.handleSubmit(onSubmit)}
-          >
+          <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <DialogTitle
               display="flex"
               justifyContent="space-between"
@@ -80,7 +79,7 @@ export const MoveFolderModal = (props: any) => {
                 <LoadingButton
                   onClick={() => {
                     closeMoveFolderModal();
-                    methods?.reset();
+                    reset();
                   }}
                   variant={'outlined'}
                   color={'secondary'}
