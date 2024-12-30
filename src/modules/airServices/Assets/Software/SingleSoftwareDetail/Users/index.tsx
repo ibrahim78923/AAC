@@ -47,6 +47,7 @@ export const Users = () => {
     removeLoading,
     setFilterValues,
     filterValues,
+    handleSubmit,
   } = useUsers();
 
   return (
@@ -146,7 +147,7 @@ export const Users = () => {
               loading={deAllocateLoading || allocateLoading || removeLoading}
               onClick={
                 selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE
-                  ? methods?.handleSubmit(allocateSubmit)
+                  ? handleSubmit(allocateSubmit)
                   : () => actionClickHandler(selectedActionTitle)
               }
             >

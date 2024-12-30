@@ -24,6 +24,7 @@ const AddDevice = () => {
     onAddDeviceSubmit,
     devicesQuery,
     isLoading,
+    handleSubmit,
   } = useAddDevice();
 
   return (
@@ -61,7 +62,7 @@ const AddDevice = () => {
           </DialogTitle>
           <FormProvider
             methods={methods}
-            onSubmit={methods?.handleSubmit(onAddDeviceSubmit)}
+            onSubmit={handleSubmit(onAddDeviceSubmit)}
           >
             <DialogContent>
               <GetSoftwareDevicesDropdown devicesQuery={devicesQuery} />

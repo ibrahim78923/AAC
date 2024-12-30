@@ -19,7 +19,7 @@ export const useAddDevice = () => {
     defaultValues: { device: null },
   };
 
-  const { reset, methods } = useFormLib(useFormValues);
+  const { reset, methods, handleSubmit } = useFormLib(useFormValues);
 
   const searchParams = useRouter();
   const softwareId = searchParams?.query?.softwareId;
@@ -59,5 +59,6 @@ export const useAddDevice = () => {
     onAddDeviceSubmit,
     devicesQuery,
     isLoading,
+    handleSubmit,
   };
 };

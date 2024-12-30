@@ -80,7 +80,7 @@ const useNewPurchaseOrders = () => {
     defaultValues: defaultValues?.(),
   };
 
-  const { watch, reset, methods } = useFormLib(useFormValues);
+  const { watch, reset, methods, handleSubmit } = useFormLib(useFormValues);
 
   const vendorValue = watch('vendor');
 
@@ -212,6 +212,7 @@ const useNewPurchaseOrders = () => {
     singlePurchaseOrder,
     form,
     getDynamicFieldsStatus,
+    handleSubmit,
   };
 };
 

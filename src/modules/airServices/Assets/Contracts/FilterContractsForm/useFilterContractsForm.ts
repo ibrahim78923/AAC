@@ -1,9 +1,9 @@
-import { useForm } from 'react-hook-form';
 import {
   contractsFilterFormDefaultValues,
   contractsFilterFormFieldsDynamic,
 } from './FilterContractsForm.data';
 import { PAGINATION } from '@/config';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useFilterContractsForm = (props: any) => {
   const {
@@ -13,11 +13,11 @@ export const useFilterContractsForm = (props: any) => {
     setPage,
   } = props;
 
-  const methods = useForm({
+  const useFormValues = {
     defaultValues: contractsFilterFormDefaultValues(contractFilterLists),
-  });
+  };
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, methods } = useFormLib(useFormValues);
 
   const onSubmit = async (data: any) => {
     const contractFilteredFields: any = Object?.entries(data || {})

@@ -2,21 +2,20 @@ import { CONTRACT_STATUS } from '@/constants/strings';
 import { usePatchContractRejectMutation } from '@/services/airServices/assets/contracts';
 
 import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { defaultValues, validationSchema } from './RejectStatus.data';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useRejectStatus = (props: any) => {
   const { open, handleClose, data } = props;
   const router = useRouter();
 
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
+  const useFormValues = {
+    validationSchema,
     defaultValues,
-  });
+  };
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, methods } = useFormLib(useFormValues);
   const { contractId } = router?.query;
 
   const [patchContractRejectTrigger, patchContractRejectStatus] =

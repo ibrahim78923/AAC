@@ -17,7 +17,7 @@ export const useAttachmentForm = (props: any) => {
     defaultValues,
   };
 
-  const { methods } = useFormLib(useFormValues);
+  const { methods, handleSubmit } = useFormLib(useFormValues);
 
   const onSubmit = async (data: any) => {
     const attachmentFormData = new FormData();
@@ -43,5 +43,6 @@ export const useAttachmentForm = (props: any) => {
     methods,
     onSubmit,
     postAttachmentsStatus,
+    handleSubmit,
   };
 };

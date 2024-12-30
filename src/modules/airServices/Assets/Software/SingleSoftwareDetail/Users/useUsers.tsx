@@ -36,7 +36,7 @@ const useUsers = () => {
     defaultValues: { contract: null },
   };
 
-  const { methods } = useFormLib(useFormValues);
+  const { methods, handleSubmit } = useFormLib(useFormValues);
 
   const params = useSearchParams();
   const softwareId = params?.get('softwareId');
@@ -204,6 +204,7 @@ const useUsers = () => {
     setFilterValues,
     filterValues,
     handleGetUser,
+    handleSubmit,
   };
 };
 
