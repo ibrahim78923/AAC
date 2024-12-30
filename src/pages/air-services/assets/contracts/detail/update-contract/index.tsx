@@ -13,7 +13,9 @@ const UpdateContractPage = () => {
 UpdateContractPage.getLayout = function getLayout(page: any) {
   return (
     <Layout
-      permissions={[AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.ADD_CONTRACT]}
+      permissions={[
+        AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.VIEW_TASK_DETAILS,
+      ]}
     >
       {page}
     </Layout>

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+
 import {
   addExpenseColumnsFunction,
   addExpenseDefaultValues,
@@ -19,6 +18,7 @@ import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { ExpenseI } from './Expense.interface';
 import { isoDateString, localeDateTime } from '@/lib/date-time';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useExpense = () => {
   const [selectedExpenseList, setSelectedExpenseList] = useState<ExpenseI[]>(
@@ -52,12 +52,12 @@ export const useExpense = () => {
   const expenseData = data?.data?.expenses;
   const metaData = data?.data?.meta;
 
-  const addExpenseMethods: any = useForm({
-    resolver: yupResolver(addExpenseValidationSchema),
+  const formLibProps = {
+    validationSchema: addExpenseValidationSchema,
     defaultValues: addExpenseDefaultValues(selectedExpenseList),
-  });
+  };
 
-  const { reset } = addExpenseMethods;
+  const { handleSubmit, reset, methods, setValue } = useFormLib(formLibProps);
 
   useEffect(() => {
     reset(addExpenseDefaultValues(selectedExpenseList));
@@ -71,7 +71,7 @@ export const useExpense = () => {
       return setIsAddExpenseModalOpen(true);
     }
     setIsAddExpenseModalOpen(false);
-    addExpenseMethods?.reset();
+    reset();
   };
 
   const [postExpenseTrigger, postExpenseProgress] =
@@ -127,10 +127,7 @@ export const useExpense = () => {
     }
     Object?.entries(selectedExpenseList?.[ARRAY_INDEX?.ZERO])?.map(
       ([key, value]) =>
-        addExpenseMethods?.setValue(
-          key,
-          key === 'date' ? localeDateTime(value) : value,
-        ),
+        setValue(key, key === 'date' ? localeDateTime(value) : value),
     );
     setAddExpenseModalTitle('Update Expense');
     setIsAddExpenseModalOpen(true);
@@ -161,11 +158,12 @@ export const useExpense = () => {
     addExpenseModalTitle,
     isAddExpenseModalOpen,
     setIsAddExpenseModalOpen,
-    methods: addExpenseMethods,
+    methods,
     onAddExpenseSubmit,
     handleAddExpenseModal,
     isLoadingExpense,
     patchExpenseProgress,
+    handleSubmit,
   };
 
   const actionProps = {
@@ -187,7 +185,7 @@ export const useExpense = () => {
     setIsAddExpenseModalOpen,
     isDeleteExpenseModalOpen,
     setIsDeleteExpenseModalOpen,
-    addExpenseMethods,
+    methods,
     onAddExpenseSubmit,
     handleAddExpenseModal,
     expenseColumns,
