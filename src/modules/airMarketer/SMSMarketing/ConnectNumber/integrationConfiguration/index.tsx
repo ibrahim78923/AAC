@@ -5,12 +5,13 @@ import {
   Box,
   Button,
   FormControlLabel,
+  Grid,
   IconButton,
   Switch,
   Typography,
   useTheme,
 } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ArrowBackIcon,
   IconAirFP,
@@ -23,15 +24,33 @@ import { styles } from './integrationConfiguration.style';
 import TanstackTable from '@/components/Table/TanstackTable';
 import {
   columns,
+  ConfigurationEditFormDataArray,
+  configurationEditFormDefaultValues,
+  configurationEditFormValidationSchema,
   integrationConfigurationData,
 } from './integrationConfiguration.data';
 import Link from 'next/link';
 import { AIR_MARKETER } from '@/routesConstants/paths';
+import CommonDrawer from '@/components/CommonDrawer';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { FormProvider } from '@/components/ReactHookForm';
 
 const IntegrationConfiguration = () => {
   const theme = useTheme();
 
-  const getRowValues = columns(theme);
+  const [isEditDrawerOpen, setIsEditDrawerOpen] = useState(false);
+
+  const getRowValues = columns(theme, setIsEditDrawerOpen);
+
+  const methods = useForm({
+    resolver: yupResolver(configurationEditFormValidationSchema),
+    defaultValues: configurationEditFormDefaultValues,
+  });
+
+  const { handleSubmit } = methods;
+  const onSubmit = async () => {};
+
   return (
     <Box>
       <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
@@ -114,6 +133,42 @@ const IntegrationConfiguration = () => {
           </AccordionDetails>
         </Accordion>
       </Box>
+
+      <CommonDrawer
+        footer
+        isDrawerOpen={isEditDrawerOpen}
+        onClose={() => setIsEditDrawerOpen(false)}
+        title="Edit Configuration"
+        okText="Add"
+        cancelText="cancel"
+        isOk
+        submitHandler={handleSubmit(onSubmit)}
+        cancelBtnHandler={() => setIsEditDrawerOpen(false)}
+      >
+        <Box mt={1}>
+          <FormProvider methods={methods}>
+            <Grid container spacing={1}>
+              {ConfigurationEditFormDataArray()?.map((item: any) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={item?.componentProps?.name}
+                >
+                  <item.component {...item?.componentProps} size={'small'}>
+                    {item?.componentProps?.select &&
+                      item?.options?.map((option: any) => (
+                        <option key={option?.value} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))}
+                  </item.component>
+                </Grid>
+              ))}
+            </Grid>
+          </FormProvider>
+        </Box>
+      </CommonDrawer>
     </Box>
   );
 };
