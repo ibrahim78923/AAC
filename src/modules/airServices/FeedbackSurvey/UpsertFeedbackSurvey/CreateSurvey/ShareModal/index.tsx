@@ -1,49 +1,21 @@
-import { Close } from '@mui/icons-material';
-import { Box, Button, Dialog, Typography } from '@mui/material';
 import { AddPeopleDropdown } from '../AddPeopleDropdown';
+import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 
 export const ShareModal: React.FC<{
   openShare: boolean;
   setOpenShare: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ openShare, setOpenShare }) => {
   return (
-    <Dialog
-      open={openShare}
-      onClose={() => setOpenShare(false)}
-      maxWidth={'sm'}
-      fullWidth
+    <CustomCommonDialog
+      isPortalOpen={openShare}
+      closePortal={() => setOpenShare(false)}
+      dialogMaxWidth={'sm'}
+      dialogTitle="Share Survey"
+      submitButtonText="Share"
+      handleSubmitButton={() => setOpenShare(false)}
+      showCancelButton={false}
     >
-      <Box p={2}>
-        <Box
-          justifyContent={'space-between'}
-          alignItems={'center'}
-          display={'flex'}
-          gap={1}
-          flexWrap={'wrap'}
-        >
-          <Typography variant="h4">Share Survey</Typography>
-          <Close
-            sx={{ color: 'custom.darker', cursor: 'pointer' }}
-            onClick={() => setOpenShare(false)}
-          />
-        </Box>
-        <br />
-        <AddPeopleDropdown
-          name="shareSurveyPeople"
-          label="Share With"
-          size="small"
-        />
-        <br />
-        <Box display="flex" justifyContent="end">
-          <Button
-            variant="contained"
-            className="small"
-            onClick={() => setOpenShare(false)}
-          >
-            Share
-          </Button>
-        </Box>
-      </Box>
-    </Dialog>
+      <AddPeopleDropdown name="shareSurveyPeople" label="Share With" />
+    </CustomCommonDialog>
   );
 };

@@ -1,10 +1,9 @@
-import { UseFormReturn } from 'react-hook-form';
+import { FeedbackSurveyQuestionI } from '@/types/modules/AirServices/FeedbackSurvey';
 
 export interface QuestionListI {
-  openImport: boolean;
-  sectionIndex: number;
-  setOpenImport: React.Dispatch<React.SetStateAction<boolean>>;
-  setQuestionsList: React.Dispatch<React.SetStateAction<boolean>>;
   surveyId: string;
-  methods: UseFormReturn<any>;
+  questionsData?: FeedbackSurveyQuestionI[];
+  setQuestionsData: React.Dispatch<
+    React.SetStateAction<FeedbackSurveyQuestionI[]>
+  >;
 }

@@ -1,15 +1,15 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
+import { PAGINATION } from '@/config';
+import { ROLES } from '@/constants/strings';
 import { useLazyAllUserDropdownQuery } from '@/services/airServices/feedback-survey';
 import { getSession } from '@/utils';
 
 export const AddPeopleDropdown = ({
   name,
   label,
-  size,
 }: {
   name: string;
   label: string;
-  size: string;
 }) => {
   const userDropdown = useLazyAllUserDropdownQuery();
   const sessionUser: any = getSession();
@@ -17,14 +17,14 @@ export const AddPeopleDropdown = ({
     <RHFAutocompleteAsync
       name={name}
       label={label}
-      size={size}
+      size={'small'}
       placeholder="Enter People"
       multiple
       required
       apiQuery={userDropdown}
       externalParams={{
-        limit: 5000,
-        role: 'ORG_EMPLOYEE',
+        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
+        role: ROLES?.ORG_EMPLOYEE,
         organization: sessionUser?.user?.organization?._id,
       }}
       getOptionLabel={(option: any) => (option?.email ? option?.email : option)}

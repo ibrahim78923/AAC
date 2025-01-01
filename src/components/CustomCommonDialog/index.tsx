@@ -25,6 +25,7 @@ export const CustomCommonDialog = (props: any) => {
     dialogMaxWidth = 'sm',
     typeImage,
     disabledSubmitButton = showSubmitLoader,
+    showCancelButton = true,
     submitButtonStyles,
   } = props;
 
@@ -79,16 +80,18 @@ export const CustomCommonDialog = (props: any) => {
       <DialogContent>{children}</DialogContent>
       {showActionButtons && (
         <DialogActions sx={{ paddingTop: `0rem !important` }}>
-          <LoadingButton
-            className="small"
-            type="button"
-            variant="outlined"
-            color="secondary"
-            onClick={handleCancelButton}
-            disabled={disabledCancelButton}
-          >
-            {cancelButtonText}
-          </LoadingButton>
+          {showCancelButton && (
+            <LoadingButton
+              className="small"
+              type="button"
+              variant="outlined"
+              color="secondary"
+              onClick={handleCancelButton}
+              disabled={disabledCancelButton}
+            >
+              {cancelButtonText}
+            </LoadingButton>
+          )}
           <LoadingButton
             className="small"
             type="submit"
