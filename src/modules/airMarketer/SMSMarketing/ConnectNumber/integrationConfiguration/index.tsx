@@ -54,14 +54,13 @@ const IntegrationConfiguration = () => {
   return (
     <Box>
       <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-        <IconButton>
+        <IconButton onClick={() => window.history.back()}>
           <ArrowBackIcon />
         </IconButton>
         <Typography variant="h4" sx={{ fontWeight: '600' }}>
           Integration Configuration
         </Typography>
       </Box>
-
       <Box
         sx={{
           display: 'flex',

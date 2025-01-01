@@ -744,6 +744,13 @@ export const AIR_MARKETER = {
   REPORTS_LEADS: '/lead-capture-form/get-all-lead-capture-stats',
 };
 
+export const AIR_MARKETER_SMS_MARKETING = {
+  TWILIO_CONFIGURATION: '/companies/twilio-configuration',
+  GET_TWILIO_CONFIGURATION: '/companies/get-company-twilio-configurations',
+  GET_NUMBERS_TWILIO_CONFIGURATION:
+    '/companies/get-numbers-of-twilio-configuration',
+};
+
 export const SUPER_ADMIN_DASHBOARD = {
   USER_STATS: '/super-admin/user-stats',
   PLAN_STATS: '/super-admin/plan-stats',

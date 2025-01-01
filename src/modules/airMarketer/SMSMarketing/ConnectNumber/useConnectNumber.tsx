@@ -35,23 +35,21 @@ const useConnectNumber = (setIsConnected: any) => {
   };
 
   const handleAddRegNumSubmit = async () => {
-    if (isPhoneValid) {
-      try {
-        await connectPhoneNumber({
-          body: { phoneNumber: phoneNumber },
-        })?.unwrap();
-        setIsConnected(true);
-        setOpenDialogRegNumber(false);
-        enqueueSnackbar('Phone number Connected Successfully', {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        });
-      } catch (error: any) {
-        const errMsg = error?.data?.message;
-        const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
-        enqueueSnackbar(errMessage ?? 'Error occurred', {
-          variant: NOTISTACK_VARIANTS?.ERROR,
-        });
-      }
+    try {
+      await connectPhoneNumber({
+        body: { phoneNumber: phoneNumber },
+      })?.unwrap();
+      setIsConnected(true);
+      setOpenDialogRegNumber(false);
+      enqueueSnackbar('Phone number Connected Successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
     }
   };
 
@@ -65,6 +63,7 @@ const useConnectNumber = (setIsConnected: any) => {
     handleAddRegNumSubmit,
     handleOpenDialogRegNumber,
     handleCloseDialogRegNumber,
+    setPhoneNumber,
   };
 };
 

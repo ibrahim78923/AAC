@@ -6,10 +6,6 @@ export const configurationFormValidationSchema = Yup?.object()?.shape({
   accountSid: Yup?.string()?.required('Required Field'),
   authToken: Yup?.string()?.required('Required Field'),
   serviceName: Yup?.string()?.required('Required Field'),
-  messageServiceId: Yup?.string()?.required('Required Field'),
-  number: Yup?.string()
-    ?.matches(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number format')
-    ?.required('Required Field'),
 });
 
 export const configurationFormDefaultValues = {
@@ -17,8 +13,6 @@ export const configurationFormDefaultValues = {
   accountSid: '',
   authToken: '',
   serviceName: '',
-  messageServiceId: '',
-  number: '',
 };
 
 export const ConfigurationFormDataArray = () => {
@@ -57,26 +51,6 @@ export const ConfigurationFormDataArray = () => {
       componentProps: {
         name: 'serviceName',
         label: 'Service Name (Medium)',
-        fullWidth: true,
-        required: true,
-      },
-      component: RHFTextField,
-      md: 12,
-    },
-    {
-      componentProps: {
-        name: 'messageServiceId',
-        label: 'Message Service ID',
-        fullWidth: true,
-        required: true,
-      },
-      component: RHFTextField,
-      md: 12,
-    },
-    {
-      componentProps: {
-        name: 'number',
-        label: 'Number',
         fullWidth: true,
         required: true,
       },

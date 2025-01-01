@@ -1,37 +1,20 @@
-import {
-  Box,
-  Button,
-  Grid,
-  IconButton,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import { Box, Button, Grid, IconButton, Typography } from '@mui/material';
 import React from 'react';
 import { styles } from './ConfigurationForm.style';
 import { ArrowBackIcon } from '@/assets/icons';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  ConfigurationFormDataArray,
-  configurationFormDefaultValues,
-  configurationFormValidationSchema,
-} from './ConfigurationForm.data';
+import { ConfigurationFormDataArray } from './ConfigurationForm.data';
 import { FormProvider } from '@/components/ReactHookForm';
-import { useRouter } from 'next/router';
+import useConfigurationForm from './useConfigurationForm';
+import { LoadingButton } from '@mui/lab';
 
 const ConfigurationForm = ({ setIsAddConfiguration }: any) => {
-  const router = useRouter();
-  const theme = useTheme();
-
-  const methods = useForm({
-    resolver: yupResolver(configurationFormValidationSchema),
-    defaultValues: configurationFormDefaultValues,
-  });
-
-  const { handleSubmit } = methods;
-  const onSubmit = async () => {
-    router.push('/air-marketer/sms-marketing/integration-configuration');
-  };
+  const {
+    theme,
+    methods,
+    handleSubmit,
+    onSubmit,
+    addTwilioConfigurationLoading,
+  } = useConfigurationForm();
 
   return (
     <Box sx={styles?.configurationBox(theme)}>
@@ -72,9 +55,13 @@ const ConfigurationForm = ({ setIsAddConfiguration }: any) => {
         <Button variant="outlined" color="inherit">
           Cancel
         </Button>
-        <Button variant="contained" onClick={handleSubmit(onSubmit)}>
+        <LoadingButton
+          loading={addTwilioConfigurationLoading}
+          variant="contained"
+          onClick={handleSubmit(onSubmit)}
+        >
           Add
-        </Button>
+        </LoadingButton>
       </Box>
     </Box>
   );

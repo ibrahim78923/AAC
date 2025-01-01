@@ -1,0 +1,40 @@
+import { AIR_MARKETER_SMS_MARKETING } from '@/routesConstants/endpoints';
+import { baseAPI } from '@/services/base-api';
+
+const TAGS = ['TWILIO_CONFIGURATION'];
+
+export const AddNewAccount = baseAPI.injectEndpoints({
+  endpoints: (builder) => ({
+    addTwilioConfiguration: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `${AIR_MARKETER_SMS_MARKETING?.TWILIO_CONFIGURATION}`,
+        method: 'POST',
+        body: body,
+      }),
+      invalidatesTags: TAGS,
+    }),
+
+    getTwilioConfigurations: builder.query({
+      query: ({ params }: any) => ({
+        url: AIR_MARKETER_SMS_MARKETING?.GET_TWILIO_CONFIGURATION,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAGS,
+    }),
+    getTwilioNumbersConfigurations: builder.query({
+      query: ({ params }: any) => ({
+        url: AIR_MARKETER_SMS_MARKETING?.GET_NUMBERS_TWILIO_CONFIGURATION,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAGS,
+    }),
+  }),
+});
+
+export const {
+  useAddTwilioConfigurationMutation,
+  useGetTwilioConfigurationsQuery,
+  useGetTwilioNumbersConfigurationsQuery,
+} = AddNewAccount;

@@ -158,6 +158,10 @@ export const AIR_MARKETER = {
     AIR_MARKETING_PAGE,
     '/sms-marketing/connect-account',
   ),
+  SMS_MARKETING_INTEGRATION_CONFIG: path(
+    AIR_MARKETING_PAGE,
+    '/sms-marketing/integration-configuration',
+  ),
   WHATSAPP_MARKETING: path(AIR_MARKETING_PAGE, '/whatsapp-marketing'),
   WHATSAPP_MARKETING_CREATE_TEMPLATE:
     '/air-marketer/whatsapp-marketing/create-template',
