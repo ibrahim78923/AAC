@@ -10,7 +10,6 @@ const GetSoftwareContractDropdown: React.FC = () => {
         label="Contract"
         placeholder="Select Contract"
         fullWidth
-        required
         size="small"
         apiQuery={contractDropdown}
         getOptionLabel={(option: any) => option?.name}

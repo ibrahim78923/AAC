@@ -25,6 +25,7 @@ export const CustomCommonDialog = (props: any) => {
     dialogMaxWidth = 'sm',
     typeImage,
     disabledSubmitButton = showSubmitLoader,
+    submitButtonStyles,
   } = props;
 
   return (
@@ -95,6 +96,7 @@ export const CustomCommonDialog = (props: any) => {
             onClick={handleSubmitButton}
             loading={showSubmitLoader}
             disabled={disabledSubmitButton}
+            sx={submitButtonStyles}
           >
             {submitButtonText}
           </LoadingButton>

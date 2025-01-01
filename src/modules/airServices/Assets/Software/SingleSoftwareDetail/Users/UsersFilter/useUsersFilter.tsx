@@ -1,14 +1,14 @@
-import { useForm } from 'react-hook-form';
 import { userDataArray, userDefaultValues } from './UsersFilter.data';
 import { useState } from 'react';
 import { filteredEmptyValues } from '@/utils/api';
 import { UsersFilterDataI, UsersFilterI } from './UsersFilter.interface';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUsersFilter = (props: UsersFilterI) => {
   const { filterValues, setFilterValues } = props;
-  const methods: any = useForm({
+  const useFormValues = {
     defaultValues: userDefaultValues(filterValues),
-  });
+  };
 
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const openFilterDrawer = () => {
@@ -18,13 +18,14 @@ export const useUsersFilter = (props: UsersFilterI) => {
   const closeFilterDrawer = () => {
     setIsFilterOpen(false);
   };
+  const { handleSubmit, methods, reset } = useFormLib(useFormValues);
+
   const resetFormAndCloseDrawer = () => {
-    methods.reset(userDefaultValues({}));
+    reset(userDefaultValues({}));
     setFilterValues({});
     setIsFilterOpen(false);
   };
 
-  const { handleSubmit } = methods;
   const submitFilter = (data: UsersFilterDataI) => {
     const filterData = filteredEmptyValues(data);
     setFilterValues(filterData);

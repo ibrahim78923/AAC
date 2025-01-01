@@ -1,20 +1,10 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Divider,
-  IconButton,
-  Typography,
-} from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { Avatar, Box, Button, Divider, Typography } from '@mui/material';
 import { generateImage } from '@/utils/avatarUtils';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { EventDataI } from './EventDialog.interface';
 import { otherDateFormat } from '@/lib/date-time';
 import { TruncateText } from '@/components/TruncateText';
+import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 
 export const EventDialog = ({
   openEventModal,
@@ -38,32 +28,21 @@ export const EventDialog = ({
   )} - ${startTime} to ${endTime}`;
 
   return (
-    <Dialog
-      open={openEventModal}
-      onClose={() => setOpenEventModal(false)}
-      fullWidth
+    <CustomCommonDialog
+      isPortalOpen={openEventModal}
+      closePortal={() => setOpenEventModal(false)}
+      dialogTitle={
+        <Typography variant="h4" display={'flex'} gap={1}>
+          Calender -{' '}
+          <TruncateText
+            text={eventData?.event?._def?.extendedProps?.email}
+            size={30}
+          />
+        </Typography>
+      }
+      showActionButtons={false}
     >
-      <DialogTitle>
-        <Box
-          display={'flex'}
-          justifyContent={'space-between'}
-          flexWrap={'wrap'}
-          gap={2}
-          mb={1.5}
-        >
-          <Typography variant="h4" display={'flex'} gap={1}>
-            Calender -{' '}
-            <TruncateText
-              text={eventData?.event?._def?.extendedProps?.email}
-              size={30}
-            />
-          </Typography>
-          <IconButton onClick={() => setOpenEventModal(false)}>
-            <CloseIcon sx={{ color: 'custom.darker' }} />
-          </IconButton>
-        </Box>
-      </DialogTitle>
-      <DialogContent>
+      <Box>
         <Typography variant="h6" m={1}>
           {eventData?._def?.extendedProps?.data?.meetingTitle}
         </Typography>
@@ -123,7 +102,7 @@ export const EventDialog = ({
         <Typography variant="body1" m={1}>
           Meetings with {eventData?.event?._def?.extendedProps?.people?.length}
         </Typography>
-      </DialogContent>
-    </Dialog>
+      </Box>
+    </CustomCommonDialog>
   );
 };

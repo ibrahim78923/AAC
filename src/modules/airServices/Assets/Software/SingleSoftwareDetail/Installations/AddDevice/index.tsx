@@ -1,19 +1,9 @@
 import { FormProvider } from '@/components/ReactHookForm';
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Typography,
-} from '@mui/material';
+import { Button } from '@mui/material';
 import { PlusSharedColorIcon } from '@/assets/icons';
 import { useAddDevice } from './useAddDevice';
-import { Close } from '@mui/icons-material';
-import { LoadingButton } from '@mui/lab';
 import GetSoftwareDevicesDropdown from '../../../SoftwareFormFieldsDropdowns/GetSoftwareDevicesDropdown';
+import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 
 const AddDevice = () => {
   const {
@@ -40,55 +30,19 @@ const AddDevice = () => {
         Add Device
       </Button>
       {isAddDeviceModalOpen && (
-        <Dialog
-          open={isAddDeviceModalOpen}
-          onClose={handleCloseModal}
-          fullWidth
+        <CustomCommonDialog
+          isPortalOpen={isAddDeviceModalOpen}
+          closePortal={handleCloseModal}
+          dialogTitle="Add Device"
+          submitButtonText="Add"
+          showSubmitLoader={isLoading}
+          disabledCancelButton={isLoading}
+          handleSubmitButton={handleSubmit(onAddDeviceSubmit)}
         >
-          <DialogTitle>
-            <Box
-              display={'flex'}
-              alignItems={'center'}
-              justifyContent={'space-between'}
-              gap={1}
-              mb={-1.5}
-              flexWrap={'wrap'}
-            >
-              <Typography variant="h3">Add Device</Typography>
-              <IconButton onClick={handleCloseModal}>
-                <Close color="secondary" />
-              </IconButton>
-            </Box>
-          </DialogTitle>
-          <FormProvider
-            methods={methods}
-            onSubmit={handleSubmit(onAddDeviceSubmit)}
-          >
-            <DialogContent>
-              <GetSoftwareDevicesDropdown devicesQuery={devicesQuery} />
-            </DialogContent>
-            <DialogActions sx={{ paddingTop: `0rem !important` }}>
-              <LoadingButton
-                onClick={handleCloseModal}
-                variant="outlined"
-                color="secondary"
-                disabled={isLoading}
-                className="small"
-              >
-                Cancel
-              </LoadingButton>
-              <LoadingButton
-                loading={isLoading}
-                disabled={isLoading}
-                type="submit"
-                variant="contained"
-                className="small"
-              >
-                Add
-              </LoadingButton>
-            </DialogActions>
+          <FormProvider methods={methods}>
+            <GetSoftwareDevicesDropdown devicesQuery={devicesQuery} />
           </FormProvider>
-        </Dialog>
+        </CustomCommonDialog>
       )}
     </>
   );

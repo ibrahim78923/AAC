@@ -1,19 +1,10 @@
-import Dialog from '@mui/material/Dialog';
-import CloseIcon from '@mui/icons-material/Close';
-import Typography from '@mui/material/Typography';
 import useCatalogRequest from './useCatalogRequest';
-import {
-  Box,
-  DialogContent,
-  DialogTitle,
-  Grid,
-  IconButton,
-} from '@mui/material';
+import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { LoadingButton } from '@mui/lab';
 import { CatalogRequestI } from './CatalogRequest.interface';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
+import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 
 export const CatalogRequest = (props: CatalogRequestI) => {
   const { open } = props;
@@ -29,85 +20,45 @@ export const CatalogRequest = (props: CatalogRequestI) => {
   } = useCatalogRequest(props);
 
   return (
-    <Dialog onClose={handleClose} open={open} maxWidth={'sm'} fullWidth>
-      <DialogTitle>
-        <Box
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'space-between'}
-          gap={1}
-          flexWrap={'wrap'}
-          mb={1.5}
-        >
-          <Typography variant="h4" color="slateBlue.main">
-            Item Request
-          </Typography>
-          <IconButton onClick={() => handleClose?.()}>
-            <CloseIcon />
-          </IconButton>
-        </Box>
-      </DialogTitle>
-
-      <DialogContent>
-        <FormProvider
-          methods={methods}
-          onSubmit={handleSubmit(onSubmitRequest)}
-        >
-          <Grid container>
-            {catalogRequestFormField?.map((item: ReactHookFormFieldsI) => (
-              <Grid item xs={12} md={item?.md} key={item?.id}>
-                <item.component
-                  {...item?.componentProps}
-                  size={'small'}
-                  requestForSomeOne={requestForSomeOne}
-                />
-              </Grid>
-            ))}
-          </Grid>
-          <br />
-          <Box
-            display={'flex'}
-            justifyContent={'flex-end'}
-            gap={1}
-            flexWrap={'wrap'}
-          >
-            <LoadingButton
-              className="small"
-              variant="outlined"
-              color="secondary"
-              onClick={handleClose}
-              disabled={postTicketStatus?.isLoading}
-            >
-              cancel
-            </LoadingButton>
-            <LoadingButton
-              className="small"
-              variant="contained"
-              type="submit"
-              loading={postTicketStatus?.isLoading}
-              sx={(theme) => ({
-                bgcolor:
-                  portalStyles?.btnPrimary ||
-                  customizePortalDefaultValues(theme)?.btnPrimary,
-                color: 'common.white',
-                '&:hover': {
-                  bgcolor:
-                    portalStyles?.btnPrimary ||
-                    customizePortalDefaultValues(theme)?.btnPrimary,
-                  color: 'common.white',
-                },
-                '&.Mui-disabled': {
-                  bgcolor:
-                    portalStyles?.btnPrimary ||
-                    customizePortalDefaultValues(theme)?.btnPrimary,
-                },
-              })}
-            >
-              confirm
-            </LoadingButton>
-          </Box>
-        </FormProvider>
-      </DialogContent>
-    </Dialog>
+    <CustomCommonDialog
+      isPortalOpen={open}
+      closePortal={handleClose}
+      dialogTitle="Item Request"
+      submitButtonText="confirm"
+      showSubmitLoader={postTicketStatus?.isLoading}
+      disabledCancelButton={postTicketStatus?.isLoading}
+      handleSubmitButton={handleSubmit(onSubmitRequest)}
+      submitButtonStyles={(theme: any) => ({
+        bgcolor:
+          portalStyles?.btnPrimary ||
+          customizePortalDefaultValues(theme)?.btnPrimary,
+        color: 'common.white',
+        '&:hover': {
+          bgcolor:
+            portalStyles?.btnPrimary ||
+            customizePortalDefaultValues(theme)?.btnPrimary,
+          color: 'common.white',
+        },
+        '&.Mui-disabled': {
+          bgcolor:
+            portalStyles?.btnPrimary ||
+            customizePortalDefaultValues(theme)?.btnPrimary,
+        },
+      })}
+    >
+      <FormProvider methods={methods}>
+        <Grid container>
+          {catalogRequestFormField?.map((item: ReactHookFormFieldsI) => (
+            <Grid item xs={12} md={item?.md} key={item?.id}>
+              <item.component
+                {...item?.componentProps}
+                size={'small'}
+                requestForSomeOne={requestForSomeOne}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </FormProvider>
+    </CustomCommonDialog>
   );
 };

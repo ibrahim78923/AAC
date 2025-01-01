@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -7,6 +7,7 @@ import { RHFAutocomplete, RHFCheckbox } from '@/components/ReactHookForm';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useAllowAttendee } from './useAllowAttendee';
 import { slotDurationOption } from './AllowAttendee.data';
+import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 
 export const AllowAttendee = (props: any) => {
   const {
@@ -32,7 +33,13 @@ export const AllowAttendee = (props: any) => {
         checkedIcon={<CheckboxCheckedIcon />}
         onClick={handleOpen}
       />
-      <Dialog open={openCalender} onClose={handleClose} fullWidth>
+      <CustomCommonDialog
+        isPortalOpen={openCalender}
+        closePortal={handleClose}
+        dialogTitle="Select Date & Time"
+        submitButtonText="Save"
+        handleSubmitButton={handleSave}
+      >
         <Box
           p={2}
           sx={{
@@ -87,16 +94,8 @@ export const AllowAttendee = (props: any) => {
               end: event?.endStr,
             }))}
           />
-          <Box display="flex" justifyContent="flex-end" gap={1} mt={2}>
-            <Button variant="outlined" color="secondary" onClick={handleClose}>
-              Cancel
-            </Button>
-            <Button variant="contained" onClick={handleSave}>
-              Save
-            </Button>
-          </Box>
         </Box>
-      </Dialog>
+      </CustomCommonDialog>
     </>
   );
 };
