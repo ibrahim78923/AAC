@@ -13,9 +13,8 @@ import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { LockedIcon } from '@/assets/icons';
 import { MoreHoriz } from '@mui/icons-material';
 import { getCannedResponseDropdownOptions } from './CannedResponses.data';
-import { AlertModals } from '@/components/AlertModals';
-import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import ApiErrorState from '@/components/ApiErrorState';
+import { DeleteCannedResponse } from './DeleteCannedResponse';
 
 export const CannedResponses = () => {
   const {
@@ -31,8 +30,6 @@ export const CannedResponses = () => {
     pageLimit,
     page,
     cannedResponsesMetaData,
-    deleteCannedResponse,
-    isLoading,
     getCannedResponsesListData,
   } = useCannedResponses();
 
@@ -229,24 +226,15 @@ export const CannedResponses = () => {
 
       {openModal?.create && (
         <CreateNewFolder
-          openCreateNewFolderModal={openModal}
-          closeCreateNewFolderModal={() =>
-            setOpenModal({ open: false, delete: false, editData: null })
-          }
+          isPortalOpen={openModal}
+          setIsPortalOpen={setOpenModal}
         />
       )}
 
       {openModal?.delete && (
-        <AlertModals
-          message={'Are you sure you want to delete this Folder?'}
-          type={ALERT_MODALS_TYPE?.DELETE}
-          open={openModal?.delete}
-          loading={isLoading}
-          disableCancelBtn={isLoading}
-          handleClose={() =>
-            setOpenModal({ open: false, delete: false, editData: null })
-          }
-          handleSubmitBtn={deleteCannedResponse}
+        <DeleteCannedResponse
+          isPortalOpen={openModal}
+          setIsPortalOpen={setOpenModal}
         />
       )}
     </>

@@ -50,7 +50,17 @@ export const CustomCommonDialog = (props: any) => {
             gap={1}
             flexWrap={'wrap'}
           >
-            {!!typeImage && <Box>{typeImage}</Box>}
+            {!!typeImage && (
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                {typeImage}
+              </Box>
+            )}
             <Typography
               variant="h4"
               color="slateBlue.main"

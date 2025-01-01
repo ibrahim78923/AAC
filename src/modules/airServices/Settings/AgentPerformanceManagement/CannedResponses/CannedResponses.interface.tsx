@@ -5,4 +5,6 @@ export interface ICannedResponsesProps {
   onSubmit?: () => void;
   postCannedResponseStatus?: any;
   patchCannedResponseStatus?: any;
+  isPortalOpen?: any;
+  setIsPortalOpen?: (() => void) | any;
 }

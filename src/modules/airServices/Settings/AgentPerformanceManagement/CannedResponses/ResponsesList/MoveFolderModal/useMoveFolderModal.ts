@@ -16,10 +16,11 @@ import { useFormLib } from '@/hooks/useFormLib';
 export const useMoveFolderModal = (props: any) => {
   const {
     openMoveFolderModal,
-    closeMoveFolderModal,
+    setOpenMoveFolderModal,
     setSelectedData,
     selectedData,
   } = props;
+
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -43,6 +44,12 @@ export const useMoveFolderModal = (props: any) => {
   const [moveResponsesTrigger, { isLoading }] =
     usePatchAirServicesSettingsCannedAddMoveResponsesMutation();
 
+  const closeModal = () => {
+    setOpenMoveFolderModal?.(false);
+    setSelectedData([]);
+    reset();
+  };
+
   const onSubmit = async (data: any) => {
     if (cannedResponseId === data?.folder?._id) {
       errorSnackbar('Cannot move to the same folder!');
@@ -59,9 +66,7 @@ export const useMoveFolderModal = (props: any) => {
     try {
       await moveResponsesTrigger(moveResponsesParameter)?.unwrap();
       successSnackbar('Moved Successfully!');
-      closeMoveFolderModal();
-      setSelectedData([]);
-      reset();
+      closeModal();
     } catch (error) {
       const errorResponse = error as IErrorResponse;
       errorSnackbar(errorResponse?.data?.message);
@@ -72,7 +77,7 @@ export const useMoveFolderModal = (props: any) => {
     methods,
     onSubmit,
     openMoveFolderModal,
-    closeMoveFolderModal,
+    closeModal,
     apiQueryFolders,
     isLoading,
     reset,

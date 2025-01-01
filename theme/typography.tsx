@@ -117,11 +117,13 @@ declare module '@mui/material/styles' {
   interface TypographyVariants {
     formTopHeading: React.CSSProperties;
     customStyle: React.CSSProperties;
+    avatarNameInitial: React.CSSProperties;
   }
 
   interface TypographyVariantsOptions {
     formTopHeading?: React.CSSProperties;
     customStyle: React.CSSProperties;
+    avatarNameInitial: React.CSSProperties;
   }
 }
 

@@ -1,10 +1,5 @@
 import { PAGINATION } from '@/config';
-import {
-  useDeleteAirServicesSettingsCannedResponseMutation,
-  useLazyGetAirServicesSettingsCannedResponsesQuery,
-} from '@/services/airServices/settings/agent-performance-management/canned-responses';
-import { IErrorResponse } from '@/types/shared/ErrorResponse';
-import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useLazyGetAirServicesSettingsCannedResponsesQuery } from '@/services/airServices/settings/agent-performance-management/canned-responses';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -64,34 +59,11 @@ export const useCannedResponses = () => {
       ?.join('-');
   };
 
-  const [deleteCannedResponseTrigger, { isLoading }] =
-    useDeleteAirServicesSettingsCannedResponseMutation();
-
-  const deleteCannedResponse = async () => {
-    const deleteParams = new URLSearchParams();
-    deleteParams?.append('id', openModal?.editData?._id);
-    const deleteCannedResponseParameter = {
-      queryParams: deleteParams,
-    };
-    try {
-      await deleteCannedResponseTrigger(
-        deleteCannedResponseParameter,
-      )?.unwrap();
-      successSnackbar('Folder deleted successfully');
-      setOpenModal({ open: false, delete: false, editData: null });
-    } catch (error) {
-      const errorResponse = error as IErrorResponse;
-      errorSnackbar(errorResponse?.data?.message);
-      setOpenModal({ open: false, delete: false, editData: null });
-    }
-  };
-
   return {
     router,
     convertToHyphenCase,
     setOpenModal,
     openModal,
-    search,
     handleSearch,
     cannedResponses,
     lazyGetCannedResponsesStatus,
@@ -100,8 +72,6 @@ export const useCannedResponses = () => {
     pageLimit,
     page,
     cannedResponsesMetaData,
-    deleteCannedResponse,
-    isLoading,
     getCannedResponsesListData,
   };
 };

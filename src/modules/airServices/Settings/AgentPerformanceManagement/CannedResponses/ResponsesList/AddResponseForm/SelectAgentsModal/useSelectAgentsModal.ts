@@ -12,10 +12,9 @@ import { useFormLib } from '@/hooks/useFormLib';
 export const useSelectAgentsModal = (props: any) => {
   const {
     openSelectAgentsModal,
-    closeSelectAgentsModal,
     setAgentsResponses,
     agentsDetails,
-    setValue,
+    setOpenSelectAgentsModal,
   } = props;
 
   const auth: any = useAuth();
@@ -47,14 +46,15 @@ export const useSelectAgentsModal = (props: any) => {
       }
     });
     const mergedAgents = Array.from(uniqueAgents?.values());
-
     return mergedAgents;
   };
+
+  const closeModal = () => setOpenSelectAgentsModal(false);
 
   const onSubmit = () => {
     setAgentsResponses(mergeUniqueObjects(agentsDetails, selectedAgentsList));
     successSnackbar('Agents Selected!');
-    closeSelectAgentsModal();
+    closeModal();
   };
 
   useEffect(() => {
@@ -66,10 +66,9 @@ export const useSelectAgentsModal = (props: any) => {
     onSubmit,
     selectedAgentsList,
     openSelectAgentsModal,
-    closeSelectAgentsModal,
     apiQueryAgents,
-    setValue,
     productId,
     handleSubmit,
+    closeModal,
   };
 };

@@ -161,12 +161,14 @@ export const ResponsesList = () => {
         setSelectedData={setSelectedData}
         selectedData={selectedData}
       />
-      <MoveFolderModal
-        openMoveFolderModal={openMoveFolderModal}
-        closeMoveFolderModal={() => setOpenMoveFolderModal(false)}
-        setSelectedData={setSelectedData}
-        selectedData={selectedData}
-      />
+      {openMoveFolderModal && (
+        <MoveFolderModal
+          openMoveFolderModal={openMoveFolderModal}
+          setOpenMoveFolderModal={setOpenMoveFolderModal}
+          setSelectedData={setSelectedData}
+          selectedData={selectedData}
+        />
+      )}
     </>
   );
 };
