@@ -13,7 +13,7 @@ import { TextEditorI } from './TextEditor.interface';
 import { RHFTextField } from '@/components/ReactHookForm';
 
 export const TextEditor = (props: TextEditorI) => {
-  const { handleCancel, methods } = props;
+  const { handleCancel, handleSubmit } = props;
   const {
     handleSave,
     applyTextStyle,
@@ -151,7 +151,7 @@ export const TextEditor = (props: TextEditorI) => {
             variant="contained"
             className="small"
             disabled={saveDisable}
-            onClick={methods?.handleSubmit(handleSave)}
+            onClick={handleSubmit(handleSave)}
           >
             Save
           </Button>

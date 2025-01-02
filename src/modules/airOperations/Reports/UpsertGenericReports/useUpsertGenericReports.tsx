@@ -58,7 +58,7 @@ export default function useUpsertGenericReports() {
     defaultValues: defaultValues(),
   };
 
-  const { watch, setValue, reset, methods } = useFormLib(
+  const { watch, setValue, reset, methods, handleSubmit } = useFormLib(
     upsertReportMethodProps,
   );
   const [form, setForm] = useState<any>([]);
@@ -307,6 +307,7 @@ export default function useUpsertGenericReports() {
     setModal,
     theme,
     methods,
+    handleSubmit,
     setValue,
     allChartComponents,
     showTemplate,

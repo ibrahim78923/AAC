@@ -11,7 +11,7 @@ import { XAxesListDropdown } from './ChartFormFields/XAxesListDropdown';
 import { XAxesFieldsListDropdown } from './ChartFormFields/XAxesFieldsListDropdown';
 
 export const ChartEditor = (props: ChartEditorI) => {
-  const { metricType, handleCancel, methods } = props;
+  const { metricType, handleCancel, handleSubmit } = props;
 
   const {
     handleSave,
@@ -125,7 +125,7 @@ export const ChartEditor = (props: ChartEditorI) => {
             variant="contained"
             className="small"
             disabled={!xAxisData || (xAxisData?.ref && !xAxisType?.length)}
-            onClick={methods?.handleSubmit(handleSave)}
+            onClick={handleSubmit(handleSave)}
           >
             Save
           </Button>

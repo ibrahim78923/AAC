@@ -28,6 +28,6 @@ export interface ChartEditorI {
   setDraggedItemData: Dispatch<SetStateAction<any>>;
   draggedItemData: any;
   watch: UseFormReturn<FieldValues>['watch'];
-  methods: any;
+  handleSubmit: any;
   reset: any;
 }
