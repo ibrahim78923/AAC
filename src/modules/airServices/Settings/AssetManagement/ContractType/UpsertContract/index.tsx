@@ -1,17 +1,8 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Grid,
-  Typography,
-} from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { LoadingButton } from '@mui/lab';
 import useUpsertContract from './useUpsertContract';
 import { ContractFieldsFormDataArray } from './UpsertContract.data';
+import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 
 export default function UpsertContract({ openDialog, setOpenDialog }: any) {
   const {
@@ -24,62 +15,30 @@ export default function UpsertContract({ openDialog, setOpenDialog }: any) {
   } = useUpsertContract({ openDialog, setOpenDialog });
 
   return (
-    <Dialog open={openDialog?.open} onClose={onClose} maxWidth={'sm'} fullWidth>
-      <DialogTitle
-        variant={'h3'}
-        display={'flex'}
-        alignItems={'center'}
-        justifyContent={'space-between'}
-      >
-        <Typography variant={'h5'} component={'span'}>
-          {openDialog?.data ? 'Edit Contract Type' : 'Add Contract Type'}
-        </Typography>
-
-        <CloseIcon onClick={onClose} sx={{ cursor: 'pointer' }} />
-      </DialogTitle>
-
+    <CustomCommonDialog
+      isPortalOpen={openDialog?.open}
+      closePortal={onClose}
+      handleSubmitButton={handleSubmit(onSubmit)}
+      disabledCancelButton={
+        postContractTypeStatus?.isLoading || patchContractTypeStatus?.isLoading
+      }
+      showSubmitLoader={
+        postContractTypeStatus?.isLoading || patchContractTypeStatus?.isLoading
+      }
+      submitButtonText={openDialog?.data ? 'Update' : 'Save'}
+      dialogTitle={
+        openDialog?.data ? 'Edit Contract Type' : 'Add Contract Type'
+      }
+    >
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <DialogContent>
-          <Grid container spacing={1}>
-            {ContractFieldsFormDataArray?.map((item: any) => (
-              <Grid item xs={12} key={item?.id}>
-                <item.component {...item?.componentProps} size={'small'} />
-              </Grid>
-            ))}
-          </Grid>
-        </DialogContent>
-
-        <DialogActions>
-          <Button
-            type={'button'}
-            variant={'outlined'}
-            color={'inherit'}
-            className="small"
-            onClick={onClose}
-            disabled={
-              postContractTypeStatus?.isLoading ||
-              patchContractTypeStatus?.isLoading
-            }
-          >
-            Cancel
-          </Button>
-          <LoadingButton
-            type={'submit'}
-            variant={'contained'}
-            className="small"
-            disabled={
-              postContractTypeStatus?.isLoading ||
-              patchContractTypeStatus?.isLoading
-            }
-            loading={
-              postContractTypeStatus?.isLoading ||
-              patchContractTypeStatus?.isLoading
-            }
-          >
-            {openDialog?.data ? 'Update' : 'Save'}
-          </LoadingButton>
-        </DialogActions>
+        <Grid container spacing={1}>
+          {ContractFieldsFormDataArray?.map((item: any) => (
+            <Grid item xs={12} key={item?.id}>
+              <item.component {...item?.componentProps} size={'small'} />
+            </Grid>
+          ))}
+        </Grid>
       </FormProvider>
-    </Dialog>
+    </CustomCommonDialog>
   );
 }

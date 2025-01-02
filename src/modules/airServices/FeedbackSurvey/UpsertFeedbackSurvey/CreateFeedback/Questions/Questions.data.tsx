@@ -112,7 +112,7 @@ export const surveyQuestionComponent: any = (
 ) => ({
   checkboxes: (
     <DynamicQuestions
-      parentMethods={methods}
+      methods={methods}
       sectionIndex={sectionIndex}
       questionIndex={index}
       watchType={watchType}
@@ -121,7 +121,7 @@ export const surveyQuestionComponent: any = (
   ),
   multipleChoice: (
     <DynamicQuestions
-      parentMethods={methods}
+      methods={methods}
       sectionIndex={sectionIndex}
       questionIndex={index}
       watchType={watchType}

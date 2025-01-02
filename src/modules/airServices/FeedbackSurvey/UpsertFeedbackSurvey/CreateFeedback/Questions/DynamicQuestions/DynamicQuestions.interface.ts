@@ -3,7 +3,7 @@ import { UseFormReturn } from 'react-hook-form';
 export interface DynamicQuestionsI {
   sectionIndex: number;
   questionIndex: number;
-  parentMethods: UseFormReturn<any>;
+  methods: UseFormReturn<any>;
   watchType: {
     id?: number;
     label: string;

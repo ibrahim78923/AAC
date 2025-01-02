@@ -14,8 +14,7 @@ import { EyeIcon } from '@/assets/icons';
 import { CreateFeedbackI } from './CreateFeedback.interface';
 
 export const CreateFeedback: React.FC<CreateFeedbackI> = (props) => {
-  const { setCreateSurvey, unSaveSection, sectionVerification, methods } =
-    props;
+  const { setCreateSurvey, unSaveSection, sectionVerification } = props;
   const {
     fields,
     append,
@@ -32,13 +31,14 @@ export const CreateFeedback: React.FC<CreateFeedbackI> = (props) => {
     updateLoading,
     emailLoading,
     isStatus,
+    watch,
   } = useCreateFeedback(props);
   return (
     <>
       {fields?.map((section: any, index: number) => {
         const sectionCondition =
           !sectionVerification &&
-          methods?.watch(`sections.${index}.id`) !== unSaveSection?.section?.id;
+          watch(`sections.${index}.id`) !== unSaveSection?.section?.id;
         return (
           <Box
             key={section?.id}

@@ -1,14 +1,7 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Typography,
-  Grid,
-} from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertVendor } from './useUpsertVendor';
-import { LoadingButton } from '@mui/lab';
+import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 
 export const UpsertAsset = (props: any) => {
   const { isUpsertModalOpen, setIsUpsertModalOpen } = props;
@@ -23,67 +16,28 @@ export const UpsertAsset = (props: any) => {
   } = useUpsertVendor(setIsUpsertModalOpen, isUpsertModalOpen);
 
   return (
-    <Dialog
-      open={isUpsertModalOpen?.open}
-      onClose={() => setIsUpsertModalOpen?.({ open: false, data: null })}
-      fullWidth
+    <CustomCommonDialog
+      isPortalOpen={isUpsertModalOpen?.open}
+      closePortal={() => setIsUpsertModalOpen?.({ open: false, data: null })}
+      handleSubmitButton={handleSubmit(onSubmit)}
+      disabledCancelButton={
+        postVendorStatus?.isLoading || patchVendorStatus?.isLoading
+      }
+      showSubmitLoader={
+        postVendorStatus?.isLoading || patchVendorStatus?.isLoading
+      }
+      submitButtonText={isUpsertModalOpen?.data ? 'Update' : 'Save'}
+      dialogTitle={isUpsertModalOpen?.data ? 'Update Vendor' : 'Add Vendor'}
     >
-      <DialogTitle
-        display={'flex'}
-        justifyContent={'space-between'}
-        alignItems={'center'}
-        mb={1}
-        component="div"
-      >
-        <Typography variant={'h3'}>
-          {isUpsertModalOpen?.data ? 'Update' : 'Add'} Vendor
-        </Typography>
-        <CloseIcon
-          sx={{ cursor: 'pointer' }}
-          onClick={() => setIsUpsertModalOpen?.({ open: false, data: null })}
-        />
-      </DialogTitle>
-      <DialogContent>
-        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={2}>
-            {upsertVendorDataArray?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={item?.id}>
-                <item.component {...item?.componentProps} size={'small'} />
-              </Grid>
-            ))}
-            <Grid item xs={12} textAlign={'end'}>
-              <LoadingButton
-                type={'button'}
-                variant={'outlined'}
-                color={'secondary'}
-                className="small"
-                sx={{ mr: 2 }}
-                onClick={() =>
-                  setIsUpsertModalOpen?.({ open: false, data: null })
-                }
-                disabled={
-                  postVendorStatus?.isLoading || patchVendorStatus?.isLoading
-                }
-              >
-                Cancel
-              </LoadingButton>
-              <LoadingButton
-                type={'submit'}
-                variant={'contained'}
-                className="small"
-                disabled={
-                  postVendorStatus?.isLoading || patchVendorStatus?.isLoading
-                }
-                loading={
-                  postVendorStatus?.isLoading || patchVendorStatus?.isLoading
-                }
-              >
-                {isUpsertModalOpen?.data ? 'Update' : 'Save'}
-              </LoadingButton>
+      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+        <Grid container spacing={2}>
+          {upsertVendorDataArray?.map((item: any) => (
+            <Grid item xs={12} md={item?.md} key={item?.id}>
+              <item.component {...item?.componentProps} size={'small'} />
             </Grid>
-          </Grid>
-        </FormProvider>
-      </DialogContent>
-    </Dialog>
+          ))}
+        </Grid>
+      </FormProvider>
+    </CustomCommonDialog>
   );
 };

@@ -27,6 +27,7 @@ export const CustomCommonDialog = (props: any) => {
     disabledSubmitButton = showSubmitLoader,
     showCancelButton = true,
     submitButtonStyles,
+    cancelButtonStyles,
   } = props;
 
   return (
@@ -88,6 +89,7 @@ export const CustomCommonDialog = (props: any) => {
               color="secondary"
               onClick={handleCancelButton}
               disabled={disabledCancelButton}
+              sx={cancelButtonStyles}
             >
               {cancelButtonText}
             </LoadingButton>

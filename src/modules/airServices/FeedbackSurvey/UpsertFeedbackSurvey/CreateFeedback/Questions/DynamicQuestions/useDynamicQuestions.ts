@@ -5,16 +5,17 @@ import { useFieldArray } from 'react-hook-form';
 import { DynamicQuestionsI } from './DynamicQuestions.interface';
 
 export const useDynamicQuestions = (props: DynamicQuestionsI) => {
-  const { parentMethods, sectionIndex, questionIndex } = props;
+  const { methods, sectionIndex, questionIndex } = props;
   const [isOption, setIsOption] = useState(true);
+  const { control, watch, setValue } = methods;
   const { fields, append, remove } = useFieldArray({
     name: `sections.${sectionIndex}.questions.${questionIndex}.text`,
-    control: parentMethods?.control,
+    control,
   });
-  const watchText = parentMethods?.watch(
+  const watchText = watch(
     `sections.${sectionIndex}.questions.${questionIndex}.text`,
   );
-  const watchOptions = parentMethods?.watch(
+  const watchOptions = watch(
     `sections.${sectionIndex}.questions.${questionIndex}.options`,
   );
   const handleSaveOption = () => {
@@ -35,7 +36,7 @@ export const useDynamicQuestions = (props: DynamicQuestionsI) => {
       return;
     }
     setIsOption(true);
-    parentMethods?.setValue(
+    setValue(
       `sections.${sectionIndex}.questions.${questionIndex}.options`,
       watchText?.map((item: any, index: number) => {
         return {
