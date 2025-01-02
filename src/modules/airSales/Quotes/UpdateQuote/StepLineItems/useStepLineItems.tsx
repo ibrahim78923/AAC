@@ -20,11 +20,20 @@ import {
 import { isNullOrEmpty } from '@/utils';
 import { debounce } from 'lodash';
 import { voucherOperator } from './StepLineItems.data';
+import { useDispatch } from 'react-redux';
+import {
+  setConsumersData,
+  setGiftCardData,
+  setRedeemReward,
+  setRewardId,
+  setVoucherData,
+} from '@/redux/slices/airSales/Quotes/quotesSlice';
 
 const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
   const theme = useTheme();
   const router = useRouter();
   const methods: any = useForm({});
+  const dispatch = useDispatch();
 
   const [search, setSearch] = useState('');
   const [isChecked, setIsChecked] = useState(false);
@@ -56,7 +65,14 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
   const [ConsumerTotalPointsValue, setConsumerTotalPointsValue] =
     useState<any>();
   const [updateSubTotal, setUpdateSubTotal] = useState<any>();
-  const [onePointExchangeRate, setOnePointExchangeRate] = useState<any>(0);
+  const [loyaltyRewards, setLoyaltyRewards] = useState<
+    { _id: string; value: number }[]
+  >([]);
+  const [giftCard, setGiftCard] = useState<{ _id: string; value: number }[]>(
+    [],
+  );
+  const [Voucher, setVoucher] = useState<{ _id: string; value: number }[]>([]);
+  const [inputValueDiscount, setInputValueDiscount] = useState<any>(0);
 
   const { data: productsData } = useGetQuoteByIdQuery({
     id: quoteId,
@@ -65,22 +81,56 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
 
   const {
     data: consumerDetails,
-    //  isLoading: consumerDetailLoading,
-    ...response
+    isLoading: consumerDetailLoading,
+    refetch,
   }: any = useGetConsumerDetailQuery(
-    // dataGetQuoteById?.data?.buyerContactId,
-    '672b49c61c76da9dcf9fd990',
-    // { skip: !dataGetQuoteById?.data?.buyerContactId }
+    { consumerId: dataGetQuoteById?.data?.buyerContactId },
+    { skip: !dataGetQuoteById?.data?.buyerContactId },
   );
+
+  const isConsumerDetailsDataAvailable =
+    consumerDetails?.data && Object.keys(consumerDetails.data).length === 0;
+
+  const createConsumerFunction = async () => {
+    if (isConsumerDetailsDataAvailable === true) {
+      const consumerPayload = {
+        firstName: dataGetQuoteById?.data?.buyerContact?.firstName,
+        lastName: dataGetQuoteById?.data?.buyerContact?.lastName,
+        email: dataGetQuoteById?.data?.buyerContact?.email,
+        address: dataGetQuoteById?.data?.buyerContact?.address,
+        phoneNumber: dataGetQuoteById?.data?.buyerContact?.phoneNumber,
+        age: dataGetQuoteById?.data?.buyerContact?.age,
+        contactId: dataGetQuoteById?.data?.buyerContactId,
+        numberOfTransactions: 0,
+        totalPointsEarned: 0,
+        totalPointRedeemed: 0,
+        currentPointBalance: 0,
+        status: 'INACTIVE',
+      };
+      const res: any = await createConsumer({
+        body: consumerPayload,
+      })?.unwrap();
+      if (res?.data) {
+        refetch();
+      }
+    }
+  };
+
+  useEffect(() => {
+    createConsumerFunction();
+  }, [isConsumerDetailsDataAvailable]);
+
   const consumerTotalPoints = consumerDetails?.data?.totalPointsEarned;
 
-  const { data: ExchangeRate }: any = useGetExchangeRateQuery(
-    ConsumerTotalPointsValue,
-    { skip: isNullOrEmpty(ConsumerTotalPointsValue) },
-  );
+  const { data: ExchangeRate, isLoading: exchangeRateLoading }: any =
+    useGetExchangeRateQuery(ConsumerTotalPointsValue, {
+      skip: isNullOrEmpty(ConsumerTotalPointsValue),
+    });
 
   const { data: singleTierDetails, isLoading: loadingSingleTierDetails }: any =
-    useGetRewardQuery('672b49c61c76da9dcf9fd990');
+    useGetRewardQuery(consumerDetails?.data?._id, {
+      skip: !consumerDetails?.data?._id,
+    });
 
   const param = {
     cardNumber: debouncedValue,
@@ -91,7 +141,7 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
     });
 
   const paramVoucher = {
-    consumerId: '672b49c61c76da9dcf9fd990',
+    // consumerId: consumerDetails?.data?._id,
     voucherCode: VoucherDebouncedValue,
   };
   const { data: VoucherData, isError: isErrorVoucher }: any =
@@ -141,6 +191,7 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
   //   useUpdateRedeemRewardMutation();
   // const [trigger, { isLoading: loadingUpdateConsumer }] =
   //   usePutLoyaltyProgramConsumersPointsUpdateMutation();
+  const [totalRequiredPoints, setTotalRequiredPoints] = useState(0);
 
   const handleCheckboxChange = async (item: any) => {
     const isChecked = !checkedItems[item?._id];
@@ -161,16 +212,6 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
         : prevValue + item?.requiredPoints,
     );
 
-    setOnePointExchangeRate((prevValue: any) => {
-      const exchangeRate: any = (
-        ExchangeRate?.data?.calculatedExchangeRate / ConsumerTotalPointsValue
-      )?.toFixed(2);
-      const newValue = isChecked
-        ? exchangeRate * item?.requiredPoints
-        : -exchangeRate * item?.requiredPoints;
-      return prevValue + newValue;
-    });
-
     setUpdateSubTotal((prevValue: any) => {
       const exchangeRate: any = (
         ExchangeRate?.data?.calculatedExchangeRate / ConsumerTotalPointsValue
@@ -181,22 +222,46 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
       return prevValue + newValue;
     });
 
-    // const payLoad = {
-    //   escrowRedeemedPoints: isChecked ? item?.requiredPoints : 0,
-    //   redeemedRewardPerConsumer: {
-    //     consumerId: '672b49c61c76da9dcf9fd990',
-    //     redeemedLimit: 1,
-    //     escrowStatus: 'Reserved',
-    //   },
-    // };
+    setLoyaltyRewards((prevRewards) => {
+      if (isChecked) {
+        return [
+          ...prevRewards,
+          {
+            _id: item?._id,
+            value:
+              (ExchangeRate?.data?.calculatedExchangeRate /
+                ConsumerTotalPointsValue) *
+              item?.requiredPoints,
+          },
+        ];
+      } else {
+        return prevRewards?.filter((reward) => reward?._id !== item?._id);
+      }
+    });
 
-    // const consumersPayLoad = {
-    //   currentPointBalance: item?.requiredPoints,
-    //   totalPointRedeemed: consumerDetails?.data?.totalPointRedeemed,
-    //   totalPointsEarned: consumerTotalPoints,
-    //   numberofTransactions: 1,
-    //   ids: ['672b49c61c76da9dcf9fd990'],
-    // };
+    // Calculate the total required points
+    setTotalRequiredPoints((prevTotal) =>
+      isChecked
+        ? prevTotal + item?.requiredPoints
+        : prevTotal - item?.requiredPoints,
+    );
+
+    // redeemReward payload
+    const redeemRewardPayLoad = {
+      escrowRedeemedPoints: isChecked
+        ? totalRequiredPoints + item?.requiredPoints
+        : totalRequiredPoints - item?.requiredPoints,
+      redeemedRewardPerConsumer: {
+        consumerId: consumerDetails?.data?._id,
+        redeemedLimit: 1,
+        escrowStatus: 'Reserved',
+      },
+    };
+
+    dispatch(setRedeemReward(redeemRewardPayLoad));
+    dispatch(setRewardId(item?._id));
+
+    // redeemReward payload
 
     // try {
     //   await updateRedeemReward({ id: item?._id, body: payLoad })?.unwrap();
@@ -211,22 +276,44 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
     // }
   };
 
-  const createConsumerFunction = async () => {
-    if (response.error?.data?.message === 'Consumer not found.') {
-      const consumerPayload = {
-        firstName: dataGetQuoteById?.data?.buyerContact?.firstName,
-        lastName: dataGetQuoteById?.data?.buyerContact?.lastName,
-        email: dataGetQuoteById?.data?.buyerContact?.email,
-        address: dataGetQuoteById?.data?.buyerContact?.address,
-        phoneNumber: dataGetQuoteById?.data?.buyerContact?.phoneNumber,
-        contactId: dataGetQuoteById?.data?.buyerContactId,
-      };
-      await createConsumer({ body: consumerPayload })?.unwrap();
-    }
-  };
+  // set consumer data in redux
+  const [totalLoyaltyRewardsValue, setTotalLoyaltyRewardsValue] = useState(0);
   useEffect(() => {
-    createConsumerFunction();
-  }, [response.error?.data?.message === 'Consumer not found.']);
+    const totalValue = loyaltyRewards?.reduce(
+      (acc, reward) => acc + reward?.value,
+      0,
+    );
+    setTotalLoyaltyRewardsValue(totalValue);
+  }, [loyaltyRewards]);
+
+  useEffect(() => {
+    const consumersPayLoad = {
+      currentPointBalance: totalLoyaltyRewardsValue,
+      totalPointRedeemed: consumerDetails?.data?.totalPointRedeemed,
+      totalPointsEarned: consumerTotalPoints,
+      numberofTransactions: 1,
+      ids: [consumerDetails?.data?._id],
+    };
+
+    dispatch(setConsumersData(consumersPayLoad));
+  }, [totalLoyaltyRewardsValue]);
+
+  // set consumer data in redux
+
+  useEffect(() => {
+    const patchParameter = {
+      queryParams: { cardNumber: giftCardData?.data?.cardNumber },
+      body: {
+        currentamount: giftCardData?.data?.currentamount - inputValueDiscount,
+        escrowAmount: inputValueDiscount,
+        transactionAmount: inputValueDiscount,
+        escrowAmountStatus: 'Pending',
+        quotesId: quoteId,
+      },
+    };
+
+    dispatch(setGiftCardData(patchParameter));
+  }, [inputValueDiscount]);
 
   const handleDeleteDeals = async (productId: string) => {
     const remainingProducts = productsData?.data?.products?.filter(
@@ -318,31 +405,13 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
     }
   };
 
-  const [inputValueDiscount, setInputValueDiscount] = useState<any>(0);
   // const [updateApi, { isLoading: updateGiftCardIsLoading }] =
   //   usePutGiftCardValueMutation();
-  const [discountsData, setDiscountsData] = useState([
-    { id: '1', label: 'Loyalty Discounts', value: '' },
-    { id: '2', label: 'Voucher or gift card', value: '' },
-    { id: '3', label: 'Total Redeemed Discounts', value: '' },
-  ]);
 
   const onSubmit = async (event: any) => {
     event.preventDefault();
-    // Update the "Voucher or gift card" value
-    setDiscountsData(
-      (prevData) =>
-        prevData?.map((item: any) =>
-          item.label === 'Voucher or gift card'
-            ? {
-                ...item,
-                value: `${
-                  parseFloat(inputValueDiscount) + discountVoucherValue
-                }`,
-              }
-            : item,
-        ),
-    );
+    // Update GiftCard state
+    setGiftCard([{ _id: giftCardData?.data?._id, value: inputValueDiscount }]);
 
     setUpdateSubTotal(updateSubTotal - parseFloat(inputValueDiscount));
     setDisabledButton(true);
@@ -382,35 +451,35 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
       let discountVoucher = 0;
 
       if (
-        voucher.operator === voucherOperator.LESS_THAN &&
+        voucher?.operator === voucherOperator?.LESS_THAN &&
         updateSubTotal < addAmount
       ) {
         discountVoucher = parseFloat(
           String(updateSubTotal * (percentageOff / 100)),
         );
       } else if (
-        voucher.operator === voucherOperator.GREATER_THAN &&
+        voucher?.operator === voucherOperator?.GREATER_THAN &&
         updateSubTotal > addAmount
       ) {
         discountVoucher = parseFloat(
           String(updateSubTotal * (percentageOff / 100)),
         );
       } else if (
-        voucher.operator === voucherOperator.EQUAL_TO &&
+        voucher?.operator === voucherOperator?.EQUAL_TO &&
         updateSubTotal === addAmount
       ) {
         discountVoucher = parseFloat(
           String(updateSubTotal * (percentageOff / 100)),
         );
       } else if (
-        voucher.operator === voucherOperator.LESS_THAN_OR_EQUAL &&
+        voucher?.operator === voucherOperator?.LESS_THAN_OR_EQUAL &&
         updateSubTotal <= addAmount
       ) {
         discountVoucher = parseFloat(
           String(updateSubTotal * (percentageOff / 100)),
         );
       } else if (
-        voucher.operator === voucherOperator.GREATER_THAN_OR_EQUAL &&
+        voucher?.operator === voucherOperator?.GREATER_THAN_OR_EQUAL &&
         updateSubTotal >= addAmount
       ) {
         discountVoucher = parseFloat(
@@ -423,66 +492,49 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
       }
       setUpdateSubTotal(updateSubTotal - discountVoucher);
       setDiscountVoucherValue(discountVoucher);
+      // Update Voucher state
+      setVoucher([{ _id: voucher?._id, value: discountVoucher }]);
+
+      if (discountVoucher != 0) {
+        const VoucherParameter = {
+          queryParams: {
+            voucherCode: VoucherData?.data[0]?.voucherCode,
+            consumerId: consumerDetails?.data?._id,
+          },
+          body: {
+            ascrowRedeemedVoucherLimit: 2,
+            redeemedVoucherLimit: 0,
+            redeemedPerConsumer: {
+              consumerId: consumerDetails?.data?._id,
+              earnDiscountAmount: percentageOff,
+              escrowStatus: 'Reserved',
+              quotesId: quoteId,
+              redeemedLimit: 1,
+            },
+          },
+        };
+        dispatch(setVoucherData(VoucherParameter));
+      }
     }
-    setDiscountsData(
-      (prevData) =>
-        prevData?.map((item: any) =>
-          item.label === 'Voucher or gift card'
-            ? {
-                ...item,
-                value: `${(
-                  parseFloat(inputValueDiscount) + discountVoucherValue
-                )?.toFixed(2)}`,
-              }
-            : item,
-        ),
-    );
-  }, [VoucherData?.data[0]]);
+    if (VoucherData?.data?.message) {
+      enqueueSnackbar(`${VoucherData?.data?.message}`, {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  }, [VoucherData?.data]);
 
-  useEffect(() => {
-    setDiscountsData(
-      (prevData) =>
-        prevData?.map((item: any) =>
-          item.label === 'Voucher or gift card'
-            ? {
-                ...item,
-                value: `${(
-                  parseFloat(inputValueDiscount) + discountVoucherValue
-                )?.toFixed(2)}`,
-              }
-            : item,
-        ),
-    );
-  }, [discountVoucherValue, inputValueDiscount]);
+  const totalLoyaltyRewardsSum = loyaltyRewards?.reduce(
+    (acc, item) => acc + item?.value,
+    0,
+  );
+  const totalVoucherSum = Voucher?.reduce((acc, item) => acc + item?.value, 0);
+  const totalGiftCardSum = giftCard?.reduce(
+    (acc, item) => acc + parseFloat(item?.value),
+    0,
+  );
 
-  useEffect(() => {
-    setDiscountsData(
-      (prevData) =>
-        prevData?.map((item: any) =>
-          item.label === 'Loyalty Discounts'
-            ? { ...item, value: `${onePointExchangeRate}` }
-            : item,
-        ),
-    );
-  }, [onePointExchangeRate]);
-
-  useEffect(() => {
-    setDiscountsData(
-      (prevData) =>
-        prevData?.map((item: any) =>
-          item.label === 'Total Redeemed Discounts'
-            ? {
-                ...item,
-                value: `${(
-                  onePointExchangeRate +
-                  parseFloat(inputValueDiscount) +
-                  discountVoucherValue
-                )?.toFixed(2)}`,
-              }
-            : item,
-        ),
-    );
-  }, [onePointExchangeRate, inputValueDiscount, discountVoucherValue]);
+  const totalSumDiscount =
+    totalLoyaltyRewardsSum + totalVoucherSum + totalGiftCardSum;
 
   return {
     setSearch,
@@ -504,6 +556,7 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
     handleCheckboxChange,
     checkedItems,
     loadingSingleTierDetails,
+    exchangeRateLoading,
     setInputValue,
     inputValue,
     isErrorGiftCard,
@@ -515,12 +568,21 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
     VoucherInputValue,
     setVoucherInputValue,
     isErrorVoucher,
-    discountsData,
     updateSubTotal,
     setDiscountVoucherValue,
     setUpdateSubTotal,
     discountVoucherValue,
     setInputValueDiscount,
+    totalLoyaltyRewardsSum,
+    totalVoucherSum,
+    totalGiftCardSum,
+    totalSumDiscount,
+    setVoucher,
+    setGiftCard,
+    Voucher,
+    giftCard,
+    loyaltyRewards,
+    consumerDetailLoading,
   };
 };
 

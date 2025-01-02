@@ -20,6 +20,8 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 
 const StepBuyerInfo = ({
+  quotesData,
+  loyalityCalculation,
   openAddContact,
   openAddCompany,
   handleBuyerContactChange,
@@ -118,15 +120,7 @@ const StepBuyerInfo = ({
                                 {item?.name === '' ? 'N/A' : item?.name}
                               </Typography>
                               <Tooltip title={item?.email}>
-                                <Typography
-                                  sx={{
-                                    ...styles?.itemText,
-                                    textOverflow: 'ellipsis',
-                                    whiteSpace: 'nowrap',
-                                    overflow: 'hidden',
-                                    width: '150px',
-                                  }}
-                                >
+                                <Typography sx={styles?.itemText}>
                                   {item?.email}
                                 </Typography>
                               </Tooltip>
@@ -253,9 +247,6 @@ const StepBuyerInfo = ({
                             </Box>
                             <Box>
                               <Checkbox
-                                // defaultChecked={
-                                //   selectedCompanyIds === item?._id
-                                // }
                                 checked={selectedCompanyIds === item?._id}
                                 onChange={() => handleCompanyChange(item._id)}
                               />
@@ -271,7 +262,10 @@ const StepBuyerInfo = ({
         </Grid>
         <Grid item xs={12} md={12} lg={7}>
           <TemplateFrame>
-            <TemplateBasic />
+            <TemplateBasic
+              quotesData={quotesData}
+              loyalityCalculation={loyalityCalculation}
+            />
           </TemplateFrame>
         </Grid>
       </Grid>

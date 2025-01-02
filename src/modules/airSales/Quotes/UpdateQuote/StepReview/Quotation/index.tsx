@@ -1,78 +1,38 @@
-import { Box } from '@mui/material';
+import { Box, Divider } from '@mui/material';
 import { styles } from './Quotation.style';
-import useUpdateQuote from '../../useUpdateQuote';
+import { styles as templateStyles } from '../../TemplateBasic/TemplateBasic.style';
+import { GlobalSearchSuperAdminModules } from '@/constants';
 
-const Quotation = () => {
-  const { dataGetQuoteById, taxCalculation } = useUpdateQuote();
-
-  const sum = dataGetQuoteById?.data?.products?.reduce(
-    (accumulator: any, currentValue: any) =>
-      accumulator + currentValue?.unitPrice * currentValue?.quantity,
-    0,
-  );
-
-  const unitDiscount = dataGetQuoteById?.data?.products?.reduce(
-    (accumulator: any, currentValue: any) =>
-      accumulator + currentValue?.unitDiscount * currentValue?.quantity,
-    0,
-  );
-  const taxCalculationPerc = taxCalculation?.data?.taxCalculations;
-  const gettingDiscount = dataGetQuoteById?.data?.products[0]?.unitDiscount;
-
-  let totalPercentage = 0;
-  if (taxCalculationPerc && Array.isArray(taxCalculationPerc)) {
-    for (const tax of taxCalculationPerc) {
-      totalPercentage += tax.percentage;
-    }
-  }
-  const percentageOfSubtotal = sum * (totalPercentage / 100);
-
-  let FinalTotal;
-  if (!isNaN(percentageOfSubtotal) && !isNaN(gettingDiscount)) {
-    FinalTotal = (percentageOfSubtotal - gettingDiscount)?.toFixed(2);
-  } else {
-    FinalTotal = 'N/A';
-  }
-
+const Quotation = ({ loyalityCalculation }: any) => {
   return (
-    <Box sx={styles?.box}>
-      <Box sx={styles?.bRow}>
-        <Box sx={styles?.bHead}>Sub Total</Box>
-        <Box sx={styles?.bCell}>£{sum ?? 'N/A'}</Box>
-      </Box>
-
-      <Box sx={styles?.bRow}>
-        <Box sx={styles?.bHead}>
-          {taxCalculationPerc?.map((item: any) => {
-            return item.name;
-          })}
+    <Box>
+      <Box sx={styles?.box}>
+        <Box sx={templateStyles?.voucher}>
+          {loyalityCalculation?.calculationsArray?.map((item: any) => (
+            <Box sx={templateStyles?.vRow} key={item?.name}>
+              <Box sx={templateStyles?.vCellLef}>{item?.name}</Box>
+              <Box sx={templateStyles?.vCellRight}>
+                {item?.name === GlobalSearchSuperAdminModules?.TAX
+                  ? item?.amount
+                  : `£ ${item?.amount}`}
+              </Box>
+            </Box>
+          ))}
+          <Divider sx={{ my: '16px', borderColor: '#D2D6DF' }} />
+          <Box sx={templateStyles?.vRow}>
+            <Box sx={templateStyles?.total}>Total</Box>
+            <Box sx={templateStyles?.total}>
+              £ {loyalityCalculation?.finalTotal}
+            </Box>
+          </Box>
         </Box>
-        <Box sx={styles?.bCell}>{totalPercentage ?? 'N/A'}</Box>
-      </Box>
-
-      <Box sx={styles?.bRow}>
-        <Box sx={styles?.bHead}>Unit Discount</Box>
-        <Box sx={styles?.bCell}>{unitDiscount ?? 'N/A'} GBP</Box>
-      </Box>
-
-      <Box sx={styles?.bRow}>
-        <Box sx={styles?.bHead}>Total Redeemed Discount</Box>
-        <Box sx={styles?.bCell}>£ 20</Box>
-      </Box>
-
-      <Box sx={styles?.bRowTotal}>
-        <Box sx={styles?.bHead}>Total</Box>
-        <Box sx={styles?.bHead}>£{FinalTotal}</Box>
-      </Box>
-
-      <Box sx={styles?.signatureCard}>
-        <Box sx={styles?.signatureBox}>
-          <Box sx={styles?.signatureSpace}>{}</Box>
-          <Box sx={styles?.boxLabel}>Signature</Box>
-        </Box>
-        <Box sx={styles?.dateBox}>
-          <Box sx={styles?.dateSpace}>{}</Box>
-          <Box sx={styles?.boxLabel}>Date</Box>
+        <Box sx={styles?.signatureCard}>
+          <Box sx={styles?.signatureBox}>
+            <Box sx={styles?.boxLabel}>Signature</Box>
+          </Box>
+          <Box sx={styles?.dateBox}>
+            <Box sx={styles?.boxLabel}>Date</Box>
+          </Box>
         </Box>
       </Box>
     </Box>

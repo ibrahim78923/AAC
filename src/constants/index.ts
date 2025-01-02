@@ -598,6 +598,7 @@ export const GlobalSearchSuperAdminModules = {
   REPORTS: 'Reports',
   FAQs: 'Faqs',
   ENQUIRIES: 'Enquiries',
+  TAX: 'Tax',
   TAX_CALCULATION: 'Tax_calculation',
   QUICK_LINKS: 'Quick_links',
   NEWS_EVENTS: 'News_and_events',

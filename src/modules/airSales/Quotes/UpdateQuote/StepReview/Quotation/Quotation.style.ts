@@ -2,8 +2,8 @@ export const styles = {
   box: (theme: any) => ({
     border: `1px solid ${theme?.palette?.grey[700]}`,
     borderRadius: '8px',
-    padding: '12px',
     mt: '16px',
+    backgroundColor: theme?.palette?.grey[100],
   }),
   bRow: () => ({
     display: 'flex',
@@ -31,6 +31,7 @@ export const styles = {
   signatureCard: () => ({
     display: 'flex',
     justifyContent: 'space-between',
+    padding: '30px 20px',
   }),
   signatureBox: () => ({
     display: 'flex',

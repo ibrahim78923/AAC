@@ -165,6 +165,8 @@ interface QuotesUpdateI {
   selectedCompanyIds: string[];
   productsArray?: string[];
   calculations?: any;
+  handleLoyalityCalulation?: any;
+  loyalityCalculation?: any;
 }
 export const updateQuoteSteps = (params: QuotesUpdateI) => {
   return [
@@ -184,8 +186,8 @@ export const updateQuoteSteps = (params: QuotesUpdateI) => {
       label: 'Buyer Info',
       component: (
         <StepBuyerInfo
-          dataContacts={params?.data?.deal?.contactsIds || []}
-          dataCompanies={params?.data?.deal?.companiesIds || []}
+          quotesData={params?.data}
+          loyalityCalculation={params?.calculations}
           openAddContact={params?.openAddContact}
           openAddCompany={params?.openAddCompany}
           handleBuyerContactChange={params?.handleBuyerContactChange}
@@ -198,7 +200,12 @@ export const updateQuoteSteps = (params: QuotesUpdateI) => {
     {
       key: 'yourInfo',
       label: 'Your Info',
-      component: <StepYourInfo />,
+      component: (
+        <StepYourInfo
+          quotesData={params?.data}
+          loyalityCalculation={params?.calculations}
+        />
+      ),
     },
     {
       key: 'lineItems',
@@ -207,6 +214,7 @@ export const updateQuoteSteps = (params: QuotesUpdateI) => {
         <StepLineItems
           calculations={params?.calculations}
           openCreateProduct={params?.openCreateProduct}
+          handleLoyalityCalulation={params?.handleLoyalityCalulation}
         />
       ),
     },
@@ -217,13 +225,14 @@ export const updateQuoteSteps = (params: QuotesUpdateI) => {
         <StepSignature
           quotesData={params?.data}
           methods={params?.methodsSignature}
+          loyalityCalculation={params?.calculations}
         />
       ),
     },
     {
       key: 'review',
       label: 'Review',
-      component: <StepReview />,
+      component: <StepReview loyalityCalculation={params?.calculations} />,
     },
   ];
 };

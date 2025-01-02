@@ -6,9 +6,10 @@ const TAG = ['AIR_SALES_QUOTES'];
 export const quotesLoaylityAPI = baseAPI.injectEndpoints({
   endpoints: (builder: any) => ({
     getConsumerDetail: builder.query({
-      query: (id: any) => ({
-        url: `${END_POINTS?.GET_CONSUMER_DETAIL}/{id}?id=${id}`,
+      query: (params: any) => ({
+        url: `${END_POINTS?.GET_CONSUMER_DETAIL}/{id}`,
         method: 'GET',
+        params: params,
       }),
       providesTags: TAG,
     }),
@@ -85,6 +86,15 @@ export const quotesLoaylityAPI = baseAPI.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    putVoucherValue: builder?.mutation({
+      query: (patchParameter: any) => ({
+        url: END_POINTS?.PUT_VOUCHER_REDEEM,
+        method: 'PATCH',
+        params: patchParameter?.queryParams,
+        body: patchParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -99,4 +109,5 @@ export const {
   usePutLoyaltyProgramConsumersPointsUpdateMutation,
   usePutGiftCardValueMutation,
   useGetSingleVouchersQuotesQuery,
+  usePutVoucherValueMutation,
 } = quotesLoaylityAPI;

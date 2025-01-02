@@ -71,6 +71,10 @@ export const styles = {
     fontSize: '12px',
     fontWeight: '400',
     lineHeight: '1.5',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    width: '150px',
     color: theme?.palette?.custom?.main,
     '&:not(:first-of-type)': {
       marginTop: '8px',

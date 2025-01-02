@@ -3,10 +3,7 @@ import {
   Button,
   Checkbox,
   Divider,
-  // Checkbox,
-  // Divider,
   Grid,
-  Skeleton,
   Stack,
   TextField,
   Typography,
@@ -20,14 +17,17 @@ import useStepLineItems from './useStepLineItems';
 import { lineItemsColumns } from './StepLineItems.data';
 import { v4 as uuidv4 } from 'uuid';
 import { isNullOrEmpty } from '@/utils';
+import { useEffect } from 'react';
+import SkeletonComponent from '@/components/CardSkeletons';
+import { GlobalSearchSuperAdminModules, indexNumbers } from '@/constants';
 
 const StepLineItems = (props: any) => {
-  const { openCreateProduct, calculations } = props;
+  const { openCreateProduct, calculations, handleLoyalityCalulation } = props;
 
   const {
     setSearch,
     isChecked,
-    setIsChecked,
+    // setIsChecked,
     checkedIs,
     setCheckedIs,
     methods,
@@ -41,7 +41,6 @@ const StepLineItems = (props: any) => {
     singleTierDetails,
     handleCheckboxChange,
     checkedItems,
-    loadingSingleTierDetails,
     setInputValue,
     inputValue,
     isErrorGiftCard,
@@ -53,13 +52,33 @@ const StepLineItems = (props: any) => {
     VoucherInputValue,
     setVoucherInputValue,
     isErrorVoucher,
-    discountsData,
     updateSubTotal,
     setDiscountVoucherValue,
     setUpdateSubTotal,
     discountVoucherValue,
     setInputValueDiscount,
+    totalLoyaltyRewardsSum,
+    totalVoucherSum,
+    totalGiftCardSum,
+    totalSumDiscount,
+    setVoucher,
+    setGiftCard,
+    Voucher,
+    giftCard,
+    loyaltyRewards,
+    exchangeRateLoading,
+    consumerDetailLoading,
   } = useStepLineItems(openCreateProduct, calculations);
+
+  useEffect(() => {
+    handleLoyalityCalulation(
+      loyaltyRewards,
+      Voucher,
+      giftCard,
+      totalSumDiscount,
+      updateSubTotal,
+    );
+  }, [totalSumDiscount]);
 
   return (
     <>
@@ -115,12 +134,19 @@ const StepLineItems = (props: any) => {
                 {calculations?.calculationsArray?.map((item: any) => (
                   <Box sx={styles?.vRow} key={item?.name}>
                     <Box sx={styles?.bodyCell}>{item?.name}</Box>
-                    <Box sx={styles?.bodyCellH}>{item?.amount}</Box>
+                    <Box sx={styles?.bodyCellH}>
+                      {item?.name === GlobalSearchSuperAdminModules.TAX
+                        ? item?.amount
+                        : `£ ${item?.amount}`}
+                    </Box>
                   </Box>
                 ))}
                 <Box sx={styles?.voucherFooter}>
                   <Box sx={styles?.fCell}>Total: </Box>
-                  <Box sx={styles?.bodyCellH}> £{calculations?.finalTotal}</Box>
+                  <Box sx={styles?.bodyCellH}>
+                    {' '}
+                    £ {calculations?.finalTotal}
+                  </Box>
                 </Box>
               </Box>
             </Box>
@@ -143,116 +169,105 @@ const StepLineItems = (props: any) => {
                 }}
                 variant="h6"
               >
-                Loyalty Discounts {updateSubTotal}
+                Loyalty Discounts
               </Typography>
             </Box>
 
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', mx: 2, my: 2 }}>
-              <Box>
-                <Box
-                  sx={{
-                    color: theme?.palette?.grey[800],
-                    fontSize: '16px',
-                    fontWeight: 600,
-                  }}
-                >
-                  Loyalty Discounts Available for Williams
-                </Box>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Checkbox
-                    onChange={(event: any) =>
-                      setIsChecked(event?.target?.checked)
-                    }
-                  />
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Typography sx={{ color: theme?.palette?.grey[800] }}>
-                      Rewards:{' '}
-                    </Typography>
-                    <Typography
-                      sx={{ color: theme?.palette?.custom?.main, mx: 0.5 }}
-                    >
-                      {ConsumerTotalPointsValue}pts = £
-                      {ExchangeRate?.data?.calculatedExchangeRate}
-                    </Typography>
-                    <InfoIconBlueBg />
-                  </Box>
-                </Box>
-              </Box>
-              <Box sx={{ mx: 5 }}>
-                <Box
-                  sx={{
-                    color: theme?.palette?.grey[800],
-                    fontSize: '16px',
-                    fontWeight: 600,
-                  }}
-                >
-                  Available Rewards
-                </Box>
+            {consumerDetailLoading ? (
+              <SkeletonComponent numberOfSkeletons={2} />
+            ) : (
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', mx: 2, my: 2 }}>
                 <Box>
-                  {/* {rewardsData?.map((item: any) => (
-                    <Box key={item?.label}>
-                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Checkbox />
-                        <Box sx={{ display: 'flex' }}>
-                          <Typography
-                            sx={{
-                              fontSize: '14px',
-                              color: theme?.palette?.blue?.dull_blue,
-                            }}
-                          >
-                            {item?.label}
-                          </Typography>
-                          <Typography
-                            sx={{
-                              fontSize: '14px',
-                              color: theme?.palette?.custom?.main,
-                              mx: '3px',
-                            }}
-                          >
-                            {item?.pts}
-                          </Typography>
-                        </Box>
+                  <Box
+                    sx={{
+                      color: theme?.palette?.grey[800],
+                      fontSize: '16px',
+                      fontWeight: 600,
+                    }}
+                  >
+                    Loyalty Discounts Available for Williams
+                  </Box>
+                  {exchangeRateLoading ? (
+                    <SkeletonComponent numberOfSkeletons={1} />
+                  ) : (
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <Box
+                        sx={{ display: 'flex', alignItems: 'center', mt: 2 }}
+                      >
+                        <Typography sx={{ color: theme?.palette?.grey[800] }}>
+                          Rewards:{' '}
+                        </Typography>
+                        <Typography
+                          sx={{ color: theme?.palette?.custom?.main, mx: 0.5 }}
+                        >
+                          {ConsumerTotalPointsValue}pts = £
+                          {ExchangeRate?.data?.calculatedExchangeRate}
+                        </Typography>
+                        <InfoIconBlueBg />
                       </Box>
                     </Box>
-                  ))} */}
-                  {loadingSingleTierDetails ? (
-                    <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
-                  ) : (
-                    singleTierDetails?.data?.map((item: any) => (
-                      <Box key={uuidv4()}>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <Checkbox
-                            checked={!!checkedItems[item?._id]}
-                            onChange={() => handleCheckboxChange(item)}
-                          />
-                          <Box sx={{ display: 'flex' }}>
-                            <Typography
-                              sx={{
-                                fontSize: '14px',
-                                color: theme?.palette?.blue?.dull_blue,
-                              }}
-                            >
-                              {item?.title}
-                            </Typography>
-                            {item?.requiredPoints && (
+                  )}
+                </Box>
+                <Box sx={{ mx: 5 }}>
+                  <Box
+                    sx={{
+                      color: theme?.palette?.grey[800],
+                      fontSize: '16px',
+                      fontWeight: 600,
+                    }}
+                  >
+                    Available Rewards
+                  </Box>
+                  <Box>
+                    {exchangeRateLoading ? (
+                      <SkeletonComponent numberOfSkeletons={1} />
+                    ) : singleTierDetails?.data?.length ===
+                      indexNumbers?.ZERO ? (
+                      <Typography
+                        mt={1.5}
+                        sx={{
+                          color: theme?.palette?.grey[500],
+                        }}
+                      >
+                        No Reward Available
+                      </Typography>
+                    ) : (
+                      singleTierDetails?.data?.map((item: any) => (
+                        <Box key={uuidv4()}>
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Checkbox
+                              checked={!!checkedItems[item?._id]}
+                              onChange={() => handleCheckboxChange(item)}
+                            />
+                            <Box sx={{ display: 'flex' }}>
                               <Typography
                                 sx={{
                                   fontSize: '14px',
-                                  color: theme?.palette?.custom?.main,
-                                  mx: '3px',
+                                  color: theme?.palette?.blue?.dull_blue,
                                 }}
                               >
-                                ({item?.requiredPoints} pts)
+                                {item?.title}
                               </Typography>
-                            )}
+                              {item?.requiredPoints && (
+                                <Typography
+                                  sx={{
+                                    fontSize: '14px',
+                                    color: theme?.palette?.custom?.main,
+                                    mx: '3px',
+                                  }}
+                                >
+                                  ({item?.requiredPoints} pts)
+                                </Typography>
+                              )}
+                            </Box>
                           </Box>
                         </Box>
-                      </Box>
-                    ))
-                  )}
+                      ))
+                    )}
+                  </Box>
                 </Box>
               </Box>
-            </Box>
+            )}
             {/* <Box sx={{ mx: 2 }}>
               {isChecked && (
                 <Box>
@@ -291,6 +306,7 @@ const StepLineItems = (props: any) => {
                       // Call the function to update the state and set the value to 0
                       setInputValueDiscount(0);
                       setInputValue('');
+                      setGiftCard([]);
                       setUpdateSubTotal(
                         updateSubTotal + parseFloat(inputValueDiscount),
                       );
@@ -379,6 +395,7 @@ const StepLineItems = (props: any) => {
                       // Call the function to update the state and set the value to 0
                       setDiscountVoucherValue(0);
                       setVoucherInputValue('');
+                      setVoucher([]);
                       setUpdateSubTotal(updateSubTotal + discountVoucherValue);
                     }
                   }}
@@ -426,36 +443,124 @@ const StepLineItems = (props: any) => {
             </Box>
             <Divider sx={{ mx: 2 }} />
             <Box>
-              {discountsData?.map((item: any) => (
-                <Box
-                  key={item?.id}
+              <Box
+                // key={item?.id}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  mx: 2,
+                  my: 2,
+                }}
+              >
+                <Typography
                   sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    mx: 2,
-                    my: 2,
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    color: theme?.palette?.blue?.dull_blue,
                   }}
                 >
-                  <Typography
-                    sx={{
-                      fontSize: '14px',
-                      fontWeight: 500,
-                      color: theme?.palette?.blue?.dull_blue,
-                    }}
-                  >
-                    {item?.label}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: '14px',
-                      fontWeight: 600,
-                      color: theme?.palette?.blue?.dull_blue,
-                    }}
-                  >
-                    £ {item?.value}
-                  </Typography>
-                </Box>
-              ))}
+                  Loyalty Discounts
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    color: theme?.palette?.blue?.dull_blue,
+                  }}
+                >
+                  £ {totalLoyaltyRewardsSum?.toFixed(2)}
+                </Typography>
+              </Box>
+            </Box>
+            <Box>
+              <Box
+                // key={item?.id}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  mx: 2,
+                  my: 2,
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    color: theme?.palette?.blue?.dull_blue,
+                  }}
+                >
+                  Gift Card
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    color: theme?.palette?.blue?.dull_blue,
+                  }}
+                >
+                  £ {totalGiftCardSum?.toFixed(2) ?? 0}
+                </Typography>
+              </Box>
+            </Box>
+            <Box>
+              <Box
+                // key={item?.id}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  mx: 2,
+                  my: 2,
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    color: theme?.palette?.blue?.dull_blue,
+                  }}
+                >
+                  Voucher
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    color: theme?.palette?.blue?.dull_blue,
+                  }}
+                >
+                  £ {totalVoucherSum?.toFixed(2) ?? 0}
+                </Typography>
+              </Box>
+            </Box>
+            <Box>
+              <Box
+                // key={item?.id}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  mx: 2,
+                  my: 2,
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    color: theme?.palette?.blue?.dull_blue,
+                  }}
+                >
+                  Total Redeemed Discounts
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    color: theme?.palette?.blue?.dull_blue,
+                  }}
+                >
+                  £ {totalSumDiscount?.toFixed(2) ?? 0}
+                </Typography>
+              </Box>
             </Box>
           </Box>
         </Grid>

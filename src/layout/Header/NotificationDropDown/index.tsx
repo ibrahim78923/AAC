@@ -37,8 +37,12 @@ const NotificationDropdown = () => {
   };
 
   const isOpenPopover = Boolean(openPopver);
-  const { notificationsList, getNotificationLoading, handleSeenNotification } =
-    useNotificationDropDown();
+  const {
+    notificationsList,
+    getNotificationLoading,
+    handleSeenNotification,
+    patchNotificationsLoading,
+  } = useNotificationDropDown();
 
   const notificationsData = useAppSelector(
     (state) => state.notifications.notificationsData,
@@ -97,7 +101,7 @@ const NotificationDropdown = () => {
             <Typography variant="h5">Notifications</Typography>
           </Box>
           <Box sx={{ px: 2 }}>
-            {getNotificationLoading ? (
+            {getNotificationLoading || patchNotificationsLoading ? (
               <SkeletonComponent numberOfSkeletons={5} />
             ) : (
               <Box>

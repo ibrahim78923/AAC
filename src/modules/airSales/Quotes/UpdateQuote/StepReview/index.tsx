@@ -4,13 +4,13 @@ import ProductsAndServices from './ProductsAndServices/index';
 import Quotation from './Quotation';
 import { Box } from '@mui/material';
 
-const ViewQuote = () => {
+const ViewQuote = ({ loyalityCalculation }: any) => {
   return (
     <Box id="quote-invoice">
       <BuyerCompany />
       <QuoteInfo />
       <ProductsAndServices />
-      <Quotation />
+      <Quotation loyalityCalculation={loyalityCalculation} />
     </Box>
   );
 };
