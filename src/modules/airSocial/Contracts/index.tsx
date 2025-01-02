@@ -57,7 +57,8 @@ import useContracts from './useContracts';
 import ModalSignPdf from './ModalSignPdf';
 
 const Contracts = () => {
-  const { openModalSignPdf, setOpenModalSignPdf } = useContracts();
+  const { openModalSignPdf, setOpenModalSignPdf, onSubmitModalSignPdf } =
+    useContracts();
 
   const router = useRouter();
   const isSmallScreen = useMediaQuery('(max-width: 1000px)');
@@ -448,7 +449,7 @@ const Contracts = () => {
       <ModalSignPdf
         open={openModalSignPdf}
         onClose={() => setOpenModalSignPdf(false)}
-        onSubmit={() => setOpenModalSignPdf(false)}
+        onSubmit={onSubmitModalSignPdf}
       />
     </Box>
   );

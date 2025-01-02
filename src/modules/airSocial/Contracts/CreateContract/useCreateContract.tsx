@@ -2,11 +2,13 @@ import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { defaultValues, mockContract } from './CreateContract.data';
 import { generateUniqueId } from '@/utils/dynamic-forms';
+import { useRouter } from 'next/router';
 // import { yupResolver } from '@hookform/resolvers/yup';
 
 export default function useCreateContract() {
   /* VARIABLE DECLERATION
   -------------------------------------------------------------------------------------*/
+  const router = useRouter();
   const [contractData, setContractData] = useState(mockContract);
   const [activeView, setActiveView] = useState<string>('create');
   const [openModalManageSignature, setOpenModalManageSignature] =
@@ -142,6 +144,7 @@ export default function useCreateContract() {
   };
 
   return {
+    router,
     contractData,
     activeView,
     handlePreviewToggle,

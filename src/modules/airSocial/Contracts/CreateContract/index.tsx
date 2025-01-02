@@ -20,9 +20,11 @@ import ModalConfirmationSignDoc from './components/ModalConfirmationSignDoc';
 import ModalPhoneNumber from './components/ModalPhoneNumber';
 import CreateContractSidebar from './CreateContractSidebar';
 import Preview from './Preview';
+import PDFCreateContract from './PDFCreateContract';
 
 export default function CreateContract() {
   const {
+    router,
     contractData,
     activeView,
     handlePreviewToggle,
@@ -73,112 +75,128 @@ export default function CreateContract() {
                   handleToggle={handlePreviewToggle}
                 />
               </Box>
-              {activeView === 'create' && (
-                <Grid container spacing={'30px'}>
-                  <Grid item xs={12} md={8}>
-                    <ContractTitle />
-                  </Grid>
-                  <Grid item xs={12} md={4}>
-                    <ContractLogo />
-                  </Grid>
-                  {/* Parties Card */}
-                  <Grid item xs={12}>
-                    <Box sx={styles?.headingBar}>
-                      <Box sx={styles?.headingBarTitle}>Parties</Box>
-                    </Box>
-                    <Grid container spacing={'30px'}>
-                      {contractData?.parties?.map((party, index) => (
-                        <Grid
-                          item
-                          xs={12}
-                          md={4}
-                          key={party?._id}
-                          sx={styles?.partyCardgridItem}
-                        >
-                          <PartyCard
-                            onDelete={() =>
-                              index !== 0 && handleDeleteParty(party?._id)
-                            }
+              {activeView === 'create' &&
+                (router?.query?.signPDF ? (
+                  <PDFCreateContract />
+                ) : (
+                  <Grid container spacing={'30px'}>
+                    <Grid item xs={12} md={8}>
+                      <ContractTitle />
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                      <ContractLogo />
+                    </Grid>
+                    {/* Parties Card */}
+                    <Grid item xs={12}>
+                      <Box sx={styles?.headingBar}>
+                        <Box sx={styles?.headingBarTitle}>Parties</Box>
+                      </Box>
+                      <Grid container spacing={'30px'}>
+                        {contractData?.parties?.map((party, index) => (
+                          <Grid
+                            item
+                            xs={12}
+                            md={4}
+                            key={party?._id}
+                            sx={styles?.partyCardgridItem}
+                          >
+                            <PartyCard
+                              onDelete={() =>
+                                index !== 0 && handleDeleteParty(party?._id)
+                              }
+                            />
+                          </Grid>
+                        ))}
+
+                        <Grid item xs={12} md={4}>
+                          <AddCard
+                            title={'Add Party'}
+                            onClick={handleAddParty}
                           />
                         </Grid>
-                      ))}
-
-                      <Grid item xs={12} md={4}>
-                        <AddCard title={'Add Party'} onClick={handleAddParty} />
                       </Grid>
                     </Grid>
-                  </Grid>
 
-                  {/* Signatures */}
-                  <Grid item xs={12}>
-                    <Box sx={styles?.headingBar}>
-                      <Box sx={styles?.headingBarTitle}>Signatures</Box>
-                    </Box>
-                    <Grid container spacing={'30px'}>
-                      {contractData?.signees?.map((signee: any, index: any) => (
-                        <Grid
-                          item
-                          xs={12}
-                          md={4}
-                          key={signee?._id}
-                          sx={styles?.partyCardgridItem}
-                        >
-                          <SigneeCard
-                            signeeId={signee?._id}
-                            onDelete={() =>
-                              index !== 0 && handleDeleteSigneeCard(signee?._id)
-                            }
+                    {/* Signatures */}
+                    <Grid item xs={12}>
+                      <Box sx={styles?.headingBar}>
+                        <Box sx={styles?.headingBarTitle}>Signatures</Box>
+                      </Box>
+                      <Grid container spacing={'30px'}>
+                        {contractData?.signees?.map(
+                          (signee: any, index: any) => (
+                            <Grid
+                              item
+                              xs={12}
+                              md={4}
+                              key={signee?._id}
+                              sx={styles?.partyCardgridItem}
+                            >
+                              <SigneeCard
+                                signeeId={signee?._id}
+                                onDelete={() =>
+                                  index !== 0 &&
+                                  handleDeleteSigneeCard(signee?._id)
+                                }
+                              />
+                            </Grid>
+                          ),
+                        )}
+
+                        <Grid item xs={12} md={4}>
+                          <AddCard
+                            title={'Add Signee'}
+                            onClick={handleAddSigneeCard}
                           />
                         </Grid>
-                      ))}
-
-                      <Grid item xs={12} md={4}>
-                        <AddCard
-                          title={'Add Signee'}
-                          onClick={handleAddSigneeCard}
-                        />
                       </Grid>
                     </Grid>
-                  </Grid>
 
-                  <Grid item xs={12}>
-                    <DefaultAttachment />
-                  </Grid>
+                    <Grid item xs={12}>
+                      <DefaultAttachment />
+                    </Grid>
 
-                  <Grid item xs={12}>
-                    <MessageToRecipient />
-                  </Grid>
+                    <Grid item xs={12}>
+                      <MessageToRecipient />
+                    </Grid>
 
-                  <Grid item xs={12}>
-                    <DefaultSignatures
-                      isIndividualSignature={isIndividualSignature}
-                      onChangeIndividualSignature={
-                        handleChangeIndividualSignature
-                      }
-                      signees={contractData?.signees}
-                      onClickChange={handleOpenModalManageSignature}
-                      setSelectedSigneeId={setSelectedSigneeId}
-                    />
-                  </Grid>
+                    <Grid item xs={12}>
+                      <DefaultSignatures
+                        isIndividualSignature={isIndividualSignature}
+                        onChangeIndividualSignature={
+                          handleChangeIndividualSignature
+                        }
+                        signees={contractData?.signees}
+                        onClickChange={handleOpenModalManageSignature}
+                        setSelectedSigneeId={setSelectedSigneeId}
+                      />
+                    </Grid>
 
-                  <Grid item xs={12}>
-                    <Button
-                      type={'submit'}
-                      variant={'contained'}
-                      className={'small'}
-                      fullWidth
-                      onClick={handleOpenModalConfirmationSignDoc}
-                    >
-                      Sign & Send
-                    </Button>
-                  </Grid>
+                    <Grid item xs={12}>
+                      <Button
+                        type={'submit'}
+                        variant={'contained'}
+                        className={'small'}
+                        fullWidth
+                        onClick={handleOpenModalConfirmationSignDoc}
+                      >
+                        Sign & Send
+                      </Button>
+                    </Grid>
 
-                  <Grid item xs={12}>
-                    <DocumentHistory />
+                    <Grid item xs={12}>
+                      <DocumentHistory />
+                    </Grid>
                   </Grid>
-                </Grid>
-              )}
-              {activeView === 'preview' && <Preview />}
+                ))}
+              {activeView === 'preview' &&
+                (router?.query?.signPDF ? (
+                  <Box sx={styles?.headingBar}>
+                    <Box sx={styles?.headingBarTitle}>Sign PDF</Box>
+                  </Box>
+                ) : (
+                  <Preview />
+                ))}
             </Box>
 
             <Box sx={styles?.sidebar}>
