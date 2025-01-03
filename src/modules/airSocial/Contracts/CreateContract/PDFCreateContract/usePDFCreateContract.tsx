@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { TextComponentI, signatureFieldI } from '@/modules/airSocial/Contracts/CreateContract/CreateContract.interface';
-
+import {
+  TextComponentI,
+  signatureFieldI,
+} from '@/modules/airSocial/Contracts/CreateContract/CreateContract.interface';
 
 export default function usePDFCreateContract() {
   // Add Text
@@ -15,9 +17,11 @@ export default function usePDFCreateContract() {
     };
 
     setTextComponents([...textComponents, newTextComponent]);
-  }
+  };
   const handleDeleteText = (id: string) => {
-    const newTextComponents = textComponents.filter((textComponent) => textComponent.id !== id);
+    const newTextComponents = textComponents.filter(
+      (textComponent) => textComponent.id !== id,
+    );
     setTextComponents(newTextComponents);
   };
 
@@ -41,10 +45,12 @@ export default function usePDFCreateContract() {
     };
 
     setSignatureFields([...signatureFields, newSignatureField]);
-  }
+  };
 
   const handleDeleteSignature = (id: string) => {
-    const newSignatureFields = signatureFields.filter((signatureField) => signatureField.id !== id);
+    const newSignatureFields = signatureFields.filter(
+      (signatureField) => signatureField.id !== id,
+    );
     setSignatureFields(newSignatureFields);
   };
 
@@ -59,6 +65,6 @@ export default function usePDFCreateContract() {
     handleClose,
     signatureFields,
     handleAddSignature,
-    handleDeleteSignature
-  }
+    handleDeleteSignature,
+  };
 }

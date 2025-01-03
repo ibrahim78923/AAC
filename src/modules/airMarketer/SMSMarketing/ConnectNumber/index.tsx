@@ -10,7 +10,6 @@ const ConnectNumber = ({ setIsConnected }: any) => {
   const {
     handleCloseDialogRegNumber,
     handleOpenDialogRegNumber,
-    handleAddRegNumSubmit,
     connectNumberLoading,
     openDialogRegNumber,
     handlePhoneChange,
@@ -72,7 +71,6 @@ const ConnectNumber = ({ setIsConnected }: any) => {
         <AddRegNumber
           open={openDialogRegNumber}
           onClose={handleCloseDialogRegNumber}
-          onSubmit={handleAddRegNumSubmit}
           onPhoneChange={handlePhoneChange}
           phoneValue={phoneNumber}
           setPhoneNumber={setPhoneNumber}

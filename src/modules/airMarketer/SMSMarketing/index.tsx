@@ -1,9 +1,9 @@
-import { Avatar, Box, Button, Stack, Typography } from '@mui/material';
+import { Box, Button, IconButton, Stack, Typography } from '@mui/material';
 import CommonTabs from '@/components/Tabs';
 import SMSDashboard from './SMSDashboard';
 import SMSBroadcast from './SMSBroadcast';
 import useSMSMarketing from './useSMSMarketing';
-import { PlusIcon } from '@/assets/icons';
+import { PlusIcon, SettingsIcon } from '@/assets/icons';
 import EditSmsIcon from '@/assets/icons/modules/airMarketer/SMSMarketing/edit-sms-icon';
 import ContactsSMSMarketing from './Contacts';
 import { AIR_MARKETER } from '@/routesConstants/paths';
@@ -15,11 +15,10 @@ import {
   AIR_MARKETER_SMS_MARKETING_PERMISSIONS,
 } from '@/constants/permission-keys';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
-import { getSession } from '@/utils';
-import { generateImage } from '@/utils/avatarUtils';
 import { indexNumbers } from '@/constants';
-import { capitalizeFirstLetter } from '@/utils/api';
 import { ACTIONS_TYPES } from '@/constants/strings';
+import NumberSelect from './NumberSelect';
+import { useRouter } from 'next/router';
 
 const SMSMarketing = () => {
   const {
@@ -30,10 +29,9 @@ const SMSMarketing = () => {
     isLoading,
     isConnected,
     setIsConnected,
-    getIsPhoneConnected,
   } = useSMSMarketing();
 
-  const { user }: any = getSession();
+  const router = useRouter();
 
   return (
     <>
@@ -56,62 +54,37 @@ const SMSMarketing = () => {
 
             {tabVal === indexNumbers?.ZERO && (
               <Stack direction={{ sm: 'row', xs: 'column' }} gap={1.5}>
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  gap={1}
-                  sx={{
-                    border: `1px solid ${theme?.palette?.grey[700]}`,
-                    padding: '7px 12px',
-                    borderRadius: '4px',
-                  }}
-                >
-                  <Avatar
-                    src={generateImage(user?.avatar?.url)}
-                    sx={{ color: theme?.palette?.grey[600] }}
+                <NumberSelect />
+
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  <PermissionsGuard
+                    permissions={[
+                      AIR_MARKETER_SMS_MARKETING_PERMISSIONS?.EDIT_SMS_BROADCAST,
+                    ]}
                   >
-                    {capitalizeFirstLetter(
-                      user?.firstName?.[indexNumbers?.ZERO],
-                    )}
-                    {capitalizeFirstLetter(
-                      user?.lastName?.[indexNumbers?.ZERO],
-                    )}
-                  </Avatar>
-                  <Box display="flex" flexDirection="column">
-                    <Typography
-                      color={theme?.palette?.grey[900]}
-                      variant="body3"
+                    <Box
+                      sx={{ cursor: 'pointer', height: '45px', width: '45px' }}
+                      onClick={() => {
+                        navigate.push({
+                          pathname: AIR_MARKETER?.CREATE_SMS_BROADCAST,
+                          query: { type: ACTIONS_TYPES?.ADD },
+                        });
+                      }}
                     >
-                      {capitalizeFirstLetter(user?.firstName)}{' '}
-                      {capitalizeFirstLetter(user?.lastName)}
-                    </Typography>
-                    <Typography
-                      variant="body3"
-                      fontWeight={500}
-                      color={theme?.palette?.custom?.main}
-                    >
-                      {getIsPhoneConnected &&
-                        getIsPhoneConnected?.data?.phoneNumber}
-                    </Typography>
-                  </Box>
+                      <EditSmsIcon size={45} />
+                    </Box>
+                  </PermissionsGuard>
+
+                  <IconButton
+                    onClick={() =>
+                      router.push(
+                        AIR_MARKETER?.SMS_MARKETING_INTEGRATION_CONFIG,
+                      )
+                    }
+                  >
+                    <SettingsIcon size={40} />
+                  </IconButton>
                 </Box>
-                <PermissionsGuard
-                  permissions={[
-                    AIR_MARKETER_SMS_MARKETING_PERMISSIONS?.EDIT_SMS_BROADCAST,
-                  ]}
-                >
-                  <Box
-                    sx={{ cursor: 'pointer' }}
-                    onClick={() => {
-                      navigate.push({
-                        pathname: AIR_MARKETER?.CREATE_SMS_BROADCAST,
-                        query: { type: ACTIONS_TYPES?.ADD },
-                      });
-                    }}
-                  >
-                    <EditSmsIcon />
-                  </Box>
-                </PermissionsGuard>
               </Stack>
             )}
             {tabVal === indexNumbers?.ONE && (

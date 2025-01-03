@@ -5,8 +5,8 @@ import {
   Box,
   Button,
   FormControlLabel,
-  Grid,
   IconButton,
+  Skeleton,
   Switch,
   Typography,
   useTheme,
@@ -22,34 +22,55 @@ import {
 } from '@/assets/icons';
 import { styles } from './integrationConfiguration.style';
 import TanstackTable from '@/components/Table/TanstackTable';
-import {
-  columns,
-  ConfigurationEditFormDataArray,
-  configurationEditFormDefaultValues,
-  configurationEditFormValidationSchema,
-  integrationConfigurationData,
-} from './integrationConfiguration.data';
+import { columns } from './integrationConfiguration.data';
 import Link from 'next/link';
 import { AIR_MARKETER } from '@/routesConstants/paths';
-import CommonDrawer from '@/components/CommonDrawer';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { FormProvider } from '@/components/ReactHookForm';
+import {
+  useDeleteTwilioConfigurationPhoneNumberMutation,
+  useGetTwilioConfigurationsQuery,
+} from '@/services/airMarketer/SmsMarketing/AddNewAccount';
+import { AlertModals } from '@/components/AlertModals';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const IntegrationConfiguration = () => {
   const theme = useTheme();
 
-  const [isEditDrawerOpen, setIsEditDrawerOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [activeId, setActiveId] = useState('');
 
-  const getRowValues = columns(theme, setIsEditDrawerOpen);
+  const { data, isLoading: isLoadingGetConfig } =
+    useGetTwilioConfigurationsQuery({
+      params: {
+        page: 1,
+        limit: 10,
+        meta: true,
+      },
+    });
 
-  const methods = useForm({
-    resolver: yupResolver(configurationEditFormValidationSchema),
-    defaultValues: configurationEditFormDefaultValues,
-  });
+  const getRowValues = columns(theme, setIsDeleteModalOpen, setActiveId);
 
-  const { handleSubmit } = methods;
-  const onSubmit = async () => {};
+  const [
+    deleteTwilioConfigurationPhoneNumber,
+    { isLoading: deleteTwilioConfigurationPhoneNumberLoading },
+  ] = useDeleteTwilioConfigurationPhoneNumberMutation();
+
+  const handleDeleteRecipient = async () => {
+    try {
+      await deleteTwilioConfigurationPhoneNumber({
+        smsPhoneNumberId: activeId,
+      })?.unwrap();
+      enqueueSnackbar(`Record deleted Successfully`, {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+      setActiveId('');
+      setIsDeleteModalOpen(false);
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message, {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
 
   return (
     <Box>
@@ -83,91 +104,91 @@ const IntegrationConfiguration = () => {
           </Button>
         </Link>
       </Box>
-
-      <Box sx={{ mt: 3 }}>
-        <Accordion defaultExpanded>
-          <AccordionSummary
-            expandIcon={<IconArrowRounded />}
-            aria-controls="panel1-content"
-            id="panel1-header"
-            sx={styles?.accordionSummary(theme)}
-          >
-            <Box sx={styles?.accordionSummaryInner()}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                <Box
-                  sx={{ display: 'flex', alignItems: 'center', gap: '15px' }}
+      {isLoadingGetConfig ? (
+        <>
+          <Skeleton variant="rounded" height={88} sx={{ mb: 1 }} />
+          <Skeleton variant="rounded" height={88} sx={{ mb: 1 }} />
+          <Skeleton variant="rounded" height={88} sx={{ mb: 1 }} />
+        </>
+      ) : (
+        <>
+          {data?.data?.twilioconfigurations?.map((item: any) => (
+            <Box sx={{ mt: 3 }} key={item?._id}>
+              <Accordion defaultExpanded>
+                <AccordionSummary
+                  expandIcon={<IconArrowRounded />}
+                  aria-controls="panel1-content"
+                  id="panel1-header"
+                  sx={styles?.accordionSummary(theme)}
                 >
-                  <Box sx={styles?.glowIcons(theme)}>
-                    <IconTwilio />
-                  </Box>
-                  <Typography variant="body2">user@mail.com</Typography>
-                </Box>
-                <Box sx={{ marginTop: '8px' }}>
-                  <IconConnect />
-                </Box>
-                <Box
-                  sx={{ display: 'flex', alignItems: 'center', gap: '15px' }}
-                >
-                  <Box sx={styles?.glowIcons(theme)}>
-                    <IconAirFP />
-                  </Box>
-                  <Typography variant="body2">user@mail.com</Typography>
-                </Box>
-              </Box>
+                  <Box sx={styles?.accordionSummaryInner()}>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '15px',
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '15px',
+                        }}
+                      >
+                        <Box sx={styles?.glowIcons(theme)}>
+                          <IconTwilio />
+                        </Box>
+                        <Typography variant="body2">{item?.name}</Typography>
+                      </Box>
+                      <Box sx={{ marginTop: '8px' }}>
+                        <IconConnect />
+                      </Box>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '15px',
+                        }}
+                      >
+                        <Box sx={styles?.glowIcons(theme)}>
+                          <IconAirFP />
+                        </Box>
+                        <Typography variant="body2">
+                          {item?.userDetails?.email}
+                        </Typography>
+                      </Box>
+                    </Box>
 
-              <Box>
-                <FormControlLabel
-                  control={<Switch defaultChecked size="small" />}
-                  label="Disconnect"
-                />
-              </Box>
+                    <Box>
+                      <FormControlLabel
+                        control={<Switch defaultChecked size="small" />}
+                        label="Disconnect"
+                      />
+                    </Box>
+                  </Box>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <TanstackTable
+                    columns={getRowValues}
+                    data={item?.phoneNumbers}
+                    isPagination={false}
+                  />
+                </AccordionDetails>
+              </Accordion>
             </Box>
-          </AccordionSummary>
-          <AccordionDetails>
-            <TanstackTable
-              columns={getRowValues}
-              data={integrationConfigurationData}
-              isPagination={false}
-            />
-          </AccordionDetails>
-        </Accordion>
-      </Box>
+          ))}
+        </>
+      )}
 
-      <CommonDrawer
-        footer
-        isDrawerOpen={isEditDrawerOpen}
-        onClose={() => setIsEditDrawerOpen(false)}
-        title="Edit Configuration"
-        okText="Add"
-        cancelText="cancel"
-        isOk
-        submitHandler={handleSubmit(onSubmit)}
-        cancelBtnHandler={() => setIsEditDrawerOpen(false)}
-      >
-        <Box mt={1}>
-          <FormProvider methods={methods}>
-            <Grid container spacing={1}>
-              {ConfigurationEditFormDataArray()?.map((item: any) => (
-                <Grid
-                  item
-                  xs={12}
-                  md={item?.md}
-                  key={item?.componentProps?.name}
-                >
-                  <item.component {...item?.componentProps} size={'small'}>
-                    {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
-                        <option key={option?.value} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))}
-                  </item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </Box>
-      </CommonDrawer>
+      <AlertModals
+        message={'Are you sure you want to delete this Record?'}
+        type={'delete'}
+        open={isDeleteModalOpen}
+        handleClose={() => setIsDeleteModalOpen(false)}
+        handleSubmitBtn={handleDeleteRecipient}
+        loading={deleteTwilioConfigurationPhoneNumberLoading}
+      />
     </Box>
   );
 };

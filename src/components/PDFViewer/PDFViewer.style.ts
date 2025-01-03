@@ -1,4 +1,3 @@
-
 export const styles = {
   pdfViewer: {
     position: 'relative',
@@ -10,5 +9,5 @@ export const styles = {
       display: 'flex',
       justifyContent: 'center',
     },
-  }
-}
+  },
+};

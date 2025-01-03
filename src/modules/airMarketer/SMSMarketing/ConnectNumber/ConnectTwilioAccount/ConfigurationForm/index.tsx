@@ -52,7 +52,11 @@ const ConfigurationForm = ({ setIsAddConfiguration }: any) => {
           gap: '15px',
         }}
       >
-        <Button variant="outlined" color="inherit">
+        <Button
+          variant="outlined"
+          color="inherit"
+          onClick={() => setIsAddConfiguration(false)}
+        >
           Cancel
         </Button>
         <LoadingButton

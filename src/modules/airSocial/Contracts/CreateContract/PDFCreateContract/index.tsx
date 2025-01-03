@@ -6,7 +6,7 @@ import {
   Grid,
   Menu,
   MenuItem,
-  Typography
+  Typography,
 } from '@mui/material';
 import { styles } from './PDFCreateContract.style';
 import { IconAddText, IconAddSignature } from '@/assets/icons';
@@ -27,7 +27,7 @@ export default function PDFCreateContract() {
     handleClose,
     signatureFields,
     handleAddSignature,
-    handleDeleteSignature
+    handleDeleteSignature,
   } = usePDFCreateContract();
 
   return (
@@ -67,7 +67,7 @@ export default function PDFCreateContract() {
             sx={{
               '& .MuiList-root.MuiMenu-list': {
                 minWidth: '220px',
-              }
+              },
             }}
           >
             {mockUsers.map((user) => (

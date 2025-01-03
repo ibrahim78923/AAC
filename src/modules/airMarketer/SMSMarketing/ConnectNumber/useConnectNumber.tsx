@@ -23,6 +23,8 @@ const useConnectNumber = (setIsConnected: any) => {
   };
 
   const [openDialogRegNumber, setOpenDialogRegNumber] = useState(false);
+  const [configValue, setConfigValue] = useState('');
+
   const [connectPhoneNumber, { isLoading: connectNumberLoading }] =
     useConnectPhoneNumberForSmsMarketingMutation();
 
@@ -34,10 +36,10 @@ const useConnectNumber = (setIsConnected: any) => {
     setOpenDialogRegNumber(false);
   };
 
-  const handleAddRegNumSubmit = async () => {
+  const handleAddRegNumSubmit = async (phoneValue: any, config: any) => {
     try {
       await connectPhoneNumber({
-        body: { phoneNumber: phoneNumber },
+        body: { phoneNumber: phoneValue, configurationId: config },
       })?.unwrap();
       setIsConnected(true);
       setOpenDialogRegNumber(false);
@@ -64,6 +66,8 @@ const useConnectNumber = (setIsConnected: any) => {
     handleOpenDialogRegNumber,
     handleCloseDialogRegNumber,
     setPhoneNumber,
+    setConfigValue,
+    configValue,
   };
 };
 

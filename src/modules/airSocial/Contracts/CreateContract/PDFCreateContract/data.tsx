@@ -11,4 +11,4 @@ export const mockUsers = [
     role: 'Developer',
     company: 'Orcalo',
   },
-]
+];

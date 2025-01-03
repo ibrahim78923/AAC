@@ -1,22 +1,20 @@
-import { useState } from 'react'
+import { useState } from 'react';
 
 export default function usePDFViewer() {
   const [totalPages, settotalPages] = useState(0);
   const [pageNumber, setpageNumber] = useState(1);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
 
-
   function onDocLoad(event: { numPages: number }) {
-    console.log("Pdf loaded: ", event.numPages);
     settotalPages(event.numPages);
   }
 
-  const changePage = (param: "prev" | "next") => {
-    if (param === "prev") {
+  const changePage = (param: 'prev' | 'next') => {
+    if (param === 'prev') {
       setpageNumber((prev) => prev - 1);
     }
 
-    if (param === "next") {
+    if (param === 'next') {
       setpageNumber((prev) => prev + 1);
     }
   };
@@ -24,8 +22,8 @@ export default function usePDFViewer() {
   const readFileAsDataURL = (file: File | string) => {
     if (typeof file === 'string') {
       fetch(file)
-        .then(response => response.blob())
-        .then(blob => {
+        .then((response) => response.blob())
+        .then((blob) => {
           const reader = new FileReader();
           reader.onload = (e) => {
             if (e.target && e.target.result) {
@@ -56,5 +54,5 @@ export default function usePDFViewer() {
     changePage,
     readFileAsDataURL,
     fileUrl,
-  }
+  };
 }

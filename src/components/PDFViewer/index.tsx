@@ -1,14 +1,17 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { Box } from '@mui/material';
 import { Document, Page, pdfjs } from 'react-pdf';
-import SignatureCanvas from 'react-signature-canvas';
-import { PDFDocument } from 'pdf-lib';
+// import { PDFDocument } from 'pdf-lib';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 import { styles } from './PDFViewer.style';
 import PdfAddText from '@/modules/airSocial/Contracts/CreateContract/components/PdfAddText';
-import { TextComponentI, signatureFieldI } from '@/modules/airSocial/Contracts/CreateContract/CreateContract.interface';
+import {
+  TextComponentI,
+  signatureFieldI,
+} from '@/modules/airSocial/Contracts/CreateContract/CreateContract.interface';
 import PdfAddSignature from '@/modules/airSocial/Contracts/CreateContract/components/PdfAddSignature';
+import { v4 as uuidv4 } from 'uuid';
 
 pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.js';
 
@@ -20,9 +23,15 @@ type PDFEditorProps = {
   onClickSignatureDelete?: (id: string) => void;
 };
 
-export default function PDFViewer({ pdfFile, addTextComponent, addSignatureFields, onClickTextDelete = () => { }, onClickSignatureDelete = () => { } }: PDFEditorProps) {
+export default function PDFViewer({
+  pdfFile,
+  addTextComponent,
+  addSignatureFields,
+  onClickTextDelete = () => {},
+  onClickSignatureDelete = () => {},
+}: PDFEditorProps) {
   const [numPages, setNumPages] = useState<number | null>(null);
-  const sigCanvasRef = useRef<SignatureCanvas | null>(null);
+  // const sigCanvasRef = useRef<SignatureCanvas | null>(null);
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
@@ -37,13 +46,20 @@ export default function PDFViewer({ pdfFile, addTextComponent, addSignatureField
       </Document>
 
       {addTextComponent?.map((item) => (
-        <PdfAddText data={item} onClickDelete={onClickTextDelete} />
+        <PdfAddText
+          data={item}
+          onClickDelete={onClickTextDelete}
+          key={uuidv4()}
+        />
       ))}
 
       {addSignatureFields?.map((item) => (
-        <PdfAddSignature data={item} onClickDelete={onClickSignatureDelete} />
+        <PdfAddSignature
+          data={item}
+          onClickDelete={onClickSignatureDelete}
+          key={uuidv4()}
+        />
       ))}
-
     </Box>
   );
 }

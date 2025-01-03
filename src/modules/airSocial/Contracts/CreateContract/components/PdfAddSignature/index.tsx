@@ -5,13 +5,15 @@ import { IconAddTextCopy, IconAddTextDelete } from '@/assets/icons';
 import CustomLabel from '@/components/CustomLabel';
 import { signatureFieldI } from '@/modules/airSocial/Contracts/CreateContract/CreateContract.interface';
 
-
 interface PdfAddSignProps {
   data: signatureFieldI;
   onClickDelete: (id: string) => void;
 }
 
-export default function PdfAddSignature({ data, onClickDelete }: PdfAddSignProps) {
+export default function PdfAddSignature({
+  data,
+  onClickDelete,
+}: PdfAddSignProps) {
   return (
     <Box
       key={data?.id}
@@ -29,13 +31,8 @@ export default function PdfAddSignature({ data, onClickDelete }: PdfAddSignProps
 
       <Box>
         <CustomLabel label={data?.name} />
-        <TextField
-          multiline
-          rows={2}
-          fullWidth
-          placeholder='Enter a text...'
-        />
+        <TextField multiline rows={2} fullWidth placeholder="Enter a text..." />
       </Box>
     </Box>
-  )
+  );
 }

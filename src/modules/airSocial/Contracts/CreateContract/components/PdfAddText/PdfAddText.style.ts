@@ -1,4 +1,4 @@
-import { Theme } from "@mui/material";
+import { Theme } from '@mui/material';
 
 export const styles = {
   container: (theme: Theme) => ({
@@ -13,5 +13,5 @@ export const styles = {
   addTextControls: {
     display: 'flex',
     justifyContent: 'flex-end',
-  }
-}
+  },
+};

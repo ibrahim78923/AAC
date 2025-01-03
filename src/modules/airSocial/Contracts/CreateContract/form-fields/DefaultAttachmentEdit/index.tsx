@@ -11,7 +11,10 @@ import {
   IconAttachmentTrash,
 } from '@/assets/icons';
 import PDFViewer from '@/components/PDFViewer';
-import { TextComponentI, signatureFieldI } from '@/modules/airSocial/Contracts/CreateContract/CreateContract.interface';
+import {
+  TextComponentI,
+  signatureFieldI,
+} from '@/modules/airSocial/Contracts/CreateContract/CreateContract.interface';
 
 interface DefaultAttachmentProps {
   addTextComponent: TextComponentI[];
@@ -20,15 +23,18 @@ interface DefaultAttachmentProps {
   onClickTextDelete?: (id: string) => void;
 }
 
-export default function DefaultAttachment({ addTextComponent, addSignatureFields, onClickSignatureDelete, onClickTextDelete }: DefaultAttachmentProps) {
+export default function DefaultAttachment({
+  addTextComponent,
+  addSignatureFields,
+  onClickSignatureDelete,
+  onClickTextDelete,
+}: DefaultAttachmentProps) {
   const { watch, setValue } = useFormContext();
   const defaultAttachment = watch('defaultAttachment');
 
   const handleReset = useCallback(() => {
     setValue('defaultAttachment', null);
   }, [setValue]);
-
-
 
   return (
     <>
@@ -77,7 +83,6 @@ export default function DefaultAttachment({ addTextComponent, addSignatureFields
               onClickSignatureDelete={onClickSignatureDelete}
             />
           </Box>
-
         </Box>
       )}
     </>

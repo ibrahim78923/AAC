@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import {
   Box,
   Button,
@@ -15,7 +15,6 @@ import {
   CircularProgress,
 } from '@mui/material';
 import { CloseModalIcon } from '@/assets/icons';
-import { AddRegNumberI } from './AddRegNumber.interface';
 import { styles } from './AddRegNumber.style';
 import { LoadingButton } from '@mui/lab';
 import Link from 'next/link';
@@ -25,17 +24,21 @@ import {
 } from '@/services/airMarketer/SmsMarketing/AddNewAccount';
 import { v4 as uuidv4 } from 'uuid';
 import { API_STATUS } from '@/constants';
+import useConnectNumber from '../useConnectNumber';
 
-const AddRegNumber: FC<AddRegNumberI> = ({
+const AddRegNumber: FC<any> = ({
   open,
   onClose,
-  onSubmit,
   onPhoneChange,
   phoneValue,
-  isLoading,
   setPhoneNumber,
 }) => {
-  const [configValue, setConfigValue] = useState('');
+  const {
+    configValue,
+    setConfigValue,
+    handleAddRegNumSubmit,
+    connectNumberLoading,
+  } = useConnectNumber({});
 
   const { data, isLoading: isLoadingGetConfig } =
     useGetTwilioConfigurationsQuery({
@@ -211,8 +214,8 @@ const AddRegNumber: FC<AddRegNumberI> = ({
         <LoadingButton
           className="small"
           variant="contained"
-          onClick={onSubmit}
-          loading={isLoading}
+          onClick={() => handleAddRegNumSubmit(phoneValue, configValue)}
+          loading={connectNumberLoading}
           disabled={phoneValue?.length < 1}
         >
           Continue
