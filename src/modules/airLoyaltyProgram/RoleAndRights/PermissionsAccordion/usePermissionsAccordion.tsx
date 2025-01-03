@@ -10,7 +10,7 @@ import {
 } from './PermissionsAccordion.interface';
 
 export const usePermissionsAccordion = (props: any) => {
-  const { reset, methods } = props;
+  const { reset, getValues, watch } = props;
   const theme = useTheme();
   const [isSettingPermission, setIsSettingPermission] =
     useState<IIsSettingPermissionState>({});
@@ -66,10 +66,11 @@ export const usePermissionsAccordion = (props: any) => {
       (subModule: IPermissionSubModule) =>
         subModule?.permissions?.map((item: IPermissionItem) => item?.slug),
     );
-    return slugs?.every((slug: string | any) => methods?.getValues()?.[slug]);
+    return slugs?.every((slug: string | any) => getValues()?.[slug]);
   };
 
-  methods?.watch(slugs);
+  watch(slugs);
+
   return {
     isError,
     isLoading,

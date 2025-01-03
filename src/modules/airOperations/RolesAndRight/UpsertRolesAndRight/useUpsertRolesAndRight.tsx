@@ -1,11 +1,9 @@
 import { useRouter } from 'next/router';
-import { useForm, UseFormReturn } from 'react-hook-form';
 import {
   upsertRolesAndRightDefaultValues,
   upsertRolesAndRightFormFieldsDynamic,
   upsertRolesAndRightValidationSchema,
 } from './UpsertRolesAndRight.data';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useMemo } from 'react';
 import useAuth from '@/hooks/useAuth';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
@@ -25,6 +23,7 @@ import {
 } from './UpsertRolesAndRight.interface';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { getActiveAccountSession } from '@/utils';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertRolesAndRight = () => {
   const router = useRouter();
@@ -34,13 +33,14 @@ export const useUpsertRolesAndRight = () => {
   const organizationCompanyAccountId = product?.company?._id;
   const { _id: productId } = auth?.product;
   const { _id: organizationId } = auth?.user?.organization;
-  const methods: UseFormReturn<IUpsertRolesAndRightFormData> =
-    useForm<IUpsertRolesAndRightFormData>({
-      defaultValues: upsertRolesAndRightDefaultValues(),
-      resolver: yupResolver(upsertRolesAndRightValidationSchema),
-    });
 
-  const { handleSubmit, reset } = methods;
+  const formLibProps = {
+    validationSchema: upsertRolesAndRightValidationSchema,
+    defaultValues: upsertRolesAndRightDefaultValues(),
+  };
+
+  const { handleSubmit, reset, methods, getValues, watch } =
+    useFormLib(formLibProps);
 
   const upsertRolesAndRightFormFields = upsertRolesAndRightFormFieldsDynamic();
   const {
@@ -136,6 +136,8 @@ export const useUpsertRolesAndRight = () => {
   const permissionAccordionsProps = {
     reset,
     methods,
+    getValues,
+    watch,
   };
 
   return {

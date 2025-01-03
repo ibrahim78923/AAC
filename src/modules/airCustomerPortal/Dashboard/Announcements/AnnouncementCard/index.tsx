@@ -1,8 +1,9 @@
-import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { formatTimeDifference } from '@/lib/date-time';
-import { Avatar, Box, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { AnnouncementCardPropsI } from '../Announcements.interface';
 import { TruncateText } from '@/components/TruncateText';
+import { UserInfo } from '@/components/UserInfo';
 
 export const AnnouncementCard = (props: AnnouncementCardPropsI) => {
   const { data, index } = props;
@@ -23,28 +24,14 @@ export const AnnouncementCard = (props: AnnouncementCardPropsI) => {
         gap={1}
       >
         <TruncateText text={data?.title?.toLowerCase()} />
-
-        <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
-          <Avatar
-            src={generateImage(data?.createdBy?.avatar?.url)}
-            alt=""
-            sx={{
-              width: 28,
-              height: 28,
-              backgroundColor: 'primary.main',
-            }}
-          >
-            <Typography variant="body2" textTransform={'uppercase'}>
-              {fullNameInitial(
-                data?.createdBy?.firstName,
-                data?.createdBy?.lastName,
-              )}
-            </Typography>
-          </Avatar>
-          <Typography variant="body3" color={'blue.main'} fontWeight={500}>
-            {fullName(data?.createdBy?.firstName, data?.createdBy?.lastName)}
-          </Typography>
-        </Box>
+        <UserInfo
+          nameInitial={fullNameInitial(
+            data?.createdBy?.firstName,
+            data?.createdBy?.lastName,
+          )}
+          name={fullName(data?.createdBy?.firstName, data?.createdBy?.lastName)}
+          avatarSrc={data?.createdBy?.avatar?.url}
+        />
       </Box>
       <Typography color={'grey.900'} fontSize={'0.75rem'} mt={1}>
         {formatTimeDifference(data?.createdAt)}

@@ -29,9 +29,8 @@ export default function useUpsertRoles() {
     defaultValues: upsertRolesDefaultValues(),
   };
 
-  const { handleSubmit, reset, setValue, methods } = useFormLib(
-    upsertRolesMethodProps,
-  );
+  const { handleSubmit, reset, setValue, methods, getValues, watch } =
+    useFormLib(upsertRolesMethodProps);
 
   const {
     data: getRolesData,
@@ -117,6 +116,8 @@ export default function useUpsertRoles() {
     reset,
     setValue,
     methods,
+    getValues,
+    watch,
   };
 
   return {

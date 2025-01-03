@@ -4,7 +4,7 @@ import { useTheme } from '@mui/material';
 import { useMemo, useState } from 'react';
 
 const usePermissionsAccordion = (props: any) => {
-  const { reset, methods } = props;
+  const { reset, getValues, watch } = props;
   const theme: any = useTheme();
   const [isSettingPermission, setIsSettingPermission] = useState<{
     [key: string]: any;
@@ -55,10 +55,10 @@ const usePermissionsAccordion = (props: any) => {
       (subModule: any) =>
         subModule?.permissions?.map((item: any) => item?.slug),
     );
-    return slugs?.every((slug: any) => methods?.getValues()?.[slug]);
+    return slugs?.every((slug: any) => getValues()?.[slug]);
   };
 
-  methods?.watch(slugs);
+  watch(slugs);
 
   return {
     isError,
