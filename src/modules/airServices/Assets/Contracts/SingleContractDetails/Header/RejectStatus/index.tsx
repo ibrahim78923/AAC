@@ -1,16 +1,6 @@
 import { useRejectStatus } from './useRejectStatus';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
-import {
-  Box,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Typography,
-} from '@mui/material';
-import { LoadingButton } from '@mui/lab';
-import { Close } from '@mui/icons-material';
+import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 
 export const RejectStatus = (props: any) => {
   const {
@@ -21,54 +11,26 @@ export const RejectStatus = (props: any) => {
     methods,
     patchContractRejectStatus,
   } = useRejectStatus(props);
-  return (
-    <Dialog open={open} onClose={handleClose} maxWidth={'sm'} fullWidth>
-      <DialogTitle>
-        <Box
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'space-between'}
-          gap={1}
-          mb={-1.5}
-          flexWrap={'wrap'}
-        >
-          <Typography variant="h4">Rejected</Typography>
-          <IconButton onClick={handleClose}>
-            <Close sx={{ color: 'custom.darker' }} />
-          </IconButton>
-        </Box>
-      </DialogTitle>
 
-      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <DialogContent>
-          <RHFTextField
-            multiline
-            rows={3}
-            name="reason"
-            label="Reason For Rejection"
-            required
-          />
-        </DialogContent>
-        <DialogActions sx={{ paddingTop: `0rem !important` }}>
-          <LoadingButton
-            className="small"
-            variant="outlined"
-            color="inherit"
-            onClick={handleClose}
-            disabled={patchContractRejectStatus?.isLoading}
-          >
-            Cancel
-          </LoadingButton>
-          <LoadingButton
-            className="small"
-            loading={patchContractRejectStatus?.isLoading}
-            variant="contained"
-            type="submit"
-          >
-            Submit
-          </LoadingButton>
-        </DialogActions>
+  return (
+    <CustomCommonDialog
+      isPortalOpen={open}
+      closePortal={handleClose}
+      dialogTitle="Rejected"
+      submitButtonText=" Submit"
+      showSubmitLoader={patchContractRejectStatus?.isLoading}
+      disabledCancelButton={patchContractRejectStatus?.isLoading}
+      handleSubmitButton={handleSubmit(onSubmit)}
+    >
+      <FormProvider methods={methods}>
+        <RHFTextField
+          multiline
+          rows={3}
+          name="reason"
+          label="Reason For Rejection"
+          required
+        />
       </FormProvider>
-    </Dialog>
+    </CustomCommonDialog>
   );
 };

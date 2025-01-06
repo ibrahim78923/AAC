@@ -82,7 +82,9 @@ export const Header = (props: any) => {
           <SingleDropdownButton dropdownOptions={dropdownOptions} />
         </Box>
       </Box>
-      <RejectStatus open={open} handleClose={handleClose} data={data} />
+      {open && (
+        <RejectStatus open={open} handleClose={handleClose} data={data} />
+      )}
     </>
   );
 };

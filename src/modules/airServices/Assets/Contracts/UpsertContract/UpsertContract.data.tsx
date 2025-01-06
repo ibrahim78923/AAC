@@ -28,7 +28,7 @@ import { localeDateTime } from '@/lib/date-time';
 export const CONTRACT_TYPES_CHECK = {
   LEASE: 'lease',
   MAINTENANCE: 'maintenance',
-  SOFTWARE_LICENSE: 'software licences',
+  SOFTWARE_LICENSE: 'software_licence',
   WARRANTY: 'warranty',
 };
 

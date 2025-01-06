@@ -175,6 +175,11 @@ export const useUpsertDepartment = (props: any) => {
     reset();
   };
 
+  const apiCallInProgress =
+    postDepartmentStatus?.isLoading ||
+    updateDepartmentStatus?.isLoading ||
+    postAttachmentStatus?.isLoading;
+
   return {
     handleClose,
     handleSubmit,
@@ -186,5 +191,6 @@ export const useUpsertDepartment = (props: any) => {
     form,
     getDynamicFieldsStatus,
     postAttachmentStatus,
+    apiCallInProgress,
   };
 };

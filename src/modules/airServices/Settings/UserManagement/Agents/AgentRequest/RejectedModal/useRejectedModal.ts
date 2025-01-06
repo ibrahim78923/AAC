@@ -19,7 +19,7 @@ export const useRejectedModal = (props: IAgentsProps) => {
     defaultValues: defaultValuesRejectedModal,
   };
 
-  const { methods } = useFormLib(rejectedRequestMethodProps);
+  const { methods, handleSubmit } = useFormLib(rejectedRequestMethodProps);
 
   const [patchRejectRequestTrigger, patchRejectRequestStatus] =
     usePatchRejectRequestMutation();
@@ -49,5 +49,6 @@ export const useRejectedModal = (props: IAgentsProps) => {
     onSubmit,
     methods,
     patchRejectRequestStatus,
+    handleSubmit,
   };
 };

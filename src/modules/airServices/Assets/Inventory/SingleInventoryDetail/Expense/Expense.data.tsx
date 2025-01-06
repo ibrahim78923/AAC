@@ -1,80 +1,19 @@
-import * as yup from 'yup';
 import { Checkbox, Typography } from '@mui/material';
-import {
-  RHFAutocomplete,
-  RHFDatePicker,
-  RHFTextField,
-} from '@/components/ReactHookForm';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { ARRAY_INDEX, EXPENSE_TYPE } from '@/constants/strings';
-import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
+import { EXPENSE_TYPE } from '@/constants/strings';
 import { ExpenseI } from './Expense.interface';
-import { localeDateTime, otherDateFormat } from '@/lib/date-time';
+import { otherDateFormat } from '@/lib/date-time';
 import { CALENDAR_FORMAT } from '@/constants';
+
+export const EXPENSE_PORTAL_ACTIONS = {
+  ADD_EXPENSE: 'Add New Expense',
+  EDIT_EXPENSE: 'Update Expense',
+  DELETE_EXPENSE: 'delete',
+};
 
 export const expenseTypeDropdown = [
   EXPENSE_TYPE?.PURCHASE,
   EXPENSE_TYPE?.MAINTENANCE,
-];
-
-export const addExpenseValidationSchema: any = yup?.object()?.shape({
-  type: yup?.string()?.required('Type is Required!'),
-  cost: yup
-    ?.number()
-    ?.positive('Must be above 0')
-    ?.typeError('Must be a Number')
-    ?.nullable()
-    ?.required('Cost is Required!'),
-  date: yup?.date(),
-});
-
-export const addExpenseDefaultValues = (selectedExpenseList: ExpenseI[]) => {
-  const expenseUpdateData = selectedExpenseList[ARRAY_INDEX?.ZERO];
-
-  return {
-    type: expenseUpdateData?.type ?? '',
-    cost: expenseUpdateData?.cost ?? null,
-    date: expenseUpdateData?.date
-      ? localeDateTime(expenseUpdateData?.date)
-      : new Date(),
-  };
-};
-
-export const addExpenseFormData = [
-  {
-    id: 129,
-    componentProps: {
-      name: 'type',
-      label: 'Expense Type',
-      placeholder: 'Expense Type',
-      options: expenseTypeDropdown,
-      required: true,
-      isOptionEqualToValue: (option: any, newValue: any) => option === newValue,
-    },
-    gridLength: 12,
-    component: RHFAutocomplete,
-  },
-  {
-    id: 100,
-    componentProps: {
-      name: 'cost',
-      placeholder: 'Cost',
-      label: 'Cost (£)',
-      required: true,
-    },
-    gridLength: 12,
-    component: RHFTextField,
-  },
-  {
-    id: 97,
-    componentProps: {
-      fullWidth: true,
-      name: 'date',
-      label: 'Date',
-    },
-    gridLength: 12,
-    component: RHFDatePicker,
-  },
 ];
 
 export const addExpenseColumnsFunction = (
@@ -94,21 +33,17 @@ export const addExpenseColumnsFunction = (
             (item: any) => item?._id === info?.getValue(),
           )
         }
-        onChange={(e) => {
-          if (e?.target?.checked) {
-            const foundItem = expenseData?.find(
-              (item) => item?._id === info?.getValue(),
-            );
-            if (foundItem) {
-              setSelectedExpenseList([...selectedExpenseList, foundItem]);
-            }
-          } else {
-            setSelectedExpenseList(
-              selectedExpenseList?.filter(
-                (item) => item?._id !== info?.getValue(),
-              ),
-            );
-          }
+        onChange={(e: any) => {
+          e?.target?.checked
+            ? setSelectedExpenseList([
+                ...selectedExpenseList,
+                info?.row?.original,
+              ])
+            : setSelectedExpenseList(
+                selectedExpenseList?.filter(
+                  (item: any) => item?._id !== info?.getValue(),
+                ),
+              );
         }}
         color="primary"
         name={info?.getValue()}
@@ -161,28 +96,5 @@ export const addExpenseColumnsFunction = (
       info?.getValue()
         ? otherDateFormat(info?.getValue(), CALENDAR_FORMAT?.UI)
         : '---',
-  },
-];
-
-export const expenseActionsDropdownFunction = (
-  handleActionClick: (value: string) => void,
-) => [
-  {
-    id: 1,
-    title: 'Edit',
-    permissionKey: [AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.EDIT_EXPENSE],
-    handleClick: (close: () => void) => {
-      handleActionClick('edit');
-      close?.();
-    },
-  },
-  {
-    id: 2,
-    title: 'Delete',
-    permissionKey: [AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.DELETE_EXPENSE],
-    handleClick: (close: () => void) => {
-      handleActionClick?.('delete');
-      close?.();
-    },
   },
 ];

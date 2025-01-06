@@ -1,31 +1,21 @@
 import { AlertModals } from '@/components/AlertModals';
+import { useDeleteExpense } from './useDeleteExpense';
 
-export const DeleteExpense = ({
-  deleteExpenseProps,
-}: {
-  deleteExpenseProps: {
-    isDeleteExpenseModalOpen: boolean;
-    setIsDeleteExpenseModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    handleDelete: () => void;
-    deleteLoading: boolean;
-  };
-}) => {
-  const {
-    isDeleteExpenseModalOpen,
-    setIsDeleteExpenseModalOpen,
-    handleDelete,
-    deleteLoading,
-  } = deleteExpenseProps;
+export const DeleteExpense = (props: any) => {
+  const { isPortalOpen } = props;
+
+  const { apiCallInProgress, handleDelete, closeModal } =
+    useDeleteExpense(props);
 
   return (
     <AlertModals
       type="delete"
-      open={isDeleteExpenseModalOpen}
-      handleClose={() => setIsDeleteExpenseModalOpen?.(false)}
+      open={isPortalOpen?.isOpen}
+      handleClose={closeModal}
       handleSubmitBtn={handleDelete}
       message="Are you sure want to delete this record?"
-      loading={deleteLoading}
-      disableCancelBtn={deleteLoading}
+      loading={apiCallInProgress}
+      disableCancelBtn={apiCallInProgress}
     />
   );
 };
