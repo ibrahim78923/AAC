@@ -10,6 +10,7 @@ import { quotesColumns } from './Quotes.data';
 import { styles } from './Quotes.style';
 import { useEffect } from 'react';
 import useCustomizeColumn from './CustomizeColumns/useCustomizeColumn';
+import ExportModal from './ExportModal';
 
 const Quotes = () => {
   const {
@@ -42,6 +43,9 @@ const Quotes = () => {
     handleDeleteQoute,
     loadingDeleteQuote,
     fetchingQuotesList,
+    handleOpenModalExport,
+    handleCloseModalExport,
+    openModalExport,
   } = useQuotes();
 
   const { activeColumns } = useCustomizeColumn({});
@@ -72,6 +76,7 @@ const Quotes = () => {
           handleOpenDeleteQuote={handleOpenDeleteQuote}
           isActionsDisabled={isActionsDisabled}
           rowId={rowId}
+          onClickExport={handleOpenModalExport}
         />
 
         <TanstackTable
@@ -115,6 +120,8 @@ const Quotes = () => {
           loading={loadingDeleteQuote}
         />
       )}
+
+      <ExportModal open={openModalExport} onClose={handleCloseModalExport} />
     </>
   );
 };

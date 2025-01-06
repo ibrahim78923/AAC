@@ -3,8 +3,6 @@ import {
   upsertServiceDefaultValues,
   upsertServiceValidationSchema,
 } from './UpsertServices.data';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants/routes';
 import {
@@ -15,17 +13,19 @@ import { useEffect } from 'react';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { SERVICE_CATALOG_STATUSES } from '@/constants/strings';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertServices = () => {
   const router = useRouter();
   const { serviceId, categoryId } = router?.query;
 
-  const methods = useForm({
-    resolver: yupResolver(upsertServiceValidationSchema),
+  const formLibProps = {
+    validationSchema: upsertServiceValidationSchema,
     defaultValues: upsertServiceDefaultValues?.(),
-  });
+  };
 
-  const { handleSubmit, watch, reset, setValue } = methods;
+  const { handleSubmit, watch, reset, setValue, methods } =
+    useFormLib(formLibProps);
 
   const categoryTypeWatch = watch('categoryType');
 

@@ -1,4 +1,3 @@
-import { useForm } from 'react-hook-form';
 import { closureRuleDefaultValues } from './ClosureRule.data';
 import {
   closeIncidentDataArray,
@@ -15,6 +14,7 @@ import {
   usePostAirServicesSettingsServiceClosureRuleMutation,
 } from '@/services/airServices/settings/service-management/closureRule';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useClosureRule = () => {
   const router = useRouter();
@@ -34,11 +34,12 @@ export const useClosureRule = () => {
     [],
   );
 
-  const closureRuleMethods = useForm({
+  const formLibProps = {
     defaultValues: closureRuleDefaultValues(data?.data, ticket),
-  });
+  };
 
-  const { handleSubmit, reset, watch, setValue } = closureRuleMethods;
+  const { handleSubmit, reset, methods, watch, setValue, getValues } =
+    useFormLib(formLibProps);
 
   useEffect(() => {
     reset(() => closureRuleDefaultValues(data?.data, ticket));
@@ -70,7 +71,7 @@ export const useClosureRule = () => {
 
   useEffect(() => {
     if (closeIncident) {
-      if (!closureRuleMethods.getValues('closeIncidentClosedResolved')) {
+      if (!getValues('closeIncidentClosedResolved')) {
         setValue('closeIncidentClosedResolved', 'IncidentCloseClosed');
       }
     } else {
@@ -78,7 +79,7 @@ export const useClosureRule = () => {
     }
 
     if (resolveIncident) {
-      if (!closureRuleMethods.getValues('resolveIncidentClosedResolved')) {
+      if (!getValues('resolveIncidentClosedResolved')) {
         setValue('resolveIncidentClosedResolved', 'IncidentResolveClosed');
       }
     } else {
@@ -86,7 +87,7 @@ export const useClosureRule = () => {
     }
 
     if (serviceClose) {
-      if (!closureRuleMethods.getValues('serviceCloseClosedResolved')) {
+      if (!getValues('serviceCloseClosedResolved')) {
         setValue('serviceCloseClosedResolved', 'ServiceResolveClosed');
       }
     } else {
@@ -94,7 +95,7 @@ export const useClosureRule = () => {
     }
 
     if (serviceResolve) {
-      if (!closureRuleMethods.getValues('serviceResolveClosedResolved')) {
+      if (!getValues('serviceResolveClosedResolved')) {
         setValue('serviceResolveClosedResolved', 'ServiceCloseClosed');
       }
     } else {
@@ -106,7 +107,7 @@ export const useClosureRule = () => {
     serviceClose,
     serviceResolve,
     setValue,
-    closureRuleMethods,
+    methods,
   ]);
 
   const [postClosureRuleTrigger, postClosureRuleProgress] =
@@ -191,7 +192,7 @@ export const useClosureRule = () => {
   }, [handleBack, reset]);
 
   return {
-    closureRuleMethods,
+    methods,
     closeIncidentData,
     resolveIncidentData,
     serviceCloseData,

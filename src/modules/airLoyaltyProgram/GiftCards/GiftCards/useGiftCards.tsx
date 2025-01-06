@@ -50,7 +50,9 @@ export const useGiftCards = () => {
   };
 
   const { data, isFetching, isLoading, isError, isSuccess, refetch } =
-    useGetGiftCardListQuery(giftCardParams);
+    useGetGiftCardListQuery<any>(giftCardParams, {
+      refetchOnMountOrArgChange: true,
+    });
 
   const handleRefetchList = async () => {
     await refetch();

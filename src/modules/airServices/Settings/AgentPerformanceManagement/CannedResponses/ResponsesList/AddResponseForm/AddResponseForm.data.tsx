@@ -69,10 +69,10 @@ export const addResponseDataArray = (
   },
   {
     id: 3,
+    avatarGroup: true,
     componentProps: {
       name: 'availableFor',
       label: 'Available for:',
-      avatarGroup: true,
       options: availableForOptions,
       required: true,
       onClick: (e: any) => {

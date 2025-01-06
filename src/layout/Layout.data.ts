@@ -47,6 +47,7 @@ import {
   EnquiriesImage,
   SignupLeadsImage,
   ConsumerImage,
+  ContractsImage,
 } from '@/assets/images';
 import { PROFILE_DROPDOWNS, Quick_Links_Routes } from '@/constants';
 import {
@@ -179,7 +180,13 @@ export const ServicesRoutes: any = [
     label: 'Assets',
     icon: AssetsImage,
     role: 'SERVICE',
-    permissions: Permissions?.AIR_SERVICES_ASSETS,
+    permissions: [
+      ...Permissions?.AIR_SERVICES_ASSETS,
+      ...Permissions?.AIR_SERVICES_ASSETS_INVENTORY,
+      ...Permissions?.AIR_SERVICES_ASSETS_SOFTWARE,
+      ...Permissions?.AIR_SERVICES_ASSETS_CONTRACTS_LIST_VIEW,
+      ...Permissions?.AIR_SERVICES_ASSETS_PURCHASE_ORDER_LIST_VIEW,
+    ],
     textNames: [
       {
         key: AIR_SERVICES?.ASSETS_INVENTORY,
@@ -274,7 +281,13 @@ export const LoyaltyProgramsRoutes: any = [
     label: 'Loyalty',
     icon: LoyaltyImage,
     role: 'Loyalty-Program',
-    permissions: Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY,
+    permissions: [
+      ...Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY,
+      ...Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS,
+      ...Permissions?.AIR_LOYALTY_PROGRAM_VOUCHERS,
+      ...Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS,
+      ...Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_TRANSACTIONS,
+    ],
     textNames: [
       {
         key: AIR_LOYALTY_PROGRAM?.REWARDS,
@@ -303,7 +316,11 @@ export const LoyaltyProgramsRoutes: any = [
     label: 'Gift cards',
     icon: GiftCardImage,
     role: 'Loyalty-Program',
-    permissions: Permissions?.AIR_LOYALTY_PROGRAM_GIFT_CARDS,
+    permissions: [
+      ...Permissions?.AIR_LOYALTY_PROGRAM_GIFT_CARDS,
+      ...Permissions?.AIR_LOYALTY_PROGRAM_GIFT_CARDS_GIFT_CARD,
+      ...Permissions?.AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS,
+    ],
     textNames: [
       {
         key: AIR_LOYALTY_PROGRAM?.GIFT_CARDS,
@@ -346,8 +363,13 @@ export const AirMarketingRoutes: any = [
     label: 'Email Marketing',
     icon: EmailMarketingImage,
     role: 'AIR_MARKETER',
-    permissions:
-      Permissions?.AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS,
+    permissions: [
+      ...Permissions?.AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS,
+      ...Permissions?.AIR_MARKETER_EMAIL_MARKETING_EMAIL_TEMPLATES_PERMISSIONS,
+      ...Permissions?.AIR_MARKETER_EMAIL_MARKETING_EMAIL_FOLDERS_PERMISSIONS,
+      ...Permissions?.AIR_MARKETER_EMAIL_MARKETING_EMAIL_TEMPLATES_PERMISSIONS,
+      ...Permissions?.AIR_MARKETER_EMAIL_MARKETING_EMAIL_REPORTS_PERMISSIONS,
+    ],
     textNames: [
       {
         key: AIR_MARKETER?.EMAIL_TEMPLATES,
@@ -381,12 +403,13 @@ export const AirMarketingRoutes: any = [
     label: 'Social Marketing',
     icon: SocialMarketingImage,
     role: 'AIR_MARKETER',
-    permissions:
-      Permissions?.AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS,
+    permissions: [
+      ...Permissions?.AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS,
+    ],
     textNames: [
       {
         key: AIR_MARKETER?.SOCIAL_INBOX,
-        label: 'SociaL Inbox',
+        label: 'Social Inbox',
         permissions:
           Permissions?.AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS,
       },
@@ -424,7 +447,10 @@ export const AirMarketingRoutes: any = [
     label: 'Lead Capture',
     icon: LeadCaptureImage,
     role: 'AIR_MARKETER',
-    permissions: Permissions?.AIR_MARKETER_LEAD_CAPTURE,
+    permissions: [
+      ...Permissions?.AIR_MARKETER_LEAD_CAPTURE,
+      ...Permissions?.AIR_MARKETER_LEAD_CAPTURE_FORM,
+    ],
     textNames: [
       {
         key: AIR_MARKETER?.LEAD_CAPTURE_CTA,
@@ -578,7 +604,16 @@ export const LowerSuperAdminRoutes = [
     icon: SettingImage,
     role: 'super-admin',
     key: '/super-admin/settings',
-    permissions: superAdminAllPermissionsSetting,
+    permissions: [
+      ...superAdminAllPermissionsSetting,
+      ...Permissions?.SETTING_FAQ,
+      ...Permissions?.SETTING_ENQUIRIES,
+      ...Permissions?.SETTING_TAX_CALCULATION,
+      ...Permissions?.SETTING_QUICK_LINKS,
+      ...Permissions?.SETTING_NEWS_EVENTS,
+      ...Permissions?.SETTING_PRODUCT_LIST,
+      ...Permissions?.SETTING_PRODUCT_FEATURES,
+    ],
     textNames: [
       {
         key: '/super-admin/settings/faqs',
@@ -846,6 +881,12 @@ export const QuickLinkData = [
     key: '7',
     icon: CompaniesImage,
     path: Quick_Links_Routes?.COMPANIES,
+    permissions: Permissions?.SOCIAL_COMPONENTS_COMPANIES,
+  },
+  {
+    key: '8',
+    icon: ContractsImage,
+    path: Quick_Links_Routes?.CONTRACTS,
     permissions: Permissions?.SOCIAL_COMPONENTS_COMPANIES,
   },
 ];

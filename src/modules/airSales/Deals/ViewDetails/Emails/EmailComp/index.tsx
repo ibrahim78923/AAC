@@ -220,9 +220,13 @@ const EmailComp = ({ moduleType, moduleId }: any) => {
         id: selectedObj?.id,
         from: selectedObj?.from?.emailAddress?.address,
         others: {
-          from: `${selectedObj?.from?.emailAddress?.name} ${'<'}
-         ${selectedObj?.from?.emailAddress?.address}
-         ${'>'}`,
+          from:
+            typeof selectedObj?.from === 'object'
+              ? `${
+                  selectedObj?.from?.emailAddress?.name ?? ''
+                } ${'<'}${selectedObj?.from?.emailAddress?.address}${'>'}`
+              : selectedObj?.from,
+
           sent: selectedObj?.createdDateTime,
           to: selectedObj?.toRecipients?.map(
             (item: any) => item?.emailAddress?.address,

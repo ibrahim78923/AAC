@@ -1,6 +1,4 @@
-import { useForm } from 'react-hook-form';
 import { awardFormDefaultValue, awardPointsSchema } from './AwardPoints.data';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
 import {
   useAddAirServicesSettingsLeaderBoardAwardPointsMutation,
@@ -11,6 +9,7 @@ import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { ARRAY_INDEX } from '@/constants/strings';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useAwardPoints = () => {
   const router = useRouter();
@@ -29,14 +28,14 @@ export const useAwardPoints = () => {
     palette?.warning?.main,
   ];
 
-  const awardPointsMethod: any = useForm<any>({
+  const formLibProps = {
+    validationSchema: awardPointsSchema,
     defaultValues: awardFormDefaultValue?.(),
-    resolver: yupResolver(awardPointsSchema),
-  });
+  };
 
-  const { reset } = awardPointsMethod;
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
 
-  const handleSubmit = async (values: any) => {
+  const submitAwardForm = async (values: any) => {
     try {
       await addAwardPointsTrigger(values)?.unwrap();
       successSnackbar('Award points added successfully!');
@@ -51,12 +50,13 @@ export const useAwardPoints = () => {
   }, [data, reset]);
 
   return {
-    awardPointsMethod,
+    methods,
     handleSubmit,
     awardCardBorderColors,
     isLoading,
     isFetching,
     addAwardPointsStatus,
     router,
+    submitAwardForm,
   };
 };

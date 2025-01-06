@@ -1,5 +1,3 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
 import {
   addUserData,
   addUserDefaultValues,
@@ -10,15 +8,16 @@ import { useAddSoftwareUsersMutation } from '@/services/airServices/assets/softw
 import { useSearchParams } from 'next/navigation';
 import { UsersAddFormDataI } from './UsersAdd.interface';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 const useUsersAdd = () => {
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const params = useSearchParams();
   const softwareId = params?.get('softwareId');
 
-  const methods: any = useForm({
-    resolver: yupResolver(addUserValidationSchema),
+  const useFormValues = {
+    validationSchema: addUserValidationSchema,
     defaultValues: addUserDefaultValues(),
-  });
+  };
 
   const [addSoftwareUsers, { isLoading }] = useAddSoftwareUsersMutation();
 
@@ -30,7 +29,8 @@ const useUsersAdd = () => {
     setModalOpen(false);
   };
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, methods } = useFormLib(useFormValues);
+
   const onSubmit = async (data: UsersAddFormDataI) => {
     const params = {
       softwareId: softwareId,

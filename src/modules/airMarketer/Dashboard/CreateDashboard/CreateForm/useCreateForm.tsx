@@ -90,6 +90,18 @@ const useCreateForm = (formType: any) => {
     }
   }, [selectedDashboardId, setValue, getMarketingDashboardById]);
 
+  // Watch for changes in the access field and reset relevant fields
+  useEffect(() => {
+    const subscription = watch((value: any, { name }: any) => {
+      if (name === 'access') {
+        setValue('permissions', '');
+        setValue('specialUsers', []);
+        setValue('permissionsUsers', []);
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [watch, setValue]);
+
   // Functions
   const selectedReports = watch('reportType');
 
@@ -156,6 +168,13 @@ const useCreateForm = (formType: any) => {
       }),
       isDefault: values?.isDefault,
     };
+
+    // Check if specialUsers is present and update permissions accordingly
+    if (payload?.specialUsers && payload?.specialUsers?.length > 0) {
+      payload.permissions = payload?.specialUsers
+        ?.map((user: any) => user.permission)
+        ?.join(', ');
+    }
     try {
       if (formType === DRAWER_TYPES?.EDIT) {
         await updateMarketingDashboard({

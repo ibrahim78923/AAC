@@ -10,7 +10,7 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 export const UpsertSupervisorRules = () => {
   const {
-    rulesMethod,
+    methods,
     handleFormSubmit,
     handleSubmit,
     palette,
@@ -32,10 +32,7 @@ export const UpsertSupervisorRules = () => {
   if (isLoading || isFetching) return <SkeletonForm />;
   return (
     <Box>
-      <FormProvider
-        methods={rulesMethod}
-        onSubmit={handleSubmit(handleFormSubmit)}
-      >
+      <FormProvider methods={methods} onSubmit={handleSubmit(handleFormSubmit)}>
         <WorkflowHeader
           setValidation={setValidation}
           isWorkflowDrawer={isWorkflowDrawer}

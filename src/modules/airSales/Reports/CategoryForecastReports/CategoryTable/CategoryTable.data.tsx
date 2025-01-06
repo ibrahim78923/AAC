@@ -6,7 +6,7 @@ export const totalColumns: any = (theme: any, data: any) => {
   const nameColumns = [
     {
       accessorFn: (row: any) =>
-        row?.collaboratorDetails[ARRAY_INDEX?.ZERO].name,
+        row?.collaboratorDetails[ARRAY_INDEX?.ZERO]?.name,
       id: 'name',
       cell: (info: any) => (
         <Box display="flex" gap={1} alignItems="center">

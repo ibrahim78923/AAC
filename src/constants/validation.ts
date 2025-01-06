@@ -16,6 +16,7 @@ export const REGEX = {
   HOURS_AND_MINUTES_NO_M: /^(\d+h\d+)$/,
   INTEGER_OR_DECIMAL: /^\d+(\.\d+)?$/,
   MINUTES_ONLY: /^\d+m$/,
+  ONLY_ALPHABETS: /^[A-Za-z]+$/,
 };
 
 export const CHARACTERS_LIMIT = {

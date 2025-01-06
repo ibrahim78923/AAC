@@ -185,7 +185,7 @@ export const contactsAPI = baseAPI.injectEndpoints({
         params,
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.data?.contacts;
+        if (response) return response?.data;
       },
       providesTags: ['CONTACTS'],
     }),

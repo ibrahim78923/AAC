@@ -167,7 +167,7 @@ export const AgentBioData = (props: any) => {
                 textTransform={'capitalize'}
                 color="slateBlue.main"
               >
-                {agentLevelDetail?.data?.badges}
+                {agentLevelDetail?.data?.badges ?? '---'}
               </Typography>
             </Box>
           ) : (

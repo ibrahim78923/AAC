@@ -1,9 +1,6 @@
 import { PAGINATION } from '@/config';
-import { ARRAY_INDEX, REPORT_TYPE } from '@/constants/strings';
+import { ARRAY_INDEX } from '@/constants/strings';
 import { useAddOperationsReportsToMultipleDashboardMutation } from '@/services/airOperations/reports';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { UseFormReturn, useForm } from 'react-hook-form';
-import * as Yup from 'yup';
 import { useRouter } from 'next/router';
 import { AddToDashboardFormFieldsI } from './AddToDashboard.interface';
 import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
@@ -15,10 +12,16 @@ import {
   setPage,
 } from '@/redux/slices/airOperations/reports/slice';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { BACKEND_REPORT_ACCESS } from '@/constants/api';
+import { useFormLib } from '@/hooks/useFormLib';
+import {
+  addToDashboardReportFormDefaultValuesDynamic,
+  addToDashboardReportFormValidationSchemaDynamic,
+} from './AddToDashboard.data';
 
 const { CURRENT_PAGE } = PAGINATION ?? {};
 const { ZERO } = ARRAY_INDEX ?? {};
-const { ADD_TO_EXISTING } = REPORT_TYPE ?? {};
+const { ADD_TO_EXISTING } = BACKEND_REPORT_ACCESS ?? {};
 
 export const useAddToDashboardReport = () => {
   const router = useRouter();
@@ -49,18 +52,12 @@ export const useAddToDashboardReport = () => {
     await getReportsList?.(newPage);
   };
 
-  const methods: UseFormReturn<AddToDashboardFormFieldsI> = useForm({
-    defaultValues: {
-      dashboard: [],
-    },
-    resolver: yupResolver(
-      Yup?.object()?.shape({
-        dashboard: Yup?.array()?.min(1, 'Dashboard is Required'),
-      }),
-    ),
-  });
+  const formLibProps = {
+    validationSchema: addToDashboardReportFormValidationSchemaDynamic,
+    defaultValues: addToDashboardReportFormDefaultValuesDynamic?.(),
+  };
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
 
   const submitAddToDashboardForm = async (
     formData: AddToDashboardFormFieldsI,

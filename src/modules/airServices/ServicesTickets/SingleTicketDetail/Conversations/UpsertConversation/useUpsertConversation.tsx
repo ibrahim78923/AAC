@@ -1,11 +1,9 @@
-import { useForm } from 'react-hook-form';
 import {
   NOTE,
   upsertConversationFormDefaultValues,
   upsertConversationFormFieldsDynamic,
   upsertConversationFormValidationSchema,
 } from './UpsertConversation.data';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useAddServicesTicketsSingleConversationMutation,
   useUpdateServicesTicketSingleConversationNoteMutation,
@@ -33,6 +31,7 @@ import {
 import { useGetTicketConversationList } from '../../../TicketsServicesHooks/useGetTicketConversationList';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { AIR_SERVICES } from '@/constants/routes';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertConversation = () => {
   const { getTicketConversationListData } = useGetTicketConversationList?.();
@@ -62,17 +61,18 @@ export const useUpsertConversation = () => {
   const [postAttachmentsTrigger, postAttachmentsStatus] =
     usePostAttachmentsMutation();
 
-  const methods = useForm<any>({
+  const formLibProps = {
+    validationSchema: upsertConversationFormValidationSchema,
     defaultValues: upsertConversationFormDefaultValues?.({
       conversationType: portalAction?.includes(NOTE) ? NOTE : portalAction,
       from: user?.email,
       action: portalAction,
       ...isPortalOpen?.data,
     }),
-    resolver: yupResolver(upsertConversationFormValidationSchema),
-  });
+  };
 
-  const { handleSubmit, reset, setValue, getValues } = methods;
+  const { handleSubmit, reset, setValue, getValues, methods } =
+    useFormLib(formLibProps);
 
   const submitUpsertConversation = async (formData: any) => {
     const articleIds = findAttributeValues(

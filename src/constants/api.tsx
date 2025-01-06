@@ -36,8 +36,8 @@ export const LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES = {
   AGE: 'AGE',
   LAST_TRANSACTION_AT: 'lastTransactionAt',
   NO_OF_TRANSACTIONS: 'numberOfTransactions',
-  CURRENT_POINTS_BALANCE: 'currentPointsBalance',
-  TOTAL_POINTS_REDEEMED: 'totalPointsRedeemed',
+  CURRENT_POINTS_BALANCE: 'currentPointBalance',
+  TOTAL_POINTS_REDEEMED: 'totalPointRedeemed',
 };
 
 export const LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR = {
@@ -47,10 +47,12 @@ export const LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR = {
   LESS_THAN: 'less than',
   IS_KNOWN: 'is known',
   IS_UNKNOWN: 'is unknown',
-  BEFORE: 'before',
-  AFTER: 'after',
+  BEFORE_DATE: 'before a specific date',
+  AFTER_DATE: 'after a specific date',
   CONTAINS: 'contains',
   BASE: 'base',
+  BEFORE: 'before',
+  AFTER: 'after',
 };
 
 export const LOYALTY_PROGRAM_LOYALTY_TIERS_TYPE = {
@@ -83,4 +85,8 @@ export const BACKEND_REPORT_ACCESS = {
 
 export const API_STATUS_CODE = {
   404: 404,
+};
+
+export const STATIC_CONTRACT_TYPES = {
+  SOFTWARE_LICENSE: 'software_licence',
 };

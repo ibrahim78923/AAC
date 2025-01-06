@@ -1,10 +1,8 @@
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   shareTicket,
   shareTicketDefaultValues,
   shareTicketValidationSchema,
 } from './ShareTicket.data';
-import { useForm } from 'react-hook-form';
 import { getCustomerPortalStyling } from '@/utils';
 import {
   useLazyGetRequesterDropdownForShareTicketQuery,
@@ -14,6 +12,7 @@ import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
 import { usePostReplyForCustomerTicketConversationMutation } from '@/services/airCustomerPortal/Tickets';
 import useAuth from '@/hooks/useAuth';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useShareTicket = () => {
   const router = useRouter();
@@ -24,11 +23,10 @@ export const useShareTicket = () => {
     (item: any) => item?.company?.accountName,
   );
 
-  const methods = useForm<any>({
-    resolver: yupResolver(shareTicketValidationSchema),
+  const { methods, watch, handleSubmit } = useFormLib({
+    validationSchema: shareTicketValidationSchema,
     defaultValues: shareTicketDefaultValues,
   });
-  const { handleSubmit, watch } = methods;
   const notificationEmail = watch('sendNotification');
   const [shareTicketTrigger, shareTicketProgress] = useShareTicketMutation();
   const [shareEmailTrigger] =

@@ -1,5 +1,3 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
 import {
   updateContractFormValidationSchema,
   updateContractFormFieldsFunction,
@@ -18,6 +16,7 @@ import { MODULE_TYPE } from '@/constants/strings';
 import { usePostAttachmentsMutation } from '@/services/airServices/tickets/attachments';
 import { AIR_SERVICES } from '@/constants/routes';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpdateContract = () => {
   const theme = useTheme();
@@ -43,13 +42,12 @@ export const useUpdateContract = () => {
     },
   );
 
-  const methods: any = useForm({
-    resolver: yupResolver<any>(updateContractFormValidationSchema),
+  const formLibProps = {
+    validationSchema: updateContractFormValidationSchema,
     defaultValues: updateContractFormDefaultValuesFunction(data),
-    reValidateMode: 'onBlur',
-  });
+  };
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
 
   const handleCancelBtn = () => {
     router?.push({ pathname: AIR_SERVICES?.ASSETS_CONTRACTS });

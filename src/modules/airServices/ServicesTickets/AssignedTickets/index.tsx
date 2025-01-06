@@ -24,7 +24,7 @@ export const AssignedTickets = () => {
       handleSubmitButton={handleSubmit(submitAssignedTicketsForm)}
     >
       <FormProvider methods={methods}>
-        <AgentFieldDropdown />
+        <AgentFieldDropdown required={true} />
       </FormProvider>
     </CustomCommonDialog>
   );

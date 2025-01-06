@@ -1,4 +1,3 @@
-import { useForm, UseFormReturn } from 'react-hook-form';
 import { filteredEmptyValues } from '@/utils/api';
 import {
   reportFilterFormFieldsDynamic,
@@ -14,6 +13,7 @@ import {
 } from '@/redux/slices/airOperations/reports/slice';
 import { PAGINATION } from '@/config';
 import { isoDateString } from '@/lib/date-time';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useFilterReport = () => {
   const dispatch = useAppDispatch();
@@ -26,11 +26,11 @@ export const useFilterReport = () => {
     (state) => state?.operationsReportsLists?.filterReportsList,
   );
 
-  const methods: UseFormReturn<FilterReportFormFieldsI> = useForm({
+  const formLibProps = {
     defaultValues: reportFiltersDefaultValues?.(filterReportsList),
-  });
+  };
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
 
   const submit = async (formData: FilterReportFormFieldsI) => {
     const startDate = formData?.createdDate?.startDate

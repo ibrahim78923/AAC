@@ -1,5 +1,3 @@
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useAddAirServicesSettingsLeaderBoardAgentLevelsMutation,
   useGetAirServicesSettingsLeaderBoardAgentLevelsQuery,
@@ -13,6 +11,7 @@ import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { ARRAY_INDEX } from '@/constants/strings';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useAgentLevelsPoints = () => {
   const router = useRouter();
@@ -22,12 +21,12 @@ export const useAgentLevelsPoints = () => {
   const { data, isLoading, isFetching } =
     useGetAirServicesSettingsLeaderBoardAgentLevelsQuery({});
 
-  const agentLevelsPointsMethod: any = useForm({
+  const formLibProps = {
+    validationSchema: agentLevelsPointsSchema,
     defaultValues: agentLevelsFormDefaultValue?.(),
-    resolver: yupResolver(agentLevelsPointsSchema),
-  });
+  };
 
-  const { reset, handleSubmit } = agentLevelsPointsMethod;
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
 
   const onSubmit = async (values: any) => {
     try {
@@ -44,7 +43,7 @@ export const useAgentLevelsPoints = () => {
   }, [data, reset]);
 
   return {
-    agentLevelsPointsMethod,
+    methods,
     onSubmit,
     handleSubmit,
     data,

@@ -5,25 +5,29 @@ import {
 
 export const filtersDefaultValues: any = (filterValue: any) => {
   return {
-    consumer: filterValue?.consumer ?? '',
+    consumer: filterValue?.consumer ?? null,
     rewardRedeemed: filterValue?.rewardRedeemed ?? null,
     dateRange: filterValue?.dateRange ?? {
-      startDate: new Date(),
-      endDate: new Date(),
+      startDate: null,
+      endDate: null,
       key: 'selection',
     },
   };
 };
 
-export const rewardsFilterFormFieldsDynamic = (shopApiQuery?: any) => [
+export const rewardsFilterFormFieldsDynamic = (
+  consumerApiQuery: any,
+  rewardsApiQuery: any,
+) => [
   {
     id: 1,
     componentProps: {
       name: 'consumer',
       label: 'Consumer',
       placeholder: 'Select',
-      apiQuery: shopApiQuery,
-      getOptionLabel: (option: any) => option?.name,
+      apiQuery: consumerApiQuery,
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,
   },
@@ -34,8 +38,8 @@ export const rewardsFilterFormFieldsDynamic = (shopApiQuery?: any) => [
       label: 'Reward Redeemed',
       placeholder: 'Select Reward',
       fullWidth: true,
-      apiQuery: shopApiQuery,
-      getOptionLabel: (option: any) => option?.name,
+      apiQuery: rewardsApiQuery,
+      getOptionLabel: (option: any) => option?.title,
     },
     component: RHFAutocompleteAsync,
   },
@@ -43,7 +47,7 @@ export const rewardsFilterFormFieldsDynamic = (shopApiQuery?: any) => [
     id: 5,
     componentProps: {
       name: 'dateRange',
-      label: 'Credits',
+      label: 'Date Range',
       placeholder: 'Select',
     },
     component: RHFDateRangePicker,

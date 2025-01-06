@@ -21,6 +21,7 @@ export const UserList: any = [
         name={info?.row?.original?.recipientName}
         email={info?.row?.original?.recipientEmail}
         nameInitial={fullNameInitial(info?.row?.original?.recipientName)}
+        avatarSrc={info?.row?.original?.recipientAvatar}
       />
     ),
   },
@@ -31,6 +32,13 @@ export const UserList: any = [
     header: 'Amount',
     cell: (info: any) =>
       truncateText(info?.getValue() ? `£${info?.getValue()}` : '---'),
+  },
+  {
+    accessorFn: (info: any) => info?.escrowAmountStatus,
+    id: 'escrowAmountStatus',
+    header: 'Escrow Amount Status',
+    isSortable: true,
+    cell: (info: any) => truncateText(info?.getValue() ?? '---'),
   },
   {
     accessorFn: (row: any) => row?.redeemed,

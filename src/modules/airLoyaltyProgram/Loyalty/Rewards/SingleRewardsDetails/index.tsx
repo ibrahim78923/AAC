@@ -14,7 +14,8 @@ export const SingleRewardDetails = (props: SingleRewardDetailsPropsI) => {
     lazyGetRewardsListStatus,
     refetch,
     handleSearch,
-  } = useSingleRewardsDetails?.();
+    redeemRewardData,
+  } = useSingleRewardsDetails?.(props);
 
   return (
     <>
@@ -30,7 +31,7 @@ export const SingleRewardDetails = (props: SingleRewardDetailsPropsI) => {
         <Box mt={'0.75rem'}>
           <TanstackTable
             columns={singleRewardDetailsColumns}
-            data={lazyGetRewardsListStatus?.data?.data}
+            data={redeemRewardData}
             isLoading={lazyGetRewardsListStatus?.isLoading}
             currentPage={lazyGetRewardsListStatus?.data?.data?.meta?.page}
             count={lazyGetRewardsListStatus?.data?.data?.meta?.pages}

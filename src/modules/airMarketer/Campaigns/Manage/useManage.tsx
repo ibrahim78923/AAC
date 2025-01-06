@@ -135,6 +135,12 @@ const useManage = () => {
       endDate: endDate ? dayjs(endDate).format(DATE_FORMAT.API) : '',
     });
   };
+
+  const [openModalExport, setOpenModalExport] = useState(false);
+  const handleOpenModalExport = () => {
+    setOpenModalExport(true);
+  };
+
   return {
     theme,
     actionsModalDetails,
@@ -177,6 +183,9 @@ const useManage = () => {
     handleButtonClick,
     rowId,
     user,
+    openModalExport,
+    setOpenModalExport,
+    handleOpenModalExport,
   };
 };
 export default useManage;

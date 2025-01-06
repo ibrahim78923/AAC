@@ -1,6 +1,6 @@
 import { purchaseOrderFilterFormDefaultValues } from './PurchaseOrderFilter.data';
-import { useForm } from 'react-hook-form';
 import { PAGINATION } from '@/config';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const usePurchaseOrderFilter = (props: any) => {
   const {
@@ -10,11 +10,11 @@ export const usePurchaseOrderFilter = (props: any) => {
     setIsDrawerOpen,
   } = props;
 
-  const methods: any = useForm({
+  const useFormValues = {
     defaultValues: purchaseOrderFilterFormDefaultValues(purchaseOrderFilter),
-  });
+  };
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, methods } = useFormLib(useFormValues);
 
   const submitPurchaseOrderFilterForm = async (data: any) => {
     const purchaseOrderFilteredFields: any = Object?.entries(data || {})

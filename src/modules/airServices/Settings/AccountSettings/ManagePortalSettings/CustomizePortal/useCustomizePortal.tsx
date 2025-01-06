@@ -1,5 +1,4 @@
 import { Theme, useTheme } from '@mui/material';
-import { useForm } from 'react-hook-form';
 import {
   customizePortalDefaultValues,
   DefaultValuesKeys,
@@ -12,6 +11,7 @@ import {
 } from '@/services/airServices/settings/account-settings/customer-portal-settings';
 import { getActiveAccountSession } from '@/utils';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useCustomizePortal = () => {
   const theme: Theme = useTheme();
@@ -34,13 +34,15 @@ export const useCustomizePortal = () => {
       },
     );
 
-  const methods = useForm({
+  const customizePortalMethodProps = {
     defaultValues: customizePortalDefaultValues(
       theme,
       data?.data?.customerPortalStyling,
     ),
-  });
-  const { handleSubmit, reset, watch } = methods;
+  };
+  const { handleSubmit, reset, watch, methods } = useFormLib(
+    customizePortalMethodProps,
+  );
 
   useEffect(() => {
     if (data?.data?.customerPortalStyling) {
@@ -53,7 +55,7 @@ export const useCustomizePortal = () => {
   const resetHandler = useCallback(
     (fieldName: DefaultValuesKeys) => {
       const defaultValues = customizePortalDefaultValues(theme);
-      reset((currentValues) => ({
+      reset((currentValues: any) => ({
         ...currentValues,
         [fieldName]: defaultValues[fieldName],
       }));

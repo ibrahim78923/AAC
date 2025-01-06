@@ -11,7 +11,7 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 export const SignUp = () => {
   const {
-    method,
+    methods,
     handleSubmit,
     onSubmit,
     stepState,
@@ -63,7 +63,7 @@ export const SignUp = () => {
             <Box width={{ xs: '100%', md: '80%' }} margin={'auto'}>
               <FormProvider
                 size={'small'}
-                methods={method}
+                methods={methods}
                 onSubmit={handleSubmit(onSubmit)}
               >
                 {!stepState ? (

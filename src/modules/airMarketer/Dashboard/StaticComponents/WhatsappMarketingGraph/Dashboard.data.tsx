@@ -5,29 +5,29 @@ import {
   SentSmsIcon,
 } from '@/assets/icons';
 
-export const smsStatusArray = () => {
+export const smsStatusArray = (data: any) => {
   return [
     {
       icon: <SentSmsIcon />,
-      count: 25,
+      count: data?.sent ?? 0,
       title: 'Sent',
       divider: true,
     },
     {
       icon: <DeliveredSmsIcon />,
-      count: 30,
+      count: data?.delivered ?? 0,
       title: 'Delivered',
       divider: true,
     },
     {
       icon: <ReadSmsIcon />,
-      count: 47,
+      count: data?.read ?? 0,
       title: 'Read',
       divider: true,
     },
     {
       icon: <FailedSmsIcon />,
-      count: 10,
+      count: data?.failed ?? 0,
       title: 'Failed',
     },
   ];

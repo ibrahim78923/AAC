@@ -1,16 +1,12 @@
 import {
   RHFAutocompleteAsync,
-  RHFDateRangePicker,
+  RHFDatePicker,
 } from '@/components/ReactHookForm';
 
 export const filtersDefaultValues: any = (filterValue: any) => {
   return {
-    consumer: filterValue?.consumer ?? '',
-    dateRange: filterValue?.dateRange ?? {
-      startDate: new Date(),
-      endDate: new Date(),
-      key: 'selection',
-    },
+    consumer: filterValue?.consumer ?? null,
+    date: filterValue?.date ?? null,
   };
 };
 
@@ -21,6 +17,8 @@ export const pointsFilterFormFieldsDynamic = (shopApiQuery?: any) => [
       name: 'consumer',
       label: 'Consumer',
       placeholder: 'Select',
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option?.lastName}`,
       apiQuery: shopApiQuery,
     },
     component: RHFAutocompleteAsync,
@@ -28,10 +26,11 @@ export const pointsFilterFormFieldsDynamic = (shopApiQuery?: any) => [
   {
     id: 5,
     componentProps: {
-      name: 'dateRange',
-      label: 'Date Range',
+      name: 'date',
+      label: 'Created Date',
       placeholder: 'Select Date',
+      fullWidth: true,
     },
-    component: RHFDateRangePicker,
+    component: RHFDatePicker,
   },
 ];

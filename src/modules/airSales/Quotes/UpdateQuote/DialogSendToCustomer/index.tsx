@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React from 'react';
 import {
   Button,
   Grid,
@@ -11,7 +11,6 @@ import {
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { useRouter } from 'next/router';
-import { DialogSendToCustomerI } from './DialogSendToCustomer.interface';
 import { CloseModalIcon } from '@/assets/icons';
 import { FormProvider } from '@/components/ReactHookForm';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -31,8 +30,26 @@ import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import jsPDF from 'jspdf';
 import { LoadingButton } from '@mui/lab';
+import {
+  usePutGiftCardValueMutation,
+  usePutLoyaltyProgramConsumersPointsUpdateMutation,
+  usePutVoucherValueMutation,
+  useUpdateRedeemRewardMutation,
+} from '@/services/airSales/quotes/loyality';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { isNullOrEmpty } from '@/utils';
 
-const DialogSendToCustomer: FC<DialogSendToCustomerI> = ({ open, onClose }) => {
+const DialogSendToCustomer = ({
+  open,
+  onClose,
+  calculations,
+  loyalityCalculation,
+  consumersData,
+  redeemRewardData,
+  giftCardData,
+  rewardId,
+  voucherData,
+}: any) => {
   const router = useRouter();
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
@@ -42,7 +59,12 @@ const DialogSendToCustomer: FC<DialogSendToCustomerI> = ({ open, onClose }) => {
   const { quoteId, dataGetQuoteById } = useUpdateQuote();
   const [updateQuoteSubmision] = useUpdateQuoteSubmisionMutation();
   const [postAttachmentQuote, { isLoading: postAttachmentLoading }] =
-    usePostAttachmentQuoteMutation(); //used in future
+    usePostAttachmentQuoteMutation();
+  const [updateRedeemReward] = useUpdateRedeemRewardMutation();
+  const [updateConsumerPoints] =
+    usePutLoyaltyProgramConsumersPointsUpdateMutation();
+  const [updateGiftCardApi] = usePutGiftCardValueMutation();
+  const [updateVoucherApi] = usePutVoucherValueMutation();
 
   const onSubmit = async (values: { email: string }) => {
     const invoice: any = new jsPDF('portrait', 'px', 'a1');
@@ -57,6 +79,9 @@ const DialogSendToCustomer: FC<DialogSendToCustomerI> = ({ open, onClose }) => {
       const pdfBlob = invoice?.output('blob');
       document.head.removeChild(style);
 
+      const updateTaxAmount =
+        calculations?.calculationsArray[5]?.amount?.replace('%', '');
+
       const formData = new FormData();
       formData.append('fileUrl', pdfBlob);
       formData.append('module', 'QUOTE');
@@ -66,10 +91,17 @@ const DialogSendToCustomer: FC<DialogSendToCustomerI> = ({ open, onClose }) => {
         id: quoteId,
         status: quoteStatus?.published,
         email: values?.email,
-        quoteNumber: dataGetQuoteById?.data?.createdBy?._id,
         validTill: dayjs(dataGetQuoteById?.data?.expiryDate)?.format(
           DATE_FORMAT?.API,
         ),
+        loyaltyRewards: loyalityCalculation?.rewardsDiscount,
+        loyaltyGiftCards: loyalityCalculation?.giftCardDiscount[0],
+        loyaltyVouchers: loyalityCalculation?.vouchersDiscount[0],
+        loyaltyRedeemedDiscount: loyalityCalculation?.totalRedeamDiscount,
+        subTotal: Number(calculations?.calculationsArray[4]?.amount),
+        total: calculations?.finalTotal,
+        invoiceDiscount: Number(calculations?.calculationsArray[2]?.amount),
+        tax: Number(updateTaxAmount),
       };
 
       try {
@@ -91,6 +123,29 @@ const DialogSendToCustomer: FC<DialogSendToCustomerI> = ({ open, onClose }) => {
                     enqueueSnackbar('Quote sent successfully', {
                       variant: 'success',
                     });
+                    try {
+                      if (!isNullOrEmpty(rewardId)) {
+                        updateRedeemReward({
+                          id: rewardId,
+                          body: redeemRewardData,
+                        })?.unwrap();
+                      }
+                      if (consumersData?.currentPointBalance != 0) {
+                        updateConsumerPoints(consumersData)?.unwrap();
+                      }
+                      if (giftCardData?.body?.escrowAmount != 0) {
+                        updateGiftCardApi(giftCardData).unwrap();
+                      }
+                      if (
+                        !isNullOrEmpty(voucherData?.queryParams?.voucherCode)
+                      ) {
+                        updateVoucherApi(voucherData).unwrap();
+                      }
+                    } catch (error: any) {
+                      enqueueSnackbar('Error while updating call', {
+                        variant: NOTISTACK_VARIANTS?.ERROR,
+                      });
+                    }
                   }
                 });
               onClose();

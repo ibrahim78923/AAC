@@ -10,12 +10,12 @@ const ConnectNumber = ({ setIsConnected }: any) => {
   const {
     handleCloseDialogRegNumber,
     handleOpenDialogRegNumber,
-    handleAddRegNumSubmit,
     connectNumberLoading,
     openDialogRegNumber,
     handlePhoneChange,
     isPhoneValid,
     phoneNumber,
+    setPhoneNumber,
     theme,
   } = useConnectNumber(setIsConnected);
 
@@ -48,6 +48,7 @@ const ConnectNumber = ({ setIsConnected }: any) => {
       </Stack>
 
       <Box sx={styles?.divider} />
+
       <Box>
         <Stack gap={2}>
           <Typography sx={{ lineHeight: '1.25' }} variant="h6" fontWeight={600}>
@@ -70,9 +71,9 @@ const ConnectNumber = ({ setIsConnected }: any) => {
         <AddRegNumber
           open={openDialogRegNumber}
           onClose={handleCloseDialogRegNumber}
-          onSubmit={handleAddRegNumSubmit}
           onPhoneChange={handlePhoneChange}
           phoneValue={phoneNumber}
+          setPhoneNumber={setPhoneNumber}
           isPhoneValid={isPhoneValid}
           isLoading={connectNumberLoading}
         />

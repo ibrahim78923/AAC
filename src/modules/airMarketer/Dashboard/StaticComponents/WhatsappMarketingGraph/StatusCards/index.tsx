@@ -5,13 +5,12 @@ import { v4 as uuidv4 } from 'uuid';
 import SkeletonComponent from '@/components/CardSkeletons';
 import { smsStatusArray } from '../Dashboard.data';
 
-const StatusCards = ({ loading }: any) => {
-  // whatsappAnalytics
+const StatusCards = ({ loading, data }: any) => {
   const { theme } = useStatusCards();
   return (
     <Box sx={{ p: '10px 24px' }}>
       <Grid container spacing={5}>
-        {smsStatusArray()?.map((item: any) => (
+        {smsStatusArray(data)?.map((item: any) => (
           <Grid item xs={6} lg={3} key={uuidv4()}>
             <Stack
               direction={{ xs: 'column', md: 'row' }}

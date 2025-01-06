@@ -1,6 +1,6 @@
-import { useForm } from 'react-hook-form';
 import { giftCardDetailsDefaultValues } from './GiftCardDetailsFilter.data';
 import { PAGINATION } from '@/config';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useGiftCardDetailsFilter = (props: any) => {
   const {
@@ -10,10 +10,12 @@ export const useGiftCardDetailsFilter = (props: any) => {
     setPage,
   } = props;
 
-  const methods: any = useForm({
+  const giftCardDetailsFilterMethodProps: any = {
     defaultValues: giftCardDetailsDefaultValues(filterGiftCardDetails),
-  });
-  const { handleSubmit, reset } = methods;
+  };
+  const { handleSubmit, reset, methods } = useFormLib(
+    giftCardDetailsFilterMethodProps,
+  );
 
   const onSubmit = async (data: any) => {
     const giftCardDetailsFilter: any = Object?.entries(data || {})

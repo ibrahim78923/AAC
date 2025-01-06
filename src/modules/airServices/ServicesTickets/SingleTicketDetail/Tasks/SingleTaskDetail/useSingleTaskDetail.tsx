@@ -1,6 +1,4 @@
 import { useTheme } from '@mui/material';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   defaultValues,
   overviewDataArray,
@@ -10,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setIsPortalClose } from '@/redux/slices/airServices/tickets-tasks/slice';
 import { useUpdateSingleServicesTasksByIdMutation } from '@/services/airServices/tickets/single-ticket-details/tasks';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useSingleTaskDetail = () => {
   const dispatch = useAppDispatch();
@@ -18,12 +17,12 @@ export const useSingleTaskDetail = () => {
     (state) => state?.servicesTicketTasks?.isPortalOpen,
   );
 
-  const method = useForm({
-    resolver: yupResolver(validationSchema),
+  const formLibProps = {
+    validationSchema: validationSchema,
     defaultValues: defaultValues(isPortalOpen?.data),
-  });
+  };
 
-  const { handleSubmit, reset } = method;
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
 
   const [patchMutation, { isLoading }] =
     useUpdateSingleServicesTasksByIdMutation();
@@ -65,7 +64,7 @@ export const useSingleTaskDetail = () => {
   const theme = useTheme();
 
   return {
-    method,
+    methods,
     handleSubmit,
     onSubmitDrawer,
     theme,

@@ -1,6 +1,5 @@
 import { filteredEmptyValues } from '@/utils/api';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm, useWatch } from 'react-hook-form';
+import { useWatch } from 'react-hook-form';
 import {
   DATE_DIFFERENCE,
   upsertAnnouncementDefaultValues,
@@ -21,6 +20,7 @@ import {
 } from '@/services/airServices/dashboard';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { otherDateFormat } from '@/lib/date-time';
+import { useFormLib } from '@/hooks/useFormLib';
 
 const { ZERO } = ARRAY_INDEX ?? {};
 const { SPECIFIC_USERS } = ANNOUNCEMENTS_VISIBILITY ?? {};
@@ -32,11 +32,12 @@ export const useUpsertAnnouncement = (
   const auth: any = useAuth();
   const { _id: productId } = auth?.product ?? {};
 
-  const methods: any = useForm({
-    resolver: yupResolver(upsertAnnouncementValidationSchema),
+  const formLibProps = {
+    validationSchema: upsertAnnouncementValidationSchema,
     defaultValues: upsertAnnouncementDefaultValues?.(),
-  });
-  const { handleSubmit, reset, control } = methods;
+  };
+
+  const { handleSubmit, reset, control, methods } = useFormLib(formLibProps);
 
   const [postAnnouncementTrigger, postAnnouncementStatus] =
     useAddServicesDashboardSingleAnnouncementMutation();

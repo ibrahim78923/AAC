@@ -1,7 +1,7 @@
-import { useForm } from 'react-hook-form';
 import { defaultValuesAgentFilter } from './AgentFilter.data';
 import { IAgentsProps } from '../Agents.interface';
 import { PAGINATION } from '@/config';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useAgentFilter = (props: IAgentsProps) => {
   const {
@@ -11,11 +11,13 @@ export const useAgentFilter = (props: IAgentsProps) => {
     filterAgentData,
   } = props;
 
-  const agentFilterDrawerMethods: any = useForm({
+  const agentFilterDrawerMethodProps = {
     defaultValues: defaultValuesAgentFilter?.(filterAgentData),
-  });
+  };
 
-  const { handleSubmit, reset } = agentFilterDrawerMethods;
+  const { handleSubmit, reset, methods } = useFormLib(
+    agentFilterDrawerMethodProps,
+  );
 
   const onSubmit = async (data: any) => {
     const agentFiltered: any = Object?.entries(data || {})
@@ -50,7 +52,7 @@ export const useAgentFilter = (props: IAgentsProps) => {
   return {
     onSubmit,
     handleCloseDrawer,
-    agentFilterDrawerMethods,
+    methods,
     resetAgentFilterForm,
     handleSubmit,
   };

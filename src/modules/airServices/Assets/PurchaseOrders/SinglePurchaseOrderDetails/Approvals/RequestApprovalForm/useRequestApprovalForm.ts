@@ -1,5 +1,3 @@
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema, defaultValues } from './RequestApprovalForm.data';
 import {
   useLazyGetAirServicesAssetsPurchaseOrderApprovalAgentsQuery,
@@ -8,6 +6,7 @@ import {
 import { useSearchParams } from 'next/navigation';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import useAuth from '@/hooks/useAuth';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useRequestApprovalForm = (props: any) => {
   const { openDialog, setOpenDialog } = props;
@@ -25,12 +24,12 @@ export const useRequestApprovalForm = (props: any) => {
   const [postRequestApprovalTrigger, postRequestApprovalStatus] =
     usePostAirServicesAssetsPurchaseOrderApprovalRequestApprovalMutation();
 
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
+  const useFormValues = {
+    validationSchema,
     defaultValues,
-  });
+  };
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, methods } = useFormLib(useFormValues);
 
   const onSubmit = async (data: any) => {
     const params = new URLSearchParams();

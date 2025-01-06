@@ -14,7 +14,10 @@ const QuoteInfo = () => {
           <Grid item lg={4} sm={6} xs={12}>
             <Box sx={styles?.quoteInfoTitle}>
               Quote No:
-              <Box component="span">{dataGetQuoteById?.data?._id ?? 'N/A'}</Box>
+              <Box component="span">
+                {' '}
+                {dataGetQuoteById?.data?.quoteNumber ?? 'N/A'}{' '}
+              </Box>
             </Box>
           </Grid>
           <Grid item lg={4} sm={6} xs={12}>

@@ -14,11 +14,10 @@ import {
 import { useEffect, useState } from 'react';
 import { downloadFile } from '@/utils/file';
 import { useSearchParams } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { AllocateSubmitI, SoftwareUserDataI } from './Users.interface';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 const useUsers = () => {
   const [usersData, setUsersData] = useState<SoftwareUserDataI[]>([]);
@@ -29,14 +28,16 @@ const useUsers = () => {
   const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
   const [limit, setLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
   const getUserArray = usersData?.find((item) => item);
-  const methods = useForm({
-    resolver: yupResolver<any>(
-      Yup?.object()?.shape({
-        contract: Yup?.mixed()?.required('Required'),
-      }),
-    ),
+
+  const useFormValues = {
+    validationSchema: Yup?.object()?.shape({
+      contract: Yup?.mixed()?.required('Required'),
+    }),
     defaultValues: { contract: null },
-  });
+  };
+
+  const { methods, handleSubmit } = useFormLib(useFormValues);
+
   const params = useSearchParams();
   const softwareId = params?.get('softwareId');
   const [
@@ -203,6 +204,7 @@ const useUsers = () => {
     setFilterValues,
     filterValues,
     handleGetUser,
+    handleSubmit,
   };
 };
 

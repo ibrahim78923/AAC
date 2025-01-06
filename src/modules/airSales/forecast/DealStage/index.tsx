@@ -167,7 +167,7 @@ const DealStage = () => {
                               {item?.title}
                             </Typography>
                             <Typography variant="h3" fontWeight={700}>
-                              £{item?.count ?? '-'}
+                              £{item?.count ?? 0}
                             </Typography>
                           </Box>
                         )}
@@ -227,7 +227,7 @@ const DealStage = () => {
                             {item?.title}
                           </Typography>
                           <Typography variant="h3">
-                            £{item?.count ?? '-'}
+                            £{item?.count ?? 0}
                           </Typography>
                         </Box>
                       )}
@@ -393,7 +393,7 @@ const DealStage = () => {
                               {item?.title}
                             </Typography>
                             <Typography variant="h3" fontWeight={700}>
-                              £{item?.count ?? '-'}
+                              £{item?.count ?? 0}
                             </Typography>
                           </Box>
                         )}
@@ -453,7 +453,7 @@ const DealStage = () => {
                             {item?.title}
                           </Typography>
                           <Typography variant="h3">
-                            £{item?.count ?? '-'}
+                            £{item?.count ?? 0}
                           </Typography>
                         </Box>
                       )}

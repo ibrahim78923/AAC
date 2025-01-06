@@ -32,7 +32,7 @@ export const loyaltyProgramLoyaltyTiersAPI = baseAPI?.injectEndpoints({
     }),
     deleteLoyaltyProgramLoyaltySingleTier: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: ``,
+        url: END_POINTS?.DELETE_LOYALTY_TIERS,
         method: 'DELETE',
         params: apiDataParameter?.queryParams,
       }),

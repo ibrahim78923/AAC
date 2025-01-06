@@ -1,5 +1,3 @@
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   rulesSaveWorkflowSchema,
   rulesWorkflowSchema,
@@ -19,6 +17,7 @@ import { useDispatch } from 'react-redux';
 import { setTestServicesWorkflowBody } from '@/redux/slices/servicesWorkflow';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { isoDateString } from '@/lib/date-time';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useRulesWorkflow = () => {
   const [validation, setValidation] = useState('');
@@ -72,13 +71,13 @@ export const useRulesWorkflow = () => {
   );
   const singleWorkflowData = data?.data;
 
-  const rulesMethod = useForm({
+  const rulesMethodsProps = {
     defaultValues: rulesWorkflowValues(singleWorkflowData),
-    resolver:
+    validationSchema:
       validation === buttonData?.upsert || validation === buttonData?.test
-        ? yupResolver(rulesWorkflowSchema)
-        : yupResolver(rulesSaveWorkflowSchema),
-  });
+        ? rulesWorkflowSchema
+        : rulesSaveWorkflowSchema,
+  };
 
   const mapField = (field: any) => {
     const fieldValue = field?.fieldValue;
@@ -156,8 +155,8 @@ export const useRulesWorkflow = () => {
     collectionName: getCollectionName(action?.fieldName),
   });
 
-  const { reset, watch, register, handleSubmit, setValue, control } =
-    rulesMethod;
+  const { reset, watch, register, handleSubmit, setValue, control, methods } =
+    useFormLib(rulesMethodsProps);
 
   const [postWorkflowTrigger, postWorkflowProgress] =
     usePostServicesWorkflowMutation();
@@ -219,7 +218,7 @@ export const useRulesWorkflow = () => {
   const { palette } = useTheme();
   const moduleType = watch('module');
   return {
-    rulesMethod,
+    methods,
     handleFormSubmit,
     register,
     handleSubmit,

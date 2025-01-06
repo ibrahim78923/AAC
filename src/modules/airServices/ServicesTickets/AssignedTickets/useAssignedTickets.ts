@@ -1,7 +1,4 @@
 import { useUpdateBulkServicesTicketsMutation } from '@/services/airServices/tickets';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm, UseFormReturn } from 'react-hook-form';
-import * as Yup from 'yup';
 import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
@@ -12,36 +9,38 @@ import {
 import { useGetTicketList } from '../TicketsServicesHooks/useGetTicketList';
 import { PAGINATION } from '@/config';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import {
+  servicesTicketsIsPortalOpenSelector,
+  servicesTicketsSelectedTicketListsSelector,
+  servicesTicketsTotalRecordsSelector,
+} from '@/redux/slices/airServices/tickets/selectors';
+import {
+  assignedTicketsFormDefaultValues,
+  assignedTicketsFormValidationSchema,
+} from './AssignedTickets.data';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useAssignedTickets = () => {
   const dispatch = useAppDispatch();
   const { getTicketsListData, page } = useGetTicketList();
 
-  const totalRecords = useAppSelector(
-    (state) => state?.servicesTickets?.totalRecords,
-  );
+  const totalRecords = useAppSelector(servicesTicketsTotalRecordsSelector);
 
   const selectedTicketLists = useAppSelector(
-    (state) => state?.servicesTickets?.selectedTicketLists,
+    servicesTicketsSelectedTicketListsSelector,
   );
 
-  const isPortalOpen = useAppSelector(
-    (state) => state?.servicesTickets?.isPortalOpen,
-  );
+  const isPortalOpen = useAppSelector(servicesTicketsIsPortalOpenSelector);
 
   const [patchBulkUpdateTicketsTrigger, patchBulkUpdateTicketsStatus] =
     useUpdateBulkServicesTicketsMutation();
 
-  const methods: UseFormReturn<any> = useForm<any>({
-    defaultValues: {
-      agent: null,
-    },
-    resolver: yupResolver(
-      Yup?.object()?.shape({
-        agent: Yup?.mixed()?.nullable()?.required('Agent is required'),
-      }),
-    ),
-  });
+  const formLibProps = {
+    defaultValues: assignedTicketsFormDefaultValues,
+    validationSchema: assignedTicketsFormValidationSchema,
+  };
+
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
 
   const refetchApi = async () => {
     const newPage =
@@ -51,8 +50,6 @@ export const useAssignedTickets = () => {
     dispatch(setPage?.(newPage));
     await getTicketsListData?.(newPage);
   };
-
-  const { handleSubmit, reset } = methods;
 
   const submitAssignedTicketsForm = async (formData: {
     agent: AutocompleteAsyncOptionsI;

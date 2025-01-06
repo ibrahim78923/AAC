@@ -1,4 +1,3 @@
-import { useForm, UseFormReturn, useWatch } from 'react-hook-form';
 import { filteredEmptyValues } from '@/utils/api';
 import {
   DATE_DIFFERENCE,
@@ -15,6 +14,7 @@ import {
 } from '@/redux/slices/airOperations/restore-reports/slice';
 import { PAGINATION } from '@/config';
 import { errorSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useRestoreReportsFilter = () => {
   const dispatch = useAppDispatch();
@@ -26,13 +26,14 @@ export const useRestoreReportsFilter = () => {
   const filterRestoreReportsList = useAppSelector(
     (state) => state?.operationsRestoreReportsLists?.filterRestoreReportsList,
   );
-  const methods: UseFormReturn<RestoreReportsFilterFormFieldsI> = useForm({
+
+  const formLibProps = {
     defaultValues: restoreReportFiltersDefaultValues?.(
       filterRestoreReportsList,
     ),
-  });
+  };
 
-  const { handleSubmit, reset, control } = methods;
+  const { handleSubmit, reset, methods, control } = useFormLib(formLibProps);
 
   const submit = async (formData: RestoreReportsFilterFormFieldsI) => {
     if (!!formData?.endDate) {

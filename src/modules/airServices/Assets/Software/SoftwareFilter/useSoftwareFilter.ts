@@ -1,20 +1,20 @@
-import { useForm } from 'react-hook-form';
 import { softwareFilterDefaultValues } from './SoftwareFilter.data';
 import {
   SoftwareFilterI,
   SoftwareFilterValues,
 } from './SoftwareFilter.interface';
 import { PAGINATION } from '@/config';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useSoftwareFilter = (props: SoftwareFilterI) => {
   const { setIsOpenFilterDrawer, setFilterValues, filterValues, setPage } =
     props;
 
-  const methods = useForm({
+  const useFormValues = {
     defaultValues: softwareFilterDefaultValues(filterValues),
-  });
+  };
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, methods } = useFormLib(useFormValues);
   const onSubmit = async (data: SoftwareFilterValues) => {
     const softwareFiltered = Object?.entries(data || {})
       ?.filter(

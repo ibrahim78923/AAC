@@ -346,14 +346,6 @@ export const Questions: React.FC<QuestionsI> = (props) => {
                         </AnimatedBox>
                       </Grid>
                     )}
-                    {openImport && (
-                      <ImportQuestions
-                        openImport={openImport}
-                        setOpenImport={setOpenImport}
-                        methods={methods}
-                        sectionIndex={sectionIndex}
-                      />
-                    )}
                   </React.Fragment>
                 );
               })}
@@ -362,6 +354,14 @@ export const Questions: React.FC<QuestionsI> = (props) => {
           )}
         </StrictModeDroppable>
       </DragDropContext>
+      {openImport && (
+        <ImportQuestions
+          openImport={openImport}
+          setOpenImport={setOpenImport}
+          methods={methods}
+          sectionIndex={sectionIndex}
+        />
+      )}
     </>
   );
 };

@@ -1,8 +1,9 @@
-import { Box, Dialog, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { useState } from 'react';
 import { AttachmentForm } from './AttachmentForm';
 import { Attachments } from '@/components/Attachments';
 import { useRouter } from 'next/router';
+import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 
 export const Attachment = () => {
   const [addAttachment, setAddAttachment] = useState(false);
@@ -30,16 +31,12 @@ export const Attachment = () => {
       </Attachments>
 
       {addAttachment && (
-        <Dialog
-          open={addAttachment}
-          onClose={() => setAddAttachment(false)}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
+        <CustomCommonDialog
+          isPortalOpen={addAttachment}
+          closePortal={() => setAddAttachment(false)}
         >
-          <Box width={'500px'} p={2}>
-            <AttachmentForm setAddAttachment={setAddAttachment} />
-          </Box>
-        </Dialog>
+          <AttachmentForm setAddAttachment={setAddAttachment} />
+        </CustomCommonDialog>
       )}
     </>
   );

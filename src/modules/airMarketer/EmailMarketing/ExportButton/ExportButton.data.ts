@@ -1,9 +1,9 @@
-import { RHFRadioGroup, RHFSelect } from '@/components/ReactHookForm';
+import { RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const exportButtonValidationSchema = Yup?.object()?.shape({
   fileFormat: Yup?.string()?.trim()?.required('Field is Required'),
-  radio: Yup?.string()?.trim()?.required('Field is Required'),
+  // radio: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const exportButtonFormFields = [
@@ -21,20 +21,19 @@ export const exportButtonFormFields = [
     component: RHFSelect,
     md: 12,
   },
-
-  {
-    componentProps: {
-      name: 'radio',
-      row: false,
-      fullWidth: true,
-      options: [
-        { value: 'all', label: 'All emails' },
-        { value: 'emails', label: 'Emails sent within a custom date range' },
-      ],
-    },
-    component: RHFRadioGroup,
-    md: 12,
-  },
+  // {
+  //   componentProps: {
+  //     name: 'radio',
+  //     row: false,
+  //     fullWidth: true,
+  //     options: [
+  //       { value: 'all', label: 'All emails' },
+  //       { value: 'emails', label: 'Emails sent within a custom date range' },
+  //     ],
+  //   },
+  //   component: RHFRadioGroup,
+  //   md: 12,
+  // },
 ];
 
 export const exportButtonDefaultValue = {};

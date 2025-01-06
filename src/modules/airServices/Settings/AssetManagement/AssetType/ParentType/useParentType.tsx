@@ -1,5 +1,3 @@
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   AssetFieldFormDefaultValues,
   AssetTypeFormValidationSchema,
@@ -12,6 +10,7 @@ import {
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants/routes';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export default function useParentType({
   parentDetails,
@@ -24,12 +23,10 @@ export default function useParentType({
   const [patchAssetTypeTrigger, patchAssetTypeStatus] =
     usePatchEditAssetTypeMutation();
 
-  const methods: any = useForm({
-    resolver: yupResolver(AssetTypeFormValidationSchema),
+  const { methods, handleSubmit, reset } = useFormLib({
+    validationSchema: AssetTypeFormValidationSchema,
     defaultValues: AssetFieldFormDefaultValues?.(parentDetails?.parentData),
   });
-
-  const { handleSubmit, reset } = methods;
 
   useEffect(() => {
     reset(AssetFieldFormDefaultValues?.(parentDetails?.parentData));

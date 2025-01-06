@@ -1,5 +1,4 @@
 import { NextRouter, useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
 import { filteredEmptyValues } from '@/utils/api';
 import { useRef, useState } from 'react';
 import {
@@ -16,6 +15,7 @@ import {
 } from '@/config';
 import { htmlToPdfConvert } from '@/lib/html-to-pdf-converter';
 import { isoDateString } from '@/lib/date-time';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useInventoryReports = () => {
   const router: NextRouter = useRouter();
@@ -27,7 +27,7 @@ export const useInventoryReports = () => {
   });
   const downloadRef = useRef(null);
 
-  const methods: any = useForm({
+  const inventoryReportMethodProps = {
     defaultValues: {
       status: inventoryTableFilterOptions?.[ARRAY_INDEX?.ZERO],
       createdDate: {
@@ -36,9 +36,11 @@ export const useInventoryReports = () => {
         key: 'selection',
       },
     },
-  });
+  };
 
-  const { handleSubmit, getValues, setValue, watch } = methods;
+  const { handleSubmit, getValues, watch, setValue, methods } = useFormLib(
+    inventoryReportMethodProps,
+  );
   watch?.();
 
   const apiDataParameter = {

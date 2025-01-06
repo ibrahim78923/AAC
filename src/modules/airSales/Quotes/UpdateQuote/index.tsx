@@ -9,6 +9,7 @@ import { styles } from './UpdateQuote.style';
 import { updateQuoteSteps } from './UpdateQuote.data';
 import CreateContacts from './CreateContacts';
 import { LoadingButton } from '@mui/lab';
+import { useAppSelector } from '@/redux/store';
 
 const UpdateQuote = () => {
   const {
@@ -47,6 +48,8 @@ const UpdateQuote = () => {
     productsArray,
     calculations,
     setIsOpenFormCreateProduct,
+    handleLoyalityCalulation,
+    loyalityCalculation,
   } = useUpdateQuote();
 
   const stepsArgs: any = {
@@ -65,8 +68,27 @@ const UpdateQuote = () => {
     selectedCompanyIds: selectedCompanyIds,
     productsArray: productsArray,
     calculations: calculations,
+    handleLoyalityCalulation,
+    loyalityCalculation,
   };
   const steps = updateQuoteSteps(stepsArgs);
+
+  const consumersData: any = useAppSelector(
+    (state) => state?.quotesForm?.consumers,
+  );
+  const redeemRewardData: any = useAppSelector(
+    (state) => state?.quotesForm?.redeemReward,
+  );
+
+  const giftCardData: any = useAppSelector(
+    (state) => state?.quotesForm?.giftCardData,
+  );
+
+  const voucherData: any = useAppSelector(
+    (state) => state?.quotesForm?.voucherData,
+  );
+
+  const rewardId: any = useAppSelector((state) => state?.quotesForm?.rewardId);
 
   return (
     <>
@@ -150,7 +172,17 @@ const UpdateQuote = () => {
         }
       />
       {isOpenDialog && (
-        <DialogSendToCustomer open={isOpenDialog} onClose={handleCloseDialog} />
+        <DialogSendToCustomer
+          open={isOpenDialog}
+          onClose={handleCloseDialog}
+          calculations={calculations}
+          loyalityCalculation={loyalityCalculation}
+          consumersData={consumersData}
+          redeemRewardData={redeemRewardData}
+          giftCardData={giftCardData}
+          rewardId={rewardId}
+          voucherData={voucherData}
+        />
       )}
 
       {isOpenFormCreateDeal && (

@@ -6,6 +6,7 @@ import { Box, useTheme, Popover, Typography, Button } from '@mui/material';
 import {
   getActivePermissionsSession,
   isNullOrEmpty,
+  setActiveAccountSession,
   setActivePermissionsSession,
   stringArraysEqual,
 } from '@/utils';
@@ -280,6 +281,7 @@ const AccountMenu = () => {
                                     subitem?._id,
                                   );
                                   setActiveProduct(item);
+                                  setActiveAccountSession(subitem);
                                   handleNavigation(item.name);
                                 }}
                                 sx={{ cursor: 'pointer' }}

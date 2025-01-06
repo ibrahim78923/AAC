@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, CircularProgress, Typography } from '@mui/material';
 import useNotification from './useNotification';
 import { styles } from './Notification.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
@@ -15,6 +15,7 @@ const Notification = () => {
     getDataLoading,
     handleSwitchNotifications,
     updateLoading,
+    loadingState,
   } = useNotification();
 
   return (
@@ -83,12 +84,16 @@ const Notification = () => {
                         </Typography>
                       </Box>
                     </Box>
-                    <SwitchBtn
-                      defaultChecked={item?.status}
-                      handleSwitchChange={(val: any) => {
-                        handleSwitchNotifications(val, item?.key);
-                      }}
-                    />
+                    {loadingState[item?.key] ? (
+                      <CircularProgress size={25} />
+                    ) : (
+                      <SwitchBtn
+                        defaultChecked={item?.status}
+                        handleSwitchChange={(val: any) => {
+                          handleSwitchNotifications(val, item?.key);
+                        }}
+                      />
+                    )}
                   </Box>
                 </PermissionsGuard>
               </Box>

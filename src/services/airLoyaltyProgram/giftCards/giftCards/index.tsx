@@ -23,7 +23,7 @@ const giftCardApi = baseAPI?.injectEndpoints({
     }),
     getGiftCardDetailsList: builder?.query({
       query: (params: any) => ({
-        url: END_POINTS?.SINGLE_GIFT_CARD_LIST,
+        url: END_POINTS?.GIFT_CARD_TRANSACTION,
         method: 'GET',
         params,
       }),
@@ -40,12 +40,11 @@ const giftCardApi = baseAPI?.injectEndpoints({
     }),
     exportGiftCardDetailsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: '',
+        url: END_POINTS?.GIFT_CARD_TRANSACTION,
         method: 'GET',
         params: apiDataParameter?.queryParams,
         responseHandler: (response: any) => response?.blob(),
       }),
-      invalidatesTags: [TAG],
     }),
     addGiftCardDetails: builder?.mutation({
       query: (apiDataParameter: any) => ({
@@ -53,6 +52,14 @@ const giftCardApi = baseAPI?.injectEndpoints({
         method: 'PUT',
         params: apiDataParameter?.queryParams,
         body: apiDataParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    getSingleGiftCard: builder?.query({
+      query: (params: any) => ({
+        url: END_POINTS?.GET_GIFT_CARD_BY_ID,
+        method: 'GET',
+        params,
       }),
       invalidatesTags: [TAG],
     }),
@@ -76,4 +83,5 @@ export const {
   useAddGiftCardDetailsMutation,
   useLazyGetRecipientDropdownListQuery,
   usePutGiftCardStatusMutation,
+  useGetSingleGiftCardQuery,
 } = giftCardApi;

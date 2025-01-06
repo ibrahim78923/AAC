@@ -5,10 +5,10 @@ import { UserInfo } from '@/components/UserInfo';
 import { ACTIVITY_STATUS_MENU, DATE_TIME_FORMAT } from '@/constants';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { Box, Checkbox, Typography } from '@mui/material';
-import dayjs from 'dayjs';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import FiberSmartRecordIcon from '@mui/icons-material/FiberSmartRecord';
 import ListStatusAction from './ListStatusAction';
+import { otherDateFormat } from '@/lib/date-time';
 
 export const getHeaderActionButtonDropdown = (
   handleHeaderActionButtonStatusChange: any,
@@ -119,7 +119,7 @@ export const consumersListColumnDynamic = (
             info?.getValue()?.firstName,
             info?.getValue()?.lastName,
           )}
-          avatarSrc={info?.getValue()?.profilePicture?.url}
+          avatarSrc={info?.row?.original?.avatar?.url}
           email={info?.getValue()?.email}
         />
       );
@@ -176,7 +176,10 @@ export const consumersListColumnDynamic = (
     header: 'First Points Reception Date',
     cell: (info: any) =>
       info?.getValue()
-        ? dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.MMM_DD_YYYY_hh_mm_A)
+        ? otherDateFormat(
+            info?.getValue(),
+            DATE_TIME_FORMAT?.MMM_DD_YYYY_hh_mm_A,
+          )
         : '---',
   },
   {
@@ -186,14 +189,17 @@ export const consumersListColumnDynamic = (
     header: 'Last Transaction Date',
     cell: (info: any) =>
       info?.getValue()
-        ? dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.MMM_DD_YYYY_hh_mm_A)
+        ? otherDateFormat(
+            info?.getValue(),
+            DATE_TIME_FORMAT?.MMM_DD_YYYY_hh_mm_A,
+          )
         : '---',
   },
   {
-    accessorFn: (row: any) => row?.tiersId,
-    id: 'tiersId',
+    accessorFn: (row: any) => row?.tierDetails,
+    id: 'tierDetails',
     isSortable: true,
     header: 'Tier',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue()?.name ?? '---',
   },
 ];

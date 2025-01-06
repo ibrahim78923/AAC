@@ -3,6 +3,7 @@ import { Box, Button, Menu, MenuItem, Tooltip } from '@mui/material';
 import Search from '@/components/Search';
 import {
   CustomizeIcon,
+  ExportCloudIcon,
   FilterSharedIcon,
   RefreshSharedIcon,
 } from '@/assets/icons';
@@ -25,6 +26,7 @@ const TableToolbar: FC<TableToolbarI> = ({
   handleOpenDeleteQuote,
   isActionsDisabled,
   rowId,
+  onClickExport,
 }) => {
   const {
     actionsEl,
@@ -148,6 +150,17 @@ const TableToolbar: FC<TableToolbarI> = ({
             </Button>
           </Tooltip>
         </PermissionsGuard>
+
+        <Button
+          variant="outlined"
+          className="small"
+          color="inherit"
+          onClick={onClickExport}
+        >
+          <ExportCloudIcon />
+          &nbsp; Export
+        </Button>
+
         <PermissionsGuard
           permissions={[AIR_SALES_QUOTES_MANAGE_QUOTES_PERMISSIONS?.CUSTOMIZE]}
         >

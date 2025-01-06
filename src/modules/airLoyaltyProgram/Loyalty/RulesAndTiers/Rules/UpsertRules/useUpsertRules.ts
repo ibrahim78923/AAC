@@ -1,4 +1,3 @@
-import { useForm } from 'react-hook-form';
 import {
   ATTRIBUTE_FIELDS,
   TIME_SPAN_FIELDS,
@@ -6,7 +5,6 @@ import {
   upsertRulesFormFieldsDynamic,
   upsertRulesFormValidationSchema,
 } from './UpsertRules.data';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
 import { useAddLoyaltyProgramLoyaltySingleRuleMutation } from '@/services/airLoyaltyProgram/loyalty/rulesAndTiers/rules';
 import {
@@ -20,6 +18,7 @@ import { setIsPortalClose } from '@/redux/slices/airLoyaltyProgram/rules/slice';
 import { isoDateString } from '@/lib/date-time';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { loyaltyProgramRulesIsPortalOpenSelector } from '@/redux/slices/airLoyaltyProgram/rules/selectors';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertRules = () => {
   const { getLoyaltyProgramRulesList } = useGetRulesLists?.();
@@ -33,12 +32,13 @@ export const useUpsertRules = () => {
     addLoyaltyProgramLoyaltySingleRuleStatus,
   ] = useAddLoyaltyProgramLoyaltySingleRuleMutation();
 
-  const methods = useForm<any>({
-    resolver: yupResolver(upsertRulesFormValidationSchema),
+  const formLibProps = {
+    validationSchema: upsertRulesFormValidationSchema,
     defaultValues: upsertRulesFormDefaultValues?.(isPortalOpen?.data),
-  });
+  };
 
-  const { handleSubmit, reset, clearErrors, setValue, watch } = methods;
+  const { handleSubmit, reset, clearErrors, setValue, watch, methods } =
+    useFormLib(formLibProps);
 
   const submitUpsertRuleForm = async (formData: any) => {
     const timeSpan = {

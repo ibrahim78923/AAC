@@ -9,7 +9,7 @@ import ApiErrorState from '@/components/ApiErrorState';
 
 export const ClosureRule = () => {
   const {
-    closureRuleMethods,
+    methods,
     closeIncidentData,
     resolveIncidentData,
     serviceCloseData,
@@ -28,10 +28,7 @@ export const ClosureRule = () => {
   if (isError) return <ApiErrorState />;
 
   return (
-    <FormProvider
-      methods={closureRuleMethods}
-      onSubmit={handleSubmit(onSubmit)}
-    >
+    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Header />
       <br />
 

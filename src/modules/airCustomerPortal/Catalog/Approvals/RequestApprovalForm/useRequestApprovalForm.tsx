@@ -1,10 +1,9 @@
 import { TICKET_APPROVALS } from '@/constants/strings';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { ConfirmModalPropsI } from '../AllApprovals/AllApprovals.interface';
 import { useUpdateTicketsApprovalCustomerPortalMutation } from '@/services/airCustomerPortal/catalog';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useRequestApprovalForm = (props: ConfirmModalPropsI) => {
   const {
@@ -17,18 +16,17 @@ export const useRequestApprovalForm = (props: ConfirmModalPropsI) => {
   const [patchApprovalTicketsTrigger, patchApprovalTicketsStatus] =
     useUpdateTicketsApprovalCustomerPortalMutation();
 
-  const methods = useForm({
+  const useFormValues = {
     defaultValues: {
       reason: '',
     },
-    resolver: yupResolver(
-      Yup?.object()?.shape({
-        reason: Yup?.string()?.trim()?.required('Required'),
-      }),
-    ),
-  });
+    validationSchema: Yup?.object()?.shape({
+      reason: Yup?.string()?.trim()?.required('Required'),
+    }),
+  };
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, methods } = useFormLib(useFormValues);
+
   const submitRequestConfirm = async (data: any) => {
     const patchParameterData = {
       queryParams: {

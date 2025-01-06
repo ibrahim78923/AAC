@@ -1,4 +1,4 @@
-import { Box, Button, Skeleton } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { giftCardDetailsColumn } from './GiftCardDetails.data';
 import FilterListIcon from '@mui/icons-material/FilterList';
@@ -13,36 +13,36 @@ export const GiftCardsDetails = () => {
     isPortalOpen,
     renderPortalComponent,
     setPage,
-    setPageLimit,
+    setLimit,
     router,
     data,
     isFetching,
     isLoading,
     isError,
     isSuccess,
+    giftCardNumber,
   } = useGiftCardsDetails?.();
+
   return (
     <>
-      <Box>
-        <PageTitledHeader
-          title={isLoading ? <Skeleton width={200} /> : data?.data?.cardNumber}
-          addTitle={'Add Transaction'}
-          canMovedBack
-          handleAction={() => setIsPortalOpen({ isOpen: true, isAdd: true })}
-          moveBack={() => {
-            router?.push(AIR_LOYALTY_PROGRAM?.GIFT_CARDS);
-          }}
+      <PageTitledHeader
+        title={giftCardNumber}
+        addTitle={'Add Transaction'}
+        canMovedBack
+        handleAction={() => setIsPortalOpen({ isOpen: true, isAdd: true })}
+        moveBack={() => {
+          router?.push(AIR_LOYALTY_PROGRAM?.GIFT_CARDS);
+        }}
+      >
+        <Button
+          variant="contained"
+          className="small"
+          startIcon={<AddWhiteBgIcon />}
+          onClick={() => setIsPortalOpen({ isOpen: true, isAdd: true })}
         >
-          <Button
-            variant="contained"
-            className="small"
-            startIcon={<AddWhiteBgIcon />}
-            onClick={() => setIsPortalOpen({ isOpen: true, isAdd: true })}
-          >
-            Add Transaction
-          </Button>
-        </PageTitledHeader>
-      </Box>
+          Add Transaction
+        </Button>
+      </PageTitledHeader>
       <Box mt={2} border={'1px solid lightgrey'} borderRadius={3}>
         <Box display={'flex'} justifyContent={'flex-end'} mx={2} gap={1} mt={2}>
           <Button
@@ -67,7 +67,7 @@ export const GiftCardsDetails = () => {
         <Box mt={2}>
           <TanstackTable
             columns={giftCardDetailsColumn}
-            data={data?.data?.transactions}
+            data={data?.data?.giftcards}
             isLoading={isLoading}
             isFetching={isFetching}
             isError={isError}
@@ -78,7 +78,7 @@ export const GiftCardsDetails = () => {
             totalRecords={data?.data?.meta?.total}
             onPageChange={(page: any) => setPage(page)}
             setPage={setPage}
-            setPageLimit={setPageLimit}
+            setPageLimit={setLimit}
             isPagination
           />
         </Box>

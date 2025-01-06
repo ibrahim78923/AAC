@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import lodash from 'lodash';
 import {
   apiSectionData,
@@ -10,7 +9,6 @@ import {
   linearScaleOption,
   surveyWatchArray,
 } from './UpsertFeedbackSurvey.data';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useAddFeedbackQuestionsMutation,
   useGetSingleFeedbackQuery,
@@ -26,6 +24,7 @@ import {
 import { isoDateString } from '@/lib/date-time';
 import { DATA_TYPES } from '@/constants/strings';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertFeedbackSurvey = () => {
   const [createSurvey, setCreateSurvey] = useState<string>(
@@ -41,11 +40,10 @@ export const useUpsertFeedbackSurvey = () => {
   const [submitType, setSubmitType] = useState('');
   const router: any = useRouter();
   const surveyId = router?.query?.id;
-  const methods = useForm({
+  const { handleSubmit, reset, watch, methods } = useFormLib({
     defaultValues: feedbackSurveyValues(null),
-    resolver: yupResolver(feedbackSurveyValidationSchema(createSurvey, router)),
+    validationSchema: feedbackSurveyValidationSchema(createSurvey, router),
   });
-  const { handleSubmit, reset, watch } = methods;
   const getParams = {
     id: surveyId,
   };
@@ -93,7 +91,7 @@ export const useUpsertFeedbackSurvey = () => {
       })?.unwrap();
       router?.push({
         ...router?.basePath,
-        query: { ...router?.query, id: response?.data?.data?._id },
+        query: { ...router?.query, id: response?.data?._id },
       });
       setCreateSurvey(feedbackTypes?.feedback);
     } catch (error) {
@@ -239,7 +237,7 @@ export const useUpsertFeedbackSurvey = () => {
       params: {
         surveyId,
         sectionId: patchResponse?.data
-          ? patchResponse?.data?.data?.sections?.[submitIndex?.index]?._id
+          ? patchResponse?.data?.sections?.[submitIndex?.index]?._id
           : submitIndex?.sectionId,
       },
     };

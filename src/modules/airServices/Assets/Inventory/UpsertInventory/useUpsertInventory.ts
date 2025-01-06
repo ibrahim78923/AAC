@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useForm, useWatch } from 'react-hook-form';
+import { useWatch } from 'react-hook-form';
 import {
   UpsertInventoryValidationSchema,
   upsertInventoryFieldsDefaultValuesFunction,
@@ -7,7 +7,6 @@ import {
   upsertInventoryFormFieldsSecond,
 } from './UpsertInventory.data';
 import { useRouter } from 'next/router';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
 import {
   useGetAirServicesAssetsInventoryAddToInventoryByIdQuery,
@@ -28,6 +27,7 @@ import {
 } from '@/utils/dynamic-forms';
 import { ARRAY_INDEX, ASSET_IMPACT } from '@/constants/strings';
 import { isoDateString } from '@/lib/date-time';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertInventory = () => {
   const theme = useTheme();
@@ -59,11 +59,13 @@ export const useUpsertInventory = () => {
       },
     );
 
-  const methods = useForm({
-    resolver: yupResolver(UpsertInventoryValidationSchema?.(form)),
+  const formLibProps = {
+    validationSchema: UpsertInventoryValidationSchema?.(form),
     defaultValues: upsertInventoryFieldsDefaultValuesFunction?.(data, form),
-  });
-  const { handleSubmit, reset, control, getValues } = methods;
+  };
+
+  const { handleSubmit, reset, methods, control, getValues } =
+    useFormLib(formLibProps);
 
   const assetTypeWatch = useWatch({
     control,

@@ -1,6 +1,3 @@
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-
 import {
   useGetServicesAccountDetailsCustomerPortalPermissionsQuery,
   usePatchServicesAccountDetailsCustomerPortalPermissionsMutation,
@@ -14,6 +11,7 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { getActiveAccountSession } from '@/utils';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const usePermissions = () => {
   const [
@@ -21,11 +19,11 @@ export const usePermissions = () => {
     patchCustomerPortalPermissionsStatus,
   ] = usePatchServicesAccountDetailsCustomerPortalPermissionsMutation?.();
 
-  const methods = useForm({
-    resolver: yupResolver(customerPortalSettingsSchemaValidation),
+  const permissionsMethodProps = {
+    validationSchema: customerPortalSettingsSchemaValidation,
     defaultValues: customerPortalSettingsFormDefaultValues?.(),
-  });
-  const { handleSubmit, reset } = methods;
+  };
+  const { handleSubmit, reset, methods } = useFormLib(permissionsMethodProps);
 
   const product = useMemo(() => getActiveAccountSession(), []);
   const organizationCompanyAccountId = product?.company?._id;

@@ -1,9 +1,7 @@
-import { useForm } from 'react-hook-form';
 import {
   departmentFormValidation,
   departmentFormValues,
 } from './UpsertDepartment.data';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   usePostDepartmentMutation,
   useUpdateDepartmentMutation,
@@ -21,6 +19,7 @@ import {
 import { useEffect, useState } from 'react';
 import { isoDateString } from '@/lib/date-time';
 import { filteredEmptyValues } from '@/utils/api';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertDepartment = (props: any) => {
   const { setOpenUpsertModal, selectedDepartment, setSelectedDepartment } =
@@ -58,12 +57,14 @@ export const useUpsertDepartment = (props: any) => {
     getDynamicFormData();
   }, []);
 
-  const method = useForm({
-    resolver: yupResolver(departmentFormValidation?.(form)),
+  const upsertDepartmentMethodProps = {
+    validationSchema: departmentFormValidation?.(form),
     defaultValues: departmentFormValues(selectedDepartment, form),
-  });
+  };
 
-  const { handleSubmit, reset } = method;
+  const { handleSubmit, reset, methods } = useFormLib(
+    upsertDepartmentMethodProps,
+  );
 
   useEffect(() => {
     reset(() => departmentFormValues(selectedDepartment, form));
@@ -174,16 +175,22 @@ export const useUpsertDepartment = (props: any) => {
     reset();
   };
 
+  const apiCallInProgress =
+    postDepartmentStatus?.isLoading ||
+    updateDepartmentStatus?.isLoading ||
+    postAttachmentStatus?.isLoading;
+
   return {
     handleClose,
     handleSubmit,
     submitUpsertDepartment,
     postDepartmentStatus,
-    method,
+    methods,
     updateDepartmentStatus,
     selectedDepartment,
     form,
     getDynamicFieldsStatus,
     postAttachmentStatus,
+    apiCallInProgress,
   };
 };

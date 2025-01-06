@@ -38,7 +38,7 @@ export const useDeleteTiers = () => {
   const deleteLoyaltyTier = async () => {
     const apiDataParameter = {
       queryParams: {
-        ids: isPortalOpen?.data?._id,
+        id: isPortalOpen?.data?._id,
       },
     };
     try {

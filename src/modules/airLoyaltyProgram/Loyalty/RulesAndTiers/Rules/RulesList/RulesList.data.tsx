@@ -17,7 +17,7 @@ export const rulesListColumnsDynamic = (
   {
     accessorFn: (info: any) => info?.attribute,
     id: 'rulesTitle',
-    header: 'Rules Title',
+    header: 'Rules Name',
     isSortable: true,
     cell: (info: any) => LOYALTY_RULES_ATTRIBUTES_MAPPED?.[info?.getValue()],
   },
@@ -28,7 +28,7 @@ export const rulesListColumnsDynamic = (
     isSortable: true,
     cell: (info: any) => (
       <UserInfo
-        avatarSrc={info?.getValue()?.logo}
+        avatarSrc={info?.row?.original?.tierAttachments?.fileUrl}
         name={fullName(info?.getValue()?.name)}
       />
     ),

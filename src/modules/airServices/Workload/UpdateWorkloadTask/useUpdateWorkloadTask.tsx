@@ -1,5 +1,3 @@
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   getWorkloadDataArray,
   getWorkloadDefaultValues,
@@ -9,17 +7,19 @@ import { useEffect } from 'react';
 import { usePatchAirServicesWorkloadTaskMutation } from '@/services/airServices/workload';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { isoDateString } from '@/lib/date-time';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpdateWorkloadTask = ({ onClose, dataGet }: any) => {
   const [patchTaskTrigger, patchTaskStatus] =
     usePatchAirServicesWorkloadTaskMutation();
 
-  const methods: any = useForm({
-    resolver: yupResolver(getWorkloadValidationSchema),
+  const workloadTaskMethodProps = {
+    validationSchema: getWorkloadValidationSchema,
     defaultValues: getWorkloadDefaultValues?.(dataGet?.extendedProps),
-  });
+  };
 
-  const { handleSubmit, reset, getValues, setValue, setError, watch } = methods;
+  const { handleSubmit, reset, getValues, setValue, setError, watch, methods } =
+    useFormLib(workloadTaskMethodProps);
 
   const onSubmit = async (data: any) => {
     const { plannedEffort } = getValues();

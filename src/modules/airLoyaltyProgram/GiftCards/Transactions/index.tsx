@@ -11,10 +11,9 @@ import { TransactionFilter } from './TransactionFilter';
 
 export const Transactions = () => {
   const {
-    search,
     handleSearch,
     setPage,
-    setLimit,
+    setPageLimit,
     openDrawer,
     setOpenDrawer,
     data,
@@ -36,6 +35,7 @@ export const Transactions = () => {
           alignItems={'center'}
           justifyContent={'space-between'}
           flexWrap={'wrap'}
+          gap={1}
         >
           <PermissionsGuard
             permissions={[
@@ -46,7 +46,6 @@ export const Transactions = () => {
               label="Search Here"
               size="small"
               setSearchBy={handleSearch}
-              searchBy={search}
             />
           </PermissionsGuard>
           <PermissionsGuard
@@ -72,7 +71,7 @@ export const Transactions = () => {
         >
           <TanstackTable
             columns={UserList}
-            data={data?.data}
+            data={data?.data?.giftcards}
             isLoading={isLoading}
             isFetching={isFetching}
             isError={isError}
@@ -83,7 +82,7 @@ export const Transactions = () => {
             totalRecords={data?.data?.meta?.total}
             onPageChange={(page: any) => setPage(page)}
             setPage={setPage}
-            setPageLimit={setLimit}
+            setPageLimit={setPageLimit}
             isPagination
           />
         </PermissionsGuard>

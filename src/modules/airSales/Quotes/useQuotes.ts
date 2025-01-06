@@ -143,6 +143,15 @@ const useQuotes = () => {
     }
   };
 
+  // Modal export
+  const [openModalExport, setOpenModalExport] = useState(false);
+  const handleOpenModalExport = () => {
+    setOpenModalExport(true);
+  };
+  const handleCloseModalExport = () => {
+    setOpenModalExport(false);
+  };
+
   return {
     openFilters,
     handleOpenFilters,
@@ -185,6 +194,9 @@ const useQuotes = () => {
     loagingGetQuotes,
     loadingDeleteQuote,
     fetchingQuotesList,
+    handleOpenModalExport,
+    handleCloseModalExport,
+    openModalExport,
   };
 };
 

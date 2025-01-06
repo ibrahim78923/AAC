@@ -1,4 +1,3 @@
-import { useForm, UseFormReturn } from 'react-hook-form';
 import {
   ticketsFilterFormFieldsDataFunction,
   ticketsFilterFormFieldsDefaultValues,
@@ -12,23 +11,26 @@ import {
   setIsPortalClose,
 } from '@/redux/slices/airServices/tickets/slice';
 import { PAGINATION } from '@/config';
+import {
+  servicesTicketsFilterTicketListsSelector,
+  servicesTicketsIsPortalOpenSelector,
+} from '@/redux/slices/airServices/tickets/selectors';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useFilterTickets = () => {
-  const isPortalOpen = useAppSelector(
-    (state) => state?.servicesTickets?.isPortalOpen,
-  );
+  const isPortalOpen = useAppSelector(servicesTicketsIsPortalOpenSelector);
 
   const filterTicketLists = useAppSelector(
-    (state) => state?.servicesTickets?.filterTicketLists,
+    servicesTicketsFilterTicketListsSelector,
   );
 
   const dispatch = useAppDispatch();
-  const methods: UseFormReturn<TicketsFilterFormFieldsI> =
-    useForm<TicketsFilterFormFieldsI>({
-      defaultValues: ticketsFilterFormFieldsDefaultValues(filterTicketLists),
-    });
 
-  const { handleSubmit, reset } = methods;
+  const formLibProps = {
+    defaultValues: ticketsFilterFormFieldsDefaultValues(filterTicketLists),
+  };
+
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
 
   const submitTicketFilterForm = async (data: TicketsFilterFormFieldsI) => {
     const ticketsFiltered: any = filteredEmptyValues?.(data);

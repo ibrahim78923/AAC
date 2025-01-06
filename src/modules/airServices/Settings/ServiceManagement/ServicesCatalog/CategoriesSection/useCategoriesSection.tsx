@@ -1,5 +1,3 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
 import {
   addServiceCatalogDefaultValues,
   addServiceCatalogValidationSchema,
@@ -9,6 +7,7 @@ import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { useRouter } from 'next/router';
 import { useTheme } from '@mui/material';
+import { useFormLib } from '@/hooks/useFormLib';
 
 const useCategoriesSection = (props: any) => {
   const { setOpen } = props;
@@ -19,12 +18,12 @@ const useCategoriesSection = (props: any) => {
   const [postServiceCatalogTrigger, postServiceCatalogTriggerStatus] =
     usePostAirServicesSettingsServiceCatalogMutation();
 
-  const methodAdd = useForm({
-    resolver: yupResolver(addServiceCatalogValidationSchema),
+  const formLibProps = {
+    validationSchema: addServiceCatalogValidationSchema,
     defaultValues: addServiceCatalogDefaultValues,
-  });
+  };
 
-  const { handleSubmit, reset } = methodAdd;
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
 
   const onSubmit = async (data: any) => {
     try {
@@ -47,7 +46,7 @@ const useCategoriesSection = (props: any) => {
   return {
     router,
     theme,
-    methodAdd,
+    methods,
     handleSubmit,
     onSubmit,
     handleClose,

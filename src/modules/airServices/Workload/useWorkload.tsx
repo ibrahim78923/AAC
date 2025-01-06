@@ -1,12 +1,12 @@
 import { DATE_FORMAT } from '@/constants';
+import { useFormLib } from '@/hooks/useFormLib';
 import { endOfTime, startOfAddTime, startOfFormat } from '@/lib/date-time';
 import {
   useLazyGetAirServicesWorkloadFilterQuery,
   useLazyGetAirServicesWorkloadQuery,
 } from '@/services/airServices/workload';
 import { NextRouter, useRouter } from 'next/router';
-import { RefObject, useEffect, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { RefObject, useEffect, useMemo, useRef, useState } from 'react';
 
 export default function useWorkload() {
   const calendarRef: RefObject<any> = useRef<any>(null);
@@ -36,57 +36,65 @@ export default function useWorkload() {
   const [selected, setSelected] = useState<any>(null);
   const [filterByTypeState, setFilterByTypeState] = useState('ALL');
 
-  const methods = useForm({
+  const workloadMethodProps = {
     defaultValues: { filterModuleType: filterByTypeState ?? 'ALL' },
-  });
+  };
+
+  const { methods } = useFormLib(workloadMethodProps);
 
   const [trigger, status] = useLazyGetAirServicesWorkloadQuery();
   const [triggerFilter, statusFilter] =
     useLazyGetAirServicesWorkloadFilterQuery();
 
-  const firstTrigger = () => {
-    trigger({
-      startDate: startOfAddTime(new Date(), 'week', 1, 'day'),
-      endDate: endOfTime(new Date(), 'week'),
+  // Memoize parameters for API calls to avoid unnecessary recalculations
+  const workloadParams = useMemo(
+    () => ({
+      startDate: startOfAddTime(dateCalendar, 'week', 1, 'day'),
+      endDate: endOfTime(dateCalendar, 'week'),
       agent: selected?._id,
       assignTo: selected?._id,
       moduleType: filterByTypeState,
-    });
-  };
+    }),
+    [dateCalendar, selected, filterByTypeState],
+  );
 
-  useEffect(() => {
-    firstTrigger?.();
-  }, [selected, filterByTypeState]);
-
-  useEffect(() => {
-    triggerFilter({
-      startDate: startOfAddTime(new Date(), 'week', 1, 'day'),
-      endDate: endOfTime(new Date(), 'week'),
+  const filterParams = useMemo(
+    () => ({
+      ...workloadParams,
       countDayWise: filter?.countDayWise,
       countDayWiseHours: filter?.countDayWiseHours,
       countDayWiseHoursAverage: filter?.countDayWiseHoursAverage,
-    });
-  }, [filter]);
+    }),
+    [workloadParams, filter],
+  );
+
+  const firstTrigger = () => {
+    trigger(workloadParams);
+  };
+
+  useEffect(() => {
+    firstTrigger();
+  }, [workloadParams]);
+
+  useEffect(() => {
+    triggerFilter(filterParams);
+  }, [filterParams]);
 
   const dateChangeHandler = async (date: string | any) => {
     setDateCalendar(date);
     try {
-      await trigger({
-        startDate: startOfAddTime(date, 'week', 1, 'day'),
-        endDate: endOfTime(date, 'week'),
-        agent: selected?._id,
-        assignTo: selected?._id,
-        moduleType: filterByTypeState,
-      })?.unwrap();
-
-      await triggerFilter({
-        startDate: startOfAddTime(date, 'week', 1, 'day'),
-        endDate: endOfTime(date, 'week'),
-        countDayWise: filter?.countDayWise,
-        countDayWiseHours: filter?.countDayWiseHours,
-        countDayWiseHoursAverage: filter?.countDayWiseHoursAverage,
-        moduleType: filterByTypeState,
-      })?.unwrap();
+      await Promise.all([
+        trigger({
+          ...workloadParams,
+          startDate: startOfAddTime(date, 'week', 1, 'day'),
+          endDate: endOfTime(date, 'week'),
+        }).unwrap(),
+        triggerFilter({
+          ...filterParams,
+          startDate: startOfAddTime(date, 'week', 1, 'day'),
+          endDate: endOfTime(date, 'week'),
+        }).unwrap(),
+      ]);
 
       calendarRef?.current?.getApi()?.gotoDate(date);
     } catch (error) {}

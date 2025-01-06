@@ -70,10 +70,17 @@ const useProductsEditorDrawer = ({
   const watchProduct = watch('productType');
 
   const onSubmit = async (values: any) => {
-    delete values.productType;
+    const updatedValues = {
+      ...values,
+      name: values?.name?.toString(),
+      purchasePrice: Number(values?.purchasePrice),
+      unitPrice: Number(values?.unitPrice),
+    };
+
+    delete updatedValues.productType;
     const formData = new FormData();
 
-    Object.entries(values)?.forEach(([key, value]: any) => {
+    Object.entries(updatedValues)?.forEach(([key, value]: any) => {
       if (value !== undefined && value !== null && value !== '') {
         if (key === PRODUCTS_TYPE?.EXT_PRODUCT) {
           return;
@@ -82,7 +89,11 @@ const useProductsEditorDrawer = ({
         } else if (key === 'image') {
           formData.append(key, value);
         } else {
-          formData.append(key, JSON?.stringify(value));
+          if (typeof value === 'object') {
+            formData.append(key, JSON.stringify(value));
+          } else {
+            formData.append(key, value);
+          }
         }
       }
     });
@@ -92,7 +103,7 @@ const useProductsEditorDrawer = ({
         ? await createAssociation({
             body: {
               dealId: dealId,
-              product: [{ productId: values?.chooseProduct }],
+              product: [{ productId: updatedValues?.chooseProduct }],
             },
           })
             ?.unwrap()

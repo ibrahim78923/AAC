@@ -1,5 +1,3 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
 import {
   useLazyGetAirServicesSettingsServiceCategoriesDropdownQuery,
   usePatchAirServicesSettingsServiceCatalogMutation,
@@ -10,6 +8,7 @@ import {
   moveToCategoryDefaultValues,
   moveToCategoryValidationSchema,
 } from './MoveToCategory.data';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export default function useMoveToCategory(props: any) {
   const { setOpen, dataProp, setSelectedCheckboxes } = props;
@@ -17,12 +16,12 @@ export default function useMoveToCategory(props: any) {
   const [patchServiceCatalogTrigger, patchServiceCatalogTriggerStatus] =
     usePatchAirServicesSettingsServiceCatalogMutation();
 
-  const methodAdd = useForm({
-    resolver: yupResolver(moveToCategoryValidationSchema),
+  const formLibProps = {
+    validationSchema: moveToCategoryValidationSchema,
     defaultValues: moveToCategoryDefaultValues,
-  });
+  };
 
-  const { handleSubmit } = methodAdd;
+  const { handleSubmit, methods } = useFormLib(formLibProps);
 
   const onSubmit = async (data: any) => {
     const moveToCategoryData = {
@@ -52,7 +51,7 @@ export default function useMoveToCategory(props: any) {
     useLazyGetAirServicesSettingsServiceCategoriesDropdownQuery();
 
   return {
-    methodAdd,
+    methods,
     handleSubmit,
     onSubmit,
     apiQueryCategory,

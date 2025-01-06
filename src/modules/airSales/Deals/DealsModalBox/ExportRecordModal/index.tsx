@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Grid } from '@mui/material';
 import CommonModal from '@/components/CommonModal';
@@ -11,16 +12,61 @@ import {
 import { ExportRecordIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { ExportRecordModalI } from '../DealsModalBox-interface';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useAppSelector } from '@/redux/store';
+import { downloadLink } from '@/utils/download-blob';
 
 const ExportRecordModal = ({ open, onClose }: ExportRecordModalI) => {
   const methods: any = useForm({
     resolver: yupResolver(customValidationSchema),
     defaultValues: customDefaultValues,
   });
+  const socket = useAppSelector((state) => state?.chat?.socket);
+  const [isLoadingDownload, setIsLoadingDownload] = useState(false);
 
-  const { handleSubmit } = methods;
-  const onSubmit = async () => {
+  const downloadFile = (payload: { url: string }) => {
+    setIsLoadingDownload(false);
     onClose();
+
+    if (payload && payload.url) {
+      downloadLink(payload.url);
+      successSnackbar('Your download will start soon');
+      onClose();
+      reset();
+    } else {
+      errorSnackbar('Failed to retrieve download link.');
+    }
+  };
+
+  const { handleSubmit, reset } = methods;
+  const onSubmit = async (value: any) => {
+    let downloadHandled = false;
+    const queryParams = {
+      exportType: value?.file,
+    };
+
+    try {
+      setIsLoadingDownload(true);
+      socket.emit('exportDeals', queryParams);
+      socket.once('download-link', (payload: any) => {
+        downloadHandled = true;
+        downloadFile(payload);
+      });
+      socket.once('exception', (error: any) => {
+        if (!downloadHandled) {
+          setIsLoadingDownload(false);
+          onClose();
+          reset();
+          errorSnackbar(error?.message ?? 'error occurred');
+        }
+      });
+    } catch (error: any) {
+      setIsLoadingDownload(false);
+      onClose();
+      errorSnackbar(
+        error?.data?.message ?? 'An error occurred while downloading.',
+      );
+    }
   };
 
   return (
@@ -34,6 +80,7 @@ const ExportRecordModal = ({ open, onClose }: ExportRecordModalI) => {
       footer
       headerIcon={<ExportRecordIcon />}
       handleCancel={onClose}
+      isLoading={isLoadingDownload}
     >
       <FormProvider methods={methods}>
         {recordData?.map((item: any) => {

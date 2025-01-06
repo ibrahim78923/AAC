@@ -1,16 +1,14 @@
-import { useForm, UseFormReturn } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   getSettingsDataArray,
   settingsDefaultValues,
   settingsValidationSchema,
 } from './Settings.data';
 import { useEffect, useMemo } from 'react';
-import { ISettingsDefaultValues } from './Settings.interface';
 import ApiErrorState from '@/components/ApiErrorState';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { getActiveAccountSession } from '@/utils';
 import { useGetServiceAccountDetailCompanyAccountsByIdQuery } from '@/services/airServices/settings/account-settings/account-details';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useSettings = () => {
   const domain = window?.location?.hostname;
@@ -26,17 +24,16 @@ export const useSettings = () => {
     });
   const apiKeyData = data?.data?.apiKey;
 
-  const settingsMethods: UseFormReturn<ISettingsDefaultValues> | any =
-    useForm<ISettingsDefaultValues>({
-      resolver: yupResolver(settingsValidationSchema),
-      defaultValues: settingsDefaultValues({
-        domain,
-        encryptedValue,
-        apiKeyData,
-      }),
-    });
+  const settingsMethodProps = {
+    validationSchema: settingsValidationSchema,
+    defaultValues: settingsDefaultValues({
+      domain,
+      encryptedValue,
+      apiKeyData,
+    }),
+  };
 
-  const { getValues, reset } = settingsMethods;
+  const { getValues, reset, methods } = useFormLib(settingsMethodProps);
 
   useEffect(() => {
     reset(
@@ -67,7 +64,7 @@ export const useSettings = () => {
   };
 
   return {
-    settingsMethods,
+    methods,
     settingsDataArray,
     isLoading,
     isFetching,

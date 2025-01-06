@@ -72,6 +72,7 @@ export const validationSchema: any = Yup?.object()?.shape({
   domain: Yup?.string()?.trim()?.required('Domain is required'),
   name: Yup?.string()
     ?.trim()
+    ?.required('Company name is required')
     ?.max(
       GLOBAL_CHARACTERS_LIMIT?.NAME,
       `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.NAME}`,

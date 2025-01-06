@@ -2,11 +2,8 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AIR_LOYALTY_PROGRAM } from '@/constants/routes';
-import { Box, Grid, Typography } from '@mui/material';
-import {
-  voucherRedemptionsColumns,
-  voucherRedemptionsData,
-} from './VoucherRedemptionsList.data';
+import { Box, Grid } from '@mui/material';
+import { voucherRedemptionsColumns } from './VoucherRedemptionsList.data';
 import { useVoucherRedemptionsList } from './useVoucherRedemptionsList';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS } from '@/constants/permission-keys';
@@ -19,31 +16,18 @@ export const VoucherRedemptionsList = () => {
     setPageLimit,
     router,
     lazyGetVoucherRedemptionListStatus,
-    voucherRedemptionListMetaData,
-    setSearch,
+    handleSearch,
   } = useVoucherRedemptionsList();
   return (
     <>
       <Grid container>
         <Grid item xs={12}>
           <PageTitledHeader
-            title="Maryam"
+            title="Redeemed Vouchers"
             canMovedBack
             moveBack={() => router?.push(AIR_LOYALTY_PROGRAM?.VOUCHERS)}
           />
         </Grid>
-        <PermissionsGuard
-          permissions={[AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.VIEW_DETAILS]}
-        >
-          <Grid item xs={12}>
-            <Typography variant="body2" fontWeight={500} color="slateBlue.main">
-              50 Dollars reward:
-            </Typography>
-            <Typography variant="body2" color="custom.main">
-              VEf12UYBN
-            </Typography>
-          </Grid>
-        </PermissionsGuard>
         <Grid item xs={12}>
           <Box
             border="1px solid"
@@ -59,7 +43,7 @@ export const VoucherRedemptionsList = () => {
               flexWrap="wrap"
               gap={1.5}
             >
-              <Search label="search" setSearchBy={setSearch} />
+              <Search label="Search Here" setSearchBy={handleSearch} />
             </Box>
             <PermissionsGuard
               permissions={[
@@ -68,17 +52,19 @@ export const VoucherRedemptionsList = () => {
             >
               <TanstackTable
                 columns={voucherRedemptionsColumns}
-                data={voucherRedemptionsData}
+                data={lazyGetVoucherRedemptionListStatus?.data?.data?.vouchers}
                 isLoading={lazyGetVoucherRedemptionListStatus?.isLoading}
                 isFetching={lazyGetVoucherRedemptionListStatus?.isFetching}
                 isError={lazyGetVoucherRedemptionListStatus?.isError}
-                isSuccess={
-                  lazyGetVoucherRedemptionListStatus?.isSuccess || true
-                }
+                isSuccess={lazyGetVoucherRedemptionListStatus?.isSuccess}
                 currentPage={page}
-                count={voucherRedemptionListMetaData?.pages}
+                count={
+                  lazyGetVoucherRedemptionListStatus?.data?.data?.meta?.pages
+                }
                 pageLimit={pageLimit}
-                totalRecords={voucherRedemptionListMetaData?.total}
+                totalRecords={
+                  lazyGetVoucherRedemptionListStatus?.data?.data?.meta?.total
+                }
                 onPageChange={(page: any) => setPage(page)}
                 setPage={setPage}
                 setPageLimit={setPageLimit}

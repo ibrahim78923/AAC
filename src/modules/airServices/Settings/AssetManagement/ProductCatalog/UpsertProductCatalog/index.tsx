@@ -1,4 +1,4 @@
-import { Box, DialogActions, Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertProductCatalog } from './useUpsertProductCatalog';
 import { LoadingButton } from '@mui/lab';
@@ -39,7 +39,15 @@ export const UpsertProductCatalog = () => {
             </Grid>
           ))}
         </Grid>
-        <DialogActions sx={{ mt: 4 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            gap: 2,
+            mt: 4,
+          }}
+        >
           <LoadingButton
             variant="outlined"
             type="button"
@@ -68,7 +76,7 @@ export const UpsertProductCatalog = () => {
           >
             {!!productCatalogId ? 'Update' : 'Save'}
           </LoadingButton>
-        </DialogActions>
+        </Box>
       </FormProvider>
     </Box>
   );

@@ -7,11 +7,11 @@ import { IPropsAccountDetails } from '../AccountDetails.interface';
 import { IProfileOtherData, IProfileWorkData } from './Profile.interface';
 
 export const Profile = (props: IPropsAccountDetails) => {
-  const { isLoading, profileMethods, handleSubmitProfile, handleCancel } =
+  const { isLoading, methods, handleSubmitProfile, handleCancel } =
     useProfile(props);
 
   return (
-    <FormProvider methods={profileMethods} onSubmit={handleSubmitProfile}>
+    <FormProvider methods={methods} onSubmit={handleSubmitProfile}>
       <Typography variant="h5" mb={1}>
         Work Information
       </Typography>

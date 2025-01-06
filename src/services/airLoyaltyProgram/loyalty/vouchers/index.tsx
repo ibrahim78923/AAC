@@ -14,9 +14,10 @@ export const vouchersAPI = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     getSingleVouchers: builder?.query({
-      query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.GET_SINGLE_VOUCHERS}/${apiDataParameter}`,
+      query: (params: any) => ({
+        url: `${END_POINTS?.GET_SINGLE_VOUCHERS}`,
         method: 'GET',
+        params,
       }),
       providesTags: [TAG],
     }),
@@ -38,22 +39,36 @@ export const vouchersAPI = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     getVoucherRedemptionList: builder?.query({
-      query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.GET_VOUCHERS}`,
-        method: 'GET',
-        params: apiDataParameter?.queryParams,
-      }),
-      providesTags: [TAG],
-    }),
-    getContactsList: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.CONTACTS}`,
+      query: (params: any) => ({
+        url: `${END_POINTS?.GET_VOUCHERS_REDEMPTION}`,
         method: 'GET',
         params,
       }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.contacts;
-      },
+      providesTags: [TAG],
+    }),
+    deleteVoucher: builder?.mutation({
+      query: (id: any) => ({
+        url: `${END_POINTS?.DELETE_VOUCHERS}/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: [TAG],
+    }),
+    vouchersTiersDropdownList: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_TIERS_LIST}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => response?.data?.mergedResults,
+      providesTags: [TAG],
+    }),
+    editVoucher: builder?.mutation({
+      query: (body: any) => ({
+        url: `${END_POINTS?.UPDATE_VOUCHER}`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: [TAG],
     }),
   }),
 });
@@ -64,6 +79,8 @@ export const {
   useLazyGetVoucherRedemptionListQuery,
   usePostVouchersMutation,
   usePatchVoucherMutation,
-  useLazyGetContactsListQuery,
   useGetSingleVouchersQuery,
+  useDeleteVoucherMutation,
+  useLazyVouchersTiersDropdownListQuery,
+  useEditVoucherMutation,
 } = vouchersAPI;

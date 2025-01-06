@@ -1,5 +1,3 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
 import {
   changeStatusDefaultValues,
   changeStatusValidationSchema,
@@ -7,6 +5,7 @@ import {
 import { usePatchAirServicesSettingsServiceCatalogMutation } from '@/services/airServices/settings/service-management/service-catalog';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
+import { useFormLib } from '@/hooks/useFormLib';
 
 const useChangeStatus = (prop: any) => {
   const { setOpenStatus, dataProp, setSelectedCheckboxes } = prop;
@@ -14,12 +13,12 @@ const useChangeStatus = (prop: any) => {
   const [patchServiceCatalogTrigger, patchServiceCatalogTriggerStatus] =
     usePatchAirServicesSettingsServiceCatalogMutation();
 
-  const methodChangeStatus = useForm({
-    resolver: yupResolver(changeStatusValidationSchema),
+  const formLibProps = {
+    validationSchema: changeStatusValidationSchema,
     defaultValues: changeStatusDefaultValues,
-  });
+  };
 
-  const { handleSubmit } = methodChangeStatus;
+  const { handleSubmit, methods } = useFormLib(formLibProps);
 
   const onSubmit = async (data: any) => {
     const moveToCategoryData = {
@@ -46,7 +45,7 @@ const useChangeStatus = (prop: any) => {
   };
 
   return {
-    methodChangeStatus,
+    methods,
     handleSubmit,
     onSubmit,
     patchServiceCatalogTriggerStatus,

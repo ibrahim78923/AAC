@@ -1,4 +1,5 @@
 import { AIR_LOYALTY_PROGRAM } from '@/constants/routes';
+import { useFormLib } from '@/hooks/useFormLib';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
   useAddLoyaltyProgramSettingsGeneralSettingsMutation,
@@ -7,15 +8,18 @@ import {
 } from '@/services/airLoyaltyProgram/settings';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
 
 export const useGiftCards = () => {
   const router = useRouter();
-  const methods = useForm({
+
+  const formLibProps = {
     defaultValues: {
       giftCardMaxAmount: '',
     },
-  });
+  };
+
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
+
   const { data, refetch, isLoading, isFetching, isError } =
     useGetLoyaltyProgramSettingsGeneralSettingsQuery(null, {
       refetchOnMountOrArgChange: true,
@@ -30,8 +34,6 @@ export const useGiftCards = () => {
     updateLoyaltyProgramSettingsGeneralSettingsTrigger,
     updateLoyaltyProgramSettingsGeneralSettingsStatus,
   ] = useUpdateLoyaltyProgramSettingsGeneralSettingsMutation();
-
-  const { handleSubmit, reset } = methods;
 
   const submitGiftCard = async (formData: any) => {
     const body = {
@@ -101,5 +103,6 @@ export const useGiftCards = () => {
     showLoader,
     isError,
     moveToSettings,
+    reset,
   };
 };

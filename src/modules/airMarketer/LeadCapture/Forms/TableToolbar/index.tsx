@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Button, Menu, MenuItem } from '@mui/material';
-import { RestoreIcon, DownIcon } from '@/assets/icons';
+import { RestoreIcon, DownIcon, ExportCloudIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_LEAD_CAPTURE_FORM_PERMISSIONS } from '@/constants/permission-keys';
 import Search from '@/components/Search';
@@ -84,7 +84,7 @@ const TableToolbar: React.FC<ToolbarI> = (props) => {
             >
               Delete
             </MenuItem>
-            <MenuItem
+            {/* <MenuItem
               disabled={disabledMenuItem}
               onClick={() => {
                 handleActionsMenuClose();
@@ -92,7 +92,7 @@ const TableToolbar: React.FC<ToolbarI> = (props) => {
               }}
             >
               Export PDF
-            </MenuItem>
+            </MenuItem> */}
             <MenuItem
               disabled={disabledMenuItem}
               onClick={() => {
@@ -104,6 +104,15 @@ const TableToolbar: React.FC<ToolbarI> = (props) => {
             </MenuItem>
           </Menu>
         </Box>
+        <Button
+          variant="outlined"
+          className="small"
+          color="inherit"
+          onClick={onClickExport}
+        >
+          <ExportCloudIcon />
+          &nbsp; Export
+        </Button>
         <Button
           variant="outlined"
           className="small"

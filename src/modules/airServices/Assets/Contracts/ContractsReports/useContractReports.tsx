@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import {
   ContractReportsChartData,
   ContractReportsCountData,
@@ -16,6 +15,7 @@ import {
 import { useApiPolling } from '@/hooks/useApiPolling';
 import { htmlToPdfConvert } from '@/lib/html-to-pdf-converter';
 import { isoDateString } from '@/lib/date-time';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useContractReports = () => {
   const router = useRouter();
@@ -29,7 +29,7 @@ export const useContractReports = () => {
 
   const downloadRef = useRef(null);
 
-  const methods: any = useForm({
+  const contractReportMethodProps = {
     defaultValues: {
       contracts: contractsTypeOptions?.[ARRAY_INDEX?.ZERO],
       createdDate: {
@@ -38,9 +38,11 @@ export const useContractReports = () => {
         key: 'selection',
       },
     },
-  });
-  const { handleSubmit, getValues, watch, setValue } = methods;
+  };
 
+  const { handleSubmit, getValues, watch, setValue, methods } = useFormLib(
+    contractReportMethodProps,
+  );
   watch?.();
 
   const apiDataParameter = {

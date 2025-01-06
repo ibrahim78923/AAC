@@ -1,5 +1,3 @@
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   moveFolderValidationSchema,
   moveFolderDefaultValues,
@@ -14,6 +12,7 @@ import {
   setIsPortalClose,
 } from '@/redux/slices/airServices/knowledge-base/slice';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 const { ZERO } = ARRAY_INDEX ?? {};
 
@@ -32,12 +31,12 @@ export const useMoveFolder = () => {
   const [patchArticleTrigger, patchArticleStatus] =
     useUpdateServicesKnowledgeBaseSingleArticleMutation();
 
-  const methods = useForm<any>({
-    resolver: yupResolver(moveFolderValidationSchema),
+  const formLibProps = {
+    validationSchema: moveFolderValidationSchema,
     defaultValues: moveFolderDefaultValues?.(selectedFolderName),
-  });
+  };
 
-  const { reset, handleSubmit } = methods;
+  const { reset, handleSubmit, methods } = useFormLib(formLibProps);
 
   const submitMoveFolder = async (data: MoveFolderFormFieldsI) => {
     const selectedFolderId = selectedArticlesList?.[ZERO]?.folder?._id;

@@ -1,11 +1,9 @@
-import { useForm } from 'react-hook-form';
 import {
   moveTicketsDefaultValue,
   moveTicketsFormFieldsDynamic,
   moveTicketsValidationSchema,
 } from './MoveTickets.data';
 import { useUpdateSingleServicesTicketByIdMutation } from '@/services/airServices/tickets';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { useGetTicketList } from '../TicketsServicesHooks/useGetTicketList';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
@@ -16,35 +14,37 @@ import {
 } from '@/redux/slices/airServices/tickets/slice';
 import { PAGINATION } from '@/config';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import {
+  servicesTicketsIsPortalOpenSelector,
+  servicesTicketsSelectedTicketListsSelector,
+  servicesTicketsTotalRecordsSelector,
+} from '@/redux/slices/airServices/tickets/selectors';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useMoveTickets = () => {
   const dispatch = useAppDispatch();
 
   const { getTicketsListData, page } = useGetTicketList();
 
-  const totalRecords = useAppSelector(
-    (state) => state?.servicesTickets?.totalRecords,
-  );
+  const totalRecords = useAppSelector(servicesTicketsTotalRecordsSelector);
 
   const selectedTicketLists = useAppSelector(
-    (state) => state?.servicesTickets?.selectedTicketLists,
+    servicesTicketsSelectedTicketListsSelector,
   );
 
-  const isPortalOpen = useAppSelector(
-    (state) => state?.servicesTickets?.isPortalOpen,
-  );
+  const isPortalOpen = useAppSelector(servicesTicketsIsPortalOpenSelector);
 
   const singleTicketDetail = selectedTicketLists?.[ARRAY_INDEX?.ZERO];
 
   const [putTicketTrigger, putTicketStatus] =
     useUpdateSingleServicesTicketByIdMutation();
 
-  const methods = useForm<any>({
+  const formLibProps = {
     defaultValues: moveTicketsDefaultValue,
-    resolver: yupResolver(moveTicketsValidationSchema),
-  });
+    validationSchema: moveTicketsValidationSchema,
+  };
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
 
   const refetchApi = async () => {
     const newPage =

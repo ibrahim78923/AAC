@@ -6,7 +6,6 @@ import {
   validationSchema,
 } from './UpsertGenericReports.data';
 import { Theme, useTheme } from '@mui/material';
-import { useForm } from 'react-hook-form';
 import { EditorState } from 'draft-js';
 import {
   CHARTS,
@@ -31,8 +30,8 @@ import {
   setShowTemplate,
 } from '@/redux/slices/genericReport/genericReportSlice';
 import { useAppSelector } from '@/redux/store';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { AIR_OPERATIONS } from '@/constants/routes';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export default function useUpsertGenericReports() {
   const dispatch = useDispatch();
@@ -54,12 +53,14 @@ export default function useUpsertGenericReports() {
     });
   const singleReport = (data as any)?.data?.genericReport;
 
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
+  const upsertReportMethodProps = {
+    validationSchema: validationSchema,
     defaultValues: defaultValues(),
-  });
+  };
 
-  const { watch, setValue, reset } = methods;
+  const { watch, setValue, reset, methods, handleSubmit } = useFormLib(
+    upsertReportMethodProps,
+  );
   const [form, setForm] = useState<any>([]);
   const [modal, setModal] = useState<any>(MODAL_INITIAL_STATES);
   const [draggedItemData, setDraggedItemData] = useState<any>(null);
@@ -306,6 +307,7 @@ export default function useUpsertGenericReports() {
     setModal,
     theme,
     methods,
+    handleSubmit,
     setValue,
     allChartComponents,
     showTemplate,

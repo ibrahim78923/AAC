@@ -7,7 +7,7 @@ import { CALENDAR_FORMAT } from '@/constants';
 export const useTransaction = () => {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [limit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [openDrawer, setOpenDrawer] = useState<any>(false);
   const [filterValues, setFilterValues] = useState<any>({});
 
@@ -27,12 +27,11 @@ export const useTransaction = () => {
         CALENDAR_FORMAT?.YMD,
       ),
     }),
-    ...(filterValues?.recipient && { recipient: filterValues.recipient }),
     ...(filterValues?.maxAmount && {
-      maxcurrentamount: filterValues?.maxAmount,
+      maxTransactionAmount: filterValues?.maxAmount,
     }),
     ...(filterValues?.minAmount && {
-      minicurrentamount: filterValues?.minAmount,
+      minTransactionAmount: filterValues?.minAmount,
     }),
   };
 
@@ -42,18 +41,14 @@ export const useTransaction = () => {
   };
 
   const { data, isFetching, isLoading, isError, isSuccess } =
-    useGetTransactionListQuery<any>(
-      {},
-      {
-        refetchOnMountOrArgChange: true,
-      },
-    );
+    useGetTransactionListQuery<any>(transactionParams, {
+      refetchOnMountOrArgChange: true,
+    });
 
   return {
-    search,
     handleSearch,
     setPage,
-    setLimit,
+    setPageLimit,
     data,
     isFetching,
     isLoading,

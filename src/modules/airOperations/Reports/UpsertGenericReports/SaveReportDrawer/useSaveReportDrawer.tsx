@@ -1,5 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { useFieldArray } from 'react-hook-form';
 import {
   reportsDataArray,
   reportsDefaultValues,
@@ -28,6 +27,7 @@ import {
   BACKEND_COLLECTION_NAME,
   BACKEND_REPORT_ACCESS,
 } from '@/constants/api';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
   const { form, reportId, metricType, data, handleMoveBack } = props;
@@ -50,13 +50,13 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
     singleReport?.dasboardDetails[SELECTED_ARRAY_LENGTH?.ZERO];
   const allUsersData = singleReport?.genericReport?.accessLevel?.users;
 
-  const saveReportsMethods = useForm({
-    resolver: yupResolver<any>(reportsValidationSchema(reportValidation)),
+  const saveReportsMethodProps = {
+    validationSchema: reportsValidationSchema(reportValidation),
     defaultValues: reportsDefaultValues(singleReport),
-  });
+  };
 
-  const { watch, handleSubmit, setValue, control, getValues } =
-    saveReportsMethods;
+  const { watch, handleSubmit, setValue, control, getValues, methods } =
+    useFormLib(saveReportsMethodProps);
 
   const { fields: sharedWithFields } = useFieldArray<any>({
     control,
@@ -381,7 +381,7 @@ export const useSaveReportDrawer = (props: SaveReportDrawerI) => {
   };
 
   return {
-    saveReportsMethods,
+    methods,
     watch,
     handleSubmit,
     onSubmit,

@@ -9,14 +9,19 @@ export const CustomAvatar = (props: any) => {
     avatarSrc,
     tooltipTitle,
     customTooltipProps,
+    backgroundColor = 'primary.main',
+    customStyles,
+    padding,
   } = props;
   return (
     <CustomTooltip title={tooltipTitle} isCapital {...customTooltipProps}>
       <Avatar
         sx={{
-          bgcolor: 'primary.main',
+          backgroundColor,
           width: avatarSize?.width ?? 28,
           height: avatarSize?.height ?? 28,
+          padding,
+          ...customStyles,
         }}
         variant={avatarSize?.variant ?? 'circular'}
         src={generateImage(avatarSrc)}

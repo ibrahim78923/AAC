@@ -13,24 +13,3 @@ export const FEEDBACK_SURVEY_RESPONSE_QUESTION: any = {
   [FEEDBACK_SURVEY_QUESTION_TYPE?.CHECK_BOXES]: RHFMultiCheckbox,
   [FEEDBACK_SURVEY_QUESTION_TYPE?.TEXT]: Typography,
 };
-export const questionTypeValues = [
-  {
-    label: 'Multiple Choice',
-    value: 'multipleChoice',
-  },
-  {
-    label: 'Check Boxes',
-    value: 'checkboxes',
-  },
-  {
-    label: 'Short Answers',
-    value: 'shortAnswers',
-  },
-  {
-    label: 'Linear Scale',
-    value: 'linearScale',
-  },
-  {
-    value: 'text',
-  },
-];

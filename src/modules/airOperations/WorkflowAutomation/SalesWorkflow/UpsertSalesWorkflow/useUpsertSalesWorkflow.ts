@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   workflowFields,
   salesSchema,
@@ -20,21 +18,24 @@ import { useAppDispatch } from '@/redux/store';
 import { setTestWorkflowBody } from '@/redux/slices/salesWorkflow';
 import { isoDateString, otherDateFormat } from '@/lib/date-time';
 import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertSalesWorkflow = () => {
   const [validation, setValidation] = useState('');
   const [isWorkflowDrawer, setIsWorkflowDrawer] = useState(false);
   const { back, query } = useRouter();
   const dispatch = useAppDispatch();
-  const salesMethod = useForm({
+  const salesWorkflowMethodsProps = {
     defaultValues: salesValues(null),
-    resolver:
+    validationSchema:
       validation === workflowFields?.upsert ||
       validation === workflowFields?.test
-        ? yupResolver(salesSchema)
-        : yupResolver(salesSaveSchema),
-  });
-  const { reset, watch, handleSubmit, setValue, control } = salesMethod;
+        ? salesSchema
+        : salesSaveSchema,
+  };
+  const { reset, watch, handleSubmit, setValue, control, methods } = useFormLib(
+    salesWorkflowMethodsProps,
+  );
   const workflowId = query?.id;
   const {
     data,
@@ -197,7 +198,7 @@ export const useUpsertSalesWorkflow = () => {
   };
   const { palette } = useTheme();
   return {
-    salesMethod,
+    methods,
     handleFormSubmit,
     handleSubmit,
     palette,

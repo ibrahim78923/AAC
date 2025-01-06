@@ -15,6 +15,7 @@ export const UpsertGenericReports = () => {
     modal,
     theme,
     methods,
+    handleSubmit,
     setModal,
     setValue,
     form,
@@ -137,7 +138,7 @@ export const UpsertGenericReports = () => {
               isFetching={isFetching}
               isError={isError}
               refetch={refetch}
-              methods={methods}
+              handleSubmit={handleSubmit}
               reset={reset}
             />
           </Grid>

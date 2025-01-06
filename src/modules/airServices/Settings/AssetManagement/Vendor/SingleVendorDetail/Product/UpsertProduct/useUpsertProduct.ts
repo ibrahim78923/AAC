@@ -1,5 +1,3 @@
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   upsertProductValidationSchema,
   upsertProductDefaultValues,
@@ -12,6 +10,7 @@ import {
 } from '@/services/airServices/settings/asset-management/vendor/single-vendor-details/product';
 import { useRouter } from 'next/router';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertProduct = (props: any) => {
   const { setUpsertProductModal, editData, setEditData } = props;
@@ -19,11 +18,10 @@ export const useUpsertProduct = (props: any) => {
   const { vendorId } = router?.query;
   const [catalogId, setCatalogId] = useState();
 
-  const methods: any = useForm<any>({
-    resolver: yupResolver(upsertProductValidationSchema),
+  const { methods, reset, handleSubmit } = useFormLib({
+    validationSchema: upsertProductValidationSchema,
     defaultValues: upsertProductDefaultValues(),
   });
-  const { handleSubmit, reset } = methods;
 
   const [postProductVendorTrigger, postProductVendorProgress] =
     usePostProductVendorMutation();

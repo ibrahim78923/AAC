@@ -1,4 +1,4 @@
-import { useForm, useWatch } from 'react-hook-form';
+import { useWatch } from 'react-hook-form';
 import {
   mergeTicketsFormDefaultValue,
   mergeTicketsFormFieldsDynamic,
@@ -6,7 +6,6 @@ import {
 } from './MergeTickets.data';
 import { useMergeServicesTicketsMutation } from '@/services/airServices/tickets';
 import { ARRAY_INDEX, TICKET_SELECTION_TYPE } from '@/constants/strings';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
 import {
   emptySelectedTicketLists,
@@ -14,27 +13,31 @@ import {
 } from '@/redux/slices/airServices/tickets/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import {
+  servicesTicketsIsPortalOpenSelector,
+  servicesTicketsSelectedTicketListsSelector,
+} from '@/redux/slices/airServices/tickets/selectors';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useMergedTickets = () => {
   const dispatch = useAppDispatch();
   const selectedTicketLists = useAppSelector(
-    (state) => state?.servicesTickets?.selectedTicketLists,
+    servicesTicketsSelectedTicketListsSelector,
   );
-  const isPortalOpen = useAppSelector(
-    (state) => state?.servicesTickets?.isPortalOpen,
-  );
+  const isPortalOpen = useAppSelector(servicesTicketsIsPortalOpenSelector);
+
   const singleTicketDetail = selectedTicketLists?.[ARRAY_INDEX?.ZERO];
 
   const [postMergeTicketsTrigger, postMergeTicketsStatus] =
     useMergeServicesTicketsMutation();
 
-  const mergedTicketsFormMethod = useForm({
+  const formLibProps = {
     defaultValues: mergeTicketsFormDefaultValue,
-    resolver: yupResolver(mergeTicketsFormValidationSchema),
-  });
+    validationSchema: mergeTicketsFormValidationSchema,
+  };
 
-  const { handleSubmit, reset, control, clearErrors, watch } =
-    mergedTicketsFormMethod;
+  const { handleSubmit, reset, methods, control, clearErrors, watch } =
+    useFormLib(formLibProps);
 
   const watchForTicketSelection: any = useWatch({
     control,
@@ -84,7 +87,7 @@ export const useMergedTickets = () => {
   );
 
   return {
-    mergedTicketsFormMethod,
+    methods,
     closeMergedTicketsModal,
     handleSubmit,
     submitMergedTicketsForm,

@@ -574,3 +574,27 @@ export { default as IconTrashContracts } from './modules/airSocial/contracts/ico
 export { default as IconUserParty } from './modules/airSocial/contracts/icon-user-party';
 export { default as IconAddParty } from './modules/airSocial/contracts/icon-add-party';
 export { default as PoundSignIcon } from './shared/pound-sign-icon';
+export { default as IconDocHistory } from './modules/airSocial/contracts/icon-doc-history';
+export { default as SentIcon } from './modules/airSocial/contracts/sent';
+export { default as ViewedIcon } from './modules/airSocial/contracts/viewed';
+export { default as SignedIcon } from './modules/airSocial/contracts/signed';
+export { default as IconAddCollaborator } from './modules/airSocial/contracts/icon-add-collaborator';
+export { default as IconCloseDialog } from './shared/icon-close-dialog';
+export { default as IconPlusAddContractsFields } from './modules/airSocial/contracts/icon-plus-add-fields';
+export { default as IconFieldCheckbox } from './modules/airSocial/contracts/field-type-checkbox';
+export { default as IconFieldNumber } from './modules/airSocial/contracts/field-type-number';
+export { default as IconFieldText } from './modules/airSocial/contracts/field-type-text';
+export { default as IconFieldDate } from './modules/airSocial/contracts/field-type-date';
+export { default as IconSigningDigitally } from './modules/airSocial/contracts/icon-signing-digitally';
+export { default as IconDefaultAttachment } from './modules/airSocial/contracts/icon-default-attachment';
+export { default as IconAttachmentTrash } from './modules/airSocial/contracts/icon-attachment-trash';
+export { default as IconAddText } from './modules/airSocial/contracts/icon-add-text';
+export { default as IconAddSignature } from './modules/airSocial/contracts/icon-add-signature';
+export { default as IconAddTextCopy } from './modules/airSocial/contracts/icon-add-text-copy';
+export { default as IconAddTextDelete } from './modules/airSocial/contracts/icon-add-text-trash';
+
+export { default as IconArrowSwitch } from './shared/arrow-switch';
+export { default as IconArrowRounded } from './shared/arrow-rounded';
+export { default as IconAirFP } from './shared/air-fp-logo';
+export { default as IconTwilio } from './shared/twilio';
+export { default as IconConnect } from './shared/connect';

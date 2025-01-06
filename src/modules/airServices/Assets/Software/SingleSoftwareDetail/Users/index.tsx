@@ -1,13 +1,5 @@
 import UsersTable from './UsersTable';
-import {
-  Box,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Typography,
-} from '@mui/material';
+import { Box } from '@mui/material';
 import { UsersAdd } from './UsersAdd';
 import { UsersFilter } from './UsersFilter';
 import { userDropdown } from './Users.data';
@@ -23,10 +15,9 @@ import {
   SOFTWARE_USER_ACTIONS_CLICK,
   SOFTWARE_USER_ACTIONS_TYPES,
 } from '@/constants/strings';
-import { LoadingButton } from '@mui/lab';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS } from '@/constants/permission-keys';
-import { Close } from '@mui/icons-material';
+import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 
 export const Users = () => {
   const {
@@ -47,6 +38,7 @@ export const Users = () => {
     removeLoading,
     setFilterValues,
     filterValues,
+    handleSubmit,
   } = useUsers();
 
   return (
@@ -84,8 +76,8 @@ export const Users = () => {
         </Box>
       </Box>
       {actionModalOpen && (
-        <Dialog
-          open={
+        <CustomCommonDialog
+          isPortalOpen={
             actionModalOpen &&
             (selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.REMOVE ||
               ((selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE ||
@@ -93,67 +85,42 @@ export const Users = () => {
                   SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE) &&
                 usersData?.length <= 1))
           }
-          onClose={userActionDropdownCloseHandler}
-          maxWidth="sm"
-          fullWidth
+          closePortal={userActionDropdownCloseHandler}
+          dialogTitle={
+            selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE
+              ? SOFTWARE_USER_ACTIONS_CLICK?.DEALLOCATE_CONTRACT
+              : selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.REMOVE
+                ? SOFTWARE_USER_ACTIONS_CLICK?.REMOVE_CONTRACT
+                : SOFTWARE_USER_ACTIONS_CLICK?.ADD_DEVICE
+          }
+          submitButtonText="Yes"
+          cancelButtonText="No"
+          showSubmitLoader={
+            deAllocateLoading || allocateLoading || removeLoading
+          }
+          disabledCancelButton={
+            deAllocateLoading || allocateLoading || removeLoading
+          }
+          handleSubmitButton={
+            selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE
+              ? handleSubmit(allocateSubmit)
+              : () => actionClickHandler(selectedActionTitle)
+          }
         >
-          <DialogTitle>
-            <Box
-              display={'flex'}
-              alignItems={'center'}
-              justifyContent={'space-between'}
-              gap={1}
-              flexWrap={'wrap'}
-              mb={1.5}
-            >
-              <Typography variant="h4" color="slateBlue.main">
-                {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE
-                  ? SOFTWARE_USER_ACTIONS_CLICK?.DEALLOCATE_CONTRACT
-                  : selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.REMOVE
-                    ? SOFTWARE_USER_ACTIONS_CLICK?.REMOVE_CONTRACT
-                    : SOFTWARE_USER_ACTIONS_CLICK?.ADD_DEVICE}
-              </Typography>
-              <IconButton onClick={userActionDropdownCloseHandler}>
-                <Close color="secondary" />
-              </IconButton>
-            </Box>
-          </DialogTitle>
-
-          <DialogContent>
-            {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE && (
-              <UsersAllocate methods={methods} onSubmit={allocateSubmit} />
-            )}
-            {selectedActionTitle ===
-              SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE && <UsersDeallocate />}
-            {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.REMOVE && (
-              <UsersRemove />
-            )}
-          </DialogContent>
-          <DialogActions sx={{ paddingTop: `0rem !important` }}>
-            <LoadingButton
-              className="small"
-              onClick={userActionDropdownCloseHandler}
-              variant="outlined"
-              color="secondary"
-              disabled={deAllocateLoading || allocateLoading || removeLoading}
-            >
-              No
-            </LoadingButton>
-            <LoadingButton
-              className="small"
-              variant="contained"
-              disabled={deAllocateLoading || allocateLoading || removeLoading}
-              loading={deAllocateLoading || allocateLoading || removeLoading}
-              onClick={
-                selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE
-                  ? methods?.handleSubmit(allocateSubmit)
-                  : () => actionClickHandler(selectedActionTitle)
-              }
-            >
-              Yes
-            </LoadingButton>
-          </DialogActions>
-        </Dialog>
+          {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE && (
+            <UsersAllocate
+              methods={methods}
+              onSubmit={allocateSubmit}
+              handleSubmit={handleSubmit}
+            />
+          )}
+          {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE && (
+            <UsersDeallocate />
+          )}
+          {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.REMOVE && (
+            <UsersRemove />
+          )}
+        </CustomCommonDialog>
       )}
 
       <br />

@@ -91,6 +91,13 @@ export const agentsAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG],
     }),
+    verifyServicesSettingsUserManagementAgentViaIg: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.AUTH_IG_VERIFICATION,
+        method: 'POST',
+        body: apiDataParameter?.email,
+      }),
+    }),
   }),
 });
 
@@ -106,4 +113,5 @@ export const {
   usePatchRejectRequestMutation,
   useLazyGetServicesUserAgentsQuery,
   useLazyGetPermissionsRoleForUpsertAgentQuery,
+  useVerifyServicesSettingsUserManagementAgentViaIgMutation,
 } = agentsAPI;

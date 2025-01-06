@@ -1,5 +1,3 @@
-import { useForm, UseFormReturn } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   upsertFolderFormDefaultValues,
   upsertFolderValidationSchema,
@@ -17,6 +15,7 @@ import { KNOWLEDGE_BASE_ACTIONS_CONSTANT } from '@/constants/portal-actions';
 import { useEffect } from 'react';
 import { ALL_FOLDER } from '../Folder.data';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 const { EDIT_FOLDER, ADD_FOLDER } = KNOWLEDGE_BASE_ACTIONS_CONSTANT ?? {};
 
@@ -57,13 +56,12 @@ export const useUpsertFolder = () => {
 
   const dispatch = useAppDispatch();
 
-  const methods: UseFormReturn<UpsertFolderFormFieldsI> =
-    useForm<UpsertFolderFormFieldsI>({
-      resolver: yupResolver(upsertFolderValidationSchema),
-      defaultValues: upsertFolderFormDefaultValues?.(),
-    });
+  const formLibProps = {
+    validationSchema: upsertFolderValidationSchema,
+    defaultValues: upsertFolderFormDefaultValues?.(),
+  };
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
 
   const [postFolderTrigger, postFolderStatus] =
     useAddServicesKnowledgeBaseSingleFolderMutation();

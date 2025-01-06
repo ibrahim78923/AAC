@@ -1,12 +1,10 @@
-import { useForm } from 'react-hook-form';
 import { IChildModalState } from '../Enquiries.interface';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useFilters = ({ setFilter, onClose }: IChildModalState) => {
-  const methods = useForm({
+  const { methods, reset, handleSubmit } = useFormLib({
     defaultValues: { status: '' },
   });
-
-  const { handleSubmit, reset } = methods;
 
   const submitEnquiriesFilters = (data: any) => {
     setFilter(data?.status?.toLowerCase());

@@ -114,6 +114,7 @@ export const AttendeePeople = (props: any) => {
                 onClick={() => {
                   handleFetchMeetingSlots();
                 }}
+                disabled={!watchStartDate}
               >
                 Check Availability
               </Button>

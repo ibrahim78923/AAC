@@ -14,7 +14,7 @@ import { useEffect } from 'react';
 
 const PreventBackNavigation = () => {
   const router = useRouter();
-  const currentPath = router.pathname;
+  const currentPath = router?.pathname;
 
   const enabledRoutes = [
     ORG_ADMIN?.DASHBOARD,

@@ -1,17 +1,11 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { CANNED_RESPONSES } from '@/constants/strings';
-import {
-  AvatarGroup,
-  Checkbox,
-  Avatar,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { Checkbox } from '@mui/material';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { TruncateText } from '@/components/TruncateText';
-import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import { otherDateFormat } from '@/lib/date-time';
+import { CustomAvatarGroup } from '@/components/CustomAvatarGroup';
 
 export const responsesTableColumns = (
   responsesData: any,
@@ -94,28 +88,10 @@ export const responsesTableColumns = (
         <>
           {info?.getValue()?.availableFor ===
           CANNED_RESPONSES?.SELECT_AGENTS ? (
-            <AvatarGroup max={4} sx={{ justifyContent: 'flex-end' }}>
-              {info?.getValue()?.agents?.map((agent: any) => (
-                <Tooltip
-                  title={fullName(agent?.firstName, agent?.lastName)}
-                  key={agent?._id}
-                >
-                  <Avatar
-                    sx={{
-                      bgcolor: 'primary.main',
-                      width: 28,
-                      height: 28,
-                    }}
-                    variant={'circular'}
-                    src={generateImage(agent?.avatar)}
-                  >
-                    <Typography variant={'body2'} textTransform={'uppercase'}>
-                      {fullNameInitial(agent?.firstName, agent?.lastName)}
-                    </Typography>
-                  </Avatar>
-                </Tooltip>
-              ))}
-            </AvatarGroup>
+            <CustomAvatarGroup
+              max={4}
+              selectedUsers={info?.getValue()?.agents}
+            />
           ) : (
             <TruncateText
               text={info

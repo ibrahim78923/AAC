@@ -6,6 +6,7 @@ import ActionButton from '../ActionButton';
 import {
   BookMarkDarkIcon,
   CustomizeIcon,
+  ExportCloudIcon,
   FilterrIcon,
   RefreshTasksIcon,
 } from '@/assets/icons';
@@ -17,6 +18,7 @@ import CampaingFilters from '../Filters';
 import { useEffect } from 'react';
 import useCustomize from '../EditColumns/useCustomize';
 import useManage from './useManage';
+import ExportModal from '../ExportModal';
 
 const Manage = ({ selectedRows, setSelectedRows }: any) => {
   const {
@@ -42,6 +44,9 @@ const Manage = ({ selectedRows, setSelectedRows }: any) => {
     filters,
     setPage,
     theme,
+    openModalExport,
+    setOpenModalExport,
+    handleOpenModalExport,
   } = useManage();
 
   const { activeColumns } = useCustomize({});
@@ -87,6 +92,17 @@ const Manage = ({ selectedRows, setSelectedRows }: any) => {
             selectedRows={selectedRows}
             setSelectedRows={setSelectedRows}
           />
+          <Button
+            variant="outlined"
+            className="small"
+            color="inherit"
+            sx={{ color: theme?.palette?.custom['main'] }}
+            onClick={handleOpenModalExport}
+          >
+            <ExportCloudIcon />
+            &nbsp; Export
+          </Button>
+
           <Tooltip title={'Refresh Filter'}>
             <Button
               variant="outlined"
@@ -262,6 +278,8 @@ const Manage = ({ selectedRows, setSelectedRows }: any) => {
           }
         />
       )}
+
+      <ExportModal open={openModalExport} onClose={setOpenModalExport} />
     </>
   );
 };

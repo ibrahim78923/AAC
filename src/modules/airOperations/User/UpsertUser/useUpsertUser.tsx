@@ -1,21 +1,19 @@
-import { useForm } from 'react-hook-form';
 import {
   upsertUserDefaultValues,
   upsertUserFormFieldsDynamic,
   upsertUserValidationSchema,
 } from './UpsertUser.data';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
 import {
   useAddOperationsUserManagementSingleProductUserMutation,
   useGetOperationsUserManagementSingleProductUserDetailsQuery,
   useUpdateOperationsUserManagementSingleProductUserMutation,
+  useVerifyOperationUserManagementUserViaIgMutation,
 } from '@/services/airOperations/user-management/user';
 import {
   UpsertUserFormI,
   UserManagementResponseI,
 } from './UpsertUser.interface';
-import { useAuthCompanyVerificationMutation } from '@/services/auth';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { OPERATIONS_USERS_ACTIONS_CONSTANT } from '../User.data';
@@ -25,6 +23,7 @@ import {
   setIsPortalClose,
 } from '@/redux/slices/airOperations/users/slice';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 const { EDIT_OPERATIONS_USERS, OPERATIONS_USERS_DETAIL } =
   OPERATIONS_USERS_ACTIONS_CONSTANT;
@@ -53,7 +52,7 @@ export const useUpsertUser = () => {
   ]: any = useAddOperationsUserManagementSingleProductUserMutation?.();
 
   const [igVerificationTrigger, igVerificationStatus] =
-    useAuthCompanyVerificationMutation();
+    useVerifyOperationUserManagementUserViaIgMutation();
 
   const getSingleUserApiParameter = {
     pathParams: {
@@ -76,12 +75,12 @@ export const useUpsertUser = () => {
       },
     );
 
-  const methods = useForm<any>({
+  const formLibProps = {
+    validationSchema: upsertUserValidationSchema,
     defaultValues: upsertUserDefaultValues(),
-    resolver: yupResolver(upsertUserValidationSchema),
-  });
+  };
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
 
   const submitButtonHandler = () => {
     if (isPortalOpen?.action === OPERATIONS_USERS_DETAIL) {
@@ -153,8 +152,9 @@ export const useUpsertUser = () => {
   };
 
   const verifyUserViaIg = async (email?: string) => {
+    const apiDataParameter = { email: { email } };
     try {
-      await igVerificationTrigger({ email })?.unwrap();
+      await igVerificationTrigger(apiDataParameter)?.unwrap();
     } catch (error) {}
   };
 

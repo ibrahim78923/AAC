@@ -36,7 +36,8 @@ export const UpsertTiers = () => {
       okText={
         formStep === FORM_STEP_CONSTANT?.FIRST_STEP
           ? GENERIC_UPSERT_FORM_CONSTANT?.NEXT
-          : RULES_AND_TIERS_PORTAL_ACTION_CONSTANTS?.EDIT_TIERS
+          : isPortalOpen?.action ===
+              RULES_AND_TIERS_PORTAL_ACTION_CONSTANTS?.EDIT_TIERS
             ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
             : GENERIC_UPSERT_FORM_CONSTANT?.SAVE
       }

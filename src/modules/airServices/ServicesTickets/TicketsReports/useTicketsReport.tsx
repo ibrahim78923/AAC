@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { useGetServiceSystematicReportsQuery } from '@/services/airServices/reports';
 import { MODULE_TYPE } from '@/constants/strings';
@@ -9,6 +8,7 @@ import {
 } from '@/config';
 import { useApiPolling } from '@/hooks/useApiPolling';
 import { isoDateString } from '@/lib/date-time';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useTicketsReport = () => {
   const [hasDate, setHasDate] = useState(false);
@@ -20,7 +20,7 @@ export const useTicketsReport = () => {
 
   const router = useRouter();
 
-  const methods: any = useForm({
+  const ticketsReportMethodProps = {
     defaultValues: {
       createdDate: {
         startDate: null,
@@ -28,10 +28,11 @@ export const useTicketsReport = () => {
         key: 'selection',
       },
     },
-  });
+  };
 
-  const { getValues, watch, setValue } = methods;
-
+  const { getValues, watch, setValue, methods } = useFormLib(
+    ticketsReportMethodProps,
+  );
   watch?.();
 
   const apiDataParameter = {

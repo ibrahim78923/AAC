@@ -10,14 +10,14 @@ export default function IconAddParty() {
       <g clipPath="url(#clip0_740_164054)">
         <path
           d="M8.89417 17.4922H25.8557"
-          stroke="#344054"
+          stroke="currentColor"
           strokeWidth="2.12019"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M17.375 25.9694V9.00781"
-          stroke="#344054"
+          stroke="currentColor"
           strokeWidth="2.12019"
           strokeLinecap="round"
           strokeLinejoin="round"

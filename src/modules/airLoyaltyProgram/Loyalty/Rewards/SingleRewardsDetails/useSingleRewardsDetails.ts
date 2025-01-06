@@ -3,7 +3,9 @@ import { singleRewardDetailsColumnsDynamic } from './SingleRewardsDetails.data';
 import { PAGINATION } from '@/config';
 import { useLazyGetLoyaltyProgramRewardsDetailsListQuery } from '@/services/airLoyaltyProgram/loyalty/rewards';
 
-export const useSingleRewardsDetails = () => {
+export const useSingleRewardsDetails = (props: any) => {
+  const { isRewardDetailsOpen } = props;
+
   const singleRewardDetailsColumns = singleRewardDetailsColumnsDynamic?.();
   const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
@@ -17,6 +19,7 @@ export const useSingleRewardsDetails = () => {
         page,
         limit: pageLimit,
         search,
+        id: isRewardDetailsOpen?.rewardType,
       },
     };
     try {
@@ -35,6 +38,9 @@ export const useSingleRewardsDetails = () => {
     setSearch(data);
   };
 
+  const redeemRewardData =
+    lazyGetRewardsListStatus?.data?.data?.physicalrewards;
+
   return {
     singleRewardDetailsColumns,
     setPage,
@@ -42,5 +48,6 @@ export const useSingleRewardsDetails = () => {
     lazyGetRewardsListStatus,
     refetch,
     handleSearch,
+    redeemRewardData,
   };
 };

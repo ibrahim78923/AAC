@@ -1,9 +1,13 @@
-import { Box, Typography } from '@mui/material';
+import { Box, IconButton, Typography } from '@mui/material';
 import { DeleteCrossIcon, EditPenIcon } from '@/assets/icons';
-import { TruncateText } from '@/components/TruncateText';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
 import RewardStatus from './RewardStatus';
+import { otherDateFormat } from '@/lib/date-time';
+import { DATE_TIME_FORMAT } from '@/constants';
+import { LOYALTY_REWARDS_STATUS } from '@/constants/strings';
+import { UserInfo } from '@/components/UserInfo';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 
 export const loyaltyRewardColumnDynamic: any = (
   setIsRewardDetailsOpen: any,
@@ -18,7 +22,13 @@ export const loyaltyRewardColumnDynamic: any = (
       id: 'title',
       header: 'Reward Title',
       isSortable: true,
-      cell: (info: any) => <TruncateText text={info?.getValue()} />,
+      cell: (info: any) => (
+        <UserInfo
+          nameInitial={fullNameInitial(info?.row?.original?.title)}
+          name={fullName(info?.row?.original.title)}
+          avatarSrc={info?.row?.original?.rewardAttachment}
+        />
+      ),
     },
     {
       accessorFn: (row: any) => row?.requiredPoints,
@@ -45,8 +55,15 @@ export const loyaltyRewardColumnDynamic: any = (
       cell: (info: any) => info?.getValue() ?? '---',
     },
     {
-      accessorFn: (row: any) => row?.totalQuantity,
-      id: 'totalQuantity',
+      accessorFn: (row: any) => row?.escrowRedeemedPoints,
+      id: 'escrowRedeemedPoints',
+      isSortable: true,
+      header: 'Escrow Redeemed Points',
+      cell: (info: any) => info?.getValue() ?? '---',
+    },
+    {
+      accessorFn: (row: any) => row?.redeemedQuantity,
+      id: 'redeemedQuantity',
       isSortable: true,
       header: 'Total redeemed',
       cell: (info: any) => (
@@ -62,7 +79,7 @@ export const loyaltyRewardColumnDynamic: any = (
               return;
             setIsRewardDetailsOpen?.({
               isOpen: true,
-              rewardType: info?.row?.original?.rewardType,
+              rewardType: info?.row?.original?._id,
             });
           }}
         >
@@ -82,7 +99,13 @@ export const loyaltyRewardColumnDynamic: any = (
       id: 'createdAt',
       isSortable: true,
       header: 'Created at',
-      cell: (info: any) => info?.getValue() ?? '---',
+      cell: (info: any) =>
+        info?.getValue()
+          ? otherDateFormat(
+              info?.getValue(),
+              DATE_TIME_FORMAT?.MMM_DD_YYYY_hh_mm_A,
+            )
+          : '---',
     },
   ];
   if (activePermissionOfEditDelete) {
@@ -92,14 +115,16 @@ export const loyaltyRewardColumnDynamic: any = (
       isSortable: true,
       header: 'Action',
       cell: (info: any) => (
-        <Box sx={{ display: 'flex', gap: 1 }}>
+        <Box sx={{ display: 'flex' }}>
           <PermissionsGuard
             permissions={[
               AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.EDIT_DELETE_REWARDS,
             ]}
           >
-            <Box
-              sx={{ cursor: 'pointer' }}
+            <IconButton
+              disabled={
+                info?.row?.original?.status === LOYALTY_REWARDS_STATUS?.EXPIRED
+              }
               onClick={() =>
                 setIsRewardDrawerOpen({
                   data: info?.row?.original?._id,
@@ -108,9 +133,8 @@ export const loyaltyRewardColumnDynamic: any = (
               }
             >
               <EditPenIcon />
-            </Box>
-            <Box
-              sx={{ cursor: 'pointer' }}
+            </IconButton>
+            <IconButton
               onClick={() =>
                 setIsRewardDelete({
                   data: info?.row?.original?._id,
@@ -119,7 +143,7 @@ export const loyaltyRewardColumnDynamic: any = (
               }
             >
               <DeleteCrossIcon />
-            </Box>
+            </IconButton>
           </PermissionsGuard>
         </Box>
       ),

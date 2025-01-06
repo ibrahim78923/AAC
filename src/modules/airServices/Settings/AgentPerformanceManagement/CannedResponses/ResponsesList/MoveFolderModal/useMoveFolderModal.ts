@@ -1,5 +1,3 @@
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   moveFolderDefaultValues,
   moveFolderSchema,
@@ -13,14 +11,16 @@ import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useMoveFolderModal = (props: any) => {
   const {
     openMoveFolderModal,
-    closeMoveFolderModal,
+    setOpenMoveFolderModal,
     setSelectedData,
     selectedData,
   } = props;
+
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -34,14 +34,21 @@ export const useMoveFolderModal = (props: any) => {
 
   const apiQueryFolders = useLazyGetAirServicesSettingsCannedFoldersQuery();
 
-  const method = useForm({
+  const formLibProps = {
+    validationSchema: moveFolderSchema,
     defaultValues: moveFolderDefaultValues,
-    resolver: yupResolver(moveFolderSchema),
-  });
-  const { reset } = method;
+  };
+
+  const { reset, methods, handleSubmit } = useFormLib(formLibProps);
 
   const [moveResponsesTrigger, { isLoading }] =
     usePatchAirServicesSettingsCannedAddMoveResponsesMutation();
+
+  const closeModal = () => {
+    setOpenMoveFolderModal?.(false);
+    setSelectedData([]);
+    reset();
+  };
 
   const onSubmit = async (data: any) => {
     if (cannedResponseId === data?.folder?._id) {
@@ -59,9 +66,7 @@ export const useMoveFolderModal = (props: any) => {
     try {
       await moveResponsesTrigger(moveResponsesParameter)?.unwrap();
       successSnackbar('Moved Successfully!');
-      closeMoveFolderModal();
-      setSelectedData([]);
-      reset();
+      closeModal();
     } catch (error) {
       const errorResponse = error as IErrorResponse;
       errorSnackbar(errorResponse?.data?.message);
@@ -69,11 +74,13 @@ export const useMoveFolderModal = (props: any) => {
   };
 
   return {
-    method,
+    methods,
     onSubmit,
     openMoveFolderModal,
-    closeMoveFolderModal,
+    closeModal,
     apiQueryFolders,
     isLoading,
+    reset,
+    handleSubmit,
   };
 };

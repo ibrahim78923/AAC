@@ -15,7 +15,7 @@ export const TicketBySubjectFieldDropdown = () => {
       fullWidth
       required
       multiple
-      queryKey="id"
+      queryKey="search"
       apiQuery={apiQueryTicketBySubject}
       getOptionLabel={(option: AutocompleteAsyncOptionsI) =>
         `${option?.ticketIdNumber} ${' '} ${truncateText(option?.subject)}`

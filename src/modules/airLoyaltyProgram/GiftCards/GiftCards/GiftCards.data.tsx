@@ -45,6 +45,7 @@ export const giftCardColumnsFunction = (
     isSortable: true,
     cell: (info: any) => (
       <UserInfo
+        avatarSrc={info?.row?.original?.avatar?.url}
         name={info?.row?.original?.recipientName}
         email={info?.row?.original?.recipientEmail}
         nameInitial={fullNameInitial(info?.row?.original?.recipientName)}
@@ -62,15 +63,23 @@ export const giftCardColumnsFunction = (
   {
     accessorFn: (row: any) => row?.spentamount,
     id: 'spentamount',
-    isSortable: false,
+    isSortable: true,
     header: 'Spent Amount',
+    cell: (info: any) =>
+      truncateText(info?.getValue() ? `£${info?.getValue()}` : '---'),
+  },
+  {
+    accessorFn: (row: any) => row?.escrowAmount,
+    id: 'escrowAmount',
+    isSortable: true,
+    header: 'Escrow Amount',
     cell: (info: any) =>
       truncateText(info?.getValue() ? `£${info?.getValue()}` : '---'),
   },
   {
     accessorFn: (row: any) => row?.currentamount,
     id: 'currentamount',
-    isSortable: false,
+    isSortable: true,
     header: 'Current Amount',
     cell: (info: any) =>
       truncateText(info?.getValue() ? `£${info?.getValue()}` : '---'),

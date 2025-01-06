@@ -3,10 +3,8 @@ import {
   usePatchSingleSurveyDropoutAnswerForResponseMutation,
   usePatchSingleSurveyQuestionsAnswerForResponseMutation,
 } from '@/services/airServices/feedback-survey/responses';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import {
   FEEDBACK_SURVEY_RESPONSE_QUESTION_ANSWERS,
   upsertSurveyResponseDefaultValues,
@@ -14,6 +12,7 @@ import {
 } from './UpsertSurveyResponse.data';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { errorSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertSurveyResponse = (props: {
   loggedInUser?: string;
@@ -40,13 +39,14 @@ export const useUpsertSurveyResponse = (props: {
     patchSingleSurveyDropoutAnswerForResponseStatus,
   ] = usePatchSingleSurveyDropoutAnswerForResponseMutation?.();
 
-  const methods: any = useForm({
+  const { handleSubmit, reset, methods } = useFormLib({
     defaultValues: upsertSurveyResponseDefaultValues?.(
       questionsData,
       loggedInUser,
     ),
-    resolver: yupResolver(
-      upsertSurveyResponseValidationSchema?.(questionsData, loggedInUser),
+    validationSchema: upsertSurveyResponseValidationSchema?.(
+      questionsData,
+      loggedInUser,
     ),
   });
 
@@ -77,8 +77,6 @@ export const useUpsertSurveyResponse = (props: {
       setQuestionData?.(questionMap);
     } catch (error: any) {}
   };
-
-  const { handleSubmit, reset } = methods;
 
   const submitSurveyResponse = async (formData: any) => {
     const updateObjectKeys = Object?.keys(formData);

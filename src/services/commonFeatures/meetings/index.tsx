@@ -1,5 +1,6 @@
 import { baseAPI } from '@/services/base-api';
 import { END_POINTS } from '@/routesConstants/endpoints';
+import { combineDateTime } from '@/utils/api';
 
 const TAGS = 'TIME_SLOTS';
 const MEETINGS_TAG = 'MEETINGS';
@@ -101,14 +102,14 @@ export const meetingApi = baseAPI?.injectEndpoints({
         params,
       }),
       transformResponse: (response: any) => {
-        if (response)
+        if (response) {
           return {
             allMeetings: response?.data?.allMeetings,
             upCommings: response?.data?.upCommings,
             completed: response?.data?.completed,
             data: response?.data?.meetings?.map((item: any) => ({
-              start: item?.startDate,
-              end: item?.endDate,
+              start: combineDateTime(item?.startDate, item?.startTime),
+              end: combineDateTime(item?.endDate, item?.endTime),
               title: item?.title,
               extendedProps: {
                 _id: item?._id,
@@ -125,6 +126,7 @@ export const meetingApi = baseAPI?.injectEndpoints({
               },
             })),
           };
+        }
       },
       providesTags: [MEETINGS_TAG],
     }),

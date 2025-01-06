@@ -33,7 +33,7 @@ const TaskHeader = () => {
         flexDirection: { xs: 'column', sm: 'row' },
         alignItems: { xs: 'stretch', sm: 'center' },
         justifyContent: 'space-between',
-        padding: '16px 24px',
+        padding: '16px 0',
         gap: '15px',
       }}
     >

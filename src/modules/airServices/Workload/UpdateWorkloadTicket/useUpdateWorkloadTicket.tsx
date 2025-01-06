@@ -1,5 +1,3 @@
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
 import { usePutAirServicesWorkloadTicketsMutation } from '@/services/airServices/workload';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
@@ -9,17 +7,19 @@ import {
   getWorkloadTicketValidationSchema,
 } from './UpdateWorkloadTicket.data';
 import { isoDateString } from '@/lib/date-time';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpdateWorkloadTicket = ({ onClose, dataGet }: any) => {
   const [patchTicketTrigger, patchTicketStatus] =
     usePutAirServicesWorkloadTicketsMutation();
 
-  const methods: any = useForm({
-    resolver: yupResolver(getWorkloadTicketValidationSchema),
+  const viewWorkloadMethodProps = {
+    validationSchema: getWorkloadTicketValidationSchema,
     defaultValues: getWorkloadTicketDefaultValues?.(dataGet?.extendedProps),
-  });
+  };
 
-  const { handleSubmit, reset, getValues, setValue, setError, watch } = methods;
+  const { handleSubmit, reset, getValues, setValue, setError, watch, methods } =
+    useFormLib(viewWorkloadMethodProps);
 
   const onSubmit = async (data: any) => {
     const { plannedEffort } = getValues();

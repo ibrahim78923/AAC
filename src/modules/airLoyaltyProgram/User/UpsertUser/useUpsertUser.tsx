@@ -1,10 +1,8 @@
-import { useForm } from 'react-hook-form';
 import {
   upsertUserDefaultValues,
   upsertUserFormFieldsDynamic,
   upsertUserValidationSchema,
 } from './UpsertUser.data';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
 import {
   UpsertUserFormI,
@@ -29,6 +27,7 @@ import {
   loyaltyProgramUsersIsPortalOpenSelector,
   loyaltyProgramUsersSelectedUsersListsSelector,
 } from '@/redux/slices/airLoyaltyProgram/users/selectors';
+import { useFormLib } from '@/hooks/useFormLib';
 
 const { EDIT_LOYALTY_PROGRAM_USERS, LOYALTY_PROGRAM_USERS_DETAIL } =
   LOYALTY_PROGRAM_USERS_ACTIONS_CONSTANT;
@@ -80,12 +79,12 @@ export const useUpsertUser = () => {
       },
     );
 
-  const methods = useForm<any>({
+  const formLibProps = {
+    validationSchema: upsertUserValidationSchema,
     defaultValues: upsertUserDefaultValues(),
-    resolver: yupResolver(upsertUserValidationSchema),
-  });
+  };
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
 
   const submitButtonHandler = () => {
     if (isPortalOpen?.action === LOYALTY_PROGRAM_USERS_DETAIL) {
@@ -160,10 +159,11 @@ export const useUpsertUser = () => {
   };
 
   const verifyUserViaIg = async (email?: string) => {
+    const apiDataParameter = { email: { email } };
     try {
-      await verifyLoyaltyProgramUserManagementUserViaIgTrigger({
-        email,
-      })?.unwrap();
+      await verifyLoyaltyProgramUserManagementUserViaIgTrigger(
+        apiDataParameter,
+      )?.unwrap();
     } catch (error) {}
   };
 

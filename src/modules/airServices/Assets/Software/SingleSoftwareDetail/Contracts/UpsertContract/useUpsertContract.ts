@@ -1,10 +1,9 @@
-import { useForm, useWatch } from 'react-hook-form';
+import { useWatch } from 'react-hook-form';
 import {
   upsertContractFormDefaultValuesFunction,
   upsertContractFormFieldsDataFunction,
   upsertContractFormSchemaFunction,
 } from './UpsertContract.data';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import {
@@ -16,17 +15,22 @@ import { useEffect } from 'react';
 import { AIR_SERVICES } from '@/constants/routes';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { isoDateString } from '@/lib/date-time';
+import { STATIC_CONTRACT_TYPES } from '@/constants/api';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertContract = () => {
   const theme = useTheme();
   const router = useRouter();
   const { softwareId }: any = router?.query;
   const [postContractTrigger, postContractStatus] = usePostContractMutation();
-  const upsertContractFormMethods = useForm<any>({
-    resolver: yupResolver<any>(upsertContractFormSchemaFunction),
+
+  const useFormValues = {
+    validationSchema: upsertContractFormSchemaFunction,
     defaultValues: upsertContractFormDefaultValuesFunction(),
-  });
-  const { handleSubmit, control, reset, watch } = upsertContractFormMethods;
+  };
+
+  const { handleSubmit, control, reset, watch, methods } =
+    useFormLib(useFormValues);
 
   const getSingleSoftwareParameter = {
     queryParams: {
@@ -60,13 +64,13 @@ export const useUpsertContract = () => {
 
   useEffect(() => {
     const params = new URLSearchParams();
-    params.append('search', 'software licences');
+    params.append('search', STATIC_CONTRACT_TYPES?.SOFTWARE_LICENSE);
     params.append('meta', 'false');
     triggerContractSoftware({ params });
   }, []);
 
   const softwareFind = contractSoftwareStatus?.data?.find(
-    (item: any) => item?.name === 'software licences',
+    (item: any) => item?.name === STATIC_CONTRACT_TYPES?.SOFTWARE_LICENSE,
   );
 
   useEffect(() => {
@@ -117,7 +121,7 @@ export const useUpsertContract = () => {
     watchStartDate,
   );
   return {
-    upsertContractFormMethods,
+    methods,
     handleSubmit,
     submitUpsertContractForm,
     upsertContractFormFieldsData,

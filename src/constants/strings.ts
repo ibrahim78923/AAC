@@ -414,6 +414,9 @@ export enum ROLES {
   SUPER_ADMIN = 'SUPER_ADMIN',
   ORG_EMPLOYEE = 'ORG_EMPLOYEE',
   ORG_ADMIN = 'ORG_ADMIN',
+  AIR_SALES = 'AIR_SALES',
+  AIR_SERVICES = 'AIR_SERVICES',
+  AIR_OPERATIONS = 'AIR_OPERATIONS',
 }
 
 export const TICKETS_STATE = {
@@ -1214,8 +1217,10 @@ export const SALES_WORKFLOW_TYPES = {
 export const LOYALTY_VOUCHER_STATUS = {
   ACTIVE_LABEL: 'Active',
   INACTIVE_LABEL: 'Inactive',
+  EXPIRED_LABEL: 'Expired',
   ACTIVE_VALUE: 'ACTIVE',
   INACTIVE_VALUE: 'INACTIVE',
+  EXPIRED_VALUE: 'EXPIRED',
 };
 
 export const WORKFLOW_STATUS = {
@@ -1226,4 +1231,21 @@ export const WORKFLOW_STATUS = {
 export const AVTIVITY_LOGS_ROLE = {
   ORG_AMDIN: 'Org Admin',
   SUPER_AMDIN: 'Super Admin',
+};
+
+export const VOUCHERS_CONSTANTS = {
+  LIMITED: 'limited',
+  UNLIMITED: 'unlimited',
+  FILE_URL: 'fileUrl',
+};
+export const STATUS = {
+  DONE: 'Done',
+  REJECTED: 'Rejected',
+  PENDING: 'Pending',
+};
+
+export const ESCROW_STATUS = {
+  RESERVED: 'Reserved',
+  COMPLETED: 'Completed',
+  REJECTED: 'Rejected',
 };

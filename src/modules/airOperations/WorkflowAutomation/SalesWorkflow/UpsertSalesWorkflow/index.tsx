@@ -10,7 +10,7 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 export const UpsertSalesWorkflow = () => {
   const {
-    salesMethod,
+    methods,
     handleFormSubmit,
     handleSubmit,
     palette,
@@ -29,10 +29,7 @@ export const UpsertSalesWorkflow = () => {
   if (byIdLoading || isFetching) return <SkeletonForm />;
   return (
     <Box>
-      <FormProvider
-        methods={salesMethod}
-        onSubmit={handleSubmit(handleFormSubmit)}
-      >
+      <FormProvider methods={methods} onSubmit={handleSubmit(handleFormSubmit)}>
         <WorkflowHeader
           watch={watch}
           isLoading={isLoading || updateLoading}

@@ -8,7 +8,7 @@ import { FilterSalesWorkflowI } from './FilterSalesWorkflow.interface';
 export const FilterSalesWorkflow: React.FC<FilterSalesWorkflowI> = (props) => {
   const { isFilterOpen, setIsFilterOpen, loading, onSubmit } = props;
   const {
-    filterMethod,
+    methods,
     handleSubmit,
     userDropdown,
     handleReset,
@@ -34,7 +34,7 @@ export const FilterSalesWorkflow: React.FC<FilterSalesWorkflowI> = (props) => {
       disabledCancelBtn={loading}
       isDisabled={loading || !(statusValue || createdByValue || typeValue)}
     >
-      <FormProvider methods={filterMethod} onSubmit={handleSubmit(onSubmit)}>
+      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={3}>
           {salesWorkflowFilterFields(userDropdown, sessionUserData)?.map(
             (item) => (

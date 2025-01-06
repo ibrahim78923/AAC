@@ -3,8 +3,6 @@ import {
   usePostSoftwareMutation,
   useEditSoftwareMutation,
 } from '@/services/airServices/assets/software';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 
 import { filteredEmptyValues } from '@/utils/api';
 import {
@@ -28,6 +26,7 @@ import {
 import useAuth from '@/hooks/useAuth';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { isoDateString } from '@/lib/date-time';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertSoftware = (props: UpsertSoftwareI) => {
   const { setIsAddDrawerOpen, data, isLoading, isFetching } = props;
@@ -69,11 +68,12 @@ export const useUpsertSoftware = (props: UpsertSoftwareI) => {
     getDynamicFormData();
   }, []);
 
-  const methods = useForm({
-    resolver: yupResolver(upsertSoftwareFormValidationSchema?.(form)),
+  const useFormValues = {
+    validationSchema: upsertSoftwareFormValidationSchema?.(form),
     defaultValues: upsertSoftwareFormDefaultValues?.(),
-  });
-  const { handleSubmit, reset } = methods;
+  };
+
+  const { handleSubmit, reset, methods } = useFormLib(useFormValues);
 
   const submitUpsertSoftware = async (data: any) => {
     const filteredEmptyData = filteredEmptyValues(data);

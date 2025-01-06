@@ -4,13 +4,13 @@ import { AIR_SERVICES } from '@/constants/routes';
 import { Box, Grid, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { useForm } from 'react-hook-form';
 import { predefinedAssetTypeDataArray } from './DefaultFields.data';
 import { LoadingButton } from '@mui/lab';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export default function DefaultFields() {
   const theme: any = useTheme();
-  const methods: any = useForm({});
+  const { methods } = useFormLib({});
   const router: any = useRouter();
 
   const moveBack = () => {

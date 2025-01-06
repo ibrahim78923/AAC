@@ -25,6 +25,9 @@ export const CustomCommonDialog = (props: any) => {
     dialogMaxWidth = 'sm',
     typeImage,
     disabledSubmitButton = showSubmitLoader,
+    showCancelButton = true,
+    submitButtonStyles,
+    cancelButtonStyles,
   } = props;
 
   return (
@@ -50,7 +53,17 @@ export const CustomCommonDialog = (props: any) => {
             gap={1}
             flexWrap={'wrap'}
           >
-            {!!typeImage && <Box>{typeImage}</Box>}
+            {!!typeImage && (
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                {typeImage}
+              </Box>
+            )}
             <Typography
               variant="h4"
               color="slateBlue.main"
@@ -68,16 +81,19 @@ export const CustomCommonDialog = (props: any) => {
       <DialogContent>{children}</DialogContent>
       {showActionButtons && (
         <DialogActions sx={{ paddingTop: `0rem !important` }}>
-          <LoadingButton
-            className="small"
-            type="button"
-            variant="outlined"
-            color="secondary"
-            onClick={handleCancelButton}
-            disabled={disabledCancelButton}
-          >
-            {cancelButtonText}
-          </LoadingButton>
+          {showCancelButton && (
+            <LoadingButton
+              className="small"
+              type="button"
+              variant="outlined"
+              color="secondary"
+              onClick={handleCancelButton}
+              disabled={disabledCancelButton}
+              sx={cancelButtonStyles}
+            >
+              {cancelButtonText}
+            </LoadingButton>
+          )}
           <LoadingButton
             className="small"
             type="submit"
@@ -85,6 +101,7 @@ export const CustomCommonDialog = (props: any) => {
             onClick={handleSubmitButton}
             loading={showSubmitLoader}
             disabled={disabledSubmitButton}
+            sx={submitButtonStyles}
           >
             {submitButtonText}
           </LoadingButton>

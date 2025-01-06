@@ -1,5 +1,6 @@
 import {
   RHFAutocomplete,
+  RHFDatePicker,
   RHFDropZone,
   RHFTextField,
 } from '@/components/ReactHookForm';
@@ -151,14 +152,52 @@ export const dateOperatorOptions = [
     label: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.NOT_EQUAL,
   },
   {
-    _id: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.BEFORE,
+    _id: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.BEFORE_DATE,
     label: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.BEFORE,
   },
   {
-    _id: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.AFTER,
+    _id: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.AFTER_DATE,
     label: LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.AFTER,
   },
 ];
+
+export const ATTRIBUTE_FIELD_MAP = {
+  [LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES?.FIRST_NAME]: {
+    field: RHFTextField,
+    type: 'text',
+  },
+  [LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES?.LAST_NAME]: {
+    field: RHFTextField,
+    type: 'text',
+  },
+  [LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES?.ADDRESS]: {
+    field: RHFTextField,
+    type: 'text',
+  },
+  [LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES?.PHONE_NUMBER]: {
+    field: RHFTextField,
+    type: 'text',
+  },
+  [LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES?.AGE]: {
+    field: RHFTextField,
+    type: 'number',
+  },
+  [LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES?.LAST_TRANSACTION_AT]: {
+    field: RHFDatePicker,
+  },
+  [LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES?.NO_OF_TRANSACTIONS]: {
+    field: RHFTextField,
+    type: 'number',
+  },
+  [LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES?.CURRENT_POINTS_BALANCE]: {
+    field: RHFTextField,
+    type: 'number',
+  },
+  [LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES?.TOTAL_POINTS_REDEEMED]: {
+    field: RHFTextField,
+    type: 'number',
+  },
+};
 
 export const ATTRIBUTE_OPERATOR_MAP = {
   [LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES?.FIRST_NAME]:
@@ -265,7 +304,24 @@ export const upsertTiersFormValidationSchema = (formStep: number) =>
               ?.when('operator', {
                 is: (value: any) => !!value?._id,
                 then: () =>
-                  Yup?.string()?.trim()?.required('Value is required'),
+                  Yup?.string()
+                    ?.trim()
+                    ?.required('Value is required')
+                    ?.when('attribute', {
+                      is: (attribute: any) =>
+                        [
+                          LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES?.FIRST_NAME,
+                          LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES?.LAST_NAME,
+                        ]?.includes(attribute?._id),
+                      then: (schema) =>
+                        schema.test(
+                          '',
+                          'Invalid value, only alphabets are allowed',
+                          (value) =>
+                            !value || REGEX?.ONLY_ALPHABETS?.test(value),
+                        ),
+                      otherwise: (schema) => schema,
+                    }),
                 otherwise: () => Yup?.string()?.trim(),
               }),
           }
@@ -457,13 +513,19 @@ export const upsertTiersBasicFormFieldsDynamic = (
                   ? [
                       {
                         id: 1.5,
-                        component: RHFTextField,
+                        component:
+                          ATTRIBUTE_FIELD_MAP?.[watch('attribute')?._id]?.field,
                         componentProps: {
                           name: 'fieldValue',
                           label: `Enter ${watch('attribute')?.label}`,
                           placeholder: `Enter ${watch('attribute')?.label}`,
                           fullWidth: true,
                           required: true,
+                          type: ATTRIBUTE_FIELD_MAP?.[watch('attribute')?._id]
+                            ?.type,
+                          inputProps: {
+                            min: 0,
+                          },
                         },
                       },
                     ]

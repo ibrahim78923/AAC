@@ -7,9 +7,8 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { createElement } from 'react';
 import FormsTable from './StaticComponents/FormsTable';
-import ContactCustomerGraph from './StaticComponents/ContactCustomerGraph';
-import CtaViews from './StaticComponents/CtaViews';
 import ManageDashboardOptions from './ManageDashboardOptions';
 import ShareOptions from './ShareOptions';
 import useDashboard from './useDashboard';
@@ -19,7 +18,6 @@ import { capitalizeFirstLetters } from '@/utils';
 import { ProfileStatistics } from './StaticComponents/ProfileStatistics';
 // commented for future use
 // import SmsMarketingGraph from './StaticComponents/SmsMarketingGraph';
-// import TotalMarketingEmail from './StaticComponents/TotalMarketingEmail';
 // import WhatsappMarketingGraph from './StaticComponents/WhatsappMarketingGraph';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { AIR_MARKETER } from '@/routesConstants/paths';
@@ -27,20 +25,26 @@ import { indexNumbers } from '@/constants';
 import { Autorenew } from '@mui/icons-material';
 import { pxToRem } from '@/utils/getFontValue';
 import { TruncateText } from '@/components/TruncateText';
+import { ReportsWidgets } from './ReportsWidgets';
+import { REPORT_TYPES } from '@/constants/strings';
+import TotalMarketingEmail from './StaticComponents/TotalMarketingEmail';
+import SmsMarketingGraph from './StaticComponents/SmsMarketingGraph';
+import WhatsappMarketingGraph from './StaticComponents/WhatsappMarketingGraph';
 
 const Dashboard = () => {
   const {
+    AIR_MARKETER_DASHBOARD_WIDGETS_COMPONENTS,
     lazyGetSingleMarketingDashboardStatus,
     setSelectedDashboard,
+    dashboardListLoading,
     selectedDashboard,
     dashboardNotFound,
     apiCallInProgress,
     dashboardLoading,
+    defaultDashboard,
     dropdownOptions,
     dashboardsData,
     handelNavigate,
-    defaultDashboard,
-    dashboardListLoading,
     currentUser,
     disabled,
     timeLapse,
@@ -170,20 +174,25 @@ const Dashboard = () => {
               <ProfileStatistics />
             </Grid>
           )}
-          {dashboardsData?.ctaTotalViewsAndAdsSubmissions && (
+          {/* {dashboardsData?.ctaTotalViewsAndAdsSubmissions && (
             <Grid item xs={12} lg={6}>
               <CtaViews />
             </Grid>
-          )}
-          {dashboardsData?.newContactsAndCustomers && (
+          )} */}
+          {/* {dashboardsData?.newContactsAndCustomers && (
             <Grid item xs={12} lg={6}>
               <ContactCustomerGraph />
             </Grid>
+          )} */}
+
+          {dashboardsData?.totalMarketingEmail && (
+            <Grid item xs={12} lg={6}>
+              <TotalMarketingEmail
+                data={dashboardsData?.totalMarketingEmail?.emailsmarketings}
+              />
+            </Grid>
           )}
-          {/* commented for future use  */}
-          {/* <Grid item xs={12} lg={6}>
-                    <TotalMarketingEmail />
-                  </Grid> */}
+
           {dashboardsData?.leadCapturedForms && (
             <Grid item xs={12} lg={6}>
               <FormsTable
@@ -192,12 +201,51 @@ const Dashboard = () => {
             </Grid>
           )}
           {/* commented for future use  */}
-          {/* <Grid item xs={12}>
-                    <SmsMarketingGraph />
+          {dashboardsData?.smsMarketing && (
+            <Grid item xs={12}>
+              <SmsMarketingGraph data={dashboardsData?.smsMarketing} />
+            </Grid>
+          )}
+          {dashboardsData?.whatsappMarketing && (
+            <Grid item xs={12}>
+              <WhatsappMarketingGraph
+                data={dashboardsData?.whatsappMarketing}
+              />
+            </Grid>
+          )}
+
+          {/* Dynamic Components */}
+          {dashboardLoading ? (
+            <Grid item xs={12} p={1}>
+              <SkeletonForm />
+            </Grid>
+          ) : (
+            dashboardsData?.dashboard?.reports?.map(
+              (item: any, index: number) => {
+                return item?.type === REPORT_TYPES?.STATIC ? (
+                  <Grid item xs={12} key={item?.name}>
+                    {AIR_MARKETER_DASHBOARD_WIDGETS_COMPONENTS?.[item?.name] &&
+                      createElement(
+                        AIR_MARKETER_DASHBOARD_WIDGETS_COMPONENTS?.[item?.name],
+                        {
+                          data: dashboardsData,
+                          // Add any other necessary props here
+                        },
+                      )}
                   </Grid>
-                  <Grid item xs={12}>
-                    <WhatsappMarketingGraph />
-                  </Grid> */}
+                ) : (
+                  <Grid item xs={12} lg={12} key={item?._id ?? index}>
+                    <ReportsWidgets
+                      reportWidgets={dashboardsData?.[`genericReports${index}`]}
+                      reportResults={
+                        dashboardsData?.[`genericReportsResult${index}`]
+                      }
+                    />
+                  </Grid>
+                );
+              },
+            )
+          )}
         </>
       )}
     </Grid>

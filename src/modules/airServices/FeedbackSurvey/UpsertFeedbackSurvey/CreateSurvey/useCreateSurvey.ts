@@ -1,15 +1,11 @@
-import { UseFormReturn, FieldValues } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
+import { CreateSurveyI } from './CreateSurvey.interface';
 export const useCreateSurvey = ({
   methods,
   isLoading,
   setSubmitType,
-}: {
-  methods: UseFormReturn<FieldValues>;
-  isLoading: boolean;
-  setSubmitType: React.Dispatch<React.SetStateAction<string>>;
-}) => {
+}: CreateSurveyI) => {
   const { watch, setValue } = methods;
   const [openShare, setOpenShare] = useState(false);
   const linkRef: React.RefObject<HTMLAnchorElement> = useRef(null);
@@ -26,5 +22,6 @@ export const useCreateSurvey = ({
     setSubmitType,
     openShare,
     setOpenShare,
+    watch,
   };
 };

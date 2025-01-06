@@ -86,7 +86,7 @@ const useAddUser = (useActionParams?: any) => {
           email: { email: response?.data?.email },
         })?.unwrap();
         setIsOpenAdduserDrawer(false);
-        enqueueSnackbar('User Added Successfully', {
+        enqueueSnackbar('User Account Added Successfully', {
           variant: 'success',
         });
         reset();

@@ -1,5 +1,3 @@
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   scheduledSaveWorkflowSchema,
   scheduledWorkflowSchema,
@@ -19,11 +17,8 @@ import { optionsConstants } from './WorkflowConditions/SubWorkflowConditions/Sub
 import { setTestServicesWorkflowBody } from '@/redux/slices/servicesWorkflow';
 import { useDispatch } from 'react-redux';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
-import {
-  isoDateString,
-  localeDateTime,
-  otherDateFormat,
-} from '@/lib/date-time';
+import { isoDateString, otherDateFormat } from '@/lib/date-time';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertScheduledWorkflow = () => {
   const [validation, setValidation] = useState('');
@@ -87,15 +82,16 @@ export const useUpsertScheduledWorkflow = () => {
   );
   const singleWorkflowData = data?.data;
 
-  const scheduledWorkflowMethod = useForm({
+  const scheduledWorkflowMethodProps = {
     defaultValues: scheduledWorkflowValues(singleWorkflowData),
-    resolver:
+    validationSchema:
       validation === buttonData?.upsert || validation === buttonData?.test
-        ? yupResolver(scheduledWorkflowSchema)
-        : yupResolver(scheduledSaveWorkflowSchema),
-  });
-  const { reset, watch, handleSubmit, setValue, control } =
-    scheduledWorkflowMethod;
+        ? scheduledWorkflowSchema
+        : scheduledSaveWorkflowSchema,
+  };
+  const { reset, watch, handleSubmit, setValue, control, methods } = useFormLib(
+    scheduledWorkflowMethodProps,
+  );
 
   const mapField = (field: any) => {
     const fieldValue = field?.fieldValue;
@@ -266,8 +262,8 @@ export const useUpsertScheduledWorkflow = () => {
           time: timeRange,
         },
         custom: {
-          startDate: localeDateTime(data?.custom?.startDate),
-          endDate: localeDateTime(data?.custom?.endDate),
+          startDate: isoDateString(data?.custom?.startDate),
+          endDate: isoDateString(data?.custom?.endDate),
           time: timeRange,
         },
       },
@@ -295,7 +291,7 @@ export const useUpsertScheduledWorkflow = () => {
   const moduleType = watch('module');
 
   return {
-    scheduledWorkflowMethod,
+    methods,
     handleFormSubmit,
     handleSubmit,
     palette,

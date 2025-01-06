@@ -5,15 +5,19 @@ import {
   emptySelectedTicketLists,
   setTicketsListsTotalRecords,
 } from '@/redux/slices/airServices/tickets/slice';
+import {
+  servicesTicketsFilterTicketListsSelector,
+  servicesTicketsPageLimitSelector,
+  servicesTicketsPageSelector,
+  servicesTicketsSearchSelector,
+} from '@/redux/slices/airServices/tickets/selectors';
 
 export const useGetTicketList = () => {
-  const page = useAppSelector((state) => state?.servicesTickets?.page);
-  const pageLimit = useAppSelector(
-    (state) => state?.servicesTickets?.pageLimit,
-  );
-  const search = useAppSelector((state) => state?.servicesTickets?.search);
+  const page = useAppSelector(servicesTicketsPageSelector);
+  const pageLimit = useAppSelector(servicesTicketsPageLimitSelector);
+  const search = useAppSelector(servicesTicketsSearchSelector);
   const filterTicketLists = useAppSelector(
-    (state) => state?.servicesTickets?.filterTicketLists,
+    servicesTicketsFilterTicketListsSelector,
   );
   const dispatch = useAppDispatch();
   const [lazyGetTicketsTrigger, lazyGetTicketsStatus] =

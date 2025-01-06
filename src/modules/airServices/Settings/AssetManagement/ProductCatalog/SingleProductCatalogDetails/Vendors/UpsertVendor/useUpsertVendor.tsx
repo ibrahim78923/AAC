@@ -1,5 +1,3 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
 import {
   getUpsertVendorDataArray,
   upsertVendorDefaultValues,
@@ -11,6 +9,7 @@ import {
 } from '@/services/airServices/settings/asset-management/product-catalog';
 import { useRouter } from 'next/router';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertVendor = (
   setIsUpsertModalOpen: any,
@@ -19,12 +18,10 @@ export const useUpsertVendor = (
   const router: any = useRouter();
   const { productCatalogId } = router?.query;
 
-  const methods: any = useForm({
-    resolver: yupResolver(upsertVendorValidationSchema),
+  const { methods, handleSubmit } = useFormLib({
+    validationSchema: upsertVendorValidationSchema,
     defaultValues: upsertVendorDefaultValues(isUpsertModalOpen?.data),
   });
-
-  const { handleSubmit } = methods;
 
   const upsertVendorDataArray = getUpsertVendorDataArray();
 

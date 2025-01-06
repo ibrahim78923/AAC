@@ -8,7 +8,7 @@ export const ChangeStatus = (props: any) => {
   const { openStatus } = props;
 
   const {
-    methodChangeStatus,
+    methods,
     handleSubmit,
     onSubmit,
     patchServiceCatalogTriggerStatus,
@@ -26,10 +26,7 @@ export const ChangeStatus = (props: any) => {
       handleSubmitButton={handleSubmit(onSubmit)}
       showSubmitLoader={patchServiceCatalogTriggerStatus?.isLoading}
     >
-      <FormProvider
-        methods={methodChangeStatus}
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={2}>
           {changeStatusData?.map((item: any) => (
             <Grid item xs={12} key={item?.id}>

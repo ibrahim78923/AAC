@@ -1,5 +1,3 @@
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   AssetFieldFormDefaultValues,
   AssetTypeFormValidationSchema,
@@ -9,6 +7,7 @@ import { usePatchAssetTypeMutation } from '@/services/airServices/settings/asset
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants/routes';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export default function useChildType({ childDetails, setChildDetails }: any) {
   const router: any = useRouter();
@@ -16,12 +15,10 @@ export default function useChildType({ childDetails, setChildDetails }: any) {
   const [patchChildAssetTypeTrigger, patchChildAssetTypeStatus] =
     usePatchAssetTypeMutation();
 
-  const methods: any = useForm({
-    resolver: yupResolver(AssetTypeFormValidationSchema),
+  const { handleSubmit, reset, methods } = useFormLib({
+    validationSchema: AssetTypeFormValidationSchema,
     defaultValues: AssetFieldFormDefaultValues?.(childDetails?.childData),
   });
-
-  const { handleSubmit, reset } = methods;
 
   useEffect(() => {
     reset(AssetFieldFormDefaultValues?.(childDetails?.childData));

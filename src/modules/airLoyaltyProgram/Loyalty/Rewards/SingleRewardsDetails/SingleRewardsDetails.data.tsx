@@ -1,7 +1,9 @@
+import { TruncateText } from '@/components/TruncateText';
 import { UserInfo } from '@/components/UserInfo';
-import { uiDateFormat } from '@/lib/date-time';
+import { DATE_TIME_FORMAT } from '@/constants';
+import { ESCROW_STATUS } from '@/constants/strings';
+import { otherDateFormat } from '@/lib/date-time';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
-import { Box, Typography } from '@mui/material';
 
 export const singleRewardDetailsColumnsDynamic = () => [
   {
@@ -11,10 +13,10 @@ export const singleRewardDetailsColumnsDynamic = () => [
     isSortable: true,
     cell: (info: any) => (
       <UserInfo
-        nameInitial={fullNameInitial(info?.row?.original?.icon?.name)}
-        name={fullName(info?.row?.original?.icon?.name)}
-        avatarSrc={info?.row?.original?.icon?.src}
-        email={info?.getValue()}
+        nameInitial={fullNameInitial(info?.row?.original?.consumerName)}
+        name={fullName(info?.row?.original.consumerName)}
+        avatarSrc={info?.row?.original?.avatarUrl}
+        email={info?.row?.original.email}
       />
     ),
   },
@@ -23,25 +25,32 @@ export const singleRewardDetailsColumnsDynamic = () => [
     id: 'address',
     isSortable: true,
     header: 'Address',
-    cell: (info: any) => (
-      <Box display={'flex'} flexDirection="column">
-        <Typography variant="body2">
-          {info?.row?.original?.address?.street}
-        </Typography>
-        <Typography variant="body2">
-          {info?.row?.original?.address?.city}
-        </Typography>
-        <Typography variant="body2">
-          {info?.row?.original?.address?.zipCode}
-        </Typography>
-      </Box>
-    ),
+    cell: (info: any) => <TruncateText text={info?.getValue()} size={40} />,
   },
   {
-    accessorFn: (row: any) => row?.dateAndTime,
-    id: 'dateAndTime',
+    accessorFn: (row: any) => row?.escrowStatus,
+    id: 'escrowStatus',
+    isSortable: true,
+    header: 'Escrow Status',
+    cell: (info: any) => {
+      const value = info?.getValue();
+      const status = Object.values(ESCROW_STATUS).includes(value)
+        ? value
+        : '---';
+      return status;
+    },
+  },
+  {
+    accessorFn: (row: any) => row?.createdAt,
+    id: 'createdAt',
     isSortable: true,
     header: 'Created at',
-    cell: (info: any) => uiDateFormat(info?.getValue()),
+    cell: (info: any) =>
+      info?.getValue()
+        ? otherDateFormat(
+            info?.getValue(),
+            DATE_TIME_FORMAT?.MMM_DD_YYYY_hh_mm_A,
+          )
+        : '---',
   },
 ];

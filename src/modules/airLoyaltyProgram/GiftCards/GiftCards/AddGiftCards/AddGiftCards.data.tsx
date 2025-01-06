@@ -21,7 +21,10 @@ export const addGiftCardDefaultValues = {
   activeTo: null,
 };
 
-export const addGiftCardFormFieldsDynamic = (apiQueryRecipient: any) => [
+export const addGiftCardFormFieldsDynamic = (
+  apiQueryRecipient: any,
+  activeFromValue: any,
+) => [
   {
     id: 1,
     componentProps: {
@@ -52,6 +55,7 @@ export const addGiftCardFormFieldsDynamic = (apiQueryRecipient: any) => [
       name: 'activeFrom',
       label: 'Active From',
       placeholder: 'Select Date',
+      disablePast: true,
       fullWidth: true,
     },
     component: RHFDatePicker,
@@ -62,6 +66,7 @@ export const addGiftCardFormFieldsDynamic = (apiQueryRecipient: any) => [
       name: 'activeTo',
       label: 'Active To',
       placeholder: 'Select Date',
+      minDate: activeFromValue,
       fullWidth: true,
     },
     component: RHFDatePicker,

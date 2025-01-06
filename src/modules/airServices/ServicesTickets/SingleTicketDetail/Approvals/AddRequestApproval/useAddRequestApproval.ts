@@ -1,6 +1,4 @@
 import { useAddSingleServicesTicketsApprovalMutation } from '@/services/airServices/tickets/single-ticket-details/approvals';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import {
   addRequestApprovalFormFieldsDynamic,
@@ -11,6 +9,7 @@ import useAuth from '@/hooks/useAuth';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setIsPortalClose } from '@/redux/slices/airServices/tickets-approvals/slice';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useAddRequestApproval = () => {
   const router = useRouter();
@@ -26,12 +25,13 @@ export const useAddRequestApproval = () => {
   const isPortalOpen = useAppSelector(
     (state) => state?.servicesTicketApprovals?.isPortalOpen,
   );
-  const methods = useForm<any>({
-    resolver: yupResolver(addRequestApprovalValidationSchema),
-    defaultValues: addRequestApprovalFormDefaultValues,
-  });
 
-  const { handleSubmit, reset } = methods;
+  const formLibProps = {
+    validationSchema: addRequestApprovalValidationSchema,
+    defaultValues: addRequestApprovalFormDefaultValues,
+  };
+
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
 
   const onSubmit = async (data: any) => {
     if (data?.subject?._id === userId) {

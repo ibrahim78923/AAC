@@ -1,4 +1,3 @@
-import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import {
   businessHourDefaultValues,
@@ -6,7 +5,6 @@ import {
   holidaysDropDownData,
   holidaysListsColumn,
 } from './CreateBusinessHour.data';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useGetAirServicesSettingsServiceBusinessHourByIdQuery,
   useLazyGetAirServicesSettingsServiceBusinessHourHolidaysQuery,
@@ -27,6 +25,7 @@ import {
 } from '@/lib/date-time';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { v4 as uuidv4 } from 'uuid';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useCreateBusinessHour = () => {
   const router = useRouter();
@@ -100,12 +99,13 @@ export const useCreateBusinessHour = () => {
     }
   };
 
-  const businessHourMethod = useForm({
+  const formLibProps = {
+    validationSchema: businessHourValidationSchema,
     defaultValues: businessHourDefaultValues(),
-    resolver: yupResolver(businessHourValidationSchema),
-  });
+  };
 
-  const { control, watch, handleSubmit, reset }: any = businessHourMethod;
+  const { control, watch, handleSubmit, reset, methods } =
+    useFormLib(formLibProps);
 
   const onSubmitRequest = handleSubmit(async (data: any) => {
     if (!holidaysData?.length) {
@@ -215,7 +215,7 @@ export const useCreateBusinessHour = () => {
 
   return {
     router,
-    businessHourMethod,
+    methods,
     control,
     watch,
     onSubmitRequest,

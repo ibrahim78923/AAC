@@ -14,7 +14,7 @@ export const TransactionPoints = () => {
     setIsDrawerOpen,
     setPageLimit,
     setPage,
-    getTransactionPointsData,
+    getTransactionPoints,
     handleSearch,
   } = useTransactionPoints();
 
@@ -46,17 +46,17 @@ export const TransactionPoints = () => {
       >
         <TanstackTable
           columns={transactionsPointsListColumn}
-          data={getTransactionPointsData?.data?.data ?? []}
-          isLoading={getTransactionPointsData?.isLoading}
-          currentPage={getTransactionPointsData?.data?.data?.meta?.page}
-          count={getTransactionPointsData?.data?.data?.meta?.pages}
-          pageLimit={getTransactionPointsData?.data?.data?.meta?.limit}
-          totalRecords={getTransactionPointsData?.data?.data?.meta?.total}
+          data={getTransactionPoints?.data?.data?.consumers ?? []}
+          isLoading={getTransactionPoints?.isLoading}
+          currentPage={getTransactionPoints?.data?.data?.meta?.page}
+          count={getTransactionPoints?.data?.data?.meta?.pages}
+          pageLimit={getTransactionPoints?.data?.data?.meta?.limit}
+          totalRecords={getTransactionPoints?.data?.data?.meta?.total}
           setPage={setPage}
           setPageLimit={setPageLimit}
-          isFetching={getTransactionPointsData?.isFetching}
-          isError={getTransactionPointsData?.isError}
-          isSuccess={getTransactionPointsData?.isSuccess || true}
+          isFetching={getTransactionPoints?.isFetching}
+          isError={getTransactionPoints?.isError}
+          isSuccess={getTransactionPoints?.isSuccess}
           onPageChange={(page: any) => setPage(page)}
           isPagination
         />

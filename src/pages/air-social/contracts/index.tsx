@@ -1,8 +1,9 @@
 import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
+import Contracts from '@/modules/airSocial/Contracts';
 
 const ContractPage = () => {
-  return <h1>Contracts Page</h1>;
+  return <Contracts />;
 };
 export default ContractPage;
 ContractPage.getLayout = function getLayout(page: any) {

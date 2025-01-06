@@ -5,11 +5,9 @@ import { LoadingButton } from '@mui/lab';
 import { useCreateSurvey } from './useCreateSurvey';
 import { ShareModal } from './ShareModal';
 import { AIR_SERVICES } from '@/constants/routes';
-export const CreateSurvey: React.FC<{
-  methods: any;
-  isLoading: boolean;
-  setSubmitType: React.Dispatch<React.SetStateAction<string>>;
-}> = (props) => {
+import { CreateSurveyI } from './CreateSurvey.interface';
+
+export const CreateSurvey: React.FC<CreateSurveyI> = (props) => {
   const {
     setValue,
     isLoading,
@@ -20,6 +18,7 @@ export const CreateSurvey: React.FC<{
     setSubmitType,
     openShare,
     setOpenShare,
+    watch,
   } = useCreateSurvey(props);
   return (
     <>
@@ -38,55 +37,53 @@ export const CreateSurvey: React.FC<{
         canMovedBack
       />
       <Grid container spacing={2}>
-        {createSurveyFields(props?.methods?.watch, setOpenShare)?.map(
-          (field: any) => {
-            if (
-              field?.conditionalComponent &&
-              customerSupportLinkType === surveyConditions?.email
-            ) {
-              return null;
-            }
-            if (
-              field?.componentProps?.name ===
-                surveyConditions?.sendSurveyPeople &&
-              customerSupportLinkType === surveyConditions?.link
-            ) {
-              return null;
-            }
-            if (
-              field?.componentProps?.name === surveyConditions?.displayName &&
-              !displayWatch
-            ) {
-              return null;
-            }
-            return (
-              <Grid
-                item
-                key={field?.id}
-                xs={12}
-                md={7}
-                sx={{
-                  display: !field?.type?.includes(router?.query?.type as string)
-                    ? 'none'
-                    : 'block',
-                }}
-              >
-                {field?.conditionalComponent ? (
-                  field?.conditionalComponent(linkRef, setValue)
-                ) : field?.id === 7 ? (
-                  <Typography variant="h6" mb={-2}>
-                    Configure what to display in the survey email or Portal
-                    against tickets
-                  </Typography>
-                ) : (
-                  field?.component && (
-                    <field.component {...field?.componentProps} size="small" />
-                  )
-                )}
-              </Grid>
-            );
-          },
-        )}
+        {createSurveyFields(watch, setOpenShare)?.map((field: any) => {
+          if (
+            field?.conditionalComponent &&
+            customerSupportLinkType === surveyConditions?.email
+          ) {
+            return null;
+          }
+          if (
+            field?.componentProps?.name ===
+              surveyConditions?.sendSurveyPeople &&
+            customerSupportLinkType === surveyConditions?.link
+          ) {
+            return null;
+          }
+          if (
+            field?.componentProps?.name === surveyConditions?.displayName &&
+            !displayWatch
+          ) {
+            return null;
+          }
+          return (
+            <Grid
+              item
+              key={field?.id}
+              xs={12}
+              md={7}
+              sx={{
+                display: !field?.type?.includes(router?.query?.type as string)
+                  ? 'none'
+                  : 'block',
+              }}
+            >
+              {field?.conditionalComponent ? (
+                field?.conditionalComponent(linkRef, setValue)
+              ) : field?.id === 7 ? (
+                <Typography variant="h6" mb={-2}>
+                  Configure what to display in the survey email or Portal
+                  against tickets
+                </Typography>
+              ) : (
+                field?.component && (
+                  <field.component {...field?.componentProps} size="small" />
+                )
+              )}
+            </Grid>
+          );
+        })}
         <Grid
           item
           md={7}

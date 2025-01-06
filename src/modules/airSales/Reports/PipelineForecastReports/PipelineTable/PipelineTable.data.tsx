@@ -4,7 +4,7 @@ import { Box, Stack, Typography } from '@mui/material';
 
 export const totalColumns: any = (theme: any, data: any) => [
   {
-    accessorFn: (row: any) => row?.collaboratorDetails[ARRAY_INDEX?.ZERO].name,
+    accessorFn: (row: any) => row?.collaboratorDetails[ARRAY_INDEX?.ZERO]?.name,
     id: 'name',
     cell: (info: any) => (
       <Box display="flex" gap={1} alignItems="center">

@@ -3,10 +3,11 @@ import { useAttachmentForm } from './useAttachmentForm';
 import { LoadingButton } from '@mui/lab';
 
 export const AttachmentForm = (props: any) => {
-  const { methods, onSubmit, postAttachmentsStatus } = useAttachmentForm(props);
+  const { methods, onSubmit, postAttachmentsStatus, handleSubmit } =
+    useAttachmentForm(props);
 
   return (
-    <FormProvider methods={methods} onSubmit={methods?.handleSubmit(onSubmit)}>
+    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <RHFDropZone name="attachments" />
       <LoadingButton
         type="submit"

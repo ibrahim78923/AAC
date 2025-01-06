@@ -1,6 +1,5 @@
 import { TIME_FORMAT } from '@/constants';
 import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
 import {
   meetingTitle,
   schemaTypes,
@@ -8,7 +7,6 @@ import {
   upsertMeetingValues,
 } from './UpsertMeeting.data';
 import { useEffect, useState } from 'react';
-import { yupResolver } from '@hookform/resolvers/yup';
 
 import {
   useAddMeetingMutation,
@@ -20,6 +18,7 @@ import { MEETINGS_ACTION_TYPE } from '@/constants/strings';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { SOCIAL_COMPONENTS } from '@/constants/routes';
 import { isoDateString, otherDateFormat } from '@/lib/date-time';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertMeeting = () => {
   const router: any = useRouter();
@@ -59,11 +58,13 @@ export const useUpsertMeeting = () => {
 
   const meetingData = data?.data;
 
-  const methods = useForm({
+  const useFormValues = {
     defaultValues: upsertMeetingValues(router, meetingData),
-    resolver: yupResolver(upsertMeetingSchema(router)),
-  });
-  const { handleSubmit, watch, setValue, control, reset } = methods;
+    validationSchema: upsertMeetingSchema(router),
+  };
+  const { handleSubmit, watch, setValue, control, reset, methods } =
+    useFormLib(useFormValues);
+
   const meetingType = meetingTitle?.[router?.query?.type];
 
   useEffect(() => {

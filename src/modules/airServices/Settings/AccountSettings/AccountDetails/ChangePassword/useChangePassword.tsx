@@ -1,5 +1,3 @@
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   changePasswordValidationSchema,
   changePasswordDefaultValues,
@@ -11,15 +9,16 @@ import { usePostServiceAccountDetailChangePasswordMutation } from '@/services/ai
 import { IChangePasswordData } from './ChangePassword.interface';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useChangePassword = () => {
   const theme = useTheme();
   const [showPassword, setShowPassword] = useState([false, false, false]);
 
-  const ChangePasswordMethods = useForm({
-    resolver: yupResolver(changePasswordValidationSchema),
+  const changePasswordMethodProps = {
+    validationSchema: changePasswordValidationSchema,
     defaultValues: changePasswordDefaultValues,
-  });
+  };
 
   const [postChangePasswordTrigger, postChangePasswordProgress] =
     usePostServiceAccountDetailChangePasswordMutation();
@@ -40,7 +39,9 @@ export const useChangePassword = () => {
     }
   };
 
-  const { handleSubmit, reset } = ChangePasswordMethods;
+  const { handleSubmit, reset, methods } = useFormLib(
+    changePasswordMethodProps,
+  );
   const handleSubmitChangePassword = handleSubmit(isSubmit);
 
   const togglePasswordVisibility = (index: number) => {
@@ -57,7 +58,7 @@ export const useChangePassword = () => {
   );
 
   return {
-    ChangePasswordMethods,
+    methods,
     reset,
     handleSubmitChangePassword,
     theme,

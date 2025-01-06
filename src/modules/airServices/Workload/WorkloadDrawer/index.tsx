@@ -33,6 +33,8 @@ import { ARRAY_INDEX } from '@/constants/strings';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { UpdateWorkloadTicket } from '../UpdateWorkloadTicket';
 import { otherDateFormat } from '@/lib/date-time';
+import { workloadDefaultDateRange } from '../Workload.data';
+import { Autorenew } from '@mui/icons-material';
 
 const WorkloadDrawer = ({
   setOpenDrawer,
@@ -144,18 +146,35 @@ const WorkloadDrawer = ({
                 </Typography>
               </Box>
             </Box>
-            <IconButton
-              aria-label="filter"
-              sx={{
-                height: '50px',
-                width: '50px',
-                borderRadius: 2,
-                boxShadow: 2,
-              }}
-              onClick={handleClick}
-            >
-              <FilterIcon />
-            </IconButton>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+              <IconButton
+                aria-label="reset"
+                sx={{
+                  height: '50px',
+                  width: '50px',
+                  borderRadius: 2,
+                  boxShadow: 2,
+                }}
+                onClick={() => {
+                  setDateRange(workloadDefaultDateRange);
+                  setModifiedRange(workloadDefaultDateRange);
+                }}
+              >
+                <Autorenew />
+              </IconButton>
+              <IconButton
+                aria-label="filter"
+                sx={{
+                  height: '50px',
+                  width: '50px',
+                  borderRadius: 2,
+                  boxShadow: 2,
+                }}
+                onClick={handleClick}
+              >
+                <FilterIcon />
+              </IconButton>
+            </Box>
             <Popover
               id={id}
               open={open}

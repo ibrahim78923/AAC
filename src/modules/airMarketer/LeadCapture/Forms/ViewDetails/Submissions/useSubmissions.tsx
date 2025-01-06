@@ -94,6 +94,14 @@ const useSubmissions = (formId: string) => {
   };
 
   const dataCustomers = useLazyGetFormSubmissionEmailsQuery();
+  // Modal export
+  const [openModalExport, setOpenModalExport] = useState(false);
+  const handleOpenModalExport = () => {
+    setOpenModalExport(true);
+  };
+  const handleCloseModalExport = () => {
+    setOpenModalExport(false);
+  };
 
   return {
     theme,
@@ -111,6 +119,9 @@ const useSubmissions = (formId: string) => {
     handleRefresh,
     dataCustomers,
     resetFilters,
+    handleOpenModalExport,
+    handleCloseModalExport,
+    openModalExport,
   };
 };
 

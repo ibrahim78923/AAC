@@ -53,6 +53,7 @@ export const UpsertArticle = () => {
     moveToHome,
     showLoader,
     apiCallInProgress,
+    handleSubmit,
   } = useUpsertArticle();
 
   if (showLoader) return <SkeletonForm />;
@@ -151,7 +152,7 @@ export const UpsertArticle = () => {
                     className="small"
                     type="button"
                     onClick={() =>
-                      methods?.handleSubmit?.(upsertArticleSubmit)(PUBLISHED)
+                      handleSubmit?.(upsertArticleSubmit)(PUBLISHED)
                     }
                     fullWidth
                     loading={apiCallInProgress}

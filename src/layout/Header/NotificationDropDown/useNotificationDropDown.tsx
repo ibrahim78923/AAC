@@ -7,7 +7,8 @@ const useNotificationDropDown = () => {
   const { data: notificationsList, isLoading: getNotificationLoading } =
     useGetNotificationsQuery({});
 
-  const [seenNotification] = useSeenNotificationMutation();
+  const [seenNotification, { isLoading: patchNotificationsLoading }] =
+    useSeenNotificationMutation();
 
   const handleSeenNotification = (id: any) => {
     seenNotification({ id: id, body: { seen: true } });
@@ -16,6 +17,7 @@ const useNotificationDropDown = () => {
   return {
     notificationsList,
     getNotificationLoading,
+    patchNotificationsLoading,
     handleSeenNotification,
   };
 };

@@ -24,6 +24,7 @@ const NewPurchaseOrder = () => {
     singlePurchaseOrder,
     form,
     getDynamicFieldsStatus,
+    handleSubmit,
   } = useNewPurchaseOrder();
 
   return (
@@ -44,10 +45,7 @@ const NewPurchaseOrder = () => {
       ) : getDynamicFieldsStatus?.isError ? (
         <ApiErrorState />
       ) : (
-        <FormProvider
-          methods={methods}
-          onSubmit={methods?.handleSubmit(submit)}
-        >
+        <FormProvider methods={methods} onSubmit={handleSubmit(submit)}>
           <Grid container rowSpacing={1.8}>
             <Grid
               item

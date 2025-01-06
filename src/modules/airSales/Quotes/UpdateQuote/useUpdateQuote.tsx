@@ -67,6 +67,13 @@ const useUpdateQuote = () => {
   const activeCompanyId = dataGetQuoteById?.data?.buyerCompanyId;
   const activeContactId = dataGetQuoteById?.data?.buyerContactId;
 
+  const [loyalityCalculation, setLoyalityCalculation] = useState<any>({
+    rewardsDiscount: [],
+    vouchersDiscount: [],
+    giftCardDiscount: [],
+    totalRedeamDiscount: dataGetQuoteById?.data?.loyaltyRedeemedDiscount,
+  });
+
   useEffect(() => {
     setSelectedCompanyIds(activeCompanyId && activeCompanyId);
     setSelectedBuyerContactIds(activeContactId && activeContactId);
@@ -147,29 +154,55 @@ const useUpdateQuote = () => {
       (currentValue?.unitDiscount * currentValue?.additionalQuantity || 0),
     0,
   );
-  const redeemDiscount = 0;
-  const totalDiscount = unitDiscount + redeemDiscount;
+  const totalDiscount = unitDiscount || 0;
+  const updateRedeamDiscount = loyalityCalculation?.totalRedeamDiscount
+    ? loyalityCalculation?.totalRedeamDiscount
+    : dataGetQuoteById?.data?.loyaltyRedeemedDiscount;
 
-  const sum = totalAdditionalPrice + singleQuote?.dealAmount - totalDiscount;
+  const sum =
+    totalAdditionalPrice +
+    singleQuote?.dealAmount -
+    (totalDiscount + (updateRedeamDiscount ? updateRedeamDiscount : 0));
 
   const total = (taxCalculation?.data / 100) * sum + sum;
   const FinalTotal = parseFloat(total?.toFixed(2));
 
   const calculations = {
     calculationsArray: [
-      { name: 'Deal Amount', amount: `£ ${singleQuote?.dealAmount}` },
-      { name: 'Additional Amount', amount: `£ ${totalAdditionalPrice}` },
-      { name: 'Total Discount', amount: `£ ${unitDiscount}` },
-      { name: 'Redeem Discount', amount: `£ ${0}` },
-      { name: 'Sub Total', amount: `£ ${sum}` },
-      { name: 'Tax', amount: `${taxCalculation?.data}%` },
+      { name: 'Deal Amount', amount: singleQuote?.dealAmount },
+      { name: 'Additional Amount', amount: totalAdditionalPrice },
+      { name: 'Total Discount', amount: unitDiscount?.toFixed(1) },
+      {
+        name: 'Redeam Discount',
+        amount: updateRedeamDiscount?.toFixed(1) ?? 0,
+      },
+      { name: 'Sub Total', amount: sum?.toFixed(1) },
+      { name: 'Tax', amount: `${taxCalculation?.data} %` },
+      // { name: 'taxAmount', amount: taxCalculation?.data },
     ],
     finalTotal: FinalTotal,
   };
 
+  const handleLoyalityCalulation = (
+    reward: any,
+    vouchers: any,
+    giftcard: any,
+    totalRedeam: any,
+    subTotal: any,
+  ) => {
+    setLoyalityCalculation({
+      ...loyalityCalculation,
+      rewardsDiscount: reward,
+      vouchersDiscount: vouchers,
+      giftCardDiscount: giftcard,
+      totalRedeamDiscount: totalRedeam,
+      subTotal: subTotal,
+    });
+  };
+
   const onSubmit = async () => {
     try {
-      putSubmitQuote({
+      await putSubmitQuote({
         id: quoteId,
         body: {
           id: quoteId,
@@ -177,12 +210,15 @@ const useUpdateQuote = () => {
           products: productsArray,
           dealAmount: singleQuote?.dealAmount?.dealAmount,
           subTotal: sum,
-          invoiceDiscount: 0,
-          RedeemedDiscount: redeemDiscount,
+          invoiceDiscount: 2,
           tax: taxCalculation?.data,
           total: FinalTotal,
+          loyaltyRewards: loyalityCalculation?.rewardsDiscount,
+          loyaltyGiftCards: loyalityCalculation?.giftCardDiscount[0],
+          loyaltyVouchers: loyalityCalculation?.vouchersDiscount[0],
+          loyaltyRedeemedDiscount: loyalityCalculation?.totalRedeamDiscount,
         },
-      });
+      })?.unwrap();
       enqueueSnackbar('Save as draft submit later', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
@@ -457,6 +493,8 @@ const useUpdateQuote = () => {
     productsArray,
     calculations,
     setIsOpenFormCreateProduct,
+    handleLoyalityCalulation,
+    loyalityCalculation,
   };
 };
 export default useUpdateQuote;

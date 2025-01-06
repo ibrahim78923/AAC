@@ -1,10 +1,8 @@
-import { useForm } from 'react-hook-form';
 import {
   upsertRolesAndRightDefaultValues,
   upsertRolesAndRightFormFieldsDynamic,
   upsertRolesAndRightValidationSchema,
 } from './UpsertRolesAndRight.data';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useUpdateLoyaltyProgramRoleAndRightsSinglePermissionsRoleMutation,
   useAddLoyaltyProgramRoleAndRightsSinglePermissionRoleMutation,
@@ -26,6 +24,7 @@ import {
   loyaltyProgramRoleAndRightsIsPortalOpenSelector,
   loyaltyProgramRoleAndRightsSelectedRoleAndRightsListsSelector,
 } from '@/redux/slices/airLoyaltyProgram/roles-and-right/selectors';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertRolesAndRight = () => {
   const auth: any = useAuth();
@@ -46,12 +45,13 @@ export const useUpsertRolesAndRight = () => {
       ? selectedRoleAndRightsLists?.[ARRAY_INDEX?.ZERO]?._id
       : undefined;
 
-  const methods = useForm<any>({
+  const formLibProps = {
+    validationSchema: upsertRolesAndRightValidationSchema,
     defaultValues: upsertRolesAndRightDefaultValues(),
-    resolver: yupResolver(upsertRolesAndRightValidationSchema),
-  });
+  };
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, methods, getValues, watch } =
+    useFormLib(formLibProps);
 
   const upsertRolesAndRightFormFields = upsertRolesAndRightFormFieldsDynamic();
   const {
@@ -187,6 +187,8 @@ export const useUpsertRolesAndRight = () => {
   const permissionAccordionsProps = {
     reset,
     methods,
+    getValues,
+    watch,
   };
 
   return {

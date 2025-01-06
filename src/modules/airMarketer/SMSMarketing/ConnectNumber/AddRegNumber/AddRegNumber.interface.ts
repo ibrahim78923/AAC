@@ -6,4 +6,5 @@ export interface AddRegNumberI {
   phoneValue: string;
   isPhoneValid: boolean;
   isLoading: boolean;
+  setPhoneNumber: any;
 }

@@ -75,7 +75,14 @@ const AddRole = () => {
                   <item.component
                     {...item.componentProps}
                     size={'small'}
-                    disabled={query?.type === DRAWER_TYPES?.VIEW ? true : false}
+                    disabled={
+                      query?.type === DRAWER_TYPES?.VIEW ||
+                      (query?.type === DRAWER_TYPES?.EDIT &&
+                        item.componentProps.name ===
+                          'organizationCompanyAccountId')
+                        ? true
+                        : false
+                    }
                   />
                 </Grid>
               ),

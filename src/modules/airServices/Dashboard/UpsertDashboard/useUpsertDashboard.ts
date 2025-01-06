@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useForm, useWatch } from 'react-hook-form';
+import { useWatch } from 'react-hook-form';
 import { UpsertServicesDashboardDefaultValueI } from './UpsertDashboard.interface';
 import {
   createDashboardDefaultValue,
@@ -8,7 +8,6 @@ import {
 } from './UpsertDashboard.data';
 import { useRouter } from 'next/router';
 import { filteredEmptyValues } from '@/utils/api';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { REPORT_TYPES } from '@/constants/strings';
 import {
   MANAGE_DASHBOARD_ACCESS_TYPES,
@@ -25,6 +24,7 @@ import { setIsPortalOpen } from '@/redux/slices/airServices/dashboard/slice';
 import { useAppDispatch } from '@/redux/store';
 import { AIR_SERVICES } from '@/constants/routes';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 const { PRIVATE_TO_OWNER, EVERYONE_EDIT_AND_VIEW, SPECIFIC_USER_AND_TEAMS } =
   MANAGE_DASHBOARD_ACCESS_TYPES ?? {};
@@ -34,12 +34,14 @@ export const useUpsertDashboard = () => {
   const dashboardId = router?.query?.dashboardId;
   const action = router?.query?.action;
   const dispatch = useAppDispatch();
-  const methods = useForm<any>({
-    defaultValues: createDashboardDefaultValue?.(),
-    resolver: yupResolver(createDashboardValidationSchema?.()),
-  });
 
-  const { handleSubmit, reset, setValue, control, getValues } = methods;
+  const formLibProps = {
+    validationSchema: createDashboardValidationSchema?.(),
+    defaultValues: createDashboardDefaultValue?.(),
+  };
+
+  const { handleSubmit, reset, setValue, control, getValues, methods } =
+    useFormLib(formLibProps);
 
   const getSingleTicketParameter = {
     queryParams: {

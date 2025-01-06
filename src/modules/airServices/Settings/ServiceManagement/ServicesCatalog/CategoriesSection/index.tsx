@@ -30,7 +30,7 @@ export default function CategoriesSection(props: any) {
   const {
     router,
     theme,
-    methodAdd,
+    methods,
     handleSubmit,
     onSubmit,
     handleClose,
@@ -185,7 +185,7 @@ export default function CategoriesSection(props: any) {
           handleSubmitButton={handleSubmit(onSubmit)}
           showSubmitLoader={postServiceCatalogTriggerStatus?.isLoading}
         >
-          <FormProvider methods={methodAdd} onSubmit={handleSubmit(onSubmit)}>
+          <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={2}>
               {addServiceCatalogData?.map((item: any) => (
                 <Grid item xs={12} key={item?.id}>

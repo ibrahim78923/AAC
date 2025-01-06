@@ -1,28 +1,28 @@
 import { Theme, useTheme } from '@mui/material';
 
-const useStatisticsCard = () => {
+const useStatisticsCard = ({ data }: any) => {
   const theme = useTheme<Theme>();
 
-  const series = (graphData: any) => {
-    const sentData = graphData?.map((item: any) => item?.sent);
-    const deliveredData = graphData?.map((item: any) => item?.delivered);
-    const failedData = graphData?.map((item: any) => item?.failed);
-
-    return [
-      {
-        name: 'Sent',
-        data: sentData,
-      },
-      {
-        name: 'Delivered',
-        data: deliveredData,
-      },
-      {
-        name: 'Failed',
-        data: failedData,
-      },
-    ];
+  const transformedData = {
+    delivered: data?.statistics?.map((item: any) => item?.delivered),
+    sent: data?.statistics?.map((item: any) => item?.sent),
+    failed: data?.statistics?.map((item: any) => item?.failed),
   };
+
+  const series = [
+    {
+      name: 'Delivered',
+      data: transformedData.delivered,
+    },
+    {
+      name: 'Sent',
+      data: transformedData.sent,
+    },
+    {
+      name: 'Failed',
+      data: transformedData.failed,
+    },
+  ];
 
   const options: any = {
     chart: {
@@ -83,17 +83,10 @@ const useStatisticsCard = () => {
     fill: {
       opacity: 1,
     },
-    // tooltip: {
-    //   y: {
-    //     formatter: function (val: any) {
-    //       return '$ ' + val + ' thousands';
-    //     },
-    //   },
-    // },
   };
   return {
-    series,
     options,
+    series,
     theme,
   };
 };

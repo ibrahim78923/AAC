@@ -1,55 +1,49 @@
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
-import { Close } from '@mui/icons-material';
-import { Box, Dialog, Typography } from '@mui/material';
 import { useImportQuestions } from './useImportQuestions';
 import { SurveyList } from './SurveyList';
 import { QuestionList } from './QuestionList';
 import { ImportQuestionsI } from './ImportQuestions.interface';
+import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 
 export const ImportQuestions: React.FC<ImportQuestionsI> = (props) => {
   const { openImport, setOpenImport } = props;
-  const { surveyId, setSurveyId, questionsList, setQuestionsList } =
-    useImportQuestions();
+  const {
+    surveyId,
+    setSurveyId,
+    questionsList,
+    setQuestionsList,
+    questionsData,
+    setQuestionsData,
+    handleInsert,
+  } = useImportQuestions(props);
   return (
-    <Dialog
-      open={openImport}
-      onClose={() => setOpenImport(false)}
-      maxWidth={'md'}
-      fullWidth
+    <CustomCommonDialog
+      isPortalOpen={openImport}
+      closePortal={() => setOpenImport(false)}
+      handleCancelButton={() => setQuestionsList(false)}
+      handleSubmitButton={handleInsert}
+      showActionButtons={questionsList}
+      disabledSubmitButton={!!!questionsData?.length}
+      dialogTitle={!questionsList ? 'Select Survey Form' : 'Select Questions'}
+      cancelButtonText="Back"
+      submitButtonText="Insert"
+      dialogMaxWidth={'md'}
     >
-      <Box p={3}>
-        <Box
-          justifyContent={'space-between'}
-          alignItems={'center'}
-          display={'flex'}
-          gap={1}
-          flexWrap={'wrap'}
-        >
-          <Typography variant="h4">
-            {!questionsList ? 'Select Form' : 'Select Questions'}
-          </Typography>
-          <Close
-            sx={{ color: 'custom.darker', cursor: 'pointer' }}
-            onClick={() => setOpenImport(false)}
-          />
-        </Box>
-        <br />
-        {!questionsList ? (
-          <HorizontalTabs tabsDataArray={['Recent']}>
-            <SurveyList
-              setSurveyId={setSurveyId}
-              setQuestionsList={setQuestionsList}
-              {...props}
-            />
-          </HorizontalTabs>
-        ) : (
-          <QuestionList
+      {!questionsList ? (
+        <HorizontalTabs tabsDataArray={['Recent']}>
+          <SurveyList
+            setSurveyId={setSurveyId}
             setQuestionsList={setQuestionsList}
-            surveyId={surveyId}
-            {...props}
+            openImport={openImport}
           />
-        )}
-      </Box>
-    </Dialog>
+        </HorizontalTabs>
+      ) : (
+        <QuestionList
+          surveyId={surveyId}
+          questionsData={questionsData}
+          setQuestionsData={setQuestionsData}
+        />
+      )}
+    </CustomCommonDialog>
   );
 };

@@ -1,33 +1,24 @@
 import { DeliveredSmsIcon, FailedSmsIcon, SentSmsIcon } from '@/assets/icons';
 import { Theme, useTheme } from '@mui/material';
-import { DashboardCardsDataInterface } from '../SMSDashboard-interface';
 
-const useStatusCards = (
-  dashboardCardsData: DashboardCardsDataInterface,
-  analytics: DashboardCardsDataInterface,
-  isDashboard: boolean,
-) => {
+const useStatusCards = (data: any) => {
   const theme = useTheme<Theme>();
-  const deliveredAndFailedSum = isDashboard
-    ? (dashboardCardsData?.delivered || 0) + (dashboardCardsData?.failed || 0)
-    : null;
-
   const smsStatusArray = [
     {
       icon: <SentSmsIcon />,
-      count: isDashboard ? deliveredAndFailedSum : analytics?.sent,
+      count: data?.sent ?? 0,
       title: 'Sent',
       divider: true,
     },
     {
       icon: <DeliveredSmsIcon />,
-      count: isDashboard ? dashboardCardsData?.delivered : analytics?.delivered,
+      count: data?.delivered ?? 0,
       title: 'Delivered',
       divider: true,
     },
     {
       icon: <FailedSmsIcon />,
-      count: isDashboard ? dashboardCardsData?.failed : analytics?.failed,
+      count: data?.failed ?? 0,
       title: 'Failed',
     },
   ];

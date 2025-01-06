@@ -1,8 +1,8 @@
-const EditSmsIcon = () => {
+const EditSmsIcon = ({ size }: any) => {
   return (
     <svg
-      width="60"
-      height="60"
+      width={size ?? '60'}
+      height={size ?? '60'}
       viewBox="0 0 60 60"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

@@ -46,10 +46,10 @@ export const loyaltyProgramUsersAPI = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     verifyLoyaltyProgramUserManagementUserViaIg: builder?.mutation({
-      query: ({ email }: any) => ({
+      query: (apiDataParameter: any) => ({
         url: END_POINTS?.AUTH_IG_VERIFICATION,
         method: 'POST',
-        body: email,
+        body: apiDataParameter?.email,
       }),
     }),
     getLoyaltyProgramUserManagementPermissionsRolesDropdown: builder?.query({

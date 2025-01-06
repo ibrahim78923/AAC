@@ -24,7 +24,7 @@ const ImportModal = () => {
   const {
     isDrawerOpen,
     setIsDrawerOpen,
-    methodsImportModalForm,
+    methods,
     control,
     submitImportModalForm,
     resetImportModalForm,
@@ -131,7 +131,7 @@ const ImportModal = () => {
                       Map Columns from your file to the right CRM fields.
                     </Typography>
                   )}
-                  <FormProvider methods={methodsImportModalForm}>
+                  <FormProvider methods={methods}>
                     {steps[modalStep]}
                   </FormProvider>
                 </Container>

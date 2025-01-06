@@ -26,7 +26,9 @@ export const ShareData = (data: any) => {
     },
     {
       heading: 'Close Date',
-      values: dayjs(data?.closeDate)?.format(DATE_FORMAT?.UI) ?? 'N/A',
+      values: data?.closeDate
+        ? dayjs(data?.closeDate)?.format(DATE_FORMAT?.UI)
+        : 'N/A',
     },
   ];
 };

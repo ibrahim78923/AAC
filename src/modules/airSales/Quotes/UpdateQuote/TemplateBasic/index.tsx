@@ -1,9 +1,10 @@
-import React from 'react';
 import { Box, Typography, Grid, Divider } from '@mui/material';
 import { createQuoteFormFields } from '../UpdateQuote.data';
 import { styles } from './TemplateBasic.style';
+import { DATE_FORMAT, GlobalSearchSuperAdminModules } from '@/constants';
+import dayjs from 'dayjs';
 
-const TemplateBasic = ({ values }: any) => {
+const TemplateBasic = ({ quotesData, loyalityCalculation }: any) => {
   return (
     <Box sx={styles?.container}>
       <Box sx={styles?.header}>
@@ -16,7 +17,7 @@ const TemplateBasic = ({ values }: any) => {
           <Grid container spacing={'16px'}>
             <Grid item lg={7} md={12} xs={12}>
               <Typography sx={styles?.buyerInfoTitle} variant="body1">
-                One Care Media
+                {quotesData?.buyerCompany?.name ?? 'N/A'}
               </Typography>
               <Typography sx={styles?.buyerInfoText} variant="body2">
                 1414 Northeast 42nd Street
@@ -30,10 +31,11 @@ const TemplateBasic = ({ values }: any) => {
             </Grid>
             <Grid item xs={5}>
               <Typography sx={styles?.buyerInfoTitle} variant="body1">
-                De Gea
+                {quotesData?.buyerCompany?.owner?.firstName}{' '}
+                {quotesData?.buyerCompany?.owner?.lastName}
               </Typography>
               <Typography sx={styles?.buyerInfoText} variant="body2">
-                Maderson321@gmail.com
+                {quotesData?.buyerCompany?.owner?.email}
               </Typography>
             </Grid>
           </Grid>
@@ -42,18 +44,25 @@ const TemplateBasic = ({ values }: any) => {
           <Grid container spacing={'16px'}>
             <Grid item xs={7}>
               <Box sx={styles?.quoteInfoLabel}>
-                Reference No: <Box component={'span'}>20230410-075533523</Box>
-              </Box>
-              <Box sx={styles?.quoteInfoLabel}>
-                Quote Created: <Box component={'span'}>April 9,2023</Box>
-              </Box>
-              <Box sx={styles?.quoteInfoLabel}>
-                Quote Expires On: <Box component={'span'}>July 8,2023</Box>
+                Quote Created By:{' '}
+                <Box component={'span'}>
+                  {quotesData?.createdBy?.firstName ?? 'N/'}{' '}
+                  {quotesData?.createdBy?.lastName ?? 'A'}
+                </Box>
               </Box>
             </Grid>
             <Grid item xs={5}>
               <Box sx={styles?.quoteInfoLabel}>
-                Quote Created By: <Box component={'span'}>Adil Khan</Box>
+                Quote Created:{' '}
+                <Box component={'span'}>
+                  {dayjs(quotesData?.createdAt)?.format(DATE_FORMAT?.UI)}
+                </Box>
+              </Box>
+              <Box sx={styles?.quoteInfoLabel}>
+                Quote Expires On:{' '}
+                <Box component={'span'}>
+                  {dayjs(quotesData?.expiryDate)?.format(DATE_FORMAT?.UI)}
+                </Box>
               </Box>
             </Grid>
           </Grid>
@@ -82,39 +91,24 @@ const TemplateBasic = ({ values }: any) => {
           })}
         </Grid>
       </Box>
-
       <Box sx={styles?.voucher}>
-        <Box sx={styles?.vRow}>
-          <Box sx={styles?.vCellLef}>Sub Total</Box>
-          <Box sx={styles?.vCellRight}>£ 0.00</Box>
-        </Box>
-        <Box sx={styles?.vRow}>
-          <Box sx={styles?.vCellLef}>V.A.T %</Box>
-          <Box sx={styles?.vCellRight}>£ 0</Box>
-        </Box>
-        <Box sx={styles?.vRow}>
-          <Box sx={styles?.vCellLef}>Unit Discount</Box>
-          <Box sx={styles?.vCellRight}>£ 0</Box>
-        </Box>
-        <Box sx={styles?.vRow}>
-          <Box sx={styles?.vCellLef}>Discount</Box>
-          <Box sx={styles?.vCellRight}>£ 0</Box>
-        </Box>
-        <Box sx={styles?.vRow}>
-          <Box sx={styles?.vCellLef}>Total Redeemed Discount</Box>
-          <Box sx={styles?.vCellRight}>£ 20</Box>
-        </Box>
-        {/* <Box sx={styles?.vRow}>
-                  <Box sx={styles?.bodyCell}>Total Redeemed Discount</Box>
-                  <Box sx={styles?.bodyCellH}>£ 20</Box>
-                </Box> */}
+        {loyalityCalculation?.calculationsArray?.map((item: any) => (
+          <Box sx={styles?.vRow} key={item?.name}>
+            <Box sx={styles?.vCellLef}>{item?.name}</Box>
+            <Box sx={styles?.vCellRight}>
+              {item?.name === GlobalSearchSuperAdminModules?.TAX
+                ? item?.amount
+                : `£ ${item?.amount}`}
+            </Box>
+          </Box>
+        ))}
         <Divider sx={{ my: '16px', borderColor: '#D2D6DF' }} />
         <Box sx={styles?.vRow}>
           <Box sx={styles?.total}>Total</Box>
-          <Box sx={styles?.total}>£0.00</Box>
+          <Box sx={styles?.total}>£ {loyalityCalculation?.finalTotal}</Box>
         </Box>
       </Box>
-      {values?.signature === 'includeSignature' && (
+      {/* {values?.signature === 'includeSignature' && (
         <Box sx={styles?.signatureCard}>
           <Box sx={styles?.signatureBox}>
             <Box sx={styles?.signatureSpace}>signature here...</Box>
@@ -125,7 +119,7 @@ const TemplateBasic = ({ values }: any) => {
             <Box sx={styles?.boxLabel}>Date</Box>
           </Box>
         </Box>
-      )}
+      )} */}
     </Box>
   );
 };

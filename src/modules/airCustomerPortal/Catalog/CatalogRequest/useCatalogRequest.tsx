@@ -1,5 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm, useWatch } from 'react-hook-form';
+import { useWatch } from 'react-hook-form';
 import {
   placeRequest,
   placeRequestDefaultValues,
@@ -17,6 +16,7 @@ import {
 import { AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS } from '@/constants/permission-keys';
 import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useFormLib } from '@/hooks/useFormLib';
 
 const useCatalogRequest = (props: CatalogRequestI) => {
   const { servicesDetails, setOpen } = props;
@@ -34,15 +34,23 @@ const useCatalogRequest = (props: CatalogRequestI) => {
       AIR_CUSTOMER_PORTAL_REQUESTER_PERMISSIONS?.SERVICE_CUSTOMER_SEARCH_REQUESTER_AGENT_BY_EVERYONE,
     );
 
-  const methodRequest = useForm<any>({
-    resolver: yupResolver(
-      placeRequestValidationSchema?.(categoryType, checkPermission),
+  const useFormValues = {
+    validationSchema: placeRequestValidationSchema?.(
+      categoryType,
+      checkPermission,
     ),
     defaultValues: placeRequestDefaultValues,
-  });
+  };
 
-  const { handleSubmit, getValues, control, reset, setValue, clearErrors } =
-    methodRequest;
+  const {
+    handleSubmit,
+    getValues,
+    control,
+    reset,
+    setValue,
+    clearErrors,
+    methods,
+  } = useFormLib(useFormValues);
 
   const onSubmitRequest = async (data: any) => {
     const placeRequestData = new FormData();
@@ -107,7 +115,7 @@ const useCatalogRequest = (props: CatalogRequestI) => {
   const portalStyles = getCustomerPortalStyling();
 
   return {
-    methodRequest,
+    methods,
     handleSubmit,
     onSubmitRequest,
     getValues,

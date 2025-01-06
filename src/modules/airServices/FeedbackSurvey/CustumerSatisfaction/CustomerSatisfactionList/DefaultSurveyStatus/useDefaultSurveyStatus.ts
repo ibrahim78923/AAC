@@ -49,8 +49,7 @@ export const useDefaultSurveyStatus = () => {
       surveyEmailHtml({
         sessionData,
         theme,
-        magicLink: surveyValues?.magicLink,
-        surveyTitle: surveyValues?.surveyTitle,
+        surveyValues,
       }),
     );
     try {

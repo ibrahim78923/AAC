@@ -154,52 +154,55 @@ const DashboardLayout = ({ children, window }: any) => {
                       <div key={uuidv4()}>
                         {link?.textNames ? (
                           <>
-                            <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
-                              <Link
-                                href={`${link?.key}`}
-                                style={{
-                                  width: '100%',
-                                  padding: '0px',
-                                }}
-                              >
-                                <ListItemButton
-                                  sx={styles?.mainNavLink(
-                                    pathNameKey,
-                                    routerPathName,
-                                    theme,
-                                  )}
-                                  onClick={() => toggleDropDown(link?.key)}
+                            <PermissionsGuard permissions={link?.permissions}>
+                              <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
+                                <Link
+                                  href={`${link?.key}`}
+                                  style={{
+                                    width: '100%',
+                                    padding: '0px',
+                                  }}
                                 >
-                                  <ListItemIcon
-                                    sx={{ minWidth: 20, marginRight: '10px' }}
+                                  <ListItemButton
+                                    sx={styles?.mainNavLink(
+                                      pathNameKey,
+                                      routerPathName,
+                                      theme,
+                                    )}
+                                    onClick={() => toggleDropDown(link?.key)}
                                   >
-                                    <Image
-                                      src={link?.icon}
-                                      alt="icons"
-                                      style={{
-                                        opacity:
+                                    <ListItemIcon
+                                      sx={{ minWidth: 20, marginRight: '10px' }}
+                                    >
+                                      <Image
+                                        src={link?.icon}
+                                        alt="icons"
+                                        style={{
+                                          opacity:
+                                            routerPathName === pathNameKey
+                                              ? '1'
+                                              : '0.4',
+                                        }}
+                                      />
+                                    </ListItemIcon>
+
+                                    {link?.label}
+
+                                    <Box sx={{ paddingLeft: '15px' }}>
+                                      <Image
+                                        src={
                                           routerPathName === pathNameKey
-                                            ? '1'
-                                            : '0.4',
-                                      }}
-                                    />
-                                  </ListItemIcon>
+                                            ? ArrowUpImage
+                                            : ArrowDownImage
+                                        }
+                                        alt="Avatar"
+                                      />
+                                    </Box>
+                                  </ListItemButton>
+                                </Link>
+                              </ListItem>
+                            </PermissionsGuard>
 
-                                  {link?.label}
-
-                                  <Box sx={{ paddingLeft: '15px' }}>
-                                    <Image
-                                      src={
-                                        routerPathName === pathNameKey
-                                          ? ArrowUpImage
-                                          : ArrowDownImage
-                                      }
-                                      alt="Avatar"
-                                    />
-                                  </Box>
-                                </ListItemButton>
-                              </Link>
-                            </ListItem>
                             <Collapse
                               in={routerPathName === pathNameKey}
                               timeout="auto"
@@ -209,7 +212,7 @@ const DashboardLayout = ({ children, window }: any) => {
                                 {link?.textNames?.map((subItem: any) => (
                                   <Link href={`${subItem?.key}`} key={uuidv4()}>
                                     <PermissionsGuard
-                                      permissions={link?.permissions}
+                                      permissions={subItem?.permissions}
                                     >
                                       <ListItem sx={{ padding: '0px' }}>
                                         <ListItemButton
@@ -485,7 +488,6 @@ const DashboardLayout = ({ children, window }: any) => {
         variant: 'error',
       });
     }
-
     const pingInterval = setInterval(() => {
       socket.emit(CHAT_SOCKETS?.PING);
     }, 5000);
@@ -597,6 +599,7 @@ const DashboardLayout = ({ children, window }: any) => {
         }
       }
     };
+
     const handleRecieveNotification = (payload: any) => {
       dispatch(setNotifications(payload));
     };
@@ -678,6 +681,7 @@ const DashboardLayout = ({ children, window }: any) => {
       }
     };
   }, [activeChatId, chatContacts, dispatch, socket]);
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />

@@ -1,5 +1,4 @@
 import { useEffect, useMemo } from 'react';
-import { useForm, UseFormReturn } from 'react-hook-form';
 import { NextRouter, useRouter } from 'next/router';
 import { Theme, useTheme } from '@mui/material';
 import {
@@ -7,7 +6,6 @@ import {
   upsertArticleFormFieldsDynamic,
   upsertArticleValidationSchema,
 } from './UpsertArticle.data';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { ARTICLE_STATUS } from '@/constants/strings';
 import { UpsertArticlesFormFieldsI } from './UpsertArticles.interface';
 import {
@@ -22,6 +20,7 @@ import { isoDateString } from '@/lib/date-time';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useAppSelector } from '@/redux/store';
 import { ALL_FOLDER } from '../../Folder/Folder.data';
+import { useFormLib } from '@/hooks/useFormLib';
 
 const { KNOWLEDGE_BASE } = AIR_SERVICES ?? {};
 const { DRAFT } = ARTICLE_STATUS ?? {};
@@ -74,14 +73,12 @@ export const useUpsertArticle: any = () => {
       },
     );
 
-  const methods: UseFormReturn<UpsertArticlesFormFieldsI> = useForm<
-    UpsertArticlesFormFieldsI | any
-  >({
-    defaultValues: upsertArticleDefaultValues(),
-    resolver: yupResolver(upsertArticleValidationSchema),
-  });
+  const formLibProps = {
+    defaultValues: upsertArticleDefaultValues?.(),
+    validationSchema: upsertArticleValidationSchema,
+  };
 
-  const { reset, handleSubmit } = methods;
+  const { reset, handleSubmit, watch, methods } = useFormLib(formLibProps);
 
   useEffect(() => {
     const populateData = !!articleId
@@ -90,7 +87,7 @@ export const useUpsertArticle: any = () => {
     reset(() => upsertArticleDefaultValues(populateData));
   }, [articleId, data, singleFolder, reset]);
 
-  const needApprovals = methods?.watch('needsApproval');
+  const needApprovals = watch('needsApproval');
 
   const moveToHome = () => router?.push(KNOWLEDGE_BASE);
 
@@ -174,5 +171,6 @@ export const useUpsertArticle: any = () => {
     moveToHome,
     showLoader,
     apiCallInProgress,
+    handleSubmit,
   };
 };

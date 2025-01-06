@@ -6,9 +6,10 @@ import GetSoftwareContractDropdown from '../../../SoftwareFormFieldsDropdowns/Ge
 const UsersAllocate: React.FC<{
   methods: UseFormReturn<any>;
   onSubmit: (data: any) => void;
-}> = ({ methods, onSubmit }) => {
+  handleSubmit: any;
+}> = ({ methods, onSubmit, handleSubmit }) => {
   return (
-    <FormProvider methods={methods} onSubmit={methods?.handleSubmit(onSubmit)}>
+    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Box maxWidth={'sm'}>
         <GetSoftwareContractDropdown />
       </Box>

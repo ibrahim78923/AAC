@@ -70,6 +70,7 @@ export const AIR_SOCIAL = {
   IMPORTHISTORY: `${AIR_SOCIAL_PAGE}/contacts/import/import-history`,
   IMPORT_RECORD_CREATED: `${AIR_SOCIAL_PAGE}/contacts/import/import-history/import-record-created`,
   IMPORT_RECORD_RESTORE: `${AIR_SOCIAL_PAGE}/contacts/import/import-history/import-record-created/restore`,
+  CONTRACTS: `${AIR_SOCIAL_PAGE}/contracts`,
 };
 
 export const AIR_SALES = {
@@ -96,6 +97,8 @@ export const AIR_SALES = {
   CREATE_DASHBOARD: path(AIR_SALES_PAGE, '/dashboard/create'),
   SETTINGS: '/air-sales/settings',
   RESTORE_DEALS: '/air-sales/deals/restore',
+  FORECAST: '/air-sales/forecast',
+  TASKS: '/air-sales/tasks',
 };
 
 export const SUPER_ADMIN_PLAN_MANAGEMENT: any = {
@@ -151,6 +154,14 @@ export const AIR_MARKETER = {
   COMPARE_POST: path(AIR_MARKETING_PAGE, '/social-marketing/compare-post'),
   CALENDER: path(AIR_MARKETING_PAGE, '/social-marketing/calender'),
   SMS_MARKETING: path(AIR_MARKETING_PAGE, '/sms-marketing'),
+  SMS_MARKETING_CONNECT_ACCOUNT: path(
+    AIR_MARKETING_PAGE,
+    '/sms-marketing/connect-account',
+  ),
+  SMS_MARKETING_INTEGRATION_CONFIG: path(
+    AIR_MARKETING_PAGE,
+    '/sms-marketing/integration-configuration',
+  ),
   WHATSAPP_MARKETING: path(AIR_MARKETING_PAGE, '/whatsapp-marketing'),
   WHATSAPP_MARKETING_CREATE_TEMPLATE:
     '/air-marketer/whatsapp-marketing/create-template',
@@ -252,6 +263,14 @@ export const ORG_ADMIN = {
   EDIT_PROFILE: '/edit-profile',
   ORGANIZATION: '/org-admin/organization-admin',
   DASHBOARD: '/org-admin',
+  USERS: '/org-admin/users',
+  Subscription_Invoices: '/org-admin/subscription-and-invoices',
+  Properties: '/org-admin/properties',
+  ROLES_AND_RIGHTS: '/org-admin/roles-and-rights',
+  SALES_PRODUCT_CATEGORIES: '/org-admin/settings/sales-product-categories',
+  LIFE_CYCLE_STAGE: '/org-admin/settings/life-cycle-stage',
+  CONTACT_STATUS: '/org-admin/settings/contact-status',
+  BANK_ACCOUNT: '/org-admin/settings/bank-accounts',
 };
 
 export const COMMON_ROUTES = {

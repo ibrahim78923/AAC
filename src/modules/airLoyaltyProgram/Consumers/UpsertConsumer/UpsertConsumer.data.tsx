@@ -19,7 +19,7 @@ export const consumerFormFieldDefaultValues = (data: any) => ({
   totalPointsEarned: data?.totalPointsEarned ?? 0,
   status: data?.status ?? '',
   phoneNumber: data?.phoneNumber ?? '',
-  tier: data?.tier ?? '',
+  tier: data?.tierDetails?.name ?? '',
 });
 
 export const upsertConsumerData: ReactHookFormFieldsI[] = [
@@ -95,6 +95,7 @@ export const upsertConsumerData: ReactHookFormFieldsI[] = [
       name: 'firstPointsReceptionDate',
       label: 'First Point Reception Date',
       placeholder: 'First Point Reception Date',
+      fullWidth: true,
     },
     component: RHFDateTimePicker,
   },
@@ -104,6 +105,7 @@ export const upsertConsumerData: ReactHookFormFieldsI[] = [
       name: 'lastTransactionDate',
       label: 'Last Transaction Date',
       placeholder: 'Last Transaction Date',
+      fullWidth: true,
     },
     component: RHFDateTimePicker,
   },

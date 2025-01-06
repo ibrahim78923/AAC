@@ -7,8 +7,6 @@ import {
   isReplyAddedNeglect,
 } from './TicketsBulkUpdate.data';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   emptySelectedTicketLists,
   setIsPortalClose,
@@ -22,33 +20,36 @@ import {
   useUpdateBulkServicesTicketsMutation,
 } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import {
+  servicesTicketsIsPortalOpenSelector,
+  servicesTicketsSelectedTicketListsSelector,
+  servicesTicketsTotalRecordsSelector,
+} from '@/redux/slices/airServices/tickets/selectors';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useTicketBulkUpdate = () => {
   const dispatch = useAppDispatch();
   const { getTicketsListData, page } = useGetTicketList();
-  const totalRecords = useAppSelector(
-    (state) => state?.servicesTickets?.totalRecords,
-  );
+  const totalRecords = useAppSelector(servicesTicketsTotalRecordsSelector);
   const selectedTicketLists = useAppSelector(
-    (state) => state?.servicesTickets?.selectedTicketLists,
+    servicesTicketsSelectedTicketListsSelector,
   );
-  const isPortalOpen = useAppSelector(
-    (state) => state?.servicesTickets?.isPortalOpen,
-  );
+  const isPortalOpen = useAppSelector(servicesTicketsIsPortalOpenSelector);
+
   const [isReplyAdded, setIsReplyAdded] = useState(false);
 
   const theme: any = useTheme();
   const [patchBulkUpdateTicketsTrigger, patchBulkUpdateTicketsStatus] =
     useUpdateBulkServicesTicketsMutation();
 
-  const methodsBulkUpdateForm: any = useForm({
-    resolver: yupResolver(
-      ticketsBulkUpdateFormValidationSchemaFunction?.(isReplyAdded),
-    ),
+  const formLibProps = {
     defaultValues: ticketsBulkUpdateDefaultFormValues,
-  });
+    validationSchema:
+      ticketsBulkUpdateFormValidationSchemaFunction?.(isReplyAdded),
+  };
 
-  const { handleSubmit, reset } = methodsBulkUpdateForm;
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
+
   const [postAddReplyToBulkUpdateTrigger, postAddReplyToBulkUpdateStatus] =
     useSendReplyToServicesTicketsBulkUpdateMutation();
 
@@ -131,7 +132,7 @@ export const useTicketBulkUpdate = () => {
     ticketsBulkUpdateFormFields,
     theme,
     ticketsBulkUpdateAddReplyFormFieldsData,
-    methodsBulkUpdateForm,
+    methods,
     handleSubmit,
     isReplyAdded,
     setIsReplyAdded,

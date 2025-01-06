@@ -1,5 +1,3 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
 import {
   filterWorkflowsValidationSchema,
   defaultValues,
@@ -7,15 +5,16 @@ import {
 import { useLazyGetUsersDropdownListQuery } from '@/services/airServices/settings/user-management/departments';
 import { useState } from 'react';
 import { PAGINATION } from '@/config';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useFilterWorkflow = (props: any) => {
   const { handleWorkflow, setIsDrawerOpen, setPage } = props;
   const [buttonCalled, setButtonCalled] = useState<boolean>(false);
-  const methods = useForm({
-    resolver: yupResolver(filterWorkflowsValidationSchema),
+  const filterMethodProps = {
+    validationSchema: filterWorkflowsValidationSchema,
     defaultValues,
-  });
-  const { handleSubmit, watch, reset } = methods;
+  };
+  const { handleSubmit, watch, reset, methods } = useFormLib(filterMethodProps);
   const userDropdown = useLazyGetUsersDropdownListQuery();
   const handleReset = async () => {
     setButtonCalled(true);

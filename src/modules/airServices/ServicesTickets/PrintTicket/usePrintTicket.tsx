@@ -6,18 +6,20 @@ import {
 } from '@/redux/slices/airServices/tickets/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { ARRAY_INDEX } from '@/constants/strings';
+import {
+  servicesTicketsIsPortalOpenSelector,
+  servicesTicketsSelectedTicketListsSelector,
+} from '@/redux/slices/airServices/tickets/selectors';
 
 export const usePrintTicket = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
   const selectedTicketLists = useAppSelector(
-    (state) => state?.servicesTickets?.selectedTicketLists,
+    servicesTicketsSelectedTicketListsSelector,
   );
 
-  const isPortalOpen = useAppSelector(
-    (state) => state?.servicesTickets?.isPortalOpen,
-  );
+  const isPortalOpen = useAppSelector(servicesTicketsIsPortalOpenSelector);
 
   const singleTicketDetail = selectedTicketLists?.[ARRAY_INDEX?.ZERO];
 

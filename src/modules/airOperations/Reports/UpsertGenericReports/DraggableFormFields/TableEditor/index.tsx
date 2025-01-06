@@ -13,7 +13,7 @@ import { tableEditorData } from './TableEditor.data';
 import { useTableEditor } from './useTableEditor';
 import { TableEditorI, tableFieldsI } from './TableEditor.interface';
 export const TableEditor = (props: TableEditorI) => {
-  const { handleCancel, metricType, methods } = props;
+  const { handleCancel, metricType, handleSubmit } = props;
   const {
     handleSave,
     setColumnObject,
@@ -95,7 +95,7 @@ export const TableEditor = (props: TableEditorI) => {
           <Button
             variant="contained"
             className="small"
-            onClick={methods?.handleSubmit(handleSave)}
+            onClick={handleSubmit(handleSave)}
             disabled={!columnsData?.length}
           >
             Save

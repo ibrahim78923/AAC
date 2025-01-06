@@ -1,20 +1,10 @@
-import {
-  Box,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Grid,
-  Typography,
-} from '@mui/material';
+import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { AlertModalCloseIcon } from '@/assets/icons';
 import { useUpsertProduct } from './useUpsertProduct';
-import { LoadingButton } from '@mui/lab';
+import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 
 export const UpsertProduct = (props: any) => {
-  const { upsertProductModal, setUpsertProductModal, editData, setEditData } =
-    props;
+  const { upsertProductModal, editData } = props;
   const {
     methods,
     handleSubmit,
@@ -27,87 +17,32 @@ export const UpsertProduct = (props: any) => {
   } = useUpsertProduct(props);
 
   return (
-    <>
-      <Dialog
-        open={upsertProductModal}
-        onClose={() => setUpsertProductModal(false)}
-      >
-        <DialogTitle>
-          <Box
-            display={'flex'}
-            justifyContent={'space-between'}
-            alignItems={'center'}
-            paddingBottom={'1rem'}
-          >
-            <Typography variant="h5">
-              {editData?._id ? 'Update Product' : 'Add Product'}
-            </Typography>
-            <AlertModalCloseIcon
-              onClick={() => {
-                setUpsertProductModal(false);
-                setEditData([]);
-              }}
-              sx={{ cursor: 'pointer' }}
-            />
-          </Box>
-        </DialogTitle>
-        <DialogContent>
-          <FormProvider methods={methods}>
-            <Grid container spacing={2}>
-              {upsertProductFields?.map((item: any) => (
-                <Grid
-                  item
-                  xs={12}
-                  lg={item?.gridLength}
-                  flex={1}
-                  key={item?.id}
-                >
-                  <item.component {...item?.componentProps} />
-                </Grid>
-              ))}
+    <CustomCommonDialog
+      isPortalOpen={upsertProductModal}
+      closePortal={handleCancel}
+      handleSubmitButton={
+        editData?._id ? handleSubmit(editSubmit) : handleSubmit(isSubmit)
+      }
+      disabledCancelButton={
+        putProductVendorProgress?.isLoading ||
+        postProductVendorProgress?.isLoading
+      }
+      showSubmitLoader={
+        putProductVendorProgress?.isLoading ||
+        postProductVendorProgress?.isLoading
+      }
+      submitButtonText={editData?._id ? 'Update' : 'Save'}
+      dialogTitle={editData?._id ? 'Update Product' : 'Add Product'}
+    >
+      <FormProvider methods={methods}>
+        <Grid container spacing={2}>
+          {upsertProductFields?.map((item: any) => (
+            <Grid item xs={12} lg={item?.gridLength} flex={1} key={item?.id}>
+              <item.component {...item?.componentProps} />
             </Grid>
-          </FormProvider>
-        </DialogContent>
-        <DialogActions sx={{ height: '2rem' }}>
-          <Box
-            display={'flex'}
-            justifyContent={'flex-end'}
-            marginBottom={'2rem'}
-            gap={'1rem'}
-          >
-            <LoadingButton
-              disabled={
-                editData?._id
-                  ? putProductVendorProgress?.isLoading
-                  : postProductVendorProgress?.isLoading
-              }
-              variant="outlined"
-              color="secondary"
-              className="small"
-              onClick={handleCancel}
-            >
-              Cancel
-            </LoadingButton>
-            <LoadingButton
-              type="submit"
-              variant="contained"
-              className="small"
-              disabled={
-                editData?._id
-                  ? putProductVendorProgress?.isLoading
-                  : postProductVendorProgress?.isLoading
-              }
-              onClick={
-                editData?._id
-                  ? handleSubmit(editSubmit)
-                  : handleSubmit(isSubmit)
-              }
-            >
-              {editData?._id ? 'Update' : 'Save'}
-            </LoadingButton>
-          </Box>
-        </DialogActions>
-      </Dialog>
-    </>
+          ))}
+        </Grid>
+      </FormProvider>
+    </CustomCommonDialog>
   );
 };

@@ -1,8 +1,11 @@
+import { Theme } from '@mui/material';
+
 export const styles = {
-  partyCard: () => ({
-    backgroundColor: '#FAFDFE',
-    border: '1px solid #CAF4F3',
+  partyCard: (theme: Theme) => ({
+    backgroundColor: theme?.palette?.custom?.pale_grayish_blue,
+    border: `1px solid ${theme?.palette?.custom?.light_lavender_gray}`,
     p: '24px 18px 10px',
+    borderRadius: '4px',
   }),
 
   cardHeader: () => ({

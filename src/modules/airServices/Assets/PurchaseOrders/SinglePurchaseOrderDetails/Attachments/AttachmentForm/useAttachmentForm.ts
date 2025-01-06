@@ -1,10 +1,9 @@
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
 import { defaultValues, validationSchema } from './AttachmentForm.data';
 import { useRouter } from 'next/router';
 import { MODULE_TYPE } from '@/constants/strings';
 import { usePostAirServicesPurchaseOrderDetailsAttachmentsMutation } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/attachments';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useAttachmentForm = (props: any) => {
   const { setAddAttachment } = props;
@@ -13,10 +12,12 @@ export const useAttachmentForm = (props: any) => {
   const [postAttachmentsTrigger, postAttachmentsStatus] =
     usePostAirServicesPurchaseOrderDetailsAttachmentsMutation();
 
-  const methods = useForm({
-    resolver: yupResolver(validationSchema),
+  const useFormValues = {
+    validationSchema,
     defaultValues,
-  });
+  };
+
+  const { methods, handleSubmit } = useFormLib(useFormValues);
 
   const onSubmit = async (data: any) => {
     const attachmentFormData = new FormData();
@@ -42,5 +43,6 @@ export const useAttachmentForm = (props: any) => {
     methods,
     onSubmit,
     postAttachmentsStatus,
+    handleSubmit,
   };
 };

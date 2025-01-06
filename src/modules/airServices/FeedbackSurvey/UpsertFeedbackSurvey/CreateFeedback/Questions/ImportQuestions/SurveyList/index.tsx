@@ -1,7 +1,11 @@
 import { Box, Chip, Grid, Typography } from '@mui/material';
 import { capitalizeFirstLetter } from '@/utils/api';
 import CustomPagination from '@/components/CustomPagination';
-import { feedbackStatusColor, surveyTypes } from './SurveyList.data';
+import {
+  feedbackStatusColor,
+  feedbackStatusTextColor,
+  surveyTypes,
+} from './SurveyList.data';
 import { useSurveyList } from './useSurveyList';
 import ApiErrorState from '@/components/ApiErrorState';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
@@ -51,6 +55,7 @@ export const SurveyList: React.FC<SurveyListI> = (props) => {
                 <Chip
                   label={capitalizeFirstLetter(item?.status)}
                   color={feedbackStatusColor(item?.status)}
+                  sx={{ color: feedbackStatusTextColor(item?.status) }}
                 />
               </Box>
             </Box>

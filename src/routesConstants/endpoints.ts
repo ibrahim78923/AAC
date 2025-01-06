@@ -1,4 +1,5 @@
 export const END_POINTS = {
+  GLOBAL_SEARCH: '/global-search',
   LOGIN: 'auth/signin',
   SIGNUP: 'auth/signup',
   verify_token: 'auth/verify-token',
@@ -401,9 +402,16 @@ export const END_POINTS = {
   UPDATE_TIERS: `/rules-and-tiers/tier`,
   CREATE_DIGITAL_REWARD: `/rewards/create-digital-reward`,
   CREATE_PHYSICAL_REWARD: `/rewards/create-physical-reward`,
+  REDEEM_REWARDS_DETAILS: `/rewards/get-redeemed-reward-consumer`,
   GET_REWARDS_LIST: `/rewards/rewards-list`,
+  GET_CONSUMER_DETAIL: '/consumers/getby',
+  GET_ExchangeRate: '/settings/get-exchange-rate-from-points',
+  GET_REWARD: '/consumers/list-reward-by-consumer',
+  POST_CONSUMER: '/consumers/create',
+  GET_GIFT_CARD_BY_ID: '/gift-cards/getby',
   GET_REWARDS_LIST_BY_ID: `/rewards/get-reward-details`,
-  UPDATE_REWARDS: `/rewards/update-physical-rewards`,
+  UPDATE_REWARDS_QUOTES: `/rewards/redeem-reward`,
+  UPDATE_REWARDS: `/rewards/update-physical-reward`,
   STATUS_REWARDS: `/rewards/update-reward-status`,
   GET_VOUCHERS_REWARDS_DROPDOWN: `/vouchers/list-voucher`,
   TIERS_DROPDOWN_FOR_REWARDS: `/rules-and-tiers/tiers`,
@@ -423,8 +431,11 @@ export const END_POINTS = {
   GET_VOUCHERS: '/vouchers/list-voucher',
   GET_SINGLE_VOUCHERS: '/vouchers/get-voucher-details',
   UPDATE_VOUCHERS_STATUS: '/vouchers/update-voucher-status',
+  UPDATE_VOUCHER: '/vouchers/update-voucher',
+  DELETE_VOUCHERS: '/vouchers/delete-voucher',
+  GET_VOUCHERS_REDEMPTION: '/vouchers/get-redeemed-voucher-consumer',
   ADD_LOYALTY_TRANSACTION: `/Transactions/add-transaction`,
-  GET_LOYALTY_TRANSACTION: `/Transactions/get-transaction-details`,
+  GET_VOUCHER_TRANSACTION: `/vouchers/list-voucher-transactions`,
   CHANGE_RULES_STATUS: `/rules-and-tiers/rule`,
   NEW_IMPORT_FILE: `/new-import-file/new-import-file`,
   SIGN_UP_LEADS: '/contact/signup-leads',
@@ -553,11 +564,16 @@ export const END_POINTS = {
   GIFT_CARD_LIST: '/gift-cards/list',
   POST_GIFT_CARD: '/gift-cards/create',
   PUT_GIFT_CARD: '/gift-cards/update',
-  SINGLE_GIFT_CARD_LIST: '/gift-cards/getby',
+  PUT_VOUCHER_REDEEM: '/vouchers/redeem-voucher',
   CREATE_LOYALTY_GENERAL_SETTINGS: '/settings/create-general-setting',
   UPDATE_LOYALTY_GENERAL_SETTINGS: '/settings/update-general-setting',
   GET_LOYALTY_GENERAL_SETTINGS: '/settings/details-general-setting',
   CONSUMERS_DROPDOWN: '/consumers/list',
+  DELETE_LOYALTY_RULES: '/rules-and-tiers/delete-rule',
+  DELETE_LOYALTY_TIERS: '/rules-and-tiers/delete-tier',
+  GET_REWARDS_TRANSACTION: '/rewards/list-reward-transactions',
+  GET_POINTS_TRANSACTION: '/consumers/get-transaction-points',
+  LOYALTY_REWARDS_DROPDOWN: 'rewards/rewards-list',
 };
 
 export const LEAD_CAPTURE_FORM = {
@@ -727,6 +743,14 @@ export const AIR_MARKETER = {
   CAMPAIGNS_CLONE: '/campaigns/view/clone',
   CAMPAIGNS_SAVE_VIEW: '/campaigns/view',
   REPORTS_LEADS: '/lead-capture-form/get-all-lead-capture-stats',
+};
+
+export const AIR_MARKETER_SMS_MARKETING = {
+  TWILIO_CONFIGURATION: '/companies/twilio-configuration',
+  DELETE_TWILIO_CONFIGURATION_NUMBER: '/sms-marketing/delete-sms-phone-number',
+  GET_TWILIO_CONFIGURATION: '/companies/get-company-twilio-configurations',
+  GET_NUMBERS_TWILIO_CONFIGURATION:
+    '/companies/get-numbers-of-twilio-configuration',
 };
 
 export const SUPER_ADMIN_DASHBOARD = {

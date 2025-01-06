@@ -1,9 +1,9 @@
 import { RHFAutocomplete, RHFDatePicker } from '@/components/ReactHookForm';
 
-const statusOptions = ['Active', 'Deactivate', 'Expired'];
+const statusOptions = ['Active', 'Inactive', 'Expired'];
 export const filtersFormFieldsDefaultValues = (filterValues: any) => {
   return {
-    date: filterValues?.date ?? null,
+    dateStart: filterValues?.dateStart ?? null,
     status: filterValues?.status ?? '',
   };
 };
@@ -12,9 +12,9 @@ export const filtersFormFieldsDataFunction = [
     id: 2,
     componentProps: {
       fullWidth: true,
-      name: 'date',
-      label: 'Date',
-      placeholder: 'Date',
+      name: 'dateStart',
+      label: 'Created At',
+      placeholder: 'Created At',
     },
     component: RHFDatePicker,
   },

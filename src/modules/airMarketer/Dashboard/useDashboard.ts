@@ -16,6 +16,11 @@ import { useApiPolling } from '@/hooks/useApiPolling';
 import { useTheme } from '@mui/material';
 import { DRAWER_TYPES, MANAGE_ACCESS_TYPES } from '@/constants/strings';
 import { ERROR_PAGES } from '@/constants';
+import { ProfileStatistics } from './StaticComponents/ProfileStatistics';
+import CtaViews from './StaticComponents/CtaViews';
+import ContactCustomerGraph from './StaticComponents/ContactCustomerGraph';
+import FormsTable from './StaticComponents/FormsTable';
+import TotalMarketingEmail from './StaticComponents/TotalMarketingEmail';
 
 const useDashboard = () => {
   const { user }: any = getSession();
@@ -83,8 +88,26 @@ const useDashboard = () => {
       ? true
       : false;
 
+  const MARKETING_DASHBOARD_WIDGETS: any = {
+    Profile_Stats: 'Profile_Stats',
+    ctaTotalViewsAndAdsSubmissions: 'ctaTotalViewsAndAdsSubmissions',
+    newContactsAndCustomers: 'newContactsAndCustomers',
+    leadCapturedForms: 'leadCapturedForms',
+    totalMarketingEmail: 'totalMarketingEmail',
+  };
+
+  const AIR_MARKETER_DASHBOARD_WIDGETS_COMPONENTS = {
+    [MARKETING_DASHBOARD_WIDGETS?.Profile_Stats]: ProfileStatistics,
+    [MARKETING_DASHBOARD_WIDGETS?.ctaTotalViewsAndAdsSubmissions]: CtaViews,
+    [MARKETING_DASHBOARD_WIDGETS?.newContactsAndCustomers]:
+      ContactCustomerGraph,
+    [MARKETING_DASHBOARD_WIDGETS?.leadCapturedForms]: FormsTable,
+    [MARKETING_DASHBOARD_WIDGETS?.totalMarketingEmail]: TotalMarketingEmail,
+  };
+
   return {
     dashboardLoading: lazyGetSingleMarketingDashboardStatus?.isLoading,
+    AIR_MARKETER_DASHBOARD_WIDGETS_COMPONENTS,
     lazyGetSingleMarketingDashboardStatus,
     setIsShowCreateDashboardForm,
     isShowCreateDashboardForm,

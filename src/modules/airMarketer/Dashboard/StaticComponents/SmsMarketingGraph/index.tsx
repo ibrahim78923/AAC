@@ -3,8 +3,9 @@ import useSmsMarketingGraph from './useSmsMarketingGraph';
 import StatusCards from './StatusCards';
 import StatisticsCard from './StatisticsCard';
 
-const SmsMarketingGraph = () => {
+const SmsMarketingGraph = ({ data }: any) => {
   const { theme } = useSmsMarketingGraph();
+
   return (
     <Card>
       <Box p={1.5}>
@@ -18,10 +19,10 @@ const SmsMarketingGraph = () => {
         </Stack>
         <Grid container>
           <Grid item xs={12}>
-            <StatusCards />
+            <StatusCards data={data} />
           </Grid>
           <Grid item xs={12}>
-            <StatisticsCard />
+            <StatisticsCard data={data} />
           </Grid>
         </Grid>
       </Box>

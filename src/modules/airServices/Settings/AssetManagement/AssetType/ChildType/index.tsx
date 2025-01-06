@@ -1,17 +1,8 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Grid,
-  Typography,
-} from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { AssetFieldFormDataArray } from '../AssetType.data';
-import { LoadingButton } from '@mui/lab';
 import useChildType from './useChildType';
+import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 
 export default function ChildType({ childDetails, setChildDetails }: any) {
   const {
@@ -26,58 +17,26 @@ export default function ChildType({ childDetails, setChildDetails }: any) {
   });
 
   return (
-    <Dialog
-      open={childDetails?.open}
-      onClose={onClose}
-      maxWidth={'sm'}
-      fullWidth
+    <CustomCommonDialog
+      isPortalOpen={childDetails?.open}
+      closePortal={onClose}
+      handleSubmitButton={handleSubmit(onSubmit)}
+      showSubmitLoader={patchChildAssetTypeStatus?.isLoading}
+      disabledCancelButton={patchChildAssetTypeStatus?.isLoading}
+      dialogTitle={
+        childDetails?.childData ? 'Edit Asset Type' : 'Add Asset Type'
+      }
+      submitButtonText={childDetails?.parentData ? 'Update' : 'Save'}
     >
-      <DialogTitle
-        variant={'h3'}
-        display={'flex'}
-        alignItems={'center'}
-        justifyContent={'space-between'}
-      >
-        <Typography variant={'h5'} component={'span'}>
-          {childDetails?.childData ? 'Edit Asset Type' : 'Add Asset Type'}
-        </Typography>
-
-        <CloseIcon onClick={onClose} sx={{ cursor: 'pointer' }} />
-      </DialogTitle>
-
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <DialogContent>
-          <Grid container spacing={1}>
-            {AssetFieldFormDataArray?.map((item: any) => (
-              <Grid item xs={12} key={item?.id}>
-                <item.component {...item?.componentProps} size={'small'} />
-              </Grid>
-            ))}
-          </Grid>
-        </DialogContent>
-
-        <DialogActions>
-          <Button
-            type={'button'}
-            variant={'outlined'}
-            color={'inherit'}
-            className="small"
-            onClick={onClose}
-            disabled={patchChildAssetTypeStatus?.isLoading}
-          >
-            Cancel
-          </Button>
-          <LoadingButton
-            type={'submit'}
-            variant={'contained'}
-            className="small"
-            disabled={patchChildAssetTypeStatus?.isLoading}
-            loading={patchChildAssetTypeStatus?.isLoading}
-          >
-            {childDetails?.parentData ? 'Update' : 'Save'}
-          </LoadingButton>
-        </DialogActions>
+        <Grid container spacing={1}>
+          {AssetFieldFormDataArray?.map((item: any) => (
+            <Grid item xs={12} key={item?.id}>
+              <item.component {...item?.componentProps} size={'small'} />
+            </Grid>
+          ))}
+        </Grid>
       </FormProvider>
-    </Dialog>
+    </CustomCommonDialog>
   );
 }

@@ -13,6 +13,7 @@ import { DATE_TIME_FORMAT } from '@/constants';
 
 export const createViwValidationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
+  sharedWith: Yup?.string()?.required('Field is Required'),
 });
 
 export const createViewDefaultValues = {
@@ -20,6 +21,7 @@ export const createViewDefaultValues = {
   industry: '',
   companyOwner: '',
   createdDate: null,
+  sharedWith: '',
 };
 
 export const createViewArr = (teamIds: any) => {
@@ -93,6 +95,7 @@ export const createViewArr = (teamIds: any) => {
         name: 'sharedWith',
         fullWidth: true,
         defaultValue: 'all',
+        required: true,
         row: false,
         options: [
           { value: 'PRIVATE', label: 'Private' },

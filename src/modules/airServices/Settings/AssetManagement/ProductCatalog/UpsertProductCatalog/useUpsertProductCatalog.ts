@@ -1,7 +1,5 @@
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   upsertProductCatalogDefaultValuesFunction,
   upsertProductCatalogFormFieldsDynamic,
@@ -17,6 +15,7 @@ import { useEffect } from 'react';
 import { filteredEmptyValues } from '@/utils/api';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertProductCatalog = () => {
   const router = useRouter();
@@ -26,8 +25,8 @@ export const useUpsertProductCatalog = () => {
     usePostProductCatalogMutation();
   const [patchProductCatalogTrigger, patchProductCatalogStatus] =
     usePatchProductCatalogMutation();
-  const methods: any = useForm<any>({
-    resolver: yupResolver(upsertProductCatalogValidationSchema),
+  const { methods, reset, handleSubmit } = useFormLib({
+    validationSchema: upsertProductCatalogValidationSchema,
     defaultValues: upsertProductCatalogDefaultValuesFunction(),
   });
 
@@ -44,8 +43,6 @@ export const useUpsertProductCatalog = () => {
       skip: !!!productCatalogId,
     },
   );
-
-  const { handleSubmit, reset } = methods;
 
   useEffect(() => {
     reset(() => upsertProductCatalogDefaultValuesFunction(data?.data?.[0]));

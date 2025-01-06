@@ -1,5 +1,3 @@
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
@@ -12,6 +10,7 @@ import {
   usePatchContractTypeMutation,
   usePostContractTypeMutation,
 } from '@/services/airServices/settings/asset-management/contract-type';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export default function useUpsertContract({ openDialog, setOpenDialog }: any) {
   const router: any = useRouter();
@@ -21,12 +20,10 @@ export default function useUpsertContract({ openDialog, setOpenDialog }: any) {
   const [patchContractTypeTrigger, patchContractTypeStatus] =
     usePatchContractTypeMutation();
 
-  const methods: any = useForm({
-    resolver: yupResolver(ContractFieldsFormValidationSchema),
+  const { methods, handleSubmit, reset } = useFormLib({
+    validationSchema: ContractFieldsFormValidationSchema,
     defaultValues: ContractFieldsFormDefaultValues?.(openDialog?.data),
   });
-
-  const { handleSubmit, reset } = methods;
 
   useEffect(() => {
     reset(ContractFieldsFormDefaultValues?.(openDialog?.data));

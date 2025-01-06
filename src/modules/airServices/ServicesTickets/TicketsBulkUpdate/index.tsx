@@ -10,7 +10,7 @@ export const TicketsBulkUpdate = () => {
     ticketsBulkUpdateFormFields,
     theme,
     ticketsBulkUpdateAddReplyFormFieldsData,
-    methodsBulkUpdateForm,
+    methods,
     handleSubmit,
     isReplyAdded,
     setIsReplyAdded,
@@ -46,7 +46,7 @@ export const TicketsBulkUpdate = () => {
           </Button>
         )}
         <br />
-        <FormProvider methods={methodsBulkUpdateForm}>
+        <FormProvider methods={methods}>
           {isReplyAdded && (
             <Box
               padding={1.25}

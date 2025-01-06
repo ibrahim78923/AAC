@@ -1,5 +1,4 @@
 import { NextRouter, useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
 import { filteredEmptyValues } from '@/utils/api';
 import { useRef, useState } from 'react';
 import {
@@ -17,6 +16,7 @@ import {
 import { useApiPolling } from '@/hooks/useApiPolling';
 import { htmlToPdfConvert } from '@/lib/html-to-pdf-converter';
 import { isoDateString } from '@/lib/date-time';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useSoftwareReports = () => {
   const router: NextRouter = useRouter();
@@ -29,7 +29,7 @@ export const useSoftwareReports = () => {
 
   const downloadRef = useRef(null);
 
-  const methods: any = useForm({
+  const softwareReportMethodProps = {
     defaultValues: {
       status: softwareStatusReportsOptions?.[ARRAY_INDEX?.ZERO],
       createdDate: {
@@ -38,10 +38,11 @@ export const useSoftwareReports = () => {
         key: 'selection',
       },
     },
-  });
+  };
 
-  const { handleSubmit, getValues, watch, setValue } = methods;
-
+  const { handleSubmit, getValues, watch, setValue, methods } = useFormLib(
+    softwareReportMethodProps,
+  );
   watch?.();
 
   const apiDataParameter = {

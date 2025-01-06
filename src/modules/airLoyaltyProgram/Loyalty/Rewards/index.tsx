@@ -28,16 +28,18 @@ export const Rewards = () => {
   } = useRewards();
   return (
     <>
-      <PageTitledHeader
-        title="Rewards"
-        addTitle="Add"
-        handleAction={() => setIsRewardDrawerOpen?.({ isOpen: true, data: '' })}
-        createPermissionKey={[
-          AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.ADD_REWARDS,
-        ]}
-      />
-      <>
-        {!isRewardDetailsOpen?.isOpen ? (
+      {!isRewardDetailsOpen?.isOpen ? (
+        <>
+          <PageTitledHeader
+            title="Rewards"
+            addTitle="Add"
+            handleAction={() =>
+              setIsRewardDrawerOpen?.({ isOpen: true, data: '' })
+            }
+            createPermissionKey={[
+              AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.ADD_REWARDS,
+            ]}
+          />
           <Box>
             <PermissionsGuard
               permissions={[
@@ -74,30 +76,30 @@ export const Rewards = () => {
               />
             </Box>
           </Box>
-        ) : (
-          <SingleRewardDetails
-            isRewardDetailsOpen={isRewardDetailsOpen}
-            setIsRewardDetailsOpen={setIsRewardDetailsOpen}
-          />
-        )}
-        {isRewardDrawerOpen?.isOpen && (
-          <UpsertRewards
-            isRewardDrawerOpen={isRewardDrawerOpen}
-            setIsRewardDrawerOpen={setIsRewardDrawerOpen}
-          />
-        )}
-        {isRewardDelete?.isOpen && (
-          <AgentConversionDelete
-            message={'Are you sure you want to delete this entry?'}
-            open={isRewardDelete?.isOpen ?? false}
-            handleClose={() => {
-              setIsRewardDelete({ isOpen: false, data: '' });
-            }}
-            submitDeleteModal={handleDeleteSubmit}
-            deleteMeetingsStatus={rewardDeleteStatus}
-          />
-        )}
-      </>
+        </>
+      ) : (
+        <SingleRewardDetails
+          isRewardDetailsOpen={isRewardDetailsOpen}
+          setIsRewardDetailsOpen={setIsRewardDetailsOpen}
+        />
+      )}
+      {isRewardDrawerOpen?.isOpen && (
+        <UpsertRewards
+          isRewardDrawerOpen={isRewardDrawerOpen}
+          setIsRewardDrawerOpen={setIsRewardDrawerOpen}
+        />
+      )}
+      {isRewardDelete?.isOpen && (
+        <AgentConversionDelete
+          message={'Are you sure you want to delete this entry?'}
+          open={isRewardDelete?.isOpen ?? false}
+          handleClose={() => {
+            setIsRewardDelete({ isOpen: false, data: '' });
+          }}
+          submitDeleteModal={handleDeleteSubmit}
+          deleteMeetingsStatus={rewardDeleteStatus}
+        />
+      )}
     </>
   );
 };

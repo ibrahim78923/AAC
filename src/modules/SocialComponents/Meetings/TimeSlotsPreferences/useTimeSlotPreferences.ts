@@ -1,4 +1,3 @@
-import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
@@ -9,6 +8,7 @@ import {
 import { TIME_FORMAT } from '@/constants';
 import { timeSlotsDefaultValues } from './TimeSlotsPreferences.data';
 import { otherDateFormat } from '@/lib/date-time';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useTimeSlotPreferences = () => {
   const theme = useTheme();
@@ -23,11 +23,12 @@ export const useTimeSlotPreferences = () => {
 
   const timeSlotsData = data?.data;
 
-  const methods = useForm({
+  const useFormValues = {
     defaultValues: timeSlotsDefaultValues(timeSlotsData),
-  });
+  };
 
-  const { handleSubmit, watch, setValue, reset } = methods;
+  const { handleSubmit, watch, setValue, reset, methods } =
+    useFormLib(useFormValues);
   useEffect(() => {
     reset(timeSlotsDefaultValues(timeSlotsData));
   }, [reset, timeSlotsData]);

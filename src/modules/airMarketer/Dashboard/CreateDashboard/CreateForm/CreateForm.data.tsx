@@ -81,13 +81,12 @@ export const dataArray = [
 
 export const dashboardReportsData = [
   {
-    label: 'CTA Total Views and Ads Submissions',
-    value:
-      AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.CTA_TOTAL_VIEWS_AND_ADS_SUBMISSIONS,
+    label: 'SMS Marketing',
+    value: AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.SMS_MARKETING,
   },
   {
-    label: 'New contacts, and customers by day',
-    value: AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.NEW_CONTACTS_AND_CUSTOMERS,
+    label: 'Whatsapp Marketing',
+    value: AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.WHATSAPP_MARKETING,
   },
   {
     label: 'Total Marketing Email',

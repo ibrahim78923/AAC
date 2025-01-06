@@ -1,3 +1,4 @@
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { setAuthTokens } from '@/redux/slices/auth/slice';
 import { useAppDispatch } from '@/redux/store';
 import { useGetAuthMyAccountQuery } from '@/services/auth';
@@ -15,6 +16,7 @@ import {
   setSession,
   stringArraysEqual,
 } from '@/utils';
+import { enqueueSnackbar } from 'notistack';
 
 import {
   createContext,
@@ -130,16 +132,28 @@ function AuthProvider({ children }: { children: ReactNode }) {
     { skip: !state?.isAuthenticated },
   );
 
-  // const [logoutTrigger] = useLogoutMutation();
+  useEffect(() => {
+    if (
+      permissionsData?.data?.account &&
+      permissionsData?.data?.account?.role?.permissions?.length === 0
+    ) {
+      enqueueSnackbar('Permissions are not available for this account', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  }, [permissionsData?.data?.account]);
+
   const permissionsFromApi = permissionsData?.data?.account?.role?.permissions;
-  if (
-    (isNullOrEmpty(permissionsArray) ||
-      !stringArraysEqual(permissionsFromApi, permissionsArray)) &&
-    state?.isAuthenticated &&
-    permissionsFromApi
-  ) {
-    setPermissionsArray(permissionsFromApi);
-    setActivePermissionsSession(permissionsFromApi);
+  if (permissionsFromApi?.length > 1) {
+    if (
+      (isNullOrEmpty(permissionsArray) ||
+        !stringArraysEqual(permissionsFromApi, permissionsArray)) &&
+      state?.isAuthenticated &&
+      permissionsFromApi
+    ) {
+      setPermissionsArray(permissionsFromApi);
+      setActivePermissionsSession(permissionsFromApi);
+    }
   }
 
   const setAuthLoading = (res: boolean) => {
@@ -276,6 +290,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
         setPermissions,
         currentPermissions,
         setAuthLoading,
+        permissionsData,
       }}
     >
       {children}

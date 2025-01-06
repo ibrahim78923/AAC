@@ -1,5 +1,7 @@
-import { TAGS, baseAPI } from '@/services/base-api';
+import { baseAPI } from '@/services/base-api';
 import { END_POINTS } from '@/routesConstants/endpoints';
+
+const NOTIFICATIONS = ['SETTING_NOTIFICATIONS'];
 
 export const usersApi: any = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
@@ -9,7 +11,7 @@ export const usersApi: any = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: TAGS,
+      providesTags: NOTIFICATIONS,
     }),
 
     seenNotification: builder.mutation({
@@ -20,7 +22,7 @@ export const usersApi: any = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: TAGS,
+      invalidatesTags: NOTIFICATIONS,
     }),
   }),
 });

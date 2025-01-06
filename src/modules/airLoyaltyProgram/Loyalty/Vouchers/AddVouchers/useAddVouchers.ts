@@ -1,54 +1,97 @@
-import { addVouchersFormFieldsDefaultValues } from './AddVouchers.data';
-import { useForm } from 'react-hook-form';
 import {
-  useLazyGetContactsListQuery,
+  addVouchersFormFieldsDefaultValues,
+  vouchersValidationSchema,
+} from './AddVouchers.data';
+import {
+  useGetSingleVouchersQuery,
+  useLazyVouchersTiersDropdownListQuery,
   usePostVouchersMutation,
+  useEditVoucherMutation,
 } from '@/services/airLoyaltyProgram/loyalty/vouchers';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useEffect } from 'react';
+import { generateRadomString } from '@/utils/api';
+import { ARRAY_INDEX, VOUCHERS_CONSTANTS } from '@/constants/strings';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useAddVouchers = (props: any) => {
   const { addVouchersOpen, setAddVouchersOpen } = props;
-  const apiQueryOrganizations = useLazyGetContactsListQuery();
-  const methods: any = useForm({
-    defaultValues: addVouchersFormFieldsDefaultValues({}),
-  });
-  const { handleSubmit, watch, reset, setValue } = methods;
+  const apiQueryVoucherTiers = useLazyVouchersTiersDropdownListQuery();
   const [postVouchersTrigger, postVouchersStatus] = usePostVouchersMutation();
-  const randomString = () => {
-    const CHARACTERS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const LENGTH = 8;
-    let result = '';
-    for (let i = LENGTH; i > 0; --i)
-      result += CHARACTERS[Math?.floor(Math?.random() * CHARACTERS?.length)];
-    setValue('voucherCode', result);
+  const [editVouchersTrigger, editVouchersStatus] = useEditVoucherMutation();
+  const getByIdParams = {
+    voucherCode: addVouchersOpen?.voucherCode,
   };
-  const submitAddVouchersForm = async (data: any) => {
-    const apiData = {
-      name: data?.name,
-      description: data?.description,
-      image: data?.image,
-      addAmountOperator: data?.addAmountOperator,
-      addAmount: +data?.addAmount,
-      percentageOff: +data?.percentageOff,
-      activeFrom: data?.activeFrom,
-      activeTo: data?.activeTo,
-      voucherCode: data?.voucherCode,
-      appliedTo: data?.appliedTo?._id,
-      voucherLimitType: data?.voucherType,
-      voucherLimitValue: +data?.limitVouchers,
-      redemptionLimitType: data?.redeemType,
-      redemptionLimitValue: +data?.limitRedemptions,
-    };
-    const postVouchersParameter = {
-      body: apiData,
-    };
+  const {
+    data: getVoucherById,
+    isLoading,
+    isFetching,
+  } = useGetSingleVouchersQuery(getByIdParams, {
+    skip: !addVouchersOpen?.voucherCode && addVouchersOpen?.upsert,
+    refetchOnMountOrArgChange: true,
+  });
+  const { methods, handleSubmit, watch, reset, setValue, clearErrors } =
+    useFormLib({
+      defaultValues: addVouchersFormFieldsDefaultValues(
+        getVoucherById?.data?.[ARRAY_INDEX?.ZERO],
+      ),
+      validationSchema: vouchersValidationSchema,
+    });
+  useEffect(() => {
+    reset(
+      addVouchersFormFieldsDefaultValues(
+        getVoucherById?.data?.[ARRAY_INDEX?.ZERO],
+      ),
+    );
+  }, [addVouchersOpen?.voucherCode, getVoucherById, reset]);
+
+  const randomString = () => {
+    setValue('voucherCode', generateRadomString());
+    clearErrors('voucherCode');
+  };
+  const handleUpsertVoucher = async (postParams: any) => {
     try {
-      await postVouchersTrigger(postVouchersParameter)?.unwrap();
+      await postVouchersTrigger(postParams)?.unwrap();
       successSnackbar('Voucher added  successfully!');
       setAddVouchersOpen?.({});
       reset();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
+    }
+  };
+  const handleEditVoucher = async (editParams: any) => {
+    try {
+      await editVouchersTrigger(editParams)?.unwrap();
+      successSnackbar('Voucher Edited Successfully!');
+      setAddVouchersOpen?.({});
+      reset();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
+  const submitAddVouchersForm = (data: any) => {
+    const vouchersFormData = new FormData();
+    Object?.keys(data)?.forEach((key) => {
+      if (data[key] instanceof Date) {
+        vouchersFormData?.append(key, data[key]?.toISOString());
+      } else if (key === VOUCHERS_CONSTANTS?.FILE_URL) {
+        vouchersFormData?.append(
+          key,
+          data[key] instanceof File
+            ? data[key]
+            : new File([data[key]], data[key]?.url),
+        );
+      } else {
+        vouchersFormData?.append(key, data[key]?._id ?? data[key]);
+      }
+    });
+    const postVouchersParameter = {
+      body: vouchersFormData,
+    };
+    if (addVouchersOpen?.voucherCode) {
+      handleEditVoucher(vouchersFormData);
+    } else {
+      handleUpsertVoucher(postVouchersParameter);
     }
   };
   const activeFromValue = watch('activeFrom');
@@ -58,10 +101,13 @@ export const useAddVouchers = (props: any) => {
     handleSubmit,
     submitAddVouchersForm,
     methods,
-    apiQueryOrganizations,
+    apiQueryVoucherTiers,
     watch,
     postVouchersStatus,
     randomString,
     activeFromValue,
+    isLoading,
+    editVouchersStatus,
+    isFetching,
   };
 };

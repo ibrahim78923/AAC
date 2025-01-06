@@ -12,7 +12,7 @@ import { createElement } from 'react';
 
 export const UpsertContract = () => {
   const {
-    upsertContractFormMethods,
+    methods,
     handleSubmit,
     submitUpsertContractForm,
     theme,
@@ -42,7 +42,7 @@ export const UpsertContract = () => {
         title={!!contractId ? 'Edit Contract' : 'Add Contract'}
       />
       <FormProvider
-        methods={upsertContractFormMethods}
+        methods={methods}
         onSubmit={handleSubmit?.(submitUpsertContractForm)}
       >
         <Grid

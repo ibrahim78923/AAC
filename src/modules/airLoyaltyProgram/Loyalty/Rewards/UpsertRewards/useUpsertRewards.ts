@@ -1,9 +1,7 @@
-import { useForm } from 'react-hook-form';
 import {
   addRewardsDefaultValues,
   rewardsValidationSchema,
 } from './UpsertRewards.data';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useAddLoyaltyProgramRewardsMutation,
   useGetLoyaltyProgramRewardsByIdQuery,
@@ -12,6 +10,7 @@ import {
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { isoDateString } from '@/lib/date-time';
 import { useEffect } from 'react';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertRewards = (props: any) => {
   const { setIsRewardDrawerOpen, isRewardDrawerOpen } = props;
@@ -27,11 +26,11 @@ export const useUpsertRewards = (props: any) => {
       },
     );
 
-  const methods = useForm({
-    resolver: yupResolver(rewardsValidationSchema),
+  const useFormValues = {
+    validationSchema: rewardsValidationSchema,
     defaultValues: addRewardsDefaultValues(data),
-  });
-  const { handleSubmit, watch, reset } = methods;
+  };
+  const { handleSubmit, watch, reset, methods } = useFormLib(useFormValues);
 
   useEffect(() => {
     reset(addRewardsDefaultValues(data));
@@ -40,11 +39,14 @@ export const useUpsertRewards = (props: any) => {
   const [rewardsTrigger, rewardsStatus] = useAddLoyaltyProgramRewardsMutation();
   const onSubmit = async (formData: any) => {
     const rewardFormData = new FormData();
+    rewardFormData?.append('title', formData?.title);
     rewardFormData?.append('requiredPoints', formData?.requiredPoints);
     !!formData?.fileUrl && rewardFormData?.append('fileUrl', formData?.fileUrl);
     rewardFormData?.append('appliedTo', formData?.appliedTo?._id);
     rewardFormData?.append('costPrice', formData?.costPrice);
+    rewardFormData?.append('quantity', formData?.quantity);
     rewardFormData?.append('activeTo', isoDateString(formData?.activeTo));
+    rewardFormData?.append('activeFrom', isoDateString(formData?.activeFrom));
     rewardFormData?.append('redeemedLimitType', formData?.limitRewards);
     rewardFormData?.append('redemptionLimitPerConsumer', formData?.limit);
     if (!!rewardId) {

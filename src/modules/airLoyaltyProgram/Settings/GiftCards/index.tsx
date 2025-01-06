@@ -15,6 +15,7 @@ export const GiftCards = () => {
     apiCallInProgress,
     showLoader,
     isError,
+    reset,
   } = useGiftCards();
 
   return (
@@ -73,7 +74,7 @@ export const GiftCards = () => {
           variant="outlined"
           color="inherit"
           disabled={apiCallInProgress}
-          onClick={() => methods?.reset()}
+          onClick={() => reset()}
         >
           Cancel
         </LoadingButton>

@@ -7,7 +7,7 @@ import { ProfileCircleIcon } from '@/assets/icons/index';
 import { styles } from './StepYourInfo.style';
 import { getSession } from '@/utils';
 
-const StepYourInfo = () => {
+const StepYourInfo = ({ quotesData, loyalityCalculation }: any) => {
   const { user }: any = getSession();
 
   return (
@@ -41,8 +41,10 @@ const StepYourInfo = () => {
       </Grid>
       <Grid item lg={7} md={12} xs={12}>
         <TemplateFrame>
-          <TemplateBasic />
-          {/* <TemplatePlaceholder /> */}
+          <TemplateBasic
+            quotesData={quotesData}
+            loyalityCalculation={loyalityCalculation}
+          />
         </TemplateFrame>
       </Grid>
     </Grid>

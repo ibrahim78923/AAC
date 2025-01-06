@@ -39,16 +39,23 @@ const useCreateViewCompany = (setIsCreateView: any, isCreateView: any) => {
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async (values: any) => {
-    values.apiUrl = `dateStart=${dayjs(values?.createdDate[0])?.format(
-      DATE_FORMAT?.API,
-    )}&dateEnd=${dayjs()?.format(DATE_FORMAT?.API)}`;
+    let apiUrl = '';
+    if (values?.createdDate) {
+      apiUrl = `dateStart=${dayjs(values?.createdDate[0])?.format(
+        DATE_FORMAT?.API,
+      )}&dateEnd=${dayjs()?.format(DATE_FORMAT?.API)}`;
+    }
 
     const body = {
       name: values?.name,
-      apiUrl: values?.apiUrl,
+      // apiUrl: values?.apiUrl,
       sharedWith: values?.sharedWith,
       ...(values?.sharedWith === 'MY_TEAM' && { teamIds: teamIds }),
     };
+
+    if (apiUrl) {
+      body.apiUrl = apiUrl;
+    }
 
     try {
       await postCompaniesView({ body })?.unwrap();

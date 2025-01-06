@@ -9,10 +9,12 @@ import CtaViews from '../../StaticComponents/CtaViews';
 import ContactCustomerGraph from '../../StaticComponents/ContactCustomerGraph';
 import TotalMarketingEmail from '../../StaticComponents/TotalMarketingEmail';
 import FormsTable from '../../StaticComponents/FormsTable';
-// commented for future use
-// import SmsMarketingGraph from '../../StaticComponents/SmsMarketingGraph';
-// import WhatsappMarketingGraph from '../../StaticComponents/WhatsappMarketingGraph';
-// import { ProfileStatistics } from '../../StaticComponents/ProfileStatistics';
+import SmsMarketingGraph from '../../StaticComponents/SmsMarketingGraph';
+import WhatsappMarketingGraph from '../../StaticComponents/WhatsappMarketingGraph';
+import {
+  smsMarketingMockData,
+  whatsappMarketingMockData,
+} from '@/mock/modules/airMarketer/Dashboard';
 
 const DialogCards = ({ open, setOpen, selectedReports }: any) => {
   const displayDashboardWidgets = (selectedWidget: any) => {
@@ -27,13 +29,17 @@ const DialogCards = ({ open, setOpen, selectedReports }: any) => {
             return <TotalMarketingEmail key={report} />;
           case AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.LEAD_CAPTURED_FORMS:
             return <FormsTable key={report} />;
-          // commented for future use
-          // case AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.PROFILE_STATS:
-          //   return <ProfileStatistics key={report} />;
-          // case AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.SMS_MARKETING_GRAPH:
-          //   return <SmsMarketingGraph key={report} />;
-          // case AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.WHATSAPP_MARKETING_GRAPH:
-          //   return <WhatsappMarketingGraph key={report} />;
+          case AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.SMS_MARKETING:
+            return (
+              <SmsMarketingGraph key={report} data={smsMarketingMockData} />
+            );
+          case AIR_MARKETER_DASHBOARD_REPORTS_TYPES?.WHATSAPP_MARKETING:
+            return (
+              <WhatsappMarketingGraph
+                key={report}
+                data={whatsappMarketingMockData}
+              />
+            );
           default:
             return null;
         }

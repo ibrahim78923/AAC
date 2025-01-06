@@ -1,24 +1,30 @@
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
   useAddLoyaltyProgramSettingsGeneralSettingsMutation,
-  useGetLoyaltyProgramSettingsGeneralSettingsQuery,
   useUpdateLoyaltyProgramSettingsGeneralSettingsMutation,
 } from '@/services/airLoyaltyProgram/settings';
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useGetLoyaltySettings } from '../SettingsHooks/useGetLoyaltySettings';
+import { useFormLib } from '@/hooks/useFormLib';
 
 export const useLoyalty = () => {
-  const methods = useForm({
+  const formLibProps = {
     defaultValues: {
       maxPointLimit: '',
       exchangeRate: '',
     },
-  });
+  };
 
-  const { data, refetch, isLoading, isFetching, isError } =
-    useGetLoyaltyProgramSettingsGeneralSettingsQuery(null, {
-      refetchOnMountOrArgChange: true,
-    });
+  const { handleSubmit, reset, methods } = useFormLib(formLibProps);
+
+  const {
+    getLoyaltySettings,
+    lazyGetLoyaltyProgramSettingsGeneralSettingsStatus,
+    addLoyaltyProgramSettingsGeneralSettingsFirstTimeStatus,
+  } = useGetLoyaltySettings();
+
+  const { data, isLoading, isFetching, isError } =
+    lazyGetLoyaltyProgramSettingsGeneralSettingsStatus;
 
   const [
     addLoyaltyProgramSettingsGeneralSettingsTrigger,
@@ -29,8 +35,6 @@ export const useLoyalty = () => {
     updateLoyaltyProgramSettingsGeneralSettingsTrigger,
     updateLoyaltyProgramSettingsGeneralSettingsStatus,
   ] = useUpdateLoyaltyProgramSettingsGeneralSettingsMutation();
-
-  const { handleSubmit, reset } = methods;
 
   const submitLoyalty = async (formData: any) => {
     const body = {
@@ -56,6 +60,10 @@ export const useLoyalty = () => {
     }
   };
 
+  useEffect(() => {
+    getLoyaltySettings?.();
+  }, []);
+
   const updateLoyalty = async (formData: any) => {
     const body = {
       maxPointLimit: formData?.maxPointLimit,
@@ -72,7 +80,7 @@ export const useLoyalty = () => {
       )?.unwrap();
       successSnackbar('Loyalty program settings updated successfully');
       reset?.();
-      refetch?.();
+      getLoyaltySettings?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -85,7 +93,11 @@ export const useLoyalty = () => {
     }));
   }, [data, reset]);
 
-  const showLoader = isLoading || isFetching;
+  const showLoader =
+    isLoading ||
+    isFetching ||
+    addLoyaltyProgramSettingsGeneralSettingsFirstTimeStatus.isLoading;
+
   const apiCallInProgress =
     addLoyaltyProgramSettingsGeneralSettingsStatus.isLoading ||
     updateLoyaltyProgramSettingsGeneralSettingsStatus.isLoading;
@@ -97,5 +109,6 @@ export const useLoyalty = () => {
     apiCallInProgress,
     showLoader,
     isError,
+    reset,
   };
 };
