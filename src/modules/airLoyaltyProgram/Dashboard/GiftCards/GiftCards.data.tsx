@@ -1,20 +1,24 @@
 import { ActivityStatusMenu } from '@/components/ActivityStatusMenu';
-import { UserInfo } from '@/components/UserInfo';
 import { ACTIVITY_STATUS_MENU } from '@/constants';
+import { Box } from '@mui/material';
 
 const MenuItemDataArray = [
   { value: ACTIVITY_STATUS_MENU?.ACTIVE, label: 'Active' },
   { value: ACTIVITY_STATUS_MENU?.INACTIVE, label: 'Inactive' },
 ];
 
-export const getGiftCardsColumns = () => [
+export const getGiftCardsColumns = (
+  handleCardNumberClick: (giftCardNumber: string) => void,
+) => [
   {
     accessorFn: (row: any) => row?.cardNumber,
     id: 'cardNumber',
     header: 'Card Number',
     isSortable: true,
     cell: (info: any) => (
-      <UserInfo name={info.getValue()?.name?.toLowerCase()} />
+      <Box onClick={() => handleCardNumberClick(info?.getValue())}>
+        {info.getValue()}
+      </Box>
     ),
   },
   {
@@ -36,7 +40,7 @@ export const getGiftCardsColumns = () => [
         <ActivityStatusMenu
           info={info}
           activityStatus={status}
-          MenuItemDataArray={MenuItemDataArray}
+          menuItemDataArray={MenuItemDataArray}
         />
       );
     },

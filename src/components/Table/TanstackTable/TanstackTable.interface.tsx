@@ -23,7 +23,7 @@ export interface TanstackTablePropsI {
   onPageChange?: (page: number) => void;
   setPage?: Dispatch<SetStateAction<number>> | any;
   setPageLimit?: Dispatch<SetStateAction<number>> | any;
-  rowsPerPageOptions?: [];
+  rowsPerPageOptions?: number[];
   paginationPaddingX?: number;
   noDataTableText?: string;
   noDataTableImage?: any;
