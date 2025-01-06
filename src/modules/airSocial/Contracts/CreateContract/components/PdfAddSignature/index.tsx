@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, IconButton, TextField } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import { styles } from './PdfAddText.style';
 import { IconAddTextCopy, IconAddTextDelete } from '@/assets/icons';
 import CustomLabel from '@/components/CustomLabel';
@@ -15,11 +15,7 @@ export default function PdfAddSignature({
   onClickDelete,
 }: PdfAddSignProps) {
   return (
-    <Box
-      key={data?.id}
-      style={{ right: `${data?.x}px`, top: `${data?.y}px` }}
-      sx={styles?.container}
-    >
+    <Box sx={styles?.container}>
       <Box sx={styles?.addTextControls}>
         <IconButton>
           <IconAddTextCopy />
@@ -31,7 +27,7 @@ export default function PdfAddSignature({
 
       <Box>
         <CustomLabel label={data?.name} />
-        <TextField multiline rows={2} fullWidth placeholder="Enter a text..." />
+        <Box sx={styles?.signatureBox}></Box>
       </Box>
     </Box>
   );

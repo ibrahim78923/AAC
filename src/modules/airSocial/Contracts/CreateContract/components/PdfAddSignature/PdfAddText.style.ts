@@ -4,7 +4,6 @@ export const styles = {
   container: (theme: Theme) => ({
     backgroundColor: theme?.palette?.common?.white,
     border: `3px dashed ${theme?.palette?.primary?.main}`,
-    position: 'absolute',
     padding: '4px 16px 20px',
     maxWidth: '430px',
     width: '100%',
@@ -14,4 +13,9 @@ export const styles = {
     display: 'flex',
     justifyContent: 'flex-end',
   },
+  signatureBox: (theme: Theme) => ({
+    border: `1px solid ${theme?.palette?.custom?.dark}`,
+    borderRadius: '4px',
+    height: '79px',
+  }),
 };
