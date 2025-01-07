@@ -1,8 +1,6 @@
 import { useAppSelector } from '@/redux/store';
 import { getGiftCardsColumns } from './GiftCards.data';
 import { useGetLoyaltyDashboardGiftCardsQuery } from '@/services/airLoyaltyProgram/dashboard';
-import { otherDateFormat } from '@/lib/date-time';
-import { CALENDAR_FORMAT } from '@/constants';
 import { useApiPolling } from '@/hooks/useApiPolling';
 import { AUTO_REFRESH_API_TIME_INTERVAL, PAGINATION } from '@/config';
 import { useRouter } from 'next/router';
@@ -18,15 +16,8 @@ export const useGiftCards = () => {
   );
 
   const queryParams = {
-    activeFrom:
-      loyaltyDashboardDateRange?.startDate &&
-      otherDateFormat(
-        loyaltyDashboardDateRange?.startDate,
-        CALENDAR_FORMAT?.YMD,
-      ),
-    activeTo:
-      loyaltyDashboardDateRange?.endDate &&
-      otherDateFormat(loyaltyDashboardDateRange?.endDate, CALENDAR_FORMAT?.YMD),
+    activeFrom: loyaltyDashboardDateRange?.startDate,
+    activeTo: loyaltyDashboardDateRange?.endDate,
     limit,
     page,
   };

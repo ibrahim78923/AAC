@@ -1,7 +1,5 @@
 import { useAppSelector } from '@/redux/store';
 import { useGetLoyaltyDashboardPointTransactionsQuery } from '@/services/airLoyaltyProgram/dashboard';
-import { otherDateFormat } from '@/lib/date-time';
-import { CALENDAR_FORMAT } from '@/constants';
 import { useApiPolling } from '@/hooks/useApiPolling';
 import { AUTO_REFRESH_API_TIME_INTERVAL, PAGINATION } from '@/config';
 import { getPointsTransactionColumns } from './PointsTransaction.data';
@@ -15,15 +13,8 @@ export const usePointsTransaction = () => {
   );
 
   const queryParams = {
-    dateFrom:
-      loyaltyDashboardDateRange?.startDate &&
-      otherDateFormat(
-        loyaltyDashboardDateRange?.startDate,
-        CALENDAR_FORMAT?.YMD,
-      ),
-    dateTo:
-      loyaltyDashboardDateRange?.endDate &&
-      otherDateFormat(loyaltyDashboardDateRange?.endDate, CALENDAR_FORMAT?.YMD),
+    dateFrom: loyaltyDashboardDateRange?.startDate,
+    dateTo: loyaltyDashboardDateRange?.endDate,
     page,
     limit,
   };

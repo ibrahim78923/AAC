@@ -31,6 +31,12 @@ const airLoyaltyProgramDashboardApi = baseAPI?.injectEndpoints({
         params,
       }),
     }),
+    getLoyaltyDashboardWidgets: builder?.query({
+      query: () => ({
+        url: END_POINTS?.LOYALTY_PROGRAM_DASHBOARD_WIDGETS,
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
@@ -39,4 +45,5 @@ export const {
   useGetLoyaltyDashboardRewardsQuery,
   useGetLoyaltyDashboardPointTransactionsQuery,
   useGetLoyaltyDashboardTopConsumerQuery,
+  useGetLoyaltyDashboardWidgetsQuery,
 } = airLoyaltyProgramDashboardApi;

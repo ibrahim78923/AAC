@@ -17,7 +17,6 @@ export const Dashboard = () => {
     setAnchorElDate,
     handleCloseDate,
     handleApplyDate,
-    widgetsDataArray,
   } = useDashboard();
 
   return (
@@ -33,11 +32,8 @@ export const Dashboard = () => {
           handleCloseDate={handleCloseDate}
           handleApplyDate={handleApplyDate}
         />
-
-        <Widgets widgetsDataArray={widgetsDataArray} />
-
+        <Widgets />
         <TopConsumer />
-
         <Box>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={4}>

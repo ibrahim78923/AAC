@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { getWidgetsDataArray } from './Dashboard.data';
 import { useAppDispatch } from '@/redux/store';
 import { setLoyaltyDashboardDateRange } from '@/redux/slices/airLoyaltyProgram/dashboard';
+import { otherDateFormat } from '@/lib/date-time';
+import { CALENDAR_FORMAT } from '@/constants';
 
 export const useDashboard = () => {
   const [selectionRange, setSelectionRange] = useState<{
@@ -21,15 +22,21 @@ export const useDashboard = () => {
   const handleCloseDate = () => {
     setAnchorElDate(null);
   };
+  const formattedDate = {
+    startDate:
+      selectionRange?.startDate &&
+      otherDateFormat(selectionRange?.startDate, CALENDAR_FORMAT?.YMD),
+    endDate:
+      selectionRange?.endDate &&
+      otherDateFormat(selectionRange?.endDate, CALENDAR_FORMAT?.YMD),
+  };
   const handleApplyDate = () => {
-    const { startDate, endDate } = selectionRange;
-    dispatch(setLoyaltyDashboardDateRange({ startDate, endDate }));
+    dispatch(setLoyaltyDashboardDateRange(formattedDate));
     setAnchorElDate(null);
   };
   useEffect(() => {
-    dispatch(setLoyaltyDashboardDateRange(selectionRange));
+    dispatch(setLoyaltyDashboardDateRange(formattedDate));
   }, []);
-  const widgetsDataArray = getWidgetsDataArray();
 
   return {
     selectionRange,
@@ -38,6 +45,5 @@ export const useDashboard = () => {
     setAnchorElDate,
     handleCloseDate,
     handleApplyDate,
-    widgetsDataArray,
   };
 };
