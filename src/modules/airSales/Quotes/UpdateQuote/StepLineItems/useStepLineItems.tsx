@@ -13,9 +13,6 @@ import {
   useGetGiftCardGetBYQuery,
   useGetRewardQuery,
   useGetSingleVouchersQuotesQuery,
-  // usePutGiftCardValueMutation,
-  // usePutLoyaltyProgramConsumersPointsUpdateMutation,
-  // useUpdateRedeemRewardMutation,
 } from '@/services/airSales/quotes/loyality';
 import { isNullOrEmpty } from '@/utils';
 import { debounce } from 'lodash';
@@ -28,19 +25,15 @@ import {
   setRewardId,
   setVoucherData,
 } from '@/redux/slices/airSales/Quotes/quotesSlice';
+import { indexNumbers } from '@/constants';
 
 const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
   const theme = useTheme();
   const router = useRouter();
-  const methods: any = useForm({});
   const dispatch = useDispatch();
 
   const [search, setSearch] = useState('');
   const [isChecked, setIsChecked] = useState(false);
-  const [checkedIs, setCheckedIs] = useState({
-    voucher: false,
-    giftBox: false,
-  });
 
   let quoteId: any;
   if (router?.query?.data) {
@@ -78,6 +71,27 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
     id: quoteId,
     ...(search && { productSearchKeyword: search }),
   });
+
+  const isGiftCardTrue =
+    productsData?.data?.loyaltyGiftCards &&
+    Object.keys(productsData?.data?.loyaltyGiftCards).length >
+      indexNumbers?.ZERO;
+  const isVoucherTrue =
+    productsData?.data?.loyaltyVouchers &&
+    Object.keys(productsData?.data?.loyaltyVouchers).length >
+      indexNumbers?.ZERO;
+
+  const [checkedIs, setCheckedIs] = useState({
+    voucher: isVoucherTrue,
+    giftBox: isGiftCardTrue,
+  });
+  const methods = useForm({});
+
+  useEffect(() => {
+    setInputValue(productsData?.data?.loyaltyGiftCards?.cardNumber);
+    setVoucherInputValue(productsData?.data?.loyaltyVouchers?.voucherCode);
+    setInputValueDiscount(productsData?.data?.loyaltyGiftCards?.escrowAmount);
+  }, [isVoucherTrue, isGiftCardTrue, productsData?.data]);
 
   const {
     data: consumerDetails,
@@ -260,20 +274,6 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
 
     dispatch(setRedeemReward(redeemRewardPayLoad));
     dispatch(setRewardId(item?._id));
-
-    // redeemReward payload
-
-    // try {
-    //   await updateRedeemReward({ id: item?._id, body: payLoad })?.unwrap();
-    //   await trigger(consumersPayLoad)?.unwrap();
-    //   enqueueSnackbar('Reward updated', {
-    //     variant: NOTISTACK_VARIANTS?.SUCCESS,
-    //   });
-    // } catch (error: any) {
-    //   enqueueSnackbar('Error while updating reward', {
-    //     variant: NOTISTACK_VARIANTS?.ERROR,
-    //   });
-    // }
   };
 
   // set consumer data in redux
@@ -405,9 +405,6 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
     }
   };
 
-  // const [updateApi, { isLoading: updateGiftCardIsLoading }] =
-  //   usePutGiftCardValueMutation();
-
   const onSubmit = async (event: any) => {
     event.preventDefault();
     // Update GiftCard state
@@ -418,35 +415,12 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
     enqueueSnackbar('Discount Added', {
       variant: NOTISTACK_VARIANTS?.SUCCESS,
     });
-
-    // const patchParameter = {
-    //   queryParams: { cardNumber: giftCardData?.data?.cardNumber },
-    //   body: {
-    //     currentamount: giftCardData?.data?.currentamount - inputValueDiscount,
-    //     escrowAmount: inputValueDiscount,
-    //     transactionAmount: inputValueDiscount,
-    //     escrowAmountStatus: 'Pending',
-    //     quotesId: quoteId,
-    //   },
-    // };
-
-    // try {
-    //   await updateApi(patchParameter).unwrap();
-    //   enqueueSnackbar('Update successful', {
-    //     variant: NOTISTACK_VARIANTS?.SUCCESS,
-    //   });
-    //   refetch();
-    // } catch (error) {
-    //   enqueueSnackbar('Error while updating', {
-    //     variant: NOTISTACK_VARIANTS?.ERROR,
-    //   });
-    // }
   };
   const [discountVoucherValue, setDiscountVoucherValue] = useState(0);
 
   useEffect(() => {
     if (VoucherData?.data?.length > 0) {
-      const voucher = VoucherData.data[0];
+      const voucher: any = VoucherData.data[0];
       const { addAmount, percentageOff }: any = voucher;
       let discountVoucher = 0;
 
@@ -528,10 +502,12 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
     0,
   );
   const totalVoucherSum = Voucher?.reduce((acc, item) => acc + item?.value, 0);
-  const totalGiftCardSum = giftCard?.reduce(
-    (acc, item) => acc + parseFloat(item?.value),
-    0,
-  );
+  // let totalGiftCardSum = giftCard?.reduce(
+  //   (acc, item) => acc + parseFloat(item?.value),
+  //   0,
+  // );
+
+  const totalGiftCardSum = parseFloat(inputValueDiscount);
 
   const totalSumDiscount =
     totalLoyaltyRewardsSum + totalVoucherSum + totalGiftCardSum;
@@ -583,6 +559,7 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
     giftCard,
     loyaltyRewards,
     consumerDetailLoading,
+    VoucherData,
   };
 };
 

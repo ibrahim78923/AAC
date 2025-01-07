@@ -27,7 +27,6 @@ const StepLineItems = (props: any) => {
   const {
     setSearch,
     isChecked,
-    // setIsChecked,
     checkedIs,
     setCheckedIs,
     methods,
@@ -68,7 +67,8 @@ const StepLineItems = (props: any) => {
     loyaltyRewards,
     exchangeRateLoading,
     consumerDetailLoading,
-  } = useStepLineItems(openCreateProduct, calculations);
+    VoucherData,
+  }: any = useStepLineItems(openCreateProduct, calculations);
 
   useEffect(() => {
     handleLoyalityCalulation(
@@ -296,7 +296,8 @@ const StepLineItems = (props: any) => {
               </Typography>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Checkbox
-                  checked={checkedIs.giftBox}
+                  // checked={checkedIs.giftBox}
+                  defaultChecked={checkedIs.giftBox}
                   onChange={(event: any) => {
                     setCheckedIs({
                       ...checkedIs,
@@ -356,7 +357,7 @@ const StepLineItems = (props: any) => {
                   !isNullOrEmpty(inputValue) && (
                     <>
                       <Typography sx={{ fontSize: '14px', marginY: '5px' }}>
-                        <b>Current Amount:- </b>
+                        <b>Current Amount: </b>
                         {giftCardData?.data?.currentamount - inputValueDiscount}
                       </Typography>
 
@@ -386,6 +387,7 @@ const StepLineItems = (props: any) => {
 
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Checkbox
+                  defaultChecked={checkedIs.voucher}
                   onChange={(event: any) => {
                     setCheckedIs({
                       ...checkedIs,
@@ -498,7 +500,10 @@ const StepLineItems = (props: any) => {
                     color: theme?.palette?.blue?.dull_blue,
                   }}
                 >
-                  £ {totalGiftCardSum?.toFixed(2) ?? 0}
+                  £{' '}
+                  {totalGiftCardSum === 0
+                    ? productsData?.data?.loyaltyGiftCards?.escrowAmount ?? 0
+                    : totalGiftCardSum?.toFixed(2) ?? 0}
                 </Typography>
               </Box>
             </Box>
@@ -519,7 +524,21 @@ const StepLineItems = (props: any) => {
                     color: theme?.palette?.blue?.dull_blue,
                   }}
                 >
-                  Voucher
+                  Voucher{' '}
+                  <Typography
+                    component="span"
+                    sx={{
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      color: theme?.palette?.grey[900],
+                    }}
+                  >
+                    (
+                    {totalVoucherSum === 0
+                      ? 0
+                      : VoucherData?.data[0]?.percentageOff}
+                    %)
+                  </Typography>
                 </Typography>
                 <Typography
                   sx={{
@@ -534,7 +553,6 @@ const StepLineItems = (props: any) => {
             </Box>
             <Box>
               <Box
-                // key={item?.id}
                 sx={{
                   display: 'flex',
                   justifyContent: 'space-between',
@@ -558,7 +576,15 @@ const StepLineItems = (props: any) => {
                     color: theme?.palette?.blue?.dull_blue,
                   }}
                 >
-                  £ {totalSumDiscount?.toFixed(2) ?? 0}
+                  £{' '}
+                  {totalSumDiscount === 0
+                    ? inputValueDiscount +
+                      (productsData?.data?.loyaltyVouchers?.percentageOff
+                        ? updateSubTotal *
+                          (productsData?.data?.loyaltyVouchers?.percentageOff /
+                            100)
+                        : 0)
+                    : totalSumDiscount?.toFixed(2) ?? 0}
                 </Typography>
               </Box>
             </Box>
