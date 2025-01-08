@@ -1,6 +1,8 @@
-import { Box, LinearProgress, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { surveyCompletedData } from './SurveyCompleted.data';
 import { SURVEY_WIDGET_IDS } from '../AllResponses/AllResponses.data';
+import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
+import { pxToRem } from '@/utils/getFontValue';
 
 export const SurveyCompleted = (props: any) => {
   const { data } = props;
@@ -17,23 +19,14 @@ export const SurveyCompleted = (props: any) => {
           '0'
         }%`}
       </Typography>
-      <LinearProgress
+      <CustomLinearProgress
+        height={pxToRem(10)}
+        progressBarColor={'success.main'}
         value={
           data?.data?.surveyResponses?.[SURVEY_WIDGET_IDS?.SURVEY_COMPLETED] ??
           0
         }
         variant="determinate"
-        sx={{
-          height: 10,
-          borderRadius: 5,
-          '&.MuiLinearProgress-colorPrimary': {
-            backgroundColor: 'grey.0',
-          },
-          '.MuiLinearProgress-bar': {
-            borderRadius: 5,
-            backgroundColor: 'success.main',
-          },
-        }}
       />
       <br />
       {Object?.entries(

@@ -1,4 +1,4 @@
-import { CustomCircularProgressBar } from '@/components/CustomCircularProgressBar';
+import { CustomCircularProgressBar } from '@/components/ProgressBars/CustomCircularProgressBar';
 import { Box, Typography, useTheme } from '@mui/material';
 import { SURVEY_WIDGET_IDS } from '../AllResponses/AllResponses.data';
 import { FEEDBACK_SURVEY_QUESTION_RESPONSE_GRADE_DESCRIPTION } from './TotalSurveyScore.data';

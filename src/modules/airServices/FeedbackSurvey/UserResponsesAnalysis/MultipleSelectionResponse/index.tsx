@@ -1,8 +1,10 @@
-import { Box, LinearProgress, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { Fragment } from 'react';
 import { dynamicProgressBarColor } from '../UserResponsesAnalysis.data';
 import { v4 as uuidv4 } from 'uuid';
 import { FeedbackResponsesAnalysisI } from '@/types/modules/AirServices/FeedbackSurvey';
+import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
+import { pxToRem } from '@/utils/getFontValue';
 
 export const MultipleSelectionResponse: React.FC<FeedbackResponsesAnalysisI> = (
   props,
@@ -19,22 +21,12 @@ export const MultipleSelectionResponse: React.FC<FeedbackResponsesAnalysisI> = (
           </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Box sx={{ width: '100%', mr: 1 }}>
-              <LinearProgress
+              <CustomLinearProgress
                 variant="determinate"
                 value={answer?.percentage}
-                sx={{
-                  height: 10,
-                  borderRadius: 5,
-                  '&.MuiLinearProgress-colorPrimary': {
-                    backgroundColor: 'transparent',
-                  },
-                  '.MuiLinearProgress-bar': {
-                    borderRadius: 5,
-                    backgroundColor: dynamicProgressBarColor?.(
-                      answer?.percentage,
-                    ),
-                  },
-                }}
+                backgroundBarColor={'transparent'}
+                progressBarColor={dynamicProgressBarColor?.(answer?.percentage)}
+                height={pxToRem(10)}
               />
             </Box>
             <Box sx={{ minWidth: 35 }}>

@@ -1,7 +1,7 @@
 import { fullName } from '@/utils/avatarUtils';
 import { SingleViewArticleDataI } from '../SingleViewArticle.interface';
 import { uiDateFormat } from '@/lib/date-time';
-import { CustomArrayTooltipData } from '@/components/CustomArrayTooltipData';
+import { TooltipItemsCountChip } from '@/components/Chip/TooltipItemsCountChip';
 
 export const sideData = (data: SingleViewArticleDataI) => {
   const keywords = !!data?.keywords?.length
@@ -39,9 +39,7 @@ export const sideData = (data: SingleViewArticleDataI) => {
         {
           _id: 'keywords',
           title: 'Keywords:',
-          des: (
-            <CustomArrayTooltipData data={keywords} truncateTextLength={6} />
-          ),
+          des: <TooltipItemsCountChip data={keywords} truncateTextLength={6} />,
         },
       ],
     },

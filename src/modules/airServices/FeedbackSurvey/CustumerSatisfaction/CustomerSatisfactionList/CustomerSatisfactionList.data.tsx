@@ -1,5 +1,5 @@
 import { NextRouter } from 'next/router';
-import { Box, Checkbox, Chip, LinearProgress } from '@mui/material';
+import { Box, Checkbox, Chip } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { capitalizeFirstLetter } from '@/utils/api';
 import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
@@ -14,6 +14,7 @@ import { FeedbackSurveyListI } from '@/types/modules/AirServices/FeedbackSurvey'
 import { TruncateText } from '@/components/TruncateText';
 import { otherDateFormat } from '@/lib/date-time';
 import { DefaultSurveyStatus } from './DefaultSurveyStatus';
+import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
 
 const statusColor = (status: string) => {
   switch (status) {
@@ -161,7 +162,7 @@ export const feedbackDropdown = (
   const dropdownData = [
     {
       id: 1,
-      title: cloneLoading ? <LinearProgress sx={{ width: '70px' }} /> : 'Clone',
+      title: cloneLoading ? <CustomLinearProgress /> : 'Clone',
       handleClick: (closeMenu: () => void) => {
         handleCloneSurvey(closeMenu);
       },
@@ -189,11 +190,7 @@ export const feedbackDropdown = (
   if (!!shouldAddStatusSwitch?.includes(FEEDBACK_STATUS?.PUBLISHED)) {
     dropdownData?.unshift({
       id: 4,
-      title: statusLoading ? (
-        <LinearProgress sx={{ width: '70px' }} />
-      ) : (
-        'Draft'
-      ),
+      title: statusLoading ? <CustomLinearProgress /> : 'Draft',
       handleClick: (closeMenu: () => void) => {
         handleStatus(closeMenu);
       },

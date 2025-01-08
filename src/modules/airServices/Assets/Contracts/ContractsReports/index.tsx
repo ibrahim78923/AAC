@@ -7,7 +7,7 @@ import {
   RHFDateRangePicker,
 } from '@/components/ReactHookForm';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { Box, Button, Grid, LinearProgress, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import { ContractReportsCard } from './ContractReportsCard';
 import { useContractReports } from './useContractReports';
 import {
@@ -23,6 +23,7 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { AIR_SERVICES } from '@/constants/routes';
 import { Autorenew } from '@mui/icons-material';
+import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
 
 export const ContractsReports = () => {
   const {
@@ -87,7 +88,7 @@ export const ContractsReports = () => {
         >
           {!!apiCallInProgress ? (
             <Box>
-              <LinearProgress sx={{ width: pxToRem(70) }} />
+              <CustomLinearProgress />
             </Box>
           ) : (
             timeLapse?.lastFetchLapseTime

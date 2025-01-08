@@ -1,14 +1,7 @@
-import { pxToRem } from '@/utils/getFontValue';
-import {
-  Box,
-  Chip,
-  LinearProgress,
-  Theme,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import { Box, Chip, Theme, Typography, useTheme } from '@mui/material';
 import { ApprovalCardI } from './ApprovalCard.interface';
 import { TruncateText } from '@/components/TruncateText';
+import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
 
 const ApprovalCard = (props: ApprovalCardI) => {
   const {
@@ -85,13 +78,7 @@ const ApprovalCard = (props: ApprovalCardI) => {
       </Box>
       <Box flex={0.3} textAlign={'end'}>
         <Chip
-          label={
-            isLoading ? (
-              <LinearProgress sx={{ width: pxToRem(70) }} />
-            ) : (
-              'Approve'
-            )
-          }
+          label={isLoading ? <CustomLinearProgress /> : 'Approve'}
           sx={{
             backgroundColor: 'blue.main',
             color: 'common.white',

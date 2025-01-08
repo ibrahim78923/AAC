@@ -1,10 +1,8 @@
 import { Avatar, Box, Typography } from '@mui/material';
-import LinearProgress, {
-  linearProgressClasses,
-} from '@mui/material/LinearProgress';
 import { FirstAidKitIcon } from '@/assets/icons';
 import { TicketCardI } from './TicketCard.interface';
 import { TruncateText } from '@/components/TruncateText';
+import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
 
 export const TicketCard = (props: TicketCardI) => {
   const { totalCount, data } = props;
@@ -44,20 +42,10 @@ export const TicketCard = (props: TicketCardI) => {
           <TruncateText text={data?.label?.toLowerCase()} />
         </Box>
       </Box>
-      <LinearProgress
+      <CustomLinearProgress
         value={Math?.floor((data?.count / totalCount) * 100)}
         variant="determinate"
-        sx={{
-          height: 6,
-          borderRadius: 5,
-          [`&.${linearProgressClasses?.colorPrimary}`]: {
-            backgroundColor: 'grey.0',
-          },
-          [`& .${linearProgressClasses?.bar}`]: {
-            borderRadius: 5,
-            backgroundColor: data?.color,
-          },
-        }}
+        progressBarColor={data?.color}
       />
       <Typography variant="body2" pt={1} color="blue.main">
         Tickets Status: {`${data?.count}/${totalCount}`}
