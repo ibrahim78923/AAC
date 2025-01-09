@@ -90,7 +90,9 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
   useEffect(() => {
     setInputValue(productsData?.data?.loyaltyGiftCards?.cardNumber);
     setVoucherInputValue(productsData?.data?.loyaltyVouchers?.voucherCode);
-    setInputValueDiscount(productsData?.data?.loyaltyGiftCards?.escrowAmount);
+    setInputValueDiscount(
+      productsData?.data?.loyaltyGiftCards?.escrowAmount ?? 0,
+    );
   }, [isVoucherTrue, isGiftCardTrue, productsData?.data]);
 
   const {
@@ -106,7 +108,7 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
     consumerDetails?.data && Object.keys(consumerDetails.data).length === 0;
 
   const createConsumerFunction = async () => {
-    if (isConsumerDetailsDataAvailable === true) {
+    if (isConsumerDetailsDataAvailable) {
       const consumerPayload = {
         firstName: dataGetQuoteById?.data?.buyerContact?.firstName,
         lastName: dataGetQuoteById?.data?.buyerContact?.lastName,
@@ -121,12 +123,8 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
         currentPointBalance: 0,
         status: 'INACTIVE',
       };
-      const res: any = await createConsumer({
-        body: consumerPayload,
-      })?.unwrap();
-      if (res?.data) {
-        refetch();
-      }
+      await createConsumer({ body: consumerPayload })?.unwrap();
+      refetch();
     }
   };
 
@@ -201,10 +199,6 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
     setConsumerTotalPointsValue(consumerTotalPoints);
   }, [consumerDetails?.data]);
 
-  // const [updateRedeemReward, { isLoading: loadingUpdateRedeemReward }] =
-  //   useUpdateRedeemRewardMutation();
-  // const [trigger, { isLoading: loadingUpdateConsumer }] =
-  //   usePutLoyaltyProgramConsumersPointsUpdateMutation();
   const [totalRequiredPoints, setTotalRequiredPoints] = useState(0);
 
   const handleCheckboxChange = async (item: any) => {
@@ -409,7 +403,6 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
     event.preventDefault();
     // Update GiftCard state
     setGiftCard([{ _id: giftCardData?.data?._id, value: inputValueDiscount }]);
-
     setUpdateSubTotal(updateSubTotal - parseFloat(inputValueDiscount));
     setDisabledButton(true);
     enqueueSnackbar('Discount Added', {
@@ -501,16 +494,11 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
     (acc, item) => acc + item?.value,
     0,
   );
-  const totalVoucherSum = Voucher?.reduce((acc, item) => acc + item?.value, 0);
-  // let totalGiftCardSum = giftCard?.reduce(
-  //   (acc, item) => acc + parseFloat(item?.value),
-  //   0,
-  // );
-
-  const totalGiftCardSum = parseFloat(inputValueDiscount);
 
   const totalSumDiscount =
-    totalLoyaltyRewardsSum + totalVoucherSum + totalGiftCardSum;
+    (Number(giftCard[0]?.value) || 0) +
+    (Number(Voucher[0]?.value) || 0) +
+    (Number(totalLoyaltyRewardsSum) || 0);
 
   return {
     setSearch,
@@ -550,8 +538,6 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
     discountVoucherValue,
     setInputValueDiscount,
     totalLoyaltyRewardsSum,
-    totalVoucherSum,
-    totalGiftCardSum,
     totalSumDiscount,
     setVoucher,
     setGiftCard,

@@ -103,6 +103,7 @@ const DialogSendToCustomer = ({
         total: calculations?.finalTotal,
         invoiceDiscount: Number(calculations?.calculationsArray[2]?.amount),
         tax: Number(updateTaxAmount),
+        dealAmount: Number(calculations?.calculationsArray[0]?.amount),
       };
 
       try {

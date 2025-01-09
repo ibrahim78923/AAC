@@ -58,7 +58,6 @@ const StepLineItems = (props: any) => {
     setInputValueDiscount,
     totalLoyaltyRewardsSum,
     totalVoucherSum,
-    totalGiftCardSum,
     totalSumDiscount,
     setVoucher,
     setGiftCard,
@@ -500,10 +499,7 @@ const StepLineItems = (props: any) => {
                     color: theme?.palette?.blue?.dull_blue,
                   }}
                 >
-                  £{' '}
-                  {totalGiftCardSum === 0
-                    ? productsData?.data?.loyaltyGiftCards?.escrowAmount ?? 0
-                    : totalGiftCardSum?.toFixed(2) ?? 0}
+                  £ {giftCard[0]?.value ?? 0}
                 </Typography>
               </Box>
             </Box>
@@ -547,7 +543,7 @@ const StepLineItems = (props: any) => {
                     color: theme?.palette?.blue?.dull_blue,
                   }}
                 >
-                  £ {totalVoucherSum?.toFixed(2) ?? 0}
+                  £ {Voucher[0]?.value?.toFixed(2) ?? 0}
                 </Typography>
               </Box>
             </Box>
