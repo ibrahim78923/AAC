@@ -2,21 +2,41 @@ import { ActivityStatusMenu } from '@/components/ActivityStatusMenu';
 import { TruncateText } from '@/components/TruncateText';
 import { UserInfo } from '@/components/UserInfo';
 import { ACTIVITY_STATUS_MENU } from '@/constants';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 
 const MenuItemDataArray = [
   { value: ACTIVITY_STATUS_MENU?.ACTIVE, label: 'Active' },
   { value: ACTIVITY_STATUS_MENU?.INACTIVE, label: 'Inactive' },
 ];
 
-export const getTopConsumersColumns = () => [
+export const getTopConsumersColumns = (
+  handleConsumerClick: (id: string) => void,
+) => [
   {
-    accessorFn: (row: any) => row?.consumer,
-    id: 'consumer',
-    header: 'Consumers',
+    accessorFn: (row: any) => row,
+    id: 'firstName',
     isSortable: true,
-    cell: (info: any) => (
-      <UserInfo name={info.getValue()?.name?.toLowerCase()} />
-    ),
+    header: 'Consumer',
+    cell: (info: any) => {
+      const consumerId = info?.getValue()?._id;
+      return (
+        <UserInfo
+          handleBoxClick={() => handleConsumerClick(consumerId)}
+          boxProps={{ sx: { cursor: 'pointer' } }}
+          nameProps={{ sx: { whiteSpace: 'nowrap' } }}
+          nameInitial={fullNameInitial(
+            info?.getValue()?.firstName,
+            info?.getValue()?.lastName,
+          )}
+          name={fullName(
+            info?.getValue()?.firstName,
+            info?.getValue()?.lastName,
+          )}
+          avatarSrc={info?.row?.original?.avatar?.url}
+          email={info?.getValue()?.email}
+        />
+      );
+    },
   },
   {
     accessorFn: (row: any) => row?.status,
@@ -30,21 +50,21 @@ export const getTopConsumersColumns = () => [
         <ActivityStatusMenu
           info={info}
           activityStatus={status}
-          MenuItemDataArray={MenuItemDataArray}
+          menuItemDataArray={MenuItemDataArray}
         />
       );
     },
   },
   {
-    accessorFn: (row: any) => row?.currentPointsBalance,
-    id: 'currentPointsBalance',
+    accessorFn: (row: any) => row?.currentPointBalance,
+    id: 'currentPointBalance',
     header: 'Current Points Balance',
     isSortable: true,
     cell: (info: any) => info.getValue() ?? '---',
   },
   {
-    accessorFn: (row: any) => row?.noOfTransactions,
-    id: 'noOfTransactions',
+    accessorFn: (row: any) => row?.numberofTransactions,
+    id: 'numberofTransactions',
     header: 'No. of Transactions',
     isSortable: true,
     cell: (info: any) => info.getValue() ?? '---',
@@ -64,10 +84,12 @@ export const getTopConsumersColumns = () => [
     cell: (info: any) => info.getValue() ?? '---',
   },
   {
-    accessorFn: (row: any) => row?.tier,
-    id: 'tier',
+    accessorFn: (row: any) => row?.tierDetails,
+    id: 'tierDetails',
     header: 'Tier',
     isSortable: true,
-    cell: (info: any) => <TruncateText text={info.getValue()?.toLowerCase()} />,
+    cell: (info: any) => (
+      <TruncateText text={info.getValue()?.name?.toLowerCase()} />
+    ),
   },
 ];

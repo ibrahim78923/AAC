@@ -31,3 +31,9 @@ export const transactionsTabsData = [
     component: TransactionPoints,
   },
 ];
+
+export const transactionSelectedTabsData: { [key: number]: string } = {
+  0: 'rewards',
+  1: 'vouchers',
+  2: 'points',
+};

@@ -47,7 +47,7 @@ const CreateView = ({ open, onClose, changeRadio, sharedWithvalue }: any) => {
     <>
       <CommonDrawer
         isDrawerOpen={open}
-        onClose={onClose}
+        onClose={handelClose}
         isOk
         okText="Save"
         cancelText={'Cancel'}

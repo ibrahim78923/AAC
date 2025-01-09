@@ -4,7 +4,6 @@ export const styles = {
   container: (theme: Theme) => ({
     backgroundColor: theme?.palette?.common?.white,
     border: `3px dashed ${theme?.palette?.primary?.main}`,
-    position: 'absolute',
     padding: '4px 16px 20px',
     maxWidth: '430px',
     width: '100%',

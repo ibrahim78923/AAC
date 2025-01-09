@@ -1,12 +1,6 @@
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
-import {
-  Box,
-  Button,
-  LinearProgress,
-  Skeleton,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Skeleton, Typography } from '@mui/material';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { Permissions } from '@/constants/permissions';
 import EmailThisDashboard from '../EmailThisDashboard';
@@ -15,6 +9,7 @@ import { DashboardListFieldDropdown } from '../DashboardFormFields/DashboardsLis
 import { TruncateText } from '@/components/TruncateText';
 import { Autorenew } from '@mui/icons-material';
 import { pxToRem } from '@/utils/getFontValue';
+import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
 
 export const DashboardFilter = (props: any) => {
   const { apiLoader, refetchApi, hasDefaultDashboard, hasError, showLoader } =
@@ -78,7 +73,7 @@ export const DashboardFilter = (props: any) => {
               >
                 {!!showLoader ? (
                   <Box>
-                    <LinearProgress sx={{ width: pxToRem(70) }} />
+                    <CustomLinearProgress />
                   </Box>
                 ) : (
                   timeLapse?.lastFetchLapseTime

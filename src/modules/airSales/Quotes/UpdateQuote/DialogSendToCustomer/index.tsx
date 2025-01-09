@@ -89,7 +89,8 @@ const DialogSendToCustomer = ({
       formData.append('recordId', quoteId);
       const body = {
         id: quoteId,
-        status: quoteStatus?.published,
+        // status: quoteStatus?.published,
+        status: quoteStatus?.draft,
         email: values?.email,
         validTill: dayjs(dataGetQuoteById?.data?.expiryDate)?.format(
           DATE_FORMAT?.API,
@@ -102,6 +103,7 @@ const DialogSendToCustomer = ({
         total: calculations?.finalTotal,
         invoiceDiscount: Number(calculations?.calculationsArray[2]?.amount),
         tax: Number(updateTaxAmount),
+        dealAmount: Number(calculations?.calculationsArray[0]?.amount),
       };
 
       try {

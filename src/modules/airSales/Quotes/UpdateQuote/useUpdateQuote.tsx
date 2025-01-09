@@ -161,7 +161,7 @@ const useUpdateQuote = () => {
 
   const sum =
     totalAdditionalPrice +
-    singleQuote?.dealAmount -
+    singleQuote?.deal[0]?.amount -
     (totalDiscount + (updateRedeamDiscount ? updateRedeamDiscount : 0));
 
   const total = (taxCalculation?.data / 100) * sum + sum;
@@ -169,16 +169,15 @@ const useUpdateQuote = () => {
 
   const calculations = {
     calculationsArray: [
-      { name: 'Deal Amount', amount: singleQuote?.dealAmount },
+      { name: 'Deal Amount', amount: singleQuote?.deal[0]?.amount },
       { name: 'Additional Amount', amount: totalAdditionalPrice },
       { name: 'Total Discount', amount: unitDiscount?.toFixed(1) },
       {
         name: 'Redeam Discount',
-        amount: updateRedeamDiscount?.toFixed(1) ?? 0,
+        amount: updateRedeamDiscount?.toFixed(2) ?? 0,
       },
       { name: 'Sub Total', amount: sum?.toFixed(1) },
       { name: 'Tax', amount: `${taxCalculation?.data} %` },
-      // { name: 'taxAmount', amount: taxCalculation?.data },
     ],
     finalTotal: FinalTotal,
   };

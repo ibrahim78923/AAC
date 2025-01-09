@@ -65,7 +65,7 @@ export const AddVouchers = (props: any) => {
                         <form.component
                           {...form?.componentProps}
                           size="small"
-                          disabled={!!addVouchersOpen?.id}
+                          disabled={!!addVouchersOpen?.voucherCode}
                         />
                       </Grid>
                       <Grid item xs={12} textAlign="center">
@@ -77,7 +77,7 @@ export const AddVouchers = (props: any) => {
                           color="primary"
                           fullWidth
                           disableElevation
-                          disabled={!!addVouchersOpen?.id}
+                          disabled={!!addVouchersOpen?.voucherCode}
                           onClick={randomString}
                         >
                           Generate Code

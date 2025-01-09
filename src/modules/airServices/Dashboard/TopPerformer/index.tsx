@@ -1,10 +1,10 @@
 import { Badge, Box, Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
-import LinearProgress from '@mui/material/LinearProgress';
 import { fullName, generateImage } from '@/utils/avatarUtils';
 import { AGENT_LEVELS_IMAGES } from '@/constants/images';
 import { AGENT_LEVELS } from '@/constants/strings';
 import NoData from '@/components/NoData';
+import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
 
 export const TopPerformer = (props: any) => {
   const { data } = props;
@@ -93,7 +93,7 @@ export const TopPerformer = (props: any) => {
                       )?.toFixed?.(2)}
                   %
                 </Typography>
-                <LinearProgress
+                <CustomLinearProgress
                   value={
                     !!!hasTopPerformer?.masterPoints
                       ? 0
@@ -116,7 +116,7 @@ export const TopPerformer = (props: any) => {
                 <Typography variant="body3" color={'primary.main'}>
                   100%
                 </Typography>
-                <LinearProgress value={100} variant="determinate" />
+                <CustomLinearProgress variant="determinate" />
               </>
             )}
           </>

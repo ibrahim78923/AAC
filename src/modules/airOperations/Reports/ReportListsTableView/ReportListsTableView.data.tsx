@@ -8,7 +8,7 @@ import { FavoriteReport } from '../FavoriteReport';
 import { UserInfo } from '@/components/UserInfo';
 import { TruncateText } from '@/components/TruncateText';
 import { uiDateFormat } from '@/lib/date-time';
-import { CustomArrayTooltipData } from '@/components/CustomArrayTooltipData';
+import { TooltipItemsCountChip } from '@/components/Chip/TooltipItemsCountChip';
 
 export const reportListsColumnsDynamic = (
   selectedReportList: any,
@@ -107,7 +107,7 @@ export const reportListsColumnsDynamic = (
     isSortable: true,
     header: 'Dashboard Name',
     cell: (info: any) => (
-      <CustomArrayTooltipData
+      <TooltipItemsCountChip
         data={info?.getValue()?.map((item: any, index: number) => ({
           label: item?.name,
           _id: index + 1,

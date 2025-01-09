@@ -1,6 +1,6 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { SoftwareReportsCards } from './SoftwareReportsCards';
-import { Box, Button, Grid, LinearProgress, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { DownloadLargeIcon } from '@/assets/icons';
 import {
@@ -21,6 +21,7 @@ import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.i
 import NoData from '@/components/NoData';
 import { AIR_SERVICES } from '@/constants/routes';
 import { Autorenew } from '@mui/icons-material';
+import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
 
 export const SoftwareReports = () => {
   const {
@@ -90,7 +91,7 @@ export const SoftwareReports = () => {
         >
           {!!apiCallInProgress ? (
             <Box>
-              <LinearProgress sx={{ width: pxToRem(70) }} />
+              <CustomLinearProgress />
             </Box>
           ) : (
             timeLapse?.lastFetchLapseTime

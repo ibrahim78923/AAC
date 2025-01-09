@@ -3,7 +3,7 @@ import { Checkbox, Chip, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { fullName } from '@/utils/avatarUtils';
 import { TruncateText } from '@/components/TruncateText';
-import { CustomArrayTooltipData } from '@/components/CustomArrayTooltipData';
+import { TooltipItemsCountChip } from '@/components/Chip/TooltipItemsCountChip';
 
 const bgColor: any = {
   published: 'blue.main',
@@ -121,7 +121,7 @@ export const articlesListColumnsDynamic = (
       isSortable: true,
       header: `Inserted Tickets`,
       cell: (info: any) => (
-        <CustomArrayTooltipData
+        <TooltipItemsCountChip
           data={info?.getValue()?.map((item: any) => ({
             label: item?.subject,
             _id: item?._id,

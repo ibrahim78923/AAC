@@ -34,7 +34,7 @@ export const useHeader = (props: any) => {
       setDateLabel('Yesterday');
     } else if (
       differenceInDays(endDate, startDate) === 6 &&
-      startDate.getDay() === 0
+      startDate?.getDay() === 0
     ) {
       setDateLabel('This Week');
     } else {

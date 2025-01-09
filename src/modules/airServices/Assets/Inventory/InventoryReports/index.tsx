@@ -1,5 +1,5 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { Box, Button, Grid, LinearProgress, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { DownloadLargeIcon } from '@/assets/icons';
 import {
@@ -24,6 +24,7 @@ import ReportsCards from './ReportsCards';
 import { AIR_SERVICES_REPORTS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
 import { AIR_SERVICES } from '@/constants/routes';
 import { Autorenew } from '@mui/icons-material';
+import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
 
 export const InventoryReports = () => {
   const {
@@ -92,7 +93,7 @@ export const InventoryReports = () => {
         >
           {!!apiCallInProgress ? (
             <Box>
-              <LinearProgress sx={{ width: pxToRem(70) }} />
+              <CustomLinearProgress />
             </Box>
           ) : (
             timeLapse?.lastFetchLapseTime
