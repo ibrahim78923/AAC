@@ -26,7 +26,6 @@ export const useReports = () => {
     }),
     {},
   );
-
   const reportsTypes: ReportsTypesI[] = reportsTypesDynamic(productsLists);
 
   const checkApiStatus = () => {

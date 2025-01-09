@@ -24,3 +24,8 @@ export const CHIP_SHAPE = {
   OVAL: 'oval',
   ROUNDED: 'rounded',
 };
+
+export const ACCORDION_VARIANTS = {
+  SECONDARY: 'secondary',
+  INHERIT: 'inherit',
+};

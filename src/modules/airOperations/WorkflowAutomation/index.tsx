@@ -1,19 +1,16 @@
-import { Avatar, Box, Grid, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import ApiErrorState from '@/components/ApiErrorState';
 import { useWorkflowAutomation } from './useWorkflowAutomation';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
+import { ItemLinkCard } from '@/components/Cards/ItemLinkCard/ItemLinkCard';
 
 export const WorkflowAutomation = () => {
-  const {
-    isLoading,
-    isError,
-    isFetching,
-    workflowAutomationTypes,
-    router,
-    refetch,
-  } = useWorkflowAutomation();
+  const { isLoading, isError, isFetching, workflowAutomationTypes, refetch } =
+    useWorkflowAutomation();
+
   if (isError) return;
+
   return (
     <>
       <Typography variant="h3">Workflow Automation</Typography>
@@ -35,49 +32,16 @@ export const WorkflowAutomation = () => {
               permissions={workflow?.permission}
               key={workflow?.id}
             >
-              <Grid
-                key={workflow?.id}
-                item
-                md={5}
-                lg={4}
-                xs={12}
-                onClick={() => {
-                  if (!workflow?.hasAccount) return;
-                  router?.push({
-                    pathname: workflow?.link,
-                  });
-                }}
-                sx={{
-                  cursor: !workflow?.hasAccount ? 'not-allowed' : 'pointer',
-                }}
-              >
-                <Box
-                  display={'flex'}
-                  alignItems={'center'}
-                  flexWrap={'wrap'}
-                  border={`1px solid `}
-                  borderColor={'grey.700'}
-                  borderRadius={2}
-                  gap={2}
-                  padding={1}
-                  height={'100%'}
-                  bgcolor={!workflow?.hasAccount ? 'grey.200' : 'common.white'}
-                >
-                  <Avatar
-                    variant="rounded"
-                    sx={{ backgroundColor: 'primary.light' }}
-                  >
-                    {workflow?.avatar}
-                  </Avatar>
-                  <Box flex={1}>
-                    <Typography variant="h5" whiteSpace={'nowrap'}>
-                      {workflow?.type}
-                    </Typography>
-                    <Typography variant="body3" color={'grey.900'}>
-                      {workflow?.purpose}
-                    </Typography>
-                  </Box>
-                </Box>
+              <Grid item xs={12} md={6} lg={4}>
+                <ItemLinkCard
+                  Icon={workflow?.avatar}
+                  itemType={workflow?.type}
+                  itemLink={workflow?.link}
+                  itemPurpose={workflow?.purpose}
+                  itemTypeFontSize="h5"
+                  hasLink={workflow?.hasAccount}
+                  itemPurposeFontSize="body3"
+                />
               </Grid>
             </PermissionsGuard>
           ))}

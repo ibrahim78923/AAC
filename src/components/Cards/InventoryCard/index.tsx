@@ -1,7 +1,7 @@
 import { Box, Divider, Typography, useTheme } from '@mui/material';
 import { useState } from 'react';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import { AlertModals } from '../AlertModals';
+import { AlertModals } from '../../AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { splitCapitalizedWords } from '@/utils/api';
 

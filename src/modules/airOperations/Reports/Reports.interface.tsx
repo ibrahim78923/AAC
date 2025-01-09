@@ -1,6 +1,6 @@
 export interface ReportsTypesI {
   id: number;
-  avatar: JSX.Element;
+  avatar: JSX.Element | any;
   type: string;
   purpose: string;
   link: string;

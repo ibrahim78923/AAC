@@ -1,4 +1,4 @@
-import { InventoryCard } from '@/components/InventoryCard';
+import { InventoryCard } from '@/components/Cards/InventoryCard';
 import NoData from '@/components/NoData';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { LoadingButton } from '@mui/lab';
