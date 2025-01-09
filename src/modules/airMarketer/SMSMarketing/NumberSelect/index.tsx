@@ -5,7 +5,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -13,8 +13,31 @@ import { styles } from './NumberSelect.style';
 import { UserAvatarImage } from '@/assets/images';
 import Image from 'next/image';
 import { ArrowDownIcon } from '@/assets/icons';
+import { useGetTwilioNumbersConfigurationsQuery } from '@/services/airMarketer/SmsMarketing/AddNewAccount';
+import { getActiveAccountSession } from '@/utils';
+import { IMG_URL } from '@/config';
+import { v4 as uuidv4 } from 'uuid';
 
 const NumberSelect = () => {
+  const activeAccount = getActiveAccountSession();
+  const [activeAccountConfigId, setActiveAccountConfigId] = useState('');
+
+  useEffect(() => {
+    if (activeAccount?.configurationId)
+      setActiveAccountConfigId(activeAccount?.configurationId);
+  }, [activeAccount?.configurationId]);
+
+  const { data: dataTwilioNumbersConfig } =
+    useGetTwilioNumbersConfigurationsQuery(
+      {
+        params: {
+          configurationId: activeAccountConfigId,
+          configuredNumbersOnly: true,
+        },
+      },
+      { skip: activeAccountConfigId?.length < 1 },
+    );
+
   const smallScreen = useMediaQuery('(min-width: 380px)');
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -69,21 +92,19 @@ const NumberSelect = () => {
             Registered Numbers{' '}
           </Typography>
         </Box>
-        <MenuItem onClick={handleClose} sx={styles?.menuItem(theme)}>
-          <UserInfo
-            avatarSrc={UserAvatarImage}
-            name="John Doe"
-            phone="+1234567890"
-            isSelected
-          />
-        </MenuItem>
-        <MenuItem onClick={handleClose} sx={styles?.menuItem(theme)}>
-          <UserInfo
-            avatarSrc={UserAvatarImage}
-            name="John Doe"
-            phone="+1234567890"
-          />
-        </MenuItem>
+        {dataTwilioNumbersConfig?.data?.map((item: any) => (
+          <MenuItem
+            key={uuidv4()}
+            onClick={handleClose}
+            sx={styles?.menuItem(theme)}
+          >
+            <UserInfo
+              avatarSrc={`${IMG_URL}${item?.userDetails?.avatar?.url}`}
+              name={`${item?.userDetails?.firstName} ${item?.userDetails?.lastName}`}
+              phone={item?.phoneNumber}
+            />
+          </MenuItem>
+        ))}
       </Menu>
     </Box>
   );
@@ -98,11 +119,12 @@ const UserInfo: React.FC<any> = ({
   isSelected,
 }: any) => {
   const theme = useTheme();
-
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
       <Image
-        style={{ width: '36px', height: '36px', borderRadius: '50%' }}
+        style={{ borderRadius: '50%' }}
+        width={36}
+        height={36}
         src={avatarSrc}
         alt="User"
       />

@@ -4,6 +4,7 @@ import {
   AccordionSummary,
   Box,
   Button,
+  CircularProgress,
   FormControlLabel,
   IconButton,
   Skeleton,
@@ -28,13 +29,19 @@ import { AIR_MARKETER } from '@/routesConstants/paths';
 import {
   useDeleteTwilioConfigurationPhoneNumberMutation,
   useGetTwilioConfigurationsQuery,
+  useUpdateAccountConfigMutation,
 } from '@/services/airMarketer/SmsMarketing/AddNewAccount';
 import { AlertModals } from '@/components/AlertModals';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { getActiveAccountSession, setActiveAccountSession } from '@/utils';
 
 const IntegrationConfiguration = () => {
   const theme = useTheme();
+
+  const activeAccount = getActiveAccountSession();
+
+  const configId = activeAccount?.configurationId;
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [activeId, setActiveId] = useState('');
@@ -49,6 +56,8 @@ const IntegrationConfiguration = () => {
     });
 
   const getRowValues = columns(theme, setIsDeleteModalOpen, setActiveId);
+
+  const [activeRecord, setActiveRecord] = useState('');
 
   const [
     deleteTwilioConfigurationPhoneNumber,
@@ -72,13 +81,73 @@ const IntegrationConfiguration = () => {
     }
   };
 
+  const [updateAccountConfig, { isLoading: connectUpdateAccountConfig }] =
+    useUpdateAccountConfigMutation();
+
+  const handleUpdateConfig = async (id: any) => {
+    const payload = {
+      // status: 'ACTIVE',
+      configurationId: id,
+    };
+    try {
+      await updateAccountConfig({
+        body: payload,
+        id: activeAccount?._id,
+      })?.unwrap();
+      handelUpdatedAccountSession(id);
+      enqueueSnackbar('Configuration Changed Successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      enqueueSnackbar(errMsg ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
+
+  const handleUpdateDisConnectConfig = async () => {
+    const payload = {
+      updateConfiguration: true,
+    };
+    try {
+      await updateAccountConfig({
+        body: payload,
+        id: activeAccount?._id,
+      })?.unwrap();
+
+      const updatedAccount = { ...activeAccount };
+      delete updatedAccount?.configurationId;
+      setActiveAccountSession(updatedAccount);
+      enqueueSnackbar('Configuration Changed Successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      enqueueSnackbar(errMsg ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
+
+  const handelUpdatedAccountSession = (id: any) => {
+    setActiveAccountSession({
+      ...activeAccount,
+      configurationId: id,
+    });
+  };
+
   return (
     <Box>
       <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
         <IconButton onClick={() => window.history.back()}>
           <ArrowBackIcon />
         </IconButton>
-        <Typography variant="h4" sx={{ fontWeight: '600' }}>
+        <Typography
+          variant="h4"
+          sx={{ fontWeight: '600' }}
+          onClick={() => handleUpdateDisConnectConfig()}
+        >
           Integration Configuration
         </Typography>
       </Box>
@@ -114,7 +183,7 @@ const IntegrationConfiguration = () => {
         <>
           {data?.data?.twilioconfigurations?.map((item: any) => (
             <Box sx={{ mt: 3 }} key={item?._id}>
-              <Accordion defaultExpanded>
+              <Accordion>
                 <AccordionSummary
                   expandIcon={<IconArrowRounded />}
                   aria-controls="panel1-content"
@@ -162,7 +231,25 @@ const IntegrationConfiguration = () => {
 
                     <Box>
                       <FormControlLabel
-                        control={<Switch defaultChecked size="small" />}
+                        control={
+                          activeRecord === item?._id &&
+                          connectUpdateAccountConfig ? (
+                            <CircularProgress size={20} sx={{ mr: 1 }} />
+                          ) : (
+                            <Switch
+                              checked={configId === item?._id}
+                              size="small"
+                              onClick={() => {
+                                setActiveRecord(item?._id);
+                                if (configId === item?._id) {
+                                  handleUpdateDisConnectConfig();
+                                } else {
+                                  handleUpdateConfig(item?._id);
+                                }
+                              }}
+                            />
+                          )
+                        }
                         label="Disconnect"
                       />
                     </Box>

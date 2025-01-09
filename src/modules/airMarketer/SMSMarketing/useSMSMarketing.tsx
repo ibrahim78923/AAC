@@ -14,8 +14,10 @@ const useSMSMarketing = () => {
     useGetIsPhoneConnectedForSmsMarketingQuery({});
 
   useEffect(() => {
-    if (getIsPhoneConnected?.data?.phoneNumber) {
+    if (getIsPhoneConnected?.message === 'Number Connected') {
       setIsConnected(true);
+    } else {
+      setIsConnected(false);
     }
   }, [getIsPhoneConnected]);
 

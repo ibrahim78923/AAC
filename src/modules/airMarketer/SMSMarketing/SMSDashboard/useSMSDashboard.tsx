@@ -4,10 +4,18 @@ import {
   useGetSmsDashboardInsightsQuery,
 } from '@/services/airMarketer/SmsMarketing';
 import { useGetContactsListQuery } from '@/services/common-APIs';
+import dayjs from 'dayjs';
+import { useState } from 'react';
 
 const useSMSDashboard = () => {
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
   const { data: geSMSDasboardData, isLoading: dashboardLoading } =
-    useGetSmsDashboardInsightsQuery({});
+    useGetSmsDashboardInsightsQuery({
+      params: {
+        year: dayjs(selectedDate)?.format('YYYY'),
+      },
+    });
   const { data: getBroadCastData, isLoading: broadCastLoading } =
     useGetSmsBroadcatsQuery({});
   const { data: getContactData, isLoading: contactDataLoading } =
@@ -25,6 +33,8 @@ const useSMSDashboard = () => {
     broadCastLoading,
     getContactData,
     contactDataLoading,
+    selectedDate,
+    setSelectedDate,
   };
 };
 

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -21,10 +21,14 @@ import Link from 'next/link';
 import {
   useGetTwilioConfigurationsQuery,
   useGetTwilioNumbersConfigurationsQuery,
+  useUpdateAccountConfigMutation,
 } from '@/services/airMarketer/SmsMarketing/AddNewAccount';
 import { v4 as uuidv4 } from 'uuid';
 import { API_STATUS } from '@/constants';
 import useConnectNumber from '../useConnectNumber';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { getActiveAccountSession, setActiveAccountSession } from '@/utils';
 
 const AddRegNumber: FC<any> = ({
   open,
@@ -38,7 +42,14 @@ const AddRegNumber: FC<any> = ({
     setConfigValue,
     handleAddRegNumSubmit,
     connectNumberLoading,
-  } = useConnectNumber({});
+  } = useConnectNumber();
+
+  const [activeAccountConfigId, setActiveAccountConfigId] = useState('');
+
+  const activeAccount = getActiveAccountSession();
+
+  const checkConfigValueExistence =
+    configValue?.length > 1 ? configValue : activeAccountConfigId;
 
   const { data, isLoading: isLoadingGetConfig } =
     useGetTwilioConfigurationsQuery({
@@ -54,11 +65,52 @@ const AddRegNumber: FC<any> = ({
   } = useGetTwilioNumbersConfigurationsQuery(
     {
       params: {
-        configurationId: configValue,
+        configurationId:
+          configValue?.length > 1 ? configValue : activeAccountConfigId,
       },
     },
-    { skip: configValue?.length < 1 },
+    { skip: checkConfigValueExistence?.length < 1 },
   );
+
+  useEffect(() => {
+    if (activeAccount?.configurationId)
+      setActiveAccountConfigId(activeAccount?.configurationId);
+  }, [activeAccount?.configurationId]);
+
+  const handelUpdatedAccountSession = (id: any) => {
+    setActiveAccountSession({
+      ...activeAccount,
+      configurationId: id,
+    });
+  };
+
+  const [updateAccountConfig, { isLoading: connectUpdateAccountConfig }] =
+    useUpdateAccountConfigMutation();
+
+  const handleUpdateConfig = async (id: any) => {
+    const payload = {
+      status: 'ACTIVE',
+      twilioConfigurationId: id,
+    };
+    try {
+      await updateAccountConfig({
+        body: payload,
+        id: activeAccount?._id,
+      })?.unwrap();
+
+      if (id) {
+        handelUpdatedAccountSession(id);
+      }
+      enqueueSnackbar('Configuration Changed Successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      enqueueSnackbar(errMsg ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
 
   const theme = useTheme();
   return (
@@ -101,13 +153,13 @@ const AddRegNumber: FC<any> = ({
               Integrate your Twilio Account
             </Typography>
             <Link href="./sms-marketing/connect-account">
-              <Button
+              <LoadingButton
                 variant="contained"
                 color="primary"
                 sx={{ height: '40px' }}
               >
                 Connect
-              </Button>
+              </LoadingButton>
             </Link>
           </Box>
           {/* Change configuration  */}
@@ -124,7 +176,11 @@ const AddRegNumber: FC<any> = ({
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 sx={{ height: '45px', borderRadius: '10px' }}
-                value={configValue}
+                value={
+                  configValue?.length > 1
+                    ? configValue
+                    : activeAccountConfigId || ''
+                } // Handles value priority
                 onChange={(e: any) => {
                   setPhoneNumber('');
                   setConfigValue(e?.target?.value);
@@ -154,9 +210,15 @@ const AddRegNumber: FC<any> = ({
                   ))}
               </Select>
             </FormControl>
-            <Button variant="contained" color="primary" sx={{ height: '40px' }}>
+            <LoadingButton
+              onClick={() => handleUpdateConfig(configValue)}
+              loading={connectUpdateAccountConfig}
+              variant="contained"
+              color="primary"
+              sx={{ height: '40px' }}
+            >
               Change
-            </Button>
+            </LoadingButton>
           </Box>
         </Box>
         {/* Connect Phone via config  */}
@@ -174,7 +236,7 @@ const AddRegNumber: FC<any> = ({
               onChange={(e: any) => onPhoneChange(e?.target?.value)}
               displayEmpty
               disabled={
-                configValue?.length < 1 ||
+                checkConfigValueExistence?.length < 1 ||
                 isStatusDataTwilioNumbersConfig === API_STATUS?.PENDING
               }
               endAdornment={
@@ -214,7 +276,14 @@ const AddRegNumber: FC<any> = ({
         <LoadingButton
           className="small"
           variant="contained"
-          onClick={() => handleAddRegNumSubmit(phoneValue, configValue)}
+          onClick={() =>
+            handleAddRegNumSubmit(
+              phoneValue,
+              configValue?.length > 1
+                ? configValue
+                : activeAccountConfigId || '',
+            )
+          }
           loading={connectNumberLoading}
           disabled={phoneValue?.length < 1}
         >

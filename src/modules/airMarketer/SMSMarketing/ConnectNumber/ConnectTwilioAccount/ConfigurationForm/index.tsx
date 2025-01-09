@@ -6,6 +6,8 @@ import { ConfigurationFormDataArray } from './ConfigurationForm.data';
 import { FormProvider } from '@/components/ReactHookForm';
 import useConfigurationForm from './useConfigurationForm';
 import { LoadingButton } from '@mui/lab';
+import Link from 'next/link';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const ConfigurationForm = ({ setIsAddConfiguration }: any) => {
   const {
@@ -19,9 +21,12 @@ const ConfigurationForm = ({ setIsAddConfiguration }: any) => {
   return (
     <Box sx={styles?.configurationBox(theme)}>
       <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-        <IconButton onClick={() => setIsAddConfiguration(false)}>
-          <ArrowBackIcon />
-        </IconButton>
+        <Link href={AIR_MARKETER?.SMS_MARKETING}>
+          <IconButton>
+            <ArrowBackIcon />
+          </IconButton>
+        </Link>
+
         <Typography variant="h4" sx={{ fontWeight: '600' }}>
           Add Configuration
         </Typography>

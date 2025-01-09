@@ -22,7 +22,7 @@ const ConnectTwilioAccount = () => {
 
   const mediaLg = useMediaQuery('(max-width: 500px)');
 
-  const [isAddConfiguration, setIsAddConfiguration] = useState(false);
+  const [isAddConfiguration, setIsAddConfiguration] = useState(true);
 
   return (
     <Box>

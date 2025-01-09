@@ -14,7 +14,7 @@ const isValid = (phone: string) => {
   }
 };
 
-const useConnectNumber = (setIsConnected: any) => {
+const useConnectNumber = () => {
   const theme = useTheme();
   const [phoneNumber, setPhoneNumber] = useState('');
   const isPhoneValid = isValid(phoneNumber);
@@ -39,9 +39,8 @@ const useConnectNumber = (setIsConnected: any) => {
   const handleAddRegNumSubmit = async (phoneValue: any, config: any) => {
     try {
       await connectPhoneNumber({
-        body: { phoneNumber: phoneValue, configurationId: config },
+        body: { twilioNumber: phoneValue, configurationId: config },
       })?.unwrap();
-      setIsConnected(true);
       setOpenDialogRegNumber(false);
       enqueueSnackbar('Phone number Connected Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
