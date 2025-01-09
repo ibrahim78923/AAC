@@ -33,7 +33,7 @@ export const LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES = {
   LAST_NAME: 'lastName',
   ADDRESS: 'address',
   PHONE_NUMBER: 'phoneNumber',
-  AGE: 'AGE',
+  AGE: 'age',
   LAST_TRANSACTION_AT: 'lastTransactionAt',
   NO_OF_TRANSACTIONS: 'numberOfTransactions',
   CURRENT_POINTS_BALANCE: 'currentPointBalance',

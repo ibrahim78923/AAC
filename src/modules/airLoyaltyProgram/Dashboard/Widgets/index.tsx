@@ -81,6 +81,8 @@ export const Widgets = () => {
                 p={2}
                 display={'flex'}
                 alignItems={'center'}
+                flex={1}
+                height="100%"
                 gap={1}
                 onMouseEnter={() => setIsHoveredId(widget?._id)}
                 onMouseLeave={() => setIsHoveredId(null)}
