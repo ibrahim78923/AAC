@@ -110,7 +110,7 @@ const UserManagement = () => {
             tabsArray={[
               'Company Owners',
               'Super Admin Users',
-              'Role and Rights',
+              'Super Admin Roles and Rights',
             ]}
             headerChildren={
               <>

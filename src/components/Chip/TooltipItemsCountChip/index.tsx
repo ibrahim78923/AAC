@@ -1,7 +1,7 @@
 import { Box, Chip, Typography } from '@mui/material';
-import { CustomTooltip } from '../CustomTooltip';
+import { CustomTooltip } from '../../CustomTooltip';
 
-export const CustomArrayTooltipData = (props: any) => {
+export const TooltipItemsCountChip = (props: any) => {
   const { data = [] } = props;
   return (
     <CustomTooltip

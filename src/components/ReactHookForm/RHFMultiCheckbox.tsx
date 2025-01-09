@@ -28,7 +28,7 @@ export default function RHFMultiCheckbox({
       control={control}
       render={({ field, fieldState: { error } }) => {
         const onSelected = (option: any) => {
-          const selectedValues = field?.value || [];
+          const selectedValues = !!field?.value ? field?.value : [];
           if (selectedValues?.some((item: any) => item === option?.value)) {
             return selectedValues.filter(
               (value: any) => value !== option?.value,
@@ -64,9 +64,13 @@ export default function RHFMultiCheckbox({
                     <FormControlLabel
                       control={
                         <Checkbox
-                          checked={field?.value?.some(
-                            (item: any) => item === option?.value,
-                          )}
+                          checked={
+                            Array.isArray(field?.value)
+                              ? field?.value?.some(
+                                  (item: any) => item === option?.value,
+                                )
+                              : false
+                          }
                           onChange={() => field?.onChange(onSelected(option))}
                           disabled={option?.disabled}
                         />

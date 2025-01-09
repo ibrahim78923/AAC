@@ -162,6 +162,7 @@ const Dashboard = () => {
                 onClick={() => {
                   router?.push({
                     pathname: `${AIR_SALES?.CREATE_DASHBOARD}`,
+                    query: { type: 'add' },
                   });
                 }}
               >

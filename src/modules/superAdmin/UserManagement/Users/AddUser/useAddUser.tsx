@@ -220,6 +220,7 @@ const useAddUser = (useActionParams: UseActionParams): UseAddUserReturn => {
       tabTitle === EQuickLinksType?.SUPER_ADMIN
     ) {
       values.role = EQuickLinksType?.SUPER_ADMIN;
+      values.superAdminRoleId = values?.superAdminRoleId?._id;
     } else if (pathName === SUPER_ADMIN?.USERS_LIST) {
       values.role = EQuickLinksType?.ORG_EMPLOYEE;
     }

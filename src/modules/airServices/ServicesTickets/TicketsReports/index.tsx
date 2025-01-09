@@ -1,4 +1,4 @@
-import { Box, Button, Grid, LinearProgress } from '@mui/material';
+import { Box, Button, Grid } from '@mui/material';
 import { TicketsReportCard } from './TicketsReportCard';
 import { cardOptions } from './TicketsReport.data';
 import { useTicketsReport } from './useTicketsReport';
@@ -15,6 +15,7 @@ import ApiErrorState from '@/components/ApiErrorState';
 import { AIR_SERVICES } from '@/constants/routes';
 import { Autorenew } from '@mui/icons-material';
 import { htmlToPdfConvert } from '@/lib/html-to-pdf-converter';
+import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
 
 export const TicketsReports = () => {
   const {
@@ -61,7 +62,7 @@ export const TicketsReports = () => {
         >
           {!!apiCallInProgress ? (
             <Box>
-              <LinearProgress sx={{ width: pxToRem(70) }} />
+              <CustomLinearProgress />
             </Box>
           ) : (
             timeLapse?.lastFetchLapseTime

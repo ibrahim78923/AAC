@@ -1,11 +1,12 @@
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
-import { Box, Chip, Grid, LinearProgress, Theme } from '@mui/material';
+import { Box, Chip, Grid, Theme } from '@mui/material';
 import { ReportIssuePropsI } from './ReportIssue.interface';
 import { useReportIssue } from './useReportIssue';
 import { PORTAL_TICKET_FIELDS } from '@/constants/strings';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
 import { reportIssueFormFieldsDynamic } from './ReportIssue.data';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
+import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
 
 export const ReportIssue = (props: ReportIssuePropsI) => {
   const { isPortalOpen } = props;
@@ -101,7 +102,10 @@ export const ReportIssue = (props: ReportIssuePropsI) => {
                     />
                     {getArticleStatus?.isLoading ||
                     getArticleStatus?.isFetching ? (
-                      <LinearProgress />
+                      <CustomLinearProgress
+                        width="100%"
+                        customStyles={{ my: 2 }}
+                      />
                     ) : !subjectValue?.trim() ? null : (
                       getArticleStatus?.data?.length > 0 &&
                       checkArticlePermission && (

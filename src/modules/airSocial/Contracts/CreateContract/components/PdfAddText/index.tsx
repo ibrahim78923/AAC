@@ -12,11 +12,7 @@ interface PdfAddTextProps {
 
 export default function PdfAddText({ data, onClickDelete }: PdfAddTextProps) {
   return (
-    <Box
-      key={data?.id}
-      style={{ left: `${data?.x}px`, top: `${data?.y}px` }}
-      sx={styles?.container}
-    >
+    <Box key={data?.id} sx={styles?.container}>
       <Box sx={styles?.addTextControls}>
         <IconButton>
           <IconAddTextCopy />

@@ -1,4 +1,4 @@
-import { MultiLevelLinearProgressBar } from '@/components/MultiLevelLinearProgressBar';
+import { MultiLevelLinearProgressBar } from '@/components/ProgressBars/MultiLevelLinearProgressBar';
 import { FeedbackResponsesAnalysisI } from '@/types/modules/AirServices/FeedbackSurvey';
 import { Box, Typography } from '@mui/material';
 

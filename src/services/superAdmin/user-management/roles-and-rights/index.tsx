@@ -11,6 +11,17 @@ export const rolesAndRightsApi = baseAPI.injectEndpoints({
       }),
       providesTags: ['PERMISSIONS'],
     }),
+    getLazyAdminRolesAndRights: builder.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.GET_ADMIN_PERMISSIONS_ROLES,
+        method: 'GET',
+        params: params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.companyaccountroles;
+      },
+      providesTags: ['PERMISSIONS'],
+    }),
 
     getAdminProductsPermissionsById: builder.query({
       query: ({ productId }: any) => ({
@@ -25,4 +36,5 @@ export const rolesAndRightsApi = baseAPI.injectEndpoints({
 export const {
   useGetAdminProductsPermissionsByIdQuery,
   useGetAdminRolesAndRightsQuery,
+  useLazyGetLazyAdminRolesAndRightsQuery,
 } = rolesAndRightsApi;

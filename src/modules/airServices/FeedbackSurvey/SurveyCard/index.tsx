@@ -1,4 +1,4 @@
-import { CustomCircularProgressBar } from '@/components/CustomCircularProgressBar';
+import { CustomCircularProgressBar } from '@/components/ProgressBars/CustomCircularProgressBar';
 import { Avatar, Box, Typography } from '@mui/material';
 import { SurveyCardI } from './SurveyCard.interface';
 

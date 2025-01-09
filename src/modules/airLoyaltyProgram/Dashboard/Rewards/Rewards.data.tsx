@@ -9,12 +9,16 @@ const MenuItemDataArray = [
 
 export const getRewardsColumns = () => [
   {
-    accessorFn: (row: any) => row?.rewardTitle,
-    id: 'rewardTitle',
+    accessorFn: (row: any) => row?.title,
+    id: 'title',
     header: 'Reward Title',
     isSortable: true,
     cell: (info: any) => (
-      <UserInfo name={info.getValue()?.name?.toLowerCase()} />
+      <UserInfo
+        name={info.getValue()?.toLowerCase()}
+        avatarSrc={info?.row?.original?.rewardAttachment}
+        nameInitial={info.getValue()?.slice(0, 2)?.toUpperCase()}
+      />
     ),
   },
   {
@@ -36,7 +40,7 @@ export const getRewardsColumns = () => [
         <ActivityStatusMenu
           info={info}
           activityStatus={status}
-          MenuItemDataArray={MenuItemDataArray}
+          menuItemDataArray={MenuItemDataArray}
         />
       );
     },
