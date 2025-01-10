@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { addNoteValidationSchema, addNoteDefaultValues } from './Notes.data';
 import { AddNoteI } from './Notes.interface';
-const useNotes = () => {
+const useNotes = (singleContactId: any) => {
   // Action Dropdown
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isMenuOpen = Boolean(anchorEl);
@@ -65,13 +65,14 @@ const useNotes = () => {
 
   const handleAddNoteSubmit = (contactId: any) =>
     handleSubmitAddNote((values) => onSubmitAddNote(values, contactId));
+  const params = { recordId: singleContactId };
 
   // Get Notes
   const {
     data: dataGetNotes,
     isLoading: loadingGetNotes,
     isFetching: fetchingGetNotes,
-  } = useGetNotesQuery({});
+  } = useGetNotesQuery({ params });
 
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<any>([]);
   const handleCheckboxChange = (event: any, note: any) => {
