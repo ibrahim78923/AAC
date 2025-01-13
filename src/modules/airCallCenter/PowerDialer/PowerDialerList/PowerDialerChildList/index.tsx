@@ -3,7 +3,7 @@ import { UserList, transactionTableData } from './PowerDialerChildList.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { ExportButton } from '@/components/ExportButton';
+import { ExportButton } from '@/components/Buttons/ExportButton';
 import { usePowerDialerChildList } from './usePowerDialerChildList';
 import CreatePowerDialerModal from '../../CreatePowerDialer';
 import PowerDialerDialog from '../../PowerDialerDialog';

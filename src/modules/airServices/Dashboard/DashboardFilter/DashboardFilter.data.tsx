@@ -1,10 +1,12 @@
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 
-const { VIEW_MANAGE_DASHBOARD, SHARE_DASHBOARD } =
-  AIR_SERVICES_DASHBOARD_PERMISSIONS ?? {};
+export const DASHBOARD_FILTER_PORTAL_ACTION = {
+  SEND_EMAIL: 'Send Email',
+  DOWNLOAD_DASHBOARD: 'Download Dashboard',
+};
 
 export const dashboardDropdownActionsDynamic = (
-  setIsDrawerOpen: any,
+  setPortalAction: any,
   copyEmail: any,
 ) => [
   {
@@ -14,15 +16,24 @@ export const dashboardDropdownActionsDynamic = (
       copyEmail();
       closeMenu?.();
     },
-    permissionKey: [VIEW_MANAGE_DASHBOARD],
+    permissionKey: [AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_MANAGE_DASHBOARD],
   },
   {
     id: 2,
-    title: 'Email this dashboard',
+    title: 'Download dashboard',
     handleClick: (closeMenu: any) => {
-      setIsDrawerOpen(true);
+      setPortalAction(DASHBOARD_FILTER_PORTAL_ACTION?.DOWNLOAD_DASHBOARD);
       closeMenu?.();
     },
-    permissionKey: [SHARE_DASHBOARD],
+    permissionKey: [AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_MANAGE_DASHBOARD],
+  },
+  {
+    id: 3,
+    title: 'Email this dashboard',
+    handleClick: (closeMenu: any) => {
+      setPortalAction(DASHBOARD_FILTER_PORTAL_ACTION?.SEND_EMAIL);
+      closeMenu?.();
+    },
+    permissionKey: [AIR_SERVICES_DASHBOARD_PERMISSIONS?.SHARE_DASHBOARD],
   },
 ];

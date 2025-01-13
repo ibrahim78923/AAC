@@ -3,8 +3,6 @@ import { dashboardDropdownActionsDynamic } from './DashboardFilter.data';
 import { useRouter } from 'next/router';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { AIR_SERVICES } from '@/constants/routes';
-import { AUTO_REFRESH_API_TIME_INTERVAL } from '@/config';
-import { useApiPolling } from '@/hooks/useApiPolling';
 import { getSession } from '@/utils';
 import { fullName } from '@/utils/avatarUtils';
 
@@ -17,7 +15,10 @@ export const useDashboardFilter = (props: any) => {
     return fullName(authUser?.user?.firstName, authUser?.user?.lastName);
   }, []);
 
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const [isPortalOpen, setIsPortalOpen] = useState({
+    isOpen: false,
+    action: '',
+  });
 
   const dashboardName = apiLoader?.data?.data?.dashboard?.name?.toLowerCase();
   const dashboardId = apiLoader?.data?.data?.dashboard?._id;
@@ -35,26 +36,24 @@ export const useDashboardFilter = (props: any) => {
     successSnackbar('Link has been copied successfully.');
   };
 
+  const setPortalAction = (action: string) => {
+    setIsPortalOpen({
+      isOpen: true,
+      action,
+    });
+  };
+
   const dashboardDropdownActions = dashboardDropdownActionsDynamic(
-    setIsDrawerOpen,
+    setPortalAction,
     copyEmail,
   );
 
-  const ApiPollingHookProps = {
-    isFetching: apiLoader?.isFetching,
-    fulfilledTimeStamp: apiLoader?.fulfilledTimeStamp,
-    intervalTime: AUTO_REFRESH_API_TIME_INTERVAL?.DASHBOARD,
-  };
-
-  const { timeLapse } = useApiPolling(ApiPollingHookProps);
-
   return {
     dashboardDropdownActions,
-    isDrawerOpen,
-    setIsDrawerOpen,
+    isPortalOpen,
+    setIsPortalOpen,
     dashboardName,
     moveToManageDashboard,
-    timeLapse,
     authUserName,
   };
 };

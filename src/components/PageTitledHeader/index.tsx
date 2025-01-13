@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from '@mui/material';
 import { PlusSharedColorIcon, ImportIcon } from '@/assets/icons';
-import { ExportButton } from '../ExportButton';
+import { ExportButton } from '../Buttons/ExportButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { PageTitledHeaderPropsI } from './PageTitledHeader.interface';

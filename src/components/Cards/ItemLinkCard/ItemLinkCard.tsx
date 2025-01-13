@@ -41,9 +41,11 @@ export const ItemLinkCard = (props: any) => {
         padding: 2,
         textAlign,
         border: `1px solid`,
-        borderColor: 'primary.main',
+        borderColor: !hasLink ? 'custom.off_white_three' : 'primary.main',
         cursor: hasLink ? 'pointer' : 'not-allowed',
         backgroundColor: !hasLink ? 'grey.200' : 'common.white',
+        height: '100%',
+        flexWrap: 'wrap',
       }}
     >
       {Icon !== null && (
@@ -59,11 +61,10 @@ export const ItemLinkCard = (props: any) => {
           <Icon sx={{ color: 'primary.main' }} />
         </Avatar>
       )}
-      <Box>
+      <Box sx={{ flex: 1 }}>
         <Typography
           variant={itemTypeFontSize}
           color="slateBlue.main"
-          whiteSpace={'nowrap'}
           marginY={marginY}
         >
           {itemType}

@@ -4,7 +4,7 @@ import { UsersAdd } from './UsersAdd';
 import { UsersFilter } from './UsersFilter';
 import { userDropdown } from './Users.data';
 import Search from '@/components/Search';
-import { ExportButton } from '@/components/ExportButton';
+import { ExportButton } from '@/components/Buttons/ExportButton';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import UsersRemove from './UsersRemove';
 import UsersAllocate from './UsersAllocate';

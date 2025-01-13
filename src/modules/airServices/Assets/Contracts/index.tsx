@@ -5,7 +5,7 @@ import { Button } from '@mui/material';
 import { FilterSharedIcon } from '@/assets/icons';
 import ContractsDrawerForm from './FilterContractsForm';
 import { useContracts } from './useContracts';
-import { ExportButton } from '@/components/ExportButton';
+import { ExportButton } from '@/components/Buttons/ExportButton';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { EXPORT_TYPE } from '@/constants/strings';
 import { DeleteContract } from './DeleteContract';

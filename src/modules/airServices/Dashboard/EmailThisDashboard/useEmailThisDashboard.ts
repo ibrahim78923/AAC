@@ -18,7 +18,7 @@ import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useFormLib } from '@/hooks/useFormLib';
 
 export const useEmailThisDashboard = (props: any) => {
-  const { setIsDrawerOpen, apiLoader } = props;
+  const { setIsPortalOpen, apiLoader } = props;
   const account = useMemo(() => getActiveAccountSession(), []);
 
   const formLibProps = {
@@ -129,7 +129,7 @@ export const useEmailThisDashboard = (props: any) => {
 
   const closeDrawer = () => {
     reset();
-    setIsDrawerOpen?.(false);
+    setIsPortalOpen?.({ isOpen: false, action: '' });
   };
 
   return {

@@ -4,7 +4,7 @@ import Search from '@/components/Search';
 import { Filter } from '../Filter';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_DATA_MANAGEMENT_EXPORT_LIST_PERMISSIONS } from '@/constants/permission-keys';
-import { ExportButton } from '@/components/ExportButton';
+import { ExportButton } from '@/components/Buttons/ExportButton';
 import { HeaderI } from './Header.interface';
 
 export const Header = (props: HeaderI) => {

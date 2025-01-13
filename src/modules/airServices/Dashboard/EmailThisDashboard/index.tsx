@@ -4,7 +4,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { useEmailThisDashboard } from './useEmailThisDashboard';
 
 const EmailThisDashboard = (props: any) => {
-  const { isDrawerOpen } = props;
+  const { isPortalOpen } = props;
   const {
     methods,
     sendDashboardViaEmailFormFields,
@@ -18,7 +18,7 @@ const EmailThisDashboard = (props: any) => {
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isDrawerOpen}
+        isDrawerOpen={isPortalOpen?.isOpen}
         onClose={closeDrawer}
         title="Email this dashboard"
         submitHandler={handleSubmit(submitEmail)}
