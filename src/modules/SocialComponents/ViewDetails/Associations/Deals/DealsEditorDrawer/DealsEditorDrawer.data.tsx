@@ -1,9 +1,11 @@
 import {
+  RHFAutocompleteAsync,
   RHFDatePicker,
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { ROLES } from '@/constants/strings';
+import useDealTab from '@/modules/airSales/Deals/DealTab/useDealTab';
 import { useGetUsersListQuery } from '@/services/airSales/deals';
 import { useGetSalesProductQuery } from '@/services/airSales/deals/settings/sales-product';
 import * as Yup from 'yup';
@@ -11,7 +13,7 @@ export const productsValidationSchema = Yup?.object()?.shape({
   existingDeals: Yup?.string(),
   dealStatus: Yup?.string(),
   name: Yup?.string()?.trim()?.required('Field is Required'),
-  dealPipelineId: Yup?.string()?.trim()?.required('Field is Required'),
+  dealPipelineId: Yup?.object()?.required('Field is Required'),
   dealStageId: Yup?.string()?.trim()?.required('Field is Required'),
   amount: Yup?.string(),
   closeDate: Yup?.string()?.nullable(),
@@ -46,11 +48,7 @@ export const productsDefaultValues = {
   addLineItemId: '',
 };
 
-export const productsDataArray = (
-  openDrawer: any,
-  DealsLifecycleStageData: any,
-  pipelineData: any,
-) => {
+export const productsDataArray = (openDrawer: any, dealPipelineId: any) => {
   const userRole = ROLES?.ORG_EMPLOYEE;
   const { data: UserListData } = useGetUsersListQuery({ role: userRole });
   const query = '&';
@@ -59,6 +57,13 @@ export const productsDataArray = (
     pageLimit: 10,
     query,
   });
+  const { pipelineListDropdown }: any = useDealTab();
+
+  const filteredStages: any = pipelineListDropdown
+    ? pipelineListDropdown[1]?.data?.find(
+        (pipeline: any) => pipeline?._id === dealPipelineId?._id,
+      )?.stages
+    : [];
 
   return [
     {
@@ -77,33 +82,29 @@ export const productsDataArray = (
       componentProps: {
         name: 'dealPipelineId',
         label: 'Deal Pipeline',
-        select: true,
+        placeholder: 'Select Pipeline',
+        apiQuery: pipelineListDropdown,
+        getOptionLabel: (option: any) => option?.name,
+        externalParams: { meta: false },
         required: true,
+        clearIcon: false,
         disabled: openDrawer === 'View',
       },
-      options: pipelineData?.data?.dealpipelines?.map((item: any) => ({
-        value: item?._id,
-        label: item?.name,
-      })) ?? [{ label: '', value: '' }],
-      component: RHFSelect,
-      md: 12,
+      component: RHFAutocompleteAsync,
     },
     {
       componentProps: {
         name: 'dealStageId',
         label: 'Deal Stage',
-        select: true,
+        disabled: !dealPipelineId || openDrawer === 'View',
         required: true,
-        disabled: openDrawer === 'View',
+        select: openDrawer === 'View' ? false : true,
       },
-      options: DealsLifecycleStageData?.data?.lifecycleStages?.map(
-        (item: any) => ({
-          value: item?._id,
-          label: item?.name,
-        }),
-      ),
-      component: RHFSelect,
-      md: 12,
+      options: filteredStages?.map((item: any) => ({
+        value: item?._id,
+        label: item?.name,
+      })),
+      component: openDrawer === 'View' ? RHFTextField : RHFSelect,
     },
     {
       componentProps: {

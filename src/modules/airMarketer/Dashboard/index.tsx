@@ -50,6 +50,7 @@ const Dashboard = () => {
     timeLapse,
     router,
     user,
+    downloadRef,
   } = useDashboard();
 
   return (
@@ -127,6 +128,8 @@ const Dashboard = () => {
                 currentUser={currentUser}
                 selectedDashboard={dashboardsData}
                 disabled={disabled}
+                name={dashboardsData?.dashboard?.name}
+                downloadRef={downloadRef}
               />
             )}
 
@@ -168,7 +171,7 @@ const Dashboard = () => {
           <SkeletonForm />
         </Grid>
       ) : (
-        <>
+        <Box ref={downloadRef}>
           {dashboardsData?.Profile_Stats?.length > indexNumbers?.ZERO && (
             <Grid item xs={12}>
               <ProfileStatistics />
@@ -246,7 +249,7 @@ const Dashboard = () => {
               },
             )
           )}
-        </>
+        </Box>
       )}
     </Grid>
   );

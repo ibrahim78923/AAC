@@ -1,56 +1,50 @@
-import { Box, Grid, Typography } from '@mui/material';
-import Avatar from '@mui/material/Avatar';
+import { Box, Grid } from '@mui/material';
 import { useTicketStatusCount } from './useTicketStatusCount';
 import ApiErrorState from '@/components/ApiErrorState';
 import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
 import { TicketStatusCountImage } from '@/assets/images';
+import { ApiPollingButton } from '@/components/Buttons/ApiPollingButton';
+import { AvatarItemCountCard } from '@/components/Cards/AvatarItemCountCard/AvatarItemCountCard';
+import { AUTO_REFRESH_API_TIME_INTERVAL } from '@/config';
 
 export const TicketStatusCount = () => {
-  const { isError, refetch, apiCallInProgress, ticketDashboardCards } =
-    useTicketStatusCount();
+  const {
+    isError,
+    refetch,
+    apiCallInProgress,
+    ticketDashboardCards,
+    isFetching,
+    fulfilledTimeStamp,
+  } = useTicketStatusCount();
 
   if (apiCallInProgress) return <SkeletonCard hasThirdSkeleton={false} />;
   if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
 
   return (
-    <Grid container spacing={2}>
-      {ticketDashboardCards?.map((item: any) => (
-        <Grid key={item?.id} item xs={12} md={4} lg={3}>
-          <Box
-            display={'flex'}
-            alignItems={'center'}
-            gap={1.5}
-            flexWrap={'wrap'}
-            borderRadius={2}
-            border={`1px solid `}
-            borderColor="custom.off_white_three"
-            px={1.5}
-            py={1}
-            height={'100%'}
-          >
-            <Box>
-              <Avatar
-                alt={item?.label}
-                src={TicketStatusCountImage?.src}
-                sx={{
-                  width: 50,
-                  height: 50,
-                  backgroundColor: item?.color,
-                  p: 1,
-                }}
-              />
-            </Box>
-            <Box>
-              <Typography variant="h4" color="slateBlue.main">
-                {item?.count}
-              </Typography>
-              <Typography variant="body1" color="slateBlue.main">
-                {item?.label}
-              </Typography>
-            </Box>
-          </Box>
-        </Grid>
-      ))}
-    </Grid>
+    <>
+      <Box sx={{ textAlign: 'right', mb: 0.5 }}>
+        <ApiPollingButton
+          showLoader={apiCallInProgress}
+          onClick={refetch}
+          variant="text"
+          intervalTime={AUTO_REFRESH_API_TIME_INTERVAL?.DASHBOARD}
+          isFetching={isFetching}
+          fulfilledTimeStamp={fulfilledTimeStamp}
+        />
+      </Box>
+      <Grid container spacing={2}>
+        {ticketDashboardCards?.map((item: any) => (
+          <Grid key={item?.id} item xs={12} md={4} lg={3}>
+            <AvatarItemCountCard
+              avatarBgColor={item?.color}
+              name={item?.label}
+              count={item?.count}
+              avatarUrl={TicketStatusCountImage}
+              isDynamic={false}
+            />
+          </Grid>
+        ))}
+      </Grid>
+    </>
   );
 };

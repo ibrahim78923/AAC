@@ -7,8 +7,10 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { DashboardFilter } from '../DashboardFilter';
 import { FormProvider } from '@/components/ReactHookForm';
 import { DashboardWidgets } from '../DashboardsWidgets';
-import { DownloadDashboard } from '../DownloadDashboard';
 import { ApiStatusSuspense } from './ApiStatusSuspense';
+import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
+import { ApiPollingButton } from '@/components/Buttons/ApiPollingButton';
+import { AUTO_REFRESH_API_TIME_INTERVAL } from '@/config';
 
 export const SingleDashboard = (props: any) => {
   const { isPreviewMode = false, isDetailMode = false } = props;
@@ -35,15 +37,12 @@ export const SingleDashboard = (props: any) => {
         <Box>
           {isDetailMode ? (
             <PageTitledHeader
-              title={dashboardName}
+              title={
+                apiSuspenseState ? <CustomLinearProgress /> : dashboardName
+              }
               canMovedBack
               moveBack={moveToDashboard}
-            >
-              <DownloadDashboard
-                name={dashboardName}
-                downloadRef={downloadRef}
-              />
-            </PageTitledHeader>
+            />
           ) : (
             <></>
           )}
@@ -57,37 +56,55 @@ export const SingleDashboard = (props: any) => {
                 hasError={hasError}
                 refetchApi={refetchApi}
                 showLoader={apiSuspenseState}
+                downloadRef={downloadRef}
               />
             </FormProvider>
           )}
-          <br />
           <Box ref={downloadRef}>
             <TicketStatusCount />
-            <br />
             {apiSuspenseState || hasError || !!!reportsList?.length ? (
-              <ApiStatusSuspense
-                lazyGetSingleServicesDashboardStatus={
-                  lazyGetSingleServicesDashboardStatus
-                }
-                reportsList={reportsList}
-                isPreviewMode={isPreviewMode}
-                isDetailMode={isDetailMode}
-                hasDefaultDashboard={hasDefaultDashboard}
-                hasError={hasError}
-                refetchApi={refetchApi}
-                showLoader={apiSuspenseState}
-              />
+              <>
+                <br />
+                <ApiStatusSuspense
+                  lazyGetSingleServicesDashboardStatus={
+                    lazyGetSingleServicesDashboardStatus
+                  }
+                  reportsList={reportsList}
+                  isPreviewMode={isPreviewMode}
+                  isDetailMode={isDetailMode}
+                  hasDefaultDashboard={hasDefaultDashboard}
+                  hasError={hasError}
+                  refetchApi={refetchApi}
+                  showLoader={apiSuspenseState}
+                />
+              </>
             ) : (
-              <DashboardWidgets
-                reportsList={reportsList}
-                apiData={lazyGetSingleServicesDashboardStatus?.data?.data}
-                refetchApi={lazyGetSingleServicesDashboardStatus?.refetch}
-                lazyGetSingleServicesDashboardStatus={
-                  lazyGetSingleServicesDashboardStatus
-                }
-                isPreviewMode={isPreviewMode}
-                isDetailMode={isDetailMode}
-              />
+              <>
+                <Box sx={{ textAlign: 'right', mb: 0.5 }}>
+                  <ApiPollingButton
+                    showLoader={apiSuspenseState}
+                    onClick={refetchApi}
+                    variant="text"
+                    intervalTime={AUTO_REFRESH_API_TIME_INTERVAL?.DASHBOARD}
+                    isFetching={
+                      lazyGetSingleServicesDashboardStatus?.isFetching
+                    }
+                    fulfilledTimeStamp={
+                      lazyGetSingleServicesDashboardStatus?.fulfilledTimeStamp
+                    }
+                  />
+                </Box>
+                <DashboardWidgets
+                  reportsList={reportsList}
+                  apiData={lazyGetSingleServicesDashboardStatus?.data?.data}
+                  refetchApi={lazyGetSingleServicesDashboardStatus?.refetch}
+                  lazyGetSingleServicesDashboardStatus={
+                    lazyGetSingleServicesDashboardStatus
+                  }
+                  isPreviewMode={isPreviewMode}
+                  isDetailMode={isDetailMode}
+                />
+              </>
             )}
           </Box>
         </Box>

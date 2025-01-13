@@ -1,5 +1,5 @@
 import { AntSwitch } from '@/components/AntSwitch';
-import { Box, Checkbox, Chip, Typography } from '@mui/material';
+import { Box, Checkbox, Typography } from '@mui/material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
@@ -15,6 +15,7 @@ import { UserInfo } from '@/components/UserInfo';
 import { TruncateText } from '@/components/TruncateText';
 import { getActivePermissionsSession } from '@/utils';
 import { uiDateFormat } from '@/lib/date-time';
+import { CustomChip } from '@/components/Chip/CustomChip';
 
 export const EventBaseWorkflowActionsDropdown = (
   handleActionClick: (type: string) => void,
@@ -128,7 +129,7 @@ export const listsColumnsFunction = (
         </Typography>
         {info?.row?.original?.status ===
           GENERIC_UPSERT_FORM_CONSTANT?.DRAFT && (
-          <Chip
+          <CustomChip
             icon={
               <FiberManualRecordIcon
                 fontSize="small"
@@ -136,7 +137,7 @@ export const listsColumnsFunction = (
               />
             }
             label="Draft"
-            size="small"
+            color="default"
           />
         )}
       </Box>

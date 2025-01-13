@@ -6,8 +6,14 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES } from '@/routesConstants/paths';
 import { DRAWER_TYPES } from '@/constants/strings';
 import EmailThisDashboard from '../EmailThisDashboard';
+import { DownloadDashboard } from '../DownloadDashboard';
 
-const ActionsOptions = ({ selectedDashboard, disabled }: any) => {
+const ActionsOptions = ({
+  selectedDashboard,
+  disabled,
+  downloadRef,
+  dashboardName,
+}: any) => {
   const {
     handleShowEmailDashboard,
     handleCloseMenuOptions,
@@ -19,6 +25,8 @@ const ActionsOptions = ({ selectedDashboard, disabled }: any) => {
     anchorEl,
     copyUrl,
     router,
+    isDownloadDashboard,
+    setIsDownloadDashboard,
   } = useActionsOptions(selectedDashboard);
 
   return (
@@ -45,14 +53,6 @@ const ActionsOptions = ({ selectedDashboard, disabled }: any) => {
           onClose={handleCloseMenuOptions}
           TransitionComponent={Fade}
         >
-          <MenuItem onClick={copyUrl}>Copy URL</MenuItem>
-          <PermissionsGuard
-            permissions={[AIR_SALES_DASHBOARD_PERMISSIONS?.SHARE_VIA_EMAIL]}
-          >
-            <MenuItem onClick={handleShowEmailDashboard}>
-              Email this dashboard
-            </MenuItem>
-          </PermissionsGuard>
           <PermissionsGuard
             permissions={[AIR_SALES_DASHBOARD_PERMISSIONS?.EDIT_DASBOARD]}
           >
@@ -73,12 +73,31 @@ const ActionsOptions = ({ selectedDashboard, disabled }: any) => {
               Edit
             </MenuItem>
           </PermissionsGuard>
+          <MenuItem onClick={copyUrl}>Copy URL</MenuItem>
+          <PermissionsGuard
+            permissions={[AIR_SALES_DASHBOARD_PERMISSIONS?.SHARE_VIA_EMAIL]}
+          >
+            <MenuItem onClick={handleShowEmailDashboard}>
+              Email this dashboard
+            </MenuItem>
+          </PermissionsGuard>
+          <MenuItem onClick={() => setIsDownloadDashboard(true)}>
+            Download Dashboard
+          </MenuItem>
         </Menu>
       </div>
       {isShowDrawer && (
         <EmailThisDashboard
           isOpenDrawer={isShowDrawer}
           setIsDrawerOpen={setIsShowDrawer}
+        />
+      )}
+      {isDownloadDashboard && (
+        <DownloadDashboard
+          isDownloadDashboard={isDownloadDashboard}
+          setIsDownloadDashboard={setIsDownloadDashboard}
+          name={dashboardName}
+          downloadRef={downloadRef}
         />
       )}
     </>

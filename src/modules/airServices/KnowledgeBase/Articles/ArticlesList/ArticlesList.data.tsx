@@ -1,9 +1,10 @@
 import { ArticlesTableRowI } from '../Articles.interface';
-import { Checkbox, Chip, Typography } from '@mui/material';
+import { Checkbox, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { fullName } from '@/utils/avatarUtils';
 import { TruncateText } from '@/components/TruncateText';
 import { TooltipItemsCountChip } from '@/components/Chip/TooltipItemsCountChip';
+import { CustomChip } from '@/components/Chip/CustomChip';
 
 const bgColor: any = {
   published: 'blue.main',
@@ -12,6 +13,11 @@ const bgColor: any = {
 const color: any = {
   published: 'white',
   draft: 'slateBlue.main',
+};
+
+const chipColor: any = {
+  published: 'secondary',
+  draft: 'default',
 };
 
 export const styleFunction: any = (value: string) => ({
@@ -97,7 +103,7 @@ export const articlesListColumnsDynamic = (
       header: 'Status',
       isSortable: true,
       cell: (info: any) => (
-        <Chip
+        <CustomChip
           label={
             <Typography
               component={'span'}
@@ -108,10 +114,7 @@ export const articlesListColumnsDynamic = (
             </Typography>
           }
           size="small"
-          sx={{
-            backgroundColor: styleFunction?.(info?.getValue())?.bgColor,
-            color: styleFunction?.(info?.getValue())?.color,
-          }}
+          color={chipColor?.[info?.getValue()?.toLowerCase()]}
         />
       ),
     },

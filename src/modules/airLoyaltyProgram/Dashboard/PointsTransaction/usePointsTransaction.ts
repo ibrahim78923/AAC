@@ -1,7 +1,6 @@
 import { useAppSelector } from '@/redux/store';
 import { useGetLoyaltyDashboardPointTransactionsQuery } from '@/services/airLoyaltyProgram/dashboard';
-import { useApiPolling } from '@/hooks/useApiPolling';
-import { AUTO_REFRESH_API_TIME_INTERVAL, PAGINATION } from '@/config';
+import { PAGINATION } from '@/config';
 import { getPointsTransactionColumns } from './PointsTransaction.data';
 import { useState } from 'react';
 
@@ -29,17 +28,11 @@ export const usePointsTransaction = () => {
   } = useGetLoyaltyDashboardPointTransactionsQuery(queryParams, {
     refetchOnMountOrArgChange: true,
   });
-  const ApiPollingHookProps = {
-    isFetching,
-    fulfilledTimeStamp,
-    intervalTime: AUTO_REFRESH_API_TIME_INTERVAL?.DASHBOARD,
-  };
-  const { timeLapse } = useApiPolling(ApiPollingHookProps);
 
   const pointsTransactionColumns = getPointsTransactionColumns();
   return {
     pointsTransactionColumns,
-    timeLapse,
+    fulfilledTimeStamp,
     isError,
     isFetching,
     isLoading,

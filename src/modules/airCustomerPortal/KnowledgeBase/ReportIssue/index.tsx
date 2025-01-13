@@ -1,11 +1,12 @@
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
-import { Box, Chip, Grid, Theme } from '@mui/material';
+import { Box, Grid, Theme } from '@mui/material';
 import { ReportIssuePropsI } from './ReportIssue.interface';
 import { useReportIssue } from './useReportIssue';
 import { PORTAL_TICKET_FIELDS } from '@/constants/strings';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
+import { CustomChip } from '@/components/Chip/CustomChip';
 
 export const ReportIssue = (props: ReportIssuePropsI) => {
   const { isPortalOpen } = props;
@@ -117,10 +118,10 @@ export const ReportIssue = (props: ReportIssuePropsI) => {
                                 title: string;
                                 folderId: string;
                               }) => (
-                                <Chip
+                                <CustomChip
                                   key={article?._id}
                                   label={article?.title}
-                                  sx={{ cursor: 'pointer' }}
+                                  customStyles={{ cursor: 'pointer' }}
                                   onClick={() =>
                                     handleArticleClick(
                                       article?._id,

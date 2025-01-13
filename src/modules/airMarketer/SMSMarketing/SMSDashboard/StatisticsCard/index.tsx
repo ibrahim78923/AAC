@@ -5,6 +5,7 @@ import { styles } from './StatisticsCard.style';
 import useSMSDashboard from '../useSMSDashboard';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { StatusCardsProps } from '../SMSDashboard-interface';
+import { DatePicker } from '@mui/x-date-pickers';
 
 const StatisticsCard = ({
   analytics,
@@ -15,7 +16,12 @@ const StatisticsCard = ({
     ssr: false,
   });
 
-  const { dashboardGraphData, dashboardLoading } = useSMSDashboard();
+  const {
+    dashboardGraphData,
+    dashboardLoading,
+    selectedDate,
+    setSelectedDate,
+  } = useSMSDashboard();
   const analyticsGraphData = isDashboard ? dashboardGraphData : analytics;
 
   return (
@@ -24,15 +30,30 @@ const StatisticsCard = ({
         <SkeletonTable />
       ) : (
         <Box sx={styles?.staticCardStyle}>
-          <Typography
-            variant="body2"
+          <Box
             sx={{
-              color: `${theme?.palette?.custom?.dark_blue}`,
-              fontWeight: 600,
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
             }}
           >
-            SMS Conversation
-          </Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                color: `${theme?.palette?.custom?.dark_blue}`,
+                fontWeight: 600,
+              }}
+            >
+              SMS Conversation
+            </Typography>
+            <DatePicker
+              views={['year']}
+              value={selectedDate}
+              onChange={(newValue: any) => {
+                setSelectedDate(newValue);
+              }}
+            />
+          </Box>
           <ReactApexChart
             options={options}
             series={series(analyticsGraphData)}

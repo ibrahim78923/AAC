@@ -39,6 +39,15 @@ export const AddNewAccount = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAGS,
     }),
+
+    updateAccountConfig: builder.mutation({
+      query: ({ body, id }: any) => ({
+        url: `${AIR_MARKETER_SMS_MARKETING?.UPDATE_ACCOUNT}/${id}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: TAGS,
+    }),
   }),
 });
 
@@ -47,4 +56,5 @@ export const {
   useGetTwilioConfigurationsQuery,
   useGetTwilioNumbersConfigurationsQuery,
   useDeleteTwilioConfigurationPhoneNumberMutation,
+  useUpdateAccountConfigMutation,
 } = AddNewAccount;

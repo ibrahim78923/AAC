@@ -30,7 +30,7 @@ import {
 
 import { v4 as uuidv4 } from 'uuid';
 import Eye from '@/assets/icons/shared/eye';
-import { ExportButton } from '@/components/ExportButton';
+import { ExportButton } from '@/components/Buttons/ExportButton';
 import { useCallsDetailsDrawer } from './useCallsDetailsDrawer';
 
 const CallsDetailsDrawer = () => {

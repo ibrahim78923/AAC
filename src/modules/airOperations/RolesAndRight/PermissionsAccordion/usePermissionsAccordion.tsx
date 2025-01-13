@@ -9,7 +9,7 @@ import {
   IPermissionSubModule,
 } from './PermissionsAccordion.interface';
 
-const usePermissionsAccordion = (props: any) => {
+export const usePermissionsAccordion = (props: any) => {
   const { reset, getValues, watch } = props;
   const theme = useTheme();
   const [isSettingPermission, setIsSettingPermission] =
@@ -17,7 +17,7 @@ const usePermissionsAccordion = (props: any) => {
 
   const { role } = getActiveAccountSession();
 
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetPermissionsByProductQuery(
       {
         role,
@@ -79,7 +79,6 @@ const usePermissionsAccordion = (props: any) => {
     switchChangeHandler,
     isSettingPermission,
     checkAllPermissions,
+    refetch,
   };
 };
-
-export default usePermissionsAccordion;

@@ -749,6 +749,7 @@ export const AIR_MARKETER = {
 export const AIR_MARKETER_SMS_MARKETING = {
   TWILIO_CONFIGURATION: '/companies/twilio-configuration',
   DELETE_TWILIO_CONFIGURATION_NUMBER: '/sms-marketing/delete-sms-phone-number',
+  UPDATE_ACCOUNT: '/users/account',
   GET_TWILIO_CONFIGURATION: '/companies/get-company-twilio-configurations',
   GET_NUMBERS_TWILIO_CONFIGURATION:
     '/companies/get-numbers-of-twilio-configuration',

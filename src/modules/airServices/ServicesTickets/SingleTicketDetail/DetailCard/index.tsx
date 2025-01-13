@@ -1,4 +1,4 @@
-import { Box, Chip, Grid, Typography, useTheme } from '@mui/material';
+import { Box, Grid, Typography, useTheme } from '@mui/material';
 import { useDetailCard } from './useDetailCard';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { ARRAY_INDEX } from '@/constants/strings';
@@ -8,6 +8,7 @@ import { localeDateTime, otherDateFormat, uiDateFormat } from '@/lib/date-time';
 import { DATE_TIME_FORMAT } from '@/constants';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
+import { CustomChip } from '@/components/Chip/CustomChip';
 
 const { ZERO } = ARRAY_INDEX ?? {};
 
@@ -205,12 +206,11 @@ export const DetailCard = () => {
               Status:
             </Typography>
             {!!ticketDetail?.status ? (
-              <Chip
+              <CustomChip
                 label={ticketDetail?.status?.toLowerCase() ?? '---'}
                 variant="outlined"
                 size="small"
-                color="primary"
-                sx={{ textTransform: 'capitalize' }}
+                isCapital
               />
             ) : (
               '---'

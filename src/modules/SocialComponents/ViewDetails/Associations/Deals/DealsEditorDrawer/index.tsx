@@ -25,11 +25,10 @@ const DealsEditorDrawer = (props: any) => {
     handleSubmit,
     onSubmit,
     methodsProducts,
-    DealsLifecycleStageData,
     selectedValue,
     handleChange,
-    pipelineData,
     isLoading,
+    dealPipelineId,
   } = useDealsEditorDrawer({
     openDrawer,
     setOpenDrawer,
@@ -83,46 +82,43 @@ const DealsEditorDrawer = (props: any) => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <Grid container spacing={4}>
-              {productsDataArray(
-                openDrawer,
-                DealsLifecycleStageData,
-                pipelineData,
-              )?.map((item: any, index: any) =>
-                selectedValue === associationCompanies?.newDeal ? (
-                  <Grid
-                    item
-                    xs={12}
-                    md={item?.md}
-                    key={uuidv4()}
-                    sx={{ paddingTop: '20px !important' }}
-                  >
-                    <item.component {...item?.componentProps} size={'small'}>
-                      {item?.componentProps?.select
-                        ? item?.options?.map((option: any) => (
-                            <option key={option?.value} value={option?.value}>
-                              {option?.label}
-                            </option>
-                          ))
-                        : null}
-                    </item.component>
-                  </Grid>
-                ) : (
-                  index === 0 && (
+              {productsDataArray(openDrawer, dealPipelineId)?.map(
+                (item: any, index: any) =>
+                  selectedValue === associationCompanies?.newDeal ? (
                     <Grid
                       item
                       xs={12}
                       md={item?.md}
-                      key={uuidv4()}
-                      sx={{ paddingTop: '0px !important' }}
+                      key={item?.componentProps?.name}
+                      sx={{ paddingTop: '20px !important' }}
                     >
-                      <RHFSearchableSelect
-                        size="small"
-                        name="existingDeals"
-                        options={existingDealsData}
-                      />
+                      <item.component {...item?.componentProps} size={'small'}>
+                        {item?.componentProps?.select
+                          ? item?.options?.map((option: any) => (
+                              <option key={option?.value} value={option?.value}>
+                                {option?.label}
+                              </option>
+                            ))
+                          : null}
+                      </item.component>
                     </Grid>
-                  )
-                ),
+                  ) : (
+                    index === 0 && (
+                      <Grid
+                        item
+                        xs={12}
+                        md={item?.md}
+                        key={uuidv4()}
+                        sx={{ paddingTop: '0px !important' }}
+                      >
+                        <RHFSearchableSelect
+                          size="small"
+                          name="existingDeals"
+                          options={existingDealsData}
+                        />
+                      </Grid>
+                    )
+                  ),
               )}
             </Grid>
           </FormProvider>

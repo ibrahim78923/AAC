@@ -5,7 +5,7 @@ export const SMS_MARKETING = ['DASHBOARD_INSIGHTS', 'BROADCAST'];
 export const SmsMarketingAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getSmsDashboardInsights: builder.query({
-      query: (params: any) => ({
+      query: ({ params }: any) => ({
         url: END_POINTS?.GET_SMS_DASHBOARD_INSIGHTS,
         method: 'GET',
         params: params,

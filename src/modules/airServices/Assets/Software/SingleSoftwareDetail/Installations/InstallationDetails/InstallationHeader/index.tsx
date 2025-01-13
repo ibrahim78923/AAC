@@ -1,7 +1,7 @@
 import { Button, Box } from '@mui/material';
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
-import { ExportButton } from '@/components/ExportButton';
+import { ExportButton } from '@/components/Buttons/ExportButton';
 import AddDevice from '../../AddDevice';
 import { useInstallationHeader } from './useInstallationHeader';
 import { ALERT_MODALS_TYPE, EXPORT_TYPE } from '@/constants/strings';

@@ -8,11 +8,7 @@ import {
 import { filteredEmptyValues } from '@/utils/api';
 import { ARRAY_INDEX, MODULE_TYPE } from '@/constants/strings';
 import { useGetServiceSystematicReportsQuery } from '@/services/airServices/reports';
-import {
-  AUTO_REFRESH_API_POLLING_TIME,
-  AUTO_REFRESH_API_TIME_INTERVAL,
-} from '@/config';
-import { useApiPolling } from '@/hooks/useApiPolling';
+import { AUTO_REFRESH_API_POLLING_TIME } from '@/config';
 import { htmlToPdfConvert } from '@/lib/html-to-pdf-converter';
 import { isoDateString } from '@/lib/date-time';
 import { useFormLib } from '@/hooks/useFormLib';
@@ -108,14 +104,6 @@ export const useContractReports = () => {
     });
   };
 
-  const props = {
-    isFetching,
-    fulfilledTimeStamp,
-    intervalTime: AUTO_REFRESH_API_TIME_INTERVAL?.REPORTS,
-  };
-
-  const { timeLapse } = useApiPolling(props);
-
   return {
     router,
     methods,
@@ -135,6 +123,6 @@ export const useContractReports = () => {
     data,
     getValues,
     apiCallInProgress,
-    timeLapse,
+    fulfilledTimeStamp,
   };
 };

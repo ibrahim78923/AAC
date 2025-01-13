@@ -15,6 +15,7 @@ const useShareOptions = (selectedDashboard: any) => {
   const [isShowEmailDashboard, setIsShowEmailDashboard] = useState(false);
 
   const [isShowEditDashboard, setIsShowEditDashboard] = useState(false);
+  const [isDownloadDashboad, setIsDownloadDashboard] = useState(false);
 
   const openDropDown = Boolean(anchorEl);
 
@@ -73,6 +74,8 @@ const useShareOptions = (selectedDashboard: any) => {
     setIsShowEditDashboard,
     router,
     copyUrl,
+    isDownloadDashboad,
+    setIsDownloadDashboard,
   };
 };
 

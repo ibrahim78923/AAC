@@ -11,7 +11,7 @@ export const reportsTypesDynamic = (productsLists: any) => {
   return [
     {
       id: 1,
-      avatar: <SalesReportIcon />,
+      avatar: SalesReportIcon,
       type: 'Sales Reports',
       purpose: 'Overview Sales Reports',
       link: AIR_OPERATIONS?.REPORTS_LIST,
@@ -21,7 +21,7 @@ export const reportsTypesDynamic = (productsLists: any) => {
     },
     {
       id: 2,
-      avatar: <ServiceReportIcon />,
+      avatar: ServiceReportIcon,
       type: 'Service Reports',
       purpose: 'Overview Service Reports',
       link: AIR_OPERATIONS?.REPORTS_LIST,
@@ -31,7 +31,7 @@ export const reportsTypesDynamic = (productsLists: any) => {
     },
     {
       id: 3,
-      avatar: <MarketingReportIcon />,
+      avatar: MarketingReportIcon,
       type: 'Marketing Reports',
       purpose: 'Overview Marketing Reports',
       link: AIR_OPERATIONS?.REPORTS_LIST,

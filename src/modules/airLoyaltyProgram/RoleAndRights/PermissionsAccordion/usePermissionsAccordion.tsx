@@ -17,7 +17,7 @@ export const usePermissionsAccordion = (props: any) => {
 
   const { role }: any = getActiveAccountSession();
 
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetLoyaltyProgramRoleAndRightsSinglePermissionByProductQuery(
       {
         role,
@@ -80,5 +80,6 @@ export const usePermissionsAccordion = (props: any) => {
     switchChangeHandler,
     isSettingPermission,
     checkAllPermissions,
+    refetch,
   };
 };

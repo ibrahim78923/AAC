@@ -1,4 +1,3 @@
-import { DownloadLargeIcon } from '@/assets/icons';
 import { CustomChart } from '@/components/Chart';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import {
@@ -7,8 +6,7 @@ import {
   RHFDateRangePicker,
 } from '@/components/ReactHookForm';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { Box, Button, Grid, Typography } from '@mui/material';
-import { ContractReportsCard } from './ContractReportsCard';
+import { Box, Grid, Typography } from '@mui/material';
 import { useContractReports } from './useContractReports';
 import {
   contractReportsTabelCoulmns,
@@ -16,14 +14,15 @@ import {
 } from './ContractReportsCard.data';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_REPORTS_CONTRACT_PERMISSIONS } from '@/constants/permission-keys';
-import { LoadingButton } from '@mui/lab';
 import { pxToRem } from '@/utils/getFontValue';
 import NoData from '@/components/NoData';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { AIR_SERVICES } from '@/constants/routes';
-import { Autorenew } from '@mui/icons-material';
-import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
+import { ItemChipCard } from '@/components/Cards/ItemChipCard/ItemChipCard';
+import { ApiPollingButton } from '@/components/Buttons/ApiPollingButton';
+import { DownloadButton } from '@/components/Buttons/DownloadButton';
+import { AUTO_REFRESH_API_TIME_INTERVAL } from '@/config';
 
 export const ContractsReports = () => {
   const {
@@ -44,7 +43,7 @@ export const ContractsReports = () => {
     data,
     getValues,
     apiCallInProgress,
-    timeLapse,
+    fulfilledTimeStamp,
   } = useContractReports();
 
   if (isError)
@@ -70,30 +69,19 @@ export const ContractsReports = () => {
         canMovedBack
         moveBack={() => router?.push({ pathname: AIR_SERVICES?.REPORTS })}
       >
-        <Button
-          variant="outlined"
-          color="inherit"
-          size="small"
-          startIcon={<Autorenew />}
+        <ApiPollingButton
+          showLoader={apiCallInProgress}
           onClick={refetch}
-          disabled={apiCallInProgress}
-          sx={{
-            fontSize: pxToRem(12),
-            fontWeight: 'fontWeightRegular',
-            textTransform: 'lowercase',
+          isSmall={false}
+          customStyles={{
             cursor: 'pointer',
             height: pxToRem(40),
             marginTop: pxToRem(-10),
           }}
-        >
-          {!!apiCallInProgress ? (
-            <Box>
-              <CustomLinearProgress />
-            </Box>
-          ) : (
-            timeLapse?.lastFetchLapseTime
-          )}
-        </Button>
+          intervalTime={AUTO_REFRESH_API_TIME_INTERVAL?.REPORTS}
+          isFetching={isFetching}
+          fulfilledTimeStamp={fulfilledTimeStamp}
+        />
         <PermissionsGuard
           permissions={[AIR_SERVICES_REPORTS_CONTRACT_PERMISSIONS?.FILTER]}
         >
@@ -118,23 +106,11 @@ export const ContractsReports = () => {
         <PermissionsGuard
           permissions={[AIR_SERVICES_REPORTS_CONTRACT_PERMISSIONS?.DOWNLOAD]}
         >
-          <LoadingButton
-            sx={{
-              cursor: 'pointer',
-              p: 0,
-              minWidth: pxToRem(40),
-              height: pxToRem(40),
-              marginTop: pxToRem(-10),
-            }}
-            variant="outlined"
-            color="inherit"
-            size="small"
-            onClick={handleDownload}
+          <DownloadButton
+            handleDownload={handleDownload}
             disabled={loading || isLoading || isFetching}
             loading={loading}
-          >
-            <DownloadLargeIcon />
-          </LoadingButton>
+          />
         </PermissionsGuard>
       </PageTitledHeader>
 
@@ -145,9 +121,15 @@ export const ContractsReports = () => {
           permissions={[AIR_SERVICES_REPORTS_CONTRACT_PERMISSIONS?.VIEW]}
         >
           <Box ref={downloadRef}>
-            <ContractReportsCard
-              contractReportsCardData={contractReportsCardData}
-            />
+            <Grid container spacing={1.5} mb={2}>
+              {Object?.entries(contractReportsCardData)?.map(
+                ([key, value]: any) => (
+                  <Grid item xs={12} md={6} lg={3} key={key}>
+                    <ItemChipCard itemName={key} chipLabel={value} />
+                  </Grid>
+                ),
+              )}
+            </Grid>
             <Grid container spacing={1.5}>
               <Grid item xs={12} md={4}>
                 <Box

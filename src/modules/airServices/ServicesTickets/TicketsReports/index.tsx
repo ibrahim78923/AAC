@@ -1,21 +1,19 @@
-import { Box, Button, Grid } from '@mui/material';
-import { TicketsReportCard } from './TicketsReportCard';
+import { Box, Grid } from '@mui/material';
 import { cardOptions } from './TicketsReport.data';
 import { useTicketsReport } from './useTicketsReport';
 import { TicketsReportChart } from './TicketsReportChart';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { DownloadLargeIcon } from '@/assets/icons';
 import { FormProvider, RHFDateRangePicker } from '@/components/ReactHookForm';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_REPORTS_TICKETS_PERMISSIONS } from '@/constants/permission-keys';
 import { pxToRem } from '@/utils/getFontValue';
-import { LoadingButton } from '@mui/lab';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { AIR_SERVICES } from '@/constants/routes';
-import { Autorenew } from '@mui/icons-material';
-import { htmlToPdfConvert } from '@/lib/html-to-pdf-converter';
-import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
+import { ItemChipCard } from '@/components/Cards/ItemChipCard/ItemChipCard';
+import { DownloadButton } from '@/components/Buttons/DownloadButton';
+import { ApiPollingButton } from '@/components/Buttons/ApiPollingButton';
+import { AUTO_REFRESH_API_TIME_INTERVAL } from '@/config';
 
 export const TicketsReports = () => {
   const {
@@ -31,8 +29,10 @@ export const TicketsReports = () => {
     shouldDateSet,
     onDateFilterSubmit,
     getValues,
-    timeLapse,
     apiCallInProgress,
+    handleDownload,
+    loading,
+    fulfilledTimeStamp,
   } = useTicketsReport();
 
   return (
@@ -44,30 +44,19 @@ export const TicketsReports = () => {
           router?.push(AIR_SERVICES?.REPORTS);
         }}
       >
-        <Button
-          variant="outlined"
-          color="inherit"
-          size="small"
-          startIcon={<Autorenew />}
+        <ApiPollingButton
+          showLoader={apiCallInProgress}
           onClick={refetch}
-          disabled={apiCallInProgress}
-          sx={{
-            fontSize: pxToRem(12),
-            fontWeight: 'fontWeightRegular',
-            textTransform: 'lowercase',
+          isSmall={false}
+          customStyles={{
             cursor: 'pointer',
             height: pxToRem(40),
             marginTop: pxToRem(-10),
           }}
-        >
-          {!!apiCallInProgress ? (
-            <Box>
-              <CustomLinearProgress />
-            </Box>
-          ) : (
-            timeLapse?.lastFetchLapseTime
-          )}
-        </Button>
+          intervalTime={AUTO_REFRESH_API_TIME_INTERVAL?.REPORTS}
+          isFetching={isFetching}
+          fulfilledTimeStamp={fulfilledTimeStamp}
+        />
         <PermissionsGuard
           permissions={[AIR_SERVICES_REPORTS_TICKETS_PERMISSIONS?.FILTER]}
         >
@@ -92,22 +81,11 @@ export const TicketsReports = () => {
         <PermissionsGuard
           permissions={[AIR_SERVICES_REPORTS_TICKETS_PERMISSIONS?.DOWNLOAD]}
         >
-          <LoadingButton
-            sx={{
-              cursor: 'pointer',
-              p: 0,
-              minWidth: pxToRem(40),
-              height: pxToRem(40),
-              marginTop: pxToRem(-10),
-            }}
-            variant={'outlined'}
-            color={'inherit'}
-            size={'small'}
-            onClick={() => htmlToPdfConvert?.(downloadRef, 'Ticket_Report')}
-            disabled={isLoading || isFetching || isError}
-          >
-            <DownloadLargeIcon />
-          </LoadingButton>
+          <DownloadButton
+            handleDownload={handleDownload}
+            disabled={loading || isLoading || isFetching}
+            loading={loading}
+          />
         </PermissionsGuard>
       </PageTitledHeader>
       {isLoading || isFetching ? (
@@ -122,9 +100,9 @@ export const TicketsReports = () => {
             <Grid container spacing={1.5} mb={2}>
               {cardOptions?.(data?.data)?.map((item: any) => (
                 <Grid item xs={12} md={6} lg={3} key={item?.id}>
-                  <TicketsReportCard
-                    label={item.label}
-                    chipValue={item.chipValue}
+                  <ItemChipCard
+                    itemName={item.label}
+                    chipLabel={item.chipValue}
                   />
                 </Grid>
               ))}

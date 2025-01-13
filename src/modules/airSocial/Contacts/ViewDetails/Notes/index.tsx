@@ -56,7 +56,7 @@ const Notes = ({ contactId }: any) => {
     handleCloseModalDelete,
     handleDeleteSubmit,
     loadingDelete,
-  } = useNotes();
+  } = useNotes(contactId);
   const loading = loadingGetNotes || fetchingGetNotes;
   const { theme } = useNameWithStyledWords();
 

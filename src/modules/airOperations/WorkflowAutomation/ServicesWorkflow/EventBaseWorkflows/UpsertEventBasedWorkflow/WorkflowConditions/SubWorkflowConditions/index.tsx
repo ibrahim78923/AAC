@@ -1,9 +1,10 @@
-import { Box, Button, Chip, Divider, Grid } from '@mui/material';
+import { Box, Button, Divider, Grid } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { AddCircle } from '@mui/icons-material';
 import { useSubWorkflowConditions } from './useSubWorkflowConditions';
 import { subWorkflowData } from './SubWorkflowConditions.data';
 import { LOGICS } from '@/constants/strings';
+import { CustomChip } from '@/components/Chip/CustomChip';
 
 export const SubWorkflowConditions = (props: any) => {
   const { index, conditionType, watch, setValue } = props;
@@ -32,12 +33,14 @@ export const SubWorkflowConditions = (props: any) => {
                   },
                 }}
               >
-                <Chip
+                <CustomChip
                   label={
                     conditionType?.value === LOGICS?.AND
                       ? LOGICS?.AND
                       : LOGICS?.OR
                   }
+                  color="default"
+                  size="medium"
                 />
               </Divider>
             )}

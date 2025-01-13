@@ -1,5 +1,5 @@
 import NoData from '@/components/NoData';
-import { InventoryCard } from '@/components/InventoryCard/index';
+import { InventoryCard } from '@/components/Cards/InventoryCard/index';
 import { useSoftware } from './useSoftware';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';

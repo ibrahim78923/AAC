@@ -1,6 +1,6 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { useAddItemsToInventory } from './useAddItemsToInventory';
-import { Avatar, Box, Chip, Grid, Typography } from '@mui/material';
+import { Avatar, Box, Grid, Typography } from '@mui/material';
 import { ItemStatusImage, TotalItemImage } from '@/assets/images';
 import { FormProvider } from '@/components/ReactHookForm';
 import { AddedInventoryItems } from './AddedInventoryItems';
@@ -8,6 +8,7 @@ import { ItemsNotAdded } from './ItemsNotAdded';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { truncateText } from '@/utils/avatarUtils';
 import { ADDED_INVENTORY_METHODS } from './AddItemsToInventory.data';
+import { CustomChip } from '@/components/Chip/CustomChip';
 
 export const AddItemsToInventory = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
@@ -112,17 +113,14 @@ export const AddItemsToInventory = (props: any) => {
                   >
                     Item Status:
                   </Typography>
-                  <Chip
-                    size="small"
+                  <CustomChip
                     label={
                       addToItemsInventoryDetails?.data?.data?.status
                         ?.split('_')
                         ?.join(' ')
                         ?.toLowerCase() ?? '---'
                     }
-                    color="primary"
                     variant="outlined"
-                    sx={{ textTransform: 'capitalize' }}
                   />
                 </Box>
               </Box>

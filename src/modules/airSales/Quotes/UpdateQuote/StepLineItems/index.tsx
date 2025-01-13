@@ -231,57 +231,45 @@ const StepLineItems = (props: any) => {
                         No Reward Available
                       </Typography>
                     ) : (
-                      singleTierDetails?.data?.map((item: any) => (
-                        <Box key={uuidv4()}>
-                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <Checkbox
-                              checked={!!checkedItems[item?._id]}
-                              onChange={() => handleCheckboxChange(item)}
-                            />
-                            <Box sx={{ display: 'flex' }}>
-                              <Typography
-                                sx={{
-                                  fontSize: '14px',
-                                  color: theme?.palette?.blue?.dull_blue,
-                                }}
-                              >
-                                {item?.title}
-                              </Typography>
-                              {item?.requiredPoints && (
+                      productsData?.data &&
+                      singleTierDetails?.data?.map((item: any) => {
+                        return (
+                          <Box key={uuidv4()}>
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                              <Checkbox
+                                checked={!!checkedItems[item?._id]}
+                                onChange={() => handleCheckboxChange(item)}
+                              />
+                              <Box sx={{ display: 'flex' }}>
                                 <Typography
                                   sx={{
                                     fontSize: '14px',
-                                    color: theme?.palette?.custom?.main,
-                                    mx: '3px',
+                                    color: theme?.palette?.blue?.dull_blue,
                                   }}
                                 >
-                                  ({item?.requiredPoints} pts)
+                                  {item?.title}
                                 </Typography>
-                              )}
+                                {item?.requiredPoints && (
+                                  <Typography
+                                    sx={{
+                                      fontSize: '14px',
+                                      color: theme?.palette?.custom?.main,
+                                      mx: '3px',
+                                    }}
+                                  >
+                                    ({item?.requiredPoints} pts)
+                                  </Typography>
+                                )}
+                              </Box>
                             </Box>
                           </Box>
-                        </Box>
-                      ))
+                        );
+                      })
                     )}
                   </Box>
                 </Box>
               </Box>
             )}
-            {/* <Box sx={{ mx: 2 }}>
-              {isChecked && (
-                <Box>
-                  <FormProvider methods={methods}>
-                    <RHFTextField
-                      size="small"
-                      required
-                      name="name"
-                      label="Enter Points you want to redeem"
-                      placeholder="Enter here"
-                    />
-                  </FormProvider>
-                </Box>
-              )}
-            </Box> */}
             <Box sx={{ mx: 2 }}>
               <Typography
                 sx={{
@@ -325,7 +313,7 @@ const StepLineItems = (props: any) => {
               </Box>
               <Box sx={{ mx: 2 }}>
                 {checkedIs?.giftBox && (
-                  <Box>
+                  <Box component="form" onSubmit={onSubmit}>
                     <FormProvider methods={methods}>
                       <RHFTextField
                         size="small"
@@ -357,9 +345,11 @@ const StepLineItems = (props: any) => {
                     <>
                       <Typography sx={{ fontSize: '14px', marginY: '5px' }}>
                         <b>Current Amount: </b>
-                        {giftCardData?.data?.currentamount - inputValueDiscount}
+                        {inputValueDiscount ===
+                        productsData?.data?.loyaltyGiftCards?.escrowAmount
+                          ? productsData?.data?.loyaltyGiftCards?.currentamount
+                          : giftCardData?.data?.currentamount}
                       </Typography>
-
                       <Box component="form" onSubmit={onSubmit}>
                         <TextField
                           size="small"

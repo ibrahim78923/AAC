@@ -10,6 +10,7 @@ const useActionsOptions = (selectedDashboard: any) => {
   const router = useRouter();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [isShowDrawer, setIsShowDrawer] = useState(false);
+  const [isDownloadDashboard, setIsDownloadDashboard] = useState(false);
   const handleCloseDrawer = () => {
     setIsShowDrawer(false);
   };
@@ -76,6 +77,8 @@ const useActionsOptions = (selectedDashboard: any) => {
     copyUrl,
     router,
     currentUser,
+    isDownloadDashboard,
+    setIsDownloadDashboard,
   };
 };
 

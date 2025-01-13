@@ -6,7 +6,7 @@ import { PRODUCTS_LISTS } from '@/constants/strings';
 export const workflowAutomationTypesDynamic = (data: any) => [
   {
     id: 1,
-    avatar: <SalesWorkflowIcon />,
+    avatar: SalesWorkflowIcon,
     type: 'Sales Workflow',
     purpose: 'Boost efficiency in sales. Quickly setup automated processes',
     link: AIR_OPERATIONS?.SALES_WORKFLOW,
@@ -17,7 +17,7 @@ export const workflowAutomationTypesDynamic = (data: any) => [
   },
   {
     id: 2,
-    avatar: <ServiceWorkflowIcon />,
+    avatar: ServiceWorkflowIcon,
     type: 'Service Workflow',
     purpose:
       'Automated workflows for services by setting up event, conditions and actions',

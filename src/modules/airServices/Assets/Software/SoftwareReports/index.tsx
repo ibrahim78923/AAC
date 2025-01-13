@@ -1,8 +1,6 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { SoftwareReportsCards } from './SoftwareReportsCards';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { DownloadLargeIcon } from '@/assets/icons';
 import {
   FormProvider,
   RHFAutocomplete,
@@ -12,7 +10,6 @@ import { CustomChart } from '@/components/Chart';
 import { useSoftwareReports } from './useSoftwareReports';
 import { AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { LoadingButton } from '@mui/lab';
 import { pxToRem } from '@/utils/getFontValue';
 import { softwareStatusReportsOptions } from './SoftwareReports.data';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
@@ -20,8 +17,10 @@ import ApiErrorState from '@/components/ApiErrorState';
 import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import NoData from '@/components/NoData';
 import { AIR_SERVICES } from '@/constants/routes';
-import { Autorenew } from '@mui/icons-material';
-import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
+import { ItemChipCard } from '@/components/Cards/ItemChipCard/ItemChipCard';
+import { ApiPollingButton } from '@/components/Buttons/ApiPollingButton';
+import { DownloadButton } from '@/components/Buttons/DownloadButton';
+import { AUTO_REFRESH_API_TIME_INTERVAL } from '@/config';
 
 export const SoftwareReports = () => {
   const {
@@ -42,8 +41,8 @@ export const SoftwareReports = () => {
     data,
     onDateFilterSubmit,
     getValues,
-    timeLapse,
     apiCallInProgress,
+    fulfilledTimeStamp,
   } = useSoftwareReports();
 
   if (isError)
@@ -73,30 +72,20 @@ export const SoftwareReports = () => {
           })
         }
       >
-        <Button
-          variant="outlined"
-          color="inherit"
-          size="small"
-          startIcon={<Autorenew />}
+        <ApiPollingButton
+          showLoader={apiCallInProgress}
           onClick={refetch}
-          disabled={apiCallInProgress}
-          sx={{
-            fontSize: pxToRem(12),
-            fontWeight: 'fontWeightRegular',
-            textTransform: 'lowercase',
+          isSmall={false}
+          customStyles={{
             cursor: 'pointer',
             height: pxToRem(40),
             marginTop: pxToRem(-10),
           }}
-        >
-          {!!apiCallInProgress ? (
-            <Box>
-              <CustomLinearProgress />
-            </Box>
-          ) : (
-            timeLapse?.lastFetchLapseTime
-          )}
-        </Button>
+          intervalTime={AUTO_REFRESH_API_TIME_INTERVAL?.REPORTS}
+          isFetching={isFetching}
+          fulfilledTimeStamp={fulfilledTimeStamp}
+        />
+
         <PermissionsGuard
           permissions={[AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS?.FILTER]}
         >
@@ -121,23 +110,11 @@ export const SoftwareReports = () => {
         <PermissionsGuard
           permissions={[AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS?.DOWNLOAD]}
         >
-          <LoadingButton
-            sx={{
-              cursor: 'pointer',
-              p: 0,
-              minWidth: pxToRem(40),
-              height: pxToRem(40),
-              marginTop: pxToRem(-10),
-            }}
-            variant="outlined"
-            color="inherit"
-            size="small"
-            onClick={handleDownload}
+          <DownloadButton
+            handleDownload={handleDownload}
             disabled={loading || isLoading || isFetching}
             loading={loading}
-          >
-            <DownloadLargeIcon />
-          </LoadingButton>
+          />
         </PermissionsGuard>
       </PageTitledHeader>
       {isLoading || isFetching ? (
@@ -147,9 +124,15 @@ export const SoftwareReports = () => {
           permissions={[AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS?.VIEW]}
         >
           <Box ref={downloadRef}>
-            <SoftwareReportsCards
-              softwareReportsCardsData={softwareReportsCardsData}
-            />
+            <Grid container spacing={1.5} mb={2}>
+              {Object?.entries(softwareReportsCardsData)?.map(
+                ([key, value]: any) => (
+                  <Grid item lg={3} md={6} xs={12} key={key}>
+                    <ItemChipCard itemName={key} chipLabel={value} />
+                  </Grid>
+                ),
+              )}
+            </Grid>
             <Grid container spacing={1.5}>
               <Grid item xs={12} lg={5}>
                 <Box

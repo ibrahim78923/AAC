@@ -1,7 +1,6 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { DownloadLargeIcon } from '@/assets/icons';
 import {
   FormProvider,
   RHFAutocomplete,
@@ -10,7 +9,6 @@ import {
 import { CustomChart } from '@/components/Chart';
 import { useInventoryReports } from './useInventoryReports';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { LoadingButton } from '@mui/lab';
 import { pxToRem } from '@/utils/getFontValue';
 import {
   inventoryColumns,
@@ -20,11 +18,12 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import NoData from '@/components/NoData';
-import ReportsCards from './ReportsCards';
 import { AIR_SERVICES_REPORTS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
 import { AIR_SERVICES } from '@/constants/routes';
-import { Autorenew } from '@mui/icons-material';
-import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
+import { ItemChipCard } from '@/components/Cards/ItemChipCard/ItemChipCard';
+import { ApiPollingButton } from '@/components/Buttons/ApiPollingButton';
+import { DownloadButton } from '@/components/Buttons/DownloadButton';
+import { AUTO_REFRESH_API_TIME_INTERVAL } from '@/config';
 
 export const InventoryReports = () => {
   const {
@@ -44,8 +43,8 @@ export const InventoryReports = () => {
     inventoryReportsCardsData,
     inventoryData,
     getValues,
-    timeLapse,
     apiCallInProgress,
+    fulfilledTimeStamp,
   } = useInventoryReports();
 
   if (isError)
@@ -75,30 +74,19 @@ export const InventoryReports = () => {
           })
         }
       >
-        <Button
-          variant="outlined"
-          color="inherit"
-          size="small"
-          startIcon={<Autorenew />}
+        <ApiPollingButton
+          showLoader={apiCallInProgress}
           onClick={refetch}
-          disabled={apiCallInProgress}
-          sx={{
-            fontSize: pxToRem(12),
-            fontWeight: 'fontWeightRegular',
-            textTransform: 'lowercase',
+          isSmall={false}
+          customStyles={{
             cursor: 'pointer',
             height: pxToRem(40),
             marginTop: pxToRem(-10),
           }}
-        >
-          {!!apiCallInProgress ? (
-            <Box>
-              <CustomLinearProgress />
-            </Box>
-          ) : (
-            timeLapse?.lastFetchLapseTime
-          )}
-        </Button>
+          intervalTime={AUTO_REFRESH_API_TIME_INTERVAL?.REPORTS}
+          isFetching={isFetching}
+          fulfilledTimeStamp={fulfilledTimeStamp}
+        />
         <PermissionsGuard
           permissions={[AIR_SERVICES_REPORTS_INVENTORY_PERMISSIONS?.FILTER]}
         >
@@ -123,23 +111,11 @@ export const InventoryReports = () => {
         <PermissionsGuard
           permissions={[AIR_SERVICES_REPORTS_INVENTORY_PERMISSIONS?.DOWNLOAD]}
         >
-          <LoadingButton
-            sx={{
-              cursor: 'pointer',
-              p: 0,
-              minWidth: pxToRem(40),
-              height: pxToRem(40),
-              marginTop: pxToRem(-10),
-            }}
-            variant="outlined"
-            color="inherit"
-            size="small"
-            onClick={handleDownload}
+          <DownloadButton
+            handleDownload={handleDownload}
             disabled={loading || isLoading || isFetching}
             loading={loading}
-          >
-            <DownloadLargeIcon />
-          </LoadingButton>
+          />
         </PermissionsGuard>
       </PageTitledHeader>
 
@@ -150,7 +126,15 @@ export const InventoryReports = () => {
           permissions={[AIR_SERVICES_REPORTS_INVENTORY_PERMISSIONS?.VIEW]}
         >
           <Box ref={downloadRef}>
-            <ReportsCards cardsData={inventoryReportsCardsData} />
+            <Grid container spacing={1.5} mb={2}>
+              {Object?.entries(inventoryReportsCardsData)?.map(
+                ([key, value]: any) => (
+                  <Grid item xs={12} md={6} lg={3} key={key}>
+                    <ItemChipCard itemName={key} chipLabel={value} />
+                  </Grid>
+                ),
+              )}
+            </Grid>
             <Grid container spacing={1.5}>
               <Grid item xs={12} lg={4}>
                 <Box

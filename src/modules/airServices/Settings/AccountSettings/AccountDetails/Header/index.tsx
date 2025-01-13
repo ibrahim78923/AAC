@@ -9,12 +9,12 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { EmailIcon, PhoneIcon } from '@/assets/icons';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useHeader } from './useHeader';
-import Chip from '@mui/material/Chip';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_ACCOUNT_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
 import { generateImage } from '@/utils/avatarUtils';
 import { IPropsAccountDetails } from '../AccountDetails.interface';
 import { AIR_SERVICES } from '@/constants/routes';
+import { CustomChip } from '@/components/Chip/CustomChip';
 
 export const Header = (props: IPropsAccountDetails) => {
   const theme = useTheme();
@@ -118,12 +118,10 @@ export const Header = (props: IPropsAccountDetails) => {
               <Typography variant="h4">
                 {profileDetail?.firstName + ' ' + profileDetail?.lastName}
               </Typography>
-              <Chip
+              <CustomChip
+                backgroundColor={'success.lighter'}
+                textColor={'success.main'}
                 label={profileDetail?.role}
-                sx={{
-                  backgroundColor: 'success.lighter',
-                  color: 'success.main',
-                }}
               />
             </Box>
             <Box

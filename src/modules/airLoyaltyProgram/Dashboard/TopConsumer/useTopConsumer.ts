@@ -1,7 +1,6 @@
 import { useAppSelector } from '@/redux/store';
 import { useGetLoyaltyDashboardTopConsumerQuery } from '@/services/airLoyaltyProgram/dashboard';
-import { useApiPolling } from '@/hooks/useApiPolling';
-import { AUTO_REFRESH_API_TIME_INTERVAL, PAGINATION } from '@/config';
+import { PAGINATION } from '@/config';
 import { useState } from 'react';
 import { getTopConsumersColumns } from './TopConsumer.data';
 import { useRouter } from 'next/router';
@@ -33,12 +32,6 @@ export const useTopConsumer = () => {
   } = useGetLoyaltyDashboardTopConsumerQuery(queryParams, {
     refetchOnMountOrArgChange: true,
   });
-  const ApiPollingHookProps = {
-    isFetching,
-    fulfilledTimeStamp,
-    intervalTime: AUTO_REFRESH_API_TIME_INTERVAL?.DASHBOARD,
-  };
-  const { timeLapse } = useApiPolling(ApiPollingHookProps);
   const handleConsumerClick = (id: string) => {
     router?.push({
       pathname: AIR_LOYALTY_PROGRAM?.UPSERT_CONSUMER,
@@ -49,7 +42,7 @@ export const useTopConsumer = () => {
 
   return {
     topConsumersColumns,
-    timeLapse,
+    fulfilledTimeStamp,
     isError,
     isFetching,
     isLoading,

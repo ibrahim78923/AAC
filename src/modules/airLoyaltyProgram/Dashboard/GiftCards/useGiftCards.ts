@@ -1,8 +1,7 @@
 import { useAppSelector } from '@/redux/store';
 import { getGiftCardsColumns } from './GiftCards.data';
 import { useGetLoyaltyDashboardGiftCardsQuery } from '@/services/airLoyaltyProgram/dashboard';
-import { useApiPolling } from '@/hooks/useApiPolling';
-import { AUTO_REFRESH_API_TIME_INTERVAL, PAGINATION } from '@/config';
+import { PAGINATION } from '@/config';
 import { useRouter } from 'next/router';
 import { AIR_LOYALTY_PROGRAM } from '@/constants/routes';
 import { useState } from 'react';
@@ -33,13 +32,6 @@ export const useGiftCards = () => {
     refetchOnMountOrArgChange: true,
   });
 
-  const ApiPollingHookProps = {
-    isFetching,
-    fulfilledTimeStamp,
-    intervalTime: AUTO_REFRESH_API_TIME_INTERVAL?.DASHBOARD,
-  };
-  const { timeLapse } = useApiPolling(ApiPollingHookProps);
-
   const handleCardNumberClick = (giftCardNumber: string) => {
     router?.push({
       pathname: AIR_LOYALTY_PROGRAM?.GIFT_CARDS_DETAIL,
@@ -49,7 +41,7 @@ export const useGiftCards = () => {
   const giftCardsColumns = getGiftCardsColumns(handleCardNumberClick);
   return {
     giftCardsColumns,
-    timeLapse,
+    fulfilledTimeStamp,
     isError,
     isFetching,
     isLoading,
