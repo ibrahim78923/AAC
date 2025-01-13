@@ -1,15 +1,15 @@
-import { Box, Button, LinearProgress, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import ErrorIcon from '@mui/icons-material/Error';
 import { CustomTooltip } from '@/components/CustomTooltip';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { useTopConsumer } from './useTopConsumer';
-import { Autorenew } from '@mui/icons-material';
-import { pxToRem } from '@/utils/getFontValue';
+import { ApiPollingButton } from '@/components/Buttons/ApiPollingButton';
+import { AUTO_REFRESH_API_TIME_INTERVAL } from '@/config';
 
 export const TopConsumer = () => {
   const {
     topConsumersColumns,
-    timeLapse,
+    fulfilledTimeStamp,
     isError,
     isFetching,
     isLoading,
@@ -45,27 +45,14 @@ export const TopConsumer = () => {
             <ErrorIcon sx={{ color: 'custom.main', cursor: 'pointer' }} />
           </CustomTooltip>
         </Box>
-        <Button
-          className="small"
-          color="inherit"
-          size="small"
-          startIcon={<Autorenew />}
+        <ApiPollingButton
+          variant="text"
           onClick={refetch}
-          disabled={isLoading || isFetching}
-          sx={{
-            fontSize: pxToRem(12),
-            fontWeight: 'fontWeightRegular',
-            textTransform: 'lowercase',
-          }}
-        >
-          {isLoading || isFetching ? (
-            <Box>
-              <LinearProgress sx={{ width: pxToRem(70) }} />
-            </Box>
-          ) : (
-            timeLapse?.lastFetchLapseTime
-          )}
-        </Button>
+          showLoader={isLoading || isFetching}
+          isFetching={isFetching}
+          fulfilledTimeStamp={fulfilledTimeStamp}
+          intervalTime={AUTO_REFRESH_API_TIME_INTERVAL?.DASHBOARD}
+        />
       </Box>
 
       <TanstackTable

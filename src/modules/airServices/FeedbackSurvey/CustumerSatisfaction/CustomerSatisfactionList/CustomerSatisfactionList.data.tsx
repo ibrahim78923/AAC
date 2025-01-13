@@ -1,5 +1,5 @@
 import { NextRouter } from 'next/router';
-import { Box, Checkbox, Chip } from '@mui/material';
+import { Box, Checkbox } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { capitalizeFirstLetter } from '@/utils/api';
 import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
@@ -15,6 +15,7 @@ import { TruncateText } from '@/components/TruncateText';
 import { otherDateFormat } from '@/lib/date-time';
 import { DefaultSurveyStatus } from './DefaultSurveyStatus';
 import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
+import { CustomChip } from '@/components/Chip/CustomChip';
 
 const statusColor = (status: string) => {
   switch (status) {
@@ -122,10 +123,11 @@ export const customerSupportListColumn = (
       isSortable: true,
       header: 'Status',
       cell: (info: any) => (
-        <Chip
+        <CustomChip
           color={statusColor(info?.getValue())}
+          size="medium"
           label={capitalizeFirstLetter(info?.getValue())}
-          sx={{ color: statusTextColor(info?.getValue()) }}
+          textColor={statusTextColor(info?.getValue())}
         />
       ),
     },

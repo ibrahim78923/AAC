@@ -1,9 +1,11 @@
 import { Permissions } from '@/constants/permissions';
-import { CircularProgress, Theme } from '@mui/material';
+import { Theme } from '@mui/material';
 import {
   FeedbackDropdownI,
   SectionDropdownI,
 } from './CreateFeedback.interface';
+import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
+import { pxToRem } from '@/utils/getFontValue';
 
 export const feedbackValuesType = {
   survey: 'survey',
@@ -27,7 +29,11 @@ export const sectionDropdownOptions = ({
 }: SectionDropdownI) => [
   {
     id: 1,
-    title: cloneLoading ? <CircularProgress size="22px" /> : 'Clone Section',
+    title: !cloneLoading ? (
+      <CustomLinearProgress width={pxToRem(120)} />
+    ) : (
+      'Clone Section'
+    ),
     handleClick: (setClose: () => void) => {
       cloneSection(index, setClose);
     },
@@ -41,7 +47,11 @@ export const sectionDropdownOptions = ({
   },
   {
     id: 2,
-    title: deleteLoading ? <CircularProgress size="22px" /> : 'Delete Section',
+    title: deleteLoading ? (
+      <CustomLinearProgress width={pxToRem(120)} />
+    ) : (
+      'Delete Section'
+    ),
     handleClick: (setClose: () => void) => {
       removeSection(index, setClose);
     },
@@ -55,7 +65,11 @@ export const sectionDropdownOptions = ({
   },
   {
     id: 3,
-    title: mergeLoading ? <CircularProgress size="22px" /> : 'Merge with above',
+    title: mergeLoading ? (
+      <CustomLinearProgress width={pxToRem(120)} />
+    ) : (
+      'Merge with above'
+    ),
     handleClick: (setClose: () => void) => {
       mergeSection(index, setClose);
     },
@@ -80,7 +94,7 @@ export const feedbackSubmitDropdown = ({
     id: 1,
     title:
       (updateLoading || emailLoading) && isStatus ? (
-        <CircularProgress size="22px" />
+        <CustomLinearProgress width={pxToRem(120)} />
       ) : (
         'Publish'
       ),
@@ -94,7 +108,7 @@ export const feedbackSubmitDropdown = ({
     id: 2,
     title:
       updateLoading && !isStatus ? (
-        <CircularProgress size="22px" />
+        <CustomLinearProgress width={pxToRem(120)} />
       ) : (
         'Save as Draft'
       ),

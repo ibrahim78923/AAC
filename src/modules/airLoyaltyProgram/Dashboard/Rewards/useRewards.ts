@@ -1,7 +1,6 @@
 import { useAppSelector } from '@/redux/store';
 import { useGetLoyaltyDashboardRewardsQuery } from '@/services/airLoyaltyProgram/dashboard';
-import { useApiPolling } from '@/hooks/useApiPolling';
-import { AUTO_REFRESH_API_TIME_INTERVAL, PAGINATION } from '@/config';
+import { PAGINATION } from '@/config';
 import { getRewardsColumns } from './Rewards.data';
 import { useState } from 'react';
 
@@ -29,17 +28,11 @@ export const useGiftCards = () => {
   } = useGetLoyaltyDashboardRewardsQuery(queryParams, {
     refetchOnMountOrArgChange: true,
   });
-  const ApiPollingHookProps = {
-    isFetching,
-    fulfilledTimeStamp,
-    intervalTime: AUTO_REFRESH_API_TIME_INTERVAL?.DASHBOARD,
-  };
-  const { timeLapse } = useApiPolling(ApiPollingHookProps);
 
   const rewardsColumns = getRewardsColumns();
   return {
     rewardsColumns,
-    timeLapse,
+    fulfilledTimeStamp,
     isError,
     isFetching,
     isLoading,
