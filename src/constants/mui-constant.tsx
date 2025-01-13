@@ -28,4 +28,11 @@ export const CHIP_SHAPE = {
 export const ACCORDION_VARIANTS = {
   SECONDARY: 'secondary',
   INHERIT: 'inherit',
+  TERTIARY: 'tertiary',
+};
+
+export const ACCORDION_ACTIONS = {
+  VIEW: 'view',
+  EDIT: 'edit',
+  DELETE: 'delete',
 };

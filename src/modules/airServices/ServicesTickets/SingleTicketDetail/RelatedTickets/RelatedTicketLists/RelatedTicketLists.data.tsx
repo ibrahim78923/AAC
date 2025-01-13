@@ -1,4 +1,4 @@
-import { Checkbox, Chip, Typography } from '@mui/material';
+import { Checkbox, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { TICKET_STATUS, TICKET_TYPE } from '@/constants/strings';
 import { fullName } from '@/utils/avatarUtils';
@@ -8,6 +8,7 @@ import { RelatedTicketsTableRowI } from '../RelatedTickets.interface';
 import { TruncateText } from '@/components/TruncateText';
 import { AIR_SERVICES } from '@/constants/routes';
 import { uiDateFormat } from '@/lib/date-time';
+import { CustomChip } from '@/components/Chip/CustomChip';
 
 const TICKET_STATUS_COLOR: any = {
   [TICKET_STATUS?.OPEN]: 'info',
@@ -149,12 +150,11 @@ export const relatedTicketsListsColumnDynamic: any = (
       isSortable: true,
       header: 'Status',
       cell: (info: any) => (
-        <Chip
+        <CustomChip
           label={info?.getValue()?.toLowerCase() ?? '---'}
           variant="outlined"
-          size="small"
           color={TICKET_STATUS_COLOR[info?.getValue()] ?? 'primary'}
-          sx={{ textTransform: 'capitalize' }}
+          isCapital
         />
       ),
     },

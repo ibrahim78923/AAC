@@ -1,6 +1,8 @@
 import { useGetLocationQuery } from '@/services/airServices/settings/asset-management/location';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { ACCORDION_ACTIONS } from '@/constants/mui-constant';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const useListLocation = () => {
   const router = useRouter();
@@ -12,33 +14,49 @@ export const useListLocation = () => {
     },
   );
 
-  const [collapseItem, setIsCollapse] = useState<undefined | number>();
-  const handleCollapse = (item: number) => {
-    setIsCollapse(collapseItem !== item ? item : undefined);
-  };
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState('');
-
-  const setDeleteRecord = (id: string) => {
-    setSelectedLocation?.(id);
-    setDeleteModalOpen?.(true);
-  };
+  const [selectedLocation, setSelectedLocation] = useState<any>({});
 
   const locationList = data?.data;
 
+  const handleIconAction = (e: any, action: any, data: any) => {
+    e?.stopPropagation();
+    if (action === ACCORDION_ACTIONS?.EDIT) {
+      router?.push({
+        pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
+        query: {
+          type: data?.type,
+          parentId: data?.parentId,
+          ...(data?.childId
+            ? {
+                childId: data?.childId,
+              }
+            : {}),
+        },
+      });
+      return;
+    }
+    if (action === ACCORDION_ACTIONS?.DELETE) {
+      setDeleteModalOpen(true);
+      setSelectedLocation({
+        childId: data?.childId,
+        parentId: data?.parentId,
+        isChild: !!data?.childId,
+      });
+    }
+  };
+
   return {
-    handleCollapse,
     locationList,
     isLoading,
-    collapseItem,
     isFetching,
     deleteModalOpen,
     setDeleteModalOpen,
     selectedLocation,
     setSelectedLocation,
-    setDeleteRecord,
     router,
     isError,
     refetch,
+    handleIconAction,
   };
 };

@@ -2,12 +2,11 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Box,
   Typography,
 } from '@mui/material';
-import { pxToRem } from '@/utils/getFontValue';
-import { ArrowDropDown } from '@mui/icons-material';
 import { ACCORDION_VARIANTS } from '@/constants/mui-constant';
+import { customAccordionStyles } from './CustomAccordion.styles';
+import { expandIcons } from './CustomAccordion.data';
 
 export const CustomAccordion = (props: any) => {
   const {
@@ -19,31 +18,20 @@ export const CustomAccordion = (props: any) => {
     summaryRootStyles = {},
     summaryContentStyles = {},
     disableGutters = true,
+    summaryKey = summaryTitle,
+    disabled,
+    hasHover = false,
+    onMouseEnter,
+    onMouseLeave,
+    expandIcon,
   } = props;
 
-  const styles: any = {
-    [ACCORDION_VARIANTS?.SECONDARY]: {
-      summary: {
-        backgroundColor: 'blue.main',
-        color: 'common.white',
-        borderRadius: pxToRem(8),
-      },
-      root: {
-        mt: 1,
-      },
-    },
-    [ACCORDION_VARIANTS?.INHERIT]: {
-      summary: {
-        backgroundColor: 'inherit',
-        color: 'inherit',
-      },
-    },
-  };
-
-  const accordionVariantStyles = styles?.[variantType];
+  const accordionVariantStyles = customAccordionStyles?.[variantType];
+  const mappedExpandIcon = expandIcon ?? expandIcons?.[variantType];
 
   return (
     <Accordion
+      disabled={disabled}
       disableGutters={disableGutters}
       sx={{
         '& .MuiAccordionSummary-root': {
@@ -52,18 +40,32 @@ export const CustomAccordion = (props: any) => {
         },
         '& .MuiAccordionSummary-content': {
           alignItems: 'center',
+          ...accordionVariantStyles?.summaryContent,
           ...summaryContentStyles,
+        },
+        '& .MuiAccordionDetails-root': {
+          ...accordionVariantStyles?.details,
+        },
+        '&.MuiPaper-root': {
+          borderRadius: 2,
+          backgroundColor: 'transparent',
         },
         ...accordionVariantStyles?.root,
         ...customStyles,
       }}
     >
       <AccordionSummary
-        expandIcon={<ArrowDropDown fontSize="large" />}
-        aria-controls={`${summaryTitle}-content`}
-        id={`${summaryTitle}-header`}
+        expandIcon={mappedExpandIcon}
+        aria-controls={`${summaryKey}-content`}
+        id={`${summaryKey}-header`}
+        {...(hasHover
+          ? {
+              onMouseEnter: () => onMouseEnter?.(summaryKey),
+              onMouseLeave: () => onMouseLeave?.(null),
+            }
+          : {})}
       >
-        <Box>{accordionSummary}</Box>
+        {accordionSummary}
         {summaryTitle && <Typography>{summaryTitle}</Typography>}
       </AccordionSummary>
       <AccordionDetails>{children}</AccordionDetails>

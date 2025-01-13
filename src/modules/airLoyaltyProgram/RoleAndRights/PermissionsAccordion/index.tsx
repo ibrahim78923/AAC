@@ -5,7 +5,7 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { AntSwitch } from '@/components/AntSwitch';
 import { Fragment } from 'react';
 import { pxToRem } from '@/utils/getFontValue';
-import { CustomAccordion } from '@/components/CustomAccordion/CustomAccordion';
+import { CustomAccordion } from '@/components/CustomAccordion';
 import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
 import { ACCORDION_VARIANTS } from '@/constants/mui-constant';
 import { usePermissionsAccordion } from './usePermissionsAccordion';

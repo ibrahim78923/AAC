@@ -1,4 +1,4 @@
-import { Box, Chip, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
@@ -18,6 +18,7 @@ import { TruncateText } from '@/components/TruncateText';
 import { AIR_SERVICES } from '@/constants/routes';
 import { formatTimeDifference } from '@/lib/date-time';
 import { CustomAvatar } from '@/components/CustomAvatar';
+import { CustomChip } from '@/components/Chip/CustomChip';
 
 export const TicketInfoCard = (props: any) => {
   const { details } = props;
@@ -61,14 +62,11 @@ export const TicketInfoCard = (props: any) => {
           />
           <Box display={'flex'} marginBottom={0.5} alignItems={'center'}>
             {!!details?.state && (
-              <Chip
+              <CustomChip
                 size="small"
                 label={details?.state}
-                sx={{
-                  bgcolor: RENDER_COLOR?.[details?.state] ?? 'error.main',
-                  color: 'common.white',
-                  textTransform: 'capitalize',
-                }}
+                isCapital
+                backgroundColor={RENDER_COLOR?.[details?.state] ?? 'error'}
               />
             )}
             <PermissionsGuard
@@ -107,12 +105,11 @@ export const TicketInfoCard = (props: any) => {
           mt={1.5}
         >
           <Box display={'flex'} gap={2} alignItems={'center'}>
-            <Chip
+            <CustomChip
               label={details?.pirority?.toLowerCase() ?? '---'}
               size="small"
-              sx={{
-                textTransform: 'capitalize',
-              }}
+              isCapital
+              color="default"
               icon={
                 <FiberManualRecordIcon
                   fontSize={'medium'}

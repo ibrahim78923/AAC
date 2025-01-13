@@ -3,7 +3,6 @@ import {
   AppBar,
   Box,
   Button,
-  Chip,
   Container,
   Drawer,
   Toolbar,
@@ -19,6 +18,7 @@ import { LoadingButton } from '@mui/lab';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import CloseIcon from '@mui/icons-material/Close';
+import { CustomChip } from '@/components/Chip/CustomChip';
 
 const ImportModal = () => {
   const {
@@ -125,7 +125,10 @@ const ImportModal = () => {
               </AppBar>
               <Box flex="1" overflow="scroll">
                 <Container>
-                  <Chip label={`Step ${modalStep} of 3`} color="secondary" />
+                  <CustomChip
+                    label={`Step ${modalStep} of 3`}
+                    color="secondary"
+                  />
                   {modalStep === 3 && (
                     <Typography fontWeight={600} color="custom.main">
                       Map Columns from your file to the right CRM fields.

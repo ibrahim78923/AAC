@@ -1,12 +1,6 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
-import {
-  Box,
-  FormGroup,
-  FormControlLabel,
-  Checkbox,
-  Chip,
-} from '@mui/material';
+import { Box, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import { chipColor } from './ExistingIncident.data';
 import { useExistingIncident } from './useExistingIncident';
 import NoData from '@/components/NoData';
@@ -14,6 +8,7 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import CustomPagination from '@/components/CustomPagination';
 import { truncateText } from '@/utils/avatarUtils';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { CustomChip } from '@/components/Chip/CustomChip';
 
 export const ExistingIncident: React.FC<{
   openDrawer: boolean;
@@ -81,18 +76,17 @@ export const ExistingIncident: React.FC<{
                   )}`}
                 />
               </FormGroup>
-              <Chip
+              <CustomChip
                 label={item?.status ?? '---'}
-                sx={{
-                  bgcolor:
-                    theme?.['palette']?.[`${chipColor(item?.status)}`]?.[
-                      'lighter'
-                    ],
-                  color:
-                    item?.status === 'InProgress'
-                      ? 'common.white'
-                      : 'success.darker',
-                }}
+                size="medium"
+                backgroundColor={
+                  theme?.['palette']?.[`${chipColor(item?.status)}`]?.[
+                    'lighter'
+                  ] + 30
+                }
+                textColor={
+                  theme?.['palette']?.[`${chipColor(item?.status)}`]?.['main']
+                }
               />
             </Box>
           ))
