@@ -79,7 +79,7 @@ export const useCustomerSatisfactionList = (props: { status?: string }) => {
   const handleTitleClick = (surveyData: FeedbackSurveyListI) => {
     if (
       getActivePermissionsSession()?.includes(
-        AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SUPPORT_SURVEY_EDIT,
+        AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SATISFACTION_SURVEY_EDIT,
       ) &&
       surveyData?.status === FEEDBACK_STATUS?.DRAFT
     ) {
@@ -92,7 +92,7 @@ export const useCustomerSatisfactionList = (props: { status?: string }) => {
       });
     } else if (
       getActivePermissionsSession()?.includes(
-        AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SUPPORT_SURVEY_VIEW_RESPONSE,
+        AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SATISFACTION_SURVEY_VIEW_RESPONSE,
       ) &&
       surveyData?.status !== FEEDBACK_STATUS?.DRAFT
     ) {
