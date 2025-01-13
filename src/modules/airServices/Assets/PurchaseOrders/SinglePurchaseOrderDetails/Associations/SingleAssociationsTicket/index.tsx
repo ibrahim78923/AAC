@@ -53,16 +53,18 @@ export const SingleAssociationsTicket = (props: any) => {
           textColor="common.white"
         />
       </Box>
-      <AlertModals
-        open={disassociateModal}
-        handleClose={() => setDisassociateModal(false)}
-        type="Disassociate"
-        message="You are about to disassociate this service "
-        submitBtnText="Disassociate"
-        handleSubmitBtn={handleSubmitDissociate}
-        loading={postRemoveAssociateTicketsStatus?.isLoading}
-        disableCancelBtn={postRemoveAssociateTicketsStatus?.isLoading}
-      />
+      {disassociateModal && (
+        <AlertModals
+          open={disassociateModal}
+          handleClose={() => setDisassociateModal(false)}
+          type="Disassociate"
+          message="You are about to disassociate this service "
+          submitBtnText="Disassociate"
+          handleSubmitBtn={handleSubmitDissociate}
+          loading={postRemoveAssociateTicketsStatus?.isLoading}
+          disableCancelBtn={postRemoveAssociateTicketsStatus?.isLoading}
+        />
+      )}
     </>
   );
 };

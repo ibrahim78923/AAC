@@ -16,6 +16,8 @@ export const AddNewItemButton = (props: any) => {
     hasStartIcon = true,
     hasEndIcon = false,
     iconType = 'circle',
+    size = 'small',
+    customStyles = {},
   } = props;
 
   const MapIcon = mappedIcon?.[iconType];
@@ -27,7 +29,7 @@ export const AddNewItemButton = (props: any) => {
       disableElevation
       disabled={disabled}
       className="small"
-      size="small"
+      size={size}
       startIcon={hasStartIcon && <MapIcon />}
       endIcon={hasEndIcon && <MapIcon />}
       onClick={() => onClick?.()}
@@ -35,6 +37,7 @@ export const AddNewItemButton = (props: any) => {
         '& .MuiButton-startIcon': {
           ...(!!name ? {} : { marginRight: 0, marginLeft: 0 }),
         },
+        ...customStyles,
       }}
     >
       {name}

@@ -8,12 +8,13 @@ import { indexNumbers } from '@/constants';
 import { FILE_MAX_SIZE, FILE_SIZE_MESSAGES } from '@/config';
 import { AttachFileCard } from '../AttachFileCard';
 import { TruncateText } from '../TruncateText';
+import { uploadFileMaxSize } from '@/utils/avatarUtils';
 
 export default function RHFDropZone({
   name,
   required,
   fileName = 'Attach a file',
-  fileType = 'PNG, JPG, PDF and DOC (max 2.44 MB)',
+  fileType = `PNG, JPG , PDF and DOC (max ${uploadFileMaxSize} MB)`,
   accept = {
     'image/png': ['.png', '.PNG'],
     'image/jpeg': ['.jpg', '.jpeg', '.JPG', '.JPEG'],
