@@ -2,7 +2,7 @@ import Search from '@/components/Search';
 import { Box, Button } from '@mui/material';
 import { FilterIcon } from '@/assets/icons';
 import { useRestoreReportsListsHeader } from './useRestoreReportsListsHeader';
-import { PublicSingleDropdownButton } from '@/components/PublicSingleDropdownButton';
+import { PublicSingleDropdownButton } from '@/components/Buttons/PublicSingleDropdownButton';
 import { restoreReportListsActionComponent } from './RestoreReportsListsHeader.data';
 
 export const RestoreReportsListsHeader = () => {

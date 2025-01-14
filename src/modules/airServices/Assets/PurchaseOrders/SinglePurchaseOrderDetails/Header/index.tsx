@@ -4,7 +4,7 @@ import { useHeader } from './useHeader';
 import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { truncateText } from '@/utils/avatarUtils';
-import { PublicSingleDropdownButton } from '@/components/PublicSingleDropdownButton';
+import { PublicSingleDropdownButton } from '@/components/Buttons/PublicSingleDropdownButton';
 
 export const Header = (props: any) => {
   const {

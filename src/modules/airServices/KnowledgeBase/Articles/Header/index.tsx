@@ -1,7 +1,7 @@
 import { Box, Button } from '@mui/material';
 import { FilterIcon } from '@/assets/icons';
 import Search from '@/components/Search';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { Permissions } from '@/constants/permissions';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS } from '@/constants/permission-keys';

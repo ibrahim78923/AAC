@@ -11,7 +11,7 @@ import { AlertModals } from '@/components/AlertModals';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
 import useAssociations from './useAssociations';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { CustomChip } from '@/components/Chip/CustomChip';
 

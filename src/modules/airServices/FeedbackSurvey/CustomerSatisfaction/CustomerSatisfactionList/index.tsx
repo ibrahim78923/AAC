@@ -1,6 +1,6 @@
 import { PlusIcon } from '@/assets/icons';
 import Search from '@/components/Search';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { Box, Button } from '@mui/material';
 import { customerSupportListColumn } from './CustomerSatisfactionList.data';

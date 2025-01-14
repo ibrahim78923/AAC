@@ -29,7 +29,7 @@ export const sectionDropdownOptions = ({
 }: SectionDropdownI) => [
   {
     id: 1,
-    title: !cloneLoading ? (
+    title: cloneLoading ? (
       <CustomLinearProgress width={pxToRem(120)} />
     ) : (
       'Clone Section'

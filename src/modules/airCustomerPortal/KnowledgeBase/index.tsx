@@ -8,7 +8,7 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import Search from '@/components/Search';
 import { fullName } from '@/utils/avatarUtils';
-import { PublicSingleDropdownButton } from '@/components/PublicSingleDropdownButton';
+import { PublicSingleDropdownButton } from '@/components/Buttons/PublicSingleDropdownButton';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
 import { ReportIssue } from './ReportIssue';
 

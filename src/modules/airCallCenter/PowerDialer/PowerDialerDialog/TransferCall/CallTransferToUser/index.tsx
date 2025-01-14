@@ -1,5 +1,5 @@
 import React from 'react';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { MoreVert } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';

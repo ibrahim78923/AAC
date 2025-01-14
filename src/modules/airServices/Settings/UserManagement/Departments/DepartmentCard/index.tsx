@@ -3,7 +3,7 @@ import { AddCircle, MoreHoriz } from '@mui/icons-material';
 import { generateColorFromName, truncateText } from '@/utils/avatarUtils';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { Permissions } from '@/constants/permissions';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { IDepartmentsProps } from '../Departments.interface';
 import { CustomAvatar } from '@/components/CustomAvatar';

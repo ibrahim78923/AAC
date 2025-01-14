@@ -1,5 +1,5 @@
 import { Typography, Box, Skeleton } from '@mui/material';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { AIR_SERVICES } from '@/constants/routes';
 import { useHeader } from './useHeader';

@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { Typography, Box } from '@mui/material';
 import { ViewDetailCallIcon, ViewDetailMeetingIcon } from '@/assets/icons';
 import { SmsImage } from '@/assets/images';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { MoreVert } from '@mui/icons-material';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import {

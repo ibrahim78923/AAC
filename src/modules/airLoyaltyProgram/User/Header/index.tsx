@@ -1,7 +1,7 @@
 import Search from '@/components/Search';
 import { Box, Button } from '@mui/material';
 import { AddWhiteBgIcon } from '@/assets/icons';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { useHeader } from './useHeader';
 import { loyaltyProgramUsersActionComponent } from './Header.data';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';

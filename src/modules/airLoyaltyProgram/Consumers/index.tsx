@@ -7,7 +7,7 @@ import { ConsumersCustomizeIcon } from '@/assets/icons';
 import { ConsumerCustomizeColumns } from './consumerCustomizeColumns';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_LOYALTY_PROGRAM_CONSUMERS_PERMISSIONS } from '@/constants/permission-keys';
-import { PublicSingleDropdownButton } from '@/components/PublicSingleDropdownButton';
+import { PublicSingleDropdownButton } from '@/components/Buttons/PublicSingleDropdownButton';
 
 export const Consumers = () => {
   const {

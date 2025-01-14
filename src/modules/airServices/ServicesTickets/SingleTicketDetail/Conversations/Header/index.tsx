@@ -1,5 +1,5 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { Permissions } from '@/constants/permissions';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { pxToRem } from '@/utils/getFontValue';

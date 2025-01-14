@@ -1,4 +1,4 @@
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { Box, CircularProgress, Stack } from '@mui/material';
 import Assets from './Assets';
 import Deals from './Deals';

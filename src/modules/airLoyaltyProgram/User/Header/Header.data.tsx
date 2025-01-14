@@ -1,4 +1,4 @@
-import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
+import { SingleDropdownButtonCloseMenuI } from '@/components/Buttons/SingleDropdownButton/SingleDropdownButton.interface';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { LOYALTY_PROGRAM_USERS_ACTIONS_CONSTANT } from '../User.data';
 import { UpsertUser } from '../UpsertUser';

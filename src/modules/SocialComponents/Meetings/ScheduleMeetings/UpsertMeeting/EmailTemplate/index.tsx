@@ -13,7 +13,7 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import Search from '@/components/Search';
 import { AddWhiteBgIcon } from '@/assets/icons';
 import { useEmilTemplate } from './useEmailTemplate';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import NoData from '@/components/NoData';
 import ApiErrorState from '@/components/ApiErrorState';

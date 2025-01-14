@@ -5,7 +5,7 @@ import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { AnnouncementCardProps } from './AnnouncementCard.interface';
 import { TruncateText } from '@/components/TruncateText';
 import { UserInfo } from '@/components/UserInfo';
-import { PublicSingleDropdownButton } from '@/components/PublicSingleDropdownButton';
+import { PublicSingleDropdownButton } from '@/components/Buttons/PublicSingleDropdownButton';
 import { formatTimeDifference } from '@/lib/date-time';
 
 const { ONE } = SELECTED_ARRAY_LENGTH ?? {};

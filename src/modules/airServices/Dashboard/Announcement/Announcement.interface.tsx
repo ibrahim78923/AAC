@@ -1,4 +1,4 @@
-import { SingleDropdownOptionI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
+import { SingleDropdownOptionI } from '@/components/Buttons/SingleDropdownButton/SingleDropdownButton.interface';
 import { Dispatch, SetStateAction } from 'react';
 
 export interface AnnouncementIsPortalOpenPropsI {

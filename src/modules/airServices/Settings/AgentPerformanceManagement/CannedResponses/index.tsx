@@ -9,7 +9,7 @@ import { useCannedResponses } from './useCannedResponses';
 import CustomPagination from '@/components/CustomPagination';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { LockedIcon } from '@/assets/icons';
 import { MoreHoriz } from '@mui/icons-material';
 import { getCannedResponseDropdownOptions } from './CannedResponses.data';

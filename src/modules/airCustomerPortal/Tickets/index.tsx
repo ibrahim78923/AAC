@@ -9,7 +9,7 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { TicketCardDataI } from './TicketCard/TicketCard.interface';
 import { ReportIssue } from './ReportIssue';
-import { PublicSingleDropdownButton } from '@/components/PublicSingleDropdownButton';
+import { PublicSingleDropdownButton } from '@/components/Buttons/PublicSingleDropdownButton';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
 import { Theme } from '@mui/material';
 
