@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { NextRouter, useRouter } from 'next/router';
-import { DATA_TYPES, SERVICE_CATALOG_STATUSES } from '@/constants/strings';
+import { SERVICE_CATALOG_STATUSES } from '@/constants/strings';
 import { PAGINATION } from '@/config';
 import {
   useGetServiceCatalogCategoriesQuery,
@@ -58,15 +58,8 @@ const useCatalog = () => {
     });
   };
 
-  const allCategories = [
-    {
-      _id: DATA_TYPES?.UNDEFINED,
-      categoryName: 'All Services',
-      description:
-        'Browse the list of all services offered and raise a request.',
-    },
-    ...(serviceCatalogCategories?.data?.data?.servicecategories ?? []),
-  ];
+  const allCategories =
+    serviceCatalogCategories?.data?.data?.servicecategories ?? [];
 
   return {
     handleClickService,

@@ -30,7 +30,7 @@ const useCategoriesSection = (props: any) => {
       await postServiceCatalogTrigger({
         body: data,
       })?.unwrap();
-      successSnackbar('Service Added Successfully!');
+      successSnackbar('Service category added successfully!');
       handleClose?.();
     } catch (error) {
       const errorResponse = error as IErrorResponse;

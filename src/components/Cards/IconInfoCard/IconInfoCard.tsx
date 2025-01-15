@@ -1,48 +1,79 @@
 import { TruncateText } from '@/components/TruncateText';
+import { uiDateFormat } from '@/lib/date-time';
 import { pxToRem } from '@/utils/getFontValue';
-import { Avatar, Box } from '@mui/material';
+import { Avatar, Box, Typography } from '@mui/material';
+import FolderIcon from '@mui/icons-material/Folder';
+
+const iconTypesMap: any = {
+  folder: <FolderIcon color={'primary'} fontSize={'large'} />,
+};
 
 export const IconInfoCard = (props: any) => {
   const {
     onClick,
     name,
     description,
-    Icon = null,
+    hasIcon = true,
     textAlign = 'center',
     isActive = false,
+    avatarBackgroundColor = 'primary.lighter',
+    descriptionType,
+    createdDate,
+    dateType,
+    iconType = 'folder',
   } = props;
+
+  const mapIcon = iconTypesMap?.[iconType];
 
   return (
     <Box
       onClick={() => onClick?.()}
       sx={{
         padding: 2,
+        paddingY: 3,
         cursor: 'pointer',
         height: '100%',
-        border: '2px solid',
+        border: '1px solid',
+        borderRadius: 2,
         textAlign,
-        borderColor: isActive ? 'primary.main' : 'primary.lighter',
+        borderColor: isActive ? 'primary.main' : 'custom.off_white_three',
         backgroundColor: isActive ? 'primary.lighter' : '',
       }}
     >
-      {Icon !== null && (
-        <Avatar sx={{ margin: 'auto' }} variant="rounded">
-          <Icon />
+      {hasIcon && (
+        <Avatar
+          sx={{ margin: 'auto', backgroundColor: avatarBackgroundColor }}
+          variant="rounded"
+        >
+          {mapIcon}
         </Avatar>
       )}
       <TruncateText
         text={name}
         boxProps={{
-          sx: { fontSize: pxToRem(18), fontWeight: 600 },
+          sx: {
+            fontSize: pxToRem(18),
+            fontWeight: 600,
+            my: 1.5,
+          },
         }}
       />
-      <TruncateText
-        text={description}
-        size={70}
-        boxProps={{
-          sx: { fontSize: pxToRem(14) },
-        }}
-      />
+      {description && (
+        <TruncateText
+          isCapital={false}
+          text={description}
+          size={70}
+          boxProps={{
+            sx: { fontSize: pxToRem(14) },
+          }}
+          retainTextLeft={descriptionType}
+        />
+      )}
+      {createdDate && (
+        <Typography variant="body2" color="slateBlue.main" sx={{ mt: 1 }}>
+          {dateType} {uiDateFormat(createdDate)}
+        </Typography>
+      )}
     </Box>
   );
 };

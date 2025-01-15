@@ -1,4 +1,3 @@
-import { KnowledgeBaseCard } from './KnowledgeBaseCard';
 import { Box, Button, Grid } from '@mui/material';
 import NoData from '@/components/NoData';
 import { useKnowledgeBase } from './useKnowledgeBase';
@@ -11,6 +10,8 @@ import { fullName } from '@/utils/avatarUtils';
 import { PublicSingleDropdownButton } from '@/components/Buttons/PublicSingleDropdownButton';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
 import { ReportIssue } from './ReportIssue';
+import { IconInfoCard } from '@/components/Cards/IconInfoCard/IconInfoCard';
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 
 export const KnowledgeBase = () => {
   const {
@@ -26,6 +27,7 @@ export const KnowledgeBase = () => {
     refetch,
     customerPortalStyling,
     reportAnIssuePermission,
+    router,
   } = useKnowledgeBase();
 
   return (
@@ -83,16 +85,28 @@ export const KnowledgeBase = () => {
       ) : (
         <Grid container spacing={2}>
           {!!knowledgeBaseFolderData?.length ? (
-            knowledgeBaseFolderData?.map((option: any) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={option?._id}>
-                <KnowledgeBaseCard
-                  folderId={option?._id}
-                  name={option?.name}
-                  createdBy={fullName(
-                    option?.createdBy?.firstName,
-                    option?.createdBy?.lastName,
+            knowledgeBaseFolderData?.map((folder: any) => (
+              <Grid item xs={12} sm={6} md={4} lg={3} key={folder?._id}>
+                <IconInfoCard
+                  name={folder?.name}
+                  description={fullName(
+                    folder?.createdBy?.firstName,
+                    folder?.createdBy?.lastName,
                   )}
-                  createdDate={option?.createdAt}
+                  descriptionType="Created By: "
+                  dateType="Created Date : "
+                  createdDate={folder?.createdAt}
+                  onClick={() =>
+                    router?.push({
+                      pathname: AIR_CUSTOMER_PORTAL?.KNOWLEDGE_BASE_DETAIL,
+                      query: {
+                        folderId: folder?._id,
+                        ...(router?.query?.companyId && {
+                          companyId: router?.query?.companyId,
+                        }),
+                      },
+                    })
+                  }
                 />
               </Grid>
             ))

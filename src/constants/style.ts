@@ -11,4 +11,5 @@ export const MARGIN = {
 export const FLEX_DIRECTION = {
   ROW: 'row',
   COLUMN: 'column',
+  ROW_REVERSE: 'row-reverse',
 };
