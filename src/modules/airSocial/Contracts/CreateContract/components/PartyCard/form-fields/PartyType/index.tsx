@@ -2,16 +2,19 @@ import React from 'react';
 import { RHFRadioGroup } from '@/components/ReactHookForm';
 import { styles } from './PartyType.style';
 
-export default function PartyType() {
+interface PartyTypeProps {
+  name: string;
+}
+
+export default function PartyType({ name }: PartyTypeProps) {
   return (
     <RHFRadioGroup
       sx={styles?.radioGroup}
-      name="partyType"
+      name={name}
       options={[
-        { value: 'company', label: 'Company' },
-        { value: 'individual', label: 'Private person' },
+        { value: 'COMPANIES', label: 'Company' },
+        { value: 'CONTACTS', label: 'Private person' },
       ]}
-      defaultValue="individual"
     />
   );
 }

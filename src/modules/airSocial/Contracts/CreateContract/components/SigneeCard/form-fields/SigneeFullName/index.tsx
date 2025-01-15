@@ -1,14 +1,14 @@
 import { RHFTextField } from '@/components/ReactHookForm';
 import React from 'react';
 
-export default function PersonalTitle() {
+export default function SigneeFullName({ name }: { name: string }) {
   return (
     <RHFTextField
-      name="personalTitle"
-      label="Personal Title"
+      name={name}
+      label="Full name"
       size="small"
       fullWidth
-      placeholder="Enter Personal Title"
+      placeholder="Enter full name"
     />
   );
 }

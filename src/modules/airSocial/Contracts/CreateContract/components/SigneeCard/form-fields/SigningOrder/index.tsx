@@ -5,11 +5,11 @@ interface SigneeOrderProps {
   name: string;
 }
 
-export default function SigneeOrder({ name }: SigneeOrderProps) {
+export default function SigningOrder({ name }: SigneeOrderProps) {
   return (
     <RHFSelect
       name={name}
-      label="Signee Order"
+      label="Signing Order"
       size="small"
       fullWidth
       select={true}

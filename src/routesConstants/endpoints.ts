@@ -791,3 +791,13 @@ export const AIR_MARKETER_EMAIL_FOLDER = {
   DELETE_EMAIL_FOLDER: '/emails-marketing/delete-folder',
   DUPLICATE_EMAIL_FOLDER: '/emails-marketing/duplicate-folder',
 };
+
+export const COMMON_CONTRACTS = {
+  FOLDER: '/common-contract-folder',
+  TEMPLATE: '/common-contract-template',
+  CREATE_CONTRACT: '/common-contract/add-common-contract',
+  GET_CONTRACTS: '/common-contract/get-common-contracts',
+  GET_CONTRACT_BY_ID: '/common-contract',
+  SAVE_AS_DRAFT: '/common-contract/save-as-draft',
+  GET_TEMPLATE_BY_FOLDER: '/common-contract-template/by-folder',
+};

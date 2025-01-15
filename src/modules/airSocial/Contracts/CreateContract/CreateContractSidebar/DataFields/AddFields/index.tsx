@@ -1,36 +1,37 @@
 import React from 'react';
-import { Box, Button, Menu, MenuItem } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { IconPlusAddContractsFields } from '@/assets/icons';
-import { styles } from './AddFields.styles';
-import NoData from '@/components/NoData';
-import { getFieldIcon } from '@/utils/contracts';
-import FieldIcon from '../../../components/FieldIcon';
-import Search from '@/components/Search';
+// import { styles } from './AddFields.styles';
+// import NoData from '@/components/NoData';
+// import { getFieldIcon } from '@/utils/contracts';
+// import FieldIcon from '../../../components/FieldIcon';
+// import Search from '@/components/Search';
 import ModalCreateDataField from './ModalCreateDataField';
 import useAddFields from './useAddFields';
 
 interface AddFieldsProps {
   data: any;
+  handleAddDynamicField: any;
 }
 
-export default function AddFields({ data }: AddFieldsProps) {
+export default function AddFields({ handleAddDynamicField }: AddFieldsProps) {
   const {
-    anchorEl,
-    open,
-    handleClick,
-    handleClose,
-
+    // anchorEl,
+    // open,
+    // handleClick,
+    // handleClose,
     methods,
     openModalCreateDataField,
     handleOpenModalCreateDataField,
     handleCloseModalCreateDataField,
     handleSubmitCreateDataField,
-  } = useAddFields();
+  } = useAddFields(handleAddDynamicField);
 
   return (
     <Box>
       <Button
-        onClick={handleClick}
+        // onClick={handleClick}
+        onClick={handleOpenModalCreateDataField}
         variant="outlined"
         className="small"
         color="inherit"
@@ -39,7 +40,7 @@ export default function AddFields({ data }: AddFieldsProps) {
       >
         Add Fields
       </Button>
-      <Menu
+      {/* <Menu
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
@@ -77,7 +78,7 @@ export default function AddFields({ data }: AddFieldsProps) {
           </Box>
           Create new field
         </MenuItem>
-      </Menu>
+      </Menu> */}
 
       <ModalCreateDataField
         open={openModalCreateDataField}

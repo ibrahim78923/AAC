@@ -2,15 +2,14 @@ import React from 'react';
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { useLazyGetRequesterDropdownQuery } from '@/services/airCustomerPortal/catalog';
 
-export default function FullName() {
+export default function OnBehalfOf({ name }: { name: string }) {
   const apiQueryRequester = useLazyGetRequesterDropdownQuery();
 
   return (
     <RHFAutocompleteAsync
-      name="fullName"
-      label="Full name"
+      name={name}
+      label="On Behalf Of"
       fullWidth
-      required
       size="small"
       apiQuery={apiQueryRequester}
       externalParams={{}}

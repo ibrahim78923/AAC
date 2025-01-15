@@ -32,7 +32,7 @@ export const fieldsData = [
         { value: 'text', label: 'Text' },
         { value: 'number', label: 'Number' },
         { value: 'date', label: 'Date' },
-        { value: 'select', label: 'Select' },
+        // { value: 'select', label: 'Select' },
         { value: 'checkbox', label: 'Checkbox' },
       ],
     },

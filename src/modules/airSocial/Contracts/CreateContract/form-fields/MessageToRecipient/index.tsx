@@ -4,7 +4,7 @@ import React from 'react';
 export default function MessageToRecipient() {
   return (
     <RHFTextField
-      name="messageToRecipient"
+      name="message"
       label="Message to the recipient"
       size="small"
       fullWidth

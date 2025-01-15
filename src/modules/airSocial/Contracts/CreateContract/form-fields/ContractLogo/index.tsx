@@ -9,7 +9,7 @@ export default function ContractLogo() {
     <Box sx={styles?.root}>
       <RHFDropzonePreviewAllTypes
         label="Logo"
-        name="contractLogo"
+        name="logo"
         fileName=""
         fileType="SVG, PNG, JPG or GIF (max. 800x400px)"
         accept={{

@@ -6,11 +6,18 @@ import { IconAddParty } from '@/assets/icons';
 interface AddCardProps {
   title: string;
   onClick: () => void;
+  disabled?: boolean;
 }
 
-export default function AddCard({ title, onClick }: AddCardProps) {
+export default function AddCard({ title, onClick, disabled }: AddCardProps) {
+  const handleClick = () => {
+    if (!disabled) {
+      onClick();
+    }
+  };
+
   return (
-    <Box sx={styles?.addCard} onClick={onClick}>
+    <Box sx={styles?.addCard} onClick={handleClick} disabled={disabled}>
       <Box sx={styles?.addCardContent}>
         <Box sx={styles?.addCardIcon} className="add-card-icon">
           <IconAddParty />

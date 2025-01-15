@@ -1,10 +1,14 @@
 import { RHFTextField } from '@/components/ReactHookForm';
 import React from 'react';
 
-export default function NationalIDNo() {
+interface NationalIDNoProps {
+  name?: string;
+}
+
+export default function NationalIDNo({ name }: NationalIDNoProps) {
   return (
     <RHFTextField
-      name="idNo"
+      name={name}
       label="National ID no"
       size="small"
       fullWidth

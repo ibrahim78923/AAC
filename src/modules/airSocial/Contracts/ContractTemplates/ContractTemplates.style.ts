@@ -81,4 +81,10 @@ export const styles = {
     color: '#667085',
     lineHeight: '1.25047619',
   }),
+
+  skeleton: (theme: any) => ({
+    bgcolor: theme?.palette?.grey?.[300],
+    borderRadius: '7.5px',
+    border: `1px solid ${theme?.palette?.custom?.light_lavender_gray}`,
+  }),
 };

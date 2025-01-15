@@ -9,6 +9,7 @@ export const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     cursor: 'pointer',
+    minHeight: '473px',
     height: '100%',
     '&:hover': {
       '& .add-card-icon': {

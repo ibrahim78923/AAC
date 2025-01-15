@@ -6,7 +6,6 @@ interface IndividualSignatureProps {
   isIndividualSignature: boolean;
   setSelectedSigneeId: (id: string | null) => void;
   onClickChange: () => void;
-  signatureType: string;
   signee?: any;
 }
 
@@ -15,7 +14,6 @@ export default function IndvidualSignature({
   setSelectedSigneeId,
   onClickChange,
   signee,
-  signatureType,
 }: IndividualSignatureProps) {
   return (
     <Box sx={styles?.individual}>
@@ -42,7 +40,7 @@ export default function IndvidualSignature({
         </Box>
       </Box>
       <Box sx={styles?.fieldActions}>
-        <Box sx={styles?.signatureValue}>{signatureType}</Box>
+        <Box sx={styles?.signatureValue}>{signee?.signatureType}</Box>
         <Button
           variant="outlined"
           color="inherit"

@@ -1,10 +1,10 @@
 import { RHFTextField } from '@/components/ReactHookForm';
 import React from 'react';
 
-export default function HereinafterReferredToAs() {
+export default function HereinafterReferredToAs({ name }: { name?: string }) {
   return (
     <RHFTextField
-      name="hereinafterReferredToAs"
+      name={name}
       label="Hereinafter referred to as"
       size="small"
       fullWidth
