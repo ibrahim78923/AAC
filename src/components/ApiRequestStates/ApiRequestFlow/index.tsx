@@ -21,9 +21,11 @@ export const ApiRequestFlow = (props: any) => {
     children,
     refreshApi,
     length = 4,
-    hasData = false,
+    hasNoData = false,
     NoDataMessage,
     cardSkeletonType = SKELETON_TYPES?.BASIC_CARD,
+    errorHeight = '50vh',
+    noDataHeight = errorHeight,
   } = props;
 
   const SkeletonComponent = skeletonTypes?.[skeletonType];
@@ -33,14 +35,18 @@ export const ApiRequestFlow = (props: any) => {
       <SkeletonComponent
         length={length}
         {...(skeletonType === SKELETON_TYPES?.BASIC_CARD
-          ? { cardSkeletonType }
+          ? { cardType: cardSkeletonType }
           : {})}
       />
     );
 
-  if (hasError) return <ApiErrorState canRefresh refresh={refreshApi} />;
+  if (hasError)
+    return (
+      <ApiErrorState canRefresh refresh={refreshApi} height={errorHeight} />
+    );
 
-  if (hasData) return <NoData message={NoDataMessage} />;
+  if (hasNoData)
+    return <NoData message={NoDataMessage} height={noDataHeight} />;
 
   return <>{children}</>;
 };

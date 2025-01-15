@@ -34,9 +34,10 @@ export const Approvals = () => {
         showSkeleton={showLoader}
         hasError={isError}
         refreshApi={() => getArticlesForApprovalsListData?.(page)}
-        hasData={!hasData}
+        hasNoData={!hasData}
         NoDataMessage={'No approvals found'}
         skeletonType={SKELETON_TYPES?.BASIC_CARD}
+        cardSkeletonType={SKELETON_TYPES?.THREE_LAYER_LARGE_REVERSE_CARD}
       >
         {lazyGetUnapprovedArticlesStatus?.data?.data?.articles?.map(
           (approval: any) => (
