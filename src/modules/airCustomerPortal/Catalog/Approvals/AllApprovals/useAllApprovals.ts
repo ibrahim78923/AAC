@@ -40,6 +40,8 @@ export const useAllApprovals = (props: AllApprovalsPropsI) => {
     });
   };
 
+  const showLoader = isLoading || isFetching;
+
   return {
     data,
     isLoading,
@@ -52,5 +54,6 @@ export const useAllApprovals = (props: AllApprovalsPropsI) => {
     setApproval,
     openApprovalDetail,
     refetch,
+    showLoader,
   };
 };

@@ -32,6 +32,7 @@ const useCatalogService = () => {
   );
 
   const portalStyles = getCustomerPortalStyling();
+  const showLoader = isLoading || isFetching;
 
   return {
     open,
@@ -45,6 +46,7 @@ const useCatalogService = () => {
     theme,
     companyId,
     portalStyles,
+    showLoader,
   };
 };
 

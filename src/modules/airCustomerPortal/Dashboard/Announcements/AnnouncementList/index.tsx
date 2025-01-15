@@ -1,22 +1,12 @@
-import ApiErrorState from '@/components/ApiErrorState';
 import CommonDrawer from '@/components/CommonDrawer';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import { Box } from '@mui/material';
 import { Fragment } from 'react';
 import { AnnouncementCard } from '../AnnouncementCard';
-import NoData from '@/components/NoData';
 import { AnnouncementsListPropsI } from '../Announcements.interface';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const AnnouncementList = (props: AnnouncementsListPropsI) => {
-  const {
-    isLoading,
-    isFetching,
-    isError,
-    data,
-    isDrawerOpen,
-    onClose,
-    refetch,
-  } = props;
+  const { isError, data, isDrawerOpen, onClose, refetch, showLoader } = props;
 
   return (
     <CommonDrawer
@@ -26,26 +16,21 @@ export const AnnouncementList = (props: AnnouncementsListPropsI) => {
       isOk
       okText=""
     >
-      {isLoading || isFetching ? (
-        <SkeletonForm />
-      ) : isError ? (
-        <ApiErrorState canRefresh refresh={() => refetch?.()} />
-      ) : (
-        <Box my="0.75rem">
-          {!!data?.data?.length ? (
-            <>
-              {data?.data?.map((announcement: any, index: number) => (
-                <Fragment key={announcement?._id}>
-                  <AnnouncementCard data={announcement} index={index} />
-                </Fragment>
-              ))}
-              <br />
-            </>
-          ) : (
-            <NoData />
-          )}
-        </Box>
-      )}
+      <ApiRequestFlow
+        showSkeleton={showLoader}
+        hasError={isError}
+        refreshApi={refetch}
+        skeletonType={SKELETON_TYPES?.BASIC_CARD}
+        cardSkeletonType={SKELETON_TYPES?.THREE_LAYER_LARGE_REVERSE_CARD}
+        hasNoData={!data?.data?.length}
+        NoDataMessage={'No announcement found'}
+      >
+        {data?.data?.map((announcement: any, index: number) => (
+          <Fragment key={announcement?._id}>
+            <AnnouncementCard data={announcement} index={index} />
+          </Fragment>
+        ))}
+      </ApiRequestFlow>
     </CommonDrawer>
   );
 };

@@ -15,17 +15,17 @@ const skeletonTypes: any = {
 
 export const ApiRequestFlow = (props: any) => {
   const {
-    showSkeleton = true,
+    showSkeleton = false,
     skeletonType = SKELETON_TYPES?.FORM,
-    hasError,
-    children,
-    refreshApi,
+    cardSkeletonType = SKELETON_TYPES?.BASIC_CARD,
     length = 4,
+    hasError = false,
+    refreshApi,
+    errorHeight = '50vh',
     hasNoData = false,
     NoDataMessage,
-    cardSkeletonType = SKELETON_TYPES?.BASIC_CARD,
-    errorHeight = '50vh',
     noDataHeight = errorHeight,
+    children,
   } = props;
 
   const SkeletonComponent = skeletonTypes?.[skeletonType];

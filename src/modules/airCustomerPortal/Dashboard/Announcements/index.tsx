@@ -1,11 +1,10 @@
 import { CardLayout } from '../CardLayout';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import ApiErrorState from '@/components/ApiErrorState';
-import NoData from '@/components/NoData';
 import { AnnouncementCard } from './AnnouncementCard';
 import { Fragment } from 'react';
 import { AnnouncementList } from './AnnouncementList';
 import { useAnnouncements } from './useAnnouncements';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const Announcements = () => {
   const {
@@ -17,6 +16,7 @@ export const Announcements = () => {
     setDrawerOpen,
     onClose,
     refetch,
+    showLoader,
   } = useAnnouncements();
 
   return (
@@ -28,27 +28,22 @@ export const Announcements = () => {
         buttonText="View All"
         maxHeight={'40vh'}
       >
-        {isLoading || isFetching ? (
-          <SkeletonForm />
-        ) : isError ? (
-          <ApiErrorState
-            height={'100%'}
-            canRefresh
-            refresh={() => refetch?.()}
-          />
-        ) : (
-          <>
-            {!!data?.data?.length ? (
-              data?.data?.map((announcement: any, index: number) => (
-                <Fragment key={announcement?._id}>
-                  <AnnouncementCard data={announcement} index={index} />
-                </Fragment>
-              ))
-            ) : (
-              <NoData height={'100%'} />
-            )}
-          </>
-        )}
+        <ApiRequestFlow
+          showSkeleton={showLoader}
+          hasError={isError}
+          refreshApi={refetch}
+          skeletonType={SKELETON_TYPES?.BASIC_CARD}
+          cardSkeletonType={SKELETON_TYPES?.THREE_LAYER_LARGE_REVERSE_CARD}
+          hasNoData={!data?.data?.length}
+          NoDataMessage={'No announcement found'}
+          errorHeight="100%"
+        >
+          {data?.data?.map((announcement: any, index: number) => (
+            <Fragment key={announcement?._id}>
+              <AnnouncementCard data={announcement} index={index} />
+            </Fragment>
+          ))}
+        </ApiRequestFlow>
       </CardLayout>
 
       {openDrawer && (
@@ -58,6 +53,7 @@ export const Announcements = () => {
           data={data}
           isLoading={isLoading}
           isFetching={isFetching}
+          showLoader={showLoader}
           isError={isError}
           refetch={refetch}
         />
