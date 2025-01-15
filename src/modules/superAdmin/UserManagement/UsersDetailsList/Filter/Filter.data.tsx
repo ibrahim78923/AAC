@@ -3,8 +3,8 @@ import {
   RHFAutocompleteAsync,
 } from '@/components/ReactHookForm';
 import {
+  useLazyGetCompanyAccountsDropdownQuery,
   useLazyGetProductsListQuery,
-  useLazyGetSearchOrganizationsListQuery,
 } from '@/services/common-APIs';
 
 export const usersFilterDefaultValues = (data: any) => {
@@ -15,9 +15,9 @@ export const usersFilterDefaultValues = (data: any) => {
   };
 };
 
-export const dataArray = () => {
+export const dataArray = (organizationId: any) => {
   const products = useLazyGetProductsListQuery();
-  const organizations = useLazyGetSearchOrganizationsListQuery();
+  const organizations = useLazyGetCompanyAccountsDropdownQuery();
 
   return [
     {
@@ -39,7 +39,11 @@ export const dataArray = () => {
         fullWidth: true,
         placeholder: 'Select company',
         apiQuery: organizations,
-        getOptionLabel: (option: any) => option?.name,
+        getOptionLabel: (option: any) => option?.accountName,
+        externalParams: {
+          meta: false,
+          orgId: organizationId,
+        },
       },
       component: RHFAutocompleteAsync,
       md: 12,

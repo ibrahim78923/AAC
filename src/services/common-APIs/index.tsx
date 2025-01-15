@@ -111,6 +111,20 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       providesTags: ['USERS', 'PERMISSIONS'],
     }),
 
+    getCompanyAccountsDropdown: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_COMPANY_ORGANIZATION_DROPDOWN}/${params?.orgId}${END_POINTS?.GET_COMPANY_ACCOUNTS}`,
+        method: 'GET',
+        params: {
+          meta: params?.meta,
+        },
+      }),
+      providesTags: ['USERS', 'PERMISSIONS'],
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.organizationcompanyaccounts;
+      },
+    }),
+
     getCompanyAccountsLists: builder.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.GET_COMPANY_ORGANIZATION_DROPDOWN}/${params?.orgId}${END_POINTS?.GET_COMPANY_ACCOUNTS}`,
@@ -400,4 +414,5 @@ export const {
   useGetEmailExistQuery,
   useLazyGetAllUsersDropdownQuery,
   useGetAllUsersDropdownQuery,
+  useLazyGetCompanyAccountsDropdownQuery,
 } = CommonAPIS;
