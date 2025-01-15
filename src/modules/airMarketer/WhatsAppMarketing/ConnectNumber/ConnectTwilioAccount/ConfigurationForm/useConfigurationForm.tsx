@@ -35,13 +35,13 @@ const useConfigurationForm = () => {
           twilioConfig: JSON.stringify(payload),
           name: values?.configName,
           medium: values?.serviceName,
-          type: 'sms',
+          type: 'whatsapp',
         },
       })?.unwrap();
       enqueueSnackbar('Request Successful', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
-      router.push(AIR_MARKETER?.SMS_MARKETING_INTEGRATION_CONFIG);
+      router.push(AIR_MARKETER?.WHATSAPP_MARKETING_INTEGRATION_CONFIG);
     } catch (error: any) {
       enqueueSnackbar('Error occurred', {
         variant: NOTISTACK_VARIANTS?.ERROR,

@@ -33,7 +33,7 @@ export const AddNewAccount = baseAPI.injectEndpoints({
 
     deleteTwilioConfigurationPhoneNumber: builder.mutation({
       query: (body) => ({
-        url: `${AIR_MARKETER_SMS_MARKETING?.DELETE_TWILIO_CONFIGURATION_NUMBER}`,
+        url: `${AIR_MARKETER_SMS_MARKETING?.DELETE_WHSTSAPP_TWILIO_CONFIGURATION_NUMBER}`,
         method: 'DELETE',
         body: body,
       }),

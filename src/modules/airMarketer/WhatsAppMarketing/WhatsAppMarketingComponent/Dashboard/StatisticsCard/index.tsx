@@ -3,32 +3,58 @@ import { Box, Typography } from '@mui/material';
 import useStatisticsCard from './useStatisticsCard';
 import { styles } from './StatisticsCard.style';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { DatePicker } from '@mui/x-date-pickers';
+import useDashboard from '../useDashboard';
 
-const StatisticsCard = ({ loading, whatsappAnalytics }: any) => {
-  const { options, theme, updatedSeries } =
-    useStatisticsCard(whatsappAnalytics);
-
+const StatisticsCard = () => {
   const ReactApexChart = dynamic(() => import('react-apexcharts'), {
     ssr: false,
   });
 
+  const { options, theme, series } = useStatisticsCard();
+
+  const {
+    selectedDate,
+    setSelectedDate,
+    getWhatsappDashboardData,
+    getWhatsappDashboardLoading,
+  } = useDashboard();
+
+  const analyticsGraphData = getWhatsappDashboardData?.data?.statistics;
+
   return (
     <Box sx={styles?.staticCardStyle}>
-      <Typography
-        variant="h4"
+      <Box
         sx={{
-          color: `${theme?.palette?.custom?.dark_blue}`,
-          fontWeight: 600,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
         }}
       >
-        Total Conversion
-      </Typography>
-      {loading ? (
+        <Typography
+          variant="h4"
+          sx={{
+            color: `${theme?.palette?.custom?.dark_blue}`,
+            fontWeight: 600,
+          }}
+        >
+          Total Conversion
+        </Typography>
+        <DatePicker
+          views={['year']}
+          value={selectedDate}
+          onChange={(newValue: any) => {
+            setSelectedDate(newValue);
+          }}
+        />
+      </Box>
+
+      {getWhatsappDashboardLoading ? (
         <SkeletonTable />
       ) : (
         <ReactApexChart
           options={options}
-          series={updatedSeries}
+          series={series(analyticsGraphData)}
           type="area"
           height={450}
         />

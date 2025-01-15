@@ -4,17 +4,21 @@ import { useTheme } from '@mui/material';
 import { useConnectPhoneNumberForSmsMarketingMutation } from '@/services/airMarketer/SmsMarketing';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { getActiveAccountSession, setActiveAccountSession } from '@/utils';
+import useSMSMarketing from '../useSMSMarketing';
 
 const phoneUtil = PhoneNumberUtil.getInstance();
 const isValid = (phone: string) => {
   try {
-    return phoneUtil?.isValidNumber(phoneUtil.parseAndKeepRawInput(phone));
+    return phoneUtil?.isValidNumber(phoneUtil?.parseAndKeepRawInput(phone));
   } catch (error) {
     return false;
   }
 };
 
 const useConnectNumber = () => {
+  const { setConnectedChangeDetect } = useSMSMarketing();
+
   const theme = useTheme();
   const [phoneNumber, setPhoneNumber] = useState('');
   const isPhoneValid = isValid(phoneNumber);
@@ -36,6 +40,15 @@ const useConnectNumber = () => {
     setOpenDialogRegNumber(false);
   };
 
+  const activeAccount = getActiveAccountSession();
+  const handelUpdatedAccountSession = ({ id, phoneValue }: any) => {
+    setActiveAccountSession({
+      ...activeAccount,
+      configurationId: id,
+      ...(phoneValue && { twilioNumber: phoneValue }),
+    });
+  };
+
   const handleAddRegNumSubmit = async (phoneValue: any, config: any) => {
     try {
       await connectPhoneNumber({
@@ -45,6 +58,8 @@ const useConnectNumber = () => {
       enqueueSnackbar('Phone number Connected Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
+      handelUpdatedAccountSession({ id: config, phoneValue });
+      setConnectedChangeDetect((prev: any) => prev + 1);
     } catch (error: any) {
       const errMsg = error?.data?.message;
       const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;

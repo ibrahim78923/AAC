@@ -41,7 +41,7 @@ const IntegrationConfiguration = () => {
 
   const activeAccount = getActiveAccountSession();
 
-  const configId = activeAccount?.configurationId;
+  const configId = activeAccount?.whatsappConfigurationId;
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [activeId, setActiveId] = useState('');
@@ -52,7 +52,7 @@ const IntegrationConfiguration = () => {
         page: 1,
         limit: 10,
         meta: true,
-        type: 'sms',
+        type: 'whatsapp',
       },
     });
 
@@ -68,7 +68,7 @@ const IntegrationConfiguration = () => {
   const handleDeleteRecipient = async () => {
     try {
       await deleteTwilioConfigurationPhoneNumber({
-        smsPhoneNumberId: activeId,
+        whatsappPhoneNumberId: activeId,
       })?.unwrap();
       enqueueSnackbar(`Record deleted Successfully`, {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
@@ -117,8 +117,8 @@ const IntegrationConfiguration = () => {
       })?.unwrap();
 
       const updatedAccount = { ...activeAccount };
-      delete updatedAccount?.configurationId;
-      delete updatedAccount?.twilioNumber;
+      delete updatedAccount?.whatsappConfigurationId;
+      delete updatedAccount?.twilioWhatsappNumber;
       setActiveAccountSession(updatedAccount);
       enqueueSnackbar('Configuration Changed Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
@@ -134,7 +134,7 @@ const IntegrationConfiguration = () => {
   const handelUpdatedAccountSession = (id: any) => {
     setActiveAccountSession({
       ...activeAccount,
-      configurationId: id,
+      whatsappConfigurationId: id,
     });
   };
 
@@ -167,7 +167,7 @@ const IntegrationConfiguration = () => {
             <Typography variant="body2">Integrations and settings</Typography>
           </Box>
         </Box>
-        <Link href={AIR_MARKETER?.SMS_MARKETING_CONNECT_ACCOUNT}>
+        <Link href={AIR_MARKETER?.WHATSAPP_MARKETING_CONNECT_ACCOUNT}>
           <Button variant="contained" color="primary" startIcon={<PlusIcon />}>
             {' '}
             Add New
@@ -259,7 +259,7 @@ const IntegrationConfiguration = () => {
                 <AccordionDetails>
                   <TanstackTable
                     columns={getRowValues}
-                    data={item?.phoneNumbers}
+                    data={item?.whatsappPhoneNumbers}
                     isPagination={false}
                   />
                 </AccordionDetails>

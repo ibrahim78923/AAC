@@ -23,9 +23,9 @@ const NumberSelect = () => {
   const [activeAccountConfigId, setActiveAccountConfigId] = useState('');
 
   useEffect(() => {
-    if (activeAccount?.configurationId)
-      setActiveAccountConfigId(activeAccount?.configurationId);
-  }, [activeAccount?.configurationId]);
+    if (activeAccount?.whatsappConfigurationId)
+      setActiveAccountConfigId(activeAccount?.whatsappConfigurationId);
+  }, [activeAccount?.whatsappConfigurationId]);
 
   const { data: dataTwilioNumbersConfig, isLoading } =
     useGetTwilioNumbersConfigurationsQuery(
@@ -33,15 +33,16 @@ const NumberSelect = () => {
         params: {
           configurationId: activeAccountConfigId,
           configuredNumbersOnly: true,
-          type: 'sms',
+          type: 'whatsapp',
         },
       },
       { skip: activeAccountConfigId?.length < 1 },
     );
 
   const activeNumber = dataTwilioNumbersConfig?.data?.find(
-    (item: any) => item?.phoneNumber === activeAccount?.twilioNumber,
+    (item: any) => item?.phoneNumber === activeAccount?.twilioWhatsappNumber,
   );
+
   const smallScreen = useMediaQuery('(min-width: 380px)');
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -52,7 +53,6 @@ const NumberSelect = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   return (
     <Box>
       <Button
@@ -123,7 +123,9 @@ const NumberSelect = () => {
               avatarSrc={`${IMG_URL}${item?.userDetails?.avatar?.url}`}
               name={`${item?.userDetails?.firstName} ${item?.userDetails?.lastName}`}
               phone={item?.phoneNumber}
-              isSelected={activeAccount?.twilioNumber === item?.phoneNumber}
+              isSelected={
+                activeAccount?.twilioWhatsappNumber === item?.phoneNumber
+              }
             />
           </MenuItem>
         ))}

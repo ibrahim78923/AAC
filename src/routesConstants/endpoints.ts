@@ -337,6 +337,7 @@ export const END_POINTS = {
   GET_IS_PHONE_CONNECTED: '/sms-marketing/connected-number',
   GET_SMS_TEMPLATES: '/sms-marketing/template',
   CONNECT_PHONE_NUMBER: '/sms-marketing/connect-number',
+  CONNECT_PHONE_NUMBER_WHATSAPP: '/whatsapp-marketing/connect-number',
   WHATSAPP_TEMPLATE: '/whatsapp-marketing/template',
   SALES_TEAM: '/teams',
   SALES_TEAM_USERS: '/quote/team/user',
@@ -749,6 +750,8 @@ export const AIR_MARKETER = {
 export const AIR_MARKETER_SMS_MARKETING = {
   TWILIO_CONFIGURATION: '/companies/twilio-configuration',
   DELETE_TWILIO_CONFIGURATION_NUMBER: '/sms-marketing/delete-sms-phone-number',
+  DELETE_WHSTSAPP_TWILIO_CONFIGURATION_NUMBER:
+    '/whatsapp-marketing/delete-number',
   UPDATE_ACCOUNT: '/users/account',
   GET_TWILIO_CONFIGURATION: '/companies/get-company-twilio-configurations',
   GET_NUMBERS_TWILIO_CONFIGURATION:

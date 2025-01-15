@@ -1,35 +1,32 @@
-import { STATICTICS_STATUS } from '@/constants/strings';
 import { Theme, useTheme } from '@mui/material';
 
-const useStatisticsCard = (whatsappAnalytics: any) => {
+const useStatisticsCard = () => {
   const theme = useTheme<Theme>();
 
-  const series = [{ name: 'Received' }, { name: 'Sent' }, { name: 'Failed' }];
+  const series = (graphData: any) => {
+    const sentData = graphData?.map((item: any) => item?.sent);
+    const deliveredData = graphData?.map((item: any) => item?.delivered);
+    const failedData = graphData?.map((item: any) => item?.failed);
 
-  const updatedSeries: any = series?.map((serie) => {
-    if (serie?.name === STATICTICS_STATUS?.RECIEVED) {
-      return {
-        ...serie,
-        data: whatsappAnalytics?.map((item: any) => item?.delivered),
-      };
-    } else if (serie?.name === STATICTICS_STATUS?.SENT) {
-      return {
-        ...serie,
-        data: whatsappAnalytics?.map((item: any) => item?.sent),
-      };
-    } else if (serie?.name === STATICTICS_STATUS?.FAILED) {
-      return {
-        ...serie,
-        data: whatsappAnalytics?.map((item: any) => item?.failed),
-      };
-    } else {
-      return serie;
-    }
-  });
+    return [
+      {
+        name: 'Sent',
+        data: sentData,
+      },
+      {
+        name: 'Delivered',
+        data: deliveredData,
+      },
+      {
+        name: 'Failed',
+        data: failedData,
+      },
+    ];
+  };
 
   const options: any = {
     chart: {
-      type: 'area',
+      type: 'bar',
       height: 350,
       toolbar: {
         show: false,
@@ -47,7 +44,9 @@ const useStatisticsCard = (whatsappAnalytics: any) => {
       enabled: false,
     },
     stroke: {
-      curve: 'smooth',
+      show: true,
+      width: 3,
+      colors: ['transparent'],
     },
 
     xaxis: {
@@ -72,9 +71,7 @@ const useStatisticsCard = (whatsappAnalytics: any) => {
       `${theme?.palette?.error?.main}`,
     ],
     legend: {
-      position: 'top',
-      horizontalAlign: 'right',
-      verticalAlign: 'top',
+      horizontalAlign: 'left',
       itemMargin: {
         vertical: 16,
         horizontal: 16,
@@ -89,7 +86,6 @@ const useStatisticsCard = (whatsappAnalytics: any) => {
   };
   return {
     series,
-    updatedSeries,
     options,
     theme,
   };
