@@ -1,9 +1,6 @@
 import CustomPagination from '@/components/CustomPagination';
 import { TicketsCard } from './TicketCard';
-import ApiErrorState from '@/components/ApiErrorState';
-import NoData from '@/components/NoData';
 import { useTickets } from './useTickets';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { Fragment } from 'react';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import AddBoxIcon from '@mui/icons-material/AddBox';
@@ -12,6 +9,7 @@ import { ReportIssue } from './ReportIssue';
 import { PublicSingleDropdownButton } from '@/components/Buttons/PublicSingleDropdownButton';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
 import { Theme } from '@mui/material';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const Tickets = () => {
   const {
@@ -72,37 +70,36 @@ export const Tickets = () => {
           })}
         />
       </PageTitledHeader>
-      {lazyGetCustomerPortalTicketsStatus?.isLoading ||
-      lazyGetCustomerPortalTicketsStatus?.isFetching ? (
-        <SkeletonForm />
-      ) : lazyGetCustomerPortalTicketsStatus?.isError ? (
-        <ApiErrorState
-          canRefresh
-          refresh={() => getTicketsData?.(page)}
-          refreshButtonProps={{
-            sx: (theme: Theme) => ({
+      <ApiRequestFlow
+        hasNoData={!ticketData?.length}
+        showSkeleton={
+          lazyGetCustomerPortalTicketsStatus?.isLoading ||
+          lazyGetCustomerPortalTicketsStatus?.isFetching
+        }
+        hasError={lazyGetCustomerPortalTicketsStatus?.isError}
+        refreshApi={() => getTicketsData?.(page)}
+        noDataMessage="No ticket found"
+        refreshButtonProps={{
+          sx: (theme: Theme) => ({
+            bgcolor:
+              portalStyles?.btnPrimary ||
+              customizePortalDefaultValues(theme)?.btnPrimary,
+            color: 'common.white',
+            '&:hover': {
               bgcolor:
                 portalStyles?.btnPrimary ||
                 customizePortalDefaultValues(theme)?.btnPrimary,
               color: 'common.white',
-              '&:hover': {
-                bgcolor:
-                  portalStyles?.btnPrimary ||
-                  customizePortalDefaultValues(theme)?.btnPrimary,
-                color: 'common.white',
-              },
-            }),
-          }}
-        />
-      ) : !!!ticketData?.length ? (
-        <NoData message="No ticket found" />
-      ) : (
-        ticketData?.map((option: TicketCardDataI) => (
+            },
+          }),
+        }}
+      >
+        {ticketData?.map((option: TicketCardDataI) => (
           <Fragment key={option?._id}>
             <TicketsCard ticket={option} />
           </Fragment>
-        ))
-      )}
+        ))}
+      </ApiRequestFlow>
       <CustomPagination
         currentPage={metaData?.page}
         count={metaData?.pages}

@@ -2,17 +2,15 @@ import { Fragment } from 'react';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants/routes';
 import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
-import NoData from '@/components/NoData';
 import { Box } from '@mui/material';
 import ParentType from './ParentType';
-import ApiErrorState from '@/components/ApiErrorState';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ChildType from './ChildType';
 import useAssetType from './useAssetType';
 import { CustomAccordion } from '@/components/CustomAccordion';
-import { ACCORDION_VARIANTS } from '@/constants/mui-constant';
+import { ACCORDION_VARIANTS, SKELETON_TYPES } from '@/constants/mui-constant';
 import { ItemInitialHoveredIconCard } from '@/components/Cards/ItemInitialHoveredIconCard';
 import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const AssetType = () => {
   const {
@@ -45,12 +43,14 @@ export const AssetType = () => {
         handleAction={() => setParentDetails({ open: true, parentData: null })}
         disableAddButton={isLoading || isFetching}
       />
-
-      {isLoading || isFetching ? (
-        <SkeletonTable />
-      ) : isError ? (
-        <ApiErrorState canRefresh refresh={refetch} />
-      ) : !!data?.data?.length ? (
+      <ApiRequestFlow
+        showSkeleton={isLoading || isFetching}
+        hasError={isError}
+        refreshApi={refetch}
+        hasNoData={!data?.data?.length}
+        skeletonType={SKELETON_TYPES?.BARS}
+        length={6}
+      >
         <Box borderRadius={3} p={2} mt={2} bgcolor={'grey.400'}>
           <ItemInitialHoveredIconCard
             initial="D"
@@ -114,10 +114,7 @@ export const AssetType = () => {
             </CustomAccordion>
           ))}
         </Box>
-      ) : (
-        <NoData />
-      )}
-
+      </ApiRequestFlow>
       {parentDetails?.open && (
         <ParentType
           parentDetails={parentDetails}

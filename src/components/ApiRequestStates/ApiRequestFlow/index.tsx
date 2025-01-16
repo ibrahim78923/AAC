@@ -25,6 +25,7 @@ export const ApiRequestFlow = (props: any) => {
     hasNoData = false,
     noDataMessage,
     noDataHeight = errorHeight,
+    refreshButtonProps,
     children,
   } = props;
 
@@ -42,7 +43,12 @@ export const ApiRequestFlow = (props: any) => {
 
   if (hasError)
     return (
-      <ApiErrorState canRefresh refresh={refreshApi} height={errorHeight} />
+      <ApiErrorState
+        canRefresh
+        refresh={refreshApi}
+        height={errorHeight}
+        refreshButtonProps={refreshButtonProps}
+      />
     );
 
   if (hasNoData)

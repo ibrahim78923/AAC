@@ -1,31 +1,28 @@
 import { Grid, Typography } from '@mui/material';
-import ApiErrorState from '@/components/ApiErrorState';
 import { useWorkflowAutomation } from './useWorkflowAutomation';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
 import { ItemLinkCard } from '@/components/Cards/ItemLinkCard/ItemLinkCard';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const WorkflowAutomation = () => {
   const { isLoading, isError, isFetching, workflowAutomationTypes, refetch } =
     useWorkflowAutomation();
 
-  if (isError) return;
-
   return (
     <>
       <Typography variant="h3">Workflow Automation</Typography>
       <br />
-      {isFetching || isLoading ? (
-        <SkeletonCard
-          isCircular={'rounded'}
-          circularSkeletonSize={{ width: 70, height: 50 }}
-          outerPadding={{ x: 1, y: 2 }}
-          hasThirdSkeleton={false}
-          length={2}
-        />
-      ) : isError ? (
-        <ApiErrorState canRefresh refresh={() => refetch?.()} />
-      ) : (
+      <ApiRequestFlow
+        hasError={isError}
+        showSkeleton={isLoading || isFetching}
+        refreshApi={refetch}
+        skeletonType={SKELETON_TYPES?.BASIC_CARD}
+        cardSkeletonType={
+          SKELETON_TYPES?.MEDIUM_HORIZONTAL_TWO_LAYER_ROUNDED_CARD
+        }
+        length={2}
+      >
         <Grid container spacing={3}>
           {workflowAutomationTypes?.map((workflow) => (
             <PermissionsGuard
@@ -46,7 +43,7 @@ export const WorkflowAutomation = () => {
             </PermissionsGuard>
           ))}
         </Grid>
-      )}
+      </ApiRequestFlow>
     </>
   );
 };

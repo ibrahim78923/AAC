@@ -7,7 +7,7 @@ import { WorkflowSchedule } from './WorkflowSchedule';
 import { WorkflowRunAndTrigger } from './WorkflowRunAndTrigger';
 import { WorkflowConditions } from './WorkflowConditions';
 import { WorkflowActionExecuted } from './WorkflowActionExecuted';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const UpsertScheduledWorkflow = () => {
   const {
@@ -31,10 +31,8 @@ export const UpsertScheduledWorkflow = () => {
     movePage,
   } = useUpsertScheduledWorkflow();
 
-  if (isLoading || isFetching) return <SkeletonForm />;
-
   return (
-    <Box>
+    <ApiRequestFlow showSkeleton={isLoading || isFetching}>
       <FormProvider methods={methods} onSubmit={handleSubmit(handleFormSubmit)}>
         <Box mb={2}>
           <WorkflowHeader
@@ -69,6 +67,6 @@ export const UpsertScheduledWorkflow = () => {
         />
         <WorkflowActionExecuted watch={watch} setValue={setValue} />
       </FormProvider>
-    </Box>
+    </ApiRequestFlow>
   );
 };

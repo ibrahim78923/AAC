@@ -7,6 +7,7 @@ import {
   useLazyCheckSingleDefaultSurveySubmittedForRequesterQuery,
   useLazyGetSingleDefaultSurveyForCustomerTicketsQuery,
 } from '@/services/airCustomerPortal/Tickets';
+import { getCustomerPortalStyling } from '@/utils';
 import { NextRouter, useRouter } from 'next/router';
 import { useEffect } from 'react';
 
@@ -77,7 +78,7 @@ export const useSingleTicket = () => {
     )
       getSingleDefaultSurveyForCustomerTickets?.();
   }, [singleTicketData?.status]);
-
+  const portalStyles = getCustomerPortalStyling();
   return {
     ticketId,
     singleTicketData,
@@ -88,5 +89,6 @@ export const useSingleTicket = () => {
     getSingleDefaultSurveyForCustomerTickets,
     lazyCheckSingleDefaultSurveySubmittedForRequesterStatus,
     refetch,
+    portalStyles,
   };
 };

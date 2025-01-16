@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertSalesWorkflow } from './useUpsertSalesWorkflow';
 import { WorkflowConditions } from './WorkflowConditions';
@@ -6,7 +6,7 @@ import { WorkflowSchedule } from './WorkflowSchedule';
 import { WorkflowHeader } from './WorkflowHeader';
 import { WorkflowRunAndTrigger } from './WorkflowRunAndTrigger';
 import { WorkflowActionExecuted } from './WorkflowActionExecuted';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const UpsertSalesWorkflow = () => {
   const {
@@ -26,9 +26,8 @@ export const UpsertSalesWorkflow = () => {
     isWorkflowDrawer,
     setIsWorkflowDrawer,
   } = useUpsertSalesWorkflow();
-  if (byIdLoading || isFetching) return <SkeletonForm />;
   return (
-    <Box>
+    <ApiRequestFlow showSkeleton={byIdLoading || isFetching}>
       <FormProvider methods={methods} onSubmit={handleSubmit(handleFormSubmit)}>
         <WorkflowHeader
           watch={watch}
@@ -49,6 +48,6 @@ export const UpsertSalesWorkflow = () => {
         />
         <WorkflowActionExecuted watch={watch} setValue={setValue} />
       </FormProvider>
-    </Box>
+    </ApiRequestFlow>
   );
 };
