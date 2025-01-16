@@ -40,7 +40,7 @@ export const KnowledgeBaseDetail = () => {
         skeletonType={SKELETON_TYPES?.BASIC_CARD}
         cardSkeletonType={SKELETON_TYPES?.THREE_LAYER_LARGE_REVERSE_CARD}
         hasNoData={!articlesData}
-        NoDataMessage={'No articles found'}
+        noDataMessage={'No articles found'}
       >
         <>
           {articlesData?.map((item: any) => (

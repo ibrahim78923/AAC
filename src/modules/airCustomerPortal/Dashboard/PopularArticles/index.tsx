@@ -43,7 +43,7 @@ export const PopularArticles = () => {
         }
         hasNoData={!data?.data?.articles}
         length={9}
-        NoDataMessage={'No article found'}
+        noDataMessage={'No article found'}
         errorHeight="100%"
       >
         {

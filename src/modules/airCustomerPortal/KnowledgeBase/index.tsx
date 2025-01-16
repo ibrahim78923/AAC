@@ -84,7 +84,7 @@ export const KnowledgeBase = () => {
         skeletonType={SKELETON_TYPES?.BASIC_CARD}
         cardSkeletonType={SKELETON_TYPES?.THREE_LAYER_LARGE_REVERSE_CARD}
         hasNoData={!knowledgeBaseFolderData?.length}
-        NoDataMessage={'There are no knowledge base articles available'}
+        noDataMessage={'There are no knowledge base articles available'}
       >
         <Grid container spacing={2}>
           {knowledgeBaseFolderData?.map((folder: any) => (

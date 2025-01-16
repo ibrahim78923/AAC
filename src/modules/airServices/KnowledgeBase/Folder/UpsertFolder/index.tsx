@@ -3,10 +3,9 @@ import { useUpsertFolder } from './useUpsertFolder';
 import { upsertFolderFormFields } from './UpsertFolder.data';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
-import ApiErrorState from '@/components/ApiErrorState';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { KNOWLEDGE_BASE_ACTIONS_CONSTANT } from '@/constants/portal-actions';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 const { EDIT_FOLDER } = KNOWLEDGE_BASE_ACTIONS_CONSTANT ?? {};
 const { UPDATE, CREATE } = GENERIC_UPSERT_FORM_CONSTANT ?? {};
@@ -35,21 +34,22 @@ export const UpsertFolder = () => {
       handleSubmitButton={handleSubmit(onSubmit)}
       disabledSubmitButton={showLoader}
     >
-      <FormProvider methods={methods}>
-        {showLoader ? (
-          <SkeletonForm length={3} />
-        ) : isError ? (
-          <ApiErrorState canRefresh refresh={refetch} />
-        ) : (
-          upsertFolderFormFields?.map((item: ReactHookFormFieldsI) => (
+      <ApiRequestFlow
+        refreshApi={refetch}
+        showSkeleton={showLoader}
+        length={3}
+        hasError={isError}
+      >
+        <FormProvider methods={methods}>
+          {upsertFolderFormFields?.map((item: ReactHookFormFieldsI) => (
             <item.component
               {...item?.componentProps}
               key={item?.id}
               size={'small'}
             />
-          ))
-        )}
-      </FormProvider>
+          ))}
+        </FormProvider>
+      </ApiRequestFlow>
     </CustomCommonDialog>
   );
 };

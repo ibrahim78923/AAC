@@ -15,7 +15,7 @@ export const ServicesList = () => {
       skeletonType={SKELETON_TYPES?.BASIC_CARD}
       hasNoData={!services?.length}
       refreshApi={refetch}
-      NoDataMessage={'No service found'}
+      noDataMessage={'No service found'}
       errorHeight={'20vh'}
     >
       <Grid container spacing={1}>

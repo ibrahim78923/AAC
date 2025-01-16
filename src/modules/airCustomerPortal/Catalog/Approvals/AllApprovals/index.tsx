@@ -30,7 +30,7 @@ const AllApprovals = (props: AllApprovalsPropsI) => {
         skeletonType={SKELETON_TYPES?.BASIC_CARD}
         cardSkeletonType={SKELETON_TYPES?.THREE_LAYER_LARGE_REVERSE_CARD}
         hasNoData={!data?.data?.length}
-        NoDataMessage={'No approval found'}
+        noDataMessage={'No approval found'}
       >
         {data?.data?.map((approval: ApprovalsDataI) => (
           <Fragment key={approval?._id}>

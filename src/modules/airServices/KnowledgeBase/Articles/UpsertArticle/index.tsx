@@ -8,7 +8,6 @@ import {
 } from '@/components/ReactHookForm';
 import { useUpsertArticle } from './useUpsertArticle';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import {
   ARTICLE_STATUS,
   GENERIC_UPSERT_FORM_CONSTANT,
@@ -18,16 +17,16 @@ import {
   AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS,
   AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS,
 } from '@/constants/permission-keys';
-import { Permissions } from '@/constants/permissions';
-import ApiErrorState from '@/components/ApiErrorState';
 import { pxToRem } from '@/utils/getFontValue';
 import { ArticlesAttachment } from '../ArticlesAttachment';
+import { uploadFileMaxSize } from '@/utils/avatarUtils';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { ACCEPT_FILE_EXTENSIONS } from '@/constants/file';
 
 const { ATTACHMENT, CREATE_ARTICLE, SAVE_AS_DRAFT, PUBLISH_NOW } =
   AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS ?? {};
 const { EDIT_ARTICLE } =
   AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS ?? {};
-const { AIR_SERVICES_KNOWLEDGE_BASE_UPSERT_ARTICLE } = Permissions ?? {};
 const {
   EDIT,
   WRITE,
@@ -56,12 +55,12 @@ export const UpsertArticle = () => {
     handleSubmit,
   } = useUpsertArticle();
 
-  if (showLoader) return <SkeletonForm />;
-
-  if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
-
   return (
-    <PermissionsGuard permissions={AIR_SERVICES_KNOWLEDGE_BASE_UPSERT_ARTICLE}>
+    <ApiRequestFlow
+      showSkeleton={showLoader}
+      hasError={isError}
+      refreshApi={refetch}
+    >
       <FormProvider methods={methods}>
         <Grid container sx={{ borderRadius: '12px' }} spacing={1}>
           <Grid item xs={12} lg={9} pr={{ lg: 2.4 }}>
@@ -89,7 +88,17 @@ export const UpsertArticle = () => {
               />
             </Box>
             <PermissionsGuard permissions={[ATTACHMENT]}>
-              <RHFDropZone name="attachments" fullWidth label="Attachment" />
+              <RHFDropZone
+                name="attachments"
+                fullWidth
+                label="Attachment"
+                fileType={`PNG, JPG and PDF (max ${uploadFileMaxSize} MB)`}
+                accept={{
+                  'image/png': ACCEPT_FILE_EXTENSIONS?.PNG,
+                  'image/jpeg': ACCEPT_FILE_EXTENSIONS?.JPEG,
+                  'application/pdf': ACCEPT_FILE_EXTENSIONS?.PDF,
+                }}
+              />
               <ArticlesAttachment />
             </PermissionsGuard>
             <br />
@@ -167,6 +176,6 @@ export const UpsertArticle = () => {
           </Grid>
         </Grid>
       </FormProvider>
-    </PermissionsGuard>
+    </ApiRequestFlow>
   );
 };

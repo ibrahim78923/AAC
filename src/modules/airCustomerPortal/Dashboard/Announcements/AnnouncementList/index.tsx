@@ -23,7 +23,7 @@ export const AnnouncementList = (props: AnnouncementsListPropsI) => {
         skeletonType={SKELETON_TYPES?.BASIC_CARD}
         cardSkeletonType={SKELETON_TYPES?.THREE_LAYER_LARGE_REVERSE_CARD}
         hasNoData={!data?.data?.length}
-        NoDataMessage={'No announcement found'}
+        noDataMessage={'No announcement found'}
       >
         {data?.data?.map((announcement: any, index: number) => (
           <Fragment key={announcement?._id}>

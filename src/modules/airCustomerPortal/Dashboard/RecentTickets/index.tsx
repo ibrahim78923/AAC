@@ -31,7 +31,7 @@ export const RecentTickets = () => {
         skeletonType={SKELETON_TYPES?.BASIC_CARD}
         cardSkeletonType={SKELETON_TYPES?.THREE_LAYER_LARGE_REVERSE_CARD}
         hasNoData={!data?.data}
-        NoDataMessage={'No approval found'}
+        noDataMessage={'No approval found'}
         errorHeight="100%"
       >
         {data?.data?.map((ticket: TicketCardDataI) => (

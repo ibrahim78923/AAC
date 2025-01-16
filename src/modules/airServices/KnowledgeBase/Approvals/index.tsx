@@ -35,7 +35,7 @@ export const Approvals = () => {
         hasError={isError}
         refreshApi={() => getArticlesForApprovalsListData?.(page)}
         hasNoData={!hasData}
-        NoDataMessage={'No approvals found'}
+        noDataMessage={'No approvals found'}
         skeletonType={SKELETON_TYPES?.BASIC_CARD}
         cardSkeletonType={SKELETON_TYPES?.THREE_LAYER_LARGE_REVERSE_CARD}
       >

@@ -23,7 +23,7 @@ export const ApiRequestFlow = (props: any) => {
     refreshApi,
     errorHeight = '50vh',
     hasNoData = false,
-    NoDataMessage,
+    noDataMessage,
     noDataHeight = errorHeight,
     children,
   } = props;
@@ -46,7 +46,7 @@ export const ApiRequestFlow = (props: any) => {
     );
 
   if (hasNoData)
-    return <NoData message={NoDataMessage} height={noDataHeight} />;
+    return <NoData message={noDataMessage} height={noDataHeight} />;
 
   return <>{children}</>;
 };
