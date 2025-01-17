@@ -237,7 +237,7 @@ const useStepLineItems = (openCreateProduct: any, calculations: any) => {
     );
   }, [consumerDetails?.data]);
 
-  const [totalRequiredPoints, setTotalRequiredPoints] = useState(0);
+  const [RedeemRewardData, setRedeemRewardData] = useState([]);
 
   const handleCheckboxChange = async (item: any) => {
     const isChecked = !checkedItems[item?._id];
@@ -282,26 +282,34 @@ const useStepLineItems = (openCreateProduct: any, calculations: any) => {
       }
     });
 
-    // Calculate the total required points
-    setTotalRequiredPoints((prevTotal) =>
-      isChecked
-        ? prevTotal + item?.requiredPoints
-        : prevTotal - item?.requiredPoints,
-    );
+    // Update redeemReward array
+    setRedeemRewardData((prevRewards: any[] = []) => {
+      let updatedRewards;
+      if (isChecked) {
+        updatedRewards = [
+          ...prevRewards,
+          ...RedeemRewardData,
+          {
+            id: item?._id,
+            escrowRedeemedPoints: item?.requiredPoints || 0,
+            redeemedRewardPerConsumer: {
+              consumerId: consumerDetails?.data?._id,
+              quotesId: quoteId,
+              redeemedLimit: 1,
+              escrowStatus: 'Reserved',
+            },
+          },
+        ];
+      } else {
+        updatedRewards = prevRewards?.filter(
+          (reward: any) => reward?.id !== item?._id,
+        );
+      }
 
-    // redeemReward payload
-    const redeemRewardPayLoad = {
-      escrowRedeemedPoints: isChecked
-        ? totalRequiredPoints + item?.requiredPoints
-        : totalRequiredPoints - item?.requiredPoints,
-      redeemedRewardPerConsumer: {
-        consumerId: consumerDetails?.data?._id,
-        redeemedLimit: 1,
-        escrowStatus: 'Reserved',
-      },
-    };
+      dispatch(setRedeemReward(updatedRewards));
+      return updatedRewards;
+    });
 
-    dispatch(setRedeemReward(redeemRewardPayLoad));
     dispatch(setRewardId(item?._id));
   };
 

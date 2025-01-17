@@ -54,10 +54,10 @@ export const quotesLoaylityAPI = baseAPI.injectEndpoints({
       providesTags: TAG,
     }),
     updateRedeemReward: builder.mutation({
-      query: ({ id, body }: any) => ({
-        url: `${END_POINTS?.UPDATE_REWARDS_QUOTES}?id=${id}`,
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.UPDATE_REWARDS_QUOTES}`,
         method: 'PATCH',
-        body: body,
+        body: { redeemReward: body },
       }),
       invalidatesTags: TAG,
     }),

@@ -42,15 +42,17 @@ const useQuoteInvoice = (quoteId: any) => {
     }
   };
 
-  const subtotal = quoteDataById?.products?.reduce(
-    (acc: any, curr: any) => acc + curr?.unitPrice * curr?.quantity,
+  const additionalAmount = quoteDataById?.products?.reduce(
+    (acc: any, curr: any) =>
+      acc + curr?.unitPrice * curr?.additionalQuantity - curr?.unitDiscount,
     0,
   );
 
-  const unitDiscount = quoteDataById?.products?.reduce(
-    (acc: any, curr: any) => acc + curr?.unitDiscount * curr?.quantity,
-    0,
-  );
+  const subtotal = quoteDataById?.subTotal;
+  // const unitDiscount = quoteDataById?.products?.reduce(
+  //   (acc: any, curr: any) => acc + curr?.unitDiscount * curr?.quantity,
+  //   0,
+  // );
 
   useEffect(() => {
     if (quoteId) {
@@ -96,9 +98,10 @@ const useQuoteInvoice = (quoteId: any) => {
       dealId: quoteDataById?.dealId,
       comments: comments,
       customerEmail: values?.customerEmail,
-      status: 'DRAFT',
-      total: subtotal - unitDiscount,
+      status: 'PUBLISHED',
+      total: quoteDataById?.total,
       subTotal: subtotal,
+      // receiverBankAccountId: accountNo,
     };
     try {
       await postCreateInvoice({ body: payload })?.unwrap();
@@ -133,8 +136,8 @@ const useQuoteInvoice = (quoteId: any) => {
     closeModalEmail,
     methodsSendEmail,
     loadingPostInvoice,
-    unitDiscount,
     subtotal,
+    additionalAmount,
   };
 };
 

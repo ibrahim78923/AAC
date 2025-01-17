@@ -13,6 +13,7 @@ export interface RowI {
     lastName: string;
   };
   createdAt: string;
+  total: number;
 }
 
 export interface InfoI {
