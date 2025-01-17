@@ -1,10 +1,9 @@
 import { ViewDetailSharedIcon } from '@/assets/icons';
 import { Box, Typography, IconButton, Button } from '@mui/material';
 import { useAnnouncement } from './useAnnouncement';
-import { Fragment } from 'react';
-import { AnnouncementCard } from './AnnouncementCard';
 import NoData from '@/components/NoData';
 import { SingleDashboardComponentPropsI } from '../SingleDashboard/SingleDashboard.interface';
+import { InteractiveUserFeedCard } from '@/components/Cards/InteractiveUserFeedCard';
 
 export const Announcement = (props: SingleDashboardComponentPropsI) => {
   const { data, isPreviewMode } = props;
@@ -46,17 +45,15 @@ export const Announcement = (props: SingleDashboardComponentPropsI) => {
             <>
               {data?.announcements?.annoucements
                 ?.slice?.(0, 5)
-                ?.map((announcement: any, index: number) => (
-                  <Fragment key={announcement?._id}>
-                    <AnnouncementCard
-                      data={announcement}
-                      index={index}
-                      userDetails={{
-                        userAvatar: announcement?.userAvatar,
-                        userName: announcement?.userName,
-                      }}
-                    />
-                  </Fragment>
+                ?.map((announcement: any) => (
+                  <InteractiveUserFeedCard
+                    key={announcement?._id}
+                    firstName={announcement?.userName}
+                    userAvatarSrc={announcement?.userAvatar}
+                    feedTitle={announcement?.title}
+                    dateFrom={announcement?.createdAt}
+                    hasBorderBottom
+                  />
                 ))}
             </>
           ) : (

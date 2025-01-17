@@ -1,32 +1,28 @@
 import { Box, Typography } from '@mui/material';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { MoreVert } from '@mui/icons-material';
-import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
-import { AnnouncementCardProps } from './AnnouncementCard.interface';
 import { TruncateText } from '@/components/TruncateText';
 import { UserInfo } from '@/components/UserInfo';
 import { PublicSingleDropdownButton } from '@/components/Buttons/PublicSingleDropdownButton';
 import { formatTimeDifference } from '@/lib/date-time';
 
-const { ONE } = SELECTED_ARRAY_LENGTH ?? {};
-
-export const AnnouncementCard = (props: AnnouncementCardProps) => {
+export const InteractiveUserFeedCard = (props: any) => {
   const {
-    data,
-    index,
     dropdownAnnouncementsOptions,
-    isLoggedInUser,
-    userDetails,
+    feedTitle,
+    hasBorderBottom,
+    firstName,
+    lastName,
+    userAvatarSrc,
+    hasAction,
+    dateFrom,
   } = props;
 
   return (
     <Box
-      key={data?._id}
       px={2}
       py={1.5}
-      borderBottom={
-        index !== data?.announcements?.length - ONE ? '1px solid' : ''
-      }
+      borderBottom={hasBorderBottom ? '1px solid' : ''}
       borderColor={'custom.off_white'}
     >
       <Box
@@ -40,15 +36,15 @@ export const AnnouncementCard = (props: AnnouncementCardProps) => {
           component={'div'}
           color={'blue.main'}
         >
-          <TruncateText text={data?.title} />
+          <TruncateText text={feedTitle} />
         </Typography>
         <Box display={'flex'} flexWrap={'wrap'} gap={1}>
           <UserInfo
-            nameInitial={fullNameInitial(userDetails?.userName)}
-            name={fullName(userDetails?.userName)}
-            avatarSrc={userDetails?.userAvatar}
+            nameInitial={fullNameInitial(firstName, lastName)}
+            name={fullName(firstName, lastName)}
+            avatarSrc={userAvatarSrc}
           />
-          {isLoggedInUser && !!dropdownAnnouncementsOptions?.length && (
+          {hasAction && !!dropdownAnnouncementsOptions?.length && (
             <Box>
               <PublicSingleDropdownButton
                 dropdownOptions={dropdownAnnouncementsOptions}
@@ -62,7 +58,7 @@ export const AnnouncementCard = (props: AnnouncementCardProps) => {
         </Box>
       </Box>
       <Typography color={'grey.900'} component={'p'} variant="body3">
-        {formatTimeDifference(data?.createdAt)}
+        {formatTimeDifference(dateFrom)}
       </Typography>
     </Box>
   );

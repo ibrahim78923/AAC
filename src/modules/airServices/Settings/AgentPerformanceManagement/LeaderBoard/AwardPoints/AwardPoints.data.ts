@@ -23,7 +23,7 @@ export const awardPointsSchema = yup?.object()?.shape({
     ?.number()
     ?.negative('Negative number required')
     ?.required('Late is required')
-    ?.typeError('Must be greater then 0'),
+    ?.typeError('Negative number required'),
   firstCallResolution: yup
     ?.number()
     ?.positive('Must be greater then 0')
@@ -38,7 +38,7 @@ export const awardPointsSchema = yup?.object()?.shape({
     ?.number()
     ?.negative('Negative number required')
     ?.required('Unhappy is required')
-    ?.typeError('Must be greater then 0'),
+    ?.typeError('Negative number required'),
 });
 
 export const awardFormDefaultValue = (data?: any) => {

@@ -39,7 +39,7 @@ export const KnowledgeBaseDetail = () => {
         refreshApi={refetch}
         skeletonType={SKELETON_TYPES?.BASIC_CARD}
         cardSkeletonType={SKELETON_TYPES?.THREE_LAYER_LARGE_REVERSE_CARD}
-        hasNoData={!articlesData}
+        hasNoData={!articlesData?.length}
         noDataMessage={'No articles found'}
       >
         <>

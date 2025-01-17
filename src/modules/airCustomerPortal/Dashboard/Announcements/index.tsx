@@ -1,10 +1,9 @@
 import { CardLayout } from '../CardLayout';
-import { AnnouncementCard } from './AnnouncementCard';
-import { Fragment } from 'react';
 import { AnnouncementList } from './AnnouncementList';
 import { useAnnouncements } from './useAnnouncements';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
+import { InteractiveUserFeedCard } from '@/components/Cards/InteractiveUserFeedCard';
 
 export const Announcements = () => {
   const {
@@ -39,9 +38,15 @@ export const Announcements = () => {
           errorHeight="100%"
         >
           {data?.data?.map((announcement: any, index: number) => (
-            <Fragment key={announcement?._id}>
-              <AnnouncementCard data={announcement} index={index} />
-            </Fragment>
+            <InteractiveUserFeedCard
+              key={announcement?._id}
+              firstName={announcement?.createdBy?.firstName}
+              lastName={announcement?.createdBy?.lastName}
+              userAvatarSrc={announcement?.createdBy?.avatar?.url}
+              feedTitle={announcement?.title}
+              dateFrom={announcement?.createdAt}
+              hasBorderBottom={index !== data?.data?.length - 1}
+            />
           ))}
         </ApiRequestFlow>
       </CardLayout>

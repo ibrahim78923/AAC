@@ -1,9 +1,8 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import { Fragment } from 'react';
-import { AnnouncementCard } from '../AnnouncementCard';
 import { AnnouncementsListPropsI } from '../Announcements.interface';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
+import { InteractiveUserFeedCard } from '@/components/Cards/InteractiveUserFeedCard';
 
 export const AnnouncementList = (props: AnnouncementsListPropsI) => {
   const { isError, data, isDrawerOpen, onClose, refetch, showLoader } = props;
@@ -26,9 +25,15 @@ export const AnnouncementList = (props: AnnouncementsListPropsI) => {
         noDataMessage={'No announcement found'}
       >
         {data?.data?.map((announcement: any, index: number) => (
-          <Fragment key={announcement?._id}>
-            <AnnouncementCard data={announcement} index={index} />
-          </Fragment>
+          <InteractiveUserFeedCard
+            key={announcement?._id}
+            firstName={announcement?.createdBy?.firstName}
+            lastName={announcement?.createdBy?.lastName}
+            userAvatarSrc={announcement?.createdBy?.avatar?.url}
+            feedTitle={announcement?.title}
+            dateFrom={announcement?.createdAt}
+            hasBorderBottom={index !== data?.data?.length - 1}
+          />
         ))}
       </ApiRequestFlow>
     </CommonDrawer>
