@@ -3,9 +3,8 @@ import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useUpsertTeams } from './useUpsertTeams';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import ApiErrorState from '@/components/ApiErrorState';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 const UpsertTeams = () => {
   const {
@@ -43,11 +42,11 @@ const UpsertTeams = () => {
       isDisabled={apiCallInProgress}
       disabledCancelBtn={apiCallInProgress}
     >
-      {isLoading || isFetching ? (
-        <SkeletonForm />
-      ) : isError ? (
-        <ApiErrorState canRefresh refresh={refetch} />
-      ) : (
+      <ApiRequestFlow
+        showSkeleton={isLoading || isFetching}
+        hasError={isError}
+        refreshApi={refetch}
+      >
         <FormProvider methods={methods}>
           <Grid container spacing={1}>
             {upsertTeamFormFields?.map((item: ReactHookFormFieldsI) => (
@@ -57,7 +56,7 @@ const UpsertTeams = () => {
             ))}
           </Grid>
         </FormProvider>
-      )}
+      </ApiRequestFlow>
     </CommonDrawer>
   );
 };

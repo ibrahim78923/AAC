@@ -9,6 +9,7 @@ export const AddNewCard = (props: any) => {
     flexDirection = 'column',
     iconBackgroundColor = 'primary.lighter',
     iconBorderColor = 'transparent',
+    iconColor = 'primary.main',
   } = props;
 
   return (
@@ -39,7 +40,7 @@ export const AddNewCard = (props: any) => {
           padding: 0.6,
         }}
       >
-        <Add fontSize="large" color="primary" />
+        <Add fontSize="large" color="primary" sx={{ color: iconColor }} />
       </Box>
       {title && (
         <Typography fontWeight={600} color="slateBlue.main">

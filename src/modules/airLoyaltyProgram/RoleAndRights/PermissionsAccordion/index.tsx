@@ -1,14 +1,13 @@
 import { Box, Grid } from '@mui/material';
 import { RHFCheckbox } from '@/components/ReactHookForm';
-import ApiErrorState from '@/components/ApiErrorState';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { AntSwitch } from '@/components/AntSwitch';
 import { Fragment } from 'react';
 import { pxToRem } from '@/utils/getFontValue';
 import { CustomAccordion } from '@/components/CustomAccordion';
 import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
-import { ACCORDION_VARIANTS } from '@/constants/mui-constant';
+import { ACCORDION_VARIANTS, SKELETON_TYPES } from '@/constants/mui-constant';
 import { usePermissionsAccordion } from './usePermissionsAccordion';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const PermissionsAccordion = (props: any) => {
   const { disabled } = props;
@@ -23,12 +22,13 @@ export const PermissionsAccordion = (props: any) => {
     refetch,
   } = usePermissionsAccordion(props);
 
-  if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
-
-  if (isLoading || isFetching) return <SkeletonTable />;
-
   return (
-    <>
+    <ApiRequestFlow
+      showSkeleton={isLoading || isFetching}
+      hasError={isError}
+      refreshApi={refetch}
+      skeletonType={SKELETON_TYPES?.BARS}
+    >
       {data?.data?.permissions?.map((parent: any) => (
         <Fragment key={parent?.name}>
           {isSettingPermission?.isLoading &&
@@ -80,6 +80,6 @@ export const PermissionsAccordion = (props: any) => {
           )}
         </Fragment>
       ))}
-    </>
+    </ApiRequestFlow>
   );
 };

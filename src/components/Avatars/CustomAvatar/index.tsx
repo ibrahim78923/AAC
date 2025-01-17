@@ -1,6 +1,6 @@
 import { generateImage } from '@/utils/avatarUtils';
 import { Avatar, Typography } from '@mui/material';
-import { CustomTooltip } from '../CustomTooltip';
+import { CustomTooltip } from '../../CustomTooltip';
 
 export const CustomAvatar = (props: any) => {
   const {

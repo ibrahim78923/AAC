@@ -18,4 +18,5 @@ export interface SingleDropdownOptionI {
   handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => void;
   disabled?: boolean;
   titleSx?: { [key: string]: string | number };
+  hasNoPermission?: boolean;
 }

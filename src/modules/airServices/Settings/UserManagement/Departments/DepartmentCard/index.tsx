@@ -6,8 +6,8 @@ import { Permissions } from '@/constants/permissions';
 import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { IDepartmentsProps } from '../Departments.interface';
-import { CustomAvatar } from '@/components/CustomAvatar';
-import { CustomAvatarGroup } from '@/components/CustomAvatarGroup';
+import { CustomAvatar } from '@/components/Avatars/CustomAvatar';
+import { CustomAvatarGroup } from '@/components/Avatars/CustomAvatarGroup';
 
 export const DepartmentCard = (props: IDepartmentsProps) => {
   const { handleAddMember, item, departmentActionDropdown } = props;

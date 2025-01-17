@@ -2,8 +2,8 @@ import { Grid, Typography } from '@mui/material';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { useReports } from './useReports';
 import { ItemLinkCard } from '@/components/Cards/ItemLinkCard/ItemLinkCard';
-import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
-import ApiErrorState from '@/components/ApiErrorState';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const Reports = () => {
   const { reportsTypes, isLoading, isError, isFetching, refetch } =
@@ -15,17 +15,15 @@ export const Reports = () => {
         Reports and Analytics
       </Typography>
       <br />
-      {isFetching || isLoading ? (
-        <SkeletonCard
-          isCircular={'rounded'}
-          circularSkeletonSize={{ width: 70, height: 50 }}
-          outerPadding={{ x: 1, y: 2 }}
-          hasThirdSkeleton={false}
-          length={2}
-        />
-      ) : isError ? (
-        <ApiErrorState canRefresh refresh={refetch} />
-      ) : (
+      <ApiRequestFlow
+        showSkeleton={isFetching || isLoading}
+        hasError={isError}
+        refreshApi={refetch}
+        skeletonType={SKELETON_TYPES?.BASIC_CARD}
+        cardSkeletonType={
+          SKELETON_TYPES?.MEDIUM_HORIZONTAL_TWO_LAYER_ROUNDED_CARD
+        }
+      >
         <Grid container spacing={3}>
           {reportsTypes?.map((report: any) => (
             <PermissionsGuard permissions={report?.permission} key={report?.id}>
@@ -47,7 +45,7 @@ export const Reports = () => {
             </PermissionsGuard>
           ))}
         </Grid>
-      )}
+      </ApiRequestFlow>
     </>
   );
 };

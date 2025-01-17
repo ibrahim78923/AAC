@@ -4,11 +4,11 @@ import MenuItem from '@mui/material/MenuItem';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { IconButton, Typography } from '@mui/material';
 import { useSingleDropdownButton } from './useSingleDropdownButton';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import {
   SingleDropdownButtonPropsI,
   SingleDropdownOptionI,
 } from './SingleDropdownButton.interface';
+import { ConditionalPermissionGuard } from '@/GuardsAndPermissions/ConditionalPermissionGuard';
 
 export const SingleDropdownButton = (props: SingleDropdownButtonPropsI) => {
   const {
@@ -55,7 +55,8 @@ export const SingleDropdownButton = (props: SingleDropdownButtonPropsI) => {
         sx={{ padding: 2, ...menuSxProps }}
       >
         {dropdownOptions?.map((singleOption: SingleDropdownOptionI) => (
-          <PermissionsGuard
+          <ConditionalPermissionGuard
+            hasNoPermission={singleOption?.hasNoPermission ?? false}
             permissions={singleOption?.permissionKey}
             key={singleOption?.id}
           >
@@ -82,7 +83,7 @@ export const SingleDropdownButton = (props: SingleDropdownButtonPropsI) => {
                 {singleOption?.title}
               </Typography>
             </MenuItem>
-          </PermissionsGuard>
+          </ConditionalPermissionGuard>
         ))}
       </Menu>
     </>

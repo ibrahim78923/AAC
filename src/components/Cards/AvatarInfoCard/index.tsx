@@ -1,4 +1,4 @@
-import { CustomAvatar } from '@/components/CustomAvatar';
+import { CustomAvatar } from '@/components/Avatars/CustomAvatar';
 import { TruncateText } from '@/components/TruncateText';
 import { pxToRem } from '@/utils/getFontValue';
 import { Box, Typography } from '@mui/material';

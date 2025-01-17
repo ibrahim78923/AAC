@@ -1,7 +1,5 @@
-import { Box, Grid, Skeleton, Typography } from '@mui/material';
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import { Box, Grid } from '@mui/material';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { FolderLargePrimaryIcon, FolderLargeYellowIcon } from '@/assets/icons';
 import { CreateNewFolder } from './CreateNewFolder';
 import Search from '@/components/Search';
 import { AIR_SERVICES } from '@/constants/routes';
@@ -9,12 +7,12 @@ import { useCannedResponses } from './useCannedResponses';
 import CustomPagination from '@/components/CustomPagination';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
-import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
-import { LockedIcon } from '@/assets/icons';
-import { MoreHoriz } from '@mui/icons-material';
 import { getCannedResponseDropdownOptions } from './CannedResponses.data';
-import ApiErrorState from '@/components/ApiErrorState';
 import { DeleteCannedResponse } from './DeleteCannedResponse';
+import { AddNewCard } from '@/components/Cards/AddNewCard';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
+import { SemiInteractiveInfoCard } from '@/components/Cards/SemiInteractiveInfoCard';
 
 export const CannedResponses = () => {
   const {
@@ -48,83 +46,74 @@ export const CannedResponses = () => {
           AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.SEARCH_EDIT_DELETE_CANNED_RESPONSES,
         ]}
       >
-        <Search label={'Search Here'} setSearchBy={handleSearch} />
+        <Box my={1}>
+          <Search label={'Search Here'} setSearchBy={handleSearch} />
+        </Box>
       </PermissionsGuard>
 
-      <Grid container spacing={3} mt={1}>
-        <PermissionsGuard
-          permissions={[
-            AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.ADD_CANNED_RESPONSES_FOLDERS,
-          ]}
-        >
-          <Grid item lg={4} sm={6} xs={12}>
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              flexDirection="column"
-              gap={1}
-              height="12rem"
-              border="0.06rem solid"
-              borderColor="grey.700"
-              borderRadius=".5rem"
-              sx={{ cursor: 'pointer' }}
-              onClick={() =>
-                setOpenModal({ create: true, delete: false, editData: null })
-              }
-            >
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                width="2.1rem"
-                height="2.1rem"
-                bgcolor="custom.light_lavender_gray"
-                borderRadius="50%"
-              >
-                <AddRoundedIcon
-                  sx={{
-                    color: 'blue.dull_blue',
-                  }}
-                />
-              </Box>
-              <Typography fontWeight={600} color="blue.dull_blue">
-                Add New
-              </Typography>
-            </Box>
-          </Grid>
-        </PermissionsGuard>
-
-        <PermissionsGuard
-          permissions={[
-            AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.VIEW_DEFAULT_CANNED_RESPONSES_FOLDERS,
-          ]}
-        >
-          {lazyGetCannedResponsesStatus?.isError ? (
-            <Grid item xs={12}>
-              <ApiErrorState
-                canRefresh
-                refresh={() => getCannedResponsesListData?.()}
+      <ApiRequestFlow
+        showSkeleton={
+          lazyGetCannedResponsesStatus?.isLoading ||
+          lazyGetCannedResponsesStatus?.isFetching
+        }
+        hasError={lazyGetCannedResponsesStatus?.isError}
+        refreshApi={getCannedResponsesListData}
+        skeletonType={SKELETON_TYPES?.BASIC_CARD}
+        cardSkeletonType={SKELETON_TYPES?.LARGE_VERTICAL_TWO_LAYER_DOUBLE_CARD}
+      >
+        <Grid container spacing={3} mt={1}>
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.ADD_CANNED_RESPONSES_FOLDERS,
+            ]}
+          >
+            <Grid item lg={4} sm={6} xs={12}>
+              <AddNewCard
+                title="Add New"
+                iconBackgroundColor="custom.light_lavender_gray"
+                iconColor="blue.dull_blue"
+                onClick={() =>
+                  setOpenModal({ create: true, delete: false, editData: null })
+                }
               />
             </Grid>
-          ) : lazyGetCannedResponsesStatus?.isLoading ||
-            lazyGetCannedResponsesStatus?.isFetching ? (
-            [1, 2, 3, 4, 5]?.map((item: number) => (
-              <Grid item lg={4} sm={6} xs={12} key={item}>
-                <Skeleton height="12rem" variant="rectangular" />
-              </Grid>
-            ))
-          ) : (
-            cannedResponses?.map((response: any) => (
+          </PermissionsGuard>
+
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.VIEW_DEFAULT_CANNED_RESPONSES_FOLDERS,
+            ]}
+          >
+            {cannedResponses
+              ?.filter((item: any) => item?.perDefine)
+              ?.map((response: any) => (
+                <Grid item lg={4} sm={6} xs={12} key={response?._id}>
+                  <SemiInteractiveInfoCard
+                    onClick={() =>
+                      router?.push({
+                        pathname: `${AIR_SERVICES?.CANNED_RESPONSE_SETTINGS}/${convertToHyphenCase(
+                          response?.folderName,
+                        )}`,
+                        query: { id: response?._id },
+                      })
+                    }
+                    isLocked={response?.perDefine}
+                    name={response?.folderName}
+                    description={response?.description ?? 'No Description'}
+                    dropdownOptions={getCannedResponseDropdownOptions(
+                      setOpenModal,
+                      response,
+                    )}
+                  />
+                </Grid>
+              ))}
+          </PermissionsGuard>
+
+          {cannedResponses
+            ?.filter((item: any) => !item?.perDefine)
+            ?.map((response: any) => (
               <Grid item lg={4} sm={6} xs={12} key={response?._id}>
-                <Box
-                  height={'12rem'}
-                  border={'0.06rem solid'}
-                  borderColor={'grey.700'}
-                  borderRadius={'.5rem'}
-                  sx={{ cursor: 'pointer' }}
-                  position={'relative'}
-                  p={2}
+                <SemiInteractiveInfoCard
                   onClick={() =>
                     router?.push({
                       pathname: `${AIR_SERVICES?.CANNED_RESPONSE_SETTINGS}/${convertToHyphenCase(
@@ -133,83 +122,20 @@ export const CannedResponses = () => {
                       query: { id: response?._id },
                     })
                   }
-                >
-                  <Box
-                    display="flex"
-                    justifyContent="end"
-                    position={'absolute'}
-                    right={10}
-                  >
-                    {response?.perDefine ? (
-                      <LockedIcon />
-                    ) : (
-                      <SingleDropdownButton
-                        dropdownOptions={getCannedResponseDropdownOptions(
-                          setOpenModal,
-                          response,
-                        )}
-                        dropdownName={
-                          <MoreHoriz
-                            sx={{ color: 'secondary.lighter' }}
-                            fontSize="medium"
-                          />
-                        }
-                        hasEndIcon={false}
-                        btnVariant="text"
-                      />
-                    )}
-                  </Box>
-
-                  <Box
-                    display={'flex'}
-                    justifyContent={'center'}
-                    flexDirection={'column'}
-                    height={'100%'}
-                  >
-                    <Box>
-                      {response?.perDefine ? (
-                        <FolderLargePrimaryIcon />
-                      ) : (
-                        <FolderLargeYellowIcon />
-                      )}
-                    </Box>
-
-                    <Typography
-                      fontWeight={700}
-                      color="blue.dark"
-                      mt={1}
-                      textTransform={'capitalize'}
-                    >
-                      {response?.folderName}
-                    </Typography>
-
-                    <Typography
-                      fontWeight={500}
-                      variant="body2"
-                      color="custom.main"
-                      height={'100%'}
-                      overflow={'auto'}
-                      textTransform={
-                        response?.perDefine ? 'capitalize' : 'none'
-                      }
-                      sx={{
-                        textOverflow: 'break-all',
-                        wordBreak: 'break-all',
-                        display: '-webkit-box',
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: 'vertical',
-                      }}
-                    >
-                      {response?.description ?? 'No Description'}
-                    </Typography>
-                  </Box>
-                </Box>
+                  isLocked={response?.perDefine}
+                  name={response?.folderName}
+                  description={response?.description ?? 'No Description'}
+                  dropdownOptions={getCannedResponseDropdownOptions(
+                    setOpenModal,
+                    response,
+                  )}
+                  hasNoDropdownPermission={false}
+                  dropdownPermissions={[
+                    AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.EDIT_DELETE_CUSTOM_FOLDERS,
+                  ]}
+                />
               </Grid>
-            ))
-          )}
-        </PermissionsGuard>
-
-        {cannedResponsesMetaData && cannedResponsesMetaData?.total > 5 && (
+            ))}
           <Grid item xs={12}>
             <CustomPagination
               currentPage={page}
@@ -221,8 +147,8 @@ export const CannedResponses = () => {
               setPageLimit={setPageLimit}
             />
           </Grid>
-        )}
-      </Grid>
+        </Grid>
+      </ApiRequestFlow>
 
       {openModal?.create && (
         <CreateNewFolder

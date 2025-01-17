@@ -3,13 +3,12 @@ import { useSingleGenericReportDetail } from './useSingleGenericReportDetail';
 import { Box, Grid } from '@mui/material';
 import { createElement } from 'react';
 import { LoadingButton } from '@mui/lab';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
-import ApiErrorState from '@/components/ApiErrorState';
 import { MUI_GRID_LENGTH } from '@/constants/strings';
 import {
   REPORTS_WIDGET_COMPONENT,
   REPORTS_WIDGETS,
 } from './SingleGenericReportDetail.data';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const SingleGenericReportDetail = () => {
   const {
@@ -22,14 +21,12 @@ export const SingleGenericReportDetail = () => {
     moveBack,
   } = useSingleGenericReportDetail?.();
 
-  if (singleReportApi?.isLoading || singleReportApi?.isFetching)
-    return <SkeletonTable />;
-
-  if (singleReportApi?.isError)
-    return <ApiErrorState canRefresh refresh={singleReportApi?.refetch} />;
-
   return (
-    <>
+    <ApiRequestFlow
+      showSkeleton={singleReportApi?.isLoading || singleReportApi?.isFetching}
+      hasError={singleReportApi?.isError}
+      refreshApi={singleReportApi?.refetch}
+    >
       <Box ref={reportRef}>
         <PageTitledHeader
           title={reportWidgets?.name}
@@ -76,6 +73,6 @@ export const SingleGenericReportDetail = () => {
           ))}
         </Grid>
       </Box>
-    </>
+    </ApiRequestFlow>
   );
 };
