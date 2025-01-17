@@ -7,7 +7,7 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useBusinessHour } from './useBusinessHour';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { MoreHoriz } from '@mui/icons-material';
 import { getBusinessHoursOptions } from './BusinessHours.data';
 import ApiErrorState from '@/components/ApiErrorState';

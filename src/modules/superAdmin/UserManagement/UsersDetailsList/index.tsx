@@ -101,6 +101,7 @@ const UsersDetailsList = () => {
     company: employeeFilter?.company?._id,
     status: employeeFilter?.status ? employeeFilter?.status : undefined,
   };
+
   const {
     data: employeeList,
     isLoading: employeeListLoading,
@@ -482,6 +483,7 @@ const UsersDetailsList = () => {
           setIsOpenDrawer={setIsOpenDrawer}
           employeeFilter={employeeFilter}
           setEmployeeFilter={setEmployeeFilter}
+          organizationId={organizationId}
         />
       )}
       {isOpenAddCompanyDrawer && (

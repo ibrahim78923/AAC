@@ -1,4 +1,4 @@
-import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
+import { SingleDropdownButtonCloseMenuI } from '@/components/Buttons/SingleDropdownButton/SingleDropdownButton.interface';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { DeleteRelatedTicket } from '../DeleteRelatedTicket';

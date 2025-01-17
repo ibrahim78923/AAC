@@ -1,6 +1,7 @@
 import {
   Box,
   Checkbox,
+  Skeleton,
   Typography,
   useMediaQuery,
   useTheme,
@@ -10,7 +11,6 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { styles } from './NumberSelect.style';
-import { UserAvatarImage } from '@/assets/images';
 import Image from 'next/image';
 import { ArrowDownIcon } from '@/assets/icons';
 import { useGetTwilioNumbersConfigurationsQuery } from '@/services/airMarketer/SmsMarketing/AddNewAccount';
@@ -27,17 +27,21 @@ const NumberSelect = () => {
       setActiveAccountConfigId(activeAccount?.configurationId);
   }, [activeAccount?.configurationId]);
 
-  const { data: dataTwilioNumbersConfig } =
+  const { data: dataTwilioNumbersConfig, isLoading } =
     useGetTwilioNumbersConfigurationsQuery(
       {
         params: {
           configurationId: activeAccountConfigId,
           configuredNumbersOnly: true,
+          type: 'sms',
         },
       },
       { skip: activeAccountConfigId?.length < 1 },
     );
 
+  const activeNumber = dataTwilioNumbersConfig?.data?.find(
+    (item: any) => item?.phoneNumber === activeAccount?.twilioNumber,
+  );
   const smallScreen = useMediaQuery('(min-width: 380px)');
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -61,13 +65,30 @@ const NumberSelect = () => {
         onClick={handleClick}
         sx={styles?.dropdownBtn}
       >
-        <UserInfo
-          avatarSrc={UserAvatarImage}
-          name="John Doe"
-          phone="+1234567890"
-          open={open}
-          isDropdown
-        />
+        {isLoading ? (
+          <Box display="flex" alignItems="center" gap="10px">
+            <Skeleton variant="circular" width={36} height={36} />
+            <Box>
+              <Skeleton
+                variant="rounded"
+                width={100}
+                height={15}
+                sx={{ marginBottom: '5px' }}
+              />
+              <Skeleton variant="rounded" width={80} height={15} />
+            </Box>
+          </Box>
+        ) : (
+          <UserInfo
+            avatarSrc={`${IMG_URL}${activeNumber?.userDetails?.avatar?.url}`}
+            name={`${activeNumber?.userDetails?.firstName ?? '-'} ${
+              activeNumber?.userDetails?.lastName ?? '-'
+            }`}
+            phone={activeNumber?.phoneNumber ?? '--'}
+            open={open}
+            isDropdown
+          />
+        )}
       </Button>
       <Menu
         id="basic-menu"
@@ -102,6 +123,7 @@ const NumberSelect = () => {
               avatarSrc={`${IMG_URL}${item?.userDetails?.avatar?.url}`}
               name={`${item?.userDetails?.firstName} ${item?.userDetails?.lastName}`}
               phone={item?.phoneNumber}
+              isSelected={activeAccount?.twilioNumber === item?.phoneNumber}
             />
           </MenuItem>
         ))}

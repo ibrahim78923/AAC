@@ -5,18 +5,21 @@ import { overviewDataArray } from './Overview.data';
 export const useOverview = () => {
   const router = useRouter();
   const { vendorId } = router.query;
-  const { data, isLoading, isFetching } = useGetDetailVendorsListQuery(
-    { vendorId },
-    {
-      refetchOnMountOrArgChange: true,
-      skip: !!!vendorId,
-    },
-  );
+  const { data, isLoading, isFetching, isError, refetch } =
+    useGetDetailVendorsListQuery(
+      { vendorId },
+      {
+        refetchOnMountOrArgChange: true,
+        skip: !!!vendorId,
+      },
+    );
   const overviewData = overviewDataArray(data?.data);
 
   return {
     isLoading,
     overviewData,
     isFetching,
+    isError,
+    refetch,
   };
 };

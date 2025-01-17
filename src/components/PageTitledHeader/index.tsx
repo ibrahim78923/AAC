@@ -2,9 +2,9 @@ import { Box, Button, Typography } from '@mui/material';
 import { PlusSharedColorIcon, ImportIcon } from '@/assets/icons';
 import { ExportButton } from '../Buttons/ExportButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { PageTitledHeaderPropsI } from './PageTitledHeader.interface';
 import { Variant } from '@mui/material/styles/createTypography';
+import { ConditionalPermissionGuard } from '@/GuardsAndPermissions/ConditionalPermissionGuard';
 
 export const PageTitledHeader = (props: PageTitledHeaderPropsI) => {
   const {
@@ -29,6 +29,9 @@ export const PageTitledHeader = (props: PageTitledHeaderPropsI) => {
     titleVariant = 'pageTitle',
     outerMarginBottom = 2,
     titleProps = {},
+    hasNoImportPermission = false,
+    hasNoCreatePermission = false,
+    hasNoExportPermission = false,
   } = props;
 
   return (
@@ -61,7 +64,10 @@ export const PageTitledHeader = (props: PageTitledHeaderPropsI) => {
         </Box>
         <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
           {hasImport && (
-            <PermissionsGuard permissions={importPermissionKey}>
+            <ConditionalPermissionGuard
+              hasNoPermission={hasNoImportPermission}
+              permissions={importPermissionKey}
+            >
               <Button
                 color="secondary"
                 variant="outlined"
@@ -71,10 +77,13 @@ export const PageTitledHeader = (props: PageTitledHeaderPropsI) => {
               >
                 Import
               </Button>
-            </PermissionsGuard>
+            </ConditionalPermissionGuard>
           )}
           {hasExport && (
-            <PermissionsGuard permissions={exportPermissionKey}>
+            <ConditionalPermissionGuard
+              hasNoPermission={hasNoExportPermission}
+              permissions={exportPermissionKey}
+            >
               <ExportButton
                 handleExcelExport={() => {
                   handleExcelExport?.();
@@ -83,11 +92,14 @@ export const PageTitledHeader = (props: PageTitledHeaderPropsI) => {
                   handleCsvExport?.();
                 }}
               />
-            </PermissionsGuard>
+            </ConditionalPermissionGuard>
           )}
           {children}
           {!!addTitle?.length && (
-            <PermissionsGuard permissions={createPermissionKey}>
+            <ConditionalPermissionGuard
+              hasNoPermission={hasNoCreatePermission}
+              permissions={createPermissionKey}
+            >
               <Button
                 className="small"
                 disableElevation
@@ -99,7 +111,7 @@ export const PageTitledHeader = (props: PageTitledHeaderPropsI) => {
               >
                 {addTitle}
               </Button>
-            </PermissionsGuard>
+            </ConditionalPermissionGuard>
           )}
         </Box>
       </Box>

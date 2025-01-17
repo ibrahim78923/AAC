@@ -9,7 +9,7 @@ export const useTicketStatusCount = () => {
       pollingInterval: AUTO_REFRESH_API_POLLING_TIME?.DASHBOARD,
     });
 
-  const apiCallInProgress = isLoading || isFetching;
+  const showLoader = isLoading || isFetching;
   const ticketDashboardCards = ticketDashboardCardsData(data?.data);
 
   return {
@@ -18,7 +18,7 @@ export const useTicketStatusCount = () => {
     isFetching,
     isError,
     refetch,
-    apiCallInProgress,
+    showLoader,
     ticketDashboardCards,
     fulfilledTimeStamp,
   };

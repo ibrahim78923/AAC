@@ -28,6 +28,20 @@ export const productsTableColumns: any = [
     cell: (info: any) => info?.getValue(),
   },
   {
+    accessorFn: (row: any) => row?.additionalQuantity,
+    id: 'additionalQuantity',
+    isSortable: true,
+    header: 'Additional Quantity',
+    cell: (info: any) => info?.getValue(),
+  },
+  {
+    accessorFn: (row: any) => row?.unitDiscount,
+    id: 'unitDiscount',
+    isSortable: true,
+    header: 'Unit Discount',
+    cell: (info: any) => info?.getValue(),
+  },
+  {
     accessorFn: (row: any) => row?.unitPrice,
     id: 'unitPrice',
     isSortable: true,
@@ -60,13 +74,30 @@ export const getDataArray = (QuoteData: any) => {
   ];
 };
 
-export const productTotalDetails = (subtotal: any, unitDiscount: any) => [
+export const productTotalDetails = (
+  subtotal: any,
+  unitDiscount: any,
+  dealAmount: any,
+  additionalAmount: any,
+  tax: any,
+  RedeemedDiscount: any,
+) => [
   {
-    title: 'Subtotal',
-    value: `£${subtotal}`,
+    // title: 'Subtotal',
+    // value: `£${subtotal}`,
     detail: [
-      { title: 'Tax', value: '20%' },
-      { title: 'Unit Discount', value: `${unitDiscount} GBP` },
+      { title: 'Deal Amount', value: `£ ${dealAmount?.toFixed(2)}` },
+      {
+        title: 'Additional Amount',
+        value: `£ ${additionalAmount?.toFixed(2)}`,
+      },
+      { title: 'Total Discount', value: `£  ${unitDiscount?.toFixed(2)}` },
+      {
+        title: 'Redeemed Discount',
+        value: `£  ${RedeemedDiscount?.toFixed(2)}`,
+      },
+      { title: 'Subtotal', value: `£ ${subtotal?.toFixed(2)}` },
+      { title: 'Tax', value: `${tax} %` },
     ],
   },
 ];

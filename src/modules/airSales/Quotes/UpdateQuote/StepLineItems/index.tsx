@@ -79,6 +79,16 @@ const StepLineItems = (props: any) => {
     );
   }, [totalSumDiscount]);
 
+  useEffect(() => {
+    handleLoyalityCalulation(
+      loyaltyRewards,
+      Voucher,
+      giftCard,
+      totalSumDiscount,
+      updateSubTotal,
+    );
+  }, [totalSumDiscount]);
+
   return (
     <>
       <Grid container spacing={2}>

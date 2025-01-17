@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { defaultValues, validationSchema } from './AddFields.data';
 
-export default function useAddFields() {
+export default function useAddFields(handleAddDynamicField: any) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -18,10 +18,12 @@ export default function useAddFields() {
     resolver: yupResolver(validationSchema),
     defaultValues: defaultValues,
   });
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset } = methods;
 
-  const onSubmit = () => {
+  const onSubmit = (values: any) => {
     // console.log('Form values:::', values);
+    handleAddDynamicField(values);
+    handleCloseModalCreateDataField();
   };
 
   const [openModalCreateDataField, setOpenModalCreateDataField] =
@@ -33,6 +35,7 @@ export default function useAddFields() {
   };
   const handleCloseModalCreateDataField = () => {
     setOpenModalCreateDataField(false);
+    reset();
   };
 
   const handleSubmitCreateDataField = handleSubmit(onSubmit);

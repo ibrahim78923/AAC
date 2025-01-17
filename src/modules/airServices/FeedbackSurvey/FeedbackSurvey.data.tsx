@@ -1,6 +1,6 @@
 import { CustomerSatisfactionIcon, CustomerSupportIcon } from '@/assets/icons';
 import { CustomerSupport } from './CustomerSupport';
-import { CustomerSatisfaction } from './CustumerSatisfaction';
+import { CustomerSatisfaction } from './CustomerSatisfaction';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { Permissions } from '@/constants/permissions';
 import { FEEDBACK_SURVEY_PATH_TYPES } from '@/constants/strings';

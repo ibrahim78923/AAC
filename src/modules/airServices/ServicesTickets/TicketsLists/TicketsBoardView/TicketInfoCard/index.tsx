@@ -10,14 +10,14 @@ import {
   AIR_SERVICES_TICKETS_TICKET_LISTS,
 } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { UserInfo } from '@/components/UserInfo';
 import { RENDER_COLOR } from '../TicketsBoardView.data';
 import { TICKET_STATUS, TICKET_TYPE } from '@/constants/strings';
 import { TruncateText } from '@/components/TruncateText';
 import { AIR_SERVICES } from '@/constants/routes';
 import { formatTimeDifference } from '@/lib/date-time';
-import { CustomAvatar } from '@/components/CustomAvatar';
+import { CustomAvatar } from '@/components/Avatars/CustomAvatar';
 import { CustomChip } from '@/components/Chip/CustomChip';
 
 export const TicketInfoCard = (props: any) => {

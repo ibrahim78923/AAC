@@ -1,7 +1,9 @@
 import { Box, Typography } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
-import { RecentActivitiesCard } from '../RecentActivitiesCard';
 import NoData from '@/components/NoData';
+import { DATE_TIME_FORMAT } from '@/constants';
+import { RecentActivitiesIcon } from '@/assets/icons';
+import { ActivityCard } from '@/components/Cards/ActivityCard';
 
 const RecentActivitiesList = (props: any) => {
   const { data, isDrawerOpen, setIsDrawerOpen } = props;
@@ -27,7 +29,17 @@ const RecentActivitiesList = (props: any) => {
               <>
                 {data?.map((item: any, index: any) => (
                   <Box key={item?._id} marginTop={1}>
-                    <RecentActivitiesCard data={item} index={index} />
+                    <ActivityCard
+                      key={item?._id}
+                      firstName={item?.userDetails?.firstName}
+                      lastName={item?.userDetails?.lastName}
+                      activityType={item?.activityType}
+                      moduleName={item?.moduleName}
+                      dateFormat={DATE_TIME_FORMAT?.DMDHMA}
+                      activityDate={item?.createdAt}
+                      Icon={<RecentActivitiesIcon />}
+                      hasBorderBottom={index !== data?.length - 1}
+                    />
                   </Box>
                 ))}
               </>

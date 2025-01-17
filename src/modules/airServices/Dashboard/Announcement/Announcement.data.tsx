@@ -1,4 +1,4 @@
-import { PublicSingleDropdownButtonCloseMenuI } from '@/components/PublicSingleDropdownButton/PublicSingleDropdownButton.interface';
+import { PublicSingleDropdownButtonCloseMenuI } from '@/components/Buttons/PublicSingleDropdownButton/PublicSingleDropdownButton.interface';
 import { Dispatch, SetStateAction } from 'react';
 
 export const dropdownAnnouncementsOptionsDynamic = (

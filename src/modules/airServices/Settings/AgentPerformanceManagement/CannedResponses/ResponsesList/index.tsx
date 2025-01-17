@@ -1,6 +1,6 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import Search from '@/components/Search';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { Box, Button, Grid } from '@mui/material';
 import AddBoxRoundedIcon from '@mui/icons-material/AddBoxRounded';
 import TanstackTable from '@/components/Table/TanstackTable';

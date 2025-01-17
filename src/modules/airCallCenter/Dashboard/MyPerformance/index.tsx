@@ -9,7 +9,7 @@ import {
 import Link from 'next/link';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { myRecentCallData } from '@/mock/modules/airCallCenter/Dashboard';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { useState } from 'react';
 import { ToDoList } from './toDoList';
 

@@ -337,6 +337,7 @@ export const END_POINTS = {
   GET_IS_PHONE_CONNECTED: '/sms-marketing/connected-number',
   GET_SMS_TEMPLATES: '/sms-marketing/template',
   CONNECT_PHONE_NUMBER: '/sms-marketing/connect-number',
+  CONNECT_PHONE_NUMBER_WHATSAPP: '/whatsapp-marketing/connect-number',
   WHATSAPP_TEMPLATE: '/whatsapp-marketing/template',
   SALES_TEAM: '/teams',
   SALES_TEAM_USERS: '/quote/team/user',
@@ -749,6 +750,8 @@ export const AIR_MARKETER = {
 export const AIR_MARKETER_SMS_MARKETING = {
   TWILIO_CONFIGURATION: '/companies/twilio-configuration',
   DELETE_TWILIO_CONFIGURATION_NUMBER: '/sms-marketing/delete-sms-phone-number',
+  DELETE_WHSTSAPP_TWILIO_CONFIGURATION_NUMBER:
+    '/whatsapp-marketing/delete-number',
   UPDATE_ACCOUNT: '/users/account',
   GET_TWILIO_CONFIGURATION: '/companies/get-company-twilio-configurations',
   GET_NUMBERS_TWILIO_CONFIGURATION:
@@ -790,4 +793,14 @@ export const AIR_MARKETER_EMAIL_FOLDER = {
   POST_EMAIL_FOLDER: '/emails-marketing/create-emails-folder',
   DELETE_EMAIL_FOLDER: '/emails-marketing/delete-folder',
   DUPLICATE_EMAIL_FOLDER: '/emails-marketing/duplicate-folder',
+};
+
+export const COMMON_CONTRACTS = {
+  FOLDER: '/common-contract-folder',
+  TEMPLATE: '/common-contract-template',
+  CREATE_CONTRACT: '/common-contract/add-common-contract',
+  GET_CONTRACTS: '/common-contract/get-common-contracts',
+  GET_CONTRACT_BY_ID: '/common-contract',
+  SAVE_AS_DRAFT: '/common-contract/save-as-draft',
+  GET_TEMPLATE_BY_FOLDER: '/common-contract-template/by-folder',
 };

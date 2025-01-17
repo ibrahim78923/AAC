@@ -13,6 +13,8 @@ export const useAnnouncements = () => {
     setDrawerOpen(false);
   };
 
+  const showLoader = isLoading || isFetching;
+
   return {
     data,
     isLoading,
@@ -22,5 +24,6 @@ export const useAnnouncements = () => {
     setDrawerOpen,
     onClose,
     refetch,
+    showLoader,
   };
 };

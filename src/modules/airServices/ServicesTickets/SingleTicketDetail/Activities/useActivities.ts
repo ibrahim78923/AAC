@@ -25,7 +25,7 @@ export const useActivities = () => {
     );
 
   const activityData = data?.data?.activitylogs ?? [];
-  const apiCallInProgress = isLoading || isFetching;
+  const showLoader = isLoading || isFetching;
 
   return {
     isError,
@@ -34,6 +34,6 @@ export const useActivities = () => {
     data,
     refetch,
     activityData,
-    apiCallInProgress,
+    showLoader,
   };
 };

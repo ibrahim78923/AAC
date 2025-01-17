@@ -1,5 +1,3 @@
-import ApiErrorState from '@/components/ApiErrorState';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import useAuth from '@/hooks/useAuth';
 import { useEffect } from 'react';
 
@@ -9,6 +7,7 @@ export const useAnnouncementList = (props: any) => {
     getCustomerAnnouncementData,
     lazyGetCustomerAnnouncementStatus,
   } = props;
+
   const { user }: any = useAuth();
 
   const onClose = () => {
@@ -19,22 +18,18 @@ export const useAnnouncementList = (props: any) => {
     getCustomerAnnouncementData();
   }, []);
 
-  const isApiLoading =
+  const showLoader =
     lazyGetCustomerAnnouncementStatus?.isLoading ||
     lazyGetCustomerAnnouncementStatus?.isFetching;
 
   const hasError = lazyGetCustomerAnnouncementStatus?.isError;
-
-  const checkApiErrorOrLoading = () => {
-    if (isApiLoading) return <SkeletonForm />;
-    if (hasError)
-      return <ApiErrorState canRefresh refresh={getCustomerAnnouncementData} />;
-    return undefined;
-  };
+  const announcements = lazyGetCustomerAnnouncementStatus?.data?.data;
 
   return {
     onClose,
     user,
-    checkApiErrorOrLoading,
+    showLoader,
+    hasError,
+    announcements,
   };
 };

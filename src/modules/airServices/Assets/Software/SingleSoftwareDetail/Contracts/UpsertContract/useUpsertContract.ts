@@ -38,7 +38,7 @@ export const useUpsertContract = () => {
     },
   };
 
-  const { data, isLoading, isFetching, isError }: any =
+  const { data, isLoading, isFetching, isError, refetch }: any =
     useGetSingleSoftwareByIdQuery(getSingleSoftwareParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!softwareId,
@@ -131,5 +131,6 @@ export const useUpsertContract = () => {
     isLoading,
     isFetching,
     isError,
+    refetch,
   };
 };

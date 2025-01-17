@@ -1,4 +1,4 @@
-import { WHATSAPP_MARKETING } from '@/routesConstants/endpoints';
+import { END_POINTS, WHATSAPP_MARKETING } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const TAG = ['WHATSAPP_BROADCAST'];
@@ -7,9 +7,10 @@ const DASHBOARD_TAG = ['WHATSAPP_BROADCAST', 'DASHBOARD_INSIGHTS'];
 export const WhatsAppMarketingAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getWhatsAppDashboardInsights: builder.query({
-      query: () => ({
+      query: ({ params }: any) => ({
         url: WHATSAPP_MARKETING?.GET_WHATSAPP_MARKETING_DASHBOARD,
         method: 'GET',
+        params,
       }),
       providesTags: DASHBOARD_TAG,
     }),
@@ -77,6 +78,15 @@ export const WhatsAppMarketingAPI = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+
+    connectPhoneNumberForWhatsAppMarketing: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.CONNECT_PHONE_NUMBER_WHATSAPP}`,
+        method: 'POST',
+        body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
@@ -89,4 +99,5 @@ export const {
   useConnectPhoneNumberMutation,
   useGetWhatsAppBroadcatsQuery,
   useGetIsPhoneConnectedQuery,
+  useConnectPhoneNumberForWhatsAppMarketingMutation,
 } = WhatsAppMarketingAPI;

@@ -50,9 +50,7 @@ export const softwareColumnsDynamic = (router: any): any => [
     id: 'contractValue',
     isSortable: true,
     header: 'Contract Value',
-    cell: (info: any) => (
-      <TruncateText text={info?.getValue()?.toLowerCase()} />
-    ),
+    cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.managedBy,
@@ -68,18 +66,14 @@ export const softwareColumnsDynamic = (router: any): any => [
     id: 'users',
     isSortable: true,
     header: ' Users',
-    cell: (info: any) => (
-      <TruncateText text={info?.getValue()?.toLowerCase()} />
-    ),
+    cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.installs,
     id: 'installs',
     isSortable: true,
     header: 'Installs',
-    cell: (info: any) => (
-      <TruncateText text={info?.getValue()?.toLowerCase()} />
-    ),
+    cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.type,

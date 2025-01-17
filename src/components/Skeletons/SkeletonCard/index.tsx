@@ -1,45 +1,47 @@
 import { FLEX_DIRECTION } from '@/constants/style';
 import { Box, Grid, Skeleton } from '@mui/material';
+import { CARD_SKELETON_TYPES } from './SkeletonCard.data';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const SkeletonCard = (props: any) => {
-  const {
-    length = 4,
-    outerPadding = { x: 1, y: 1 },
-    hasCircularSkeleton = true,
-    hasThirdSkeleton = true,
-    flexDirection = 'row',
-    gridSize,
-    circularSkeletonSize,
-    isCircular = 'circular',
-    flexDirectionRectangular = 'row',
-  } = props;
+  const { length = 4, cardType = SKELETON_TYPES?.BASIC_CARD } = props;
+
+  const mapSkeletonCard = CARD_SKELETON_TYPES?.[cardType];
 
   return (
     <Grid container spacing={2}>
       {Array.from({ length })?.map((item: any, id: any) => (
-        <Grid key={item ?? `skeleton+${id}`} item xs={12} md={4} {...gridSize}>
+        <Grid
+          key={item ?? `skeleton+${id}`}
+          item
+          xs={12}
+          md={4}
+          {...mapSkeletonCard?.gridSize}
+        >
           <Box
-            display="flex"
-            alignItems={'center'}
-            gap={2}
-            justifyContent={'space-between'}
-            flexDirection={flexDirection}
-            px={outerPadding?.x ?? 1}
-            py={outerPadding?.y ?? 1}
-            borderRadius={2}
-            border={'1px solid'}
-            borderColor={'custom.off_white_three'}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 2,
+              justifyContent: 'space-between',
+              flexDirection: mapSkeletonCard?.flexDirection,
+              px: mapSkeletonCard?.outerPadding?.x ?? 1,
+              py: mapSkeletonCard?.outerPadding?.y ?? 1,
+              borderRadius: 2,
+              border: '1px solid',
+              borderColor: 'custom.off_white_three',
+            }}
           >
-            {hasCircularSkeleton && (
+            {mapSkeletonCard?.hasCircularSkeleton && (
               <Skeleton
                 animation="wave"
-                variant={isCircular}
+                variant={mapSkeletonCard?.isCircular}
                 width={
-                  flexDirection === FLEX_DIRECTION?.COLUMN
-                    ? circularSkeletonSize?.width ?? 50
-                    : circularSkeletonSize?.width ?? 100
+                  mapSkeletonCard?.flexDirection === FLEX_DIRECTION?.COLUMN
+                    ? mapSkeletonCard?.circularSkeletonSize?.width ?? 50
+                    : mapSkeletonCard?.circularSkeletonSize?.width ?? 100
                 }
-                height={circularSkeletonSize?.height ?? 50}
+                height={mapSkeletonCard?.circularSkeletonSize?.height ?? 50}
                 sx={{
                   bgcolor: 'grey.300',
                   border: '1px solid',
@@ -48,10 +50,12 @@ export const SkeletonCard = (props: any) => {
               />
             )}
             <Box
-              width="100%"
-              display={'flex'}
-              gap={2}
-              flexDirection={flexDirectionRectangular}
+              sx={{
+                width: '100%',
+                display: 'flex',
+                gap: 2,
+                flexDirection: mapSkeletonCard?.flexDirectionRectangular,
+              }}
             >
               <Skeleton
                 animation="wave"
@@ -64,7 +68,7 @@ export const SkeletonCard = (props: any) => {
                   borderColor: 'custom.off_white_three',
                 }}
               />
-              {hasThirdSkeleton && (
+              {mapSkeletonCard?.hasThirdSkeleton && (
                 <Skeleton
                   animation="wave"
                   variant={'rectangular'}

@@ -1,14 +1,13 @@
 import NoData from '@/components/NoData';
-import { Box, Button, useTheme } from '@mui/material';
+import { Box } from '@mui/material';
 import { AssociationsDrawer } from './AssociationsDrawer';
 import { SingleAssociationsTicket } from './SingleAssociationsTicket';
 import { useAssociations } from './useAssociations';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
 
 export const Associations = () => {
-  const theme: any = useTheme();
   const { data, openDrawer, setOpenDrawer, isLoading, isError, isFetching } =
     useAssociations();
 
@@ -23,42 +22,30 @@ export const Associations = () => {
           <>
             <NoData
               message={
-                'Make approved purchases by sending the order to your stakeholders for approval'
+                'Associate all the service requests which initiated this purchase order'
               }
             >
               {!isError && (
-                <Button
-                  sx={{
-                    marginRight: '12px',
-                    backgroundColor: theme?.palette?.primary?.light,
-                    color: theme?.palette?.primary?.main,
-                  }}
+                <AddNewItemButton
                   variant="outlined"
-                  className="small"
-                  startIcon={<AddCircleIcon />}
+                  name="Associate"
+                  size="medium"
                   onClick={() => setOpenDrawer(true)}
-                >
-                  Associate
-                </Button>
+                  customStyles={{ backgroundColor: 'primary.lighter' }}
+                />
               )}
             </NoData>
           </>
         ) : (
           <>
             <Box display={'flex'} justifyContent={'end'} marginBottom={'1rem'}>
-              <Button
-                sx={{
-                  marginRight: '12px',
-                  backgroundColor: theme?.palette?.primary?.light,
-                  color: theme?.palette?.primary?.main,
-                }}
-                className="small"
-                onClick={() => setOpenDrawer(true)}
+              <AddNewItemButton
                 variant="outlined"
-                startIcon={<AddCircleIcon />}
-              >
-                Associate
-              </Button>
+                name="Associate"
+                size="medium"
+                onClick={() => setOpenDrawer(true)}
+                customStyles={{ backgroundColor: 'primary.lighter' }}
+              />
             </Box>
             {data?.map((item: any) => (
               <SingleAssociationsTicket
@@ -69,10 +56,12 @@ export const Associations = () => {
           </>
         )}
       </Box>
-      <AssociationsDrawer
-        open={openDrawer}
-        setDrawerOpen={() => setOpenDrawer(false)}
-      />
+      {openDrawer && (
+        <AssociationsDrawer
+          open={openDrawer}
+          setDrawerOpen={() => setOpenDrawer(false)}
+        />
+      )}
     </>
   );
 };

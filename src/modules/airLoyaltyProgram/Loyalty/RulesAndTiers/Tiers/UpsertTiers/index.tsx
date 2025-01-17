@@ -3,10 +3,9 @@ import { useUpsertTiers } from './useUpsertTiers';
 import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { FORM_STEP_CONSTANT } from './UpsertTiers.data';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import ApiErrorState from '@/components/ApiErrorState';
 import { RULES_AND_TIERS_PORTAL_ACTION_CONSTANTS } from '../../RulesAndTiers.constant';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const UpsertTiers = () => {
   const {
@@ -54,11 +53,11 @@ export const UpsertTiers = () => {
       }
       disabledCancelBtn={apiCallInProgress}
     >
-      {showLoader ? (
-        <SkeletonForm />
-      ) : isError ? (
-        <ApiErrorState canRefresh refresh={refetch} />
-      ) : (
+      <ApiRequestFlow
+        showSkeleton={showLoader}
+        hasError={isError}
+        refresh={refetch}
+      >
         <FormProvider methods={methods}>
           <Grid container spacing={1.5}>
             {upsertTiersBasicFormFields?.map((item: any) => (
@@ -70,7 +69,7 @@ export const UpsertTiers = () => {
             ))}
           </Grid>
         </FormProvider>
-      )}
+      </ApiRequestFlow>
     </CommonDrawer>
   );
 };

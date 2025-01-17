@@ -25,10 +25,7 @@ const Dashboard = (props: any) => {
           />
         </Grid>
         <Grid item xs={12}>
-          <StatisticsCard
-            loading={getWhatsappDashboardLoading}
-            whatsappAnalytics={getWhatsappDashboardData?.data?.statistics}
-          />
+          <StatisticsCard />
         </Grid>
         <Grid item lg={6} xs={12}>
           <ScheduledSMS setTabVal={setTabVal} />

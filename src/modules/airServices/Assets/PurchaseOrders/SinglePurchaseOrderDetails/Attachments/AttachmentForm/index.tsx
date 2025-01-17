@@ -1,6 +1,8 @@
 import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 import { useAttachmentForm } from './useAttachmentForm';
 import { LoadingButton } from '@mui/lab';
+import { uploadFileMaxSize } from '@/utils/avatarUtils';
+import { ACCEPT_FILE_EXTENSIONS } from '@/constants/file';
 
 export const AttachmentForm = (props: any) => {
   const { methods, onSubmit, postAttachmentsStatus, handleSubmit } =
@@ -8,7 +10,15 @@ export const AttachmentForm = (props: any) => {
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <RHFDropZone name="attachments" />
+      <RHFDropZone
+        name="attachments"
+        fileType={`PNG, JPG and PDF (max ${uploadFileMaxSize} MB)`}
+        accept={{
+          'image/png': ACCEPT_FILE_EXTENSIONS?.PNG,
+          'image/jpeg': ACCEPT_FILE_EXTENSIONS?.JPEG,
+          'application/pdf': ACCEPT_FILE_EXTENSIONS?.PDF,
+        }}
+      />
       <LoadingButton
         type="submit"
         fullWidth

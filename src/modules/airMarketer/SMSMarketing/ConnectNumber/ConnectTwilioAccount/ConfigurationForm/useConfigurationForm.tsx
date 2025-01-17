@@ -35,6 +35,7 @@ const useConfigurationForm = () => {
           twilioConfig: JSON.stringify(payload),
           name: values?.configName,
           medium: values?.serviceName,
+          type: 'sms',
         },
       })?.unwrap();
       enqueueSnackbar('Request Successful', {

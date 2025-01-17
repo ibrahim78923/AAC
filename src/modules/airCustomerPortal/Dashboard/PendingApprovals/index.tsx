@@ -1,13 +1,11 @@
 import { CardLayout } from '../CardLayout';
 import { usePendingApprovals } from './usePendingApprovals';
-import NoData from '@/components/NoData';
-import ApiErrorState from '@/components/ApiErrorState';
 import { ApprovalCard } from '../../Catalog/Approvals/ApprovalCard';
 import { Fragment } from 'react';
-
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { ApprovalsDataI } from '../../Catalog/Approvals/AllApprovals/AllApprovals.interface';
 import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const PendingApprovals = () => {
   const { data, isLoading, isFetching, isError, router, refetch, companyId } =
@@ -26,23 +24,22 @@ export const PendingApprovals = () => {
       buttonText="View All"
       maxHeight={'40vh'}
     >
-      {isLoading || isFetching ? (
-        <SkeletonTable />
-      ) : isError ? (
-        <ApiErrorState height={'100%'} canRefresh refresh={() => refetch?.()} />
-      ) : (
-        <>
-          {!!data?.data?.length ? (
-            data?.data?.map((approval: ApprovalsDataI) => (
-              <Fragment key={approval?._id}>
-                <ApprovalCard data={approval} />
-              </Fragment>
-            ))
-          ) : (
-            <NoData height={'100%'} />
-          )}
-        </>
-      )}
+      <ApiRequestFlow
+        showSkeleton={isLoading || isFetching}
+        hasError={isError}
+        refreshApi={refetch}
+        skeletonType={SKELETON_TYPES?.BASIC_CARD}
+        cardSkeletonType={SKELETON_TYPES?.THREE_LAYER_LARGE_REVERSE_CARD}
+        hasNoData={!data?.data?.length}
+        noDataMessage={'No approval found'}
+        errorHeight="100%"
+      >
+        {data?.data?.map((approval: ApprovalsDataI) => (
+          <Fragment key={approval?._id}>
+            <ApprovalCard data={approval} />
+          </Fragment>
+        ))}
+      </ApiRequestFlow>
     </CardLayout>
   );
 };

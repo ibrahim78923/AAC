@@ -6,6 +6,8 @@ import { ViewDetailBackArrowIcon } from '@/assets/icons';
 import { Attachments } from '@/components/Attachments';
 import { AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS } from '@/constants/permission-keys';
 import { AIR_SERVICES } from '@/constants/routes';
+import { uploadFileMaxSize } from '@/utils/avatarUtils';
+import { ACCEPT_FILE_EXTENSIONS } from '@/constants/file';
 
 export const UpdateContract = () => {
   const {
@@ -84,7 +86,16 @@ export const UpdateContract = () => {
           </Grid>
           <Grid item xs={12} md={0.5}></Grid>
           <Grid item xs={12} md={4} mt={{ xs: 1, md: 0 }} mb={1}>
-            <RHFDropZone name="attachment" fullWidth={true} />
+            <RHFDropZone
+              name="attachment"
+              fullWidth={true}
+              fileType={`PNG, JPG and PDF (max ${uploadFileMaxSize} MB)`}
+              accept={{
+                'image/png': ACCEPT_FILE_EXTENSIONS?.PNG,
+                'image/jpeg': ACCEPT_FILE_EXTENSIONS?.JPEG,
+                'application/pdf': ACCEPT_FILE_EXTENSIONS?.PDF,
+              }}
+            />
             <br />
             {!!contractId && (
               <>

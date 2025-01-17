@@ -1,7 +1,7 @@
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import { Box, Button, Skeleton, Typography } from '@mui/material';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { Permissions } from '@/constants/permissions';
 import EmailThisDashboard from '../EmailThisDashboard';
 import { useDashboardFilter } from './useDashboardFilter';

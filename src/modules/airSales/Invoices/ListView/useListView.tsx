@@ -13,6 +13,14 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import useAuth from '@/hooks/useAuth';
 import { enqueueSnackbar } from 'notistack';
+import { isNullOrEmpty } from '@/utils';
+import {
+  usePutGiftCardValueMutation,
+  // usePutLoyaltyProgramConsumersPointsUpdateMutation,
+  usePutVoucherValueMutation,
+  useUpdateRedeemRewardMutation,
+} from '@/services/airSales/quotes/loyality';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useListView = () => {
   const router = useRouter();
@@ -131,24 +139,121 @@ const useListView = () => {
   // Update Status
   const [updateInvoice, { isLoading: loadingUpdateInvoice }] =
     useUpdateInvoiceMutation();
-  const handleUpdateStatus = async (status: string, id: any) => {
+
+  const [updateRedeemReward] = useUpdateRedeemRewardMutation();
+  // const [updateConsumerPoints] =
+  //   usePutLoyaltyProgramConsumersPointsUpdateMutation();
+  const [updateGiftCardApi] = usePutGiftCardValueMutation();
+  const [updateVoucherApi] = usePutVoucherValueMutation();
+
+  const handleUpdateStatus = async (status: string, Data: any) => {
+    const redeemRewardDataArray = Data?.quote?.loyaltyRewards
+      ?.map((reward: any) => {
+        const matchingRewardData = Data?.quote?.loyaltyRewardsData?.find(
+          (data: any) => data?._id === reward?._id,
+        );
+
+        if (matchingRewardData) {
+          return {
+            id: reward?._id,
+            redeemedQuantity: matchingRewardData?.redeemedQuantity + 1,
+            escrowRedeemedQuantity:
+              matchingRewardData?.escrowRedeemedQuantity === 0
+                ? 0
+                : matchingRewardData?.escrowRedeemedQuantity - 1,
+            redeemedRewardPerConsumer: {
+              consumerId: Data?.quote?.consumer?._id,
+              quotesId: Data?.quote?._id,
+              escrowStatus: 'Done',
+            },
+          };
+        }
+        return null;
+      })
+      ?.filter((item: any) => item !== null);
+
+    const giftCardData = {
+      queryParams: { id: Data?.quote?.loyaltyGiftCards?._id },
+      body: {
+        escrowAmount: `${Data?.quote?.loyaltyGiftCardsData?.currentamount} - ${Data?.quote?.loyaltyGiftCards?.value}`,
+        spentamount: `${Data?.quote?.loyaltyGiftCardsData?.currentamount} + ${Data?.quote?.loyaltyGiftCards?.value}`,
+        transactionAmount: Data?.quote?.loyaltyGiftCards?.value,
+        escrowAmountStatus: 'Done',
+        quotesId: Data?.quote?._id,
+      },
+    };
+
+    // first call /rules-and-tiers/get-rules?consumerId=677cd9fea117e3d19d08a5ec
+    // after that we compare rules if match then add or subtract values
+    // const consumersData = {
+    //   lastTransactionDate: dayjs()?.format('YYYY-MM-DD'),
+    //   currentPointBalance: `${Data?.quote?.consumer?.currentPointBalance}`,
+    //   totalPointRedeemed: `${Data?.quote?.consumer?.totalPointRedeemed}`,
+    //   totalPointsEarned: `${Data?.quote?.consumer?.totalPointsEarned}`,
+    //   numberofTransactions: `${Data?.quote?.consumer?.numberOfTransactions} `,
+    //   ids: [Data?.quote?.consumer?._id],
+    // };
+    const voucherData = {
+      queryParams: {
+        voucherCode: Data?.quote?.loyaltyVouchersData?.voucherCode,
+        consumerId: Data?.quote?.consumer?._id,
+      },
+      body: {
+        ascrowRedeemedVoucherLimit:
+          Data?.quote?.loyaltyVouchersData?.ascrowRedeemedVoucherLimit === 0
+            ? 0
+            : Data?.quote?.loyaltyVouchersData?.ascrowRedeemedVoucherLimit - 1,
+        redeemedVoucherLimit:
+          Data?.quote?.loyaltyVouchersData?.redeemedVoucherLimit + 1,
+        redeemedPerConsumer: {
+          escrowStatus: 'Done',
+        },
+      },
+    };
+
     const payLoad = {
       status: status,
     };
     try {
-      await updateInvoice({ id: id, body: payLoad })?.unwrap();
-      enqueueSnackbar(
-        `This invoice is ${
-          status === 'PAID'
-            ? 'Paid'
-            : status === 'DRAFT'
-              ? 'Draft'
-              : 'Published'
-        } now`,
-        {
-          variant: 'success',
-        },
-      );
+      await updateInvoice({ id: Data?._id, body: payLoad })
+        ?.unwrap()
+        ?.then((data: any) => {
+          if (data?.data) {
+            enqueueSnackbar(
+              `This invoice is ${
+                status === 'PAID'
+                  ? 'Paid'
+                  : status === 'DRAFT'
+                    ? 'Draft'
+                    : 'Published'
+              } now`,
+              {
+                variant: 'success',
+              },
+            );
+            if (status === 'PAID') {
+              try {
+                // updateConsumerPoints(consumersData)?.unwrap();
+
+                if (!isNullOrEmpty(Data?.quote?.loyaltyRewards)) {
+                  updateRedeemReward({
+                    body: redeemRewardDataArray,
+                  })?.unwrap();
+                }
+                if (!isNullOrEmpty(Data?.quote?.loyaltyGiftCards)) {
+                  updateGiftCardApi(giftCardData).unwrap();
+                }
+                if (!isNullOrEmpty(Data?.quote?.loyaltyVouchers)) {
+                  updateVoucherApi(voucherData).unwrap();
+                }
+              } catch (error: any) {
+                enqueueSnackbar('Error while updating call', {
+                  variant: NOTISTACK_VARIANTS?.ERROR,
+                });
+              }
+            }
+          }
+        });
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
         variant: 'error',

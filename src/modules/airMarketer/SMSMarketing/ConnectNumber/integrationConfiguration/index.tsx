@@ -52,6 +52,7 @@ const IntegrationConfiguration = () => {
         page: 1,
         limit: 10,
         meta: true,
+        type: 'sms',
       },
     });
 
@@ -86,7 +87,6 @@ const IntegrationConfiguration = () => {
 
   const handleUpdateConfig = async (id: any) => {
     const payload = {
-      // status: 'ACTIVE',
       configurationId: id,
     };
     try {
@@ -118,6 +118,7 @@ const IntegrationConfiguration = () => {
 
       const updatedAccount = { ...activeAccount };
       delete updatedAccount?.configurationId;
+      delete updatedAccount?.twilioNumber;
       setActiveAccountSession(updatedAccount);
       enqueueSnackbar('Configuration Changed Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,

@@ -1,4 +1,4 @@
-import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
+import { SingleDropdownButtonCloseMenuI } from '@/components/Buttons/SingleDropdownButton/SingleDropdownButton.interface';
 import { RestoreReport } from '../RestoreReport';
 import { DeleteReportPermanently } from '../DeleteReportPermanently';
 import { RestoreReportsFilter } from '../RestoreReportsFilter';

@@ -246,6 +246,7 @@ export const TAGS = [
   'DOWNLOAD_FOLDER',
   'GMAIL',
   'ASSOCIATION_EMAILS',
+  'COMMON_CONTRACTS',
 ];
 
 const BYPASS_AUTH_API_ROUTES = [

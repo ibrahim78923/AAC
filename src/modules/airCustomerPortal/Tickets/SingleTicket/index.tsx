@@ -1,9 +1,10 @@
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { SingleTicketDetail } from './SingleTicketDetail';
 import { SingleTicketHeader } from './SingleTicketHeader';
 import { useSingleTicket } from './useSingleTicket';
-import ApiErrorState from '@/components/ApiErrorState';
 import { SingleTicketConversation } from '../SingleTicketConversation';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
+import { Theme } from '@mui/material';
 
 export const SingleTicket = () => {
   const {
@@ -16,13 +17,29 @@ export const SingleTicket = () => {
     getSingleDefaultSurveyForCustomerTickets,
     lazyCheckSingleDefaultSurveySubmittedForRequesterStatus,
     refetch,
+    portalStyles,
   } = useSingleTicket();
 
-  if (isLoading || isFetching) return <SkeletonForm />;
-  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
-
   return (
-    <>
+    <ApiRequestFlow
+      hasError={isError}
+      showSkeleton={isFetching || isLoading}
+      refreshApi={refetch}
+      refreshButtonProps={{
+        sx: (theme: Theme) => ({
+          bgcolor:
+            portalStyles?.btnPrimary ||
+            customizePortalDefaultValues(theme)?.btnPrimary,
+          color: 'common.white',
+          '&:hover': {
+            bgcolor:
+              portalStyles?.btnPrimary ||
+              customizePortalDefaultValues(theme)?.btnPrimary,
+            color: 'common.white',
+          },
+        }),
+      }}
+    >
       <SingleTicketHeader
         id={ticketId}
         ticketNumber={singleTicketData?.ticketIdNumber}
@@ -53,6 +70,6 @@ export const SingleTicket = () => {
       />
       <br />
       <SingleTicketConversation singleTicketData={singleTicketData} />
-    </>
+    </ApiRequestFlow>
   );
 };

@@ -1,12 +1,11 @@
 import { CardLayout } from '../CardLayout';
 import { useRecentTickets } from './useRecentTickets';
-import NoData from '@/components/NoData';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import ApiErrorState from '@/components/ApiErrorState';
 import { TicketsCard } from '../../Tickets/TicketCard';
 import { Fragment } from 'react';
 import { TicketCardDataI } from '../../Tickets/TicketCard/TicketCard.interface';
 import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const RecentTickets = () => {
   const { data, isLoading, isFetching, isError, router, refetch, companyId } =
@@ -25,23 +24,22 @@ export const RecentTickets = () => {
       buttonText="View All"
       maxHeight={'40vh'}
     >
-      {isLoading || isFetching ? (
-        <SkeletonForm />
-      ) : isError ? (
-        <ApiErrorState height={'100%'} canRefresh refresh={() => refetch?.()} />
-      ) : (
-        <>
-          {!!data?.data?.length ? (
-            data?.data?.map((ticket: TicketCardDataI) => (
-              <Fragment key={ticket?._id}>
-                <TicketsCard ticket={ticket} />
-              </Fragment>
-            ))
-          ) : (
-            <NoData height={'100%'} message="No recent tickets found" />
-          )}
-        </>
-      )}
+      <ApiRequestFlow
+        showSkeleton={isLoading || isFetching}
+        hasError={isError}
+        refreshApi={refetch}
+        skeletonType={SKELETON_TYPES?.BASIC_CARD}
+        cardSkeletonType={SKELETON_TYPES?.THREE_LAYER_LARGE_REVERSE_CARD}
+        hasNoData={!data?.data}
+        noDataMessage={'No approval found'}
+        errorHeight="100%"
+      >
+        {data?.data?.map((ticket: TicketCardDataI) => (
+          <Fragment key={ticket?._id}>
+            <TicketsCard ticket={ticket} />
+          </Fragment>
+        ))}
+      </ApiRequestFlow>
     </CardLayout>
   );
 };

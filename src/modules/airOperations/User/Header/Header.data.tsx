@@ -1,5 +1,5 @@
 import { AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS } from '@/constants/permission-keys';
-import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
+import { SingleDropdownButtonCloseMenuI } from '@/components/Buttons/SingleDropdownButton/SingleDropdownButton.interface';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { OPERATIONS_USERS_ACTIONS_CONSTANT } from '../User.data';
 import { UpsertUser } from '../UpsertUser';

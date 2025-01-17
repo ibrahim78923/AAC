@@ -1,4 +1,4 @@
-import { Checkbox } from '@mui/material';
+import { Checkbox, Typography } from '@mui/material';
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
 import StatusBadge from '@/components/StatusBadge';
@@ -130,7 +130,7 @@ export const invoicesTableColumns: any = (
       isSortable: true,
     },
     {
-      accessorFn: (row: RowI) => row?.quote?.deal?.amount,
+      accessorFn: (row: RowI) => row?.total,
       id: 'invoiceAmount',
       isSortable: true,
       header: 'Invoice Amount',
@@ -142,11 +142,25 @@ export const invoicesTableColumns: any = (
       isSortable: true,
       header: 'Status',
       cell: (info: any) => {
-        return (
+        return info?.row?.original?.status === 'EXPIRED' ? (
+          <Typography
+            sx={{
+              fontSize: '13px',
+              color: '#374151',
+              backgroundColor: '#f3f4f6',
+              borderRadius: '25px',
+              padding: '3px 10px',
+              width: 'fit-content',
+            }}
+          >
+            Expired
+          </Typography>
+        ) : (
           <StatusBadge
+            disabled={info?.row?.original?.status === 'PAID'}
             value={info?.row?.original?.status}
             onChange={(e: any) => {
-              handleUpdateStatus(e?.target?.value, info?.row?.original?._id);
+              handleUpdateStatus(e?.target?.value, info?.row?.original);
             }}
             options={[
               {

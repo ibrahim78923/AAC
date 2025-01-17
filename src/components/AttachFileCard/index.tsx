@@ -1,13 +1,13 @@
 import { Avatar, Box, IconButton, Typography } from '@mui/material';
 import { Close } from '@mui/icons-material';
 import { useAttachFileCard } from './useAttachFileCard';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import {
   formatFileSize,
   getImageByType,
   truncateText,
 } from '@/utils/avatarUtils';
 import { AttachFileCardPropsI } from './AttachFileCard.interface';
+import { ConditionalPermissionGuard } from '@/GuardsAndPermissions/ConditionalPermissionGuard';
 
 export const AttachFileCard = (props: AttachFileCardPropsI) => {
   const {
@@ -18,6 +18,7 @@ export const AttachFileCard = (props: AttachFileCardPropsI) => {
     hasStyling = true,
     canDelete = true,
     flexDirection = 'row',
+    hasNoDeletePermission = false,
   } = props;
   const { cross, setCross } = useAttachFileCard();
 
@@ -78,7 +79,10 @@ export const AttachFileCard = (props: AttachFileCardPropsI) => {
             <></>
           )}
         </Box>
-        <PermissionsGuard permissions={permissionKey}>
+        <ConditionalPermissionGuard
+          hasNoPermission={hasNoDeletePermission}
+          permissions={permissionKey}
+        >
           {cross && (
             <IconButton
               disableFocusRipple
@@ -95,7 +99,7 @@ export const AttachFileCard = (props: AttachFileCardPropsI) => {
               <Close sx={{ color: 'common.white', fontSize: '14px' }} />
             </IconButton>
           )}
-        </PermissionsGuard>
+        </ConditionalPermissionGuard>
       </Box>
     </Box>
   );

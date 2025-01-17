@@ -1,5 +1,4 @@
 import { InventoryCard } from '@/components/Cards/InventoryCard';
-import NoData from '@/components/NoData';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { LoadingButton } from '@mui/lab';
 import { Box, Divider, Skeleton, Typography } from '@mui/material';
@@ -12,6 +11,7 @@ import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPo
 import { otherDateFormat } from '@/lib/date-time';
 import { capitalizeFirstLetter } from '@/utils/api';
 import { CustomChip } from '@/components/Chip/CustomChip';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
   const {
@@ -186,21 +186,21 @@ export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
         p={1}
         borderRadius={2}
       >
-        {!!singleTicketData?.associateAssetsDetails?.length ? (
-          <>
-            {singleTicketData?.associateAssetsDetails?.map((item: any) => (
-              <Fragment key={item?._id}>
-                <InventoryCard
-                  heading={item?.displayName}
-                  key={item?._id}
-                  hasDeleteIcon={false}
-                />
-              </Fragment>
-            ))}
-          </>
-        ) : (
-          <NoData message="No assets found" height="100%" />
-        )}
+        <ApiRequestFlow
+          hasNoData={!singleTicketData?.associateAssetsDetails?.length}
+          noDataMessage="No assets found"
+          noDataHeight="100%"
+        >
+          {singleTicketData?.associateAssetsDetails?.map((item: any) => (
+            <Fragment key={item?._id}>
+              <InventoryCard
+                heading={item?.displayName}
+                key={item?._id}
+                hasDeleteIcon={false}
+              />
+            </Fragment>
+          ))}
+        </ApiRequestFlow>
       </Box>
     </>
   );

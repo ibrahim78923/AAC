@@ -1,20 +1,20 @@
 import { Box, Typography } from '@mui/material';
-import { Fragment } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { useOverview } from './useOverview';
-import ApiErrorState from '@/components/ApiErrorState';
 import { ARRAY_INDEX } from '@/constants/strings';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const Overview = () => {
-  const { isLoading, dataArray, isFetching, isError } = useOverview();
-
-  if (isError) return <ApiErrorState />;
-
-  if (isLoading || isFetching) return <SkeletonTable />;
+  const { isLoading, dataArray, isFetching, isError, refetch } = useOverview();
 
   return (
-    <Fragment>
+    <ApiRequestFlow
+      showSkeleton={isLoading || isFetching}
+      hasError={isError}
+      refreshApi={refetch}
+      skeletonType={SKELETON_TYPES?.BARS}
+    >
       <Typography variant={'h6'} fontWeight={600}>
         Product Overview
       </Typography>
@@ -51,6 +51,6 @@ export const Overview = () => {
           </Box>
         ))}
       </Box>
-    </Fragment>
+    </ApiRequestFlow>
   );
 };

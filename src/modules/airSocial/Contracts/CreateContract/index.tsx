@@ -1,7 +1,7 @@
 import React from 'react';
 import PlainHeader from '@/components/PlainHeader';
 import HeaderCreateContract from './components/HeaderCreateContract';
-import { Box, Button, Grid } from '@mui/material';
+import { Backdrop, Box, Button, CircularProgress, Grid } from '@mui/material';
 import { styles } from './CreateContract.style';
 import PreviewToggle from './components/PreviewToggle';
 import useCreateContract from './useCreateContract';
@@ -25,11 +25,12 @@ import PDFCreateContract from './PDFCreateContract';
 export default function CreateContract() {
   const {
     router,
-    contractData,
     activeView,
     handlePreviewToggle,
-    handleAddParty,
-    handleDeleteParty,
+
+    handleAddPartyCard,
+    handleDeletePartyCard,
+
     handleAddSigneeCard,
     handleDeleteSigneeCard,
 
@@ -39,9 +40,11 @@ export default function CreateContract() {
     handleChangeSignatureMethod,
 
     methods,
-    handleSubmit,
-    onSubmit,
-
+    handleSubmitCreateTemplate,
+    partyFields,
+    signeeFields,
+    loadingCreateTemplate,
+    dynamicFields,
     openModalConfirmationSignDoc,
     handleOpenModalConfirmationSignDoc,
     handleCloseModalConfirmationSignDoc,
@@ -54,19 +57,35 @@ export default function CreateContract() {
     handleChangeIndividualSignature,
     selectedSigneeId,
     setSelectedSigneeId,
+    handleAddDynamicField,
+    // dataTemplateById,
+    handleSubmitUpdateTemplate,
   } = useCreateContract();
 
   return (
     <>
       <PlainHeader>
         <HeaderCreateContract
-          onClickSave={() => alert('Save')}
+          onClickSave={handleSubmitUpdateTemplate}
           onClickSign={handleOpenModalConfirmationSignDoc}
+          onClickSaveAsTemplate={handleSubmitCreateTemplate}
+          methods={methods}
         />
       </PlainHeader>
 
+      <Backdrop
+        open={loadingCreateTemplate}
+        sx={{
+          background: 'rgba(255, 255, 255, 0.75)',
+          color: (theme) => theme?.palette?.primary?.main,
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+
       <Box sx={styles?.container}>
-        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+        <FormProvider methods={methods}>
           <Box sx={styles?.contentRow}>
             <Box sx={styles?.content}>
               <Box sx={styles.contentTopbar}>
@@ -92,7 +111,7 @@ export default function CreateContract() {
                         <Box sx={styles?.headingBarTitle}>Parties</Box>
                       </Box>
                       <Grid container spacing={'30px'}>
-                        {contractData?.parties?.map((party, index) => (
+                        {partyFields?.map((party: any, index) => (
                           <Grid
                             item
                             xs={12}
@@ -101,9 +120,8 @@ export default function CreateContract() {
                             sx={styles?.partyCardgridItem}
                           >
                             <PartyCard
-                              onDelete={() =>
-                                index !== 0 && handleDeleteParty(party?._id)
-                              }
+                              index={index}
+                              onDelete={() => handleDeletePartyCard(index)}
                             />
                           </Grid>
                         ))}
@@ -111,10 +129,14 @@ export default function CreateContract() {
                         <Grid item xs={12} md={4}>
                           <AddCard
                             title={'Add Party'}
-                            onClick={handleAddParty}
+                            onClick={handleAddPartyCard}
                           />
                         </Grid>
                       </Grid>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <DefaultAttachment />
                     </Grid>
 
                     {/* Signatures */}
@@ -123,37 +145,29 @@ export default function CreateContract() {
                         <Box sx={styles?.headingBarTitle}>Signatures</Box>
                       </Box>
                       <Grid container spacing={'30px'}>
-                        {contractData?.signees?.map(
-                          (signee: any, index: any) => (
-                            <Grid
-                              item
-                              xs={12}
-                              md={4}
-                              key={signee?._id}
-                              sx={styles?.partyCardgridItem}
-                            >
-                              <SigneeCard
-                                signeeId={signee?._id}
-                                onDelete={() =>
-                                  index !== 0 &&
-                                  handleDeleteSigneeCard(signee?._id)
-                                }
-                              />
-                            </Grid>
-                          ),
-                        )}
+                        {signeeFields?.map((signee: any, index: number) => (
+                          <Grid
+                            item
+                            xs={12}
+                            md={4}
+                            key={signee?._id}
+                            sx={styles?.partyCardgridItem}
+                          >
+                            <SigneeCard
+                              index={index}
+                              onDelete={() => handleDeleteSigneeCard(index)}
+                            />
+                          </Grid>
+                        ))}
 
                         <Grid item xs={12} md={4}>
                           <AddCard
                             title={'Add Signee'}
                             onClick={handleAddSigneeCard}
+                            disabled={partyFields?.length === 0}
                           />
                         </Grid>
                       </Grid>
-                    </Grid>
-
-                    <Grid item xs={12}>
-                      <DefaultAttachment />
                     </Grid>
 
                     <Grid item xs={12}>
@@ -166,7 +180,7 @@ export default function CreateContract() {
                         onChangeIndividualSignature={
                           handleChangeIndividualSignature
                         }
-                        signees={contractData?.signees}
+                        signees={signeeFields}
                         onClickChange={handleOpenModalManageSignature}
                         setSelectedSigneeId={setSelectedSigneeId}
                       />
@@ -174,11 +188,11 @@ export default function CreateContract() {
 
                     <Grid item xs={12}>
                       <Button
-                        type={'submit'}
                         variant={'contained'}
                         className={'small'}
                         fullWidth
                         onClick={handleOpenModalConfirmationSignDoc}
+                        disabled={true}
                       >
                         Sign & Send
                       </Button>
@@ -200,7 +214,10 @@ export default function CreateContract() {
             </Box>
 
             <Box sx={styles?.sidebar}>
-              <CreateContractSidebar />
+              <CreateContractSidebar
+                allDataFields={dynamicFields}
+                handleAddDynamicField={handleAddDynamicField}
+              />
             </Box>
           </Box>
         </FormProvider>
@@ -213,14 +230,20 @@ export default function CreateContract() {
           handleCloseModalManageSignature();
         }}
         value={
-          selectedSigneeId
-            ? contractData.signees.find(
-                (signee) => signee._id === selectedSigneeId,
-              )?.signatureType || ''
-            : ''
+          isIndividualSignature
+            ? selectedSigneeId
+              ? signeeFields.find(
+                  (signee: any) => signee._id === selectedSigneeId,
+                )?.signatureType || ''
+              : ''
+            : signeeFields[0]?.signatureType || ''
         }
-        handleChange={handleChangeSignatureMethod}
-        selectedSigneeId={selectedSigneeId}
+        handleChange={(event) => {
+          handleChangeSignatureMethod(
+            event,
+            isIndividualSignature ? selectedSigneeId : null,
+          );
+        }}
       />
 
       <ModalConfirmationSignDoc

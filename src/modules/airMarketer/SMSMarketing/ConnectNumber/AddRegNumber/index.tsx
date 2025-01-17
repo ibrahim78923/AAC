@@ -57,6 +57,7 @@ const AddRegNumber: FC<any> = ({
         page: 1,
         limit: 10,
         meta: true,
+        type: 'sms',
       },
     });
   const {
@@ -77,10 +78,11 @@ const AddRegNumber: FC<any> = ({
       setActiveAccountConfigId(activeAccount?.configurationId);
   }, [activeAccount?.configurationId]);
 
-  const handelUpdatedAccountSession = (id: any) => {
+  const handelUpdatedAccountSession = ({ id, phoneValue }: any) => {
     setActiveAccountSession({
       ...activeAccount,
       configurationId: id,
+      ...(phoneValue && { twilioNumber: phoneValue }),
     });
   };
 
@@ -99,7 +101,7 @@ const AddRegNumber: FC<any> = ({
       })?.unwrap();
 
       if (id) {
-        handelUpdatedAccountSession(id);
+        handelUpdatedAccountSession({ id });
       }
       enqueueSnackbar('Configuration Changed Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,

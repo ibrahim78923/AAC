@@ -72,5 +72,6 @@ export const useKnowledgeBase = () => {
     auth,
     customerPortalStyling,
     reportAnIssuePermission,
+    router,
   };
 };

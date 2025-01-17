@@ -25,6 +25,8 @@ import { AgentFieldDropdown } from '@/modules/airServices/ServicesTickets/Servic
 import { AssetFieldDropdown } from '@/modules/airServices/ServicesTickets/ServiceTicketFormFields/AssetFieldDropdown';
 import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
 import { formatDurationHourMinute } from '@/utils/dateTime';
+import { uploadFileMaxSize } from '@/utils/avatarUtils';
+import { ACCEPT_FILE_EXTENSIONS } from '@/constants/file';
 
 const { SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS } = CHARACTERS_LIMIT ?? {};
 
@@ -233,6 +235,12 @@ export const getNewIncidentFormFieldsDynamic = (
     id: 17,
     componentProps: {
       name: 'attachFile',
+      fileType: `PNG, JPG and PDF (max ${uploadFileMaxSize} MB)`,
+      accept: {
+        'image/png': ACCEPT_FILE_EXTENSIONS?.PNG,
+        'image/jpeg': ACCEPT_FILE_EXTENSIONS?.JPEG,
+        'application/pdf': ACCEPT_FILE_EXTENSIONS?.PDF,
+      },
     },
     component: RHFDropZone,
   },

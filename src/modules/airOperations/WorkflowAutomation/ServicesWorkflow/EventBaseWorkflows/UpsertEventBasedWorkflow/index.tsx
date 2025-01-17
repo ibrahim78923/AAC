@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertEventBasedWorkflow } from './useUpsertEventBasedWorkflow';
 import { WorkflowConditions } from './WorkflowConditions';
@@ -6,7 +6,7 @@ import { WorkflowHeader } from './WorkflowHeader';
 import { WorkflowRunAndTrigger } from './WorkflowRunAndTrigger';
 import { WorkflowActionExecuted } from './WorkflowActionExecuted';
 import { EventBasedWorkflowDataArray } from './UpsertEventBasedWorkflow.data';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const UpsertEventBasedWorkflow = () => {
   const {
@@ -29,9 +29,8 @@ export const UpsertEventBasedWorkflow = () => {
     updatedWorkflowProcess,
     movePage,
   } = useUpsertEventBasedWorkflow();
-  if (isLoading || isFetching) return <SkeletonForm />;
   return (
-    <Box>
+    <ApiRequestFlow showSkeleton={isLoading || isFetching}>
       <FormProvider methods={methods} onSubmit={handleSubmit(handleFormSubmit)}>
         <WorkflowHeader
           setValidation={setValidation}
@@ -62,6 +61,6 @@ export const UpsertEventBasedWorkflow = () => {
         />
         <WorkflowActionExecuted watch={watch} setValue={setValue} />
       </FormProvider>
-    </Box>
+    </ApiRequestFlow>
   );
 };

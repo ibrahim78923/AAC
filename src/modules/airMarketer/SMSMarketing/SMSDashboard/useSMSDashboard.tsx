@@ -1,3 +1,4 @@
+import { API_STATUS } from '@/constants';
 import { CONTACTS_CONSTANTS } from '@/constants/strings';
 import {
   useGetSmsBroadcatsQuery,
@@ -10,7 +11,7 @@ import { useState } from 'react';
 const useSMSDashboard = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  const { data: geSMSDasboardData, isLoading: dashboardLoading } =
+  const { data: geSMSDasboardData, status: dashboardLoading } =
     useGetSmsDashboardInsightsQuery({
       params: {
         year: dayjs(selectedDate)?.format('YYYY'),
@@ -28,7 +29,7 @@ const useSMSDashboard = () => {
   return {
     dashboardCards,
     dashboardGraphData,
-    dashboardLoading,
+    dashboardLoading: dashboardLoading === API_STATUS?.PENDING ? true : false,
     dashboardBroadcastData,
     broadCastLoading,
     getContactData,

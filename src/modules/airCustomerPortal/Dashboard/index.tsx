@@ -4,7 +4,7 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { ReportIssue } from '../Tickets/ReportIssue';
 import NonRegisterDashboard from './NonRegisterDashboard';
-import { PublicSingleDropdownButton } from '@/components/PublicSingleDropdownButton';
+import { PublicSingleDropdownButton } from '@/components/Buttons/PublicSingleDropdownButton';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
 
 const Dashboard = () => {

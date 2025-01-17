@@ -5,7 +5,7 @@ import { UsersFilter } from './UsersFilter';
 import { userDropdown } from './Users.data';
 import Search from '@/components/Search';
 import { ExportButton } from '@/components/Buttons/ExportButton';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import UsersRemove from './UsersRemove';
 import UsersAllocate from './UsersAllocate';
 import UsersDeallocate from './UsersDeallocate';

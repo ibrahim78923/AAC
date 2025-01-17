@@ -1,5 +1,5 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
+import { SingleDropdownButtonCloseMenuI } from '@/components/Buttons/SingleDropdownButton/SingleDropdownButton.interface';
 import { TruncateText } from '@/components/TruncateText';
 import { UserInfo } from '@/components/UserInfo';
 import { ACTIVITY_STATUS_MENU, DATE_TIME_FORMAT } from '@/constants';

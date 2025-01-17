@@ -2,6 +2,7 @@ import { EditColoredIcon, ViewEyeIcon } from '@/assets/icons';
 import { Box, Typography, useTheme } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 import { useState } from 'react';
+import { ConditionalPermissionGuard } from '@/GuardsAndPermissions/ConditionalPermissionGuard';
 
 const icons: any = {
   view: <ViewEyeIcon />,
@@ -17,6 +18,8 @@ export const ItemInitialHoveredIconCard = (props: any) => {
     onIconClick,
     iconList = ['view'],
     id = undefined,
+    hasNoActionPermission = { view: true, edit: true, delete: true },
+    actionPermissions = {},
   } = props;
 
   const theme = useTheme();
@@ -84,13 +87,19 @@ export const ItemInitialHoveredIconCard = (props: any) => {
       <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
         {isIconVisible === id ? (
           iconList?.map((item: any) => (
-            <Box
+            <ConditionalPermissionGuard
               key={item}
-              sx={{ cursor: 'pointer' }}
-              onClick={(e: any) => onIconClick?.(e, item)}
+              hasNoPermission={hasNoActionPermission?.[item]}
+              permissions={actionPermissions?.[item]}
             >
-              {icons?.[item]}
-            </Box>
+              <Box
+                key={item}
+                sx={{ cursor: 'pointer' }}
+                onClick={(e: any) => onIconClick?.(e, item)}
+              >
+                {icons?.[item]}
+              </Box>
+            </ConditionalPermissionGuard>
           ))
         ) : (
           <></>

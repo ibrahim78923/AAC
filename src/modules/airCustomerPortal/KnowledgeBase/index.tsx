@@ -1,16 +1,16 @@
-import { KnowledgeBaseCard } from './KnowledgeBaseCard';
 import { Box, Button, Grid } from '@mui/material';
-import NoData from '@/components/NoData';
 import { useKnowledgeBase } from './useKnowledgeBase';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
-import ApiErrorState from '@/components/ApiErrorState';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import Search from '@/components/Search';
 import { fullName } from '@/utils/avatarUtils';
-import { PublicSingleDropdownButton } from '@/components/PublicSingleDropdownButton';
+import { PublicSingleDropdownButton } from '@/components/Buttons/PublicSingleDropdownButton';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
 import { ReportIssue } from './ReportIssue';
+import { IconInfoCard } from '@/components/Cards/IconInfoCard/IconInfoCard';
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const KnowledgeBase = () => {
   const {
@@ -26,6 +26,7 @@ export const KnowledgeBase = () => {
     refetch,
     customerPortalStyling,
     reportAnIssuePermission,
+    router,
   } = useKnowledgeBase();
 
   return (
@@ -76,31 +77,43 @@ export const KnowledgeBase = () => {
       <Box mb={2}>
         <Search label="Search Here" setSearchBy={setSearch} size="small" />
       </Box>
-      {isLoading || isFetching ? (
-        <SkeletonTable />
-      ) : isError ? (
-        <ApiErrorState canRefresh refresh={() => refetch?.()} />
-      ) : (
+      <ApiRequestFlow
+        showSkeleton={isLoading || isFetching}
+        hasError={isError}
+        refreshApi={refetch}
+        skeletonType={SKELETON_TYPES?.BASIC_CARD}
+        cardSkeletonType={SKELETON_TYPES?.THREE_LAYER_LARGE_REVERSE_CARD}
+        hasNoData={!knowledgeBaseFolderData?.length}
+        noDataMessage={'There are no knowledge base articles available'}
+      >
         <Grid container spacing={2}>
-          {!!knowledgeBaseFolderData?.length ? (
-            knowledgeBaseFolderData?.map((option: any) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={option?._id}>
-                <KnowledgeBaseCard
-                  folderId={option?._id}
-                  name={option?.name}
-                  createdBy={fullName(
-                    option?.createdBy?.firstName,
-                    option?.createdBy?.lastName,
-                  )}
-                  createdDate={option?.createdAt}
-                />
-              </Grid>
-            ))
-          ) : (
-            <NoData message="There are no knowledge base articles available" />
-          )}
+          {knowledgeBaseFolderData?.map((folder: any) => (
+            <Grid item xs={12} sm={6} md={4} lg={3} key={folder?._id}>
+              <IconInfoCard
+                name={folder?.name}
+                description={fullName(
+                  folder?.createdBy?.firstName,
+                  folder?.createdBy?.lastName,
+                )}
+                descriptionType="Created By: "
+                dateType="Created Date : "
+                createdDate={folder?.createdAt}
+                onClick={() =>
+                  router?.push({
+                    pathname: AIR_CUSTOMER_PORTAL?.KNOWLEDGE_BASE_DETAIL,
+                    query: {
+                      folderId: folder?._id,
+                      ...(router?.query?.companyId && {
+                        companyId: router?.query?.companyId,
+                      }),
+                    },
+                  })
+                }
+              />
+            </Grid>
+          ))}
         </Grid>
-      )}
+      </ApiRequestFlow>
       {openReportAnIssueModal && (
         <ReportIssue
           isPortalOpen={openReportAnIssueModal}

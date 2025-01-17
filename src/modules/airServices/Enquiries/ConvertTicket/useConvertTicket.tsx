@@ -6,6 +6,9 @@ import {
 import { IChildModalState } from '../Enquiries.interface';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { getActiveAccountSession } from '@/utils';
+import { useMemo } from 'react';
+import useAuth from '@/hooks/useAuth';
 
 export const useConvertTicket = ({
   isModalOpen,
@@ -17,6 +20,11 @@ export const useConvertTicket = ({
     usePatchServicesEnquiriesMutation();
 
   const data = isModalOpen?.data?.[ARRAY_INDEX?.ZERO];
+
+  const product = useMemo(() => getActiveAccountSession(), []);
+  const companyId = product?.company?._id ?? {};
+  const auth: any = useAuth();
+  const organizationId = auth?.user?.organization?._id;
 
   const handlePatch = async () => {
     const patchEnquiriesParameter = {
@@ -37,6 +45,8 @@ export const useConvertTicket = ({
     formData?.append('ticketType', TICKET_TYPE?.EQ);
     formData?.append('name', data?.name);
     formData?.append('requesterEmail', data?.email);
+    formData?.append('companyId', companyId);
+    formData?.append('organization', organizationId);
 
     try {
       await postTicketTrigger(formData)?.unwrap();
