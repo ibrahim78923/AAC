@@ -8,8 +8,7 @@ import {
 } from './CalendarIntegration.data';
 import { useCalendarIntegration } from './useCalendarIntegration';
 import { LoadingButton } from '@mui/lab';
-import NoData from '@/components/NoData';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const CalendarIntegration = () => {
   const {
@@ -103,83 +102,80 @@ export const CalendarIntegration = () => {
                 My Calendar Account
               </Typography>
             </Box>
-            {isLoading || isFetching ? (
-              <SkeletonForm />
-            ) : (
-              <Box>
-                {calendarListData?.length ? (
-                  <Grid container mt={2} spacing={2}>
-                    {calendarListData?.map((account) => (
-                      <Grid item xs={12} key={account?._id}>
-                        <Box
-                          display="flex"
-                          alignItems="center"
-                          justifyContent="space-between"
-                          pb={1}
-                          borderBottom="1px solid"
-                          borderColor="grey.700"
-                        >
-                          <Box>
-                            {calendarAccounts(account)?.map((item) => (
-                              <Box
-                                display={'flex'}
-                                key={`${account?._id}-${item?.id}`}
-                              >
-                                <Box
-                                  display="flex"
-                                  alignItems="center"
-                                  mr={1}
-                                  mb={-1}
-                                  sx={{ scale: '1.2' }}
-                                >
-                                  {item?.icon && <item.icon />}
-                                </Box>
-                                <Typography
-                                  variant="formTopHeading"
-                                  color="slateBlue.main"
-                                  fontWeight={500}
-                                >
-                                  {item?.name}
-                                </Typography>
-                              </Box>
-                            ))}
-                            <Box ml={4.2} mt={-0.5}>
-                              <Typography variant="body3" color="custom.main">
-                                {account?.email}
-                              </Typography>
+            <ApiRequestFlow
+              showSkeleton={isLoading || isFetching}
+              hasNoData={!calendarListData?.length}
+              noDataMessage={'No data is available'}
+              noDataHeight={'100%'}
+            >
+              <Grid container mt={2} spacing={2}>
+                {calendarListData?.map((account) => (
+                  <Grid item xs={12} key={account?._id}>
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="space-between"
+                      pb={1}
+                      borderBottom="1px solid"
+                      borderColor="grey.700"
+                    >
+                      <Box>
+                        {calendarAccounts(account)?.map((item) => (
+                          <Box
+                            display={'flex'}
+                            key={`${account?._id}-${item?.id}`}
+                          >
+                            <Box
+                              display="flex"
+                              alignItems="center"
+                              mr={1}
+                              mb={-1}
+                              sx={{ scale: '1.2' }}
+                            >
+                              {item?.icon && <item.icon />}
                             </Box>
+                            <Typography
+                              variant="formTopHeading"
+                              color="slateBlue.main"
+                              fontWeight={500}
+                            >
+                              {item?.name}
+                            </Typography>
                           </Box>
-                          <Box display={'flex'} alignItems={'center'} gap={1}>
-                            <AntSwitch
-                              checked={account?.isDefault}
-                              isLoading={switchLoading?.[account?._id]}
-                              onClick={() => handleChangeStatus(account?._id)}
-                              disabled={
-                                changeStatusProgress?.isLoading ||
-                                deleteProgress?.isLoading
-                              }
-                            />
-                            <Box sx={{ scale: '1.3' }}>
-                              <IconButton
-                                onClick={() => handleDelete(account?._id)}
-                                disabled={
-                                  changeStatusProgress?.isLoading ||
-                                  deleteProgress?.isLoading
-                                }
-                              >
-                                <DeleteIcon />
-                              </IconButton>
-                            </Box>
-                          </Box>
+                        ))}
+                        <Box ml={4.2} mt={-0.5}>
+                          <Typography variant="body3" color="custom.main">
+                            {account?.email}
+                          </Typography>
                         </Box>
-                      </Grid>
-                    ))}
+                      </Box>
+                      <Box display={'flex'} alignItems={'center'} gap={1}>
+                        <AntSwitch
+                          checked={account?.isDefault}
+                          isLoading={switchLoading?.[account?._id]}
+                          onClick={() => handleChangeStatus(account?._id)}
+                          disabled={
+                            changeStatusProgress?.isLoading ||
+                            deleteProgress?.isLoading
+                          }
+                        />
+                        <Box sx={{ scale: '1.3' }}>
+                          <IconButton
+                            onClick={() => handleDelete(account?._id)}
+                            disabled={
+                              changeStatusProgress?.isLoading ||
+                              deleteProgress?.isLoading
+                            }
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </Box>
+                      </Box>
+                    </Box>
                   </Grid>
-                ) : (
-                  <NoData message={'No data is available'} height={'100%'} />
-                )}
-              </Box>
-            )}
+                ))}
+              </Grid>
+            </ApiRequestFlow>
           </Box>
         </Grid>
       </>

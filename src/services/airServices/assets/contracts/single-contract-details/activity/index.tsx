@@ -1,7 +1,6 @@
 import { baseAPI } from '@/services/base-api';
 import { END_POINTS } from '@/routesConstants/endpoints';
 
-const TAG = 'ACTIVITY_LOG';
 export const activityAPI = baseAPI.injectEndpoints({
   endpoints: (builder: any) => ({
     getSingleContractsActivityLog: builder.query({
@@ -10,9 +9,8 @@ export const activityAPI = baseAPI.injectEndpoints({
         method: 'GET',
         params: getSingleContractActivityParameter?.queryParams,
       }),
-      providesTags: [TAG],
     }),
   }),
 });
 
-export const { useLazyGetSingleContractsActivityLogQuery } = activityAPI;
+export const { useGetSingleContractsActivityLogQuery } = activityAPI;

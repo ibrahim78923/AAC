@@ -6,10 +6,9 @@ import {
   rewardsRadioButtonsFormFields,
   upsertRewardsData,
 } from './UpsertRewards.data';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import ApiErrorState from '@/components/ApiErrorState';
 import { Attachments } from '@/components/Attachments';
 import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const UpsertRewards = (props: any) => {
   const { isRewardDrawerOpen, setIsRewardDrawerOpen } = props;
@@ -24,6 +23,7 @@ export const UpsertRewards = (props: any) => {
     isFetching,
     isError,
     rewardId,
+    refetch,
   } = useUpsertRewards(props);
   return (
     <>
@@ -42,11 +42,11 @@ export const UpsertRewards = (props: any) => {
           rewardsStatus?.isLoading || updateRewardStatus?.isLoading
         }
       >
-        {isFetching || isLoading ? (
-          <SkeletonForm />
-        ) : isError ? (
-          <ApiErrorState />
-        ) : (
+        <ApiRequestFlow
+          showSkeleton={isFetching || isLoading}
+          hasError={isError}
+          refreshApi={refetch}
+        >
           <Box mt={1}>
             <FormProvider methods={methods}>
               <Grid container spacing={2}>
@@ -94,7 +94,7 @@ export const UpsertRewards = (props: any) => {
               </Box>
             </FormProvider>
           </Box>
-        )}
+        </ApiRequestFlow>
       </CommonDrawer>
     </>
   );

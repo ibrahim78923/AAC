@@ -3,9 +3,10 @@ import { useSingleTicketDetails } from './useSingleTicketDetails';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
-import ApiErrorState from '@/components/ApiErrorState';
 import { PermissionsTabs } from '@/components/Tabs/PermissionsTabs';
 import { Header } from './Header';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const SingleTicketDetail = () => {
   const {
@@ -20,12 +21,13 @@ export const SingleTicketDetail = () => {
 
   if (!router?.isReady) return <SkeletonTable />;
 
-  if (isLoading || isFetching) return <SkeletonTable />;
-
-  if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
-
   return (
-    <>
+    <ApiRequestFlow
+      showSkeleton={isLoading || isFetching}
+      hasError={isError}
+      refreshApi={refetch}
+      skeletonType={SKELETON_TYPES?.BARS}
+    >
       <Header {...childComponentProps} />
       <br />
       <PermissionsGuard
@@ -37,6 +39,6 @@ export const SingleTicketDetail = () => {
       </PermissionsGuard>
       <br />
       <PermissionsTabs spacing={0.3} tabsDataArray={singleTicketDetailTabs} />
-    </>
+    </ApiRequestFlow>
   );
 };

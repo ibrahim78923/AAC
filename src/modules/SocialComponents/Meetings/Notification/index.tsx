@@ -5,6 +5,7 @@ import { useNotification } from './useNotification';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { MeetingNotificationI } from './Notification.interface';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const Notification = () => {
   const {
@@ -26,7 +27,11 @@ export const Notification = () => {
       {isLoading || isFetching ? (
         <SkeletonTable />
       ) : (
-        <>
+        <ApiRequestFlow
+          showSkeleton={isLoading || isFetching}
+          hasError={isError}
+          refreshApi={refetch}
+        >
           {meetingsNotificationData?.map((item: MeetingNotificationI) => (
             <Box
               key={item?.id}
@@ -71,7 +76,7 @@ export const Notification = () => {
               />
             </Box>
           ))}
-        </>
+        </ApiRequestFlow>
       )}
     </Box>
   );

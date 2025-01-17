@@ -1,12 +1,7 @@
 import { useGetAuthAccountsForOperationsReportsQuery } from '@/services/airOperations/reports';
 import { reportsTypesDynamic } from './Reports.data';
-import { useRouter } from 'next/router';
-import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
-import ApiErrorState from '@/components/ApiErrorState';
 
 export const useReports = () => {
-  const router = useRouter();
-
   const { data, isLoading, isError, isFetching, refetch } =
     useGetAuthAccountsForOperationsReportsQuery?.(
       {},
@@ -25,25 +20,11 @@ export const useReports = () => {
     }),
     {},
   );
-  const reportsTypes = reportsTypesDynamic(productsLists);
 
-  const checkApiStatus = () => {
-    if (isLoading || isFetching)
-      return (
-        <SkeletonCard
-          isCircular="square"
-          flexDirectionRectangular="column"
-          hasThirdSkeleton={false}
-        />
-      );
-    if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
-    return undefined;
-  };
+  const reportsTypes = reportsTypesDynamic(productsLists);
 
   return {
     reportsTypes,
-    router,
-    checkApiStatus,
     isLoading,
     isError,
     isFetching,

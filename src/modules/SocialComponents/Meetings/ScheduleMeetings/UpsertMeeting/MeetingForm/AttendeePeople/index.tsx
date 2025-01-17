@@ -9,12 +9,13 @@ import { generateImage } from '@/utils/avatarUtils';
 import { meetingPeople } from './AttendeePeople.data';
 import { DateRangePickerIcon } from '@/assets/icons';
 import { DATE_TIME_FORMAT } from '@/constants';
-import ApiErrorState from '@/components/ApiErrorState';
 import { ROUTER_CONSTANTS } from '@/constants/strings';
 import NoData from '@/components/NoData';
 import { CustomTooltip } from '@/components/CustomTooltip';
 import GetMeetingAllUsersDropdown from '@/modules/SocialComponents/Meetings/MeetingsFormFieldsDropdowns/GetMeetingAllUsersDropdown';
 import { otherDateFormat } from '@/lib/date-time';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const AttendeePeople = (props: any) => {
   const {
@@ -31,6 +32,7 @@ export const AttendeePeople = (props: any) => {
     bookedStatus,
     bookedSlotsData,
     watchPeople,
+    handleFetchBookedMeetingSlots,
   } = useAttendeePeople(props);
 
   return (
@@ -227,11 +229,17 @@ export const AttendeePeople = (props: any) => {
               My Booked Slots
             </Typography>
           </Box>
-          {bookedStatus?.isLoading || bookedStatus?.isFetching ? (
-            <Skeleton />
-          ) : bookedStatus?.isError ? (
-            <ApiErrorState />
-          ) : bookedSlotsData?.length ? (
+          <ApiRequestFlow
+            showSkeleton={bookedStatus?.isLoading || bookedStatus?.isFetching}
+            hasError={bookedStatus?.isError}
+            refreshApi={handleFetchBookedMeetingSlots}
+            hasNoData={!bookedSlotsData?.length}
+            skeletonType={SKELETON_TYPES?.BARS}
+            length={1}
+            noDataMessage="No Slots found"
+            noDataHeight="20vh"
+            errorHeight="30vh"
+          >
             <Grid container spacing={2} mt={0}>
               {bookedSlotsData?.map((slot: any) => {
                 return (
@@ -268,9 +276,7 @@ export const AttendeePeople = (props: any) => {
                 );
               })}
             </Grid>
-          ) : (
-            <NoData height="20vh" message="No Slots found" />
-          )}
+          </ApiRequestFlow>
         </Box>
       )}
     </>

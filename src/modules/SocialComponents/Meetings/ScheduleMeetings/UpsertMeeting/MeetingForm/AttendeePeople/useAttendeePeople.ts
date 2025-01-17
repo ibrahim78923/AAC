@@ -79,5 +79,6 @@ export const useAttendeePeople = (props: any) => {
     bookedStatus,
     bookedSlotsData,
     watchPeople,
+    handleFetchBookedMeetingSlots,
   };
 };

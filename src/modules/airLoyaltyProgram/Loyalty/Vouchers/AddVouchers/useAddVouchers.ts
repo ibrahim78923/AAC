@@ -26,6 +26,8 @@ export const useAddVouchers = (props: any) => {
     data: getVoucherById,
     isLoading,
     isFetching,
+    isError,
+    refetch,
   } = useGetSingleVouchersQuery(getByIdParams, {
     skip: !addVouchersOpen?.voucherCode && addVouchersOpen?.upsert,
     refetchOnMountOrArgChange: true,
@@ -109,5 +111,7 @@ export const useAddVouchers = (props: any) => {
     isLoading,
     editVouchersStatus,
     isFetching,
+    isError,
+    refetch,
   };
 };

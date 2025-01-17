@@ -1,9 +1,8 @@
-import NoData from '@/components/NoData';
 import { ApprovalCard } from '../ApprovalCard';
-import ApiErrorState from '@/components/ApiErrorState';
 import { Box } from '@mui/material';
 import { useAllApprovals } from './useAllApprovals';
-import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const AllApprovals = () => {
   const {
@@ -14,18 +13,21 @@ export const AllApprovals = () => {
     setApproval,
   } = useAllApprovals();
 
-  if (showLoader)
-    return <SkeletonCard gridSize={{ md: 12 }} outerPadding={{ x: 2, y: 3 }} />;
-  if (hasError)
-    return <ApiErrorState canRefresh refresh={getTicketApprovalsListData} />;
-  if (!!!data?.length)
-    return <NoData height={'30vh'} message="No approvals found" />;
-
   return (
-    <Box maxHeight={'50vh'} overflow={'auto'}>
-      {data?.map((item: any) => (
-        <ApprovalCard key={item?._id} data={item} setApproval={setApproval} />
-      ))}
-    </Box>
+    <ApiRequestFlow
+      showSkeleton={showLoader}
+      hasError={hasError}
+      refreshApi={getTicketApprovalsListData}
+      hasNoData={!data?.length}
+      noDataMessage="No approvals found"
+      skeletonType={SKELETON_TYPES?.BASIC_CARD}
+      cardSkeletonType={SKELETON_TYPES?.THREE_LAYER_BIG_LARGE_CARD}
+    >
+      <Box maxHeight={'50vh'} overflow={'auto'}>
+        {data?.map((item: any) => (
+          <ApprovalCard key={item?._id} data={item} setApproval={setApproval} />
+        ))}
+      </Box>
+    </ApiRequestFlow>
   );
 };
