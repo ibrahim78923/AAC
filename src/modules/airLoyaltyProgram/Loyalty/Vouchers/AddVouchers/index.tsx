@@ -8,7 +8,7 @@ import {
 import { useAddVouchers } from './useAddVouchers';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { Fragment } from 'react';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const AddVouchers = (props: any) => {
   const {
@@ -25,6 +25,8 @@ export const AddVouchers = (props: any) => {
     isLoading,
     editVouchersStatus,
     isFetching,
+    isError,
+    refetch,
   } = useAddVouchers(props);
   return (
     <>
@@ -46,9 +48,11 @@ export const AddVouchers = (props: any) => {
         cancelText={'Cancel'}
         footer
       >
-        {isLoading || isFetching ? (
-          <SkeletonForm />
-        ) : (
+        <ApiRequestFlow
+          showSkeleton={isLoading || isFetching}
+          hasError={isError}
+          refreshApi={refetch}
+        >
           <FormProvider
             methods={methods}
             onSubmit={handleSubmit(submitAddVouchersForm)}
@@ -119,7 +123,7 @@ export const AddVouchers = (props: any) => {
               })}
             </Grid>
           </FormProvider>
-        )}
+        </ApiRequestFlow>
       </CommonDrawer>
     </>
   );
