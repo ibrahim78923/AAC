@@ -1,6 +1,5 @@
 import { Divider, Grid, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import ApiErrorState from '@/components/ApiErrorState';
 import { useUpsertRolesAndRight } from './useUpsertRolesAndRight';
 import {
   SUBMIT_BUTTON_TEXT,
@@ -10,9 +9,9 @@ import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import { PermissionsAccordion } from '../PermissionsAccordion';
 import CommonDrawer from '@/components/CommonDrawer';
 import { LOYALTY_PROGRAM_ROLE_AND_RIGHTS_ACTIONS_CONSTANT } from '../RolesAndRight.data';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_LOYALTY_PROGRAM_SETTINGS_ROLES_AND_RIGHT_PERMISSIONS } from '@/constants/permission-keys';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 const { LOYALTY_PROGRAM_ROLE_AND_RIGHTS_DETAIL } =
   LOYALTY_PROGRAM_ROLE_AND_RIGHTS_ACTIONS_CONSTANT ?? {};
@@ -31,6 +30,7 @@ export const UpsertRolesAndRight = () => {
     closePortal,
     apiCallInProgress,
     permissionAccordionsProps,
+    refetch,
   } = useUpsertRolesAndRight();
 
   return (
@@ -48,11 +48,11 @@ export const UpsertRolesAndRight = () => {
         isDisabled={apiCallInProgress}
         disabledCancelBtn={apiCallInProgress}
       >
-        {getRolesIsLoading || getRolesIsFetching ? (
-          <SkeletonForm />
-        ) : getRolesIsError ? (
-          <ApiErrorState />
-        ) : (
+        <ApiRequestFlow
+          showSkeleton={getRolesIsLoading || getRolesIsFetching}
+          hasError={getRolesIsError}
+          refreshApi={refetch}
+        >
           <FormProvider
             methods={methods}
             onSubmit={handleSubmit(submitUpsertRoles)}
@@ -93,7 +93,7 @@ export const UpsertRolesAndRight = () => {
               </PermissionsGuard>
             </Grid>
           </FormProvider>
-        )}
+        </ApiRequestFlow>
       </CommonDrawer>
     </>
   );

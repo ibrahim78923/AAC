@@ -1,36 +1,42 @@
-import { Grid } from '@mui/material';
-import NoData from '@/components/NoData';
+import { Box } from '@mui/material';
 import { ActivityTimeline } from './ActivityTimeline';
 import { useActivity } from './useActivity';
 import CustomPagination from '@/components/CustomPagination';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
-import ApiErrorState from '@/components/ApiErrorState';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const Activity = () => {
-  const { isLoading, isError, setPageLimit, setPage, isFetching, data } =
-    useActivity();
+  const {
+    isLoading,
+    isError,
+    setPageLimit,
+    setPage,
+    isFetching,
+    data,
+    refetch,
+  } = useActivity();
 
-  if (isLoading || isFetching) return <SkeletonTable />;
-
-  if (isError) return <ApiErrorState canRefresh />;
   return (
-    <>
-      <Grid container>
-        <Grid item xs={12} md={0.5}></Grid>
-        <Grid item xs={12} md={10.5}>
-          {!!data?.data?.activitylogs?.length ? (
-            data?.data?.activitylogs?.map((singleActivity: any) => (
-              <ActivityTimeline
-                activityData={singleActivity}
-                key={singleActivity?._id}
-              />
-            ))
-          ) : (
-            <NoData message={'There is no activity'} />
-          )}
-        </Grid>
-        <Grid item xs={12} md={1}></Grid>
-      </Grid>
+    <ApiRequestFlow
+      showSkeleton={isLoading || isFetching}
+      hasError={isError}
+      refreshApi={refetch}
+      hasNoData={!data?.data?.activitylogs?.length}
+      noDataMessage={'There is no activity'}
+    >
+      <Box
+        border={'1px solid'}
+        borderColor={'custom.off_white_three'}
+        borderRadius={2}
+        p={2}
+      >
+        {data?.data?.activitylogs?.map((singleActivity: any) => (
+          <ActivityTimeline
+            activityData={singleActivity}
+            key={singleActivity?._id}
+          />
+        ))}
+      </Box>
+
       <CustomPagination
         count={data?.data?.meta?.pages}
         totalRecords={data?.data?.meta?.total}
@@ -40,6 +46,6 @@ export const Activity = () => {
         setPageLimit={setPageLimit}
         setPage={setPage}
       />
-    </>
+    </ApiRequestFlow>
   );
 };

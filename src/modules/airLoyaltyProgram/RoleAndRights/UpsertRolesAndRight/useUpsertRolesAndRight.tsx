@@ -59,6 +59,7 @@ export const useUpsertRolesAndRight = () => {
     isLoading: getRolesIsLoading,
     isFetching: getRolesIsFetching,
     isError: getRolesIsError,
+    refetch,
   } = useGetLoyaltyProgramRoleAndRightsSinglePermissionRoleByIdQuery(roleId, {
     skip: !roleId,
     refetchOnMountOrArgChange: true,
@@ -204,5 +205,6 @@ export const useUpsertRolesAndRight = () => {
     closePortal,
     apiCallInProgress,
     permissionAccordionsProps,
+    refetch,
   };
 };

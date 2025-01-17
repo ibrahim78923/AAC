@@ -48,6 +48,7 @@ export const useUpsertRolesAndRight = () => {
     isLoading: getRolesIsLoading,
     isFetching: getRolesIsFetching,
     isError: getRolesIsError,
+    refetch,
   } = useGetPermissionsRoleByIdForOperationsQuery(roleId, {
     skip: !roleId,
     refetchOnMountOrArgChange: true,
@@ -156,5 +157,6 @@ export const useUpsertRolesAndRight = () => {
     getRolesIsError,
     submitButtonHandler,
     permissionAccordionsProps,
+    refetch,
   };
 };

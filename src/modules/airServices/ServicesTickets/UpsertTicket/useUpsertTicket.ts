@@ -88,7 +88,7 @@ export const useUpsertTicket = () => {
       ticketId,
     },
   };
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetServicesSingleTicketDetailByIdQuery(getSingleTicketParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!ticketId,
@@ -300,5 +300,6 @@ export const useUpsertTicket = () => {
     apiCallInProgress,
     showLoader,
     hasError,
+    refetch,
   };
 };
