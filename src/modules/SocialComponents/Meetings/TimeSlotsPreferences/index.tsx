@@ -6,7 +6,7 @@ import { useTimeSlotPreferences } from './useTimeSlotPreferences';
 import DateOverrides from './DateOverrides';
 import BufferTime from './BufferTime';
 import { LoadingButton } from '@mui/lab';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const TimeSlotPreferences = () => {
   const {
@@ -31,9 +31,8 @@ export const TimeSlotPreferences = () => {
     isLoading,
     isFetching,
   } = useTimeSlotPreferences();
-  if (isLoading || isFetching) return <SkeletonForm />;
   return (
-    <>
+    <ApiRequestFlow showSkeleton={isLoading || isFetching}>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <TimeSlotsHeader
           disabled={disabled}
@@ -101,6 +100,6 @@ export const TimeSlotPreferences = () => {
           </Box>
         )}
       </FormProvider>
-    </>
+    </ApiRequestFlow>
   );
 };
