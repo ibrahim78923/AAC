@@ -74,6 +74,7 @@ import {
 } from '@/constants/routes';
 import { Quick_Links_Routes } from '@/constants/index';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import { useRouter } from 'next/router';
 
 const Header = (props: any) => {
   const { currentPermissions } = useAuth();
@@ -346,6 +347,17 @@ const Header = (props: any) => {
     };
   }, [isExpanded, showTabs]);
 
+  const router = useRouter();
+  const [isCustomerPortal, setIsCustomerPortal] = useState(false);
+
+  useEffect(() => {
+    if (router?.pathname?.includes('air-customer-portal')) {
+      setIsCustomerPortal(true);
+    } else {
+      setIsCustomerPortal(false);
+    }
+  }, [router?.pathname, isCustomerPortal]);
+
   return (
     <>
       <Box
@@ -545,37 +557,43 @@ const Header = (props: any) => {
             alignItems: 'center',
           }}
         >
-          {role !== ROLES?.SUPER_ADMIN && currentPermissions && (
-            <Box sx={styles?.quickLinkBox(theme, innerBoxesRendered)}>
-              {!isNullOrEmpty(QuickLinkData) &&
-                QuickLinkData?.map((image) => (
-                  <PermissionsGuard
-                    key={uuidv4()}
-                    permissions={image?.permissions}
-                  >
-                    <Box
-                      key={uuidv4()}
-                      sx={styles?.innerQuickLinkBox(theme)}
-                      onLoad={() => {
-                        if (!innerBoxesRendered) {
-                          setInnerBoxesRendered(true);
-                        }
-                      }}
-                    >
-                      <Link href={image?.path}>
-                        <Image
-                          src={image?.icon}
-                          alt="logo"
-                          width={18}
-                          height={18}
-                        />
-                      </Link>
-                    </Box>
-                  </PermissionsGuard>
-                ))}
-            </Box>
+          {!isCustomerPortal && (
+            <>
+              {role !== ROLES?.SUPER_ADMIN && currentPermissions && (
+                <Box sx={styles?.quickLinkBox(theme, innerBoxesRendered)}>
+                  {!isNullOrEmpty(QuickLinkData) &&
+                    QuickLinkData?.map((image) => (
+                      <PermissionsGuard
+                        key={uuidv4()}
+                        permissions={image?.permissions}
+                      >
+                        <Box
+                          key={uuidv4()}
+                          sx={styles?.innerQuickLinkBox(theme)}
+                          onLoad={() => {
+                            if (!innerBoxesRendered) {
+                              setInnerBoxesRendered(true);
+                            }
+                          }}
+                        >
+                          <Link href={image?.path}>
+                            <Image
+                              src={image?.icon}
+                              alt="logo"
+                              width={18}
+                              height={18}
+                            />
+                          </Link>
+                        </Box>
+                      </PermissionsGuard>
+                    ))}
+                </Box>
+              )}
+            </>
           )}
-          {role && <SocialIconsDropdown />}
+
+          {!isCustomerPortal && <>{role && <SocialIconsDropdown />}</>}
+
           {role !== ROLES?.SUPER_ADMIN && role !== ROLES?.ORG_REQUESTER && (
             <AccountMenu />
           )}

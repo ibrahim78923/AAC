@@ -1,10 +1,9 @@
-import NoData from '@/components/NoData';
 import { Box } from '@mui/material';
 import { Fragment } from 'react';
 import { ConversationCard } from '../ConversationCard';
-import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
-import ApiErrorState from '@/components/ApiErrorState';
 import { useConversationList } from './useConversationList';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const ConversationList = () => {
   const {
@@ -15,29 +14,32 @@ export const ConversationList = () => {
     showMoreLoader,
   }: any = useConversationList();
 
-  if (showLoader)
-    return <SkeletonCard gridSize={{ md: 12 }} outerPadding={{ x: 2, y: 3 }} />;
-
-  if (lazyGetServicesTicketsConversationListStatus?.isError)
-    return <ApiErrorState canRefresh refresh={getTicketConversationListData} />;
-
-  if (!!!lazyGetServicesTicketsConversationListStatus?.data?.data?.length)
-    return <NoData message="No conversations found" />;
-
   return (
-    <Box maxHeight={'80vh'} overflow={'auto'}>
-      <br />
-      {lazyGetServicesTicketsConversationListStatus?.data?.data?.map(
-        (conversation: any) => (
-          <Fragment key={conversation?._id}>
-            <ConversationCard
-              data={conversation}
-              setAction={setAction}
-              showMoreLoader={showMoreLoader}
-            />
-          </Fragment>
-        ),
-      )}
-    </Box>
+    <ApiRequestFlow
+      showSkeleton={showLoader}
+      hasError={lazyGetServicesTicketsConversationListStatus?.isError}
+      refreshApi={getTicketConversationListData}
+      hasNoData={
+        !lazyGetServicesTicketsConversationListStatus?.data?.data?.length
+      }
+      noDataMessage="No conversations found"
+      skeletonType={SKELETON_TYPES?.BASIC_CARD}
+      cardSkeletonType={SKELETON_TYPES?.THREE_LAYER_BIG_LARGE_CARD}
+    >
+      <Box maxHeight={'80vh'} overflow={'auto'}>
+        <br />
+        {lazyGetServicesTicketsConversationListStatus?.data?.data?.map(
+          (conversation: any) => (
+            <Fragment key={conversation?._id}>
+              <ConversationCard
+                data={conversation}
+                setAction={setAction}
+                showMoreLoader={showMoreLoader}
+              />
+            </Fragment>
+          ),
+        )}
+      </Box>
+    </ApiRequestFlow>
   );
 };

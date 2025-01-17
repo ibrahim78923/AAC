@@ -7,8 +7,8 @@ import { useVideoConferencing } from './useVideoConferencing';
 import { LoadingButton } from '@mui/lab';
 import { AntSwitch } from '@/components/AntSwitch';
 import { Delete as DeleteIcon } from '@mui/icons-material';
-import NoData from '@/components/NoData';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const VideoConferencing = () => {
   const {
@@ -117,83 +117,82 @@ export const VideoConferencing = () => {
                 My Meetings Account
               </Typography>
             </Box>
-            {isLoading || isFetching ? (
-              <SkeletonForm />
-            ) : (
-              <Box>
-                {meetingsListData?.length ? (
-                  <Grid container mt={2} spacing={2}>
-                    {meetingsListData?.map((account) => (
-                      <Grid item xs={12} key={account?._id}>
-                        <Box
-                          display="flex"
-                          alignItems="center"
-                          justifyContent="space-between"
-                          pb={1}
-                          borderBottom="1px solid"
-                          borderColor="grey.700"
-                        >
-                          <Box>
-                            {meetingsAccounts(account)?.map((item: any) => (
-                              <Box
-                                display={'flex'}
-                                key={`${account?._id}-${item?.id}`}
-                              >
-                                <Box
-                                  display="flex"
-                                  alignItems="center"
-                                  mr={1}
-                                  mb={-1}
-                                  sx={{ scale: '1.2' }}
-                                >
-                                  {item?.icon && <item.icon />}
-                                </Box>
-                                <Typography
-                                  variant="formTopHeading"
-                                  color="slateBlue.main"
-                                  fontWeight={500}
-                                >
-                                  {item?.name}
-                                </Typography>
-                              </Box>
-                            ))}
-                            <Box ml={4.2} mt={-0.5}>
-                              <Typography variant="body3" color="custom.main">
-                                {account?.email}
-                              </Typography>
+            <ApiRequestFlow
+              showSkeleton={isLoading || isFetching}
+              skeletonType={SKELETON_TYPES?.BARS}
+              hasNoData={!meetingsListData?.length}
+              noDataMessage="No meetings account found"
+              noDataHeight="100%"
+              length={3}
+            >
+              <Grid container mt={2} spacing={2}>
+                {meetingsListData?.map((account) => (
+                  <Grid item xs={12} key={account?._id}>
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="space-between"
+                      pb={1}
+                      borderBottom="1px solid"
+                      borderColor="grey.700"
+                    >
+                      <Box>
+                        {meetingsAccounts(account)?.map((item: any) => (
+                          <Box
+                            display={'flex'}
+                            key={`${account?._id}-${item?.id}`}
+                          >
+                            <Box
+                              display="flex"
+                              alignItems="center"
+                              mr={1}
+                              mb={-1}
+                              sx={{ scale: '1.2' }}
+                            >
+                              {item?.icon && <item.icon />}
                             </Box>
+                            <Typography
+                              variant="formTopHeading"
+                              color="slateBlue.main"
+                              fontWeight={500}
+                            >
+                              {item?.name}
+                            </Typography>
                           </Box>
-                          <Box display={'flex'} alignItems={'center'} gap={1}>
-                            <AntSwitch
-                              checked={account?.isDefault === true}
-                              isLoading={switchLoading?.[account?._id]}
-                              onClick={() => handleChangeStatus(account?._id)}
-                              disabled={
-                                changeStatusProgress?.isLoading ||
-                                deleteProgress?.isLoading
-                              }
-                            />
-                            <Box sx={{ scale: '1.3' }}>
-                              <IconButton
-                                onClick={() => handleDelete(account?._id)}
-                                disabled={
-                                  changeStatusProgress?.isLoading ||
-                                  deleteProgress?.isLoading
-                                }
-                              >
-                                <DeleteIcon />
-                              </IconButton>
-                            </Box>
-                          </Box>
+                        ))}
+                        <Box ml={4.2} mt={-0.5}>
+                          <Typography variant="body3" color="custom.main">
+                            {account?.email}
+                          </Typography>
                         </Box>
-                      </Grid>
-                    ))}
+                      </Box>
+                      <Box display={'flex'} alignItems={'center'} gap={1}>
+                        <AntSwitch
+                          checked={account?.isDefault === true}
+                          isLoading={switchLoading?.[account?._id]}
+                          onClick={() => handleChangeStatus(account?._id)}
+                          disabled={
+                            changeStatusProgress?.isLoading ||
+                            deleteProgress?.isLoading
+                          }
+                        />
+                        <Box sx={{ scale: '1.3' }}>
+                          <IconButton
+                            onClick={() => handleDelete(account?._id)}
+                            disabled={
+                              changeStatusProgress?.isLoading ||
+                              deleteProgress?.isLoading
+                            }
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </Box>
+                      </Box>
+                    </Box>
                   </Grid>
-                ) : (
-                  <NoData message={'No data is available'} height={'100%'} />
-                )}
-              </Box>
-            )}
+                ))}
+              </Grid>
+            </ApiRequestFlow>
           </Box>
         </Grid>
       </>

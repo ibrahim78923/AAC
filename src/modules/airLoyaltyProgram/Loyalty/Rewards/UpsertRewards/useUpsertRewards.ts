@@ -17,7 +17,7 @@ export const useUpsertRewards = (props: any) => {
 
   const rewardId = isRewardDrawerOpen?.data;
 
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetLoyaltyProgramRewardsByIdQuery(
       { id: rewardId },
       {
@@ -94,5 +94,6 @@ export const useUpsertRewards = (props: any) => {
     isFetching,
     isError,
     rewardId,
+    refetch,
   };
 };

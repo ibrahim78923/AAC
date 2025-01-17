@@ -4,8 +4,7 @@ import { apiKeys, useCreateEmail } from './useCreateEmail';
 import PreviewModal from '../PreviewModal';
 import { FormProvider, RHFImageEditor } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import ApiErrorState from '@/components/ApiErrorState';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 const CreateEmail = () => {
   const {
@@ -28,11 +27,13 @@ const CreateEmail = () => {
     quillRef,
     handleInsertText,
   } = useCreateEmail();
-  if (isLoading || isFetching) return <SkeletonForm />;
-  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
 
   return (
-    <>
+    <ApiRequestFlow
+      showSkeleton={isLoading || isFetching}
+      hasError={isError}
+      refreshApi={refetch}
+    >
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <PageTitledHeader
           title={`Email Template`}
@@ -96,7 +97,7 @@ const CreateEmail = () => {
           editorData={editorData}
         />
       </FormProvider>
-    </>
+    </ApiRequestFlow>
   );
 };
 
