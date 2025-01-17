@@ -26,6 +26,8 @@ import { CategoryFieldDropdown } from '../ServiceTicketFormFields/CategoryFieldD
 import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
 import { localeDateTime } from '@/lib/date-time';
 import { formatDurationHourMinute } from '@/utils/dateTime';
+import { uploadFileMaxSize } from '@/utils/avatarUtils';
+import { ACCEPT_FILE_EXTENSIONS } from '@/constants/file';
 
 const { SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS } = CHARACTERS_LIMIT ?? {};
 
@@ -259,6 +261,12 @@ export const upsertTicketFormFieldsDynamic = (
       componentProps: {
         name: 'attachFile',
         fullWidth: true,
+        fileType: `PNG, JPG and PDF (max ${uploadFileMaxSize} MB)`,
+        accept: {
+          'image/png': ACCEPT_FILE_EXTENSIONS?.PNG,
+          'image/jpeg': ACCEPT_FILE_EXTENSIONS?.JPEG,
+          'application/pdf': ACCEPT_FILE_EXTENSIONS?.PDF,
+        },
       },
       component: RHFDropZone,
     },

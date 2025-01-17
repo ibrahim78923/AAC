@@ -1,26 +1,25 @@
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import { Box, Button, Skeleton, Typography } from '@mui/material';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { Permissions } from '@/constants/permissions';
 import EmailThisDashboard from '../EmailThisDashboard';
 import { useDashboardFilter } from './useDashboardFilter';
 import { DashboardListFieldDropdown } from '../DashboardFormFields/DashboardsListFieldDropdown';
 import { TruncateText } from '@/components/TruncateText';
-import { Autorenew } from '@mui/icons-material';
-import { pxToRem } from '@/utils/getFontValue';
-import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
+import { DownloadDashboards } from '../DownloadDashboards';
+import { DASHBOARD_FILTER_PORTAL_ACTION } from './DashboardFilter.data';
 
 export const DashboardFilter = (props: any) => {
-  const { apiLoader, refetchApi, hasDefaultDashboard, hasError, showLoader } =
+  const { apiLoader, hasDefaultDashboard, hasError, showLoader, downloadRef } =
     props;
+
   const {
     dashboardDropdownActions,
-    isDrawerOpen,
-    setIsDrawerOpen,
+    isPortalOpen,
+    setIsPortalOpen,
     dashboardName,
     moveToManageDashboard,
-    timeLapse,
     authUserName,
   } = useDashboardFilter(props);
 
@@ -57,28 +56,6 @@ export const DashboardFilter = (props: any) => {
             <></>
           ) : (
             <>
-              <Button
-                className="small"
-                variant="outlined"
-                color="inherit"
-                size="small"
-                startIcon={<Autorenew />}
-                onClick={refetchApi}
-                disabled={showLoader}
-                sx={{
-                  fontSize: pxToRem(12),
-                  fontWeight: 'fontWeightRegular',
-                  textTransform: 'lowercase',
-                }}
-              >
-                {!!showLoader ? (
-                  <Box>
-                    <CustomLinearProgress />
-                  </Box>
-                ) : (
-                  timeLapse?.lastFetchLapseTime
-                )}
-              </Button>
               <PermissionsGuard
                 permissions={[
                   AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_MANAGE_DASHBOARD,
@@ -122,13 +99,26 @@ export const DashboardFilter = (props: any) => {
           </PermissionsGuard>
         </Box>
       </Box>
-      {isDrawerOpen && (
-        <EmailThisDashboard
-          isDrawerOpen={isDrawerOpen}
-          setIsDrawerOpen={setIsDrawerOpen}
-          apiLoader={apiLoader}
-        />
-      )}
+
+      {isPortalOpen?.isOpen &&
+        isPortalOpen?.action === DASHBOARD_FILTER_PORTAL_ACTION?.SEND_EMAIL && (
+          <EmailThisDashboard
+            isPortalOpen={isPortalOpen}
+            setIsPortalOpen={setIsPortalOpen}
+            apiLoader={apiLoader}
+          />
+        )}
+
+      {isPortalOpen?.isOpen &&
+        isPortalOpen?.action ===
+          DASHBOARD_FILTER_PORTAL_ACTION?.DOWNLOAD_DASHBOARD && (
+          <DownloadDashboards
+            isPortalOpen={isPortalOpen}
+            setIsPortalOpen={setIsPortalOpen}
+            downloadRef={downloadRef}
+            name={dashboardName}
+          />
+        )}
     </>
   );
 };

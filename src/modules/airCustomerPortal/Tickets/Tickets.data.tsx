@@ -1,4 +1,4 @@
-import { SingleDropdownButtonCloseMenuI } from '@/components/SingleDropdownButton/SingleDropdownButton.interface';
+import { SingleDropdownButtonCloseMenuI } from '@/components/Buttons/SingleDropdownButton/SingleDropdownButton.interface';
 import { TICKET_STATUS } from '@/constants/strings';
 import { Dispatch, SetStateAction } from 'react';
 

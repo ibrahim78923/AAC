@@ -1,10 +1,9 @@
 import { Typography } from '@mui/material';
 import { TicketRelated } from './TicketRelated';
 import { useKnowledgeInsights } from './useKnowledgeInsights';
-import NoData from '@/components/NoData';
 import TanstackTable from '@/components/Table/TanstackTable';
-import ApiErrorState from '@/components/ApiErrorState';
-import { SkeletonTanStackTable } from '@/components/Skeletons/SkeletonTanStackTable';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const KnowledgeInsights = () => {
   const {
@@ -21,35 +20,37 @@ export const KnowledgeInsights = () => {
     refetch,
   } = useKnowledgeInsights();
 
-  if (isLoading || isFetching) return <SkeletonTanStackTable />;
-
-  if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
-
-  if (!!!data?.data?.articles?.length)
-    return <NoData message={'No Knowledge Insights found'} />;
-
   return (
     <>
       {!!!selectedArticle?._id ? (
         <>
           <Typography variant="h5">Trending insights</Typography>
           <br />
-          <TanstackTable
-            data={data?.data?.articles}
-            columns={knowledgeInsightsColumns}
-            isLoading={isLoading}
-            currentPage={data?.data?.meta?.page}
-            count={data?.data?.meta?.pages}
-            pageLimit={data?.data?.meta?.limit}
-            totalRecords={data?.data?.meta?.total}
-            setPage={setPage}
-            setPageLimit={setPageLimit}
-            isFetching={isFetching}
-            isError={isError}
-            isSuccess={isSuccess}
-            onPageChange={(page: number) => setPage(page)}
-            isPagination
-          />
+          <ApiRequestFlow
+            refreshApi={refetch}
+            showSkeleton={isLoading || isFetching}
+            hasError={isError}
+            hasNoData={!data?.data?.articles?.length}
+            noDataMessage="No Knowledge Insights found"
+            skeletonType={SKELETON_TYPES?.TABLE}
+          >
+            <TanstackTable
+              data={data?.data?.articles}
+              columns={knowledgeInsightsColumns}
+              isLoading={isLoading}
+              currentPage={data?.data?.meta?.page}
+              count={data?.data?.meta?.pages}
+              pageLimit={data?.data?.meta?.limit}
+              totalRecords={data?.data?.meta?.total}
+              setPage={setPage}
+              setPageLimit={setPageLimit}
+              isFetching={isFetching}
+              isError={isError}
+              isSuccess={isSuccess}
+              onPageChange={(page: number) => setPage(page)}
+              isPagination
+            />
+          </ApiRequestFlow>
         </>
       ) : (
         <TicketRelated

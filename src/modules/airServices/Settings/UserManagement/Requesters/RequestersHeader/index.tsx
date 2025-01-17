@@ -1,6 +1,6 @@
 import Search from '@/components/Search';
 import { Box, Button } from '@mui/material';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { CirclePlusIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { Permissions } from '@/constants/permissions';

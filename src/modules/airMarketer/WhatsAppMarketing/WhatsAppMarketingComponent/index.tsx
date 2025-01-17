@@ -1,11 +1,11 @@
-import { Box, Button, Typography, Stack, Avatar } from '@mui/material';
+import { Box, Button, Typography, Stack, IconButton } from '@mui/material';
 import { useRouter } from 'next/router';
 import CommonTabs from '@/components/Tabs';
 import Dashboard from './Dashboard';
 import Broadcast from './Broadcast';
 import Contacts from './Contacts';
 import Templates from './Templates';
-import { PlusIcon } from '@/assets/icons';
+import { PlusIcon, SettingsIcon } from '@/assets/icons';
 import EditSmsIcon from '@/assets/icons/modules/airMarketer/SMSMarketing/edit-sms-icon';
 import { styles } from './WhatsAppMarketing.style';
 import { AIR_MARKETER } from '@/routesConstants/paths';
@@ -15,17 +15,13 @@ import {
   AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS,
 } from '@/constants/permission-keys';
 import { indexNumbers } from '@/constants';
-import { generateImage } from '@/utils/avatarUtils';
-import { capitalizeFirstLetter } from '@/utils/api';
 import useWhatsAppMarketing from '../useWhatsAppMarketing';
-import { getSession } from '@/utils';
 import { ACTIONS_TYPES, DRAWER_TYPES } from '@/constants/strings';
+import NumberSelect from '../NumberSelect';
 
 const WhatsAppMarketingComponent = () => {
-  const { user }: any = getSession();
   const router = useRouter();
-  const { tabVal, setTabVal, getIsPhoneConnected, theme } =
-    useWhatsAppMarketing();
+  const { tabVal, setTabVal } = useWhatsAppMarketing();
 
   return (
     <Box sx={styles?.wrapper}>
@@ -39,59 +35,38 @@ const WhatsAppMarketingComponent = () => {
 
         {tabVal === indexNumbers?.ZERO && (
           <Stack direction={{ sm: 'row', xs: 'column' }} gap={1.5}>
-            <Box
-              display="flex"
-              alignItems="center"
-              gap={1}
-              sx={{
-                border: `1px solid ${theme?.palette?.grey[700]}`,
-                padding: '7px 12px',
-                borderRadius: '4px',
-              }}
-            >
-              <Avatar
-                src={generateImage(user?.avatar?.url)}
-                sx={{ color: theme?.palette?.grey[600] }}
+            <NumberSelect />
+
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+              <PermissionsGuard
+                permissions={[
+                  AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS?.CREATE_BROADCAST,
+                ]}
               >
-                {capitalizeFirstLetter(
-                  user?.firstName?.charAt(indexNumbers?.ZERO),
-                )}
-                {capitalizeFirstLetter(
-                  user?.lastName?.charAt(indexNumbers?.ZERO),
-                )}
-              </Avatar>
-              <Box display="flex" flexDirection="column">
-                <Typography color={theme?.palette?.grey[900]} variant="body3">
-                  {capitalizeFirstLetter(user?.firstName)}{' '}
-                  {capitalizeFirstLetter(user?.lastName)}
-                </Typography>
-                <Typography
-                  variant="body3"
-                  fontWeight={500}
-                  color={theme?.palette?.custom?.main}
+                <Box
+                  sx={{ cursor: 'pointer' }}
+                  onClick={() => {
+                    router.push({
+                      pathname:
+                        AIR_MARKETER?.WHATSAPP_MERKETING_CREATE_BROADCAST,
+                      query: { type: ACTIONS_TYPES?.ADD },
+                    });
+                  }}
                 >
-                  {getIsPhoneConnected &&
-                    getIsPhoneConnected?.data?.phoneNumber}
-                </Typography>
-              </Box>
-            </Box>
-            <PermissionsGuard
-              permissions={[
-                AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS?.CREATE_BROADCAST,
-              ]}
-            >
-              <Box
-                sx={{ cursor: 'pointer' }}
-                onClick={() => {
-                  router.push({
-                    pathname: AIR_MARKETER?.WHATSAPP_MERKETING_CREATE_BROADCAST,
-                    query: { type: ACTIONS_TYPES?.ADD },
-                  });
-                }}
+                  <EditSmsIcon size={45} />
+                </Box>
+              </PermissionsGuard>
+
+              <IconButton
+                onClick={() =>
+                  router.push(
+                    AIR_MARKETER?.WHATSAPP_MARKETING_INTEGRATION_CONFIG,
+                  )
+                }
               >
-                <EditSmsIcon />
-              </Box>
-            </PermissionsGuard>
+                <SettingsIcon size={40} />
+              </IconButton>
+            </Box>
           </Stack>
         )}
         {tabVal === 1 && (

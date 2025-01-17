@@ -12,10 +12,10 @@ import { styles } from './DefaultAttachment.style';
 export default function DefaultAttachment() {
   const { watch, setValue } = useFormContext();
 
-  const defaultAttachment = watch('defaultAttachment');
+  const defaultAttachment = watch('attachment');
 
   const handleReset = () => {
-    setValue('defaultAttachment', null);
+    setValue('attachment', null);
   };
 
   return (
@@ -23,7 +23,7 @@ export default function DefaultAttachment() {
       {!defaultAttachment && (
         <RHFDropzonePreviewAllTypes
           label="Default Attachments"
-          name="defaultAttachment"
+          name="attachment"
           fileName=""
           fileType="PDF (max 2.44 MB)"
           accept={{

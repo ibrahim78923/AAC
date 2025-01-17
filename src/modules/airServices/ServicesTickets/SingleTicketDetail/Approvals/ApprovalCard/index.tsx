@@ -5,7 +5,7 @@ import {
   setUserDetails,
   ticketsApprovalDropdownFunction,
 } from './ApprovalCard.data';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { MoreVert } from '@mui/icons-material';
 import { TICKET_APPROVALS } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';

@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useRulesWorkflow } from './useRulesWorkflow';
 import { WorkflowConditions } from './WorkflowConditions';
@@ -6,7 +6,7 @@ import { WorkflowHeader } from './WorkflowHeader';
 import { WorkflowRunAndTrigger } from './WorkflowRunAndTrigger';
 import { WorkflowActionExecuted } from './WorkflowActionExecuted';
 import { rulesWorkflowDataArray } from './UpsertRulesWorkflow.data';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const UpsertSupervisorRules = () => {
   const {
@@ -29,9 +29,8 @@ export const UpsertSupervisorRules = () => {
     handleTestWorkflow,
     movePage,
   } = useRulesWorkflow();
-  if (isLoading || isFetching) return <SkeletonForm />;
   return (
-    <Box>
+    <ApiRequestFlow showSkeleton={isLoading || isFetching}>
       <FormProvider methods={methods} onSubmit={handleSubmit(handleFormSubmit)}>
         <WorkflowHeader
           setValidation={setValidation}
@@ -61,7 +60,7 @@ export const UpsertSupervisorRules = () => {
         />
         <WorkflowActionExecuted watch={watch} setValue={setValue} />
       </FormProvider>
-    </Box>
+    </ApiRequestFlow>
   );
 };
 export default UpsertSupervisorRules;

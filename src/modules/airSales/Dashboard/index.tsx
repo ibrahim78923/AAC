@@ -50,6 +50,7 @@ const Dashboard = () => {
     disabled,
     router,
     user,
+    downloadRef,
   } = useDashboard();
   return (
     <>
@@ -127,6 +128,8 @@ const Dashboard = () => {
                 <Actions
                   selectedDashboard={dashboardsData}
                   disabled={disabled}
+                  downloadRef={downloadRef}
+                  dashboardName={dashboardsData?.dashboard?.name}
                 />
               )}
 
@@ -177,7 +180,7 @@ const Dashboard = () => {
                 <SkeletonForm />
               </Grid>
             ) : (
-              <>
+              <Box ref={downloadRef}>
                 {/* Static Components */}
                 {dashboardsData?.DEALS_CREATED_VS_CLOSED_DEALS && (
                   <Grid item xs={12} lg={6} mt={1}>
@@ -290,7 +293,7 @@ const Dashboard = () => {
                     },
                   )
                 )}
-              </>
+              </Box>
             )}
           </>
         )}

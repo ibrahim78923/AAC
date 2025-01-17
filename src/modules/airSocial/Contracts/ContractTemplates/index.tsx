@@ -1,18 +1,25 @@
 import React from 'react';
+import Link from 'next/link';
 import PlainHeader from '@/components/PlainHeader';
-import { styles } from './ContractTemplates.style';
-import { Box, Grid, Typography } from '@mui/material';
-import { IconPlainBack } from '@/assets/icons';
 import Search from '@/components/Search';
-import { mockTemplates, mockRecentlyUsed } from './Templates.data';
 import TemplateCard from './TemplateCard';
 import CreateDraftCard from './CreateDraftCard';
-import Link from 'next/link';
-import { AIR_SOCIAL_CONTRACTS } from '@/constants/routes';
 import useContractTemplates from './useContractTemplates';
+import { styles } from './ContractTemplates.style';
+import { Box, Grid, Skeleton, Typography } from '@mui/material';
+import { IconPlainBack } from '@/assets/icons';
+import { mockRecentlyUsed } from './Templates.data';
+import { AIR_SOCIAL_CONTRACTS } from '@/constants/routes';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function ContractTemplates() {
-  const { router, setSearchBy } = useContractTemplates();
+  const {
+    router,
+    setSearchBy,
+    loadingGetTemplates,
+    fetchingGetTemplates,
+    contractTemplatesData,
+  } = useContractTemplates();
 
   return (
     <>
@@ -64,6 +71,20 @@ export default function ContractTemplates() {
                 }
               />
             </Grid>
+            {(loadingGetTemplates || fetchingGetTemplates) &&
+              Array(5)
+                .fill(null)
+                .map(() => (
+                  <Grid item xs={6} sm={4} md={3} lg={2} key={uuidv4()}>
+                    <Skeleton
+                      animation="wave"
+                      variant="rectangular"
+                      width={'100%'}
+                      height={148}
+                      sx={styles?.skeleton}
+                    />
+                  </Grid>
+                ))}
             {mockRecentlyUsed.map((item: any) => (
               <Grid item xs={6} sm={4} md={3} lg={2} key={item?._id}>
                 <TemplateCard data={item} />
@@ -72,20 +93,44 @@ export default function ContractTemplates() {
           </Grid>
         </Box>
 
-        {mockTemplates.map((template: any) => (
-          <Box component={'section'} sx={styles.section} key={template?._id}>
-            <Typography sx={styles.sectionHeading} variant="h3">
-              {template.name}
-            </Typography>
+        {(loadingGetTemplates || fetchingGetTemplates) && (
+          <Box component={'section'} sx={styles.section}>
+            <Box sx={{ mb: '18px' }}>
+              <Skeleton animation="wave" variant="text" sx={styles?.skeleton} />
+            </Box>
             <Grid container spacing={'12px'}>
-              {template.templates.map((item: any) => (
-                <Grid item xs={6} sm={4} md={3} lg={2} key={item?._id}>
-                  <TemplateCard data={item} />
-                </Grid>
-              ))}
+              {Array(6)
+                .fill(null)
+                .map(() => (
+                  <Grid item xs={6} sm={4} md={3} lg={2} key={uuidv4()}>
+                    <Skeleton
+                      animation="wave"
+                      variant="rectangular"
+                      width={'100%'}
+                      height={148}
+                      sx={styles?.skeleton}
+                    />
+                  </Grid>
+                ))}
             </Grid>
           </Box>
-        ))}
+        )}
+
+        {!(loadingGetTemplates || fetchingGetTemplates) &&
+          contractTemplatesData?.data?.map((template: any) => (
+            <Box component={'section'} sx={styles.section} key={template?._id}>
+              <Typography sx={styles.sectionHeading} variant="h3">
+                {template.name}
+              </Typography>
+              <Grid container spacing={'12px'}>
+                {template.templates.map((item: any) => (
+                  <Grid item xs={6} sm={4} md={3} lg={2} key={item?._id}>
+                    <TemplateCard data={item} />
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+          ))}
       </Box>
     </>
   );

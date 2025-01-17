@@ -1,4 +1,4 @@
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { generateImage } from '@/utils/avatarUtils';
 import { MoreVert } from '@mui/icons-material';
 import { Avatar, Box, Typography } from '@mui/material';

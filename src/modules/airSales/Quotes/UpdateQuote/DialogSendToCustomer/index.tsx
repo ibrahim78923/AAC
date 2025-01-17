@@ -47,7 +47,7 @@ const DialogSendToCustomer = ({
   consumersData,
   redeemRewardData,
   giftCardData,
-  rewardId,
+  // rewardId,
   voucherData,
 }: any) => {
   const router = useRouter();
@@ -126,9 +126,8 @@ const DialogSendToCustomer = ({
                       variant: 'success',
                     });
                     try {
-                      if (!isNullOrEmpty(rewardId)) {
+                      if (!isNullOrEmpty(redeemRewardData)) {
                         updateRedeemReward({
-                          id: rewardId,
                           body: redeemRewardData,
                         })?.unwrap();
                       }

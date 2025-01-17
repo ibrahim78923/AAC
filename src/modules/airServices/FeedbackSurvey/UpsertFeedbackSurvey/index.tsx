@@ -2,9 +2,9 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertFeedbackSurvey } from './useUpsertFeedbackSurvey';
 import { CreateSurvey } from './CreateSurvey';
 import { CreateFeedback } from './CreateFeedback';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { PreviewSurvey } from './PreviewSurvey';
 import { feedbackTypes } from './UpsertFeedbackSurvey.data';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const UpsertFeedbackSurvey = () => {
   const {
@@ -23,10 +23,15 @@ export const UpsertFeedbackSurvey = () => {
     sectionVerification,
     unSaveSection,
     data,
+    getError,
+    refetch,
   } = useUpsertFeedbackSurvey();
-  if (getLoading || getFetching) return <SkeletonForm />;
   return (
-    <>
+    <ApiRequestFlow
+      showSkeleton={getLoading || getFetching}
+      hasError={getError}
+      refreshApi={refetch}
+    >
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         {createSurvey === feedbackTypes?.survey ? (
           <CreateSurvey
@@ -54,6 +59,6 @@ export const UpsertFeedbackSurvey = () => {
           )
         )}
       </FormProvider>
-    </>
+    </ApiRequestFlow>
   );
 };

@@ -100,20 +100,8 @@ export const validationSchema: any = Yup?.object()?.shape({
       GLOBAL_CHARACTERS_LIMIT?.ADDRESS,
       `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.ADDRESS}`,
     ),
-  noOfEmloyee: Yup?.number()
-    ?.nullable()
-    ?.typeError('Must be a number')
-    ?.max(
-      GLOBAL_CHARACTERS_LIMIT?.DEFAULT,
-      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DEFAULT}`,
-    ),
-  totalRevenue: Yup?.number()
-    ?.nullable()
-    ?.typeError('Must be a number')
-    ?.max(
-      GLOBAL_CHARACTERS_LIMIT?.DEFAULT,
-      `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DEFAULT}`,
-    ),
+  noOfEmloyee: Yup?.number()?.nullable()?.typeError('Must be a number'),
+  totalRevenue: Yup?.number()?.nullable()?.typeError('Must be a number'),
   linkedInUrl: Yup?.string()?.trim(),
 });
 

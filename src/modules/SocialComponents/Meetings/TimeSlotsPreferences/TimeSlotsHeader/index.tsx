@@ -1,4 +1,4 @@
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { Box, Button } from '@mui/material';
 import { useTimeSlots } from './useTimeSlots';
 import { EditWhiteBGPenIcon, PlusSharedColorIcon } from '@/assets/icons';

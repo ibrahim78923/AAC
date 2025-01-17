@@ -10,7 +10,7 @@ import {
 } from '@/constants/strings';
 import { Attachments } from '@/components/Attachments';
 import { AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
-import { CustomAvatarGroup } from '@/components/CustomAvatarGroup';
+import { CustomAvatarGroup } from '@/components/Avatars/CustomAvatarGroup';
 
 export const AddResponseForm = (props: any) => {
   const {

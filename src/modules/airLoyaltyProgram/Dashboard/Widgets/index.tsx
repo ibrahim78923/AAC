@@ -1,16 +1,8 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Grid,
-  LinearProgress,
-  Skeleton,
-  Typography,
-} from '@mui/material';
+import { Avatar, Box, Grid, Skeleton, Typography } from '@mui/material';
 import { useWidgets } from './useWidgets';
 import ApiErrorState from '@/components/ApiErrorState';
-import { pxToRem } from '@/utils/getFontValue';
-import { Autorenew } from '@mui/icons-material';
+import { ApiPollingButton } from '@/components/Buttons/ApiPollingButton';
+import { AUTO_REFRESH_API_TIME_INTERVAL } from '@/config';
 
 export const Widgets = () => {
   const {
@@ -21,7 +13,7 @@ export const Widgets = () => {
     isFetching,
     isLoading,
     isError,
-    timeLapse,
+    fulfilledTimeStamp,
     refetch,
   } = useWidgets();
   if (isError) {
@@ -30,27 +22,14 @@ export const Widgets = () => {
   return (
     <Box>
       <Box textAlign={'end'} mb={1}>
-        <Button
-          className="small"
-          color="inherit"
-          size="small"
-          startIcon={<Autorenew />}
+        <ApiPollingButton
+          variant="text"
           onClick={refetch}
-          disabled={isLoading || isFetching}
-          sx={{
-            fontSize: pxToRem(12),
-            fontWeight: 'fontWeightRegular',
-            textTransform: 'lowercase',
-          }}
-        >
-          {isLoading || isFetching ? (
-            <Box>
-              <LinearProgress sx={{ width: pxToRem(70) }} />
-            </Box>
-          ) : (
-            timeLapse?.lastFetchLapseTime
-          )}
-        </Button>
+          showLoader={isLoading || isFetching}
+          isFetching={isFetching}
+          fulfilledTimeStamp={fulfilledTimeStamp}
+          intervalTime={AUTO_REFRESH_API_TIME_INTERVAL?.DASHBOARD}
+        />
       </Box>
       <Grid container spacing={3}>
         {widgetsData?.map((widget: any) => {
@@ -81,6 +60,8 @@ export const Widgets = () => {
                 p={2}
                 display={'flex'}
                 alignItems={'center'}
+                flex={1}
+                height="100%"
                 gap={1}
                 onMouseEnter={() => setIsHoveredId(widget?._id)}
                 onMouseLeave={() => setIsHoveredId(null)}

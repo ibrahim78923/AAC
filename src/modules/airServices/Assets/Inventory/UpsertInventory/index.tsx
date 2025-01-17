@@ -10,6 +10,8 @@ import ApiErrorState from '@/components/ApiErrorState';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
 import { INVENTORY_TITLE } from '@/constants/strings';
+import { uploadFileMaxSize } from '@/utils/avatarUtils';
+import { ACCEPT_FILE_EXTENSIONS } from '@/constants/file';
 
 export const UpsertInventory = () => {
   const {
@@ -100,7 +102,16 @@ export const UpsertInventory = () => {
                 </Grid>
               </Grid>
               <Box sx={{ display: { lg: 'none', xs: 'block' } }}>
-                <RHFDropZone name="fileUrl" fullWidth={true} />
+                <RHFDropZone
+                  name="fileUrl"
+                  fullWidth={true}
+                  fileType={`PNG, JPG and PDF (max ${uploadFileMaxSize} MB)`}
+                  accept={{
+                    'image/png': ACCEPT_FILE_EXTENSIONS?.PNG,
+                    'image/jpeg': ACCEPT_FILE_EXTENSIONS?.JPEG,
+                    'application/pdf': ACCEPT_FILE_EXTENSIONS?.PDF,
+                  }}
+                />
                 <br />
                 {!!inventoryId && (
                   <>
@@ -160,7 +171,16 @@ export const UpsertInventory = () => {
             </Box>
           </Grid>
           <Grid item lg={3} sx={{ display: { xs: 'none', lg: 'block' } }}>
-            <RHFDropZone name="fileUrl" fullWidth={true} />
+            <RHFDropZone
+              name="fileUrl"
+              fullWidth={true}
+              fileType={`PNG, JPG and PDF (max ${uploadFileMaxSize} MB)`}
+              accept={{
+                'image/png': ACCEPT_FILE_EXTENSIONS?.PNG,
+                'image/jpeg': ACCEPT_FILE_EXTENSIONS?.JPEG,
+                'application/pdf': ACCEPT_FILE_EXTENSIONS?.PDF,
+              }}
+            />
             <br />
             {!!inventoryId && (
               <>

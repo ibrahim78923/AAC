@@ -175,5 +175,6 @@ export const useAddNewVendor = (props: IVendorProps) => {
     getDynamicFieldsStatus,
     form,
     postAttachmentStatus,
+    getDynamicFormData,
   };
 };

@@ -2,15 +2,13 @@ import { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useGetServiceSystematicReportsQuery } from '@/services/airServices/reports';
 import { MODULE_TYPE } from '@/constants/strings';
-import {
-  AUTO_REFRESH_API_POLLING_TIME,
-  AUTO_REFRESH_API_TIME_INTERVAL,
-} from '@/config';
-import { useApiPolling } from '@/hooks/useApiPolling';
+import { AUTO_REFRESH_API_POLLING_TIME } from '@/config';
 import { isoDateString } from '@/lib/date-time';
 import { useFormLib } from '@/hooks/useFormLib';
+import { htmlToPdfConvert } from '@/lib/html-to-pdf-converter';
 
 export const useTicketsReport = () => {
+  const [loading, setLoading] = useState<boolean>(false);
   const [hasDate, setHasDate] = useState(false);
   const [filterDate, setFilterDate] = useState<any>({
     startDate: null,
@@ -79,14 +77,16 @@ export const useTicketsReport = () => {
     });
   };
 
-  const props = {
-    isFetching,
-    fulfilledTimeStamp,
-    intervalTime: AUTO_REFRESH_API_TIME_INTERVAL?.REPORTS,
-  };
-
-  const { timeLapse } = useApiPolling(props);
   const apiCallInProgress = isLoading || isFetching;
+
+  const handleDownload = async () => {
+    if (isLoading || isFetching || isError) return;
+    setLoading(true);
+    try {
+      await htmlToPdfConvert?.(downloadRef, 'Contract_Report');
+    } catch (error) {}
+    setLoading(false);
+  };
 
   return {
     router,
@@ -101,7 +101,9 @@ export const useTicketsReport = () => {
     shouldDateSet,
     onDateFilterSubmit,
     getValues,
-    timeLapse,
     apiCallInProgress,
+    handleDownload,
+    loading,
+    fulfilledTimeStamp,
   };
 };

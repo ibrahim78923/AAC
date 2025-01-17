@@ -13,11 +13,15 @@ import ModalShareContract from '../ModalShareContract';
 interface HeaderCreateContractProps {
   onClickSave?: () => void;
   onClickSign?: () => void;
+  onClickSaveAsTemplate: () => void;
+  methods?: any;
 }
 
 export default function HeaderCreateContract({
   onClickSave,
   onClickSign,
+  onClickSaveAsTemplate,
+  methods,
 }: HeaderCreateContractProps) {
   const router = useRouter();
   const {
@@ -87,7 +91,12 @@ export default function HeaderCreateContract({
             <MenuItem onClick={handleCloseMoreMenu}>
               Save as a new draft
             </MenuItem>
-            <MenuItem onClick={handleCloseMoreMenu}>
+            <MenuItem
+              onClick={() => {
+                handleCloseMoreMenu();
+                onClickSaveAsTemplate();
+              }}
+            >
               Save as a new template
             </MenuItem>
           </Menu>
@@ -99,6 +108,7 @@ export default function HeaderCreateContract({
             variant="outlined"
             color="secondary"
             className="small"
+            disabled={!methods?.formState.isDirty}
           >
             Save Changes
           </Button>

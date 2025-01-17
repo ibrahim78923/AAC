@@ -12,13 +12,13 @@ const QuoteInfo = () => {
         <Grid container spacing={'16px'}>
           <Grid item lg={4} md={6} sm={6} xs={12}>
             <Box sx={styles?.quoteInfoTitle}>
-              Quote No:{' '}
-              <Box component="span">{`DOC-${viewQuotesData?.data?._id}`}</Box>
+              Quote No:
+              <Box component="span">{viewQuotesData?.data?.quoteNumber}</Box>
             </Box>
           </Grid>
           <Grid item lg={4} md={6} sm={6} xs={12}>
             <Box sx={styles?.quoteInfoTitle}>
-              Prepared By:{' '}
+              Prepared By:
               <Box component="span">{`${
                 viewQuotesData?.data?.createdBy?.firstName ?? 'N/A'
               } ${viewQuotesData?.data?.createdBy?.lastName ?? 'N/A'}`}</Box>
@@ -28,7 +28,6 @@ const QuoteInfo = () => {
             <Box sx={styles?.quoteInfoTitle}>
               Valid Till:
               <Box component="span">
-                {' '}
                 {dayjs(viewQuotesData?.data?.expiryDate)?.format(
                   DATE_FORMAT?.API,
                 )}

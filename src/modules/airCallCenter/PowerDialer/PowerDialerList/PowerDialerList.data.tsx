@@ -1,4 +1,4 @@
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { Box, Typography } from '@mui/material';
 import Eye from '@/assets/icons/shared/eye';
 import AssignToPopover from './AssignToPopover';

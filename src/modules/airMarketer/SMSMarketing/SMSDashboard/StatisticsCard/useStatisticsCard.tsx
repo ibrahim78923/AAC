@@ -83,13 +83,6 @@ const useStatisticsCard = () => {
     fill: {
       opacity: 1,
     },
-    // tooltip: {
-    //   y: {
-    //     formatter: function (val: any) {
-    //       return '$ ' + val + ' thousands';
-    //     },
-    //   },
-    // },
   };
   return {
     series,

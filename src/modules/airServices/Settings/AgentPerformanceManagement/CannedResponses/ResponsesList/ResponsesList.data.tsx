@@ -5,7 +5,7 @@ import { DATE_TIME_FORMAT } from '@/constants';
 import { AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { TruncateText } from '@/components/TruncateText';
 import { otherDateFormat } from '@/lib/date-time';
-import { CustomAvatarGroup } from '@/components/CustomAvatarGroup';
+import { CustomAvatarGroup } from '@/components/Avatars/CustomAvatarGroup';
 
 export const responsesTableColumns = (
   responsesData: any,

@@ -9,6 +9,8 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import ApiErrorState from '@/components/ApiErrorState';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
+import { uploadFileMaxSize } from '@/utils/avatarUtils';
+import { ACCEPT_FILE_EXTENSIONS } from '@/constants/file';
 
 export const UpsertContract = () => {
   const {
@@ -109,7 +111,16 @@ export const UpsertContract = () => {
           </Grid>
           <Grid item xs={12} md={0.5}></Grid>
           <Grid item xs={12} md={4} mt={{ xs: 2, md: 0 }} mb={2}>
-            <RHFDropZone name="attachFile" fullWidth={true} />
+            <RHFDropZone
+              name="attachFile"
+              fullWidth={true}
+              fileType={`PNG, JPG and PDF (max ${uploadFileMaxSize} MB)`}
+              accept={{
+                'image/png': ACCEPT_FILE_EXTENSIONS?.PNG,
+                'image/jpeg': ACCEPT_FILE_EXTENSIONS?.JPEG,
+                'application/pdf': ACCEPT_FILE_EXTENSIONS?.PDF,
+              }}
+            />
             {!!contractId && (
               <>
                 <Typography

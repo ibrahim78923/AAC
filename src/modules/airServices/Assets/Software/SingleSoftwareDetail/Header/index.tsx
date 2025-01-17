@@ -4,7 +4,7 @@ import { useHeader } from './useHeader';
 import { UpsertSoftware } from '../../UpsertSoftware';
 import { DeleteSoftware } from '../../DeleteSoftware';
 import { ARRAY_INDEX } from '@/constants/strings';
-import { PublicSingleDropdownButton } from '@/components/PublicSingleDropdownButton';
+import { PublicSingleDropdownButton } from '@/components/Buttons/PublicSingleDropdownButton';
 import { capitalizeFirstWord } from '@/utils/api';
 
 export default function Header() {

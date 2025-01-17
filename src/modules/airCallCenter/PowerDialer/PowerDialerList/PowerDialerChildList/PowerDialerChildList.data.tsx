@@ -1,5 +1,5 @@
 import { AvatarImage } from '@/assets/images';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { Avatar, Box, Checkbox, Typography } from '@mui/material';
 import {
   ArrowDownIcon,

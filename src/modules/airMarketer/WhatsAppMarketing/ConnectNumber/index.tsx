@@ -1,30 +1,30 @@
-import React from 'react';
 import {
   Box,
   Typography,
+  Button,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-  Button,
 } from '@mui/material';
 import { styles } from './ConnectNumber.style';
 import { TickListIcon, WhatsApp55Icon } from '@/assets/icons';
-import { listData } from './ConnectNumber.data';
 import useConnectNumber from './useConnectNumber';
 import AddRegNumber from './AddRegNumber';
+import { listData } from './ConnectNumber.data';
 
-const ConnectNumber = ({ setIsConnected }: any) => {
+const ConnectNumber = ({}: any) => {
   const {
-    openDialogRegNumber,
-    handleOpenDialogRegNumber,
     handleCloseDialogRegNumber,
-    handleAddRegNumSubmit,
+    handleOpenDialogRegNumber,
     connectNumberLoading,
+    openDialogRegNumber,
+    handlePhoneChange,
     isPhoneValid,
     phoneNumber,
-    handlePhoneChange,
-  } = useConnectNumber(setIsConnected);
+    setPhoneNumber,
+  } = useConnectNumber();
+
   return (
     <>
       <Box sx={styles?.header}>
@@ -65,15 +65,17 @@ const ConnectNumber = ({ setIsConnected }: any) => {
         </Button>
       </Box>
 
-      <AddRegNumber
-        open={openDialogRegNumber}
-        onClose={handleCloseDialogRegNumber}
-        onSubmit={handleAddRegNumSubmit}
-        onPhoneChange={handlePhoneChange}
-        phoneValue={phoneNumber}
-        isPhoneValid={isPhoneValid}
-        isLoading={connectNumberLoading}
-      />
+      {openDialogRegNumber && (
+        <AddRegNumber
+          open={openDialogRegNumber}
+          onClose={handleCloseDialogRegNumber}
+          onPhoneChange={handlePhoneChange}
+          phoneValue={phoneNumber}
+          setPhoneNumber={setPhoneNumber}
+          isPhoneValid={isPhoneValid}
+          isLoading={connectNumberLoading}
+        />
+      )}
     </>
   );
 };

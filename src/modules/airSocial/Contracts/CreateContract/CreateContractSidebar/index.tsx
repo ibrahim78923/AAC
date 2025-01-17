@@ -7,7 +7,10 @@ import DataFields from './DataFields';
 import Details from './Details';
 import Signees from './Signees';
 
-export default function CreateContractSidebar() {
+export default function CreateContractSidebar({
+  handleAddDynamicField,
+  allDataFields,
+}: any) {
   const { tabValue, handleChangeTab } = useCreateContractSidebar();
 
   return (
@@ -25,7 +28,10 @@ export default function CreateContractSidebar() {
       </Box>
 
       <TabPanel value="fields">
-        <DataFields />
+        <DataFields
+          allDataFields={allDataFields}
+          handleAddDynamicField={handleAddDynamicField}
+        />
       </TabPanel>
 
       <TabPanel value="details">

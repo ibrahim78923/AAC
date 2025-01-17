@@ -2,7 +2,7 @@ import { useSelectAgentsModal } from './useSelectAgentsModal';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
-import { CustomAvatarGroup } from '@/components/CustomAvatarGroup';
+import { CustomAvatarGroup } from '@/components/Avatars/CustomAvatarGroup';
 
 export const SelectAgentsModal = (props: any) => {
   const {

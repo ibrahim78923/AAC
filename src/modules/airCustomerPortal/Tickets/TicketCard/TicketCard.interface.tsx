@@ -1,21 +1,5 @@
 export interface TicketCardPropsI {
-  ticket: {
-    _id?: string;
-    subject?: string;
-    status?: string;
-    ticketIdNumber?: string;
-    ticketTitle?: string;
-    ticketType?: string;
-    requesterDetails: {
-      firstName: string;
-      lastName: string;
-      avatar?: {
-        url?: string;
-      };
-    };
-    createdAt: Date | string;
-    moduleType?: string;
-  };
+  ticket: TicketCardDataI;
 }
 export interface TicketCardDataI {
   _id?: string;
@@ -31,6 +15,6 @@ export interface TicketCardDataI {
       url?: string;
     };
   };
-  createdAt?: string;
+  createdAt: string;
   moduleType?: string;
 }

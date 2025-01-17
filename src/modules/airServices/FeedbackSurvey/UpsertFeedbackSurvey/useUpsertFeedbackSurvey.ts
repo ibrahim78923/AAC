@@ -51,6 +51,8 @@ export const useUpsertFeedbackSurvey = () => {
     data,
     isLoading: getLoading,
     isFetching: getFetching,
+    isError: getError,
+    refetch,
   } = useGetSingleFeedbackQuery(getParams, {
     refetchOnMountOrArgChange: true,
     skip: !!!surveyId,
@@ -282,5 +284,7 @@ export const useUpsertFeedbackSurvey = () => {
     sectionVerification,
     unSaveSection,
     data,
+    getError,
+    refetch,
   };
 };

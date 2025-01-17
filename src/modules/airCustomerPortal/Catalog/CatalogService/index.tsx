@@ -3,35 +3,33 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { CatalogRequest } from '../CatalogRequest';
 import useCatalogService from './useCatalogService';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { ServiceCard } from '../ServiceCard';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
-import ApiErrorState from '@/components/ApiErrorState';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
 import { Theme } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
+import { AvatarInfoCard } from '@/components/Cards/AvatarInfoCard';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 const CatalogService = () => {
   const {
     open,
     setOpen,
     servicesDetails,
-    isLoading,
-    isFetching,
     isError,
     refetch,
     router,
     theme,
     companyId,
     portalStyles,
+    showLoader,
   } = useCatalogService();
 
-  if (isLoading || isFetching) return <SkeletonTable />;
-
-  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
-
   return (
-    <>
+    <ApiRequestFlow
+      showSkeleton={showLoader}
+      hasError={isError}
+      refreshApi={refetch}
+    >
       <PageTitledHeader
         canMovedBack
         moveBack={() => {
@@ -57,7 +55,12 @@ const CatalogService = () => {
       />
       <Grid container>
         <Grid item xs={12} md={6} lg={4}>
-          <ServiceCard service={servicesDetails?.data} />
+          <AvatarInfoCard
+            name={servicesDetails?.data?.itemName}
+            description={servicesDetails?.data?.description}
+            info={servicesDetails?.data?.cost}
+            avatarSrc={servicesDetails?.data?.attachmentDetails?.fileUrl}
+          />
         </Grid>
       </Grid>
 
@@ -130,7 +133,7 @@ const CatalogService = () => {
           servicesDetails={servicesDetails}
         />
       )}
-    </>
+    </ApiRequestFlow>
   );
 };
 

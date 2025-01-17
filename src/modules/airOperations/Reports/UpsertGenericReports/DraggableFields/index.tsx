@@ -5,7 +5,7 @@ import { ChartEditor } from '../DraggableFormFields/ChartEditor';
 import { TableEditor } from '../DraggableFormFields/TableEditor';
 import { TextEditor } from '../DraggableFormFields/TextEditor';
 import { SaveReportDrawer } from '../SaveReportDrawer';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import AppsIcon from '@mui/icons-material/Apps';
 import { DraggableFieldsI } from './DraggableFields.interface';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';

@@ -1,4 +1,4 @@
-import { Box, Typography, Chip } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { Fragment } from 'react';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -11,8 +11,9 @@ import { AlertModals } from '@/components/AlertModals';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
 import useAssociations from './useAssociations';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import { CustomChip } from '@/components/Chip/CustomChip';
 
 export const Associations = () => {
   const {
@@ -119,14 +120,12 @@ export const Associations = () => {
                           {item?.ticketIdNumber}
                         </Typography>
                       </Box>
-                      <Chip
+                      <CustomChip
                         label={item?.status?.toLowerCase() ?? '---'}
-                        sx={{
-                          bgcolor:
-                            theme?.palette[chipColor(item?.status)]?.main,
-                          color: theme?.palette?.common?.white,
-                          textTransform: 'capitalize',
-                        }}
+                        backgroundColor={
+                          theme?.palette[chipColor?.(item?.status)]?.main
+                        }
+                        isCapital
                       />
                     </Box>
                   ))}

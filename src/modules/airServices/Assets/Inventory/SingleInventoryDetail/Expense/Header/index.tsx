@@ -1,5 +1,5 @@
 import { Box, Button } from '@mui/material';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { Permissions } from '@/constants/permissions';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';

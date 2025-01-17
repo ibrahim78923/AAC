@@ -35,6 +35,7 @@ export interface FilterProps {
   setIsOpenDrawer: (isOpen: boolean) => void;
   employeeFilter: any;
   setEmployeeFilter: (filter: any) => void;
+  organizationId: string;
 }
 
 export interface UserProfileParams {

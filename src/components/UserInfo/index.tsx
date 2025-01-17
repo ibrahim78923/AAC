@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { CustomAvatar } from '../CustomAvatar';
+import { CustomAvatar } from '../Avatars/CustomAvatar';
 
 export const UserInfo = (props: any) => {
   const {

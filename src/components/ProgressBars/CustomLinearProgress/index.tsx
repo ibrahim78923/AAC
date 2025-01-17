@@ -7,7 +7,7 @@ export const CustomLinearProgress = (props: any) => {
     variant = LINEAR_PROGRESS_VARIANTS?.IN_DETERMINATE,
     backgroundBarColor = 'grey.0',
     progressBarColor = 'primary.main',
-    value = '100%',
+    value = 100,
     width = variant === LINEAR_PROGRESS_VARIANTS?.DETERMINATE
       ? '100%'
       : pxToRem(70),

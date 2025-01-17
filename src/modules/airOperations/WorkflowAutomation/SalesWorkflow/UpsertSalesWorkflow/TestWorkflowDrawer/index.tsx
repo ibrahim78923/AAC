@@ -3,7 +3,6 @@ import { Box, Grid, Typography } from '@mui/material';
 import { workflowColumns } from './TestWorkflowDrawer.data';
 import { TestWorkflowDrawerProps } from './TestWorkflowDrawer.interface';
 import TanstackTable from '@/components/Table/TanstackTable';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { useTestWorkflowDrawer } from './useTestWorkflowDrawer';
 
 export const TestWorkflowDrawer = (props: TestWorkflowDrawerProps) => {
@@ -28,30 +27,28 @@ export const TestWorkflowDrawer = (props: TestWorkflowDrawerProps) => {
       cancelText="Close"
       isOk={false}
     >
-      {testWorkflowStatus?.isLoading ? (
-        <SkeletonForm />
-      ) : (
-        <Grid container gap={2}>
-          <Grid
-            item
-            border={`1px solid ${palette?.grey?.[700]}`}
-            p={1}
-            borderRadius={2}
-            xs={12}
+      <Grid container gap={2}>
+        <Grid
+          item
+          border={`1px solid ${palette?.grey?.[700]}`}
+          p={1}
+          borderRadius={2}
+          xs={12}
+        >
+          <Box
+            display={'flex'}
+            justifyContent={'space-between'}
+            alignItems={'center'}
           >
-            <Box
-              display={'flex'}
-              justifyContent={'space-between'}
-              alignItems={'center'}
-            >
-              <Typography variant="h4" color="secondary.main">
-                Testing
-              </Typography>
-            </Box>
-            <Typography component="li" variant="body2">
-              Since this is a test, no actions will be executed
+            <Typography variant="h4" color="secondary.main">
+              Testing
             </Typography>
-          </Grid>
+          </Box>
+          <Typography component="li" variant="body2">
+            Since this is a test, no actions will be executed
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
           <TanstackTable
             columns={workflowColumns(watch)}
             data={testWorkflowStatus?.data?.data?.[titleData]}
@@ -63,13 +60,14 @@ export const TestWorkflowDrawer = (props: TestWorkflowDrawerProps) => {
             onPageChange={(page: number) => setPage(page)}
             isSuccess={testWorkflowStatus?.isSuccess}
             isError={testWorkflowStatus?.isError}
+            isLoading={testWorkflowStatus?.isLoading}
             setPageLimit={setLimit}
             setPage={setPage}
             noDataTableText="No action will execute since conditions are not met"
             isPagination
           />
         </Grid>
-      )}
+      </Grid>
     </CommonDrawer>
   );
 };

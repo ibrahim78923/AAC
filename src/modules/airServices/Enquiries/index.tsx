@@ -4,7 +4,7 @@ import Search from '@/components/Search';
 import { AIR_SERVICES_ENQUIRIES_PERMISSION } from '@/constants/permission-keys';
 import { FilterIcon } from '@/assets/icons';
 import { Button, Grid } from '@mui/material';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Filters from './Filters';
 import useEnquiries from './useEnquiries';

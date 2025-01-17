@@ -11,6 +11,8 @@ import {
 } from '@/utils/dynamic-forms';
 import { DepartmentHeadListDropdown } from '../DepartmentFormFields/DepartmentHeadListDropdown';
 import { MembersListDropdown } from '../DepartmentFormFields/MembersListDropdown';
+import { uploadFileMaxSize } from '@/utils/avatarUtils';
+import { ACCEPT_FILE_EXTENSIONS } from '@/constants/file';
 
 export const departmentFormValidation: any = (form: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
@@ -85,6 +87,12 @@ export const departmentFormFieldsDynamic: any = [
       name: 'fileUrl',
       label: 'Image',
       fileName: 'Upload File',
+      fileType: `PNG, JPG and PDF (max ${uploadFileMaxSize} MB)`,
+      accept: {
+        'image/png': ACCEPT_FILE_EXTENSIONS?.PNG,
+        'image/jpeg': ACCEPT_FILE_EXTENSIONS?.JPEG,
+        'application/pdf': ACCEPT_FILE_EXTENSIONS?.PDF,
+      },
     },
     component: RHFDropZone,
   },

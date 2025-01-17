@@ -1,9 +1,11 @@
 import { Box, Button, Typography } from '@mui/material';
 import NoData from '@/components/NoData';
 import RecentActivitiesList from './RecentActivitiesList';
-import { RecentActivitiesCard } from './RecentActivitiesCard';
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import { SingleDashboardComponentPropsI } from '../SingleDashboard/SingleDashboard.interface';
+import { ActivityCard } from '@/components/Cards/ActivityCard';
+import { DATE_TIME_FORMAT } from '@/constants';
+import { RecentActivitiesIcon } from '@/assets/icons';
 
 export const RecentActivities = (props: SingleDashboardComponentPropsI) => {
   const { data, isPreviewMode } = props;
@@ -33,9 +35,17 @@ export const RecentActivities = (props: SingleDashboardComponentPropsI) => {
         {recentActivitiesData?.length ? (
           <>
             {recentActivitiesData?.map((item: any) => (
-              <Fragment key={item?._id}>
-                <RecentActivitiesCard data={item} />
-              </Fragment>
+              <ActivityCard
+                key={item?._id}
+                firstName={item?.userDetails?.firstName}
+                lastName={item?.userDetails?.lastName}
+                activityType={item?.activityType}
+                moduleName={item?.moduleName}
+                dateFormat={DATE_TIME_FORMAT?.DMDHMA}
+                activityDate={item?.createdAt}
+                Icon={<RecentActivitiesIcon />}
+                hasBorderBottom
+              />
             ))}
           </>
         ) : (

@@ -44,8 +44,8 @@ const QuoteInvoice = ({ quoteId }: any) => {
     closeModalEmail,
     methodsSendEmail,
     loadingPostInvoice,
-    unitDiscount,
     subtotal,
+    additionalAmount,
   } = useQuoteInvoice(quoteId);
 
   return (
@@ -97,7 +97,14 @@ const QuoteInvoice = ({ quoteId }: any) => {
             }}
           >
             <CardContent sx={{ padding: '11px 20px' }}>
-              {productTotalDetails(subtotal, unitDiscount)?.map((item: any) => (
+              {productTotalDetails(
+                subtotal,
+                quoteDataById?.invoiceDiscount,
+                quoteDataById?.dealAmount,
+                additionalAmount,
+                quoteDataById?.tax,
+                quoteDataById?.loyaltyRedeemedDiscount,
+              )?.map((item: any) => (
                 <Box key={uuidv4()}>
                   <Stack
                     direction="row"
@@ -130,7 +137,7 @@ const QuoteInvoice = ({ quoteId }: any) => {
                   </Stack>
                 </Box>
               ))}
-              <Box
+              {/* <Box
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
@@ -180,7 +187,7 @@ const QuoteInvoice = ({ quoteId }: any) => {
                 >
                   £ 20
                 </Typography>
-              </Box>
+              </Box> */}
             </CardContent>
             <CardActions
               sx={{
@@ -194,7 +201,7 @@ const QuoteInvoice = ({ quoteId }: any) => {
                 Total
               </Typography>
               <Typography variant="h5" fontWeight={500}>
-                £{subtotal - unitDiscount}
+                £{quoteDataById?.total}
               </Typography>
             </CardActions>
           </Card>

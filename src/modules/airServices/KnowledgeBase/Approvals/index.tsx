@@ -1,13 +1,12 @@
 import { Box } from '@mui/material';
-import NoData from '@/components/NoData';
 import ApprovalCard from './ApprovalCard';
 import CustomPagination from '@/components/CustomPagination';
 import { fullName } from '@/utils/avatarUtils';
-import ApiErrorState from '@/components/ApiErrorState';
 import { Fragment } from 'react';
-import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
 import { DataRecordCount } from '@/components/DataRecordCount';
 import { useApprovals } from './useApprovals';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const Approvals = () => {
   const {
@@ -31,17 +30,16 @@ export const Approvals = () => {
         recordName=" Approvals"
       />
       <br />
-      {showLoader ? (
-        <SkeletonCard gridSize={{ md: 12 }} flexDirection={'row-reverse'} />
-      ) : isError ? (
-        <ApiErrorState
-          canRefresh
-          refresh={() => getArticlesForApprovalsListData?.(page)}
-        />
-      ) : !hasData ? (
-        <NoData message={'No approvals found'} />
-      ) : (
-        lazyGetUnapprovedArticlesStatus?.data?.data?.articles?.map(
+      <ApiRequestFlow
+        showSkeleton={showLoader}
+        hasError={isError}
+        refreshApi={() => getArticlesForApprovalsListData?.(page)}
+        hasNoData={!hasData}
+        noDataMessage={'No approvals found'}
+        skeletonType={SKELETON_TYPES?.BASIC_CARD}
+        cardSkeletonType={SKELETON_TYPES?.THREE_LAYER_LARGE_REVERSE_CARD}
+      >
+        {lazyGetUnapprovedArticlesStatus?.data?.data?.articles?.map(
           (approval: any) => (
             <Fragment key={approval?._id}>
               <ApprovalCard
@@ -61,8 +59,8 @@ export const Approvals = () => {
               />
             </Fragment>
           ),
-        )
-      )}
+        )}
+      </ApiRequestFlow>
       <br />
       <CustomPagination
         count={lazyGetUnapprovedArticlesStatus?.data?.data?.meta?.pages}

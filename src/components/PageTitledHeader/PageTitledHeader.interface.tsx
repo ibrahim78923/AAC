@@ -20,4 +20,7 @@ export interface PageTitledHeaderPropsI {
   titleColor?: any;
   outerMarginBottom?: number;
   titleProps?: any;
+  hasNoImportPermission?: boolean;
+  hasNoCreatePermission?: boolean;
+  hasNoExportPermission?: boolean;
 }

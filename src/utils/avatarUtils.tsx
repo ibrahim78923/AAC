@@ -1,4 +1,4 @@
-import { IMG_URL } from '@/config';
+import { FILE_MAX_SIZE, IMG_URL } from '@/config';
 import { FILE_TYPE_BASED_IMAGES } from '@/constants/images';
 import { ARRAY_INDEX } from '@/constants/strings';
 
@@ -85,3 +85,6 @@ export const getInitialsSingleName = (name: any) => {
     ?.toUpperCase();
   return initials?.substring(0, 2);
 };
+
+export const uploadFileMaxSize =
+  FILE_MAX_SIZE?.ATTACH_FILE_MAX_SIZE / (1024 * 1024);

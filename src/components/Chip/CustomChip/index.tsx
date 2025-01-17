@@ -17,6 +17,7 @@ export const CustomChip = (props: any) => {
     hoverStyles,
     onClick,
     isCapital,
+    hoverBackgroundColor = backgroundColor,
   } = props;
 
   const mapBorderRadius = {
@@ -40,6 +41,7 @@ export const CustomChip = (props: any) => {
         textTransform: isCapital ? 'capitalize' : 'none',
         ...customStyles,
         '&:hover': {
+          backgroundColor: hoverBackgroundColor,
           ...hoverStyles,
         },
       }}

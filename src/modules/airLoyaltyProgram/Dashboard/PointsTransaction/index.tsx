@@ -1,15 +1,15 @@
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AIR_LOYALTY_PROGRAM } from '@/constants/routes';
-import { Box, Button, LinearProgress, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import Link from 'next/link';
 import { usePointsTransaction } from './usePointsTransaction';
-import { pxToRem } from '@/utils/getFontValue';
-import { Autorenew } from '@mui/icons-material';
+import { ApiPollingButton } from '@/components/Buttons/ApiPollingButton';
+import { AUTO_REFRESH_API_TIME_INTERVAL } from '@/config';
 
 export const PointsTransaction = () => {
   const {
     pointsTransactionColumns,
-    timeLapse,
+    fulfilledTimeStamp,
     isError,
     isFetching,
     isLoading,
@@ -37,27 +37,14 @@ export const PointsTransaction = () => {
       >
         <Typography variant={'h5'}>Points Transaction</Typography>
         <Box display={'flex'} gap={1} alignItems={'center'}>
-          <Button
-            className="small"
-            color="inherit"
-            size="small"
-            startIcon={<Autorenew />}
+          <ApiPollingButton
+            variant="text"
             onClick={refetch}
-            disabled={isLoading || isFetching}
-            sx={{
-              fontSize: pxToRem(12),
-              fontWeight: 'fontWeightRegular',
-              textTransform: 'lowercase',
-            }}
-          >
-            {isLoading || isFetching ? (
-              <Box>
-                <LinearProgress sx={{ width: pxToRem(70) }} />
-              </Box>
-            ) : (
-              timeLapse?.lastFetchLapseTime
-            )}
-          </Button>
+            showLoader={isLoading || isFetching}
+            isFetching={isFetching}
+            fulfilledTimeStamp={fulfilledTimeStamp}
+            intervalTime={AUTO_REFRESH_API_TIME_INTERVAL?.DASHBOARD}
+          />
           <Link href={`${AIR_LOYALTY_PROGRAM?.LOYALTY_TRANSACTION}?tab=points`}>
             <Button>View All</Button>
           </Link>

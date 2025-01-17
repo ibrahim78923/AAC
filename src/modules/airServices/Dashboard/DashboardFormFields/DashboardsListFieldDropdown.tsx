@@ -1,9 +1,10 @@
+import { CustomChip } from '@/components/Chip/CustomChip';
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { useLazyGetServicesDashboardDashboardNameDropdownListQuery } from '@/services/airServices/dashboard';
 import { getActiveProductSession } from '@/utils';
 import { truncateText } from '@/utils/avatarUtils';
 import { pxToRem } from '@/utils/getFontValue';
-import { Box, Chip, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useMemo } from 'react';
 
 export const DashboardListFieldDropdown = (props: any) => {
@@ -49,12 +50,13 @@ export const DashboardListFieldDropdown = (props: any) => {
             </Typography>
           </Box>
           {option?.isDefault && (
-            <Chip
-              size="small"
+            <CustomChip
               label="Default"
               variant="outlined"
               color={'success'}
+              backgroundColor={'success.lighter'}
               component={'span'}
+              customStyles={{ border: 'none' }}
             />
           )}
         </Box>

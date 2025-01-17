@@ -1,8 +1,7 @@
-import { InventoryCard } from '@/components/InventoryCard';
-import NoData from '@/components/NoData';
+import { InventoryCard } from '@/components/Cards/InventoryCard';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { LoadingButton } from '@mui/lab';
-import { Box, Chip, Divider, Skeleton, Typography } from '@mui/material';
+import { Box, Divider, Skeleton, Typography } from '@mui/material';
 import { Fragment } from 'react';
 import { useSingleTicketDetail } from './useSingleTicketDetail';
 import { TICKET_STATUS } from '@/constants/strings';
@@ -11,6 +10,8 @@ import { CHECK_SURVEY_SUBMISSION_STATUS } from '../../Tickets.data';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
 import { otherDateFormat } from '@/lib/date-time';
 import { capitalizeFirstLetter } from '@/utils/api';
+import { CustomChip } from '@/components/Chip/CustomChip';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
   const {
@@ -86,9 +87,10 @@ export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
           </Typography>
           <Box>
             {singleTicketData?.status ? (
-              <Chip
+              <CustomChip
                 label={capitalizeFirstLetter(singleTicketData?.status)}
-                sx={{ backgroundColor: 'custom.bright', color: 'white' }}
+                size="medium"
+                backgroundColor="custom.bright"
               />
             ) : null}
           </Box>
@@ -184,21 +186,21 @@ export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
         p={1}
         borderRadius={2}
       >
-        {!!singleTicketData?.associateAssetsDetails?.length ? (
-          <>
-            {singleTicketData?.associateAssetsDetails?.map((item: any) => (
-              <Fragment key={item?._id}>
-                <InventoryCard
-                  heading={item?.displayName}
-                  key={item?._id}
-                  hasDeleteIcon={false}
-                />
-              </Fragment>
-            ))}
-          </>
-        ) : (
-          <NoData message="No assets found" height="100%" />
-        )}
+        <ApiRequestFlow
+          hasNoData={!singleTicketData?.associateAssetsDetails?.length}
+          noDataMessage="No assets found"
+          noDataHeight="100%"
+        >
+          {singleTicketData?.associateAssetsDetails?.map((item: any) => (
+            <Fragment key={item?._id}>
+              <InventoryCard
+                heading={item?.displayName}
+                key={item?._id}
+                hasDeleteIcon={false}
+              />
+            </Fragment>
+          ))}
+        </ApiRequestFlow>
       </Box>
     </>
   );

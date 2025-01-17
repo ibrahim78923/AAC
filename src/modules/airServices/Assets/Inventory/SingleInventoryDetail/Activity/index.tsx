@@ -1,13 +1,11 @@
-import { Grid } from '@mui/material';
-import NoData from '@/components/NoData';
-import { ActivityTimeline } from './ActivityTimeline';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
+import { Box, Typography } from '@mui/material';
 import { useActivity } from './useActivity';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
-import ApiErrorState from '@/components/ApiErrorState';
 import CustomPagination from '@/components/CustomPagination';
 import { PAGINATION } from '@/config';
+import { FiberManualRecord } from '@mui/icons-material';
+import { DATE_TIME_FORMAT } from '@/constants';
+import { ActivityCard } from '@/components/Cards/ActivityCard';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const Activity = () => {
   const {
@@ -20,44 +18,49 @@ export const Activity = () => {
     refetch,
   } = useActivity();
 
-  if (isLoading || isFetching) return <SkeletonTable />;
-
-  if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
-
   return (
     <>
-      <PermissionsGuard
-        permissions={[
-          AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.VIEW_ACTIVITIES,
-        ]}
+      <Typography variant="h5" color={'slateBlue.main'} my={1}>
+        Activities
+      </Typography>
+      <ApiRequestFlow
+        showSkeleton={isLoading || isFetching}
+        hasNoData={!activityData?.data?.activitylogs?.length}
+        hasError={isError}
+        refreshApi={refetch}
+        noDataMessage="No activities found"
       >
-        <Grid container>
-          <Grid item xs={12} md={0.5}></Grid>
-          <Grid item xs={12} md={10.5}>
-            {activityData?.data?.activitylogs?.length > 0 ? (
-              activityData?.data?.activitylogs?.map((singleActivity: any) => (
-                <ActivityTimeline
-                  activityData={singleActivity}
-                  key={singleActivity?._id}
-                />
-              ))
-            ) : (
-              <NoData message={'There is no activity'} />
-            )}
-          </Grid>
-          <Grid item xs={12} md={1}></Grid>
-        </Grid>
-      </PermissionsGuard>
-      <CustomPagination
-        count={activityData?.data?.meta?.pages}
-        totalRecords={activityData?.data?.meta?.total}
-        pageLimit={activityData?.data?.meta?.limit}
-        currentPage={activityData?.data?.meta?.page}
-        rowsPerPageOptions={PAGINATION?.ROWS_PER_PAGE}
-        onPageChange={(page: number) => setPage(page)}
-        setPageLimit={setPageLimit}
-        setPage={setPage}
-      />
+        {activityData?.data?.activitylogs?.map((singleActivity: any) => (
+          <>
+            <Box
+              border={'1px solid'}
+              borderColor={'custom.off_white_three'}
+              borderRadius={2}
+              py={2}
+            >
+              <ActivityCard
+                key={singleActivity?._id}
+                firstName={singleActivity?.performedByName}
+                activityType={singleActivity?.activityType}
+                moduleName={singleActivity?.moduleName}
+                dateFormat={DATE_TIME_FORMAT?.DD_MM_YYYY_hh_mm_A}
+                activityDate={singleActivity?.createdAt}
+                Icon={<FiberManualRecord fontSize="small" color="primary" />}
+              />
+            </Box>
+          </>
+        ))}
+        <CustomPagination
+          count={activityData?.data?.meta?.pages}
+          totalRecords={activityData?.data?.meta?.total}
+          pageLimit={activityData?.data?.meta?.limit}
+          currentPage={activityData?.data?.meta?.page}
+          rowsPerPageOptions={PAGINATION?.ROWS_PER_PAGE}
+          onPageChange={(page: number) => setPage(page)}
+          setPageLimit={setPageLimit}
+          setPage={setPage}
+        />
+      </ApiRequestFlow>
     </>
   );
 };

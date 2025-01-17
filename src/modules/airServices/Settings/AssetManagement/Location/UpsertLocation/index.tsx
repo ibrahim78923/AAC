@@ -3,8 +3,8 @@ import { Box, Divider, Grid } from '@mui/material';
 import { LOCATION_TYPE, addNewLocationDataFields } from './UpsertLocation.data';
 import { useUpsertLocation } from './useUpsertLocation';
 import { LoadingButton } from '@mui/lab';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 const UpsertLocation = () => {
   const {
@@ -23,10 +23,8 @@ const UpsertLocation = () => {
     handleSubmit,
   } = useUpsertLocation();
 
-  if (isLoading || isFetching) return <SkeletonForm />;
-
   return (
-    <>
+    <ApiRequestFlow showSkeleton={isLoading || isFetching}>
       <FormProvider methods={methods} onSubmit={handleSubmit(upsertLocation)}>
         <Grid container spacing={2}>
           <Grid item lg={9}>
@@ -88,7 +86,7 @@ const UpsertLocation = () => {
           </LoadingButton>
         </Box>
       </FormProvider>
-    </>
+    </ApiRequestFlow>
   );
 };
 

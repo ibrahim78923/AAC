@@ -6,7 +6,7 @@ import AddRegNumber from './AddRegNumber';
 import Image from 'next/image';
 import { SmsMockImage, TwillioImage } from '@/assets/images';
 
-const ConnectNumber = ({ setIsConnected }: any) => {
+const ConnectNumber = ({}: any) => {
   const {
     handleCloseDialogRegNumber,
     handleOpenDialogRegNumber,
@@ -17,7 +17,7 @@ const ConnectNumber = ({ setIsConnected }: any) => {
     phoneNumber,
     setPhoneNumber,
     theme,
-  } = useConnectNumber(setIsConnected);
+  } = useConnectNumber();
 
   return (
     <>

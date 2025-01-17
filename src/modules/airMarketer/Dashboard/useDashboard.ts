@@ -10,7 +10,7 @@ import {
 } from '@/services/airMarketer/dasboard';
 import { getSession } from '@/utils';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { AIR_MARKETER } from '../../../routesConstants/paths';
 import { useApiPolling } from '@/hooks/useApiPolling';
 import { useTheme } from '@mui/material';
@@ -27,6 +27,7 @@ const useDashboard = () => {
   const currentUser = user?._id;
   const router = useRouter();
   const theme = useTheme();
+  const downloadRef = useRef(null);
 
   const [isShowCreateDashboardForm, setIsShowCreateDashboardForm] =
     useState(false);
@@ -129,6 +130,7 @@ const useDashboard = () => {
     theme,
     page,
     user,
+    downloadRef,
   };
 };
 export default useDashboard;

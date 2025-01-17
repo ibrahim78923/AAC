@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   AUTO_REFRESH_API_POLLING_TIME,
   AUTO_REFRESH_API_TIME_INTERVAL,
@@ -25,6 +25,7 @@ const useDashboard = () => {
   const { user }: any = getSession();
   const currentUser = user?._id;
   const router = useRouter();
+  const downloadRef = useRef(null);
   const [isShowCreateDashboardForm, setIsShowCreateDashboardForm] =
     useState(false);
   const [selectedDashboard, setSelectedDashboard] = useState('');
@@ -124,6 +125,7 @@ const useDashboard = () => {
     router,
     theme,
     user,
+    downloadRef,
   };
 };
 export default useDashboard;

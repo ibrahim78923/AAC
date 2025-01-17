@@ -1,7 +1,7 @@
 import { FilterSharedIcon, PlusSharedColorIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { Box, Button } from '@mui/material';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import TanstackTable from '@/components/Table/TanstackTable';
 import AgentFilter from '../FilterAgent';
 import { useAgent } from './useAgent';

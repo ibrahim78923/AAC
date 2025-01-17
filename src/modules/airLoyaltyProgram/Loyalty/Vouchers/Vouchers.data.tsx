@@ -38,7 +38,7 @@ export const vouchersColumns = (
       cell: (info: any) => (
         <Box display={'flex'}>
           <Typography fontSize={'0.9rem'}>
-            {info?.getValue()?.voucherValue ?? '0'} /{' '}
+            {info?.row?.original?.redeemedVoucherLimit ?? '0'} /{' '}
           </Typography>
           <Typography fontSize={'0.9rem'}>
             {info?.getValue() || 'Unlimited'}

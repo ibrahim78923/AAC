@@ -17,7 +17,7 @@ import {
   createPowerDialerData,
   createPowerDialerDropDown,
 } from './CreatePowerDialer.data';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { useCreatePowerDialer } from './useCreatePowerDialer';
 
 const CreatePowerDialerModal = (props: any) => {

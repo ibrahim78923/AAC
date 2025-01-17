@@ -33,8 +33,17 @@ export const AddNewAccount = baseAPI.injectEndpoints({
 
     deleteTwilioConfigurationPhoneNumber: builder.mutation({
       query: (body) => ({
-        url: `${AIR_MARKETER_SMS_MARKETING?.DELETE_TWILIO_CONFIGURATION_NUMBER}`,
+        url: `${AIR_MARKETER_SMS_MARKETING?.DELETE_WHSTSAPP_TWILIO_CONFIGURATION_NUMBER}`,
         method: 'DELETE',
+        body: body,
+      }),
+      invalidatesTags: TAGS,
+    }),
+
+    updateAccountConfig: builder.mutation({
+      query: ({ body, id }: any) => ({
+        url: `${AIR_MARKETER_SMS_MARKETING?.UPDATE_ACCOUNT}/${id}`,
+        method: 'PATCH',
         body: body,
       }),
       invalidatesTags: TAGS,
@@ -47,4 +56,5 @@ export const {
   useGetTwilioConfigurationsQuery,
   useGetTwilioNumbersConfigurationsQuery,
   useDeleteTwilioConfigurationPhoneNumberMutation,
+  useUpdateAccountConfigMutation,
 } = AddNewAccount;

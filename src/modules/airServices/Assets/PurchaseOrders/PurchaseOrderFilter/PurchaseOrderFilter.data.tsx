@@ -123,6 +123,7 @@ export const purchaseOrderFilterFieldsDynamic = [
     component: GetPurchaseOrderVendorDropdown,
     componentProps: {
       name: 'vendorId',
+      required: false,
     },
   },
   {

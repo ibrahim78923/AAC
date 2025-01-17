@@ -1,4 +1,4 @@
-import { CustomChips } from '@/components/CustomChips';
+import { TooltipItemsCountChip } from '@/components/Chip/TooltipItemsCountChip';
 import { BACKEND_COLLECTION_NAME } from '@/constants/api';
 import { FIELD_TYPE } from '@/constants/strings';
 import { fullName } from '@/utils/avatarUtils';
@@ -26,7 +26,7 @@ const tableCell = (item: any, column?: any) => {
       : item;
   if (Array?.isArray(item)) {
     const arrayData = !!item?.length ? (
-      <CustomChips
+      <TooltipItemsCountChip
         data={item?.map((item: any, index: number) => {
           return {
             label:

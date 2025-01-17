@@ -2,17 +2,14 @@ import { Fragment } from 'react';
 import { TICKET_APPROVALS } from '@/constants/strings';
 import { useAllApprovals } from './useAllApprovals';
 import { ApprovalCard } from '../ApprovalCard';
-import NoData from '@/components/NoData';
-import ApiErrorState from '@/components/ApiErrorState';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { AllApprovalsPropsI, ApprovalsDataI } from './AllApprovals.interface';
 import { RequestApprovalForm } from '../RequestApprovalForm';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 const AllApprovals = (props: AllApprovalsPropsI) => {
   const {
     data,
-    isLoading,
-    isFetching,
     isError,
     isConfirmModalOpen,
     setIsConfirmModalOpen,
@@ -21,15 +18,21 @@ const AllApprovals = (props: AllApprovalsPropsI) => {
     setApproval,
     openApprovalDetail,
     refetch,
+    showLoader,
   } = useAllApprovals(props);
-
-  if (isLoading || isFetching) return <SkeletonForm />;
-  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
 
   return (
     <>
-      {!!data?.data?.length ? (
-        data?.data?.map((approval: ApprovalsDataI) => (
+      <ApiRequestFlow
+        showSkeleton={showLoader}
+        hasError={isError}
+        refreshApi={refetch}
+        skeletonType={SKELETON_TYPES?.BASIC_CARD}
+        cardSkeletonType={SKELETON_TYPES?.THREE_LAYER_LARGE_REVERSE_CARD}
+        hasNoData={!data?.data?.length}
+        noDataMessage={'No approval found'}
+      >
+        {data?.data?.map((approval: ApprovalsDataI) => (
           <Fragment key={approval?._id}>
             <ApprovalCard
               data={approval}
@@ -47,10 +50,8 @@ const AllApprovals = (props: AllApprovalsPropsI) => {
               }
             />
           </Fragment>
-        ))
-      ) : (
-        <NoData />
-      )}
+        ))}
+      </ApiRequestFlow>
       {isConfirmModalOpen && (
         <RequestApprovalForm
           isConfirmModalOpen={isConfirmModalOpen}

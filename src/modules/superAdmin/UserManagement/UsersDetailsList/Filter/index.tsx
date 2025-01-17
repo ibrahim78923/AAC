@@ -11,6 +11,7 @@ export default function Filter({
   setIsOpenDrawer,
   employeeFilter,
   setEmployeeFilter,
+  organizationId,
 }: FilterProps) {
   const methods: any = useForm({
     defaultValues: usersFilterDefaultValues(employeeFilter),
@@ -38,7 +39,7 @@ export default function Filter({
       <Box mt={1}>
         <FormProvider methods={methods}>
           <Grid container spacing={2}>
-            {dataArray()?.map((item: any) => (
+            {dataArray(organizationId)?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={item?.componentProps?.name}>
                 <Typography variant="body2" fontWeight={500}>
                   {item?.title}

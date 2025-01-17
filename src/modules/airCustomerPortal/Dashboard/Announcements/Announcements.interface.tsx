@@ -25,10 +25,11 @@ export interface AnnouncementsListPropsI {
   isDrawerOpen: boolean;
   onClose: () => void;
   data: AnnouncementDataI;
-  isLoading: boolean;
-  isFetching: boolean;
+  isLoading?: boolean;
+  isFetching?: boolean;
   isError: boolean;
   refetch: any;
+  showLoader: boolean;
 }
 
 export interface AnnouncementCardPropsI {

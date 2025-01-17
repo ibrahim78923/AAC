@@ -4,7 +4,9 @@ import {
   RHFRadioGroup,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { ACCEPT_FILE_EXTENSIONS } from '@/constants/file';
 import { CANNED_RESPONSES } from '@/constants/strings';
+import { uploadFileMaxSize } from '@/utils/avatarUtils';
 import * as Yup from 'yup';
 
 const availableForOptions = [
@@ -98,6 +100,12 @@ export const addResponseDataArray = (
       name: 'fileUrl',
       label: 'Attach a file',
       disabled: hasAttachment,
+      fileType: `PNG, JPG and PDF (max ${uploadFileMaxSize} MB)`,
+      accept: {
+        'image/png': ACCEPT_FILE_EXTENSIONS?.PNG,
+        'image/jpeg': ACCEPT_FILE_EXTENSIONS?.JPEG,
+        'application/pdf': ACCEPT_FILE_EXTENSIONS?.PDF,
+      },
     },
     component: RHFDropZone,
   },

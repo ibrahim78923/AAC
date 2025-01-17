@@ -1,11 +1,12 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
-import { Box, Checkbox, Chip, Typography, useTheme } from '@mui/material';
+import { Box, Checkbox, Typography, useTheme } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { useAssociationsDrawer } from './useAssociationsDrawer';
 import CustomPagination from '@/components/CustomPagination';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import NoData from '@/components/NoData';
+import { CustomChip } from '@/components/Chip/CustomChip';
 
 export const AssociationsDrawer = (props: any) => {
   const theme: any = useTheme();
@@ -98,13 +99,13 @@ export const AssociationsDrawer = (props: any) => {
                   />
                   <Typography>{item?.subject}</Typography>
                 </Box>
-
-                <Chip
+                <CustomChip
                   label={item?.status?.toLowerCase()}
-                  sx={{
-                    color: 'primary.main',
-                    backgroundColor: 'primary.light',
-                    textTransform: 'capitalize',
+                  backgroundColor="primary.light"
+                  textColor="primary.main"
+                  isCapital
+                  size="medium"
+                  customStyles={{
                     fontWeight: 700,
                   }}
                 />

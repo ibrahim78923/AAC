@@ -11,7 +11,7 @@ export const useOverview = () => {
     pathParam: { productCatalogId },
   };
 
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetProductCatalogByIdQuery(getSingleProductCatalogParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!productCatalogId,
@@ -19,5 +19,5 @@ export const useOverview = () => {
 
   const dataArray = OverviewData(data?.data?.[ARRAY_INDEX?.ZERO]);
 
-  return { isLoading, dataArray, isFetching, isError };
+  return { isLoading, dataArray, isFetching, isError, refetch };
 };

@@ -1,6 +1,6 @@
 import NoData from '@/components/NoData';
 import { Typography } from '@mui/material';
-import { InventoryCard } from '@/components/InventoryCard/index';
+import { InventoryCard } from '@/components/Cards/InventoryCard/index';
 import { useContract } from './useContract';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';

@@ -1,6 +1,6 @@
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { FilterIcon } from '@/assets/icons';
-import { ExportButton } from '@/components/ExportButton';
+import { ExportButton } from '@/components/Buttons/ExportButton';
 import Search from '@/components/Search';
 import { AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS } from '@/constants/permission-keys';
 import { Box, Button } from '@mui/material';

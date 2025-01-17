@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, FormControlLabel, Switch } from '@mui/material';
 import { styles } from './DefaultSignatures.style';
 import IndividualSignature from './IndividualSignature';
+import AllSignatures from './AllSignatures';
 
 interface DefaultSignaturesProps {
   signees: any;
@@ -48,7 +49,6 @@ export default function DefaultSignatures({
               key={signee?._id}
               isIndividualSignature={isIndividualSignature}
               setSelectedSigneeId={setSelectedSigneeId}
-              signatureType="SMS Verification"
               onClickChange={onClickChange}
               signee={signee}
             />
@@ -56,11 +56,9 @@ export default function DefaultSignatures({
         </Box>
       ) : (
         <Box sx={styles?.fieldGroup}>
-          <IndividualSignature
-            isIndividualSignature={isIndividualSignature}
-            signatureType="SMS Verification"
+          <AllSignatures
             onClickChange={onClickChange}
-            setSelectedSigneeId={setSelectedSigneeId}
+            signatureType={signees[0]?.signatureType}
           />
         </Box>
       )}

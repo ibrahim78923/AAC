@@ -9,7 +9,13 @@ export const DownloadDashboard = (props: any) => {
   const { isDownloading, downloadReport } = useDownloadDashboard?.(props);
 
   return (
-    <Box display={'flex'} flexWrap={'wrap'} gap={2} my={2}>
+    <Box
+      display={'flex'}
+      flexWrap={'wrap'}
+      alignItems={'center'}
+      gap={2}
+      my={2}
+    >
       <LoadingButton
         className="small"
         variant="contained"

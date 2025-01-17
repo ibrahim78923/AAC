@@ -1,19 +1,16 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import { Box } from '@mui/material';
-import { Fragment } from 'react';
-import { AnnouncementCard } from '../AnnouncementCard';
-import NoData from '@/components/NoData';
 import { useAnnouncementList } from './useAnnouncementList';
-import { fullName } from '@/utils/avatarUtils';
+import { InteractiveUserFeedCard } from '@/components/Cards/InteractiveUserFeedCard';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const AnnouncementList = (props: any) => {
   const {
     isPortalOpen,
     dropdownAnnouncementsOptions,
-    lazyGetCustomerAnnouncementStatus,
+    getCustomerAnnouncementData,
   } = props;
 
-  const { onClose, user, checkApiErrorOrLoading } =
+  const { onClose, user, showLoader, hasError, announcements } =
     useAnnouncementList?.(props);
 
   return (
@@ -24,39 +21,28 @@ export const AnnouncementList = (props: any) => {
       isOk
       okText=""
     >
-      {checkApiErrorOrLoading() ?? (
-        <Box my="0.75rem">
-          {!!lazyGetCustomerAnnouncementStatus?.data?.data?.length ? (
-            <>
-              {lazyGetCustomerAnnouncementStatus?.data?.data?.map(
-                (announcement: any, index: number) => (
-                  <Fragment key={announcement?._id}>
-                    <AnnouncementCard
-                      dropdownAnnouncementsOptions={dropdownAnnouncementsOptions?.(
-                        announcement,
-                      )}
-                      data={announcement}
-                      index={index}
-                      isLoggedInUser={
-                        user?._id === announcement?.createdBy?._id
-                      }
-                      userDetails={{
-                        userAvatar: announcement?.createdBy?.avatar?.url,
-                        userName: fullName(
-                          announcement?.createdBy?.firstName,
-                          announcement?.createdBy?.lastName,
-                        ),
-                      }}
-                    />
-                  </Fragment>
-                ),
-              )}
-            </>
-          ) : (
-            <NoData message="No announcements found" />
-          )}
-        </Box>
-      )}
+      <ApiRequestFlow
+        showSkeleton={showLoader}
+        hasError={hasError}
+        hasNoData={!announcements?.length}
+        refreshApi={getCustomerAnnouncementData}
+      >
+        {announcements?.map((announcement: any, index: number) => (
+          <InteractiveUserFeedCard
+            key={announcement?._id}
+            firstName={announcement?.createdBy?.firstName}
+            lastName={announcement?.createdBy?.lastName}
+            userAvatarSrc={announcement?.createdBy?.avatar?.url}
+            feedTitle={announcement?.title}
+            dateFrom={announcement?.createdAt}
+            hasBorderBottom={index !== announcements?.length - 1}
+            hasAction={user?._id === announcement?.createdBy?._id}
+            dropdownAnnouncementsOptions={dropdownAnnouncementsOptions?.(
+              announcement,
+            )}
+          />
+        ))}
+      </ApiRequestFlow>
     </CommonDrawer>
   );
 };

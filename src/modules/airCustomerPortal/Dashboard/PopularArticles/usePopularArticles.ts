@@ -2,16 +2,17 @@ import { PAGINATION } from '@/config';
 import { ARRAY_INDEX, ARTICLE_STATUS, MODULE_TYPE } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
 import { useGetCustomerPortalDashboardPopularArticlesQuery } from '@/services/airCustomerPortal';
-import { getActiveProductSession, getSession } from '@/utils';
+import { getActiveAccountSession, getSession } from '@/utils';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 
 export const usePopularArticles = () => {
   const router = useRouter();
-  const product = getActiveProductSession();
+  const product = useMemo(() => getActiveAccountSession(), []);
   const session: any = getSession();
   const sessionId = session?.user?.companyId;
-  const companyIdStorage = product?.accounts?.[ARRAY_INDEX?.ZERO]?.company?._id;
+  const companyIdStorage = product?.company?._id;
+
   const auth = useAuth();
   const articlesRoute = auth?.isAuthenticated
     ? MODULE_TYPE?.REGISTER_DASHBOARD

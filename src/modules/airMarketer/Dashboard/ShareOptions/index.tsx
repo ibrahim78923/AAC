@@ -4,8 +4,15 @@ import useShareOptions from './useShareOptions';
 import EmailThisDashboard from '../EmailThisDashboard';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { DRAWER_TYPES } from '@/constants/strings';
+import { DownloadDashboard } from '../DownloadDashboard';
 
-const ShareOptions = ({ selectedDashboard, currentUser, disabled }: any) => {
+const ShareOptions = ({
+  selectedDashboard,
+  currentUser,
+  disabled,
+  name,
+  downloadRef,
+}: any) => {
   const {
     handleClickActions,
     isShowDrawer,
@@ -16,6 +23,8 @@ const ShareOptions = ({ selectedDashboard, currentUser, disabled }: any) => {
     handleShowEmailDashboard,
     router,
     copyUrl,
+    isDownloadDashboad,
+    setIsDownloadDashboard,
   } = useShareOptions(selectedDashboard);
 
   return (
@@ -42,12 +51,6 @@ const ShareOptions = ({ selectedDashboard, currentUser, disabled }: any) => {
           onClose={handleCloseMenuOptions}
           TransitionComponent={Fade}
         >
-          <MenuItem onClick={copyUrl}>Copy URL</MenuItem>
-
-          <MenuItem onClick={handleShowEmailDashboard}>
-            Email this dashboard
-          </MenuItem>
-
           <MenuItem
             disabled={disabled}
             onClick={() => {
@@ -64,12 +67,27 @@ const ShareOptions = ({ selectedDashboard, currentUser, disabled }: any) => {
           >
             Edit
           </MenuItem>
+          <MenuItem onClick={copyUrl}>Copy URL</MenuItem>
+          <MenuItem onClick={handleShowEmailDashboard}>
+            Email this dashboard
+          </MenuItem>
+          <MenuItem onClick={() => setIsDownloadDashboard(true)}>
+            Download Dashboard
+          </MenuItem>
         </Menu>
       </div>
       {isShowDrawer && (
         <EmailThisDashboard
           isOpenDrawer={isShowDrawer}
           setIsDrawerOpen={setIsShowDrawer}
+        />
+      )}
+      {isDownloadDashboad && (
+        <DownloadDashboard
+          isDownloadDashboad={isDownloadDashboad}
+          setIsDownloadDashboard={setIsDownloadDashboard}
+          name={name}
+          downloadRef={downloadRef}
         />
       )}
     </>

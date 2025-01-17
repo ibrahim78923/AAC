@@ -5,8 +5,7 @@ import { upsertConsumerData } from './UpsertConsumer.data';
 import { useUpsertConsumer } from './useUpsertConsumer';
 import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { AIR_LOYALTY_PROGRAM } from '@/constants/routes';
-import ApiErrorState from '@/components/ApiErrorState';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const UpsertConsumer = () => {
   const { methods, router, isLoading, isFetching, isError, refetch } =
@@ -25,11 +24,11 @@ export const UpsertConsumer = () => {
       />
 
       <Box border={1} borderColor={'grey.700'} borderRadius={2} p={2}>
-        {isLoading || isFetching ? (
-          <SkeletonForm gridSize={{ md: 6 }} length={13} />
-        ) : isError ? (
-          <ApiErrorState canRefresh refresh={refetch} />
-        ) : (
+        <ApiRequestFlow
+          showSkeleton={isLoading || isFetching}
+          hasError={isError}
+          refreshApi={refetch}
+        >
           <FormProvider methods={methods}>
             <Typography variant={'h5'} mb={1}>
               Information
@@ -46,7 +45,7 @@ export const UpsertConsumer = () => {
               ))}
             </Grid>
           </FormProvider>
-        )}
+        </ApiRequestFlow>
       </Box>
     </>
   );

@@ -1,5 +1,5 @@
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { pxToRem } from '@/utils/getFontValue';
 import { PlusSharedColorIcon } from '@/assets/icons';
 import { PageTitledHeader } from '@/components/PageTitledHeader';

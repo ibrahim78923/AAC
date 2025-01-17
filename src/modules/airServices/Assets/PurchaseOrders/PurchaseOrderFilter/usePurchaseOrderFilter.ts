@@ -1,6 +1,7 @@
 import { purchaseOrderFilterFormDefaultValues } from './PurchaseOrderFilter.data';
 import { PAGINATION } from '@/config';
 import { useFormLib } from '@/hooks/useFormLib';
+import { filteredEmptyValues } from '@/utils/api';
 
 export const usePurchaseOrderFilter = (props: any) => {
   const {
@@ -17,11 +18,7 @@ export const usePurchaseOrderFilter = (props: any) => {
   const { handleSubmit, reset, methods } = useFormLib(useFormValues);
 
   const submitPurchaseOrderFilterForm = async (data: any) => {
-    const purchaseOrderFilteredFields: any = Object?.entries(data || {})
-      ?.filter(
-        ([, value]: any) => value !== undefined && value != '' && value != null,
-      )
-      ?.reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
+    const purchaseOrderFilteredFields: any = filteredEmptyValues(data || {});
 
     if (!Object?.keys(purchaseOrderFilteredFields ?? {})?.length) {
       closePurchaseOrderFilterForm();

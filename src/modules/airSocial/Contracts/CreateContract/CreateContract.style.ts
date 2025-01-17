@@ -57,10 +57,10 @@ export const styles = {
   }),
 
   partyCardgridItem: {
-    '&:first-of-type': {
-      '& .delete-button': {
-        display: 'none',
-      },
-    },
+    // '&:first-of-type': {
+    //   '& .delete-button': {
+    //     display: 'none',
+    //   },
+    // },
   },
 };

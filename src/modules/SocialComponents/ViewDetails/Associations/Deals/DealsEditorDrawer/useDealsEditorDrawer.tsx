@@ -1,14 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  productsDefaultValues,
   productsValidationSchema,
   productsValidationSchemaOnExistingDeals,
 } from './DealsEditorDrawer.data';
 import {
-  useGetDealsLifecycleStageQuery,
   usePatchDealsMutation,
   usePostDealsMutation,
 } from '@/services/airSales/deals';
@@ -18,7 +16,6 @@ import {
   associationCompanies,
 } from '@/constants';
 import dayjs from 'dayjs';
-import { useGetPipelineQuery } from '@/services/common-APIs';
 import { usePostAssociationCompaniesMutation } from '@/services/commonFeatures/companies';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
@@ -30,9 +27,6 @@ const useDealsEditorDrawer = ({
 }: any) => {
   const [postDeals, { isLoading }] = usePostDealsMutation();
   const [updatedAssignDeal] = usePatchDealsMutation();
-
-  const { data: DealsLifecycleStageData } = useGetDealsLifecycleStageQuery({});
-  const { data: pipelineData } = useGetPipelineQuery({});
 
   const [PostAssociationCompanies] = usePostAssociationCompaniesMutation();
 
@@ -48,40 +42,27 @@ const useDealsEditorDrawer = ({
         ? productsValidationSchema
         : productsValidationSchemaOnExistingDeals,
     ),
-    defaultValues: async () => {
-      if (dealRecord) {
-        const {
-          name,
-          dealPipelineId,
-          dealStageId,
-          amount,
-          closeDate,
-          ownerId,
-          priority,
-          addLineItemId,
-        } = dealRecord;
-        return {
-          name,
-          dealPipelineId,
-          dealStageId,
-          amount,
-          closeDate: new Date(closeDate),
-          ownerId,
-          priority,
-          addLineItemId,
-        };
-      }
-      return productsDefaultValues;
+    defaultValues: {
+      name: '',
+      dealPipelineId: '',
+      dealStageId: '',
+      amount: '',
+      closeDate: null,
+      ownerId: '',
+      priority: '',
+      addLineItemId: '',
     },
   });
 
-  const { handleSubmit, reset } = methodsProducts;
+  const { handleSubmit, reset, watch } = methodsProducts;
+
+  const dealPipelineId = watch('dealPipelineId');
 
   const onSubmit = async (values: any) => {
     delete values?.dealStatus;
     const PayloadValue = {
       name: values?.name,
-      dealPipelineId: values?.dealPipelineId,
+      dealPipelineId: values?.dealPipelineId?._id,
       dealStageId: values?.dealStageId,
       amount: values?.amount,
       closeDate: dayjs(values?.closeDate)?.format(DATE_FORMAT?.API),
@@ -129,16 +110,29 @@ const useDealsEditorDrawer = ({
     }
   };
 
+  useEffect(() => {
+    if (dealRecord && openDrawer === 'View') {
+      reset({
+        name: dealRecord?.name ?? '',
+        dealPipelineId: dealRecord?.dealPipeline ?? '',
+        dealStageId: dealRecord?.dealStage?.name ?? '',
+        amount: dealRecord?.amount ?? '',
+        closeDate: null,
+        ownerId: dealRecord?.dealOwner?._id ?? '',
+        priority: dealRecord?.priority ?? '',
+        addLineItemId: dealRecord?.lineItem ?? '',
+      });
+    }
+  }, [dealRecord]);
+
   return {
     handleSubmit,
     onSubmit,
     methodsProducts,
-
-    DealsLifecycleStageData,
     selectedValue,
     handleChange,
-    pipelineData,
     isLoading,
+    dealPipelineId,
   };
 };
 

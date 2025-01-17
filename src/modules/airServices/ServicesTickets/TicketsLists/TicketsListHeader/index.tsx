@@ -2,7 +2,7 @@ import Search from '@/components/Search';
 import { Box, Button, ButtonGroup } from '@mui/material';
 import { EditGreyIcon, FilterIcon, ListIcon, SubTabIcon } from '@/assets/icons';
 import { Autorenew } from '@mui/icons-material';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { VIEW_TYPES } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import {

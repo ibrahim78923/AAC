@@ -1,7 +1,8 @@
-import { Box, Chip, Theme, Typography, useTheme } from '@mui/material';
+import { Box, Theme, Typography, useTheme } from '@mui/material';
 import { ApprovalCardI } from './ApprovalCard.interface';
 import { TruncateText } from '@/components/TruncateText';
 import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
+import { CustomChip } from '@/components/Chip/CustomChip';
 
 const ApprovalCard = (props: ApprovalCardI) => {
   const {
@@ -77,16 +78,11 @@ const ApprovalCard = (props: ApprovalCardI) => {
         </Typography>
       </Box>
       <Box flex={0.3} textAlign={'end'}>
-        <Chip
+        <CustomChip
           label={isLoading ? <CustomLinearProgress /> : 'Approve'}
-          sx={{
-            backgroundColor: 'blue.main',
-            color: 'common.white',
-            '&:hover': {
-              backgroundColor: 'blue.main',
-            },
-          }}
+          color="secondary"
           disabled={disabled}
+          size="medium"
           onClick={() => sendApproval?.()}
         />
       </Box>

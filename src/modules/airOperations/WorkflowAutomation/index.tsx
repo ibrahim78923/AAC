@@ -1,88 +1,49 @@
-import { Avatar, Box, Grid, Typography } from '@mui/material';
-import ApiErrorState from '@/components/ApiErrorState';
+import { Grid, Typography } from '@mui/material';
 import { useWorkflowAutomation } from './useWorkflowAutomation';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
+import { ItemLinkCard } from '@/components/Cards/ItemLinkCard/ItemLinkCard';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const WorkflowAutomation = () => {
-  const {
-    isLoading,
-    isError,
-    isFetching,
-    workflowAutomationTypes,
-    router,
-    refetch,
-  } = useWorkflowAutomation();
-  if (isError) return;
+  const { isLoading, isError, isFetching, workflowAutomationTypes, refetch } =
+    useWorkflowAutomation();
+
   return (
     <>
       <Typography variant="h3">Workflow Automation</Typography>
       <br />
-      {isFetching || isLoading ? (
-        <SkeletonCard
-          isCircular={'rounded'}
-          circularSkeletonSize={{ width: 70, height: 50 }}
-          outerPadding={{ x: 1, y: 2 }}
-          hasThirdSkeleton={false}
-          length={2}
-        />
-      ) : isError ? (
-        <ApiErrorState canRefresh refresh={() => refetch?.()} />
-      ) : (
+      <ApiRequestFlow
+        hasError={isError}
+        showSkeleton={isLoading || isFetching}
+        refreshApi={refetch}
+        skeletonType={SKELETON_TYPES?.BASIC_CARD}
+        cardSkeletonType={
+          SKELETON_TYPES?.MEDIUM_HORIZONTAL_TWO_LAYER_ROUNDED_CARD
+        }
+        length={2}
+      >
         <Grid container spacing={3}>
           {workflowAutomationTypes?.map((workflow) => (
             <PermissionsGuard
               permissions={workflow?.permission}
               key={workflow?.id}
             >
-              <Grid
-                key={workflow?.id}
-                item
-                md={5}
-                lg={4}
-                xs={12}
-                onClick={() => {
-                  if (!workflow?.hasAccount) return;
-                  router?.push({
-                    pathname: workflow?.link,
-                  });
-                }}
-                sx={{
-                  cursor: !workflow?.hasAccount ? 'not-allowed' : 'pointer',
-                }}
-              >
-                <Box
-                  display={'flex'}
-                  alignItems={'center'}
-                  flexWrap={'wrap'}
-                  border={`1px solid `}
-                  borderColor={'grey.700'}
-                  borderRadius={2}
-                  gap={2}
-                  padding={1}
-                  height={'100%'}
-                  bgcolor={!workflow?.hasAccount ? 'grey.200' : 'common.white'}
-                >
-                  <Avatar
-                    variant="rounded"
-                    sx={{ backgroundColor: 'primary.light' }}
-                  >
-                    {workflow?.avatar}
-                  </Avatar>
-                  <Box flex={1}>
-                    <Typography variant="h5" whiteSpace={'nowrap'}>
-                      {workflow?.type}
-                    </Typography>
-                    <Typography variant="body3" color={'grey.900'}>
-                      {workflow?.purpose}
-                    </Typography>
-                  </Box>
-                </Box>
+              <Grid item xs={12} md={6} lg={4}>
+                <ItemLinkCard
+                  Icon={workflow?.avatar}
+                  itemType={workflow?.type}
+                  itemLink={workflow?.link}
+                  itemPurpose={workflow?.purpose}
+                  itemTypeFontSize="h5"
+                  hasLink={workflow?.hasAccount}
+                  itemPurposeFontSize="body3"
+                />
               </Grid>
             </PermissionsGuard>
           ))}
         </Grid>
-      )}
+      </ApiRequestFlow>
     </>
   );
 };

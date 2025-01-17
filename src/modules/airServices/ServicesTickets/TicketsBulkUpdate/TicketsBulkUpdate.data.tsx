@@ -14,6 +14,8 @@ import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.i
 import { pxToRem } from '@/utils/getFontValue';
 import { AgentFieldDropdown } from '../ServiceTicketFormFields/AgentFieldDropdown';
 import { CategoryFieldDropdown } from '../ServiceTicketFormFields/CategoryFieldDropdown';
+import { uploadFileMaxSize } from '@/utils/avatarUtils';
+import { ACCEPT_FILE_EXTENSIONS } from '@/constants/file';
 
 export const isReplyAddedNeglect = ['to', 'description', 'file'];
 
@@ -44,6 +46,7 @@ export const ticketsBulkUpdateAddReplyFormFieldsData = [
       fullWidth: true,
       name: 'description',
       label: 'Description',
+      required: true,
       style: { height: pxToRem(250) },
     },
     component: RHFEditor,
@@ -54,6 +57,12 @@ export const ticketsBulkUpdateAddReplyFormFieldsData = [
       fullWidth: true,
       name: 'file',
       label: 'File',
+      fileType: `PNG, JPG and PDF (max ${uploadFileMaxSize} MB)`,
+      accept: {
+        'image/png': ACCEPT_FILE_EXTENSIONS?.PNG,
+        'image/jpeg': ACCEPT_FILE_EXTENSIONS?.JPEG,
+        'application/pdf': ACCEPT_FILE_EXTENSIONS?.PDF,
+      },
     },
     component: RHFDropZone,
   },

@@ -1,7 +1,8 @@
 import IndeterminateCheckBoxRoundedIcon from '@mui/icons-material/IndeterminateCheckBoxRounded';
 import { AlertModals } from '@/components/AlertModals';
-import { Box, Chip, Collapse, Typography } from '@mui/material';
+import { Box, Collapse, Typography } from '@mui/material';
 import { useSingleAssociationsTicket } from './useSingleAssociationsTicket';
+import { CustomChip } from '@/components/Chip/CustomChip';
 
 export const SingleAssociationsTicket = (props: any) => {
   const {
@@ -46,22 +47,24 @@ export const SingleAssociationsTicket = (props: any) => {
             {associationsItem?.ticketIdNumber}-{associationsItem?.subject}
           </Typography>
         </Box>
-        <Chip
+        <CustomChip
           label={associationsItem?.status}
           color="success"
-          sx={{ color: 'common.white' }}
+          textColor="common.white"
         />
       </Box>
-      <AlertModals
-        open={disassociateModal}
-        handleClose={() => setDisassociateModal(false)}
-        type="Disassociate"
-        message="You are about to disassociate this service "
-        submitBtnText="Disassociate"
-        handleSubmitBtn={handleSubmitDissociate}
-        loading={postRemoveAssociateTicketsStatus?.isLoading}
-        disableCancelBtn={postRemoveAssociateTicketsStatus?.isLoading}
-      />
+      {disassociateModal && (
+        <AlertModals
+          open={disassociateModal}
+          handleClose={() => setDisassociateModal(false)}
+          type="Disassociate"
+          message="You are about to disassociate this service "
+          submitBtnText="Disassociate"
+          handleSubmitBtn={handleSubmitDissociate}
+          loading={postRemoveAssociateTicketsStatus?.isLoading}
+          disableCancelBtn={postRemoveAssociateTicketsStatus?.isLoading}
+        />
+      )}
     </>
   );
 };

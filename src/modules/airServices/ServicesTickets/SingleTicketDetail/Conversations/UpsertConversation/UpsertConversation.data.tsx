@@ -9,6 +9,8 @@ import { TICKET_CONVERSATION_PORTAL_ACTIONS_CONSTANT } from '../Conversations.da
 import { ConversationResponseType } from '../ConversationResponseType';
 import { pxToRem } from '@/utils/getFontValue';
 import { REGEX } from '@/constants/validation';
+import { uploadFileMaxSize } from '@/utils/avatarUtils';
+import { ACCEPT_FILE_EXTENSIONS } from '@/constants/file';
 
 const canPopulateRecipients = [
   TICKET_CONVERSATION_PORTAL_ACTIONS_CONSTANT?.EDIT_NOTE,
@@ -106,6 +108,12 @@ export const upsertConversationFormFieldsDynamic = (portalAction: string) => [
       name: 'attachments',
       label: 'Attach file',
       fullWidth: true,
+      fileType: `PNG, JPG and PDF (max ${uploadFileMaxSize} MB)`,
+      accept: {
+        'image/png': ACCEPT_FILE_EXTENSIONS?.PNG,
+        'image/jpeg': ACCEPT_FILE_EXTENSIONS?.JPEG,
+        'application/pdf': ACCEPT_FILE_EXTENSIONS?.PDF,
+      },
     },
     component: RHFDropZone,
   },

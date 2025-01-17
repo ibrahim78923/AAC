@@ -1,6 +1,6 @@
 export interface WorkflowAutomationTypesI {
   id: number;
-  avatar: JSX.Element;
+  avatar: () => JSX.Element;
   type: string;
   purpose: string;
   link: string;

@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import CallIcon from '@mui/icons-material/Call';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { callFromDropDown, recentCallsData } from './CallTrigger.data';
 import { LoadingButton } from '@mui/lab';
 import Search from '@/components/Search';

@@ -1,5 +1,5 @@
 import { Typography, Box, Skeleton } from '@mui/material';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { useRouter } from 'next/router';
 import { ViewDetailBackArrowIcon } from '@/assets/icons';
 import { AIR_SERVICES } from '@/constants/routes';

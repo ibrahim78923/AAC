@@ -6,7 +6,7 @@ import { dropDownMenus } from './TicketBased.data';
 import { pxToRem } from '@/utils/getFontValue';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setTicketBasedGraphType } from '@/redux/slices/airServices/dashboard/slice';
-import { PublicSingleDropdownButton } from '@/components/PublicSingleDropdownButton';
+import { PublicSingleDropdownButton } from '@/components/Buttons/PublicSingleDropdownButton';
 import { dashboardTicketBasedGraphTypeSelector } from '@/redux/slices/airServices/dashboard/selectors';
 
 export const TicketBased = (props: any) => {

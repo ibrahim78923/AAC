@@ -4,7 +4,7 @@ import React from 'react';
 export default function ContractTitle() {
   return (
     <RHFTextField
-      name="contractTitle"
+      name="name"
       label="Contract Title"
       required
       fullWidth
