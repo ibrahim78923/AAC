@@ -52,7 +52,7 @@ export const emailReportDefaultValues = (
 
 export const emailReportFormFields: ReactHookFormFieldsI[] = [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'sender',
       label: 'From',
@@ -63,7 +63,7 @@ export const emailReportFormFields: ReactHookFormFieldsI[] = [
     component: RHFTextField,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       name: 'recipients',
       label: 'To',
@@ -77,7 +77,7 @@ export const emailReportFormFields: ReactHookFormFieldsI[] = [
     component: RHFAutocomplete,
   },
   {
-    id: 3,
+    _id: 3,
     componentProps: {
       name: 'subject',
       label: 'Email subject',
@@ -87,7 +87,7 @@ export const emailReportFormFields: ReactHookFormFieldsI[] = [
     component: RHFTextField,
   },
   {
-    id: 4,
+    _id: 4,
     componentProps: {
       name: 'html',
       label: 'Message',
@@ -98,7 +98,7 @@ export const emailReportFormFields: ReactHookFormFieldsI[] = [
     component: RHFEditor,
   },
   {
-    id: 5,
+    _id: 5,
     componentProps: {
       name: 'attachments',
       label: 'Attach Report',

@@ -1,8 +1,10 @@
 import * as Yup from 'yup';
 
-export const addToDashboardReportFormDefaultValuesDynamic = (data?: any) => {
+export const addToDashboardReportFormDefaultValuesDynamic = (
+  singleSelectedReportDashboardList?: any,
+) => {
   return {
-    dashboard: data?.dashboard ?? [],
+    dashboard: singleSelectedReportDashboardList ?? [],
   };
 };
 

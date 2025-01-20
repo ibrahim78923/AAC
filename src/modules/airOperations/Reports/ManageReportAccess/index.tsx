@@ -1,8 +1,7 @@
 import { FormProvider } from '@/components/ReactHookForm';
-import { Grid } from '@mui/material';
 import { useManageReportAccess } from './useManageReportAccess';
-import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const ManageReportAccess = () => {
   const {
@@ -26,13 +25,7 @@ export const ManageReportAccess = () => {
       handleSubmitButton={handleSubmit(submitMangeAccessForm)}
     >
       <FormProvider methods={methods}>
-        <Grid container spacing={2}>
-          {manageReportAccessFromFields?.map((item: ReactHookFormFieldsI) => (
-            <Grid item xs={12} key={item?.id}>
-              <item.component {...item?.componentProps} size={'small'} />
-            </Grid>
-          ))}
-        </Grid>
+        <FormGrid formFieldsList={manageReportAccessFromFields} />
       </FormProvider>
     </CustomCommonDialog>
   );

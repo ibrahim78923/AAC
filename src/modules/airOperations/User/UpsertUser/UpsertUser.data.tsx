@@ -32,9 +32,9 @@ export const SUBMIT_BUTTON_TEXT = {
   [OPERATIONS_USERS_ACTIONS_CONSTANT?.ADD_OPERATIONS_USERS]:
     GENERIC_UPSERT_FORM_CONSTANT?.ADD,
   [OPERATIONS_USERS_ACTIONS_CONSTANT?.EDIT_OPERATIONS_USERS]:
-    GENERIC_UPSERT_FORM_CONSTANT?.EDIT,
+    GENERIC_UPSERT_FORM_CONSTANT?.UPDATE,
   [OPERATIONS_USERS_ACTIONS_CONSTANT?.OPERATIONS_USERS_DETAIL]:
-    GENERIC_UPSERT_FORM_CONSTANT?.SAVE,
+    GENERIC_UPSERT_FORM_CONSTANT?.EDIT,
 };
 
 export const upsertUserValidationSchema = Yup.object().shape({
@@ -101,7 +101,7 @@ export const upsertUserDefaultValues = (
 
 export const upsertUserFormFieldsDynamic = (disableEmailField: boolean) => [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'firstName',
       label: 'First name',
@@ -112,7 +112,7 @@ export const upsertUserFormFieldsDynamic = (disableEmailField: boolean) => [
     component: RHFTextField,
   },
   {
-    id: 3,
+    _id: 2,
     componentProps: {
       name: 'lastName',
       label: 'Last name',
@@ -123,7 +123,7 @@ export const upsertUserFormFieldsDynamic = (disableEmailField: boolean) => [
     component: RHFTextField,
   },
   {
-    id: 4,
+    _id: 3,
     componentProps: {
       name: 'address',
       label: 'Address',
@@ -134,7 +134,7 @@ export const upsertUserFormFieldsDynamic = (disableEmailField: boolean) => [
     component: RHFTextField,
   },
   {
-    id: 5,
+    _id: 4,
     componentProps: {
       name: 'email',
       label: 'Email',
@@ -146,7 +146,7 @@ export const upsertUserFormFieldsDynamic = (disableEmailField: boolean) => [
     component: RHFTextField,
   },
   {
-    id: 6,
+    _id: 5,
     componentProps: {
       name: 'phoneNumber',
       label: 'Phone number',
@@ -156,7 +156,7 @@ export const upsertUserFormFieldsDynamic = (disableEmailField: boolean) => [
     component: RHFTextField,
   },
   {
-    id: 7,
+    _id: 6,
     componentProps: {
       name: 'jobTitle',
       label: 'Job title',
@@ -166,15 +166,15 @@ export const upsertUserFormFieldsDynamic = (disableEmailField: boolean) => [
     component: RHFTextField,
   },
   {
-    id: 8,
+    _id: 7,
     component: RoleFieldDropdown,
   },
   {
-    id: 9,
+    _id: 8,
     component: TeamFieldDropdown,
   },
   {
-    id: 10,
+    _id: 9,
     componentProps: {
       name: 'language',
       label: 'Language',
@@ -186,7 +186,7 @@ export const upsertUserFormFieldsDynamic = (disableEmailField: boolean) => [
     component: RHFAutocomplete,
   },
   {
-    id: 11,
+    _id: 10,
     componentProps: {
       name: 'facebookUrl',
       label: 'Facebook url',
@@ -196,7 +196,7 @@ export const upsertUserFormFieldsDynamic = (disableEmailField: boolean) => [
     component: RHFTextField,
   },
   {
-    id: 12,
+    _id: 11,
     componentProps: {
       name: 'linkedInUrl',
       label: 'LinkedIn url',
@@ -206,7 +206,7 @@ export const upsertUserFormFieldsDynamic = (disableEmailField: boolean) => [
     component: RHFTextField,
   },
   {
-    id: 13,
+    _id: 12,
     componentProps: {
       name: 'twitterUrl',
       label: 'Twitter url',

@@ -1,8 +1,10 @@
 import * as Yup from 'yup';
 
-export const changeReportOwnerFormDefaultValuesDynamic = (data?: any) => {
+export const changeReportOwnerFormDefaultValuesDynamic = (
+  singleSelectedOwner?: any,
+) => {
   return {
-    owner: data?.owner ?? null,
+    owner: singleSelectedOwner ?? null,
   };
 };
 

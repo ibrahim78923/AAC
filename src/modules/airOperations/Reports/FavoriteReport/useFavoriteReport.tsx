@@ -46,7 +46,7 @@ export const useFavoriteReport = (props: any) => {
       const isRemoved = 'removed from';
       const isAdded = 'added to';
       successSnackbar?.(
-        `Report is ${e?.target?.checked ? isAdded : isRemoved} favorite`,
+        `Report is ${e?.target?.checked ? isAdded : isRemoved} favorite list`,
       );
       await refetchApi?.();
     } catch (error: any) {

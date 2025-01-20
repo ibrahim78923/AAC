@@ -12,7 +12,7 @@ export const restoreReportFiltersDefaultValues: any = (
 
 export const restoreReportFilterFormFieldsDynamic = (startDateWatch: any) => [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'startDate',
       label: 'Start Date',
@@ -22,7 +22,7 @@ export const restoreReportFilterFormFieldsDynamic = (startDateWatch: any) => [
     component: RHFDatePicker,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       name: 'endDate',
       label: 'End Date',

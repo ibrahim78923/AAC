@@ -1,10 +1,9 @@
-import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useUpsertTeams } from './useUpsertTeams';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
-import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 const UpsertTeams = () => {
   const {
@@ -48,13 +47,7 @@ const UpsertTeams = () => {
         refreshApi={refetch}
       >
         <FormProvider methods={methods}>
-          <Grid container spacing={1}>
-            {upsertTeamFormFields?.map((item: ReactHookFormFieldsI) => (
-              <Grid item xs={12} key={item?.id}>
-                <item.component {...item?.componentProps} size={'small'} />
-              </Grid>
-            ))}
-          </Grid>
+          <FormGrid formFieldsList={upsertTeamFormFields} />
         </FormProvider>
       </ApiRequestFlow>
     </CommonDrawer>
