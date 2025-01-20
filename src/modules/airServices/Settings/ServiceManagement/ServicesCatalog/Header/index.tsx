@@ -7,9 +7,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { CirclePlusIcon } from '@/assets/icons';
 
-export default function Header(props: any) {
-  const { categories } = props;
-
+export default function Header() {
   const router: any = useRouter();
 
   return (
@@ -26,16 +24,7 @@ export default function Header(props: any) {
           sx={{ cursor: 'pointer' }}
           color={'secondary'}
           onClick={() => {
-            const isMatch = categories?.some(
-              (service: any) =>
-                service?.categoryName === router?.query?.categoryName,
-            );
-
-            if (isMatch) {
-              router?.push(AIR_SERVICES?.SERVICE_CATALOG);
-            } else {
-              router?.push(AIR_SERVICES?.SERVICE_MANAGEMENT);
-            }
+            router?.push(AIR_SERVICES?.SERVICE_MANAGEMENT);
           }}
         />
 

@@ -1,24 +1,25 @@
-import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
-import useMoveToCategory from './useMoveToCategory';
+import { FormProvider } from '@/components/ReactHookForm';
+import { changeStatusData } from './ChangeServiceStatus.data';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
+import { useChangeServiceStatus } from './useChangeServiceStatus';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
-export default function MoveToCategory(props: any) {
-  const { open } = props;
+export const ChangeServiceStatus = (props: any) => {
+  const { openStatus } = props;
 
   const {
     methods,
     handleSubmit,
     onSubmit,
-    apiQueryCategory,
     patchServiceCatalogTriggerStatus,
     handleClose,
-  } = useMoveToCategory(props);
+  } = useChangeServiceStatus(props);
 
   return (
     <CustomCommonDialog
-      isPortalOpen={open}
+      isPortalOpen={openStatus}
       onClose={handleClose}
-      dialogTitle={'Move to Category'}
+      dialogTitle={'Change Status'}
       closePortal={handleClose}
       handleCancelButton={handleClose}
       disabledCancelButton={patchServiceCatalogTriggerStatus?.isLoading}
@@ -26,16 +27,8 @@ export default function MoveToCategory(props: any) {
       showSubmitLoader={patchServiceCatalogTriggerStatus?.isLoading}
     >
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <RHFAutocompleteAsync
-          name={'category'}
-          label={'Category'}
-          placeholder={'Select'}
-          size={'small'}
-          apiQuery={apiQueryCategory}
-          required
-          getOptionLabel={(option: any) => option?.categoryName}
-        />
+        <FormGrid formFieldsList={changeStatusData} />
       </FormProvider>
     </CustomCommonDialog>
   );
-}
+};

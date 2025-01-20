@@ -7,18 +7,24 @@ import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import {
   moveToCategoryDefaultValues,
   moveToCategoryValidationSchema,
-} from './MoveToCategory.data';
+} from './UpdateServiceCategory.data';
 import { useFormLib } from '@/hooks/useFormLib';
+import { ARRAY_INDEX, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 
-export default function useMoveToCategory(props: any) {
+export const useUpdateServiceCategory = (props: any) => {
   const { setOpen, dataProp, setSelectedCheckboxes } = props;
 
   const [patchServiceCatalogTrigger, patchServiceCatalogTriggerStatus] =
     usePatchAirServicesSettingsServiceCatalogMutation();
 
+  const singleSelectedCategory =
+    dataProp?.selectedCheckboxes?.length === SELECTED_ARRAY_LENGTH?.ONE
+      ? dataProp?.selectedCheckboxes?.[ARRAY_INDEX?.ZERO]?.categoryDetails
+      : undefined;
+
   const formLibProps = {
     validationSchema: moveToCategoryValidationSchema,
-    defaultValues: moveToCategoryDefaultValues,
+    defaultValues: moveToCategoryDefaultValues?.(singleSelectedCategory),
   };
 
   const { handleSubmit, methods } = useFormLib(formLibProps);
@@ -26,7 +32,7 @@ export default function useMoveToCategory(props: any) {
   const onSubmit = async (data: any) => {
     const moveToCategoryData = {
       serviceCategory: data?.category?._id,
-      ids: dataProp?.selectedCheckboxes,
+      ids: dataProp?.selectedCheckboxes?.map((ids: any) => ids?._id),
     };
     const body = moveToCategoryData;
 
@@ -58,4 +64,4 @@ export default function useMoveToCategory(props: any) {
     patchServiceCatalogTriggerStatus,
     handleClose,
   };
-}
+};

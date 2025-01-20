@@ -147,6 +147,7 @@ export const serviceCatalogAPI: any = baseAPI?.injectEndpoints({
 });
 
 export const {
+  useLazyGetAirServicesSettingsServiceCatalogQuery,
   useGetAirServicesSettingsServiceCatalogQuery,
   useDeleteAirServicesSettingsServiceCatalogMutation,
   usePostAirServicesSettingsServiceCatalogMutation,

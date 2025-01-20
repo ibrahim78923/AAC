@@ -6,13 +6,13 @@ export const changeStatusValidationSchema = Yup?.object()?.shape({
   status: Yup?.string()?.required('Status is required'),
 });
 
-export const changeStatusDefaultValues = {
-  status: '',
-};
+export const changeStatusDefaultValues = (status?: string) => ({
+  status: status ?? '',
+});
 
 export const changeStatusData = [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'status',
       defaultValue: 'all',
