@@ -72,8 +72,8 @@ export const createBroadcastFields = (handleOpenContactsDrawer: any) => {
     {
       id: '01',
       componentProps: {
-        label: 'Broadcast Name',
         name: 'name',
+        label: 'Broadcast Name',
         fullWidth: true,
         placeholder: 'Enter Name',
         required: true,

@@ -209,6 +209,7 @@ const useCreateBroadcast = () => {
       detail: cleanedDetailsText,
       variables: variableValues,
     };
+
     if (recipientType === SMS_MARKETING_CONSTANTS?.ALL) {
       payloadData.recipients = selectedRec?.map((item: any) => item?._id);
     } else {
