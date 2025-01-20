@@ -30,7 +30,7 @@ export const PendingApprovals = () => {
         refreshApi={refetch}
         skeletonType={SKELETON_TYPES?.BASIC_CARD}
         cardSkeletonType={SKELETON_TYPES?.THREE_LAYER_LARGE_REVERSE_CARD}
-        hasNoData={!data?.data?.length}
+        hasNoData={!!!data?.data?.length}
         noDataMessage={'No approval found'}
         errorHeight="100%"
       >

@@ -23,4 +23,6 @@ export interface PageTitledHeaderPropsI {
   hasNoImportPermission?: boolean;
   hasNoCreatePermission?: boolean;
   hasNoExportPermission?: boolean;
+  titleStyles?: any;
+  isTitleCapital?: boolean;
 }
