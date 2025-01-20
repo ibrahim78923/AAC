@@ -88,6 +88,7 @@ const resetTicketBasedGraphTypeReducer = (state: any) => {
 };
 
 const resetComponentStateReducers = (state: any) => {
+  state.filterDashboardLists = {};
   state.page = PAGINATION?.CURRENT_PAGE;
   state.pageLimit = PAGINATION?.PAGE_LIMIT;
   state.search = '';

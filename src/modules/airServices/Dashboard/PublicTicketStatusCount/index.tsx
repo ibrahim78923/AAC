@@ -1,9 +1,10 @@
-import { Grid } from '@mui/material';
-import ApiErrorState from '@/components/ApiErrorState';
 import { usePublicTicketStatusCount } from './usePublicTicketStatusCount';
 import { TicketStatusCountImage } from '@/assets/images';
 import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
 import { AvatarItemCountCard } from '@/components/Cards/AvatarItemCountCard/AvatarItemCountCard';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { ListGrid } from '@/components/Grids/ListGrid';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const PublicTicketStatusCount = () => {
   const {
@@ -16,15 +17,21 @@ export const PublicTicketStatusCount = () => {
     refetch,
   } = usePublicTicketStatusCount();
 
-  if (skip) return <ApiErrorState canRefresh refresh={refetch} />;
   if (!data && !error) return <SkeletonCard hasThirdSkeleton={false} />;
-  if (apiCallInProgress) return <SkeletonCard hasThirdSkeleton={false} />;
-  if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
 
   return (
-    <Grid container spacing={3}>
-      {ticketDashboardCards?.map((item: any) => (
-        <Grid key={item?.id} item xs={12} sm={6} md={4} lg={3} xl={2.4}>
+    <ApiRequestFlow
+      showSkeleton={apiCallInProgress}
+      hasError={skip || isError}
+      refreshApi={refetch}
+      skeletonType={SKELETON_TYPES?.BASIC_CARD}
+      cardSkeletonType={SKELETON_TYPES?.TWO_LAYER_CARD}
+    >
+      <ListGrid
+        list={ticketDashboardCards}
+        md={4}
+        lg={3}
+        render={(item: any) => (
           <AvatarItemCountCard
             avatarBgColor={item?.color}
             name={item?.label}
@@ -32,8 +39,8 @@ export const PublicTicketStatusCount = () => {
             avatarUrl={TicketStatusCountImage}
             isDynamic={false}
           />
-        </Grid>
-      ))}
-    </Grid>
+        )}
+      />
+    </ApiRequestFlow>
   );
 };

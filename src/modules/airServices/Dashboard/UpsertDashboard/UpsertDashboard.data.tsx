@@ -161,7 +161,7 @@ export const accessDashboardOptions = [
 
 export const upsertServiceDashboardFormFieldsDynamic = () => [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'name',
       label: 'Dashboard Name',
@@ -173,7 +173,7 @@ export const upsertServiceDashboardFormFieldsDynamic = () => [
     component: RHFTextField,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       display: 'flex',
       justifyContent: 'space-between',
@@ -201,7 +201,7 @@ export const upsertServiceDashboardFormFieldsDynamic = () => [
     component: Box,
   },
   {
-    id: 3,
+    _id: 3,
     md: 9,
     componentProps: {
       name: 'access',

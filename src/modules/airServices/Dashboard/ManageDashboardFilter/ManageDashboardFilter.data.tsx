@@ -35,18 +35,15 @@ export const manageDashboardFilterFormDefaultValuesDynamic = (
 
 export const manageDashboardsFilterFormFieldsDynamic = () => [
   {
-    id: 1,
+    _id: 1,
     component: DashboardNameFieldDropdown,
-    gridLength: 12,
   },
   {
-    id: 2,
-
-    gridLength: 12,
+    _id: 2,
     component: DashboardOwnersFieldDropdown,
   },
   {
-    id: 3,
+    _id: 3,
     componentProps: {
       fullWidth: true,
       name: 'accessRights',
@@ -55,7 +52,6 @@ export const manageDashboardsFilterFormFieldsDynamic = () => [
       options: accessRightsOptions,
       getOptionLabel: (option: AutocompleteOptionsI) => option?.label,
     },
-    gridLength: 12,
     component: RHFAutocomplete,
   },
 ];

@@ -1,24 +1,23 @@
 import { SingleDashboard } from '../SingleDashboard';
 import { useRouter } from 'next/router';
-import ApiErrorState from '@/components/ApiErrorState';
-import { Button } from '@mui/material';
 import { AIR_SERVICES } from '@/constants/routes';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { LinkButton } from '@/components/Buttons/LinkButton';
 
 export const SingleDashboardDetails = () => {
   const router = useRouter();
   const dashboardId = router?.query?.dashboardId;
 
-  if (!!!dashboardId)
-    return (
-      <ApiErrorState message="No Dashboard Found" height="90vh">
-        <Button
-          className="small"
-          variant="contained"
-          onClick={() => router?.push(AIR_SERVICES?.DASHBOARD)}
-        >
-          Go Home
-        </Button>
-      </ApiErrorState>
-    );
-  return <SingleDashboard isDetailMode />;
+  return (
+    <ApiRequestFlow
+      hasNoData={!!!dashboardId}
+      noDataMessage="No Dashboard Found"
+      noDataChildren={
+        <LinkButton link={AIR_SERVICES?.DASHBOARD} name="Go Home" />
+      }
+      noDataHeight="80vh"
+    >
+      <SingleDashboard isDetailMode />;
+    </ApiRequestFlow>
+  );
 };
