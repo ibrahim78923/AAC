@@ -102,7 +102,10 @@ export default function useSignUp() {
   const [igVerificationTrigger, igVerificationStatus] =
     useAuthCustomerIgVerificationMutation();
 
-  const decryptedId = atob(companyId ?? '');
+  let decryptedId = null;
+  try {
+    decryptedId = companyId ? atob(companyId) : null;
+  } catch (error) {}
 
   const onSubmit = async (data: any) => {
     const userDetails = {
@@ -120,7 +123,7 @@ export default function useSignUp() {
       try {
         await igVerificationTrigger({ email: data?.email })?.unwrap();
       } catch (e) {}
-      successSnackbar('Account Created Successfully!');
+      successSnackbar('Account created successfully!');
       reset();
       router?.push(AUTH?.LOGIN);
     } catch (error: any) {
@@ -139,5 +142,6 @@ export default function useSignUp() {
     postSignUpStatus,
     companyId,
     igVerificationStatus,
+    decryptedId,
   };
 }

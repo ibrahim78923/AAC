@@ -16,7 +16,7 @@ export const useMessageBox = (props: any) => {
     },
   };
 
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetDiscussionsOfTicketConversationQuery(apiDataParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!ticketId,
@@ -32,5 +32,6 @@ export const useMessageBox = (props: any) => {
     isError,
     chatMessagesDropdown,
     user,
+    refetch,
   };
 };

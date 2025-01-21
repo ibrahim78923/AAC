@@ -1,8 +1,7 @@
-import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useMoveFolder } from './useMoveFolder';
-import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const MoveFolder = () => {
   const {
@@ -26,13 +25,7 @@ export const MoveFolder = () => {
       handleSubmitButton={handleSubmit(submitMoveFolder)}
     >
       <FormProvider methods={methods}>
-        <Grid container spacing={1}>
-          {moveFolderFormFields?.map((item: ReactHookFormFieldsI) => (
-            <Grid item xs={12} key={item?.id}>
-              <item.component {...item?.componentProps} size={'small'} />
-            </Grid>
-          ))}
-        </Grid>
+        <FormGrid formFieldsList={moveFolderFormFields} />
       </FormProvider>
     </CustomCommonDialog>
   );

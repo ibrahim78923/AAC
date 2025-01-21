@@ -1,33 +1,37 @@
 import { useMessageBox } from './useMessageBox';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
-import ApiErrorState from '@/components/ApiErrorState';
 import { MessageCard } from './MessageCard';
 import { Fragment } from 'react';
-import NoData from '@/components/NoData';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const MessageBox = (props: any) => {
-  const { data, isLoading, isFetching, isError, chatMessagesDropdown, user } =
-    useMessageBox(props);
-
-  if (isLoading || isFetching) return <SkeletonTable />;
-
-  if (isError) return <ApiErrorState height="100%" />;
+  const {
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    chatMessagesDropdown,
+    user,
+    refetch,
+  } = useMessageBox(props);
 
   return (
-    <>
-      {!!data?.data?.length ? (
-        data?.data?.map((message: any) => (
-          <Fragment key={message?._id}>
-            <MessageCard
-              message={message}
-              chatMessagesDropdown={chatMessagesDropdown?.(message)}
-              authUser={user}
-            />
-          </Fragment>
-        ))
-      ) : (
-        <NoData message="No conversation found" height="100%" />
-      )}
-    </>
+    <ApiRequestFlow
+      showSkeleton={isLoading || isFetching}
+      hasError={isError}
+      hasNoData={!data?.data?.length}
+      refreshApi={refetch}
+      noDataMessage="No conversation found"
+      errorHeight="100%"
+    >
+      {data?.data?.map((message: any) => (
+        <Fragment key={message?._id}>
+          <MessageCard
+            message={message}
+            chatMessagesDropdown={chatMessagesDropdown?.(message)}
+            authUser={user}
+          />
+        </Fragment>
+      ))}
+    </ApiRequestFlow>
   );
 };

@@ -1,8 +1,7 @@
 import { FormProvider } from '@/components/ReactHookForm';
-import { Grid } from '@mui/material';
 import { useMoveTickets } from './useMoveTickets';
-import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const MoveTickets = () => {
   const {
@@ -26,13 +25,7 @@ export const MoveTickets = () => {
       handleSubmitButton={handleSubmit(submitMoveTicketsForm)}
     >
       <FormProvider methods={methods}>
-        <Grid container spacing={2}>
-          {moveTicketsFormFields?.map((item: ReactHookFormFieldsI) => (
-            <Grid item xs={12} md={item?.md} key={item?.id}>
-              <item.component {...item?.componentProps} size={'small'} />
-            </Grid>
-          ))}
-        </Grid>
+        <FormGrid formFieldsList={moveTicketsFormFields} />
       </FormProvider>
     </CustomCommonDialog>
   );

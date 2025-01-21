@@ -1,8 +1,8 @@
-import { Grid, Box } from '@mui/material';
+import { Box } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useFilterArticles } from './useFilterArticle';
-import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 const FilterArticles = () => {
   const {
@@ -29,13 +29,7 @@ const FilterArticles = () => {
     >
       <Box mt={1}>
         <FormProvider methods={methods}>
-          <Grid container spacing={2}>
-            {filterArticlesFormFields?.map((item: ReactHookFormFieldsI) => (
-              <Grid item xs={12} key={item?.id}>
-                <item.component {...item?.componentProps} size={'small'} />
-              </Grid>
-            ))}
-          </Grid>
+          <FormGrid formFieldsList={filterArticlesFormFields} />
         </FormProvider>
       </Box>
     </CommonDrawer>

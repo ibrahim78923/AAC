@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { AUTH } from '@/constants';
 import useSignUp from './useSignUp';
 import { signUpFormFields } from './SignUp.data';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import NoData from '@/components/NoData';
 
 export const SignUp = () => {
   const {
@@ -24,21 +24,11 @@ export const SignUp = () => {
   } = useSignUp();
 
   if (!!!companyId)
-    return (
-      <Box
-        height={'100vh'}
-        display={'flex'}
-        alignItems={'center'}
-        justifyContent={'center'}
-      >
-        <SkeletonForm />
-      </Box>
-    );
+    return <NoData message={'No valid companyId found'} height={'100%'} />;
 
   return (
     <>
       <CustomerPortalHeader buttonText={'Sign In'} pathname={AUTH?.LOGIN} />
-
       <Grid
         container
         spacing={2}
