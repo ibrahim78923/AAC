@@ -23,7 +23,6 @@ import {
   UpsertSoftwareFormI,
   UpsertSoftwareI,
 } from './UpsertSoftware.interface';
-import useAuth from '@/hooks/useAuth';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { isoDateString } from '@/lib/date-time';
 import { useFormLib } from '@/hooks/useFormLib';
@@ -31,8 +30,6 @@ import { useFormLib } from '@/hooks/useFormLib';
 export const useUpsertSoftware = (props: UpsertSoftwareI) => {
   const { setIsAddDrawerOpen, data, isLoading, isFetching } = props;
   const router = useRouter();
-  const auth: any = useAuth();
-  const { _id: productId } = auth?.product ?? {};
 
   const { softwareId } = router?.query;
 
@@ -172,20 +169,25 @@ export const useUpsertSoftware = (props: UpsertSoftwareI) => {
     setIsAddDrawerOpen?.(false);
     reset();
   };
+  const showLoader =
+    isLoading ||
+    isFetching ||
+    getDynamicFieldsStatus?.isLoading ||
+    getDynamicFieldsStatus?.isFetching;
+
+  const apiCallInProgress =
+    postSoftwareStatus?.isLoading ||
+    editSoftwareStatus?.isLoading ||
+    postAttachmentStatus?.isLoading;
 
   return {
     onClose,
     methods,
     handleSubmit,
-    postSoftwareStatus,
     softwareId,
-    isLoading,
-    isFetching,
-    editSoftwareStatus,
     submitUpsertSoftware,
-    getDynamicFieldsStatus,
-    postAttachmentStatus,
     form,
-    productId,
+    showLoader,
+    apiCallInProgress,
   };
 };

@@ -1,25 +1,24 @@
-import { Grid } from '@mui/material';
-import { FormProvider } from '@/components/ReactHookForm';
-import useChangeStatus from './useChangeStatus';
-import { changeStatusData } from './ChangeStatus.data';
+import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
+import { useUpdateServiceCategory } from './useUpdateServiceCategory';
 
-export const ChangeStatus = (props: any) => {
-  const { openStatus } = props;
+export const UpdateServiceCategory = (props: any) => {
+  const { open } = props;
 
   const {
     methods,
     handleSubmit,
     onSubmit,
+    apiQueryCategory,
     patchServiceCatalogTriggerStatus,
     handleClose,
-  } = useChangeStatus(props);
+  } = useUpdateServiceCategory(props);
 
   return (
     <CustomCommonDialog
-      isPortalOpen={openStatus}
+      isPortalOpen={open}
       onClose={handleClose}
-      dialogTitle={'Change Status'}
+      dialogTitle={'Move to Category'}
       closePortal={handleClose}
       handleCancelButton={handleClose}
       disabledCancelButton={patchServiceCatalogTriggerStatus?.isLoading}
@@ -27,13 +26,15 @@ export const ChangeStatus = (props: any) => {
       showSubmitLoader={patchServiceCatalogTriggerStatus?.isLoading}
     >
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <Grid container spacing={2}>
-          {changeStatusData?.map((item: any) => (
-            <Grid item xs={12} key={item?.id}>
-              <item.component {...item?.componentProps} size={'small'} />
-            </Grid>
-          ))}
-        </Grid>
+        <RHFAutocompleteAsync
+          name={'category'}
+          label={'Category'}
+          placeholder={'Select'}
+          size={'small'}
+          apiQuery={apiQueryCategory}
+          required
+          getOptionLabel={(option: any) => option?.categoryName}
+        />
       </FormProvider>
     </CustomCommonDialog>
   );

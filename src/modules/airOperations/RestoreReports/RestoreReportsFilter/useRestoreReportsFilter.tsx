@@ -15,6 +15,7 @@ import {
 import { PAGINATION } from '@/config';
 import { errorSnackbar } from '@/lib/snackbar';
 import { useFormLib } from '@/hooks/useFormLib';
+import { useWatch } from 'react-hook-form';
 
 export const useRestoreReportsFilter = () => {
   const dispatch = useAppDispatch();

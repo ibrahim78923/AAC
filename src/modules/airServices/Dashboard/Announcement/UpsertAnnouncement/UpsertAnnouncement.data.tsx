@@ -89,7 +89,7 @@ export const upsertAnnouncementFormFieldsDynamic = (
   visibilityWatch: any,
 ) => [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'title',
       label: 'Title',
@@ -101,7 +101,7 @@ export const upsertAnnouncementFormFieldsDynamic = (
     md: 12,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       name: 'description',
       label: 'Description',
@@ -113,14 +113,14 @@ export const upsertAnnouncementFormFieldsDynamic = (
     md: 12,
   },
   {
-    id: 3,
+    _id: 3,
     componentProps: {},
     heading: 'Schedule an announcement',
     component: Typography,
     md: 12,
   },
   {
-    id: 4,
+    _id: 4,
     componentProps: {
       name: 'startDate',
       label: 'Start Date',
@@ -132,7 +132,7 @@ export const upsertAnnouncementFormFieldsDynamic = (
     md: 6,
   },
   {
-    id: 5,
+    _id: 5,
     componentProps: {
       name: 'endDate',
       label: 'End Date',
@@ -145,7 +145,7 @@ export const upsertAnnouncementFormFieldsDynamic = (
     md: 6,
   },
   {
-    id: 6,
+    _id: 6,
     componentProps: {
       name: 'visibility',
       label: 'Visibility',
@@ -159,7 +159,7 @@ export const upsertAnnouncementFormFieldsDynamic = (
     md: 12,
   },
   {
-    id: 7,
+    _id: 7,
     componentProps: {
       name: 'notifyMembers',
       label: 'Notify members via email',
@@ -176,7 +176,7 @@ export const upsertAnnouncementFormFieldsDynamic = (
   ...(visibilityWatch?._id === SPECIFIC_USERS
     ? [
         {
-          id: 8,
+          _id: 8,
           componentProps: {
             name: 'addMember',
             label: 'Add Member',
@@ -191,7 +191,7 @@ export const upsertAnnouncementFormFieldsDynamic = (
       ]
     : []),
   {
-    id: 9,
+    _id: 9,
     componentProps: {
       name: 'additionalEmail',
       label: 'Additional email recipients',

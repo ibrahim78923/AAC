@@ -1,10 +1,10 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertServices } from './useUpsertServices';
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import ApiErrorState from '@/components/ApiErrorState';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export default function UpsertServices() {
   const {
@@ -21,20 +21,6 @@ export default function UpsertServices() {
     refetch,
   } = useUpsertServices();
 
-  if (isLoading || isFetching) return <SkeletonForm />;
-
-  if (isError)
-    return (
-      <>
-        <PageTitledHeader
-          title={`General Details`}
-          canMovedBack
-          moveBack={() => handleCancelBtn()}
-        />
-        <ApiErrorState canRefresh refresh={refetch} />
-      </>
-    );
-
   return (
     <>
       <PageTitledHeader
@@ -42,45 +28,37 @@ export default function UpsertServices() {
         canMovedBack
         moveBack={() => handleCancelBtn()}
       />
-      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <Grid container spacing={3}>
-          {upsertServiceData?.map((item: any) => (
-            <Grid item xs={12} md={item?.md} key={item?.id}>
-              <item.component
-                {...item?.componentProps}
-                size={'small'}
-                disabled={!!serviceId}
-              >
-                {item?.heading ? item?.heading : null}
-              </item.component>
-            </Grid>
-          ))}
+      <ApiRequestFlow
+        showSkeleton={isLoading || isFetching}
+        hasError={isError}
+        refreshApi={refetch}
+      >
+        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+          <FormGrid formFieldsList={upsertServiceData} disabled={!!serviceId} />
 
-          <Grid item xs={12}>
-            <Box display={'flex'} justifyContent={'flex-end'} gap={2}>
+          <Box display={'flex'} justifyContent={'flex-end'} gap={2} mt={1}>
+            <LoadingButton
+              color={'inherit'}
+              variant={'outlined'}
+              className={'small'}
+              onClick={() => handleCancelBtn()}
+              disabled={postAddServiceCatalogStatus?.isLoading}
+            >
+              Cancel
+            </LoadingButton>
+            {!!!serviceId && (
               <LoadingButton
-                color={'inherit'}
-                variant={'outlined'}
+                variant={'contained'}
+                type={'submit'}
                 className={'small'}
-                onClick={() => handleCancelBtn()}
-                disabled={postAddServiceCatalogStatus?.isLoading}
+                loading={postAddServiceCatalogStatus?.isLoading}
               >
-                Cancel
+                Save
               </LoadingButton>
-              {!!!serviceId && (
-                <LoadingButton
-                  variant={'contained'}
-                  type={'submit'}
-                  className={'small'}
-                  loading={postAddServiceCatalogStatus?.isLoading}
-                >
-                  Save
-                </LoadingButton>
-              )}
-            </Box>
-          </Grid>
-        </Grid>
-      </FormProvider>
+            )}
+          </Box>
+        </FormProvider>
+      </ApiRequestFlow>
     </>
   );
 }

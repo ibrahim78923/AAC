@@ -1,9 +1,9 @@
-import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useFilter } from './useFilter';
 import { filterFields } from './Filter.data';
 import { FilterI } from './Filter.interface';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const Filter = (props: FilterI) => {
   const { isOpenFilterDrawer } = props;
@@ -23,13 +23,7 @@ export const Filter = (props: FilterI) => {
       footer
     >
       <FormProvider methods={methods}>
-        <Grid container rowSpacing={2.6} columnSpacing={2} mt={-1}>
-          {filterFields?.map((form: any) => (
-            <Grid item xs={12} md={form?.gridLength} key={form?.id}>
-              <form.component {...form?.componentProps} size="small" />
-            </Grid>
-          ))}
-        </Grid>
+        <FormGrid formFieldsList={filterFields} />
       </FormProvider>
     </CommonDrawer>
   );

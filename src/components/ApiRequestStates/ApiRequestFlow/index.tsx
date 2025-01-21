@@ -27,6 +27,9 @@ export const ApiRequestFlow = (props: any) => {
     noDataHeight = errorHeight,
     refreshButtonProps,
     children,
+    errorChildren,
+    noDataChildren,
+    errorMessage,
   } = props;
 
   const SkeletonComponent = skeletonTypes?.[skeletonType];
@@ -44,15 +47,22 @@ export const ApiRequestFlow = (props: any) => {
   if (hasError)
     return (
       <ApiErrorState
+        message={errorMessage}
         canRefresh
         refresh={refreshApi}
         height={errorHeight}
         refreshButtonProps={refreshButtonProps}
-      />
+      >
+        {errorChildren}
+      </ApiErrorState>
     );
 
   if (hasNoData)
-    return <NoData message={noDataMessage} height={noDataHeight} />;
+    return (
+      <NoData message={noDataMessage} height={noDataHeight}>
+        {noDataChildren}
+      </NoData>
+    );
 
   return <>{children}</>;
 };

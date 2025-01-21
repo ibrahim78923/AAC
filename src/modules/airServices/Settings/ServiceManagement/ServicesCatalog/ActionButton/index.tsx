@@ -5,9 +5,9 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useActionButton } from './useActionButton';
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
-import Visibility from './Visibility';
-import MoveToCategory from './MoveToCategory';
-import { ChangeStatus } from './ChangeStatus';
+import Visibility from '../Visibility';
+import { UpdateServiceCategory } from '../UpdateServiceCategory';
+import { ChangeServiceStatus } from '../ChangeServiceStatus';
 
 export default function ActionButton(props: any) {
   const {
@@ -91,7 +91,7 @@ export default function ActionButton(props: any) {
       )}
 
       {state?.open && (
-        <MoveToCategory
+        <UpdateServiceCategory
           open={state?.open}
           setOpen={(val: boolean) =>
             setState((prevState) => ({ ...prevState, open: val }))
@@ -116,7 +116,7 @@ export default function ActionButton(props: any) {
       )}
 
       {state?.openStatus && (
-        <ChangeStatus
+        <ChangeServiceStatus
           openStatus={state?.openStatus}
           setOpenStatus={(val: boolean) =>
             setState((prevState) => ({ ...prevState, openStatus: val }))

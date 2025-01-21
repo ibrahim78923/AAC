@@ -9,7 +9,7 @@ export const CIRCULAR_PROGRESS_VARIANTS = {
   IN_DETERMINATE: 'indeterminate',
 };
 
-export const AVATAR_VARIANTS = {
+export const AVATAR_VARIANTS: any = {
   CIRCULAR: 'circular',
   SQUARE: 'square',
   ROUNDED: 'rounded',
@@ -58,4 +58,8 @@ export const SKELETON_VARIANTS: any = {
   CIRCULAR: 'circular',
   ROUNDED: 'rounded',
   SQUARE: 'square',
+};
+
+export const PROGRESS_VALUE = {
+  ZERO: 0,
 };

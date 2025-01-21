@@ -41,7 +41,7 @@ export const PopularArticles = () => {
         cardSkeletonType={
           SKELETON_TYPES?.MEDIUM_HORIZONTAL_TWO_LAYER_ROUNDED_CARD
         }
-        hasNoData={!data?.data?.articles}
+        hasNoData={!!!data?.data?.articles?.length}
         length={9}
         noDataMessage={'No article found'}
         errorHeight="100%"

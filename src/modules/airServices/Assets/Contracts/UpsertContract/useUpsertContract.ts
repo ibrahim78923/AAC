@@ -48,7 +48,7 @@ export const useUpsertContract = () => {
     },
   };
 
-  const { data, isLoading, isFetching, isError }: any =
+  const { data, isLoading, isFetching, isError, refetch }: any =
     useGetSingleContractByIdQuery(getSingleContractParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!contractId,
@@ -319,6 +319,7 @@ export const useUpsertContract = () => {
     watchForNotifyExpiry,
     watchForContractType,
     watchStartDate,
+    contractId,
   );
 
   return {
@@ -338,5 +339,6 @@ export const useUpsertContract = () => {
     getDynamicFieldsStatus,
     postAttachmentStatus,
     watchForContractType,
+    refetch,
   };
 };

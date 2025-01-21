@@ -2,31 +2,31 @@ import { RHFTextField } from '@/components/ReactHookForm';
 import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
 import * as Yup from 'yup';
 
-export const addServiceCatalogValidationSchema = Yup?.object()?.shape({
+export const upsertServiceCategoryFormValidationSchema = Yup?.object()?.shape({
   categoryName: Yup?.string()
     ?.trim()
-    ?.required('Category Name is Required')
+    ?.required('Category name is required')
     ?.max(
       GLOBAL_CHARACTERS_LIMIT?.NAME,
       `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.NAME}`,
     ),
   description: Yup?.string()
     ?.trim()
-    ?.required('Description is Required')
+    ?.required('Description is required')
     ?.max(
       GLOBAL_CHARACTERS_LIMIT?.DESCRIPTION,
       `Maximum characters limit is ${GLOBAL_CHARACTERS_LIMIT?.DESCRIPTION}`,
     ),
 });
 
-export const addServiceCatalogDefaultValues = {
+export const upsertServiceCategoryFormDefaultValues = {
   categoryName: '',
   description: '',
 };
 
-export const addServiceCatalogData = [
+export const upsertServiceCategoryFormFields = [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'categoryName',
       label: 'Category Name',
@@ -36,7 +36,7 @@ export const addServiceCatalogData = [
     component: RHFTextField,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       name: 'description',
       label: 'Description',

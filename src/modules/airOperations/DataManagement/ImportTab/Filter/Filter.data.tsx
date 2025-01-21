@@ -39,9 +39,8 @@ export const defaultValues = (filterValues: any) => {
 
 export const filterFields = [
   {
-    id: 2,
+    _id: 1,
     component: RHFAutocomplete,
-    gridLength: 12,
     componentProps: {
       fullWidth: true,
       name: 'product',
@@ -51,12 +50,11 @@ export const filterFields = [
     },
   },
   {
-    id: 920,
-    gridLength: 12,
+    _id: 2,
     component: UsersListDropdown,
   },
   {
-    id: 4575,
+    _id: 3,
     componentProps: {
       fullWidth: true,
       name: 'object',
@@ -64,17 +62,15 @@ export const filterFields = [
       options: objectOptions,
       placeholder: 'Object',
     },
-    gridLength: 12,
     component: RHFAutocomplete,
   },
   {
-    id: 150,
+    _id: 4,
     componentProps: {
       fullWidth: true,
       name: 'createdDate',
       label: 'Created Date',
     },
-    gridLength: 12,
     component: RHFDatePicker,
   },
 ];

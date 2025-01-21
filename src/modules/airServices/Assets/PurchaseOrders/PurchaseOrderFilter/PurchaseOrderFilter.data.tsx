@@ -119,7 +119,7 @@ export const purchaseOrderFilterFormDefaultValues = (data: any) => {
 
 export const purchaseOrderFilterFieldsDynamic = [
   {
-    id: 2,
+    _id: 1,
     component: GetPurchaseOrderVendorDropdown,
     componentProps: {
       name: 'vendorId',
@@ -127,7 +127,7 @@ export const purchaseOrderFilterFieldsDynamic = [
     },
   },
   {
-    id: 920,
+    _id: 2,
     componentProps: {
       placeholder: 'Select Status',
       fullWidth: true,
@@ -139,7 +139,7 @@ export const purchaseOrderFilterFieldsDynamic = [
     component: RHFAutocomplete,
   },
   {
-    id: 150,
+    _id: 3,
     componentProps: {
       placeholder: 'Select time period',
       fullWidth: true,
@@ -151,7 +151,7 @@ export const purchaseOrderFilterFieldsDynamic = [
     component: RHFAutocomplete,
   },
   {
-    id: 200,
+    _id: 4,
     component: RHFAutocomplete,
     componentProps: {
       placeholder: 'Select time period',
@@ -163,7 +163,7 @@ export const purchaseOrderFilterFieldsDynamic = [
     },
   },
   {
-    id: 129,
+    _id: 5,
     componentProps: {
       name: 'departmentId',
     },

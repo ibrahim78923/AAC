@@ -27,25 +27,25 @@ export const inventoryFilterFormDefaultValues = (data: any) => {
 
 export const inventoryFilterFormFieldsDataFunction = () => [
   {
-    id: 1,
+    _id: 1,
     component: GetInventoryAssetsDropdown,
   },
   {
-    id: 2,
+    _id: 2,
     component: GetInventoryAllUsersDropdown,
   },
   {
-    id: 3,
+    _id: 3,
     component: GetInventoryDepartmentDropdown,
     componentProps: { name: 'departmentId' },
   },
   {
-    id: 4,
+    _id: 4,
     component: GetInventoryLocationDropdown,
     componentProps: { name: 'locationId' },
   },
   {
-    id: 5,
+    _id: 5,
     componentProps: {
       fullWidth: true,
       name: 'createdAt',
@@ -57,7 +57,7 @@ export const inventoryFilterFormFieldsDataFunction = () => [
     component: RHFAutocomplete,
   },
   {
-    id: 6,
+    _id: 6,
     componentProps: {
       fullWidth: true,
       name: 'updatedAt',
@@ -69,7 +69,7 @@ export const inventoryFilterFormFieldsDataFunction = () => [
     component: RHFAutocomplete,
   },
   {
-    id: 7,
+    _id: 7,
     component: RHFAutocomplete,
     componentProps: {
       fullWidth: true,
@@ -81,11 +81,11 @@ export const inventoryFilterFormFieldsDataFunction = () => [
     },
   },
   {
-    id: 8,
+    _id: 8,
     component: GetInventoryAllUsersAdminDropdown,
   },
   {
-    id: 9,
+    _id: 9,
     component: RHFAutocomplete,
     gridLength: 12,
     componentProps: {

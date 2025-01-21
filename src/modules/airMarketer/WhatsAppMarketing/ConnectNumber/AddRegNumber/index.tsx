@@ -154,7 +154,7 @@ const AddRegNumber: FC<any> = ({
             >
               Integrate your Twilio Account
             </Typography>
-            <Link href={AIR_MARKETER?.SMS_MARKETING_CONNECT_ACCOUNT}>
+            <Link href={AIR_MARKETER?.WHATSAPP_MARKETING_CONNECT_ACCOUNT}>
               <LoadingButton
                 variant="contained"
                 color="primary"

@@ -30,8 +30,8 @@ export const RecentTickets = () => {
         refreshApi={refetch}
         skeletonType={SKELETON_TYPES?.BASIC_CARD}
         cardSkeletonType={SKELETON_TYPES?.THREE_LAYER_LARGE_REVERSE_CARD}
-        hasNoData={!data?.data}
-        noDataMessage={'No approval found'}
+        hasNoData={!!!data?.data?.length}
+        noDataMessage={'No tickets found'}
         errorHeight="100%"
       >
         {data?.data?.map((ticket: TicketCardDataI) => (

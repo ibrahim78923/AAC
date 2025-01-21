@@ -1,29 +1,28 @@
-import {
-  addServiceCatalogDefaultValues,
-  addServiceCatalogValidationSchema,
-} from './CategoriesSection.data';
-import { usePostAirServicesSettingsServiceCatalogMutation } from '@/services/airServices/settings/service-management/service-catalog';
+import { useFormLib } from '@/hooks/useFormLib';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
-import { useRouter } from 'next/router';
-import { useTheme } from '@mui/material';
-import { useFormLib } from '@/hooks/useFormLib';
+import {
+  upsertServiceCategoryFormDefaultValues,
+  upsertServiceCategoryFormValidationSchema,
+} from './UpsertCategory.data';
+import { usePostAirServicesSettingsServiceCatalogMutation } from '@/services/airServices/settings/service-management/service-catalog';
 
-const useCategoriesSection = (props: any) => {
-  const { setOpen } = props;
-
-  const router: any = useRouter();
-  const theme: any = useTheme();
-
+export const useUpsertCategory = (props: any) => {
+  const { setIsPortalOpen } = props;
   const [postServiceCatalogTrigger, postServiceCatalogTriggerStatus] =
     usePostAirServicesSettingsServiceCatalogMutation();
 
   const formLibProps = {
-    validationSchema: addServiceCatalogValidationSchema,
-    defaultValues: addServiceCatalogDefaultValues,
+    validationSchema: upsertServiceCategoryFormValidationSchema,
+    defaultValues: upsertServiceCategoryFormDefaultValues,
   };
 
   const { handleSubmit, reset, methods } = useFormLib(formLibProps);
+
+  const handleClose = () => {
+    reset();
+    setIsPortalOpen?.(false);
+  };
 
   const onSubmit = async (data: any) => {
     try {
@@ -38,14 +37,7 @@ const useCategoriesSection = (props: any) => {
     }
   };
 
-  const handleClose = () => {
-    reset();
-    setOpen?.(false);
-  };
-
   return {
-    router,
-    theme,
     methods,
     handleSubmit,
     onSubmit,
@@ -53,5 +45,3 @@ const useCategoriesSection = (props: any) => {
     postServiceCatalogTriggerStatus,
   };
 };
-
-export default useCategoriesSection;
