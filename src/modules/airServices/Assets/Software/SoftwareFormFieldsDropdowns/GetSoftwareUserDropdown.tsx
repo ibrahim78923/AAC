@@ -1,8 +1,11 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
+import useAuth from '@/hooks/useAuth';
 import { useLazyGetUserDropdownQuery } from '@/services/airServices/assets/software';
 
-const GetSoftwareUserDropdown = ({ productId }: any) => {
+const GetSoftwareUserDropdown = () => {
   const userQuery = useLazyGetUserDropdownQuery();
+  const auth: any = useAuth();
+  const { _id: productId } = auth?.product ?? {};
   return (
     <>
       <RHFAutocompleteAsync

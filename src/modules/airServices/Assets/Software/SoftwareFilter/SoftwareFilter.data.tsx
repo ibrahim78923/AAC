@@ -22,7 +22,7 @@ export const softwareFilterDefaultValues = (
 
 export const softwareFilterDataArray = [
   {
-    id: 2435,
+    _id: 1,
     componentProps: {
       name: 'status',
       label: 'Status',
@@ -33,7 +33,7 @@ export const softwareFilterDataArray = [
     component: RHFAutocomplete,
   },
   {
-    id: 6546,
+    _id: 2,
     componentProps: {
       name: 'type',
       label: 'Type',
@@ -45,7 +45,7 @@ export const softwareFilterDataArray = [
   },
 
   {
-    id: 5674,
+    _id: 3,
     componentProps: {
       name: 'category',
       label: 'Category',
@@ -56,7 +56,7 @@ export const softwareFilterDataArray = [
   },
 
   {
-    id: 9877,
+    _id: 4,
     componentProps: {
       name: 'publisher',
       label: 'Publisher',
@@ -67,7 +67,7 @@ export const softwareFilterDataArray = [
   },
 
   {
-    id: 6566,
+    _id: 5,
     componentProps: {
       name: 'createdDate',
       label: 'Created Date',
@@ -79,7 +79,7 @@ export const softwareFilterDataArray = [
   },
 
   {
-    id: 6785,
+    _id: 6,
     componentProps: {
       name: 'updatedDate',
       label: 'Updated Date',

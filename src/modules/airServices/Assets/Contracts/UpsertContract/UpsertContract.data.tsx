@@ -302,6 +302,7 @@ export const upsertContractFormFieldsDataFunction = (
   watchForNotifyExpiry = false,
   watchForContractType: any,
   watchStartDate: any,
+  contractId: any,
 ) => [
   {
     id: 1,
@@ -328,12 +329,15 @@ export const upsertContractFormFieldsDataFunction = (
     id: 4,
     md: 6,
     component: GetContractContractTypeDropdown,
-    componentProps: { name: 'type' },
+    componentProps: { name: 'type', contractId },
   },
   {
     id: 5,
     md: 6,
     component: GetContractAssetsDropdown,
+    componentProps: {
+      watchForContractType,
+    },
   },
   {
     id: 6,

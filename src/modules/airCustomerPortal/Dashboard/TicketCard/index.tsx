@@ -1,12 +1,11 @@
 import { Avatar, Box, Typography } from '@mui/material';
 import { FirstAidKitIcon } from '@/assets/icons';
-import { TicketCardI } from './TicketCard.interface';
 import { TruncateText } from '@/components/TruncateText';
 import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
+import { PROGRESS_VALUE } from '@/constants/mui-constant';
 
-export const TicketCard = (props: TicketCardI) => {
-  const { totalCount, data } = props;
-
+export const TicketCard = (props: any) => {
+  const { totalCount = 0, color, count = 0, label } = props;
   return (
     <Box
       sx={{
@@ -30,25 +29,29 @@ export const TicketCard = (props: TicketCardI) => {
           sx={{
             width: 36,
             height: 36,
-            backgroundColor: data?.color,
+            backgroundColor: color,
           }}
         >
           <FirstAidKitIcon />
         </Avatar>
         <Box>
           <Typography variant="h3" fontWeight={700} color="blue.main">
-            {data?.count}
+            {count}
           </Typography>
-          <TruncateText text={data?.label?.toLowerCase()} />
+          <TruncateText text={label?.toLowerCase()} />
         </Box>
       </Box>
       <CustomLinearProgress
-        value={Math?.floor((data?.count / totalCount) * 100)}
+        value={
+          count === PROGRESS_VALUE?.ZERO
+            ? PROGRESS_VALUE?.ZERO
+            : Math?.floor((count / totalCount) * 100)
+        }
         variant="determinate"
-        progressBarColor={data?.color}
+        progressBarColor={color}
       />
       <Typography variant="body2" pt={1} color="blue.main">
-        Tickets Status: {`${data?.count}/${totalCount}`}
+        Tickets Status: {`${count}/${totalCount}`}
       </Typography>
     </Box>
   );

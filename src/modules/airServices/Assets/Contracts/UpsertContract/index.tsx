@@ -2,15 +2,15 @@ import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 import { useUpsertContract } from './useUpsertContract';
 import { Box, CircularProgress, Grid, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { Attachments } from '@/components/Attachments';
 import { AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS } from '@/constants/permission-keys';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import ApiErrorState from '@/components/ApiErrorState';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
 import { uploadFileMaxSize } from '@/utils/avatarUtils';
 import { ACCEPT_FILE_EXTENSIONS } from '@/constants/file';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const UpsertContract = () => {
   const {
@@ -30,14 +30,15 @@ export const UpsertContract = () => {
     getDynamicFieldsStatus,
     postAttachmentStatus,
     watchForContractType,
+    refetch,
   } = useUpsertContract();
 
-  if (isLoading || isFetching) return <SkeletonForm />;
-
-  if (getDynamicFieldsStatus?.isError) return <ApiErrorState />;
-
   return (
-    <>
+    <ApiRequestFlow
+      showSkeleton={isLoading || isFetching}
+      hasError={isError}
+      refreshApi={refetch}
+    >
       <PageTitledHeader
         moveBack={() => handleCancelBtn?.()}
         canMovedBack
@@ -47,25 +48,28 @@ export const UpsertContract = () => {
         methods={methods}
         onSubmit={handleSubmit?.(submitUpsertContractForm)}
       >
-        <Grid
-          container
-          border={{
-            xs: `2px solid ${theme?.palette?.custom?.off_white_three}`,
-            md: 'none',
+        <CustomGrid
+          isContainer
+          customStyles={{
+            border: {
+              xs: `2px solid ${theme?.palette?.custom?.off_white_three}`,
+              md: 'none',
+            },
+            borderRadius: { xs: 3, md: 0 },
+            padding: { md: 1.5, xs: 0 },
           }}
-          borderRadius={{ xs: 3, md: 0 }}
-          padding={{ xs: 1.5, md: 0 }}
         >
-          <Grid
-            item
+          <CustomGrid
             xs={12}
             md={7.5}
-            border={{
-              md: `2px solid ${theme?.palette?.custom?.off_white_three}`,
-              xs: 'none',
+            customStyles={{
+              border: {
+                md: `2px solid ${theme?.palette?.custom?.off_white_three}`,
+                xs: 'none',
+              },
+              borderRadius: { md: 2, xs: 0 },
+              padding: { md: 1.5, xs: 0 },
             }}
-            borderRadius={{ md: 2, xs: 0 }}
-            padding={{ md: 1.5, xs: 0 }}
           >
             <Grid container spacing={3}>
               {upsertContractFormFieldsData?.map((item: any) => (
@@ -108,9 +112,15 @@ export const UpsertContract = () => {
                 </>
               )}
             </Grid>
-          </Grid>
-          <Grid item xs={12} md={0.5}></Grid>
-          <Grid item xs={12} md={4} mt={{ xs: 2, md: 0 }} mb={2}>
+          </CustomGrid>
+          <CustomGrid
+            xs={12}
+            md={4}
+            customStyles={{
+              marginTop: { xs: 2, md: 0 },
+              mb: 2,
+            }}
+          >
             <RHFDropZone
               name="attachFile"
               fullWidth={true}
@@ -142,11 +152,11 @@ export const UpsertContract = () => {
                 </Box>
               </>
             )}
-          </Grid>
-        </Grid>
+          </CustomGrid>
+        </CustomGrid>
         <br />
-        <Grid container>
-          <Grid item xs={12} md={7.5}>
+        <CustomGrid isContainer>
+          <CustomGrid xs={12} md={7.5}>
             <Box
               display={'flex'}
               alignItems={'center'}
@@ -182,9 +192,9 @@ export const UpsertContract = () => {
                 </LoadingButton>
               </Box>
             </Box>
-          </Grid>
-        </Grid>
+          </CustomGrid>
+        </CustomGrid>
       </FormProvider>
-    </>
+    </ApiRequestFlow>
   );
 };

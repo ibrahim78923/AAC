@@ -32,7 +32,9 @@ export const TicketStatusCount = () => {
       {ticketsCountsData?.map((singleData: any) => (
         <Grid item xs={12} sm={6} md={5} lg={4} key={singleData?._id}>
           <TicketCard
-            data={singleData}
+            color={singleData?.color}
+            count={singleData?.count}
+            label={singleData?.label}
             totalCount={data?.ticketsCount[TICKET_TYPE?.TOTAL]}
           />
         </Grid>

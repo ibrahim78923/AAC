@@ -3,7 +3,14 @@ import {
   AirCustomerPortalLogo,
   AirCustomerPortalProfile,
 } from '@/assets/images';
-import { Box, Button, Grid, IconButton, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  Grid,
+  IconButton,
+  Typography,
+} from '@mui/material';
 import Image from 'next/image';
 import usePreview from './usePreview';
 import { NavbarDataArray } from './Preview.data';
@@ -48,7 +55,8 @@ const Preview = (props: IPreviewProps) => {
             pb={2}
             height={'100%'}
           >
-            <Box p={2} mb={2}>
+            {/* TODO: check if works then remove it otherwise will do another hit n trial */}
+            {/* <Box p={2} mb={2}>
               {isFileInstance(image) ? (
                 <Image
                   src={URL?.createObjectURL(image)}
@@ -72,6 +80,31 @@ const Preview = (props: IPreviewProps) => {
                   width={153}
                   height={38}
                   style={{ objectFit: 'cover' }}
+                />
+              )}
+            </Box> */}
+
+            <Box p={2} mb={2}>
+              {isFileInstance(image) ? (
+                <Avatar
+                  src={URL?.createObjectURL(image)}
+                  alt={'Air Apple Cart'}
+                  sx={{ width: '100%', height: 38, objectFit: 'cover' }}
+                  variant="square"
+                />
+              ) : isStringUrl(image?.url) ? (
+                <Avatar
+                  src={generateImage(image?.url)}
+                  alt={'Air Apple Cart'}
+                  sx={{ width: '100%', height: 38, objectFit: 'cover' }}
+                  variant="square"
+                />
+              ) : (
+                <Avatar
+                  src={AirCustomerPortalLogo?.src}
+                  alt={'Air Apple Cart'}
+                  sx={{ width: '100%', height: 38, objectFit: 'cover' }}
+                  variant="square"
                 />
               )}
             </Box>

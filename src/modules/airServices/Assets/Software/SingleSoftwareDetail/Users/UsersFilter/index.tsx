@@ -2,9 +2,10 @@ import Button from '@mui/material/Button';
 import { FilterIcon } from '@/assets/icons';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { useUsersFilter } from './useUsersFilter';
 import { UsersFilterI } from './UsersFilter.interface';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const UsersFilter: React.FC<UsersFilterI> = (props) => {
   const {
@@ -44,13 +45,7 @@ export const UsersFilter: React.FC<UsersFilterI> = (props) => {
       >
         <Box mt={1}>
           <FormProvider methods={methods} onSubmit={handleSubmit(submitFilter)}>
-            <Grid container spacing={1}>
-              {userFieldsData?.map((item: any) => (
-                <Grid item xs={12} key={item?.id}>
-                  <item.component {...item?.componentProps} size={'small'} />
-                </Grid>
-              ))}
-            </Grid>
+            <FormGrid formFieldsList={userFieldsData} />
           </FormProvider>
         </Box>
       </CommonDrawer>

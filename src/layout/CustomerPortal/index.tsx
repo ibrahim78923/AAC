@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import Image from 'next/image';
 import {
   AppBar,
   Box,
@@ -12,6 +11,7 @@ import {
   Drawer,
   Skeleton,
   Button,
+  Avatar,
 } from '@mui/material';
 import { AirCustomerPortalLogo } from '@/assets/images';
 import Link from 'next/link';
@@ -72,7 +72,8 @@ const CustomerPortalLayout = ({
           </Box>
         ) : (
           <>
-            <Box p={'0px 0px 20px 10px'}>
+            {/* TODO: check if works then remove it otherwise will do another hit n trial */}
+            {/* <Box p={'0px 0px 20px 10px'}>
               <Box display={'flex'} flexDirection={'row'} gap={1}>
                 {customerPortalStyling?.logo ? (
                   <Image
@@ -89,6 +90,25 @@ const CustomerPortalLayout = ({
                     width={153}
                     height={38}
                     style={{ objectFit: 'cover' }}
+                  />
+                )}
+              </Box>
+            </Box> */}
+            <Box p={'0px 0px 20px 10px'}>
+              <Box display={'flex'} flexDirection={'row'} gap={1}>
+                {customerPortalStyling?.logo ? (
+                  <Avatar
+                    src={generateImage(customerPortalStyling?.logo?.url)}
+                    alt={'Air Apple Cart'}
+                    sx={{ width: '100%', height: 38, objectFit: 'cover' }}
+                    variant="square"
+                  />
+                ) : (
+                  <Avatar
+                    src={AirCustomerPortalLogo?.src}
+                    alt={'Air Apple Cart'}
+                    sx={{ width: '100%', height: 38, objectFit: 'cover' }}
+                    variant="square"
                   />
                 )}
               </Box>

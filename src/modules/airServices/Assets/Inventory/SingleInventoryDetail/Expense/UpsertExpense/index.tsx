@@ -1,8 +1,8 @@
-import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 import { useUpsertExpense } from './useUpsertExpense';
 import { upsertExpenseFormFields } from './UpsertExpense.data';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const UpsertExpense = (props: any) => {
   const { isPortalOpen } = props ?? {};
@@ -27,13 +27,7 @@ export const UpsertExpense = (props: any) => {
         handleSubmitButton={handleSubmit?.(upsertExpenseSubmit)}
       >
         <FormProvider methods={methods}>
-          <Grid container spacing={2}>
-            {upsertExpenseFormFields?.map((form) => (
-              <Grid item xs={12} md={form?.gridLength} key={form?.id}>
-                <form.component {...form?.componentProps} size={'small'} />
-              </Grid>
-            ))}
-          </Grid>
+          <FormGrid formFieldsList={upsertExpenseFormFields} />
         </FormProvider>
       </CustomCommonDialog>
     </>
