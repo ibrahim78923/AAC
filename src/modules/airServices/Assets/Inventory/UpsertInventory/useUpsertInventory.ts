@@ -50,7 +50,7 @@ export const useUpsertInventory = () => {
     },
   };
 
-  const { data, isLoading, isFetching, isError }: any =
+  const { data, isLoading, isFetching, isError, refetch }: any =
     useGetAirServicesAssetsInventoryAddToInventoryByIdQuery(
       getSingleInventoryDetailsParameter,
       {
@@ -273,6 +273,11 @@ export const useUpsertInventory = () => {
     });
   };
 
+  const apiCallInProgress =
+    postAddToInventoryStatus?.isLoading ||
+    patchAddToInventoryStatus?.isLoading ||
+    postAttachmentStatus?.isLoading;
+
   return {
     methods,
     query,
@@ -293,5 +298,7 @@ export const useUpsertInventory = () => {
     getDynamicFieldsStatus,
     postAttachmentStatus,
     assetTypeWatch,
+    refetch,
+    apiCallInProgress,
   };
 };

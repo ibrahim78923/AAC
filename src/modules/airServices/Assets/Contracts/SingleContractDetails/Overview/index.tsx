@@ -2,12 +2,11 @@ import { Avatar, Box, Typography } from '@mui/material';
 import { overviewData } from './Overview.data';
 import { styles } from './Overview.style';
 import { useOverview } from './useOverview';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
-import ApiErrorState from '@/components/ApiErrorState';
 import { Fragment, isValidElement } from 'react';
 import { DYNAMIC_FORM_FIELDS_TYPES, isValidDate } from '@/utils/dynamic-forms';
 import { getImageByType } from '@/utils/avatarUtils';
 import { uiDateFormat } from '@/lib/date-time';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const Overview = () => {
   const {
@@ -23,11 +22,12 @@ export const Overview = () => {
     refetch,
   } = useOverview();
 
-  if (isLoading || isFetching) return <SkeletonTable />;
-  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
-
   return (
-    <>
+    <ApiRequestFlow
+      showSkeleton={isLoading || isFetching}
+      hasError={isError}
+      refreshApi={refetch}
+    >
       {overviewData({ contractData, contractItemData, approverName })?.map(
         (item: any) => (
           <Fragment key={item?.id}>
@@ -109,6 +109,6 @@ export const Overview = () => {
           </Box>
         </>
       )}
-    </>
+    </ApiRequestFlow>
   );
 };

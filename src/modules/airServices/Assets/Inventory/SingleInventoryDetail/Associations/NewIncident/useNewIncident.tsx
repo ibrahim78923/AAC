@@ -236,17 +236,26 @@ export const useNewIncident = (props: {
     watch,
   );
 
+  const apiCallInProgress =
+    postTicketStatus?.isLoading ||
+    postRemoveAssociateTicketsStatus?.isLoading ||
+    postAttachmentStatus?.isLoading;
+
+  const showLoader =
+    getDynamicFieldsStatus?.isLoading || getDynamicFieldsStatus?.isFetching;
+  const hasError = getDynamicFieldsStatus?.isError;
+
   return {
     handleSubmit,
     onSubmit,
     methods,
     onClose,
-    postTicketStatus,
-    associateIncident,
-    postRemoveAssociateTicketsStatus,
     form,
     getDynamicFieldsStatus,
-    postAttachmentStatus,
     newIncidentFormFieldsDynamic,
+    apiCallInProgress,
+    getDynamicFormData,
+    showLoader,
+    hasError,
   };
 };
