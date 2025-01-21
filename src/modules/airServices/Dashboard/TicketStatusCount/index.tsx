@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { useTicketStatusCount } from './useTicketStatusCount';
 import { TicketStatusCountImage } from '@/assets/images';
 import { ApiPollingButton } from '@/components/Buttons/ApiPollingButton';
@@ -6,6 +6,7 @@ import { AvatarItemCountCard } from '@/components/Cards/AvatarItemCountCard/Avat
 import { AUTO_REFRESH_API_TIME_INTERVAL } from '@/config';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
+import { ListGrid } from '@/components/Grids/ListGrid';
 
 export const TicketStatusCount = () => {
   const {
@@ -35,19 +36,20 @@ export const TicketStatusCount = () => {
           fulfilledTimeStamp={fulfilledTimeStamp}
         />
       </Box>
-      <Grid container spacing={2}>
-        {ticketDashboardCards?.map((item: any) => (
-          <Grid key={item?.id} item xs={12} md={4} lg={3}>
-            <AvatarItemCountCard
-              avatarBgColor={item?.color}
-              name={item?.label}
-              count={item?.count}
-              avatarUrl={TicketStatusCountImage}
-              isDynamic={false}
-            />
-          </Grid>
-        ))}
-      </Grid>
+      <ListGrid
+        list={ticketDashboardCards}
+        md={4}
+        lg={3}
+        render={(item: any) => (
+          <AvatarItemCountCard
+            avatarBgColor={item?.color}
+            name={item?.label}
+            count={item?.count}
+            avatarUrl={TicketStatusCountImage}
+            isDynamic={false}
+          />
+        )}
+      />
     </ApiRequestFlow>
   );
 };

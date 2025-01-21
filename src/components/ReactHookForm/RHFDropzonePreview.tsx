@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Box, Typography, useTheme } from '@mui/material';
+import { Avatar, Box, Typography, useTheme } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
 import { useFormContext } from 'react-hook-form';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import CustomLabel from '../CustomLabel';
 import { FILE_MAX_SIZE } from '@/config';
-import Image from 'next/image';
 import { generateImage } from '@/utils/avatarUtils';
 import { ARRAY_INDEX } from '@/constants/strings';
+import { AVATAR_VARIANTS } from '@/constants/mui-constant';
 
 export default function RHFDropzonePreview({
   name,
@@ -117,20 +117,19 @@ export default function RHFDropzonePreview({
       >
         <input {...getInputProps()} />
         {file ? (
-          <Image
+          <Avatar
             src={
               file?.preview ||
               generateImage(file?.url) ||
               URL?.createObjectURL(file)
             }
             alt={name}
-            width={100}
-            height={100}
-            style={{
+            sx={{
               width: '100%',
               height: '100%',
               objectFit: 'contain',
             }}
+            variant={AVATAR_VARIANTS?.ROUNDED}
           />
         ) : (
           <Box textAlign={'center'}>

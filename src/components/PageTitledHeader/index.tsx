@@ -32,6 +32,8 @@ export const PageTitledHeader = (props: PageTitledHeaderPropsI) => {
     hasNoImportPermission = false,
     hasNoCreatePermission = false,
     hasNoExportPermission = false,
+    titleStyles = {},
+    isTitleCapital = false,
   } = props;
 
   return (
@@ -58,6 +60,10 @@ export const PageTitledHeader = (props: PageTitledHeaderPropsI) => {
             variant={titleVariant as Variant}
             color={titleColor}
             {...titleProps}
+            sx={{
+              textTransform: isTitleCapital ? 'capitalize' : 'none',
+              ...titleStyles,
+            }}
           >
             {title}
           </Typography>

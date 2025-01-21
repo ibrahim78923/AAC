@@ -90,11 +90,11 @@ export const specificUsersAccessFormFieldsDynamic = (
   index: number,
 ) => [
   {
-    id: 1,
+    _id: 1,
     data: <RHFTextField name={`${name}.${index}.name`} size="small" disabled />,
   },
   {
-    id: 2,
+    _id: 2,
     align: 'center',
     data: (
       <RHFRadioGroup
@@ -109,7 +109,7 @@ export const specificUsersAccessFormFieldsDynamic = (
     ),
   },
   {
-    id: 3,
+    _id: 3,
     align: 'center',
     data: (
       <RHFRadioGroup
@@ -127,7 +127,7 @@ export const specificUsersAccessFormFieldsDynamic = (
 
 export const manageReportAccessFromFieldsDynamic = (fields: any) => [
   {
-    id: 3,
+    _id: 3,
     md: 9,
     componentProps: {
       name: 'access',

@@ -1,8 +1,8 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { useFilterReport } from './useFilterReport';
-import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const FilterReport = () => {
   const {
@@ -30,13 +30,7 @@ export const FilterReport = () => {
       >
         <Box mt={1}>
           <FormProvider methods={methods}>
-            <Grid container spacing={2}>
-              {reportFilterFormFields?.map((item: ReactHookFormFieldsI) => (
-                <Grid item xs={12} key={item?.id}>
-                  <item.component {...item?.componentProps} size={'small'} />
-                </Grid>
-              ))}
-            </Grid>
+            <FormGrid formFieldsList={reportFilterFormFields} />
           </FormProvider>
         </Box>
       </CommonDrawer>

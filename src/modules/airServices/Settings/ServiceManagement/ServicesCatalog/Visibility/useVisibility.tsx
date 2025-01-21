@@ -7,6 +7,7 @@ import {
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { SyntheticEvent, useState } from 'react';
+import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 
 const useVisibility = (props: any) => {
   const { handleCloseVisibility, setAnchorEl, id, setSelectedCheckboxes } =
@@ -32,24 +33,32 @@ const useVisibility = (props: any) => {
 
   const handleSubmit = async () => {
     if (
-      (!selectedAgentCheckboxes || selectedAgentCheckboxes.length === 0) &&
-      (!selectedRequestorCheckboxes || selectedRequestorCheckboxes.length === 0)
+      (!selectedAgentCheckboxes ||
+        selectedAgentCheckboxes?.length === SELECTED_ARRAY_LENGTH?.ZERO) &&
+      (!selectedRequestorCheckboxes ||
+        selectedRequestorCheckboxes?.length === SELECTED_ARRAY_LENGTH?.ZERO)
     ) {
       errorSnackbar('Please Select Visibility');
       return;
     }
     const moveToCategoryData: any = {};
 
-    if (selectedAgentCheckboxes && selectedAgentCheckboxes.length > 0) {
+    if (
+      selectedAgentCheckboxes &&
+      selectedAgentCheckboxes?.length > SELECTED_ARRAY_LENGTH?.ZERO
+    ) {
       moveToCategoryData.agentVisibilty = selectedAgentCheckboxes;
     }
 
-    if (selectedRequestorCheckboxes && selectedRequestorCheckboxes.length > 0) {
+    if (
+      selectedRequestorCheckboxes &&
+      selectedRequestorCheckboxes?.length > SELECTED_ARRAY_LENGTH?.ZERO
+    ) {
       moveToCategoryData.requesterVisibilty = selectedRequestorCheckboxes;
     }
 
-    if (id && id.selectedCheckboxes) {
-      moveToCategoryData.ids = id.selectedCheckboxes;
+    if (id && id?.selectedCheckboxes) {
+      moveToCategoryData.ids = id?.selectedCheckboxes;
     }
 
     const body = moveToCategoryData;
@@ -58,7 +67,7 @@ const useVisibility = (props: any) => {
     try {
       await patchServiceCatalogTrigger(patchServiceCatalogParameter)?.unwrap();
 
-      successSnackbar('Service Visibility Updated ');
+      successSnackbar('Service visibility updated ');
     } catch (error) {
       const errorResponse = error as IErrorResponse;
       errorSnackbar(errorResponse?.data?.message);

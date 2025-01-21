@@ -24,7 +24,7 @@ export const userDefaultValues = (data: UsersFilterDataI) => {
 
 export const userDataArray = () => [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'name',
       label: 'Name',
@@ -33,11 +33,11 @@ export const userDataArray = () => [
     component: RHFTextField,
   },
   {
-    id: 2,
+    _id: 2,
     component: GetSoftwareDepartmentDropdown,
   },
   {
-    id: 3,
+    _id: 3,
     componentProps: {
       name: 'assignedDate',
       label: 'Assigned Date',
@@ -48,7 +48,7 @@ export const userDataArray = () => [
   },
 
   {
-    id: 4,
+    _id: 4,
     componentProps: {
       name: 'firstSeen',
       label: 'First Seen',
@@ -58,7 +58,7 @@ export const userDataArray = () => [
     component: RHFAutocomplete,
   },
   {
-    id: 5,
+    _id: 5,
     componentProps: {
       name: 'lastSeen',
       label: 'Last Seen',

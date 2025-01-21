@@ -88,12 +88,12 @@ export const contractsFilterFormDefaultValues = (data?: any) => {
 
 export const contractsFilterFormFieldsDynamic = () => [
   {
-    id: 1,
+    _id: 1,
     component: GetContractFilterContractTypeDropdown,
     componentProps: { name: 'contractType', label: 'Contract type' },
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       name: 'status',
       label: 'Contract status',
@@ -105,11 +105,11 @@ export const contractsFilterFormFieldsDynamic = () => [
     component: RHFAutocomplete,
   },
   {
-    id: 3,
+    _id: 3,
     component: GetContractVendorDropdown,
   },
   {
-    id: 4,
+    _id: 4,
     componentProps: {
       name: 'expiry',
       label: 'Expiry',

@@ -180,120 +180,124 @@ const Dashboard = () => {
                 <SkeletonForm />
               </Grid>
             ) : (
-              <Box ref={downloadRef}>
-                {/* Static Components */}
-                {dashboardsData?.DEALS_CREATED_VS_CLOSED_DEALS && (
-                  <Grid item xs={12} lg={6} mt={1}>
-                    <DealsGraph
-                      dealsData={dashboardsData?.DEALS_CREATED_VS_CLOSED_DEALS}
-                    />
-                  </Grid>
-                )}
+              <>
+                <Grid container spacing={2} ref={downloadRef}>
+                  {/* Static Components */}
+                  {dashboardsData?.DEALS_CREATED_VS_CLOSED_DEALS && (
+                    <Grid item xs={12} lg={6} mt={1}>
+                      <DealsGraph
+                        dealsData={
+                          dashboardsData?.DEALS_CREATED_VS_CLOSED_DEALS
+                        }
+                      />
+                    </Grid>
+                  )}
 
-                {dashboardsData?.TEAM_ACTIVITIES_BY_ACTIVITY_DATE?.length >
-                  indexNumbers?.ZERO && (
-                  <Grid item xs={12} lg={6} mt={1}>
-                    <TeamActivity
-                      teamActivityDetails={
-                        dashboardsData?.TEAM_ACTIVITIES_BY_ACTIVITY_DATE
-                      }
-                    />
-                  </Grid>
-                )}
+                  {dashboardsData?.TEAM_ACTIVITIES_BY_ACTIVITY_DATE?.length >
+                    indexNumbers?.ZERO && (
+                    <Grid item xs={12} lg={6} mt={1}>
+                      <TeamActivity
+                        teamActivityDetails={
+                          dashboardsData?.TEAM_ACTIVITIES_BY_ACTIVITY_DATE
+                        }
+                      />
+                    </Grid>
+                  )}
 
-                {dashboardsData?.MEETING_DETAILS?.length >
-                  indexNumbers?.ZERO && (
-                  <Grid item xs={12} lg={6} mt={1}>
-                    <MeetingDetails
-                      isStatic={false}
-                      meetingsData={dashboardsData?.MEETING_DETAILS}
-                    />
-                  </Grid>
-                )}
+                  {dashboardsData?.MEETING_DETAILS?.length >
+                    indexNumbers?.ZERO && (
+                    <Grid item xs={12} lg={6} mt={1}>
+                      <MeetingDetails
+                        isStatic={false}
+                        meetingsData={dashboardsData?.MEETING_DETAILS}
+                      />
+                    </Grid>
+                  )}
 
-                {dashboardsData?.TOTAL_DEALS_OPEN_DEALS_TEAM_GOALS_CLOSED_WON_PUBLISHED_QUOTES && (
-                  <Grid item xs={12} lg={6} mt={1}>
-                    <Widget
-                      widgetDetails={
-                        dashboardsData?.TOTAL_DEALS_OPEN_DEALS_TEAM_GOALS_CLOSED_WON_PUBLISHED_QUOTES
-                      }
-                    />
-                  </Grid>
-                )}
+                  {dashboardsData?.TOTAL_DEALS_OPEN_DEALS_TEAM_GOALS_CLOSED_WON_PUBLISHED_QUOTES && (
+                    <Grid item xs={12} lg={6} mt={1}>
+                      <Widget
+                        widgetDetails={
+                          dashboardsData?.TOTAL_DEALS_OPEN_DEALS_TEAM_GOALS_CLOSED_WON_PUBLISHED_QUOTES
+                        }
+                      />
+                    </Grid>
+                  )}
 
-                {dashboardsData?.DEAL_REPORTS && (
-                  <Grid item xs={12} lg={12} mt={1}>
-                    <DealsReportsAnalytics
-                      isStatic={false}
-                      pieChartData={dashboardsData?.DEAL_REPORTS?.res}
-                      graphData={dashboardsData?.DEAL_REPORTS?.resByMonth}
-                    />
-                  </Grid>
-                )}
+                  {dashboardsData?.DEAL_REPORTS && (
+                    <Grid item xs={12} lg={12} mt={1}>
+                      <DealsReportsAnalytics
+                        isStatic={false}
+                        pieChartData={dashboardsData?.DEAL_REPORTS?.res}
+                        graphData={dashboardsData?.DEAL_REPORTS?.resByMonth}
+                      />
+                    </Grid>
+                  )}
 
-                {dashboardsData?.FORECAST_PIPELINE_REPORT && (
-                  <Grid item xs={12} lg={12} mt={1}>
-                    <ForecastPipelineAnalytics
-                      pipelineForecastData={
-                        dashboardsData?.FORECAST_PIPELINE_REPORT
-                      }
-                      isLoading={dashboardLoading}
-                      isStatic={false}
-                    />
-                  </Grid>
-                )}
+                  {dashboardsData?.FORECAST_PIPELINE_REPORT && (
+                    <Grid item xs={12} lg={12} mt={1}>
+                      <ForecastPipelineAnalytics
+                        pipelineForecastData={
+                          dashboardsData?.FORECAST_PIPELINE_REPORT
+                        }
+                        isLoading={dashboardLoading}
+                        isStatic={false}
+                      />
+                    </Grid>
+                  )}
 
-                {dashboardsData?.FORECAST_CATEGORY_REPORTS && (
-                  <Grid item xs={12} lg={12} mt={1}>
-                    <ForecastCategoryAnalytics
-                      categoryForecastData={
-                        dashboardsData?.FORECAST_CATEGORY_REPORTS
-                      }
-                      isLoading={dashboardLoading}
-                      isStatic={false}
-                    />
-                  </Grid>
-                )}
+                  {dashboardsData?.FORECAST_CATEGORY_REPORTS && (
+                    <Grid item xs={12} lg={12} mt={1}>
+                      <ForecastCategoryAnalytics
+                        categoryForecastData={
+                          dashboardsData?.FORECAST_CATEGORY_REPORTS
+                        }
+                        isLoading={dashboardLoading}
+                        isStatic={false}
+                      />
+                    </Grid>
+                  )}
 
-                {/* Dynamic Components */}
-                {dashboardLoading ? (
-                  <Grid item xs={12} p={1}>
-                    <SkeletonForm />
-                  </Grid>
-                ) : (
-                  dashboardsData?.dashboard?.reports?.map(
-                    (item: any, index: number) => {
-                      return item?.type === REPORT_TYPES?.STATIC ? (
-                        <Grid item xs={12} key={item?.name}>
-                          {AIR_SALES_DASHBOARD_WIDGETS_COMPONENTS?.[
-                            item?.name
-                          ] &&
-                            createElement(
-                              AIR_SALES_DASHBOARD_WIDGETS_COMPONENTS?.[
-                                item?.name
-                              ],
-                              {
-                                data: dashboardsData,
-                                // Add any other necessary props here
-                              },
-                            )}
-                        </Grid>
-                      ) : (
-                        <Grid item xs={12} lg={12} key={item?._id ?? index}>
-                          <ReportsWidgets
-                            reportWidgets={
-                              dashboardsData?.[`genericReports${index}`]
-                            }
-                            reportResults={
-                              dashboardsData?.[`genericReportsResult${index}`]
-                            }
-                          />
-                        </Grid>
-                      );
-                    },
-                  )
-                )}
-              </Box>
+                  {/* Dynamic Components */}
+                  {dashboardLoading ? (
+                    <Grid item xs={12} p={1}>
+                      <SkeletonForm />
+                    </Grid>
+                  ) : (
+                    dashboardsData?.dashboard?.reports?.map(
+                      (item: any, index: number) => {
+                        return item?.type === REPORT_TYPES?.STATIC ? (
+                          <Grid item xs={12} key={item?.name}>
+                            {AIR_SALES_DASHBOARD_WIDGETS_COMPONENTS?.[
+                              item?.name
+                            ] &&
+                              createElement(
+                                AIR_SALES_DASHBOARD_WIDGETS_COMPONENTS?.[
+                                  item?.name
+                                ],
+                                {
+                                  data: dashboardsData,
+                                  // Add any other necessary props here
+                                },
+                              )}
+                          </Grid>
+                        ) : (
+                          <Grid item xs={12} lg={12} key={item?._id ?? index}>
+                            <ReportsWidgets
+                              reportWidgets={
+                                dashboardsData?.[`genericReports${index}`]
+                              }
+                              reportResults={
+                                dashboardsData?.[`genericReportsResult${index}`]
+                              }
+                            />
+                          </Grid>
+                        );
+                      },
+                    )
+                  )}
+                </Grid>
+              </>
             )}
           </>
         )}

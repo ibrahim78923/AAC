@@ -1,8 +1,10 @@
 import * as Yup from 'yup';
 
-export const renameReportFormDefaultValuesDynamic = (data?: any) => {
+export const renameReportFormDefaultValuesDynamic = (
+  singleSelectedReportName?: string,
+) => {
   return {
-    name: data?.name ?? null,
+    name: singleSelectedReportName ?? null,
   };
 };
 

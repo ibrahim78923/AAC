@@ -1,9 +1,10 @@
-import { Grid, Box } from '@mui/material';
+import { Box } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { softwareFilterDataArray } from './SoftwareFilter.data';
 import { useSoftwareFilter } from './useSoftwareFilter';
 import { SoftwareFilterI } from './SoftwareFilter.interface';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export default function SoftwareFilter(props: SoftwareFilterI) {
   const { isOpenDrawer } = props;
@@ -24,13 +25,7 @@ export default function SoftwareFilter(props: SoftwareFilterI) {
       >
         <Box mt={1}>
           <FormProvider methods={methods}>
-            <Grid container spacing={1}>
-              {softwareFilterDataArray?.map((item) => (
-                <Grid item xs={12} key={item?.id}>
-                  <item.component {...item?.componentProps} size={'small'} />
-                </Grid>
-              ))}
-            </Grid>
+            <FormGrid formFieldsList={softwareFilterDataArray} />
           </FormProvider>
         </Box>
       </CommonDrawer>

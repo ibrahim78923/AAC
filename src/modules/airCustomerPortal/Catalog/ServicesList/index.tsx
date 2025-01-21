@@ -25,6 +25,7 @@ export const ServicesList = () => {
               name={service?.itemName}
               description={service?.description}
               info={service?.cost}
+              infoType="Cost : "
               avatarSrc={service?.attachmentDetails?.fileUrl}
               onClick={() =>
                 handleClickService?.(service?._id, service?.serviceCategory)

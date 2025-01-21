@@ -38,7 +38,7 @@ export const upsertExpenseFormDefaultValuesDynamic = (
 
 export const upsertExpenseFormFields = [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'type',
       label: 'Expense Type',
@@ -47,28 +47,25 @@ export const upsertExpenseFormFields = [
       required: true,
       isOptionEqualToValue: (option: any, newValue: any) => option === newValue,
     },
-    gridLength: 12,
     component: RHFAutocomplete,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       name: 'cost',
       placeholder: 'Cost',
       label: 'Cost (£)',
       required: true,
     },
-    gridLength: 12,
     component: RHFTextField,
   },
   {
-    id: 3,
+    _id: 3,
     componentProps: {
       fullWidth: true,
       name: 'date',
       label: 'Date',
     },
-    gridLength: 12,
     component: RHFDatePicker,
   },
 ];

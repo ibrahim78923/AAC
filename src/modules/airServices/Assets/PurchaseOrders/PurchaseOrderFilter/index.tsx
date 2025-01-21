@@ -1,8 +1,8 @@
-import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { usePurchaseOrderFilter } from './usePurchaseOrderFilter';
 import { purchaseOrderFilterFieldsDynamic } from './PurchaseOrderFilter.data';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const PurchaseOrderFilter = (props: any) => {
   const { isDrawerOpen } = props;
@@ -28,13 +28,7 @@ export const PurchaseOrderFilter = (props: any) => {
         cancelBtnHandler={() => resetPurchaseOrderFilterForm?.()}
       >
         <FormProvider methods={methods}>
-          <Grid container spacing={1}>
-            {purchaseOrderFilterFieldsDynamic?.map((form: any) => (
-              <Grid item xs={12} key={form?.id}>
-                <form.component {...form?.componentProps} size="small" />
-              </Grid>
-            ))}
-          </Grid>
+          <FormGrid formFieldsList={purchaseOrderFilterFieldsDynamic} />
         </FormProvider>
       </CommonDrawer>
     </>

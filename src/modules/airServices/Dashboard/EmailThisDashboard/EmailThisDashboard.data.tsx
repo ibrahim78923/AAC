@@ -136,7 +136,7 @@ export const sendDashboardViaEmailFormFieldsDynamic = (
 ) => {
   return [
     {
-      id: 1,
+      _id: 1,
       componentProps: {
         color: 'slateBlue.main',
         variant: 'h5',
@@ -146,7 +146,7 @@ export const sendDashboardViaEmailFormFieldsDynamic = (
       component: Typography,
     },
     {
-      id: 2,
+      _id: 2,
       componentProps: {
         name: 'isRecurring',
         row: false,
@@ -158,7 +158,7 @@ export const sendDashboardViaEmailFormFieldsDynamic = (
     ...(isRecurringWatch === EMAIL_SEND_TYPE?.ONCE
       ? [
           {
-            id: 3,
+            _id: 3,
             componentProps: {
               name: 'email',
               label: 'Internal recipients',
@@ -171,7 +171,7 @@ export const sendDashboardViaEmailFormFieldsDynamic = (
         ]
       : [
           {
-            id: 3.4,
+            _id: 4,
             componentProps: {
               name: 'emailName',
               label: 'Email Name',
@@ -184,7 +184,7 @@ export const sendDashboardViaEmailFormFieldsDynamic = (
           },
         ]),
     {
-      id: 4,
+      _id: 5,
       componentProps: {
         name: 'emailSubject',
         label: 'Email subject',
@@ -196,7 +196,7 @@ export const sendDashboardViaEmailFormFieldsDynamic = (
       md: 12,
     },
     {
-      id: 5,
+      _id: 6,
       componentProps: {
         name: 'message',
         label: 'Message',
@@ -211,7 +211,7 @@ export const sendDashboardViaEmailFormFieldsDynamic = (
     ...(isRecurringWatch === EMAIL_SEND_TYPE?.RECURRING
       ? [
           {
-            id: 6,
+            _id: 7,
             componentProps: {
               name: 'schedule',
               label: 'Schedule',
@@ -225,7 +225,7 @@ export const sendDashboardViaEmailFormFieldsDynamic = (
             md: 12,
           },
           {
-            id: 7,
+            _id: 8,
             componentProps: {
               name: 'timeOfDays',
               label: 'Time of days',
@@ -239,7 +239,7 @@ export const sendDashboardViaEmailFormFieldsDynamic = (
           ...(watchScheduleOption?._id === MONTHLY
             ? [
                 {
-                  id: 7.6,
+                  _id: 9,
                   componentProps: {
                     name: 'montly',
                     label: 'Monthly',
@@ -258,7 +258,7 @@ export const sendDashboardViaEmailFormFieldsDynamic = (
           ...(watchScheduleOption?._id === WEEKLY
             ? [
                 {
-                  id: 7.62,
+                  _id: 10,
                   componentProps: {
                     name: 'weekly',
                     label: 'Weekly',
@@ -275,7 +275,7 @@ export const sendDashboardViaEmailFormFieldsDynamic = (
               ]
             : []),
           {
-            id: 8,
+            _id: 11,
             componentProps: {
               name: 'filetype',
               label: 'File type',
@@ -292,7 +292,7 @@ export const sendDashboardViaEmailFormFieldsDynamic = (
     ...(isRecurringWatch === EMAIL_SEND_TYPE?.ONCE
       ? [
           {
-            id: 9,
+            _id: 12,
             componentProps: {
               name: 'attachments',
               label: 'Attach dashboard',

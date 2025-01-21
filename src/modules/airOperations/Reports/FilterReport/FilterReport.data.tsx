@@ -49,7 +49,7 @@ export const reportFiltersDefaultValues: any = (
 
 export const reportFilterFormFieldsDynamic = () => [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       required: false,
       label: 'Report Owner',
@@ -57,7 +57,7 @@ export const reportFilterFormFieldsDynamic = () => [
     component: ReportOwnerFieldDropdown,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       name: 'accessType',
       label: 'Assigned',
@@ -69,7 +69,7 @@ export const reportFilterFormFieldsDynamic = () => [
     component: RHFAutocomplete,
   },
   {
-    id: 70,
+    _id: 3,
     componentProps: {
       name: 'createdDate',
       label: 'Created Date',

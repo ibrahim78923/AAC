@@ -26,7 +26,7 @@ export const CategoryList = () => {
         showSkeleton={showLoader}
         hasError={isError}
         skeletonType={SKELETON_TYPES?.BASIC_CARD}
-        cardSkeletonType={SKELETON_TYPES?.TWO_LAYER_CARD}
+        cardSkeletonType={SKELETON_TYPES?.LARGE_VERTICAL_TWO_LAYER_DOUBLE_CARD}
       >
         <>
           <Grid container spacing={2}>

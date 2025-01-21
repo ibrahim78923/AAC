@@ -19,10 +19,6 @@ import {
   addToDashboardReportFormValidationSchemaDynamic,
 } from './AddToDashboard.data';
 
-const { CURRENT_PAGE } = PAGINATION ?? {};
-const { ZERO } = ARRAY_INDEX ?? {};
-const { ADD_TO_EXISTING } = BACKEND_REPORT_ACCESS ?? {};
-
 export const useAddToDashboardReport = () => {
   const router = useRouter();
   const id = router?.query?.id;
@@ -37,7 +33,7 @@ export const useAddToDashboardReport = () => {
     (state) => state?.operationsReportsLists?.isPortalOpen,
   );
 
-  const selectedReportsList = useAppSelector(
+  const selectedReportsList: any = useAppSelector(
     (state) => state?.operationsReportsLists?.selectedReportsList,
   );
 
@@ -47,7 +43,9 @@ export const useAddToDashboardReport = () => {
 
   const refetchApi = async () => {
     const newPage =
-      selectedReportsList?.length === totalRecords ? CURRENT_PAGE : page;
+      selectedReportsList?.length === totalRecords
+        ? PAGINATION?.CURRENT_PAGE
+        : page;
     dispatch(setPage<any>(newPage));
     await getReportsList?.(newPage);
   };
@@ -64,11 +62,11 @@ export const useAddToDashboardReport = () => {
   ) => {
     const apiDataParameter = {
       queryParams: {
-        id: selectedReportsList?.[ZERO]?._id,
+        id: selectedReportsList?.[ARRAY_INDEX?.ZERO]?._id,
       },
       body: {
         linkDashboard: {
-          action: ADD_TO_EXISTING,
+          action: BACKEND_REPORT_ACCESS?.ADD_TO_EXISTING,
           existingDashboards: formData?.dashboard?.map(
             (dashboard: AutocompleteAsyncOptionsI) => dashboard?._id,
           ),

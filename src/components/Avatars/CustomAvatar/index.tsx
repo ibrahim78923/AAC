@@ -1,6 +1,7 @@
 import { generateImage } from '@/utils/avatarUtils';
 import { Avatar, Typography } from '@mui/material';
 import { CustomTooltip } from '../../CustomTooltip';
+import { pxToRem } from '@/utils/getFontValue';
 
 export const CustomAvatar = (props: any) => {
   const {
@@ -13,6 +14,7 @@ export const CustomAvatar = (props: any) => {
     customStyles,
     padding,
   } = props;
+
   return (
     <CustomTooltip title={tooltipTitle} isCapital {...customTooltipProps}>
       <Avatar
@@ -25,8 +27,13 @@ export const CustomAvatar = (props: any) => {
         }}
         variant={avatarSize?.variant ?? 'circular'}
         src={generateImage(avatarSrc)}
+        alt={nameInitial}
       >
-        <Typography variant="avatarNameInitial" textTransform={'uppercase'}>
+        <Typography
+          variant="avatarNameInitial"
+          textTransform={'uppercase'}
+          sx={{ fontSize: pxToRem(avatarSize?.height / 2) }}
+        >
           {nameInitial}
         </Typography>
       </Avatar>

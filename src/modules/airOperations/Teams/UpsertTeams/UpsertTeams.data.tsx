@@ -28,7 +28,7 @@ export const upsertTeamDefaultValues = (
 
 export const upsertTeamFormFieldsDynamic = () => [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'name',
       label: 'Team name',
@@ -39,7 +39,7 @@ export const upsertTeamFormFieldsDynamic = () => [
     component: RHFTextField,
   },
   {
-    id: 2,
+    _id: 2,
     component: UsersFieldDropdown,
   },
 ];

@@ -22,7 +22,8 @@ export interface AutocompleteAsyncOptionsI {
 }
 
 export interface ReactHookFormFieldsI {
-  id: string | number;
+  _id?: string | number;
+  id?: string | number;
   componentProps?: {
     name?: string;
     label?: string;

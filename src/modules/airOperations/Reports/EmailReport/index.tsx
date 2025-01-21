@@ -1,10 +1,9 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { Grid } from '@mui/material';
 import { useEmailReport } from './useEmailReport';
 import { emailReportFormFields } from './EmailReport.data';
 import { LoadingButton } from '@mui/lab';
-import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const EmailReport = () => {
   const {
@@ -31,13 +30,7 @@ export const EmailReport = () => {
       isLoading={emailReportsStatus?.isLoading}
     >
       <FormProvider methods={methods}>
-        <Grid container spacing={2}>
-          {emailReportFormFields?.map((item: ReactHookFormFieldsI) => (
-            <Grid item xs={12} key={item?.id}>
-              <item.component {...item?.componentProps} size={'small'} />
-            </Grid>
-          ))}
-        </Grid>
+        <FormGrid formFieldsList={emailReportFormFields} />
       </FormProvider>
       <LoadingButton className="small" sx={{ my: 1 }} onClick={downloadPath}>
         Click here to download Report

@@ -1,5 +1,5 @@
 import { useRenameOperationsReportsMutation } from '@/services/airOperations/reports';
-import { ARRAY_INDEX } from '@/constants/strings';
+import { ARRAY_INDEX, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { RenameReportFormFieldsI } from './RenameReport.interface';
 import {
   emptySelectedReportsList,
@@ -16,9 +16,6 @@ import {
 } from './RenameReport.data';
 import { useFormLib } from '@/hooks/useFormLib';
 
-const { CURRENT_PAGE } = PAGINATION ?? {};
-const { ZERO } = ARRAY_INDEX ?? {};
-
 export const useRenameReport = () => {
   const [renameReportsTrigger, renameReportsStatus] =
     useRenameOperationsReportsMutation();
@@ -30,7 +27,7 @@ export const useRenameReport = () => {
     (state) => state?.operationsReportsLists?.isPortalOpen,
   );
 
-  const selectedReportsList = useAppSelector(
+  const selectedReportsList: any = useAppSelector(
     (state) => state?.operationsReportsLists?.selectedReportsList,
   );
 
@@ -40,14 +37,23 @@ export const useRenameReport = () => {
 
   const refetchApi = async () => {
     const newPage =
-      selectedReportsList?.length === totalRecords ? CURRENT_PAGE : page;
+      selectedReportsList?.length === totalRecords
+        ? PAGINATION?.CURRENT_PAGE
+        : page;
     dispatch(setPage<any>(newPage));
     await getReportsList?.(newPage);
   };
 
+  const singleSelectedReportName =
+    selectedReportsList?.length === SELECTED_ARRAY_LENGTH?.ONE
+      ? selectedReportsList?.[ARRAY_INDEX?.ZERO]?.name
+      : undefined;
+
   const formLibProps = {
     validationSchema: renameReportFormValidationSchemaDynamic,
-    defaultValues: renameReportFormDefaultValuesDynamic?.(),
+    defaultValues: renameReportFormDefaultValuesDynamic?.(
+      singleSelectedReportName,
+    ),
   };
 
   const { handleSubmit, reset, methods } = useFormLib(formLibProps);
@@ -55,7 +61,7 @@ export const useRenameReport = () => {
   const onSubmit = async (formData: RenameReportFormFieldsI) => {
     const apiDataParameter = {
       queryParams: {
-        id: selectedReportsList?.[ZERO]?._id,
+        id: selectedReportsList?.[ARRAY_INDEX?.ZERO]?._id,
       },
       body: {
         name: formData?.name,
@@ -63,7 +69,7 @@ export const useRenameReport = () => {
     };
     try {
       await renameReportsTrigger(apiDataParameter)?.unwrap();
-      successSnackbar('Report renamed Successfully');
+      successSnackbar('Report renamed successfully');
       handleClose?.();
       await refetchApi?.();
     } catch (error: any) {

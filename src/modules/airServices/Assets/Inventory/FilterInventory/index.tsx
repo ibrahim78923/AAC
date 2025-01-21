@@ -1,9 +1,9 @@
-import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useFilterInventory } from './useFilterInventory';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FilterInventoryI } from './FilterInventory.interface';
 import { INVENTORY_TITLE } from '@/constants/strings';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const FilterInventory: React.FC<FilterInventoryI> = (props) => {
   const { isDrawerOpen } = props;
@@ -35,13 +35,7 @@ export const FilterInventory: React.FC<FilterInventoryI> = (props) => {
           methods={methods}
           onSubmit={handleSubmit?.(submitInventoryFilterForm)}
         >
-          <Grid container spacing={1.5}>
-            {inventoryFilterFormFieldsData?.map((form: any) => (
-              <Grid item xs={12} key={form?.id}>
-                <form.component {...form?.componentProps} size={'small'} />
-              </Grid>
-            ))}
-          </Grid>
+          <FormGrid formFieldsList={inventoryFilterFormFieldsData} />
         </FormProvider>
       </CommonDrawer>
     </>

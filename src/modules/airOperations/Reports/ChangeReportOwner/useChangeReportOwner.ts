@@ -1,4 +1,4 @@
-import { ARRAY_INDEX } from '@/constants/strings';
+import { ARRAY_INDEX, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { useChangeOperationsReportOwnerMutation } from '@/services/airOperations/reports';
 import { ChangeReportOwnerFormFieldsI } from './ChangeReportOwner.interface';
 import { useGetReportLists } from '../ReportHooks/useGetReportLists';
@@ -16,9 +16,6 @@ import {
 } from './ChangeReportOwner.data';
 import { useFormLib } from '@/hooks/useFormLib';
 
-const { CURRENT_PAGE } = PAGINATION ?? {};
-const { ZERO } = ARRAY_INDEX ?? {};
-
 export const useChangeReportOwner = () => {
   const [changeReportOwnerTrigger, changeReportOwnerStatus] =
     useChangeOperationsReportOwnerMutation();
@@ -31,7 +28,7 @@ export const useChangeReportOwner = () => {
     (state) => state?.operationsReportsLists?.isPortalOpen,
   );
 
-  const selectedReportsList = useAppSelector(
+  const selectedReportsList: any = useAppSelector(
     (state) => state?.operationsReportsLists?.selectedReportsList,
   );
 
@@ -41,14 +38,22 @@ export const useChangeReportOwner = () => {
 
   const refetchApi = async () => {
     const newPage =
-      selectedReportsList?.length === totalRecords ? CURRENT_PAGE : page;
+      selectedReportsList?.length === totalRecords
+        ? PAGINATION?.CURRENT_PAGE
+        : page;
     dispatch(setPage<any>(newPage));
     await getReportsList?.(newPage);
   };
 
+  const singleSelectedOwner =
+    selectedReportsList?.length === SELECTED_ARRAY_LENGTH?.ONE
+      ? selectedReportsList?.[ARRAY_INDEX?.ZERO]?.owner
+      : undefined;
+
   const formLibProps = {
     validationSchema: changeReportOwnerFormValidationSchemaDynamic,
-    defaultValues: changeReportOwnerFormDefaultValuesDynamic?.(),
+    defaultValues:
+      changeReportOwnerFormDefaultValuesDynamic?.(singleSelectedOwner),
   };
 
   const { handleSubmit, reset, methods } = useFormLib(formLibProps);
@@ -56,7 +61,7 @@ export const useChangeReportOwner = () => {
   const submitChangeOwner = async (formData: ChangeReportOwnerFormFieldsI) => {
     const apiDataParameter = {
       queryParams: {
-        id: selectedReportsList?.[ZERO]?._id,
+        id: selectedReportsList?.[ARRAY_INDEX?.ZERO]?._id,
       },
       body: {
         owner: formData?.owner?._id,
@@ -65,7 +70,7 @@ export const useChangeReportOwner = () => {
 
     try {
       await changeReportOwnerTrigger(apiDataParameter)?.unwrap();
-      successSnackbar('Report Owner changed Successfully');
+      successSnackbar('Report owner changed successfully');
       closeModal?.();
       await refetchApi?.();
     } catch (error: any) {

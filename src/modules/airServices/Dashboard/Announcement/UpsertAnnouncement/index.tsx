@@ -1,12 +1,10 @@
-import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useUpsertAnnouncement } from './useUpsertAnnouncement';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import { AnnouncementPortalComponentsPropsI } from '../Announcement.interface';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
-
-const { EDIT, NEW } = GENERIC_UPSERT_FORM_CONSTANT ?? {};
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const UpsertAnnouncement = (
   props: AnnouncementPortalComponentsPropsI,
@@ -30,7 +28,11 @@ export const UpsertAnnouncement = (
       <CommonDrawer
         isDrawerOpen={isPortalOpen?.isUpsert as boolean}
         onClose={handleClose}
-        title={`${!!isPortalOpen?.data?._id ? EDIT : NEW} Announcements`}
+        title={`${
+          !!isPortalOpen?.data?._id
+            ? GENERIC_UPSERT_FORM_CONSTANT?.EDIT
+            : GENERIC_UPSERT_FORM_CONSTANT?.NEW
+        } Announcements`}
         submitHandler={handleSubmit(submit)}
         footer
         isOk
@@ -45,21 +47,10 @@ export const UpsertAnnouncement = (
           refreshApi={refetch}
         >
           <FormProvider methods={methods}>
-            <Grid container spacing={1}>
-              {upsertAnnouncementFormFields?.map((item: any) => (
-                <Grid
-                  item
-                  xs={12}
-                  md={item?.md}
-                  key={item?.id}
-                  sx={item?.gridSx}
-                >
-                  <item.component {...item?.componentProps} size={'small'}>
-                    {item?.heading ? item?.heading : null}
-                  </item.component>
-                </Grid>
-              ))}
-            </Grid>
+            <FormGrid
+              formFieldsList={upsertAnnouncementFormFields}
+              hasHeading
+            />
           </FormProvider>
         </ApiRequestFlow>
       </CommonDrawer>
