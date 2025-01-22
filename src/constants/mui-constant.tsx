@@ -52,6 +52,7 @@ export const SKELETON_TYPES = {
   THREE_LAYER_BIG_LARGE_CARD: 'three-layer-big-large-card',
   TWO_LAYER_CARD: 'two-layer-card',
   THREE_LAYER_LARGE_REVERSE_CARD: 'three-layer-reverse-card',
+  GRID: 'grid',
 };
 
 export const SKELETON_VARIANTS: any = {

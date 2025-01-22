@@ -1,12 +1,10 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { useAddTime } from './useAddTime';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import ApiErrorState from '@/components/ApiErrorState';
-import { componentMap } from '@/utils/dynamic-forms';
-import { createElement } from 'react';
-import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { FormGrid } from '@/components/Grids/FormGrid';
+import { DynamicForm } from '@/components/DynamicForm';
 
 export const AddTime = (props: any) => {
   const { isDrawerOpen } = props;
@@ -15,11 +13,12 @@ export const AddTime = (props: any) => {
     handleSubmit,
     onSubmit,
     addTimeFormFields,
-    postTicketStatus,
     closeDrawer,
-    getDynamicFieldsStatus,
-    postAttachmentStatus,
+    isDynamicFormLoading,
+    hasDynamicFormError,
+    apiCallInProgress,
     form,
+    getDynamicFormData,
   } = useAddTime(props);
 
   return (
@@ -31,41 +30,21 @@ export const AddTime = (props: any) => {
       footer
       isOk
       okText="Submit"
-      isLoading={postTicketStatus?.isLoading || postAttachmentStatus?.isLoading}
-      isDisabled={
-        postTicketStatus?.isLoading || postAttachmentStatus?.isLoading
-      }
-      disabledCancelBtn={
-        postTicketStatus?.isLoading || postAttachmentStatus?.isLoading
-      }
+      isLoading={apiCallInProgress}
+      isDisabled={apiCallInProgress}
+      disabledCancelBtn={apiCallInProgress}
     >
       <Box>
-        {getDynamicFieldsStatus?.isLoading ||
-        getDynamicFieldsStatus?.isFetching ? (
-          <SkeletonForm />
-        ) : getDynamicFieldsStatus?.isError ? (
-          <ApiErrorState />
-        ) : (
+        <ApiRequestFlow
+          showSkeleton={isDynamicFormLoading}
+          hasError={hasDynamicFormError}
+          refreshApi={getDynamicFormData}
+        >
           <FormProvider methods={methods}>
-            <Grid container spacing={1}>
-              {addTimeFormFields?.map((item: ReactHookFormFieldsI) => (
-                <Grid item xs={12} md={item?.md} key={item?.id}>
-                  <item.component {...item?.componentProps} size={'small'} />
-                </Grid>
-              ))}
-              {form?.map((item: ReactHookFormFieldsI) => (
-                <Grid item xs={12} key={item?.id}>
-                  {componentMap[item?.component] &&
-                    createElement(componentMap[item?.component], {
-                      ...item?.componentProps,
-                      name: item?.componentProps?.label,
-                      size: 'small',
-                    })}
-                </Grid>
-              ))}
-            </Grid>
+            <FormGrid formFieldsList={addTimeFormFields} />
+            <DynamicForm dynamicFormFieldsList={form} />
           </FormProvider>
-        )}
+        </ApiRequestFlow>
       </Box>
     </CommonDrawer>
   );

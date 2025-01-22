@@ -3,18 +3,10 @@ import {
   upsertTicketFormFieldsDynamic,
   upsertTicketValidationSchema,
 } from './UpsertTicket.data';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { filteredEmptyValues } from '@/utils/api';
 import { ARRAY_INDEX, MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
-import {
-  useLazyGetDynamicFieldsQuery,
-  usePostDynamicFormAttachmentsMutation,
-} from '@/services/dynamic-fields';
-import {
-  DYNAMIC_FIELDS,
-  DYNAMIC_FORM_FIELDS_TYPES,
-  dynamicAttachmentsPost,
-} from '@/utils/dynamic-forms';
+import { DYNAMIC_FIELDS } from '@/utils/dynamic-forms';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useGetTicketList } from '../TicketsServicesHooks/useGetTicketList';
 import {
@@ -35,6 +27,7 @@ import {
   servicesTicketsSelectedTicketListsSelector,
 } from '@/redux/slices/airServices/tickets/selectors';
 import { useFormLib } from '@/hooks/useFormLib';
+import { useDynamicForm } from '@/components/DynamicForm/useDynamicForm';
 
 export const useUpsertTicket = () => {
   const dispatch = useAppDispatch();
@@ -50,34 +43,24 @@ export const useUpsertTicket = () => {
       ? selectedTicketLists?.[ARRAY_INDEX?.ZERO]?._id
       : '';
 
-  const [form, setForm] = useState<any>([]);
-
   const [postTicketTrigger, postTicketStatus] =
     useAddSingleServicesTicketMutation();
   const [putTicketTrigger, putTicketStatus] =
     useUpdateSingleServicesTicketByIdMutation();
 
-  const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
-    useLazyGetDynamicFieldsQuery();
-  const [postAttachmentTrigger, postAttachmentStatus] =
-    usePostDynamicFormAttachmentsMutation();
-
-  const getDynamicFormData = async () => {
-    const params = {
-      productType: DYNAMIC_FIELDS?.PT_SERVICES,
-      moduleType: DYNAMIC_FIELDS?.MT_TICKETS,
-    };
-    const getDynamicFieldsParameters = { params };
-
-    try {
-      const res: any = await getDynamicFieldsTrigger(
-        getDynamicFieldsParameters,
-      )?.unwrap();
-      setForm(res);
-    } catch (error: any) {
-      setForm([]);
-    }
+  const dynamicFormProps = {
+    productType: DYNAMIC_FIELDS?.PT_SERVICES,
+    moduleType: DYNAMIC_FIELDS?.MT_TICKETS,
   };
+
+  const {
+    form,
+    handleUploadAttachments,
+    isDynamicFormLoading,
+    hasDynamicFormError,
+    attachmentsApiCallInProgress,
+    getDynamicFormData,
+  } = useDynamicForm(dynamicFormProps);
 
   useEffect(() => {
     getDynamicFormData();
@@ -88,7 +71,7 @@ export const useUpsertTicket = () => {
       ticketId,
     },
   };
-  const { data, isLoading, isFetching, isError, refetch } =
+  const { data, isLoading, isFetching, isError, refetch, isUninitialized } =
     useGetServicesSingleTicketDetailByIdQuery(getSingleTicketParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!ticketId,
@@ -123,47 +106,11 @@ export const useUpsertTicket = () => {
       return;
     }
 
-    const customFields: any = {};
-    const body: any = {};
-    const attachmentPromises: Promise<any>[] = [];
-
     try {
-      dynamicAttachmentsPost({
-        form,
-        data: formData,
-        attachmentPromises,
-        customFields,
-        postAttachmentTrigger,
-      });
-
-      await Promise?.all(attachmentPromises);
-
-      const customFieldKeys = new Set(
-        form?.map((field: any) => field?.componentProps?.label),
+      const { body }: any = await handleUploadAttachments?.(
+        formData,
+        newFormData,
       );
-
-      Object?.entries(newFormData)?.forEach(([key, value]) => {
-        if (customFieldKeys?.has(key)) {
-          if (value instanceof Date) {
-            value = isoDateString(value);
-          }
-          if (
-            typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
-            !Array?.isArray(value) &&
-            value !== null
-          ) {
-            customFields[key] = { ...customFields[key], ...value };
-          } else {
-            customFields[key] = value;
-          }
-        } else {
-          body[key] = value;
-        }
-      });
-
-      if (Object?.keys(customFields)?.length > 0) {
-        body.customFields = customFields;
-      }
 
       const upsertTicketFormData = new FormData();
       upsertTicketFormData?.append('requester', newFormData?.requester?._id);
@@ -277,15 +224,18 @@ export const useUpsertTicket = () => {
   const apiCallInProgress =
     putTicketStatus?.isLoading ||
     postTicketStatus?.isLoading ||
-    postAttachmentStatus?.isLoading;
+    attachmentsApiCallInProgress;
 
-  const showLoader =
-    isLoading ||
-    isFetching ||
-    getDynamicFieldsStatus?.isLoading ||
-    getDynamicFieldsStatus?.isFetching;
+  const showLoader = isLoading || isFetching || isDynamicFormLoading;
 
-  const hasError = isError && getDynamicFieldsStatus?.isError;
+  const hasError = isError || hasDynamicFormError;
+
+  const refreshApi = () => {
+    if (!isUninitialized) {
+      refetch?.();
+    }
+    getDynamicFormData?.();
+  };
 
   return {
     handleSubmit,
@@ -300,6 +250,6 @@ export const useUpsertTicket = () => {
     apiCallInProgress,
     showLoader,
     hasError,
-    refetch,
+    refreshApi,
   };
 };

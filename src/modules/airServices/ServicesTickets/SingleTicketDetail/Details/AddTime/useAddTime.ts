@@ -7,50 +7,32 @@ import {
   addTimeFormFieldsDynamic,
   addTimeFormValidationSchema,
 } from './AddTime.data';
-import { useEffect, useState } from 'react';
-import {
-  useLazyGetDynamicFieldsQuery,
-  usePostDynamicFormAttachmentsMutation,
-} from '@/services/dynamic-fields';
-import {
-  DYNAMIC_FIELDS,
-  DYNAMIC_FORM_FIELDS_TYPES,
-  dynamicAttachmentsPost,
-} from '@/utils/dynamic-forms';
+import { useEffect } from 'react';
+import { DYNAMIC_FIELDS } from '@/utils/dynamic-forms';
 import { useAddSingleServicesTicketsTasksTimeMutation } from '@/services/airServices/tickets/single-ticket-details/details';
 import { REGEX } from '@/constants/validation';
-import { isoDateString } from '@/lib/date-time';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useDynamicForm } from '@/components/DynamicForm/useDynamicForm';
 
 export const useAddTime = (props: any) => {
   const { setIsDrawerOpen } = props;
 
-  const [form, setForm] = useState<any>([]);
-
   const [postTicketsTimeTrigger, postTicketStatus] =
     useAddSingleServicesTicketsTasksTimeMutation();
 
-  const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
-    useLazyGetDynamicFieldsQuery();
-  const [postAttachmentTrigger, postAttachmentStatus] =
-    usePostDynamicFormAttachmentsMutation();
-
-  const getDynamicFormData = async () => {
-    const params = {
-      productType: DYNAMIC_FIELDS?.PT_SERVICES,
-      moduleType: DYNAMIC_FIELDS?.MT_TIME_ENTRIES,
-    };
-    const getDynamicFieldsParameters = { params };
-
-    try {
-      const res: any = await getDynamicFieldsTrigger(
-        getDynamicFieldsParameters,
-      )?.unwrap();
-      setForm(res);
-    } catch (error: any) {
-      setForm([]);
-    }
+  const dynamicFormProps = {
+    productType: DYNAMIC_FIELDS?.PT_SERVICES,
+    moduleType: DYNAMIC_FIELDS?.MT_TIME_ENTRIES,
   };
+
+  const {
+    form,
+    handleUploadAttachments,
+    isDynamicFormLoading,
+    hasDynamicFormError,
+    attachmentsApiCallInProgress,
+    getDynamicFormData,
+  } = useDynamicForm(dynamicFormProps);
 
   useEffect(() => {
     getDynamicFormData();
@@ -77,47 +59,11 @@ export const useAddTime = (props: any) => {
     }
     const filteredEmptyData = filteredEmptyValues(data);
 
-    const customFields: any = {};
-    const body: any = {};
-    const attachmentPromises: Promise<any>[] = [];
-
     try {
-      dynamicAttachmentsPost({
-        form,
+      const { customFields }: any = await handleUploadAttachments?.(
         data,
-        attachmentPromises,
-        customFields,
-        postAttachmentTrigger,
-      });
-
-      await Promise?.all(attachmentPromises);
-
-      const customFieldKeys = new Set(
-        form?.map((field: any) => field?.componentProps?.label),
+        filteredEmptyData,
       );
-
-      Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
-        if (customFieldKeys?.has(key)) {
-          if (value instanceof Date) {
-            value = isoDateString(value);
-          }
-          if (
-            typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
-            !Array?.isArray(value) &&
-            value !== null
-          ) {
-            customFields[key] = { ...customFields[key], ...value };
-          } else {
-            customFields[key] = value;
-          }
-        } else {
-          body[key] = value;
-        }
-      });
-
-      if (Object?.keys(customFields)?.length > 0) {
-        body.customFields = customFields;
-      }
 
       const postData = {
         ticketId: ticketId,
@@ -148,6 +94,8 @@ export const useAddTime = (props: any) => {
   };
 
   const addTimeFormFields = addTimeFormFieldsDynamic(setValue, getValues);
+  const apiCallInProgress =
+    postTicketStatus?.isLoading || attachmentsApiCallInProgress;
 
   return {
     methods,
@@ -156,8 +104,10 @@ export const useAddTime = (props: any) => {
     addTimeFormFields,
     postTicketStatus,
     closeDrawer,
-    getDynamicFieldsStatus,
-    postAttachmentStatus,
+    isDynamicFormLoading,
+    hasDynamicFormError,
+    apiCallInProgress,
     form,
+    getDynamicFormData,
   };
 };

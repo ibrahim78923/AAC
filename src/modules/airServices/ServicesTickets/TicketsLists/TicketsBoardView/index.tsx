@@ -1,18 +1,17 @@
 import { Grid, Box } from '@mui/material';
-import ApiErrorState from '@/components/ApiErrorState';
-import NoData from '@/components/NoData';
 import { useTicketsBoardView } from './useTicketsBoardView';
 import CustomPagination from '@/components/CustomPagination';
 import { DataRecordCount } from '@/components/DataRecordCount';
 import { RENDER_COLOR } from './TicketsBoardView.data';
 import { pxToRem } from '@/utils/getFontValue';
 import { TicketInfoCard } from './TicketInfoCard';
-import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
 import {
   CustomDragDropContext,
   CustomDraggable,
   CustomDroppable,
 } from '@/components/DragAndDrop';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const TableBoardView = () => {
   const {
@@ -29,27 +28,22 @@ export const TableBoardView = () => {
     apiCallSuccess,
   } = useTicketsBoardView();
 
-  if (lazyGetTicketsStatus?.isError)
-    return (
-      <ApiErrorState canRefresh refresh={() => getTicketsListData?.(page)} />
-    );
-  if (
-    (lazyGetTicketsStatus?.isLoading || lazyGetTicketsStatus?.isFetching) &&
-    !apiCallSuccess
-  )
-    return (
-      <SkeletonCard
-        length={12}
-        flexDirectionRectangular="column"
-        circularSkeletonSize={{ width: 50, height: 50 }}
-      />
-    );
-
-  if (!!!lazyGetTicketsStatus?.data?.data?.tickets?.length)
-    return <NoData message="No ticket found" />;
-
   return (
-    <>
+    <ApiRequestFlow
+      showSkeleton={
+        (lazyGetTicketsStatus?.isLoading || lazyGetTicketsStatus?.isFetching) &&
+        !apiCallSuccess
+      }
+      hasError={lazyGetTicketsStatus?.isError}
+      hasNoData={!lazyGetTicketsStatus?.data?.data?.tickets?.length}
+      noDataMessage="No ticket found"
+      refreshApi={() => getTicketsListData?.(page)}
+      skeletonType={SKELETON_TYPES?.BASIC_CARD}
+      length={12}
+      cardSkeletonType={
+        SKELETON_TYPES?.VERTICAL_TWO_LAYER_DOUBLE_CIRCULAR_LARGE_CARD
+      }
+    >
       <Box>
         <Grid
           container
@@ -110,6 +104,6 @@ export const TableBoardView = () => {
         incrementPageClick={increment}
         decrementPageClick={decrement}
       />
-    </>
+    </ApiRequestFlow>
   );
 };

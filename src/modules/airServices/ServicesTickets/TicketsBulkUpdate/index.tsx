@@ -1,9 +1,9 @@
 import { FormProvider } from '@/components/ReactHookForm';
-import { Button, Grid, Box } from '@mui/material';
+import { Button, Box } from '@mui/material';
 import { useTicketBulkUpdate } from './useTicketsBulkUpdate';
 import { AddCircle, Close } from '@mui/icons-material';
 import CommonDrawer from '@/components/CommonDrawer';
-import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const TicketsBulkUpdate = () => {
   const {
@@ -59,32 +59,13 @@ export const TicketsBulkUpdate = () => {
                   onClick={() => setIsReplyAdded(false)}
                 />
               </Box>
-              <Grid container spacing={1.5}>
-                {ticketsBulkUpdateAddReplyFormFieldsData?.map(
-                  (form: ReactHookFormFieldsI) => {
-                    return (
-                      <Grid item xs={12} key={form?.id}>
-                        <form.component
-                          {...form?.componentProps}
-                          size="small"
-                        />
-                      </Grid>
-                    );
-                  },
-                )}
-              </Grid>
+              <FormGrid
+                formFieldsList={ticketsBulkUpdateAddReplyFormFieldsData}
+              />
             </Box>
           )}
           <br />
-          <Grid container spacing={1.5}>
-            {ticketsBulkUpdateFormFields?.map((form: ReactHookFormFieldsI) => {
-              return (
-                <Grid item xs={12} key={form?.id}>
-                  <form.component {...form?.componentProps} size="small" />
-                </Grid>
-              );
-            })}
-          </Grid>
+          <FormGrid formFieldsList={ticketsBulkUpdateFormFields} />
         </FormProvider>
       </CommonDrawer>
     </>

@@ -1,13 +1,11 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { useUpsertTasks } from './useUpsertTasks';
 import { BUTTON_TITLE_FORM_USER, TITLE_FORM_USER } from './UpsertTasks.data';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import ApiErrorState from '@/components/ApiErrorState';
-import { componentMap } from '@/utils/dynamic-forms';
-import { createElement } from 'react';
-import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { FormGrid } from '@/components/Grids/FormGrid';
+import { DynamicForm } from '@/components/DynamicForm';
 
 export const UpsertTasks = () => {
   const {
@@ -16,7 +14,7 @@ export const UpsertTasks = () => {
     handleCloseDrawer,
     handleSubmit,
     upsertTicketTaskFormFormFields,
-    getDynamicFieldsStatus,
+    hasError,
     form,
     getDynamicFormData,
     isPortalOpen,
@@ -39,36 +37,16 @@ export const UpsertTasks = () => {
         disabledCancelBtn={apiCallInProgress}
       >
         <Box mt={1}>
-          {showLoader ? (
-            <SkeletonForm />
-          ) : getDynamicFieldsStatus?.isError ? (
-            <ApiErrorState canRefresh refresh={() => getDynamicFormData?.()} />
-          ) : (
+          <ApiRequestFlow
+            showSkeleton={showLoader}
+            hasError={hasError}
+            refreshApi={getDynamicFormData}
+          >
             <FormProvider methods={methods}>
-              <Grid container spacing={1}>
-                {upsertTicketTaskFormFormFields?.map(
-                  (item: ReactHookFormFieldsI) => (
-                    <Grid item xs={12} md={item?.md} key={item?.id}>
-                      <item.component
-                        {...item?.componentProps}
-                        size={'small'}
-                      />
-                    </Grid>
-                  ),
-                )}
-                {form?.map((item: ReactHookFormFieldsI) => (
-                  <Grid item xs={12} key={item?.id}>
-                    {componentMap[item?.component] &&
-                      createElement(componentMap[item?.component], {
-                        ...item?.componentProps,
-                        name: item?.componentProps?.label,
-                        size: 'small',
-                      })}
-                  </Grid>
-                ))}
-              </Grid>
+              <FormGrid formFieldsList={upsertTicketTaskFormFormFields} />
+              <DynamicForm dynamicFormFieldsList={form} />
             </FormProvider>
-          )}
+          </ApiRequestFlow>
         </Box>
       </CommonDrawer>
     </>

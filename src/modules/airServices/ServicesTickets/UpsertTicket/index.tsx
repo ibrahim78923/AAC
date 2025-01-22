@@ -1,13 +1,11 @@
-import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useUpsertTicket } from './useUpsertTicket';
-import { componentMap } from '@/utils/dynamic-forms';
-import { createElement } from 'react';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
-import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { TicketAttachment } from '../TicketAttachment';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { FormGrid } from '@/components/Grids/FormGrid';
+import { DynamicForm } from '@/components/DynamicForm';
 
 export const UpsertTicket = () => {
   const {
@@ -23,7 +21,7 @@ export const UpsertTicket = () => {
     apiCallInProgress,
     showLoader,
     hasError,
-    refetch,
+    refreshApi,
   }: any = useUpsertTicket();
 
   return (
@@ -49,35 +47,18 @@ export const UpsertTicket = () => {
     >
       <ApiRequestFlow
         showSkeleton={showLoader}
-        refreshApi={refetch}
         hasError={hasError}
+        refreshApi={refreshApi}
       >
         <FormProvider
           methods={methods}
           onSubmit={handleSubmit(submitUpsertTicket)}
         >
-          <Grid container spacing={1.5}>
-            {upsertTicketFormFields?.map((item: ReactHookFormFieldsI) => (
-              <Grid item xs={12} md={item?.md} key={item?.id}>
-                <item.component
-                  {...item?.componentProps}
-                  size={'small'}
-                  disabled={item?.componentProps?.disabled ?? isError}
-                />
-              </Grid>
-            ))}
-            {!!!ticketId &&
-              form?.map((item: any) => (
-                <Grid item xs={12} key={item?.id}>
-                  {componentMap[item?.component] &&
-                    createElement(componentMap[item?.component], {
-                      ...item?.componentProps,
-                      name: item?.componentProps?.label,
-                      size: 'small',
-                    })}
-                </Grid>
-              ))}
-          </Grid>
+          <FormGrid
+            formFieldsList={upsertTicketFormFields}
+            disabled={isError}
+          />
+          {!!!ticketId && <DynamicForm dynamicFormFieldsList={form} />}
           <br />
           <TicketAttachment ticketId={ticketId} />
         </FormProvider>

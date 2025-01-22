@@ -1,9 +1,10 @@
 import { Attachments } from '@/components/Attachments';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useUpsertConversation } from './useUpsertConversation';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const UpsertConversation = () => {
   const {
@@ -34,13 +35,7 @@ export const UpsertConversation = () => {
       >
         <Box mt={1}>
           <FormProvider methods={methods}>
-            <Grid container spacing={2}>
-              {upsertConversationFormFields?.map((item: any) => (
-                <Grid item xs={12} key={item?.id}>
-                  <item.component {...item?.componentProps} size={'small'} />
-                </Grid>
-              ))}
-            </Grid>
+            <FormGrid formFieldsList={upsertConversationFormFields} />
             {!!isPortalOpen?.data?._id && (
               <>
                 <Typography

@@ -1,5 +1,6 @@
 import ApiErrorState from '@/components/ApiErrorState';
 import NoData from '@/components/NoData';
+import { GridSkeleton } from '@/components/Skeletons/GridSkeleton';
 import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
@@ -11,6 +12,7 @@ const skeletonTypes: any = {
   [SKELETON_TYPES?.BARS]: SkeletonTable,
   [SKELETON_TYPES?.BASIC_CARD]: SkeletonCard,
   [SKELETON_TYPES?.TABLE]: SkeletonTanStackTable,
+  [SKELETON_TYPES?.GRID]: GridSkeleton,
 };
 
 export const ApiRequestFlow = (props: any) => {
