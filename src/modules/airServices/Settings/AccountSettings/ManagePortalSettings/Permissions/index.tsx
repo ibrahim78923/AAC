@@ -1,4 +1,4 @@
-import { Box, Grid, Tooltip, Typography } from '@mui/material';
+import { Box, Tooltip, Typography } from '@mui/material';
 import ErrorIcon from '@mui/icons-material/Error';
 import {
   FormProvider,
@@ -9,6 +9,7 @@ import { permissionData } from './Permissions.data';
 import { LoadingButton } from '@mui/lab';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { usePermissions } from './usePermissions';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const Permissions = () => {
   const {
@@ -24,9 +25,9 @@ export const Permissions = () => {
       <PageTitledHeader title="Permissions" />
       {checkApiErrorOrLoading() ?? (
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={2}>
+          <CustomGrid isContainer spacing={2}>
             {permissionData?.map((item: any) => (
-              <Grid item xs={12} key={item?.id}>
+              <CustomGrid key={item?.id}>
                 <Box borderBottom={1} borderColor={'grey.700'}>
                   {item?.mainHeading && (
                     <Typography {...item?.mainHeadingProp}>
@@ -48,10 +49,10 @@ export const Permissions = () => {
                     )}
                   </Box>
                 </Box>
-              </Grid>
+              </CustomGrid>
             ))}
 
-            <Grid item xs={12}>
+            <CustomGrid>
               <Box display={'flex'} justifyContent={'flex-end'} gap={2}>
                 <LoadingButton
                   variant={'outlined'}
@@ -70,8 +71,8 @@ export const Permissions = () => {
                   Save
                 </LoadingButton>
               </Box>
-            </Grid>
-          </Grid>
+            </CustomGrid>
+          </CustomGrid>
         </FormProvider>
       )}
     </Box>

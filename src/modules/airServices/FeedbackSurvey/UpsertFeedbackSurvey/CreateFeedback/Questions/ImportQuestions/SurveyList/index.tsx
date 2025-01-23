@@ -7,12 +7,11 @@ import {
   surveyTypes,
 } from './SurveyList.data';
 import { useSurveyList } from './useSurveyList';
-import ApiErrorState from '@/components/ApiErrorState';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
-import NoData from '@/components/NoData';
 import { SurveyListI } from './SurveyList.interface';
 import { FeedbackSurveyListI } from '@/types/modules/AirServices/FeedbackSurvey';
 import { CustomChip } from '@/components/Chip/CustomChip';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const SurveyList: React.FC<SurveyListI> = (props) => {
   const {
@@ -25,11 +24,13 @@ export const SurveyList: React.FC<SurveyListI> = (props) => {
     setPage,
     handleSurveyClick,
   } = useSurveyList(props);
-  if (isError) return <ApiErrorState />;
-  if (isLoading || isFetching) return <SkeletonTable />;
-  if (isSuccess && !data?.data?.feedbackSurvey?.length) return <NoData />;
   return (
-    <>
+    <ApiRequestFlow
+      showSkeleton={isLoading || isFetching}
+      hasError={isError}
+      hasNoData={isSuccess && !data?.data?.feedbackSurvey?.length}
+      skeletonType={SKELETON_TYPES?.BARS}
+    >
       <Grid container spacing={1}>
         {data?.data?.feedbackSurvey?.map((item: FeedbackSurveyListI) => (
           <Grid item xs={12} key={item?._id}>
@@ -73,6 +74,6 @@ export const SurveyList: React.FC<SurveyListI> = (props) => {
         setPage={setPage}
         setPageLimit={setLimit}
       />
-    </>
+    </ApiRequestFlow>
   );
 };

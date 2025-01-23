@@ -1,10 +1,11 @@
 import { FormProvider } from '@/components/ReactHookForm';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import Customizations from './Customizations';
 import Preview from './Preview';
 import useCustomizePortal from './useCustomizePortal';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 const CustomizePortal = () => {
   const {
@@ -22,9 +23,9 @@ const CustomizePortal = () => {
   } = useCustomizePortal();
 
   return (
-    <Grid container spacing={2}>
+    <CustomGrid isContainer>
       {isLoading || isFetching ? (
-        <Grid item xs={12}>
+        <CustomGrid>
           <Box
             border={1}
             borderColor={'grey.700'}
@@ -35,9 +36,9 @@ const CustomizePortal = () => {
           >
             <SkeletonTable />
           </Box>
-        </Grid>
+        </CustomGrid>
       ) : isError ? (
-        <Grid item xs={12}>
+        <CustomGrid>
           <Box
             border={1}
             borderColor={'grey.700'}
@@ -48,10 +49,10 @@ const CustomizePortal = () => {
           >
             <ApiErrorState canRefresh refresh={refetch} />
           </Box>
-        </Grid>
+        </CustomGrid>
       ) : (
         <>
-          <Grid item xs={12} lg={8}>
+          <CustomGrid lg={8}>
             <Box
               border={1}
               borderColor={'grey.700'}
@@ -65,9 +66,9 @@ const CustomizePortal = () => {
               </Typography>
               <Preview watch={watch} />
             </Box>
-          </Grid>
+          </CustomGrid>
 
-          <Grid item xs={12} lg={4}>
+          <CustomGrid lg={4}>
             <Box
               border={1}
               borderColor={'grey.700'}
@@ -86,10 +87,10 @@ const CustomizePortal = () => {
                 />
               </FormProvider>
             </Box>
-          </Grid>
+          </CustomGrid>
         </>
       )}
-    </Grid>
+    </CustomGrid>
   );
 };
 

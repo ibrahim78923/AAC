@@ -1,4 +1,4 @@
-import { Button, Grid, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { createSurveyFields, surveyConditions } from './CreateSurvey.data';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { LoadingButton } from '@mui/lab';
@@ -6,6 +6,7 @@ import { useCreateSurvey } from './useCreateSurvey';
 import { ShareModal } from './ShareModal';
 import { AIR_SERVICES } from '@/constants/routes';
 import { CreateSurveyI } from './CreateSurvey.interface';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const CreateSurvey: React.FC<CreateSurveyI> = (props) => {
   const {
@@ -36,7 +37,7 @@ export const CreateSurvey: React.FC<CreateSurveyI> = (props) => {
         }
         canMovedBack
       />
-      <Grid container spacing={2}>
+      <CustomGrid isContainer>
         {createSurveyFields(watch, setOpenShare)?.map((field: any) => {
           if (
             field?.conditionalComponent &&
@@ -58,12 +59,10 @@ export const CreateSurvey: React.FC<CreateSurveyI> = (props) => {
             return null;
           }
           return (
-            <Grid
-              item
+            <CustomGrid
               key={field?.id}
-              xs={12}
               md={7}
-              sx={{
+              customStyles={{
                 display: !field?.type?.includes(router?.query?.type as string)
                   ? 'none'
                   : 'block',
@@ -81,17 +80,17 @@ export const CreateSurvey: React.FC<CreateSurveyI> = (props) => {
                   <field.component {...field?.componentProps} size="small" />
                 )
               )}
-            </Grid>
+            </CustomGrid>
           );
         })}
-        <Grid
-          item
+        <CustomGrid
           md={7}
-          xs={12}
-          display="flex"
-          justifyContent="flex-end"
-          gap={1}
-          mt={4}
+          customStyles={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            gap: 1,
+            mt: 4,
+          }}
         >
           <Button
             variant="outlined"
@@ -116,8 +115,8 @@ export const CreateSurvey: React.FC<CreateSurveyI> = (props) => {
           >
             Next
           </LoadingButton>
-        </Grid>
-      </Grid>
+        </CustomGrid>
+      </CustomGrid>
       {openShare && (
         <ShareModal openShare={openShare} setOpenShare={setOpenShare} />
       )}

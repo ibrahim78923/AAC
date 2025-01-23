@@ -4,9 +4,9 @@ import { RHFEditor } from '@/components/ReactHookForm';
 import { meetingFormFields } from './MeetingForm.data';
 import { AttendeePeople } from './AttendeePeople';
 import { useRouter } from 'next/router';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import ApiErrorState from '@/components/ApiErrorState';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const MeetingForm = (props: any) => {
   const {
@@ -19,10 +19,13 @@ export const MeetingForm = (props: any) => {
     refetch,
   } = props;
   const router = useRouter();
-  if (isLoading || isFetching) return <SkeletonForm />;
-  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
   return (
-    <>
+    <ApiRequestFlow
+      showSkeleton={isLoading || isFetching}
+      hasError={isError}
+      refreshApi={refetch}
+      skeletonType={SKELETON_TYPES?.BARS}
+    >
       <Grid container spacing={2}>
         <Grid item lg={8} xs={12}>
           <Grid container spacing={2}>
@@ -80,6 +83,6 @@ export const MeetingForm = (props: any) => {
         </LoadingButton>
       </DialogActions>
       <Divider />
-    </>
+    </ApiRequestFlow>
   );
 };

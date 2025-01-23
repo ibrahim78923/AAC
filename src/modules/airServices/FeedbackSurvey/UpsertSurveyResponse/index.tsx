@@ -1,7 +1,7 @@
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import { useUpsertSurveyResponse } from './useUpsertSurveyResponse';
 import NoData from '@/components/NoData';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { createElement, Fragment } from 'react';
 import { FEEDBACK_SURVEY_RESPONSE_QUESTION } from './UpsertSurveyResponse.data';
@@ -15,6 +15,7 @@ import {
 } from '@/constants/strings';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { FeedbackSurveySectionI } from '@/types/modules/AirServices/FeedbackSurvey';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const UpsertSurveyResponse: React.FC<{
   loggedInUser?: string;
@@ -117,16 +118,16 @@ export const UpsertSurveyResponse: React.FC<{
           />
         </Box>
         {!!!loggedInUser ? (
-          <Grid container>
-            <Grid item xs={12} md={6}>
+          <CustomGrid isContainer>
+            <CustomGrid md={6}>
               <RHFTextField
                 name="email"
                 size="small"
                 label="Enter Your Email"
                 required
               />
-            </Grid>
-          </Grid>
+            </CustomGrid>
+          </CustomGrid>
         ) : (
           <></>
         )}

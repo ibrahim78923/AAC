@@ -1,7 +1,8 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { ISettingsDataItem } from './Settings.interface';
 import { useSettings } from './useSettings';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const Settings = () => {
   const { methods, settingsDataArray, checkApiErrorOrLoading } = useSettings();
@@ -13,17 +14,17 @@ export const Settings = () => {
           <Typography variant="h4">Security Help Desk</Typography>
           <Box bgcolor={'grey.100'} borderRadius={3} p={2} mt={1}>
             <FormProvider methods={methods}>
-              <Grid container spacing={2}>
+              <CustomGrid isContainer>
                 {settingsDataArray?.map((item: ISettingsDataItem) => (
-                  <Grid item xs={12} md={item?.md} key={item?.id}>
+                  <CustomGrid md={item?.md} key={item?.id}>
                     <item.component
                       {...item?.componentProps}
                       size={'small'}
                       disabled
                     />
-                  </Grid>
+                  </CustomGrid>
                 ))}
-              </Grid>
+              </CustomGrid>
             </FormProvider>
           </Box>
         </>
