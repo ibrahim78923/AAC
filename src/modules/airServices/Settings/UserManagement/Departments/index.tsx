@@ -1,15 +1,15 @@
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import { DepartmentCard } from './DepartmentCard';
 import { DepartmentsHeader } from './DepartmentsHeader';
 import { useDepartments } from './useDepartments';
-import ApiErrorState from '@/components/ApiErrorState';
-import NoData from '@/components/NoData';
-import { Grid } from '@mui/material';
 import CustomPagination from '@/components/CustomPagination';
 import { DeleteDepartment } from './DeleteDepartment';
 import { UpsertDepartment } from './UpsertDepartment';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
+import { ListGrid } from '@/components/Grids/ListGrid';
+import { InteractiveInfoCard } from '@/components/Cards/InteractiveInfoCard';
+import { Permissions } from '@/constants/permissions';
 
 export const Departments = () => {
   const {
@@ -28,6 +28,7 @@ export const Departments = () => {
     page,
     getDepartmentListData,
   } = useDepartments();
+
   return (
     <>
       <DepartmentsHeader
@@ -42,28 +43,47 @@ export const Departments = () => {
           AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.VIEW_DEPARTMENTS,
         ]}
       >
-        {lazyGetDepartmentStatus?.isLoading ||
-        lazyGetDepartmentStatus?.isFetching ? (
-          <SkeletonForm />
-        ) : lazyGetDepartmentStatus?.isError ? (
-          <ApiErrorState />
-        ) : !!lazyGetDepartmentStatus?.data?.data?.departments?.length ? (
-          <>
-            <Grid container spacing={2}>
-              {lazyGetDepartmentStatus?.data?.data?.departments?.map(
-                (department: any) => (
-                  <Grid item xs={12} md={4} key={department?._id}>
-                    <DepartmentCard
-                      item={department}
-                      setOpenUpsertModal={setOpenUpsertModal}
-                      setOpenDeleteModal={setOpenDeleteModal}
-                      departmentActionDropdown={actionDropdownData}
-                      handleAddMember={(item: any) => handleAddMember?.(item)}
-                    />
-                  </Grid>
-                ),
+        {
+          <ApiRequestFlow
+            showSkeleton={
+              lazyGetDepartmentStatus?.isLoading ||
+              lazyGetDepartmentStatus?.isFetching
+            }
+            hasError={lazyGetDepartmentStatus?.isError}
+            hasNoData={
+              !!!lazyGetDepartmentStatus?.data?.data?.departments?.length
+            }
+            noDataMessage="No department found"
+            refreshApi={() => getDepartmentListData?.(page)}
+            skeletonType={SKELETON_TYPES?.BASIC_CARD}
+            cardSkeletonType={
+              SKELETON_TYPES?.LARGE_VERTICAL_TWO_LAYER_DOUBLE_CARD
+            }
+          >
+            <ListGrid
+              md={4}
+              list={lazyGetDepartmentStatus?.data?.data?.departments}
+              render={(department: any) => (
+                <InteractiveInfoCard
+                  hasUsersList
+                  isShadowCard
+                  hasAvatar
+                  avatarSrc={department?.attachment?.fileUrl}
+                  name={department?.name}
+                  description={department?.description}
+                  dropdownOptions={actionDropdownData?.(department)}
+                  handleAddUser={() => handleAddMember?.(department)}
+                  usersList={department?.membersListDetails}
+                  showCount={false}
+                  addUserPermissions={[
+                    AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.ADD_MEMBERS_IN_DEPARTMENTS,
+                  ]}
+                  dropdownPermissions={
+                    Permissions?.AIR_SERVICES_SETTINGS_USER_MANAGEMENT_EDIT_DELETE_DEPARTMENTS
+                  }
+                />
               )}
-            </Grid>
+            />
             <br />
             <CustomPagination
               count={lazyGetDepartmentStatus?.data?.data?.meta?.pages}
@@ -74,10 +94,8 @@ export const Departments = () => {
               setPage={setPage}
               setPageLimit={setPageLimit}
             />
-          </>
-        ) : (
-          <NoData message="No department found" />
-        )}
+          </ApiRequestFlow>
+        }
       </PermissionsGuard>
       {openDeleteModal && (
         <DeleteDepartment

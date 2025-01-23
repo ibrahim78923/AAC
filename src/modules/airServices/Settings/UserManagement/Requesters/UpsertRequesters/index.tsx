@@ -1,12 +1,11 @@
-import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useUpsertRequester } from './useUpsertRequester';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import ApiErrorState from '@/components/ApiErrorState';
-import { componentMap } from '@/utils/dynamic-forms';
-import { createElement } from 'react';
 import { IRequestersProps } from '../Requesters.interface';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { FormGrid } from '@/components/Grids/FormGrid';
+import { DynamicForm } from '@/components/DynamicForm';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
 const UpsertRequesters = (props: IRequestersProps) => {
   const { isDrawerOpen } = props;
@@ -15,72 +14,48 @@ const UpsertRequesters = (props: IRequestersProps) => {
     methods,
     handleSubmit,
     submitUpsertRequester,
-    addRequesterStatus,
-    patchRequesterStatus,
     _id,
     upsertRequestersFormFields,
-    getDynamicFieldsStatus,
-    postAttachmentStatus,
     form,
-    igVerificationStatus,
+    apiCallInProgress,
+    getDynamicFormData,
+    isDynamicFormLoading,
+    hasDynamicFormError,
   }: any = useUpsertRequester(props);
+
   return (
     <>
       <CommonDrawer
         isDrawerOpen={isDrawerOpen as boolean}
         onClose={handleClose}
-        title={!!_id ? 'Edit Requestor' : 'Add Requestor'}
+        title={`${
+          !!_id
+            ? GENERIC_UPSERT_FORM_CONSTANT?.EDIT
+            : GENERIC_UPSERT_FORM_CONSTANT?.ADD
+        } Requestor`}
         submitHandler={() => handleSubmit(submitUpsertRequester)()}
         footer
         isOk
-        okText={!!_id ? 'Update' : 'Submit'}
-        isLoading={
-          addRequesterStatus?.isLoading ||
-          patchRequesterStatus?.isLoading ||
-          postAttachmentStatus?.isLoading ||
-          igVerificationStatus?.isLoading
+        okText={
+          !!_id
+            ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
+            : GENERIC_UPSERT_FORM_CONSTANT?.SUBMIT
         }
-        isDisabled={
-          addRequesterStatus?.isLoading ||
-          patchRequesterStatus?.isLoading ||
-          postAttachmentStatus?.isLoading ||
-          igVerificationStatus?.isLoading
-        }
-        disabledCancelBtn={
-          addRequesterStatus?.isLoading ||
-          patchRequesterStatus?.isLoading ||
-          postAttachmentStatus?.isLoading ||
-          igVerificationStatus?.isLoading
-        }
+        isLoading={apiCallInProgress}
+        isDisabled={apiCallInProgress}
+        disabledCancelBtn={apiCallInProgress}
       >
-        <Box mt={1}>
-          {getDynamicFieldsStatus?.isLoading ||
-          getDynamicFieldsStatus?.isFetching ? (
-            <SkeletonForm />
-          ) : getDynamicFieldsStatus?.isError ? (
-            <ApiErrorState />
-          ) : (
-            <FormProvider methods={methods}>
-              <Grid container spacing={2}>
-                {upsertRequestersFormFields?.map((item: any) => (
-                  <Grid item xs={12} md={item?.md} key={item?._id}>
-                    <item.component {...item.componentProps} size={'small'} />
-                  </Grid>
-                ))}
-                {form?.map((item: any) => (
-                  <Grid item xs={12} key={item?.id}>
-                    {componentMap[item?.component] &&
-                      createElement(componentMap[item?.component], {
-                        ...item?.componentProps,
-                        name: item?.componentProps?.label,
-                        size: 'small',
-                      })}
-                  </Grid>
-                ))}
-              </Grid>
-            </FormProvider>
-          )}
-        </Box>
+        <ApiRequestFlow
+          showSkeleton={isDynamicFormLoading}
+          hasError={hasDynamicFormError}
+          refreshApi={getDynamicFormData}
+        >
+          <FormProvider methods={methods}>
+            <FormGrid formFieldsList={upsertRequestersFormFields} spacing={1}>
+              <DynamicForm dynamicFormFieldsList={form} />
+            </FormGrid>
+          </FormProvider>
+        </ApiRequestFlow>
       </CommonDrawer>
     </>
   );

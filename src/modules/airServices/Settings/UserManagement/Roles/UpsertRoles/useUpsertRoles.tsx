@@ -37,6 +37,7 @@ export default function useUpsertRoles() {
     isLoading: getRolesIsLoading,
     isFetching: getRolesIsFetching,
     isError: getRolesIsError,
+    refetch,
   } = useGetPermissionsRoleByIdQuery(roleId, {
     skip: !roleId,
     refetchOnMountOrArgChange: true,
@@ -134,5 +135,6 @@ export default function useUpsertRoles() {
     getRolesIsError,
     reset,
     permissionAccordionsProps,
+    refetch,
   };
 }
