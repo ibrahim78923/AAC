@@ -2,10 +2,9 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import { Box, Grid, InputAdornment } from '@mui/material';
 import { useGiftCards } from './useGiftCards';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { LoadingButton } from '@mui/lab';
-import ApiErrorState from '@/components/ApiErrorState';
 import { PoundSignIcon } from '@/assets/icons';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const GiftCards = () => {
   const {
@@ -16,6 +15,7 @@ export const GiftCards = () => {
     showLoader,
     isError,
     reset,
+    refetch,
   } = useGiftCards();
 
   return (
@@ -29,11 +29,11 @@ export const GiftCards = () => {
         />
       </Box>
       <Box sx={{ flexGrow: 1 }}>
-        {showLoader ? (
-          <SkeletonForm length={1} />
-        ) : isError ? (
-          <ApiErrorState />
-        ) : (
+        <ApiRequestFlow
+          showSkeleton={showLoader}
+          hasError={isError}
+          refreshApi={refetch}
+        >
           <FormProvider methods={methods}>
             <Grid container spacing={1}>
               <Grid item xs={12} md={7}>
@@ -57,7 +57,7 @@ export const GiftCards = () => {
               </Grid>
             </Grid>
           </FormProvider>
-        )}
+        </ApiRequestFlow>
       </Box>
       <Box
         sx={{

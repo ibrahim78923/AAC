@@ -1,19 +1,25 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import ApiErrorState from '@/components/ApiErrorState';
 import { Avatar, Grid, Typography } from '@mui/material';
 import { generateImage } from '@/utils/avatarUtils';
 import NoData from '@/components/NoData';
 import useViewContact from './useViewContact';
 import { formFields } from './ViewContact.data';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export default function ViewContact({ modalId, setModalId }: any) {
-  const { onClose, data, isLoading, isFetching, isError, methodsNewContact } =
-    useViewContact({
-      modalId,
-      setModalId,
-    });
+  const {
+    onClose,
+    data,
+    isLoading,
+    isFetching,
+    refetch,
+    isError,
+    methodsNewContact,
+  } = useViewContact({
+    modalId,
+    setModalId,
+  });
 
   return (
     <CommonDrawer
@@ -21,11 +27,11 @@ export default function ViewContact({ modalId, setModalId }: any) {
       onClose={onClose}
       title={'View Contact Details'}
     >
-      {isLoading || isFetching ? (
-        <SkeletonForm />
-      ) : isError ? (
-        <ApiErrorState />
-      ) : (
+      <ApiRequestFlow
+        showSkeleton={isLoading || isFetching}
+        hasError={isError}
+        refreshApi={refetch}
+      >
         <FormProvider methods={methodsNewContact}>
           <Grid container spacing={2}>
             {formFields?.map((item: any) => (
@@ -64,7 +70,7 @@ export default function ViewContact({ modalId, setModalId }: any) {
             ))}
           </Grid>
         </FormProvider>
-      )}
+      </ApiRequestFlow>
     </CommonDrawer>
   );
 }

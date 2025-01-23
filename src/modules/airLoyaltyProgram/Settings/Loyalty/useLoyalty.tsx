@@ -110,5 +110,6 @@ export const useLoyalty = () => {
     showLoader,
     isError,
     reset,
+    getLoyaltySettings,
   };
 };

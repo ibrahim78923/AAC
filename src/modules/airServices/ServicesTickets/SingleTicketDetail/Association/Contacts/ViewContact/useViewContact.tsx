@@ -4,7 +4,7 @@ import { useGetAirServicesTicketContactByIdQuery } from '@/services/airServices/
 import { useFormLib } from '@/hooks/useFormLib';
 
 export default function useViewContact({ modalId, setModalId }: any) {
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetAirServicesTicketContactByIdQuery(
       { params: { id: modalId?.id } },
       { refetchOnMountOrArgChange: true },
@@ -36,5 +36,6 @@ export default function useViewContact({ modalId, setModalId }: any) {
     isFetching,
     isError,
     methodsNewContact,
+    refetch,
   };
 }

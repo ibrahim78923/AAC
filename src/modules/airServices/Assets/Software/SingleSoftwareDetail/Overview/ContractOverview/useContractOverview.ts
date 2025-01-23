@@ -13,7 +13,8 @@ export const useContractOverview = (props: {
   const theme = useTheme();
   const searchParams = useSearchParams();
   const softwareId = searchParams?.get('softwareId');
-  const { data, isLoading, isError, isFetching } =
+
+  const { data, isLoading, isError, isFetching, refetch } =
     useGetAssetsSoftwareContractValueQuery(softwareId, {
       refetchOnMountOrArgChange: true,
       skip: !!!softwareId,
@@ -26,5 +27,6 @@ export const useContractOverview = (props: {
     contractOverviewLabel,
     theme,
     isFetching,
+    refetch,
   };
 };

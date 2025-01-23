@@ -1,19 +1,25 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import ApiErrorState from '@/components/ApiErrorState';
 import { Avatar, Grid, Typography } from '@mui/material';
 import { generateImage } from '@/utils/avatarUtils';
 import NoData from '@/components/NoData';
 import useViewCompany from './useViewCompany';
 import { formFields } from './ViewCompany.data';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export default function ViewCompany({ modalId, setModalId }: any) {
-  const { onClose, data, isLoading, isFetching, isError, methodsNewCompany } =
-    useViewCompany({
-      modalId,
-      setModalId,
-    });
+  const {
+    onClose,
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    methodsNewCompany,
+    refetch,
+  } = useViewCompany({
+    modalId,
+    setModalId,
+  });
 
   return (
     <CommonDrawer
@@ -21,11 +27,11 @@ export default function ViewCompany({ modalId, setModalId }: any) {
       onClose={onClose}
       title={'Company Details'}
     >
-      {isLoading || isFetching ? (
-        <SkeletonForm />
-      ) : isError ? (
-        <ApiErrorState />
-      ) : (
+      <ApiRequestFlow
+        showSkeleton={isLoading || isFetching}
+        hasError={isError}
+        refreshApi={refetch}
+      >
         <FormProvider methods={methodsNewCompany}>
           <Grid container spacing={2}>
             {formFields?.map((item: any) => (
@@ -64,7 +70,7 @@ export default function ViewCompany({ modalId, setModalId }: any) {
             ))}
           </Grid>
         </FormProvider>
-      )}
+      </ApiRequestFlow>
     </CommonDrawer>
   );
 }

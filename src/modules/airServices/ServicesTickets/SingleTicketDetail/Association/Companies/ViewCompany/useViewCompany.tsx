@@ -4,7 +4,7 @@ import { getDefaultValues } from './ViewCompany.data';
 import { useFormLib } from '@/hooks/useFormLib';
 
 export default function useViewCompany({ modalId, setModalId }: any) {
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetAirServicesCompanyByIdQuery(
       { params: { id: modalId?.id } },
       { refetchOnMountOrArgChange: true },
@@ -35,5 +35,6 @@ export default function useViewCompany({ modalId, setModalId }: any) {
     isFetching,
     isError,
     methodsNewCompany,
+    refetch,
   };
 }

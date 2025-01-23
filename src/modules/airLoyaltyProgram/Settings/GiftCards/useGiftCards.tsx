@@ -104,5 +104,6 @@ export const useGiftCards = () => {
     isError,
     moveToSettings,
     reset,
+    refetch,
   };
 };
