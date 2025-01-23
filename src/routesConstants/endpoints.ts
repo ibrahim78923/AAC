@@ -803,4 +803,5 @@ export const COMMON_CONTRACTS = {
   GET_CONTRACT_BY_ID: '/common-contract',
   SAVE_AS_DRAFT: '/common-contract/save-as-draft',
   GET_TEMPLATE_BY_FOLDER: '/common-contract-template/by-folder',
+  GET_COMMON_CONTRACTS: '/common-contract/get-common-contracts',
 };
