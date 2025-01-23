@@ -3,9 +3,9 @@ import { IconInfoCard } from '@/components/Cards/IconInfoCard/IconInfoCard';
 import CustomPagination from '@/components/CustomPagination';
 import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import { DATA_TYPES } from '@/constants/strings';
-import { Grid } from '@mui/material';
 import { useCategoryList } from './useCategoryList';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const CategoryList = () => {
   const {
@@ -29,8 +29,8 @@ export const CategoryList = () => {
         cardSkeletonType={SKELETON_TYPES?.LARGE_VERTICAL_TWO_LAYER_DOUBLE_CARD}
       >
         <>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={6} lg={3}>
+          <CustomGrid isContainer>
+            <CustomGrid xs={12} md={6} lg={3}>
               <IconInfoCard
                 name="All Services"
                 description="Browse the list of all services offered and raise a request."
@@ -45,11 +45,11 @@ export const CategoryList = () => {
                   });
                 }}
               />
-            </Grid>
+            </CustomGrid>
 
             {!!categoryList?.length &&
               categoryList?.map((category: any) => (
-                <Grid item xs={12} md={6} lg={3} key={category?._id}>
+                <CustomGrid xs={12} md={6} lg={3} key={category?._id}>
                   <IconInfoCard
                     name={category?.categoryName}
                     description={category?.description}
@@ -67,9 +67,9 @@ export const CategoryList = () => {
                       });
                     }}
                   />
-                </Grid>
+                </CustomGrid>
               ))}
-          </Grid>
+          </CustomGrid>
           <br />
           <CustomPagination
             count={data?.data?.meta?.pages}

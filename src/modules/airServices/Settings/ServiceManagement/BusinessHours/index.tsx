@@ -1,5 +1,4 @@
-import { Box, Grid, Skeleton, Typography } from '@mui/material';
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import { Box, Grid, Typography } from '@mui/material';
 import { ClockWithBagIcon } from '@/assets/icons';
 import Link from 'next/link';
 import { AIR_SERVICES } from '@/constants/routes';
@@ -10,9 +9,11 @@ import { AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS } from '@/constant
 import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { MoreHoriz } from '@mui/icons-material';
 import { getBusinessHoursOptions } from './BusinessHours.data';
-import ApiErrorState from '@/components/ApiErrorState';
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import { AddNewCard } from '@/components/Cards/AddNewCard';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const BusinessHours = () => {
   const {
@@ -35,54 +36,24 @@ export const BusinessHours = () => {
         canMovedBack
         moveBack={() => router?.push(AIR_SERVICES?.SERVICE_MANAGEMENT)}
       />
-
-      <br />
-
       <Grid container spacing={3}>
-        <Grid
-          item
-          lg={3}
-          sm={6}
-          xs={12}
-          href={AIR_SERVICES?.UPSERT_BUSINESS_HOUR}
-          component={Link}
-        >
+        <Grid item lg={3} sm={6} xs={12}>
           <PermissionsGuard
             permissions={[
               AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS?.ADD_NEW_BUSINESS_HOURS,
             ]}
           >
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              gap={1}
-              height="12rem"
-              border="0.06rem solid"
-              borderColor="primary.main"
-              borderRadius={2}
-              sx={{ cursor: 'pointer' }}
-            >
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                width="2.1rem"
-                height="2.1rem"
-                border="0.13rem solid"
-                borderColor="primary.main"
-                borderRadius="50%"
-              >
-                <AddRoundedIcon
-                  sx={{
-                    color: 'primary.main',
-                  }}
-                />
-              </Box>
-              <Typography variant="subtitle2" color="blue.dark">
-                Create New Template
-              </Typography>
-            </Box>
+            <Link href={AIR_SERVICES?.UPSERT_BUSINESS_HOUR}>
+              <AddNewCard
+                title="Create New Template"
+                iconBackgroundColor=""
+                iconColor="primary.main"
+                iconBorderColor="primary.main"
+                flexDirection="row"
+                cardBorderColor="primary.main"
+                iconPadding={0}
+              />
+            </Link>
           </PermissionsGuard>
         </Grid>
         <PermissionsGuard
@@ -90,18 +61,16 @@ export const BusinessHours = () => {
             AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS?.VIEW_BUSINESS_HOURS,
           ]}
         >
-          {isError ? (
-            <Grid item xs={12}>
-              <ApiErrorState canRefresh refresh={() => refetch?.()} />
-            </Grid>
-          ) : isLoading || isFetching ? (
-            [1, 2, 3, 4, 5]?.map((item: number) => (
-              <Grid item lg={4} sm={6} xs={12} key={item}>
-                <Skeleton height="12rem" variant="rectangular" />
-              </Grid>
-            ))
-          ) : (
-            businessHoursList?.map((businessHour: any) => (
+          <ApiRequestFlow
+            showSkeleton={isLoading || isFetching}
+            hasError={isError}
+            refreshApi={refetch}
+            skeletonType={SKELETON_TYPES?.BASIC_CARD}
+            cardSkeletonType={
+              SKELETON_TYPES?.LARGE_VERTICAL_TWO_LAYER_DOUBLE_CARD
+            }
+          >
+            {businessHoursList?.map((businessHour: any) => (
               <Grid item lg={3} sm={6} xs={12} key={businessHour?._id}>
                 <Box
                   height={'12rem'}
@@ -155,8 +124,8 @@ export const BusinessHours = () => {
                   </Box>
                 </Box>
               </Grid>
-            ))
-          )}
+            ))}
+          </ApiRequestFlow>
         </PermissionsGuard>
       </Grid>
 

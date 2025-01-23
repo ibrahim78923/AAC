@@ -11,7 +11,7 @@ export const useAgentRequest = () => {
   const [selectedAgentRequest, setSelectedAgentRequest] = useState('');
   const [requesterId, setRequesterId] = useState(null);
 
-  const { data, isLoading, isFetching, isError }: any =
+  const { data, isLoading, isFetching, isError, refetch }: any =
     useGetAgentRequesterQuery(
       {},
       {
@@ -57,5 +57,6 @@ export const useAgentRequest = () => {
     selectedAgentRequest,
     setSelectedAgentRequest,
     requesterId,
+    refetch,
   };
 };

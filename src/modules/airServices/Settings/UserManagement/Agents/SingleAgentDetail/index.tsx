@@ -7,6 +7,8 @@ import { UpsertAgent } from '../UpsertAgent';
 import { useSingleAgentDetail } from './useSingleAgentDetail';
 import { PermissionsTabs } from '@/components/Tabs/PermissionsTabs';
 import { getSingleAgentsTabsData } from './SingleAgentDetail.data';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const SingleAgentDetail = () => {
   const router = useRouter();
@@ -20,7 +22,9 @@ export const SingleAgentDetail = () => {
     setIsAgentModalOpen,
     permissionRoleDetails,
     agentLevelDetail,
+    refetch,
   }: any = useSingleAgentDetail();
+
   return (
     <>
       <PageTitledHeader
@@ -32,15 +36,25 @@ export const SingleAgentDetail = () => {
         canMovedBack
         title={'Profile'}
       />
-      <AgentBioData
-        data={data}
-        isLoading={isLoading}
-        isFetching={isFetching}
-        isError={isError}
-        departmentDetails={departmentDetails}
-        handleEditButtonClick={() => setIsAgentModalOpen?.(true)}
-        agentLevelDetail={agentLevelDetail}
-      />
+      <ApiRequestFlow
+        showSkeleton={isLoading || isFetching}
+        hasError={isError}
+        refreshApi={refetch}
+        errorHeight="40vh"
+        length={3}
+        skeletonType={SKELETON_TYPES?.GRID}
+      >
+        <AgentBioData
+          data={data}
+          isLoading={isLoading}
+          isFetching={isFetching}
+          isError={isError}
+          departmentDetails={departmentDetails}
+          handleEditButtonClick={() => setIsAgentModalOpen?.(true)}
+          agentLevelDetail={agentLevelDetail}
+        />
+      </ApiRequestFlow>
+
       <Typography my={3} variant="h3" color="slateBlue.main">
         Associations
       </Typography>

@@ -1,57 +1,42 @@
-import {
-  Avatar,
-  Box,
-  Grid,
-  IconButton,
-  Typography,
-  useTheme,
-} from '@mui/material';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import ApiErrorState from '@/components/ApiErrorState';
+import { Avatar, Box, IconButton, Typography, useTheme } from '@mui/material';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { fullName, generateImage, truncateText } from '@/utils/avatarUtils';
 import { EditRequestorsIcon } from '@/assets/icons';
 import { AGENT_LEVELS_IMAGES } from '@/constants/images';
 import { otherDateFormat } from '@/lib/date-time';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const AgentBioData = (props: any) => {
   const theme = useTheme();
   const {
     data,
-    isLoading,
-    isFetching,
-    isError,
     departmentDetails,
     handleEditButtonClick,
     agentLevelDetail,
   }: any = props;
 
-  if (isLoading || isFetching) return <SkeletonForm />;
-  if (isError) return <ApiErrorState />;
-
   return (
     <Box
-      sx={{
-        border: `2px solid ${theme?.palette?.custom?.off_white_three}`,
-        borderRadius: '.5rem',
-        paddingY: '1rem',
-      }}
+      border="2px solid"
+      borderRadius={2}
+      paddingY={2}
+      borderColor="custom.off_white_three"
     >
-      <Grid container>
-        <Grid
-          item
-          xs={12}
-          md={4}
-          padding={1.5}
-          borderRight={{
-            md: `1px solid ${theme?.palette?.custom?.off_white_three}`,
-          }}
-          borderBottom={{
-            xs: `1px solid ${theme?.palette?.custom?.off_white_three}`,
-            md: 'none',
-          }}
-        >
-          <Box>
+      <CustomGrid isContainer>
+        <CustomGrid item xs={12} md={4}>
+          <Box
+            sx={{
+              height: '100%',
+              px: 1.5,
+              borderRight: {
+                md: `1px solid ${theme?.palette?.custom?.off_white_three}`,
+              },
+              borderBottom: {
+                xs: `1px solid ${theme?.palette?.custom?.off_white_three}`,
+                md: 'none',
+              },
+            }}
+          >
             <Box
               display={'flex'}
               flexWrap={'wrap'}
@@ -118,35 +103,37 @@ export const AgentBioData = (props: any) => {
               </Box>
             </Box>
           </Box>
-        </Grid>
-        <Grid item xs={12} md={3.5} padding={1.5}>
-          <Box display={'flex'} flexWrap={'wrap'} gap={1} my={2}>
-            <Typography variant="body2" fontWeight={600}>
-              Department
-            </Typography>
-            <Typography variant="body2" sx={{ flex: '1' }} />
-            {truncateText(departmentDetails?.data?.data?.name)}
+        </CustomGrid>
+        <CustomGrid item xs={12} md={3.5} padding={1.5}>
+          <Box sx={{ padding: 1.5 }}>
+            <Box display={'flex'} flexWrap={'wrap'} gap={1} my={2}>
+              <Typography variant="body2" fontWeight={600}>
+                Department
+              </Typography>
+              <Typography variant="body2" sx={{ flex: '1' }} />
+              {truncateText(departmentDetails?.data?.data?.name)}
+            </Box>
+            <Box
+              display={'flex'}
+              flexWrap={'wrap'}
+              justifyContent={'space-between'}
+              my={2}
+            >
+              <Typography variant="body2" fontWeight={600}>
+                Email:
+              </Typography>
+              <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
+                {data?.data?.email ?? '---'}
+              </Typography>
+            </Box>
           </Box>
-          <Box
-            display={'flex'}
-            flexWrap={'wrap'}
-            justifyContent={'space-between'}
-            my={2}
-          >
-            <Typography variant="body2" fontWeight={600}>
-              Email:
-            </Typography>
-            <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
-              {data?.data?.email ?? '---'}
-            </Typography>
-          </Box>
-        </Grid>
-        <Grid item xs={12} md={1} textAlign={'center'}>
+        </CustomGrid>
+        <CustomGrid item xs={12} md={1} textAlign={'center'}>
           <IconButton onClick={() => handleEditButtonClick?.()}>
             <EditRequestorsIcon />
           </IconButton>
-        </Grid>
-        <Grid item xs={12} md={3} padding={1.5} textAlign={'end'}>
+        </CustomGrid>
+        <CustomGrid item xs={12} md={3} padding={1.5} textAlign={'end'}>
           {!!agentLevelDetail?.data ? (
             <Box
               display={'flex'}
@@ -173,8 +160,8 @@ export const AgentBioData = (props: any) => {
           ) : (
             <></>
           )}
-        </Grid>
-      </Grid>
+        </CustomGrid>
+      </CustomGrid>
     </Box>
   );
 };

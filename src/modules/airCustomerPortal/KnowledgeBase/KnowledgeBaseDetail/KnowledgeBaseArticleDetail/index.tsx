@@ -1,9 +1,11 @@
-import { Box, Grid, Skeleton } from '@mui/material';
+import { Box } from '@mui/material';
 import { useKnowledgeBaseArticleDetail } from './useKnowledgeBaseArticleDetail';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { KnowledgeBaseRelatedArticles } from './KnowledgeBaseRelatedArticles';
 import { truncateText } from '@/utils/avatarUtils';
+import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const KnowledgeBaseArticleDetail = () => {
   const {
@@ -29,51 +31,55 @@ export const KnowledgeBaseArticleDetail = () => {
   } = useKnowledgeBaseArticleDetail();
 
   return (
-    <Grid
-      container
-      justifyContent="space-between"
+    <CustomGrid
+      isContainer
+      customStyles={{
+        height: '100%',
+        minHeight: '45rem',
+        justifyContent: 'space-between',
+      }}
       spacing={1}
-      height={'100%'}
-      minHeight={'45rem'}
     >
-      <Grid item xs={12} lg={9} display={'flex'} flexDirection={'column'}>
-        <PageTitledHeader
-          title={
-            isLoading || isFetching ? (
-              <Skeleton variant="rectangular" width="10rem" />
-            ) : (
-              truncateText(singleArticlesData?.title)
-            )
-          }
-          canMovedBack
-          moveBack={handlePageBack}
-        />
-        {isLoading || isFetching ? (
-          <SkeletonTable />
-        ) : (
-          <Box
-            height={'1rem'}
-            overflow="scroll"
-            flexGrow={1}
-            p={1}
-            dangerouslySetInnerHTML={{ __html: singleArticlesData?.details }}
+      <CustomGrid xs={12} lg={9}>
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <PageTitledHeader
+            title={
+              isLoading || isFetching ? (
+                <CustomLinearProgress />
+              ) : (
+                truncateText(singleArticlesData?.title)
+              )
+            }
+            canMovedBack
+            moveBack={handlePageBack}
           />
-        )}
-      </Grid>
+          {isLoading || isFetching ? (
+            <SkeletonTable />
+          ) : (
+            <Box
+              height={'1rem'}
+              overflow="scroll"
+              flexGrow={1}
+              p={1}
+              dangerouslySetInnerHTML={{ __html: singleArticlesData?.details }}
+            />
+          )}
+        </Box>
+      </CustomGrid>
 
-      <Grid item xs={12} lg={3} display={'flex'}>
+      <CustomGrid xs={12} lg={3} customStyles={{ display: 'flex' }}>
         <Box
           borderLeft={{
-            lg: `.1rem solid ${theme?.palette?.grey?.[700]}`,
-            xs: null,
+            lg: `1px solid ${theme?.palette?.grey?.[700]}`,
+            xs: 'none',
           }}
           borderTop={{
-            lg: null,
-            xs: `.1rem solid ${theme?.palette?.grey?.[700]}`,
+            lg: 'none',
+            xs: `1px solid ${theme?.palette?.grey?.[700]}`,
           }}
           borderBottom={{
-            lg: null,
-            xs: `.1rem solid ${theme?.palette?.grey?.[700]}`,
+            lg: 'none',
+            xs: `1px solid ${theme?.palette?.grey?.[700]}`,
           }}
           p={1}
           flexGrow={1}
@@ -96,7 +102,7 @@ export const KnowledgeBaseArticleDetail = () => {
             companyId={companyId}
           />
         </Box>
-      </Grid>
-    </Grid>
+      </CustomGrid>
+    </CustomGrid>
   );
 };
