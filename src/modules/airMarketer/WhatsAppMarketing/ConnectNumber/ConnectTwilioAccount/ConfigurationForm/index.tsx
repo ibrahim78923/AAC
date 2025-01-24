@@ -9,7 +9,7 @@ import { LoadingButton } from '@mui/lab';
 import Link from 'next/link';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 
-const ConfigurationForm = ({ setIsAddConfiguration }: any) => {
+const ConfigurationForm = ({}: any) => {
   const {
     theme,
     methods,
@@ -60,7 +60,7 @@ const ConfigurationForm = ({ setIsAddConfiguration }: any) => {
         <Button
           variant="outlined"
           color="inherit"
-          onClick={() => setIsAddConfiguration(false)}
+          onClick={() => window.history.back()}
         >
           Cancel
         </Button>
