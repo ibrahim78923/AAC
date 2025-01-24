@@ -1,11 +1,14 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { Avatar, Grid, Typography } from '@mui/material';
+import { Avatar, Typography } from '@mui/material';
 import { generateImage } from '@/utils/avatarUtils';
 import NoData from '@/components/NoData';
 import useViewCompany from './useViewCompany';
 import { formFields } from './ViewCompany.data';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 export default function ViewCompany({ modalId, setModalId }: any) {
   const {
@@ -33,10 +36,10 @@ export default function ViewCompany({ modalId, setModalId }: any) {
         refreshApi={refetch}
       >
         <FormProvider methods={methodsNewCompany}>
-          <Grid container spacing={2}>
+          <ContainerGrid>
             {formFields?.map((item: any) => (
-              <Grid item xs={12} key={item?.id}>
-                {item?.id === 3 ? (
+              <CustomGrid key={item?.id}>
+                {item?.id === ARRAY_INDEX?.THREE ? (
                   <>
                     <Typography
                       variant="body1"
@@ -66,9 +69,9 @@ export default function ViewCompany({ modalId, setModalId }: any) {
                     disabled
                   />
                 )}
-              </Grid>
+              </CustomGrid>
             ))}
-          </Grid>
+          </ContainerGrid>
         </FormProvider>
       </ApiRequestFlow>
     </CommonDrawer>

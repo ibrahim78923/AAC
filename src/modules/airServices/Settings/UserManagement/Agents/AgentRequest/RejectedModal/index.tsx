@@ -1,9 +1,9 @@
 import { FormProvider } from '@/components/ReactHookForm';
-import { Grid } from '@mui/material';
 import { rejectedModalField } from './RejectedModal.data';
 import { useRejectedModal } from './useRejectedModal';
 import { IAgentsProps } from '../../Agents.interface';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 const RejectedModal = (props: IAgentsProps) => {
   const { openRejectedModal } = props;
@@ -27,13 +27,7 @@ const RejectedModal = (props: IAgentsProps) => {
         handleSubmitButton={handleSubmit?.(onSubmit)}
       >
         <FormProvider methods={methods}>
-          <Grid container spacing={1}>
-            {rejectedModalField?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={item?.id}>
-                <item.component {...item?.componentProps} size={'small'} />
-              </Grid>
-            ))}
-          </Grid>
+          <FormGrid formFieldsList={rejectedModalField} />
         </FormProvider>
       </CustomCommonDialog>
     </>

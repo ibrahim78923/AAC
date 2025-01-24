@@ -96,7 +96,7 @@ export const addItemsToInventoryCountFormFieldsDynamic = (
 ) => {
   return [
     {
-      id: 1,
+      _id: 1,
       heading: 'Items added to inventory',
       componentProps: {
         variant: 'body1',
@@ -106,7 +106,7 @@ export const addItemsToInventoryCountFormFieldsDynamic = (
       component: Typography,
     },
     {
-      id: 2,
+      _id: 2,
       heading: inventoryCount,
       componentProps: {
         variant: 'body2',
@@ -115,7 +115,7 @@ export const addItemsToInventoryCountFormFieldsDynamic = (
       component: Typography,
     },
     {
-      id: 3,
+      _id: 3,
       componentProps: {
         label: 'Add',
         required: true,
@@ -126,7 +126,7 @@ export const addItemsToInventoryCountFormFieldsDynamic = (
       component: RHFTextField,
     },
     {
-      id: 4,
+      _id: 4,
       heading: (
         <Box
           display={'flex'}
@@ -160,7 +160,7 @@ export const addItemsToInventoryFormFieldsDynamic = (
 ) => {
   return [
     {
-      id: 6,
+      _id: 6,
       component: RHFRadioGroup,
       md: 12,
       componentProps: {
@@ -177,7 +177,7 @@ export const addItemsToInventoryFormFieldsDynamic = (
     ...(watchAddInventoryMethod === ADDED_INVENTORY_METHODS?.ADD_NEW
       ? [
           {
-            id: 1,
+            _id: 1,
             componentProps: {
               name: 'displayName',
               label: 'Asset Name Prefix',
@@ -188,7 +188,7 @@ export const addItemsToInventoryFormFieldsDynamic = (
             md: 12,
           },
           {
-            id: 2,
+            _id: 2,
             componentProps: {
               name: 'impact',
               label: 'Impact',
@@ -202,11 +202,11 @@ export const addItemsToInventoryFormFieldsDynamic = (
             md: 12,
           },
           {
-            id: 3,
+            _id: 3,
             component: GetPurchaseOrderDepartmentDropdown,
           },
           {
-            id: 4,
+            _id: 4,
             component: GetPurchaseOrderLocationDropdown,
           },
         ]
@@ -214,7 +214,7 @@ export const addItemsToInventoryFormFieldsDynamic = (
     ...(watchAddInventoryMethod === ADDED_INVENTORY_METHODS?.UPDATE_EXISTING
       ? [
           {
-            id: 11,
+            _id: 11,
             component: Search,
             componentProps: {
               label: 'Search Here',
@@ -223,7 +223,7 @@ export const addItemsToInventoryFormFieldsDynamic = (
             },
           },
           {
-            id: 10,
+            _id: 10,
             component:
               allAssets?.isFetching || allAssets?.isLoading
                 ? SkeletonTable

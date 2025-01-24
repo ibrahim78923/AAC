@@ -1,4 +1,4 @@
-import { Grid, Box } from '@mui/material';
+import { Box } from '@mui/material';
 import { useTicketsBoardView } from './useTicketsBoardView';
 import CustomPagination from '@/components/CustomPagination';
 import { DataRecordCount } from '@/components/DataRecordCount';
@@ -12,6 +12,8 @@ import {
 } from '@/components/DragAndDrop';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const TableBoardView = () => {
   const {
@@ -45,18 +47,18 @@ export const TableBoardView = () => {
       }
     >
       <Box>
-        <Grid
-          container
-          spacing={2}
-          flexWrap={'nowrap'}
-          sx={{ overflowX: 'auto', overflowY: 'hidden' }}
+        <ContainerGrid
+          customStyles={{
+            overflowX: 'auto',
+            flexWrap: 'nowrap',
+            overflowY: 'hidden',
+          }}
         >
           <CustomDragDropContext onDragEnd={onDragEnd}>
             {HEAD_STATUS?.map((head: any) => (
-              <Grid
-                item
+              <CustomGrid
                 xs={3}
-                sx={{ minWidth: pxToRem(400) }}
+                customStyles={{ minWidth: pxToRem(400) }}
                 key={head?.heading}
               >
                 <Box mb={0.5}>
@@ -88,10 +90,10 @@ export const TableBoardView = () => {
                     </CustomDraggable>
                   ))}
                 </CustomDroppable>
-              </Grid>
+              </CustomGrid>
             ))}
           </CustomDragDropContext>
-        </Grid>
+        </ContainerGrid>
       </Box>
       <CustomPagination
         count={lazyGetTicketsStatus?.data?.data?.meta?.pages}

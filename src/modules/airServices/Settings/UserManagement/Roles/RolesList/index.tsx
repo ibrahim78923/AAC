@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { AddRoleIcon } from '@/assets/icons';
 import { AIR_SERVICES } from '@/constants/routes';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
@@ -9,6 +9,8 @@ import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
 import { InteractiveInfoCard } from '@/components/Cards/InteractiveInfoCard';
 import { DeleteRole } from '../DeleteRole';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 const RolesCards = (props: any) => {
   const {
@@ -31,13 +33,13 @@ const RolesCards = (props: any) => {
 
   return (
     <>
-      <Grid container spacing={2}>
+      <ContainerGrid>
         <PermissionsGuard
           permissions={[
             AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.ADD_NEW_ROLE,
           ]}
         >
-          <Grid item xs={12} md={6} xl={4}>
+          <CustomGrid md={6} xl={4}>
             <Box
               width={'100%'}
               border={1}
@@ -62,7 +64,7 @@ const RolesCards = (props: any) => {
                 </Box>
               </Box>
             </Box>
-          </Grid>
+          </CustomGrid>
         </PermissionsGuard>
         <ApiRequestFlow
           showSkeleton={isLoading || isFetching}
@@ -76,7 +78,7 @@ const RolesCards = (props: any) => {
           }
         >
           {data?.data?.companyaccountroles?.map((item: any) => (
-            <Grid item xs={12} md={6} xl={4} key={item?._id}>
+            <CustomGrid md={6} xl={4} key={item?._id}>
               <InteractiveInfoCard
                 name={item?.name}
                 description={item?.description}
@@ -88,10 +90,10 @@ const RolesCards = (props: any) => {
                   AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.DELETE_ROLE,
                 ]}
               />
-            </Grid>
+            </CustomGrid>
           ))}
         </ApiRequestFlow>
-      </Grid>
+      </ContainerGrid>
       <br />
       <CustomPagination
         count={data?.data?.meta?.pages}

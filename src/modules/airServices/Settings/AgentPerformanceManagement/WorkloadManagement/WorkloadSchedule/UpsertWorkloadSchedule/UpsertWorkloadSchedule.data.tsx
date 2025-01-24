@@ -103,7 +103,9 @@ export const upsertWorkloadScheduleFormFieldsDynamic = (
     heading:
       'The selected business hours will be used to create the work schedule',
     md: 12,
-    p: 0,
+    gridSx: {
+      pt: `0 !important`,
+    },
     component: Typography,
   },
   {

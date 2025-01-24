@@ -1,4 +1,4 @@
-import { Avatar, Box, Grid, Typography } from '@mui/material';
+import { Avatar, Box, Typography } from '@mui/material';
 import RejectedModal from './RejectedModal';
 import { useAgentRequest } from './useAgentRequest';
 import { AGENT_REQUEST_STATUS } from '@/constants/strings';
@@ -10,6 +10,8 @@ import { TruncateText } from '@/components/TruncateText';
 import { uiDateFormat } from '@/lib/date-time';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 const AgentRequest = () => {
   const {
@@ -41,9 +43,9 @@ const AgentRequest = () => {
         cardSkeletonType={SKELETON_TYPES?.LARGE_VERTICAL_TWO_LAYER_DOUBLE_CARD}
         length={8}
       >
-        <Grid container spacing={2}>
+        <ContainerGrid>
           {data?.data?.map((item: any) => (
-            <Grid item xs={12} sm={6} md={4} xl={3} key={item?._id}>
+            <CustomGrid sm={6} md={4} xl={3} key={item?._id}>
               <Box
                 textAlign={'center'}
                 display={'flex'}
@@ -145,9 +147,9 @@ const AgentRequest = () => {
                   </PermissionsGuard>
                 )}
               </Box>
-            </Grid>
+            </CustomGrid>
           ))}
-        </Grid>
+        </ContainerGrid>
       </ApiRequestFlow>
 
       {openRejectedModal && (

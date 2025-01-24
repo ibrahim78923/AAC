@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { RHFCheckbox } from '@/components/ReactHookForm';
 import usePermissionsAccordion from './usePermissionsAccordion';
 import { AntSwitch } from '@/components/AntSwitch';
@@ -8,6 +8,8 @@ import { CustomAccordion } from '@/components/CustomAccordion';
 import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
 import { ACCORDION_VARIANTS, SKELETON_TYPES } from '@/constants/mui-constant';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 const PermissionsAccordion = (props: any) => {
   const {
@@ -62,13 +64,13 @@ const PermissionsAccordion = (props: any) => {
                   key={subModule?.subModule}
                   summaryTitle={subModule?.name}
                 >
-                  <Grid container spacing={1}>
+                  <ContainerGrid spacing={1}>
                     {subModule?.permissions?.map((item: any) => (
-                      <Grid item xs={12} md={4} key={item?.slug}>
+                      <CustomGrid md={4} key={item?.slug}>
                         <RHFCheckbox name={item?.slug} label={item?.name} />
-                      </Grid>
+                      </CustomGrid>
                     ))}
-                  </Grid>
+                  </ContainerGrid>
                 </CustomAccordion>
               ))}
             </CustomAccordion>

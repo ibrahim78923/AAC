@@ -1,9 +1,10 @@
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertWorkloadSchedule } from './useUpsertWorkloadSchedule';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { LoadingButton } from '@mui/lab';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { HeadingFormGrid } from '@/components/Grids/HeadingFormGrid';
 
 export const UpsertWorkloadSchedule = () => {
   const {
@@ -35,22 +36,7 @@ export const UpsertWorkloadSchedule = () => {
         methods={method}
         onSubmit={handleSubmit(submitWorkloadSchedule)}
       >
-        <Grid container spacing={2}>
-          {upsertWorkloadScheduleFormFields?.map((item: any) => (
-            <Grid
-              item
-              key={item?._id}
-              md={item?.md}
-              xs={12}
-              sx={{ pt: `${item?.p} !important` }}
-            >
-              <item.component {...item?.componentProps} size={'small'}>
-                {item?.heading && item?.heading}
-              </item.component>
-            </Grid>
-          ))}
-        </Grid>
-
+        <HeadingFormGrid formFieldsList={upsertWorkloadScheduleFormFields} />
         <Box
           display={'flex'}
           alignItems={'center'}

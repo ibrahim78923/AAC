@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { CreateNewFolder } from './CreateNewFolder';
 import Search from '@/components/Search';
@@ -13,6 +13,8 @@ import { AddNewCard } from '@/components/Cards/AddNewCard';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
 import { SemiInteractiveInfoCard } from '@/components/Cards/SemiInteractiveInfoCard';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const CannedResponses = () => {
   const {
@@ -46,7 +48,7 @@ export const CannedResponses = () => {
           AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.SEARCH_EDIT_DELETE_CANNED_RESPONSES,
         ]}
       >
-        <Box my={1}>
+        <Box my={2}>
           <Search label={'Search Here'} setSearchBy={handleSearch} />
         </Box>
       </PermissionsGuard>
@@ -61,13 +63,13 @@ export const CannedResponses = () => {
         skeletonType={SKELETON_TYPES?.BASIC_CARD}
         cardSkeletonType={SKELETON_TYPES?.LARGE_VERTICAL_TWO_LAYER_DOUBLE_CARD}
       >
-        <Grid container spacing={3} mt={1}>
+        <ContainerGrid spacing={3}>
           <PermissionsGuard
             permissions={[
               AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.ADD_CANNED_RESPONSES_FOLDERS,
             ]}
           >
-            <Grid item lg={4} sm={6} xs={12}>
+            <CustomGrid lg={4} sm={6}>
               <AddNewCard
                 title="Add New"
                 iconBackgroundColor="custom.light_lavender_gray"
@@ -76,7 +78,7 @@ export const CannedResponses = () => {
                   setOpenModal({ create: true, delete: false, editData: null })
                 }
               />
-            </Grid>
+            </CustomGrid>
           </PermissionsGuard>
 
           <PermissionsGuard
@@ -87,7 +89,7 @@ export const CannedResponses = () => {
             {cannedResponses
               ?.filter((item: any) => item?.perDefine)
               ?.map((response: any) => (
-                <Grid item lg={4} sm={6} xs={12} key={response?._id}>
+                <CustomGrid lg={4} sm={6} key={response?._id}>
                   <SemiInteractiveInfoCard
                     onClick={() =>
                       router?.push({
@@ -105,14 +107,14 @@ export const CannedResponses = () => {
                       response,
                     )}
                   />
-                </Grid>
+                </CustomGrid>
               ))}
           </PermissionsGuard>
 
           {cannedResponses
             ?.filter((item: any) => !item?.perDefine)
             ?.map((response: any) => (
-              <Grid item lg={4} sm={6} xs={12} key={response?._id}>
+              <CustomGrid lg={4} sm={6} key={response?._id}>
                 <SemiInteractiveInfoCard
                   onClick={() =>
                     router?.push({
@@ -134,9 +136,9 @@ export const CannedResponses = () => {
                     AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.EDIT_DELETE_CUSTOM_FOLDERS,
                   ]}
                 />
-              </Grid>
+              </CustomGrid>
             ))}
-          <Grid item xs={12}>
+          <CustomGrid item xs={12}>
             <CustomPagination
               currentPage={page}
               count={cannedResponsesMetaData?.pages}
@@ -146,8 +148,8 @@ export const CannedResponses = () => {
               setPage={setPage}
               setPageLimit={setPageLimit}
             />
-          </Grid>
-        </Grid>
+          </CustomGrid>
+        </ContainerGrid>
       </ApiRequestFlow>
 
       {openModal?.create && (

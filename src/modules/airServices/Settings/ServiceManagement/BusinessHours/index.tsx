@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { ClockWithBagIcon } from '@/assets/icons';
 import Link from 'next/link';
 import { AIR_SERVICES } from '@/constants/routes';
@@ -14,6 +14,8 @@ import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { AddNewCard } from '@/components/Cards/AddNewCard';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const BusinessHours = () => {
   const {
@@ -36,8 +38,8 @@ export const BusinessHours = () => {
         canMovedBack
         moveBack={() => router?.push(AIR_SERVICES?.SERVICE_MANAGEMENT)}
       />
-      <Grid container spacing={3}>
-        <Grid item lg={3} sm={6} xs={12}>
+      <ContainerGrid spacing={3}>
+        <CustomGrid lg={3} sm={6}>
           <PermissionsGuard
             permissions={[
               AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS?.ADD_NEW_BUSINESS_HOURS,
@@ -55,7 +57,7 @@ export const BusinessHours = () => {
               />
             </Link>
           </PermissionsGuard>
-        </Grid>
+        </CustomGrid>
         <PermissionsGuard
           permissions={[
             AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS?.VIEW_BUSINESS_HOURS,
@@ -71,7 +73,7 @@ export const BusinessHours = () => {
             }
           >
             {businessHoursList?.map((businessHour: any) => (
-              <Grid item lg={3} sm={6} xs={12} key={businessHour?._id}>
+              <CustomGrid lg={3} sm={6} key={businessHour?._id}>
                 <Box
                   height={'12rem'}
                   border={'0.06rem solid'}
@@ -123,11 +125,11 @@ export const BusinessHours = () => {
                     </Typography>
                   </Box>
                 </Box>
-              </Grid>
+              </CustomGrid>
             ))}
           </ApiRequestFlow>
         </PermissionsGuard>
-      </Grid>
+      </ContainerGrid>
 
       {openModal?.delete && (
         <AlertModals

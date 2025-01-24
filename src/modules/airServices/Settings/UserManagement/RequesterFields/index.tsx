@@ -2,7 +2,7 @@ import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/p
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants/routes';
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { DragDropContext } from 'react-beautiful-dnd';
 import {
   Date,
@@ -18,6 +18,8 @@ import {
 import { DYNAMIC_FIELDS } from '@/utils/dynamic-forms';
 import useRequesterFields from './useRequesterFields';
 import { predefinedRequesterDataArray } from './RequesterFields.data';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const RequesterFields = () => {
   const {
@@ -44,8 +46,8 @@ export const RequesterFields = () => {
           AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.ADD_NEW_FIELDS_FOR_ADDING_USERS,
         ]}
       >
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={8}>
+        <ContainerGrid>
+          <CustomGrid md={8}>
             <Box
               borderRadius={2}
               bgcolor={'common.white'}
@@ -88,8 +90,8 @@ export const RequesterFields = () => {
                 cancelPath={AIR_SERVICES?.USER_MANAGEMENT}
               />
             </Box>
-          </Grid>
-          <Grid item xs={12} md={4}>
+          </CustomGrid>
+          <CustomGrid md={4}>
             <Box
               borderRadius={2}
               bgcolor={'common.white'}
@@ -99,8 +101,8 @@ export const RequesterFields = () => {
             >
               <DraggableFields />
             </Box>
-          </Grid>
-        </Grid>
+          </CustomGrid>
+        </ContainerGrid>
 
         {modal?.text && (
           <Text
