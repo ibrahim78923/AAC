@@ -5,6 +5,7 @@ import { fullName } from '@/utils/avatarUtils';
 import { usePrintTicket } from './usePrintTicket';
 import { otherDateFormat } from '@/lib/date-time';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const PrintTicket = () => {
   const {
@@ -77,8 +78,11 @@ export const PrintTicket = () => {
           </Typography>
         </Typography>
         <Divider sx={{ marginTop: '1rem', marginBottom: '1rem' }} />
-        <Typography variant="h4"> TICKET PROPERTIES </Typography>
-        <CustomGrid isContainer customStyles={{ mt: 1 }}>
+        <Typography variant="h4" sx={{ my: 1 }}>
+          {' '}
+          TICKET PROPERTIES{' '}
+        </Typography>
+        <ContainerGrid>
           {printDataField?.map((item: any) => (
             <CustomGrid key={item?.id} xs={12} lg={3.5}>
               <Box display={'flex'} flexDirection={'row'}>
@@ -91,7 +95,7 @@ export const PrintTicket = () => {
               </Box>
             </CustomGrid>
           ))}
-        </CustomGrid>
+        </ContainerGrid>
         <Divider sx={{ marginTop: '2rem' }} />
         <Typography variant="h4"> DESCRIPTION</Typography>
         {!!singleTicketDetail?.description ? (

@@ -4,13 +4,14 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ISettingsCards } from '../Settings.interface';
 import { ItemLinkCard } from '@/components/Cards/ItemLinkCard/ItemLinkCard';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const AccountSettings = () => {
   return (
     <>
       <Typography variant="h3">Account Settings</Typography>
       <br />
-      <CustomGrid isContainer spacing={3}>
+      <ContainerGrid spacing={3}>
         {accountSettings?.map((item: ISettingsCards) => (
           <PermissionsGuard permissions={item?.permissions} key={item?.id}>
             <CustomGrid md={6} lg={4}>
@@ -22,7 +23,7 @@ export const AccountSettings = () => {
             </CustomGrid>
           </PermissionsGuard>
         ))}
-      </CustomGrid>
+      </ContainerGrid>
     </>
   );
 };

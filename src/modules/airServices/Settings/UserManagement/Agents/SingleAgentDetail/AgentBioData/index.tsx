@@ -5,6 +5,7 @@ import { EditRequestorsIcon } from '@/assets/icons';
 import { AGENT_LEVELS_IMAGES } from '@/constants/images';
 import { otherDateFormat } from '@/lib/date-time';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const AgentBioData = (props: any) => {
   const theme = useTheme();
@@ -22,7 +23,7 @@ export const AgentBioData = (props: any) => {
       paddingY={2}
       borderColor="custom.off_white_three"
     >
-      <CustomGrid isContainer>
+      <ContainerGrid>
         <CustomGrid item xs={12} md={4}>
           <Box
             sx={{
@@ -161,7 +162,7 @@ export const AgentBioData = (props: any) => {
             <></>
           )}
         </CustomGrid>
-      </CustomGrid>
+      </ContainerGrid>
     </Box>
   );
 };

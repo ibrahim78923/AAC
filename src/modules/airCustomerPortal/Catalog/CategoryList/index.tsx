@@ -6,6 +6,7 @@ import { DATA_TYPES } from '@/constants/strings';
 import { useCategoryList } from './useCategoryList';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const CategoryList = () => {
   const {
@@ -29,7 +30,7 @@ export const CategoryList = () => {
         cardSkeletonType={SKELETON_TYPES?.LARGE_VERTICAL_TWO_LAYER_DOUBLE_CARD}
       >
         <>
-          <CustomGrid isContainer>
+          <ContainerGrid>
             <CustomGrid xs={12} md={6} lg={3}>
               <IconInfoCard
                 name="All Services"
@@ -69,7 +70,7 @@ export const CategoryList = () => {
                   />
                 </CustomGrid>
               ))}
-          </CustomGrid>
+          </ContainerGrid>
           <br />
           <CustomPagination
             count={data?.data?.meta?.pages}

@@ -1,6 +1,7 @@
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { Box, useTheme } from '@mui/material';
 import SkeletonTable from '../SkeletonTable';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const GridSkeleton = () => {
   const theme = useTheme();
@@ -11,7 +12,7 @@ export const GridSkeleton = () => {
       padding={1}
       borderColor="custom.off_white_three"
     >
-      <CustomGrid isContainer>
+      <ContainerGrid>
         {Array.from({ length: 3 })?.map((item: any, id: any) => (
           <CustomGrid
             xs={12}
@@ -34,7 +35,7 @@ export const GridSkeleton = () => {
             <SkeletonTable length={3} />
           </CustomGrid>
         ))}
-      </CustomGrid>
+      </ContainerGrid>
     </Box>
   );
 };

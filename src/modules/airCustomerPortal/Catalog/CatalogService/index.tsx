@@ -10,6 +10,7 @@ import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import { AvatarInfoCard } from '@/components/Cards/AvatarInfoCard';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 const CatalogService = () => {
   const {
@@ -54,7 +55,7 @@ const CatalogService = () => {
           </Box>
         }
       />
-      <CustomGrid isContainer>
+      <ContainerGrid>
         <CustomGrid xs={12} md={6} lg={4}>
           <AvatarInfoCard
             name={servicesDetails?.data?.itemName}
@@ -63,7 +64,7 @@ const CatalogService = () => {
             avatarSrc={servicesDetails?.data?.attachmentDetails?.fileUrl}
           />
         </CustomGrid>
-      </CustomGrid>
+      </ContainerGrid>
 
       <Box my={1}>
         <Typography variant="h5">{servicesDetails?.data?.itemName}</Typography>

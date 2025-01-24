@@ -7,6 +7,7 @@ import { ShareModal } from './ShareModal';
 import { AIR_SERVICES } from '@/constants/routes';
 import { CreateSurveyI } from './CreateSurvey.interface';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const CreateSurvey: React.FC<CreateSurveyI> = (props) => {
   const {
@@ -37,7 +38,7 @@ export const CreateSurvey: React.FC<CreateSurveyI> = (props) => {
         }
         canMovedBack
       />
-      <CustomGrid isContainer>
+      <ContainerGrid>
         {createSurveyFields(watch, setOpenShare)?.map((field: any) => {
           if (
             field?.conditionalComponent &&
@@ -116,7 +117,7 @@ export const CreateSurvey: React.FC<CreateSurveyI> = (props) => {
             Next
           </LoadingButton>
         </CustomGrid>
-      </CustomGrid>
+      </ContainerGrid>
       {openShare && (
         <ShareModal openShare={openShare} setOpenShare={setOpenShare} />
       )}

@@ -4,6 +4,7 @@ import { feedbackCards, feedbackComponent } from './FeedbackSurvey.data';
 import { useFeedbackSurvey } from './useFeedbackSurvey';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const FeedbackSurvey = () => {
   const {
@@ -21,7 +22,7 @@ export const FeedbackSurvey = () => {
         borderRadius={4}
         p={2}
       >
-        <CustomGrid isContainer spacing={4}>
+        <ContainerGrid spacing={4}>
           {feedbackCards?.map((item) => (
             <PermissionsGuard permissions={item?.permissions} key={item?.id}>
               <CustomGrid
@@ -63,7 +64,7 @@ export const FeedbackSurvey = () => {
               </CustomGrid>
             </PermissionsGuard>
           ))}
-        </CustomGrid>
+        </ContainerGrid>
       </Box>
       <br />
       {feedbackComponent?.[router?.query?.type]}

@@ -9,9 +9,10 @@ import { pxToRem } from '@/utils/getFontValue';
 import { AddWidgets } from './AddWidgets';
 import { StaticDashboardWidgets } from '../StaticDashboardWidgets';
 import { Header } from './Header';
-import { FormGrid } from '@/components/Grids/FormGrid';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { HeadingFormGrid } from '@/components/Grids/HeadingFormGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const UpsertDashboard = () => {
   const {
@@ -39,7 +40,7 @@ export const UpsertDashboard = () => {
         hasError={isError}
         refreshApi={refetch}
       >
-        <CustomGrid isContainer>
+        <ContainerGrid>
           <CustomGrid
             xl={6}
             customStyles={{
@@ -50,9 +51,8 @@ export const UpsertDashboard = () => {
           >
             <Box flexGrow={1}>
               <FormProvider methods={methods}>
-                <FormGrid
+                <HeadingFormGrid
                   formFieldsList={upsertServiceDashboardFormFields}
-                  hasHeading
                 />
                 <AddWidgets
                   dashboardWidgetsWatch={dashboardWidgetsWatch}
@@ -104,7 +104,7 @@ export const UpsertDashboard = () => {
               </Box>
             </Box>
           </CustomGrid>
-        </CustomGrid>
+        </ContainerGrid>
         <Box
           display="flex"
           gap={1}

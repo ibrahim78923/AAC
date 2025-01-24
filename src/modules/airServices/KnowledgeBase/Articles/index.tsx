@@ -13,6 +13,7 @@ import { useAppDispatch } from '@/redux/store';
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants/routes';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const Articles = () => {
   const dispatch = useAppDispatch();
@@ -40,7 +41,7 @@ export const Articles = () => {
 
   return (
     <>
-      <CustomGrid isContainer>
+      <ContainerGrid>
         <CustomGrid lg={3} xl={1.75}>
           <Folder />
         </CustomGrid>
@@ -56,7 +57,7 @@ export const Articles = () => {
             <ArticlesLists />
           </PermissionsGuard>
         </CustomGrid>
-      </CustomGrid>
+      </ContainerGrid>
     </>
   );
 };

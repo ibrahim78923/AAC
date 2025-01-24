@@ -6,6 +6,7 @@ import useCustomizePortal from './useCustomizePortal';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 const CustomizePortal = () => {
   const {
@@ -23,7 +24,7 @@ const CustomizePortal = () => {
   } = useCustomizePortal();
 
   return (
-    <CustomGrid isContainer>
+    <ContainerGrid>
       {isLoading || isFetching ? (
         <CustomGrid>
           <Box
@@ -90,7 +91,7 @@ const CustomizePortal = () => {
           </CustomGrid>
         </>
       )}
-    </CustomGrid>
+    </ContainerGrid>
   );
 };
 

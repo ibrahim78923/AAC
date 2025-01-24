@@ -11,14 +11,13 @@ import { CustomChip } from '@/components/Chip/CustomChip';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
-
-const { ZERO } = ARRAY_INDEX ?? {};
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const DetailCard = () => {
   const { attachFile, data, router, isLoading, isFetching, isError, refetch } =
     useDetailCard();
   const theme = useTheme();
-  const ticketDetail = data?.data?.[ZERO];
+  const ticketDetail = data?.data?.[ARRAY_INDEX?.ZERO];
 
   if (!router?.isReady) return <SkeletonTable />;
 
@@ -37,7 +36,7 @@ export const DetailCard = () => {
         paddingY={2}
         borderColor="custom.off_white_three"
       >
-        <CustomGrid isContainer>
+        <ContainerGrid>
           <CustomGrid xs={12} md={4}>
             <Box
               sx={{
@@ -161,7 +160,7 @@ export const DetailCard = () => {
                     size={{ variant: 'circular' }}
                     hasStyling={false}
                     canDelete={false}
-                    data={attachFile?.data?.[ZERO]}
+                    data={attachFile?.data?.[ARRAY_INDEX?.ZERO]}
                   />
                 ) : (
                   '---'
@@ -247,7 +246,7 @@ export const DetailCard = () => {
               </Box>
             </Box>
           </CustomGrid>
-        </CustomGrid>
+        </ContainerGrid>
       </Box>
     </ApiRequestFlow>
   );

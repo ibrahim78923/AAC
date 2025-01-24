@@ -12,6 +12,7 @@ import {
 } from './DynamicQuestions.data';
 import { DynamicQuestionsI } from './DynamicQuestions.interface';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const DynamicQuestions: React.FC<DynamicQuestionsI> = (props) => {
   const { sectionIndex, questionIndex, watchType, sectionCondition } = props;
@@ -25,7 +26,7 @@ export const DynamicQuestions: React.FC<DynamicQuestionsI> = (props) => {
     handleEditOption,
   } = useDynamicQuestions(props);
   return (
-    <CustomGrid isContainer>
+    <ContainerGrid>
       {isOption && (
         <CustomGrid customStyles={{ display: 'flex', alignItems: 'end' }}>
           {watchType?.value === dynamicQuestionType?.multipleChoice && (
@@ -93,6 +94,6 @@ export const DynamicQuestions: React.FC<DynamicQuestionsI> = (props) => {
           </>
         )}
       </CustomGrid>
-    </CustomGrid>
+    </ContainerGrid>
   );
 };

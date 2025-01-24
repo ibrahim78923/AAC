@@ -1,7 +1,7 @@
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useEmailThisDashboard } from './useEmailThisDashboard';
-import { FormGrid } from '@/components/Grids/FormGrid';
+import { HeadingFormGrid } from '@/components/Grids/HeadingFormGrid';
 
 const EmailThisDashboard = (props: any) => {
   const { isPortalOpen } = props;
@@ -39,10 +39,7 @@ const EmailThisDashboard = (props: any) => {
         }
       >
         <FormProvider methods={methods}>
-          <FormGrid
-            formFieldsList={sendDashboardViaEmailFormFields}
-            hasHeading
-          />
+          <HeadingFormGrid formFieldsList={sendDashboardViaEmailFormFields} />
         </FormProvider>
       </CommonDrawer>
     </>

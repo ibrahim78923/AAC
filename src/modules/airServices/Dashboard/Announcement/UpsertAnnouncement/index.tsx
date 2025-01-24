@@ -4,7 +4,7 @@ import { useUpsertAnnouncement } from './useUpsertAnnouncement';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import { AnnouncementPortalComponentsPropsI } from '../Announcement.interface';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
-import { FormGrid } from '@/components/Grids/FormGrid';
+import { HeadingFormGrid } from '@/components/Grids/HeadingFormGrid';
 
 export const UpsertAnnouncement = (
   props: AnnouncementPortalComponentsPropsI,
@@ -47,10 +47,7 @@ export const UpsertAnnouncement = (
           refreshApi={refetch}
         >
           <FormProvider methods={methods}>
-            <FormGrid
-              formFieldsList={upsertAnnouncementFormFields}
-              hasHeading
-            />
+            <HeadingFormGrid formFieldsList={upsertAnnouncementFormFields} />
           </FormProvider>
         </ApiRequestFlow>
       </CommonDrawer>

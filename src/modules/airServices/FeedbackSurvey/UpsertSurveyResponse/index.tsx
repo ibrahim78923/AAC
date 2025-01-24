@@ -16,6 +16,7 @@ import {
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { FeedbackSurveySectionI } from '@/types/modules/AirServices/FeedbackSurvey';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const UpsertSurveyResponse: React.FC<{
   loggedInUser?: string;
@@ -118,7 +119,7 @@ export const UpsertSurveyResponse: React.FC<{
           />
         </Box>
         {!!!loggedInUser ? (
-          <CustomGrid isContainer>
+          <ContainerGrid>
             <CustomGrid md={6}>
               <RHFTextField
                 name="email"
@@ -127,7 +128,7 @@ export const UpsertSurveyResponse: React.FC<{
                 required
               />
             </CustomGrid>
-          </CustomGrid>
+          </ContainerGrid>
         ) : (
           <></>
         )}

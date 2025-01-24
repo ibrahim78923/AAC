@@ -10,6 +10,7 @@ import { UpsertCategory } from '../UpsertCategory';
 import { useCategoriesList } from './useCategoriesList';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const CategoriesList = () => {
   const {
@@ -33,7 +34,7 @@ export const CategoriesList = () => {
         skeletonType={SKELETON_TYPES?.BASIC_CARD}
         cardSkeletonType={SKELETON_TYPES?.LARGE_VERTICAL_TWO_LAYER_DOUBLE_CARD}
       >
-        <CustomGrid isContainer spacing={2}>
+        <ContainerGrid>
           <CustomGrid xs={12} md={6} lg={3}>
             <PermissionsGuard
               permissions={[
@@ -73,7 +74,7 @@ export const CategoriesList = () => {
               />
             </CustomGrid>
           ))}
-        </CustomGrid>
+        </ContainerGrid>
 
         <CustomPagination
           count={paginationData?.pages}

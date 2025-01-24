@@ -2,7 +2,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { useMergedTickets } from './useMergeTickets';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 import { CrispTicketInfo } from '../CrispTicketInfo';
-import { FormGrid } from '@/components/Grids/FormGrid';
+import { HeadingFormGrid } from '@/components/Grids/HeadingFormGrid';
 
 export const MergeTickets = () => {
   const {
@@ -30,7 +30,7 @@ export const MergeTickets = () => {
         methods={methods}
         onSubmit={handleSubmit(submitMergedTicketsForm)}
       >
-        <FormGrid hasHeading formFieldsList={mergeTicketsFormFields} />
+        <HeadingFormGrid formFieldsList={mergeTicketsFormFields} />
         <br />
         <CrispTicketInfo singleTicketDetail={singleTicketDetail} />
       </FormProvider>
