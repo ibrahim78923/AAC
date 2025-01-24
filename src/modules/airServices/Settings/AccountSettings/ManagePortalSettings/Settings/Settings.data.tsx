@@ -4,10 +4,10 @@ import * as Yup from 'yup';
 import { IconButton, InputAdornment } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import {
-  ISettingsDataItem,
   ISettingsDefaultValues,
   ISettingsDefaultValuesProps,
 } from './Settings.interface';
+import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 export const settingsValidationSchema = Yup?.object()?.shape({
   portalName: Yup?.string(),
@@ -35,9 +35,9 @@ export const settingsDefaultValues = ({
 export const getSettingsDataArray = (
   handleTextFieldClick?: () => void,
   handleApiKeyClick?: () => void,
-): ISettingsDataItem[] => [
+): ReactHookFormFieldsI[] => [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'portalName',
       label: 'Portal Name',
@@ -46,7 +46,7 @@ export const getSettingsDataArray = (
     component: RHFTextField,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       name: 'portalURL',
       label: 'Portal URL',
@@ -64,7 +64,7 @@ export const getSettingsDataArray = (
     component: RHFTextField,
   },
   {
-    id: 3,
+    _id: 3,
     componentProps: {
       name: 'dateFormat',
       label: 'Date Format',
@@ -73,7 +73,7 @@ export const getSettingsDataArray = (
     component: RHFTextField,
   },
   {
-    id: 4,
+    _id: 4,
     componentProps: {
       name: 'timeFormat',
       label: 'Time Format',
@@ -82,7 +82,7 @@ export const getSettingsDataArray = (
     component: RHFTextField,
   },
   {
-    id: 5,
+    _id: 5,
     componentProps: {
       name: 'primaryLanguage',
       label: 'Primary Language',
@@ -91,7 +91,7 @@ export const getSettingsDataArray = (
     component: RHFTextField,
   },
   {
-    id: 7,
+    _id: 7,
     componentProps: {
       name: 'apiKey',
       label: 'Api Key',

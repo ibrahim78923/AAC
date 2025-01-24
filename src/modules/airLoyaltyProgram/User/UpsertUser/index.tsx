@@ -1,12 +1,12 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import { SUBMIT_BUTTON_TEXT, TITLE_FORM_USER } from './UpsertUser.data';
 import { useUpsertUser } from './useUpsertUser';
 import { LOYALTY_PROGRAM_USERS_ACTIONS_CONSTANT } from '../User.data';
-import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 const { LOYALTY_PROGRAM_USERS_DETAIL } = LOYALTY_PROGRAM_USERS_ACTIONS_CONSTANT;
 
@@ -51,20 +51,10 @@ export const UpsertUser = () => {
         )}
         <Box mt={1}>
           <FormProvider methods={methods}>
-            <Grid container spacing={2}>
-              {upsertUserFormFields?.map((item: ReactHookFormFieldsI) => (
-                <Grid item xs={12} key={item?.id}>
-                  <item.component
-                    {...item?.componentProps}
-                    size={'small'}
-                    disabled={
-                      item?.componentProps?.disabled ||
-                      isPortalOpen?.action === LOYALTY_PROGRAM_USERS_DETAIL
-                    }
-                  />
-                </Grid>
-              ))}
-            </Grid>
+            <FormGrid
+              formFieldsList={upsertUserFormFields}
+              disabled={isPortalOpen?.action === LOYALTY_PROGRAM_USERS_DETAIL}
+            />
           </FormProvider>
         </Box>
       </ApiRequestFlow>

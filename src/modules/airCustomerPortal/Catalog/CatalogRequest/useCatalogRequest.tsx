@@ -110,7 +110,11 @@ const useCatalogRequest = (props: CatalogRequestI) => {
     clearErrors('requestor');
   }, [requestForSomeOne]);
 
-  const catalogRequestFormField = placeRequest(categoryType, checkPermission);
+  const catalogRequestFormField = placeRequest(
+    categoryType,
+    checkPermission,
+    requestForSomeOne,
+  );
 
   const portalStyles = getCustomerPortalStyling();
 

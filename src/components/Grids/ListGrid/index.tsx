@@ -1,3 +1,4 @@
+import { ContainerGrid } from '../ContainerGrid';
 import { CustomGrid } from '../CustomGrid';
 
 export const ListGrid = (props: any) => {
@@ -10,8 +11,9 @@ export const ListGrid = (props: any) => {
     lg = md,
     xl = lg,
   } = props;
+
   return (
-    <CustomGrid isContainer spacing={spacing}>
+    <ContainerGrid spacing={spacing}>
       {list?.map((singleItem: any) => (
         <CustomGrid
           xs={12}
@@ -24,6 +26,6 @@ export const ListGrid = (props: any) => {
           {render(singleItem)}
         </CustomGrid>
       ))}
-    </CustomGrid>
+    </ContainerGrid>
   );
 };

@@ -1,12 +1,11 @@
 import { CardLayout } from '../CardLayout';
-import { Box, Grid } from '@mui/material';
 import { DocumentTextIcon } from '@/assets/icons';
 import { usePopularArticles } from './usePopularArticles';
-import { PopularArticlesDataI } from './PopularArticles.interface';
-import { TruncateText } from '@/components/TruncateText';
 import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
+import { ItemSummaryCard } from '@/components/Cards/ItemSummaryCard';
+import { ListGrid } from '@/components/Grids/ListGrid';
 
 export const PopularArticles = () => {
   const {
@@ -46,40 +45,26 @@ export const PopularArticles = () => {
         noDataMessage={'No article found'}
         errorHeight="100%"
       >
-        {
-          <Grid container spacing={2}>
-            {data?.data?.articles?.map((article: PopularArticlesDataI) => (
-              <Grid item md={6} xs={12} key={article?._id}>
-                <Box
-                  height="100%"
-                  display={'flex'}
-                  gap={1}
-                  p={1}
-                  bgcolor="grey.100"
-                  alignItems={'center'}
-                  sx={{ cursor: 'pointer' }}
-                  borderRadius={2}
-                  onClick={() => {
-                    router?.push({
-                      pathname:
-                        AIR_CUSTOMER_PORTAL?.KNOWLEDGE_BASE_TICKET_DETAIL,
-                      query: {
-                        articleId: article?._id,
-                        folderId: article?.folder?._id,
-                        articlesRoute: articlesRoute,
-                        ...(companyId && { companyId }),
-                      },
-                    });
-                  }}
-                >
-                  <DocumentTextIcon />
-
-                  <TruncateText text={article?.title?.toLowerCase()} />
-                </Box>
-              </Grid>
-            ))}
-          </Grid>
-        }
+        <ListGrid
+          list={data?.data?.articles}
+          render={(article: any) => (
+            <ItemSummaryCard
+              onClick={() => {
+                router?.push({
+                  pathname: AIR_CUSTOMER_PORTAL?.KNOWLEDGE_BASE_TICKET_DETAIL,
+                  query: {
+                    articleId: article?._id,
+                    folderId: article?.folder?._id,
+                    articlesRoute: articlesRoute,
+                    ...(companyId && { companyId }),
+                  },
+                });
+              }}
+              Icon={<DocumentTextIcon />}
+              name={article?.title}
+            />
+          )}
+        />
       </ApiRequestFlow>
     </CardLayout>
   );

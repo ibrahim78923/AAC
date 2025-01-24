@@ -1,4 +1,4 @@
-import { Divider, Grid, Typography } from '@mui/material';
+import { Box, Divider, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertRolesAndRight } from './useUpsertRolesAndRight';
 import {
@@ -12,6 +12,7 @@ import { LOYALTY_PROGRAM_ROLE_AND_RIGHTS_ACTIONS_CONSTANT } from '../RolesAndRig
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_LOYALTY_PROGRAM_SETTINGS_ROLES_AND_RIGHT_PERMISSIONS } from '@/constants/permission-keys';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 const { LOYALTY_PROGRAM_ROLE_AND_RIGHTS_DETAIL } =
   LOYALTY_PROGRAM_ROLE_AND_RIGHTS_ACTIONS_CONSTANT ?? {};
@@ -57,41 +58,31 @@ export const UpsertRolesAndRight = () => {
             methods={methods}
             onSubmit={handleSubmit(submitUpsertRoles)}
           >
-            <Grid container spacing={2}>
-              {upsertRolesAndRightFormFields?.map((item: any) => (
-                <Grid item xs={12} key={item?.id}>
-                  <item.component
-                    {...item?.componentProps}
-                    size={'small'}
-                    disabled={
-                      isPortalOpen?.action ===
-                      LOYALTY_PROGRAM_ROLE_AND_RIGHTS_DETAIL
-                    }
-                  />
-                </Grid>
-              ))}
-              <PermissionsGuard
-                permissions={[
-                  AIR_LOYALTY_PROGRAM_SETTINGS_ROLES_AND_RIGHT_PERMISSIONS?.ADD_PERMISSIONS,
-                ]}
-              >
-                <Grid item xs={12}>
-                  <Divider sx={{ my: 2 }} />
-                  <Typography variant="h5" color="slateBlue.main">
-                    Permissions
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} mb={2}>
-                  <PermissionsAccordion
-                    disabled={
-                      isPortalOpen?.action ===
-                      LOYALTY_PROGRAM_ROLE_AND_RIGHTS_DETAIL
-                    }
-                    {...permissionAccordionsProps}
-                  />
-                </Grid>
-              </PermissionsGuard>
-            </Grid>
+            <FormGrid
+              formFieldsList={upsertRolesAndRightFormFields}
+              disabled={
+                isPortalOpen?.action === LOYALTY_PROGRAM_ROLE_AND_RIGHTS_DETAIL
+              }
+            />
+            <PermissionsGuard
+              permissions={[
+                AIR_LOYALTY_PROGRAM_SETTINGS_ROLES_AND_RIGHT_PERMISSIONS?.ADD_PERMISSIONS,
+              ]}
+            >
+              <Divider sx={{ my: 2 }} />
+              <Typography variant="h5" color="slateBlue.main">
+                Permissions
+              </Typography>
+              <Box mb={2}>
+                <PermissionsAccordion
+                  disabled={
+                    isPortalOpen?.action ===
+                    LOYALTY_PROGRAM_ROLE_AND_RIGHTS_DETAIL
+                  }
+                  {...permissionAccordionsProps}
+                />
+              </Box>
+            </PermissionsGuard>
           </FormProvider>
         </ApiRequestFlow>
       </CommonDrawer>

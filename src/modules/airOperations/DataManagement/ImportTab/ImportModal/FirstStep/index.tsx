@@ -1,7 +1,9 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import CheckboxCard from '../CheckboxCard';
 import { importDataField, productData } from '../ImportModal.data';
 import { FirstStepI } from './FirstStep.interface';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 const FirstStep = (props: FirstStepI) => {
   const { handleSelect, importLog, product, productOptions } = props;
@@ -12,16 +14,16 @@ const FirstStep = (props: FirstStepI) => {
         Select Product and Object you’d like to Import
       </Typography>
       <Box my={2.4}>
-        <Grid container>
+        <ContainerGrid>
           {importDataField(productOptions)?.map(
             (item: any) =>
               item?.tag === 'product' && (
-                <Grid item xs={12} key={item?.id}>
+                <CustomGrid key={item?.id}>
                   <item.component {...item?.componentProps} size={'small'} />
-                </Grid>
+                </CustomGrid>
               ),
           )}
-        </Grid>
+        </ContainerGrid>
       </Box>
       <Box
         sx={{

@@ -4,8 +4,6 @@ import {
   settingsValidationSchema,
 } from './Settings.data';
 import { useEffect, useMemo } from 'react';
-import ApiErrorState from '@/components/ApiErrorState';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { getActiveAccountSession } from '@/utils';
 import { useGetServiceAccountDetailCompanyAccountsByIdQuery } from '@/services/airServices/settings/account-settings/account-details';
 import { useFormLib } from '@/hooks/useFormLib';
@@ -57,17 +55,14 @@ export const useSettings = () => {
     handleApiKeyClick,
   );
 
-  const checkApiErrorOrLoading = () => {
-    if (isLoading || isFetching) return <SkeletonForm />;
-    if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
-    return undefined;
-  };
-
+  const showLoader = isLoading || isFetching;
   return {
     methods,
     settingsDataArray,
     isLoading,
     isFetching,
-    checkApiErrorOrLoading,
+    showLoader,
+    isError,
+    refetch,
   };
 };

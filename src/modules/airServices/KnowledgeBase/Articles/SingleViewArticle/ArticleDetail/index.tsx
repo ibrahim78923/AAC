@@ -1,4 +1,4 @@
-import { Box, Divider, Grid, Typography } from '@mui/material';
+import { Box, Divider, Typography } from '@mui/material';
 import { Attachments } from '@/components/Attachments';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { useArticleDetail } from './useArticleDetail';
@@ -10,6 +10,8 @@ import { UpdateArticle } from '../UpdateArticle';
 import { TruncateText } from '@/components/TruncateText';
 import { Fragment } from 'react';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const ArticleDetail = () => {
   const {
@@ -36,8 +38,11 @@ export const ArticleDetail = () => {
       hasError={showError}
       refreshApi={getSingleArticle}
     >
-      <Grid container spacing={1} justifyContent={'space-between'}>
-        <Grid item xs={12} lg={8.9}>
+      <ContainerGrid
+        spacing={1}
+        customStyles={{ justifyContent: 'space-between' }}
+      >
+        <CustomGrid lg={8.9}>
           <Typography variant="h3" color="slateBlue.main" my={2}>
             <TruncateText text={data?.data?.title?.toLowerCase()} />
           </Typography>
@@ -66,18 +71,15 @@ export const ArticleDetail = () => {
               </Box>
             </>
           )}
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          lg={3}
-          borderLeft={{
-            lg: `1px solid ${theme?.palette?.custom?.off_white_three}`,
-            xs: ' none',
-          }}
-          borderTop={`1px solid ${theme?.palette?.custom?.off_white_three}`}
-        >
-          <>
+        </CustomGrid>
+        <CustomGrid lg={3}>
+          <Box
+            borderLeft={{
+              lg: `1px solid ${theme?.palette?.custom?.off_white_three}`,
+              xs: ' none',
+            }}
+            borderTop={`1px solid ${theme?.palette?.custom?.off_white_three}`}
+          >
             {articleDetails?.map((item: SingleViewArticleSideDataI) => {
               return (
                 <Fragment key={item?._id}>
@@ -89,7 +91,7 @@ export const ArticleDetail = () => {
                   >
                     {item?.heading}
                   </Typography>
-                  <Grid
+                  <CustomGrid
                     container
                     key={item?._id}
                     flexDirection={'column'}
@@ -97,7 +99,7 @@ export const ArticleDetail = () => {
                   >
                     {item?.details?.map(
                       (ele: SingleViewArticleDetailArrayI) => (
-                        <Grid
+                        <CustomGrid
                           item
                           key={ele?._id}
                           display={'flex'}
@@ -111,18 +113,18 @@ export const ArticleDetail = () => {
                           <Typography variant="body4" color="slateBlue.main">
                             {ele?.des}
                           </Typography>
-                        </Grid>
+                        </CustomGrid>
                       ),
                     )}
-                  </Grid>
+                  </CustomGrid>
                   <Divider sx={{ my: 2 }} />
                 </Fragment>
               );
             })}
-          </>
+          </Box>
           <UpdateArticle />
-        </Grid>
-      </Grid>
+        </CustomGrid>
+      </ContainerGrid>
     </ApiRequestFlow>
   );
 };

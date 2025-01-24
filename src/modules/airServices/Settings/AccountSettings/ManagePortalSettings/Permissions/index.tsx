@@ -10,22 +10,30 @@ import { LoadingButton } from '@mui/lab';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { usePermissions } from './usePermissions';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const Permissions = () => {
   const {
     methods,
     handleSubmit,
     onSubmit,
-    checkApiErrorOrLoading,
+    showLoader,
+    isError,
+    refetch,
     patchCustomerPortalPermissionsStatus,
   } = usePermissions();
 
   return (
     <Box border={'.1rem solid'} borderColor={'grey.700'} p={2} borderRadius={4}>
       <PageTitledHeader title="Permissions" />
-      {checkApiErrorOrLoading() ?? (
+      <ApiRequestFlow
+        showSkeleton={showLoader}
+        hasError={isError}
+        refreshApi={refetch}
+      >
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-          <CustomGrid isContainer spacing={2}>
+          <ContainerGrid>
             {permissionData?.map((item: any) => (
               <CustomGrid key={item?.id}>
                 <Box borderBottom={1} borderColor={'grey.700'}>
@@ -72,9 +80,9 @@ export const Permissions = () => {
                 </LoadingButton>
               </Box>
             </CustomGrid>
-          </CustomGrid>
+          </ContainerGrid>
         </FormProvider>
-      )}
+      </ApiRequestFlow>
     </Box>
   );
 };

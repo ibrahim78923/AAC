@@ -340,7 +340,7 @@ export const upsertTiersBasicFormFieldsDynamic = (
     ...(formStep === FORM_STEP_CONSTANT?.FIRST_STEP
       ? [
           {
-            id: 1,
+            _id: 1,
             component: RHFTextField,
             componentProps: {
               name: 'name',
@@ -352,7 +352,7 @@ export const upsertTiersBasicFormFieldsDynamic = (
             },
           },
           {
-            id: 2,
+            _id: 2,
             component: RHFTextField,
             componentProps: {
               name: 'description',
@@ -364,7 +364,7 @@ export const upsertTiersBasicFormFieldsDynamic = (
             },
           },
           {
-            id: 3,
+            _id: 3,
             component: RHFDropZone,
             componentProps: {
               name: 'logo',
@@ -381,7 +381,7 @@ export const upsertTiersBasicFormFieldsDynamic = (
           ...(!!tierId
             ? [
                 {
-                  id: 3.5,
+                  _id: 3.5,
                   component: Box,
                   heading: (
                     <>
@@ -410,7 +410,7 @@ export const upsertTiersBasicFormFieldsDynamic = (
               ]
             : []),
           {
-            id: 4,
+            _id: 4,
             component: Typography,
             heading: 'Points calculation',
             componentProps: {
@@ -420,7 +420,7 @@ export const upsertTiersBasicFormFieldsDynamic = (
             },
           },
           {
-            id: 5,
+            _id: 5,
             component: RHFTextField,
             componentProps: {
               name: 'amount',
@@ -443,7 +443,7 @@ export const upsertTiersBasicFormFieldsDynamic = (
             },
           },
           {
-            id: 6,
+            _id: 6,
             component: RHFTextField,
             componentProps: {
               name: 'points',
@@ -461,7 +461,7 @@ export const upsertTiersBasicFormFieldsDynamic = (
         ]
       : [
           {
-            id: 1.1,
+            _id: 1.1,
             component: RHFTextField,
             componentProps: {
               name: 'type',
@@ -473,7 +473,7 @@ export const upsertTiersBasicFormFieldsDynamic = (
             },
           },
           {
-            id: 1.2,
+            _id: 1.2,
             component: GetTierAttributeListDropdown,
             componentProps: {
               options: tiersAttributesOptions,
@@ -487,13 +487,13 @@ export const upsertTiersBasicFormFieldsDynamic = (
                 LOYALTY_PROGRAM_LOYALTY_TIERS_ATTRIBUTES?.SELECT_CONTACT
                   ? [
                       {
-                        id: 1.3,
+                        _id: 1.3,
                         component: GetContactsListDropdown,
                       },
                     ]
                   : [
                       {
-                        id: 1.4,
+                        _id: 1.4,
                         component: RHFAutocomplete,
                         componentProps: {
                           name: 'operator',
@@ -512,7 +512,7 @@ export const upsertTiersBasicFormFieldsDynamic = (
                 ...(!!watch('operator')
                   ? [
                       {
-                        id: 1.5,
+                        _id: 1.5,
                         component:
                           ATTRIBUTE_FIELD_MAP?.[watch('attribute')?._id]?.field,
                         componentProps: {

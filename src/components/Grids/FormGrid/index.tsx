@@ -1,3 +1,4 @@
+import { ContainerGrid } from '../ContainerGrid';
 import { CustomGrid } from '../CustomGrid';
 
 export const FormGrid = (props: any) => {
@@ -12,7 +13,7 @@ export const FormGrid = (props: any) => {
 
   if (hasHeading)
     return (
-      <CustomGrid isContainer spacing={spacing}>
+      <ContainerGrid spacing={spacing}>
         {formFieldsList?.map((form: any) => (
           <CustomGrid
             xs={12}
@@ -30,11 +31,11 @@ export const FormGrid = (props: any) => {
           </CustomGrid>
         ))}
         {children}
-      </CustomGrid>
+      </ContainerGrid>
     );
 
   return (
-    <CustomGrid isContainer spacing={spacing}>
+    <ContainerGrid spacing={spacing}>
       {formFieldsList?.map((form: any) => (
         <CustomGrid
           xs={12}
@@ -50,6 +51,6 @@ export const FormGrid = (props: any) => {
         </CustomGrid>
       ))}
       {children}
-    </CustomGrid>
+    </ContainerGrid>
   );
 };
