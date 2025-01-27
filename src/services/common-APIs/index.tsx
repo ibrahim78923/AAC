@@ -121,7 +121,7 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       }),
       providesTags: ['USERS', 'PERMISSIONS'],
       transformResponse: (response: any) => {
-        if (response) return response?.data?.organizationcompanyaccounts;
+        if (response) return response?.data;
       },
     }),
 
