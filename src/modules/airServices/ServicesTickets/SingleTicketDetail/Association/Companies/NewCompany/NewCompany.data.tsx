@@ -25,6 +25,7 @@ export const formFields = [
       name: 'name',
       label: 'Company Name',
       placeholder: 'Company Name',
+      required: true,
     },
     component: RHFTextField,
   },

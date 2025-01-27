@@ -25,39 +25,41 @@ export const CategoriesList = () => {
     setIsPortalOpen,
     openPortal,
     handlePageChange,
+    isError,
+    refetch,
   } = useCategoriesList();
 
   return (
     <>
-      <ApiRequestFlow
-        showSkeleton={isLoading || isFetching}
-        skeletonType={SKELETON_TYPES?.BASIC_CARD}
-        cardSkeletonType={SKELETON_TYPES?.LARGE_VERTICAL_TWO_LAYER_DOUBLE_CARD}
-      >
-        <ContainerGrid>
-          <CustomGrid xs={12} md={6} lg={3}>
-            <PermissionsGuard
-              permissions={[
-                AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS?.ADD_SERVICES_CATEGORY,
-              ]}
-            >
-              <AddNewCard onClick={openPortal} />
-            </PermissionsGuard>
-          </CustomGrid>
-          <CustomGrid xs={12} md={6} lg={3}>
-            <IconInfoCard
-              name={'All Services'}
-              isActive={router?.query?.categoryId === DATA_TYPES?.UNDEFINED}
-              onClick={() => {
-                router?.push({
-                  pathname: AIR_SERVICES?.SERVICE_CATALOG_SETTINGS,
-                });
-              }}
-            />
-          </CustomGrid>
-
+      <ContainerGrid>
+        <CustomGrid lg={4} sm={6} xl={3}>
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS?.ADD_SERVICES_CATEGORY,
+            ]}
+          >
+            <AddNewCard onClick={openPortal} />
+          </PermissionsGuard>
+        </CustomGrid>
+        <CustomGrid lg={4} sm={6} xl={3}>
+          <IconInfoCard
+            name={'All Services'}
+            isActive={router?.query?.categoryId === DATA_TYPES?.UNDEFINED}
+            onClick={() => {
+              router?.push({
+                pathname: AIR_SERVICES?.SERVICE_CATALOG_SETTINGS,
+              });
+            }}
+          />
+        </CustomGrid>
+        <ApiRequestFlow
+          showSkeleton={isLoading || isFetching}
+          skeletonType={SKELETON_TYPES?.ITEM}
+          hasError={isError}
+          refreshApi={refetch}
+        >
           {categories?.map((category: any) => (
-            <CustomGrid xs={12} md={6} lg={3} key={category?._id}>
+            <CustomGrid lg={4} sm={6} xl={3} key={category?._id}>
               <IconInfoCard
                 name={category?.categoryName}
                 description={category?.description}
@@ -74,18 +76,18 @@ export const CategoriesList = () => {
               />
             </CustomGrid>
           ))}
-        </ContainerGrid>
+        </ApiRequestFlow>
+      </ContainerGrid>
 
-        <CustomPagination
-          count={paginationData?.pages}
-          pageLimit={paginationData?.limit}
-          currentPage={paginationData?.page}
-          totalRecords={paginationData?.total}
-          onPageChange={handlePageChange}
-          setPage={setPage}
-          setPageLimit={setPageLimit}
-        />
-      </ApiRequestFlow>
+      <CustomPagination
+        count={paginationData?.pages}
+        pageLimit={paginationData?.limit}
+        currentPage={paginationData?.page}
+        totalRecords={paginationData?.total}
+        onPageChange={handlePageChange}
+        setPage={setPage}
+        setPageLimit={setPageLimit}
+      />
 
       {isPortalOpen && (
         <UpsertCategory

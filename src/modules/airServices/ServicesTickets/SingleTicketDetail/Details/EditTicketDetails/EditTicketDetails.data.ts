@@ -118,7 +118,7 @@ export const editTicketDetailsFormFieldsDynamic = (
   setValue?: any,
 ) => [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'status',
       label: 'Status',
@@ -131,7 +131,7 @@ export const editTicketDetailsFormFieldsDynamic = (
     component: RHFAutocomplete,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       name: 'priority',
       label: 'Priority',
@@ -144,11 +144,11 @@ export const editTicketDetailsFormFieldsDynamic = (
     component: RHFAutocomplete,
   },
   {
-    id: 3,
+    _id: 3,
     component: DepartmentFieldDropdown,
   },
   {
-    id: 4,
+    _id: 4,
     componentProps: {
       name: 'source',
       label: 'Source',
@@ -161,7 +161,7 @@ export const editTicketDetailsFormFieldsDynamic = (
   },
 
   {
-    id: 5,
+    _id: 5,
     componentProps: {
       name: 'impact',
       label: 'Impact',
@@ -173,11 +173,11 @@ export const editTicketDetailsFormFieldsDynamic = (
     component: RHFAutocomplete,
   },
   {
-    id: 6,
+    _id: 6,
     component: AgentFieldDropdown,
   },
   {
-    id: 7,
+    _id: 7,
     componentProps: {
       name: 'ticketType',
       label: 'Type',
@@ -189,7 +189,7 @@ export const editTicketDetailsFormFieldsDynamic = (
     component: RHFAutocomplete,
   },
   {
-    id: 8,
+    _id: 8,
     componentProps: {
       disabled: data?.ticketType === SR && !!data?.serviceDetails?._id,
     },
@@ -198,7 +198,7 @@ export const editTicketDetailsFormFieldsDynamic = (
   ...(watchForTicketType?._id === SR
     ? [
         {
-          id: 9,
+          _id: 9,
           componentProps: {
             categoryId: watch('category')?._id,
             disabled: data?.ticketType === SR && !!data?.serviceDetails?._id,
@@ -210,7 +210,7 @@ export const editTicketDetailsFormFieldsDynamic = (
   ...(watchForTicketType?._id === SR && !!watch('service')?.assetType
     ? [
         {
-          id: 10,
+          _id: 10,
           componentProps: {
             name: 'numberOfItems',
             label: 'Number of items',
@@ -226,7 +226,7 @@ export const editTicketDetailsFormFieldsDynamic = (
       ]
     : []),
   {
-    id: 11,
+    _id: 11,
     componentProps: {
       name: 'plannedStartDate',
       label: 'Planned Start Date',
@@ -237,7 +237,7 @@ export const editTicketDetailsFormFieldsDynamic = (
     component: RHFDesktopDateTimePicker,
   },
   {
-    id: 12,
+    _id: 12,
     componentProps: {
       name: 'plannedEndDate',
       label: 'Planned End Date',
@@ -249,7 +249,7 @@ export const editTicketDetailsFormFieldsDynamic = (
     component: RHFDesktopDateTimePicker,
   },
   {
-    id: 13,
+    _id: 13,
     componentProps: {
       name: 'plannedEffort',
       label: 'Planned Effort',

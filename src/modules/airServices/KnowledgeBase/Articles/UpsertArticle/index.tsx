@@ -107,7 +107,7 @@ export const UpsertArticle = () => {
               <br />
             </Box>
           </CustomGrid>
-          <CustomGrid item lg={3}>
+          <CustomGrid lg={3}>
             <Box
               sx={{
                 borderLeft: { lg: `1px solid ${theme?.palette?.custom?.dark}` },
@@ -119,7 +119,7 @@ export const UpsertArticle = () => {
             >
               <Box>
                 {newArticleFields?.map((form: any) => (
-                  <CustomGrid item xs={12} md={form?.gridLength} key={form?.id}>
+                  <CustomGrid md={form?.gridLength} key={form?.id}>
                     <form.component {...form?.componentProps} size="small" />
                   </CustomGrid>
                 ))}

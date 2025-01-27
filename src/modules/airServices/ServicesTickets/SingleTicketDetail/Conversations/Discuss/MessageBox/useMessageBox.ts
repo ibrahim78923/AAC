@@ -25,6 +25,8 @@ export const useMessageBox = (props: any) => {
   const chatMessagesDropdown = (message: any) =>
     chatMessagesDropdownDynamic?.(user?._id, setSelectedMessage, message);
 
+  const chatMessages = data?.data;
+
   return {
     data,
     isLoading,
@@ -33,5 +35,6 @@ export const useMessageBox = (props: any) => {
     chatMessagesDropdown,
     user,
     refetch,
+    chatMessages,
   };
 };

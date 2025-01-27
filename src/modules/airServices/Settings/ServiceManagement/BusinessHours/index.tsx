@@ -38,8 +38,8 @@ export const BusinessHours = () => {
         canMovedBack
         moveBack={() => router?.push(AIR_SERVICES?.SERVICE_MANAGEMENT)}
       />
-      <ContainerGrid spacing={3}>
-        <CustomGrid lg={3} sm={6}>
+      <ContainerGrid>
+        <CustomGrid lg={4} xl={3} sm={6}>
           <PermissionsGuard
             permissions={[
               AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS?.ADD_NEW_BUSINESS_HOURS,
@@ -67,13 +67,10 @@ export const BusinessHours = () => {
             showSkeleton={isLoading || isFetching}
             hasError={isError}
             refreshApi={refetch}
-            skeletonType={SKELETON_TYPES?.BASIC_CARD}
-            cardSkeletonType={
-              SKELETON_TYPES?.LARGE_VERTICAL_TWO_LAYER_DOUBLE_CARD
-            }
+            skeletonType={SKELETON_TYPES?.ITEM}
           >
             {businessHoursList?.map((businessHour: any) => (
-              <CustomGrid lg={3} sm={6} key={businessHour?._id}>
+              <CustomGrid lg={4} xl={3} sm={6} key={businessHour?._id}>
                 <Box
                   height={'12rem'}
                   border={'0.06rem solid'}

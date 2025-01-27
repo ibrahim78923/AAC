@@ -1,28 +1,21 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { Avatar, Typography } from '@mui/material';
-import { generateImage } from '@/utils/avatarUtils';
-import NoData from '@/components/NoData';
-import useViewCompany from './useViewCompany';
-import { formFields } from './ViewCompany.data';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
-import { CustomGrid } from '@/components/Grids/CustomGrid';
-import { ContainerGrid } from '@/components/Grids/ContainerGrid';
-import { ARRAY_INDEX } from '@/constants/strings';
+import { FormGrid } from '@/components/Grids/FormGrid';
+import { useViewCompany } from './useViewCompany';
 
-export default function ViewCompany({ modalId, setModalId }: any) {
+export const ViewCompany = (props: any) => {
+  const { modalId } = props;
+
   const {
     onClose,
-    data,
     isLoading,
     isFetching,
     isError,
     methodsNewCompany,
     refetch,
-  } = useViewCompany({
-    modalId,
-    setModalId,
-  });
+    viewCompanyFormFields,
+  } = useViewCompany(props);
 
   return (
     <CommonDrawer
@@ -36,44 +29,11 @@ export default function ViewCompany({ modalId, setModalId }: any) {
         refreshApi={refetch}
       >
         <FormProvider methods={methodsNewCompany}>
-          <ContainerGrid>
-            {formFields?.map((item: any) => (
-              <CustomGrid key={item?.id}>
-                {item?.id === ARRAY_INDEX?.THREE ? (
-                  <>
-                    <Typography
-                      variant="body1"
-                      fontWeight={500}
-                      color="slateBlue.main"
-                      mb={2}
-                    >
-                      Profile Picture
-                    </Typography>
-                    {data?.data?.profilePicture ? (
-                      <Avatar
-                        src={generateImage(data?.data?.profilePicture?.url)}
-                        variant={'rounded'}
-                        sx={{ width: 45, height: 45 }}
-                      />
-                    ) : (
-                      <NoData
-                        message={'No Profile Picture Found'}
-                        height={'20vh'}
-                      />
-                    )}
-                  </>
-                ) : (
-                  <item.component
-                    {...item?.componentProps}
-                    size={'small'}
-                    disabled
-                  />
-                )}
-              </CustomGrid>
-            ))}
-          </ContainerGrid>
+          <FormGrid disabled formFieldsList={viewCompanyFormFields} />
         </FormProvider>
       </ApiRequestFlow>
     </CommonDrawer>
   );
-}
+};
+
+export default ViewCompany;

@@ -49,8 +49,10 @@ const UpsertRoles = () => {
               <Divider sx={{ my: 2 }} />
               <Typography variant="h5">Permissions</Typography>
             </CustomGrid>
-            <CustomGrid xs={12} customStyles={{ my: 2 }}>
-              <PermissionsAccordion {...permissionAccordionsProps} />
+            <CustomGrid xs={12}>
+              <Box sx={{ my: 2 }}>
+                <PermissionsAccordion {...permissionAccordionsProps} />
+              </Box>
             </CustomGrid>
           </FormGrid>
           <br />

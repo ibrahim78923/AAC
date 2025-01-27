@@ -41,44 +41,47 @@ export const UpsertDashboard = () => {
         refreshApi={refetch}
       >
         <ContainerGrid>
-          <CustomGrid
-            xl={6}
-            customStyles={{
-              display: 'flex',
-              flexDirection: 'column',
-              maxHeight: '100%',
-            }}
-          >
-            <Box flexGrow={1}>
-              <FormProvider methods={methods}>
-                <HeadingFormGrid
-                  formFieldsList={upsertServiceDashboardFormFields}
-                />
-                <AddWidgets
-                  dashboardWidgetsWatch={dashboardWidgetsWatch}
-                  reportsWatch={reportsWatch}
-                  setValue={setValue}
-                />
-              </FormProvider>
-            </Box>
-            <Box textAlign={'right'}>
-              <Button
-                className="small"
-                variant="text"
-                onClick={openPreviewDashboard}
-                startIcon={<Visibility />}
-              >
-                Preview Dashboard
-              </Button>
+          <CustomGrid xl={6}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100%',
+              }}
+            >
+              <Box sx={{ flexGrow: 1 }}>
+                <FormProvider methods={methods}>
+                  <HeadingFormGrid
+                    formFieldsList={upsertServiceDashboardFormFields}
+                  />
+                  <AddWidgets
+                    dashboardWidgetsWatch={dashboardWidgetsWatch}
+                    reportsWatch={reportsWatch}
+                    setValue={setValue}
+                  />
+                </FormProvider>
+              </Box>
+              <Box sx={{ textAlign: 'right' }}>
+                <Button
+                  className="small"
+                  variant="text"
+                  onClick={openPreviewDashboard}
+                  startIcon={<Visibility />}
+                >
+                  Preview Dashboard
+                </Button>
+              </Box>
             </Box>
           </CustomGrid>
           <CustomGrid xl={6}>
             <Box
-              border="1px solid"
-              borderColor="custom.off_white_three"
-              p={2}
-              borderRadius={2}
-              overflow={'auto'}
+              sx={{
+                border: '1px solid',
+                borderColor: 'custom.off_white_three',
+                p: 2,
+                borderRadius: 2,
+                overflow: 'auto',
+              }}
             >
               <Typography
                 variant="subtitle1"
@@ -89,11 +92,13 @@ export const UpsertDashboard = () => {
                 Details view
               </Typography>
               <Box
-                p={2}
-                maxHeight={'70vh'}
-                minHeight={'70vh'}
-                overflow={'auto'}
-                minWidth={pxToRem(600)}
+                sx={{
+                  p: 2,
+                  maxHeight: '70vh',
+                  minHeight: '70vh',
+                  overflow: 'auto',
+                  minWidth: pxToRem(600),
+                }}
               >
                 <StaticDashboardWidgets
                   widgets={reportsWatch}
@@ -106,13 +111,15 @@ export const UpsertDashboard = () => {
           </CustomGrid>
         </ContainerGrid>
         <Box
-          display="flex"
-          gap={1}
-          py={2}
-          mt={2}
-          justifyContent="flex-end"
-          borderTop="1px solid"
-          borderColor="custom.off_white_three"
+          sx={{
+            display: 'flex',
+            gap: 1,
+            py: 2,
+            mt: 2,
+            justifyContent: 'flex-end',
+            borderTop: '1px solid',
+            borderColor: 'custom.off_white_three',
+          }}
         >
           <LoadingButton
             className="small"

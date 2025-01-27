@@ -39,7 +39,7 @@ const RolesCards = (props: any) => {
             AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.ADD_NEW_ROLE,
           ]}
         >
-          <CustomGrid md={6} xl={4}>
+          <CustomGrid lg={4} md={6} xl={3}>
             <Box
               width={'100%'}
               border={1}
@@ -72,13 +72,10 @@ const RolesCards = (props: any) => {
           noDataMessage="No Role is available"
           hasError={isError}
           refreshApi={() => rolesListData?.(page)}
-          skeletonType={SKELETON_TYPES?.BASIC_CARD}
-          cardSkeletonType={
-            SKELETON_TYPES?.LARGE_VERTICAL_TWO_LAYER_DOUBLE_CARD
-          }
+          skeletonType={SKELETON_TYPES?.ITEM}
         >
           {data?.data?.companyaccountroles?.map((item: any) => (
-            <CustomGrid md={6} xl={4} key={item?._id}>
+            <CustomGrid lg={4} md={6} xl={3} key={item?._id}>
               <InteractiveInfoCard
                 name={item?.name}
                 description={item?.description}

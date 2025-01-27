@@ -53,34 +53,32 @@ export const CannedResponses = () => {
         </Box>
       </PermissionsGuard>
 
-      <ApiRequestFlow
-        showSkeleton={
-          lazyGetCannedResponsesStatus?.isLoading ||
-          lazyGetCannedResponsesStatus?.isFetching
-        }
-        hasError={lazyGetCannedResponsesStatus?.isError}
-        refreshApi={getCannedResponsesListData}
-        skeletonType={SKELETON_TYPES?.BASIC_CARD}
-        cardSkeletonType={SKELETON_TYPES?.LARGE_VERTICAL_TWO_LAYER_DOUBLE_CARD}
-      >
-        <ContainerGrid spacing={3}>
-          <PermissionsGuard
-            permissions={[
-              AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.ADD_CANNED_RESPONSES_FOLDERS,
-            ]}
-          >
-            <CustomGrid lg={4} sm={6}>
-              <AddNewCard
-                title="Add New"
-                iconBackgroundColor="custom.light_lavender_gray"
-                iconColor="blue.dull_blue"
-                onClick={() =>
-                  setOpenModal({ create: true, delete: false, editData: null })
-                }
-              />
-            </CustomGrid>
-          </PermissionsGuard>
-
+      <ContainerGrid spacing={3}>
+        <PermissionsGuard
+          permissions={[
+            AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.ADD_CANNED_RESPONSES_FOLDERS,
+          ]}
+        >
+          <CustomGrid lg={4} xl={3} sm={6}>
+            <AddNewCard
+              title="Add New"
+              iconBackgroundColor="custom.light_lavender_gray"
+              iconColor="blue.dull_blue"
+              onClick={() =>
+                setOpenModal({ create: true, delete: false, editData: null })
+              }
+            />
+          </CustomGrid>
+        </PermissionsGuard>
+        <ApiRequestFlow
+          showSkeleton={
+            lazyGetCannedResponsesStatus?.isLoading ||
+            lazyGetCannedResponsesStatus?.isFetching
+          }
+          hasError={lazyGetCannedResponsesStatus?.isError}
+          refreshApi={getCannedResponsesListData}
+          skeletonType={SKELETON_TYPES?.ITEM}
+        >
           <PermissionsGuard
             permissions={[
               AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.VIEW_DEFAULT_CANNED_RESPONSES_FOLDERS,
@@ -89,7 +87,7 @@ export const CannedResponses = () => {
             {cannedResponses
               ?.filter((item: any) => item?.perDefine)
               ?.map((response: any) => (
-                <CustomGrid lg={4} sm={6} key={response?._id}>
+                <CustomGrid lg={4} sm={6} xl={3} key={response?._id}>
                   <SemiInteractiveInfoCard
                     onClick={() =>
                       router?.push({
@@ -114,7 +112,7 @@ export const CannedResponses = () => {
           {cannedResponses
             ?.filter((item: any) => !item?.perDefine)
             ?.map((response: any) => (
-              <CustomGrid lg={4} sm={6} key={response?._id}>
+              <CustomGrid lg={4} sm={6} xl={3} key={response?._id}>
                 <SemiInteractiveInfoCard
                   onClick={() =>
                     router?.push({
@@ -138,19 +136,20 @@ export const CannedResponses = () => {
                 />
               </CustomGrid>
             ))}
-          <CustomGrid item xs={12}>
-            <CustomPagination
-              currentPage={page}
-              count={cannedResponsesMetaData?.pages}
-              pageLimit={pageLimit}
-              totalRecords={cannedResponsesMetaData?.total}
-              onPageChange={(page: number) => setPage(page)}
-              setPage={setPage}
-              setPageLimit={setPageLimit}
-            />
-          </CustomGrid>
-        </ContainerGrid>
-      </ApiRequestFlow>
+        </ApiRequestFlow>
+      </ContainerGrid>
+
+      <Box my={2}>
+        <CustomPagination
+          currentPage={page}
+          count={cannedResponsesMetaData?.pages}
+          pageLimit={pageLimit}
+          totalRecords={cannedResponsesMetaData?.total}
+          onPageChange={(page: number) => setPage(page)}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+        />
+      </Box>
 
       {openModal?.create && (
         <CreateNewFolder

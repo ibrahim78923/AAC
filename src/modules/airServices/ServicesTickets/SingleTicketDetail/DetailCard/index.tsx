@@ -37,7 +37,7 @@ export const DetailCard = () => {
         borderColor="custom.off_white_three"
       >
         <ContainerGrid>
-          <CustomGrid xs={12} md={4}>
+          <CustomGrid md={4}>
             <Box
               sx={{
                 height: '100%',
@@ -112,7 +112,7 @@ export const DetailCard = () => {
               </Box>
             </Box>
           </CustomGrid>
-          <CustomGrid xs={12} md={4}>
+          <CustomGrid md={4}>
             <Box
               sx={{
                 height: '100%',
@@ -168,7 +168,7 @@ export const DetailCard = () => {
               </Box>
             </Box>
           </CustomGrid>
-          <CustomGrid xs={12} md={4}>
+          <CustomGrid md={4}>
             <Box
               sx={{
                 px: 1.5,

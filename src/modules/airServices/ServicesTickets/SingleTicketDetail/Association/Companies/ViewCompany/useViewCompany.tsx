@@ -1,9 +1,13 @@
 import { useEffect } from 'react';
 import { useGetAirServicesCompanyByIdQuery } from '@/services/airServices/tickets/single-ticket-details/association';
-import { getDefaultValues } from './ViewCompany.data';
+import {
+  getDefaultValues,
+  viewCompanyFormFieldsDynamic,
+} from './ViewCompany.data';
 import { useFormLib } from '@/hooks/useFormLib';
 
-export default function useViewCompany({ modalId, setModalId }: any) {
+export const useViewCompany = (props: any) => {
+  const { modalId, setModalId } = props;
   const { data, isLoading, isFetching, isError, refetch } =
     useGetAirServicesCompanyByIdQuery(
       { params: { id: modalId?.id } },
@@ -28,6 +32,10 @@ export default function useViewCompany({ modalId, setModalId }: any) {
     });
   };
 
+  const viewCompanyFormFields = viewCompanyFormFieldsDynamic?.(
+    data?.data?.profilePicture,
+  );
+
   return {
     onClose,
     data,
@@ -36,5 +44,6 @@ export default function useViewCompany({ modalId, setModalId }: any) {
     isError,
     methodsNewCompany,
     refetch,
+    viewCompanyFormFields,
   };
-}
+};

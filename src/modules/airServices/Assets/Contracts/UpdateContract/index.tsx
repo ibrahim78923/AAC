@@ -38,11 +38,11 @@ export const UpdateContract = () => {
               md: 'none',
             },
             borderRadius: { xs: 3, md: 0 },
-            padding: { md: 0, xs: 1.5 },
+            padding: { md: 0, xs: 2 },
           }}
         >
           <ContainerGrid>
-            <CustomGrid xs={12} md={8}>
+            <CustomGrid md={8}>
               <Box
                 sx={{
                   border: {
@@ -63,7 +63,7 @@ export const UpdateContract = () => {
                 <HeadingFormGrid formFieldsList={updateContractFormFields} />
               </Box>
             </CustomGrid>
-            <CustomGrid xs={12} md={4}>
+            <CustomGrid md={4}>
               <RHFDropZone
                 name="attachment"
                 fullWidth={true}
@@ -85,7 +85,7 @@ export const UpdateContract = () => {
                   >
                     Attachments
                   </Typography>
-                  <Box maxHeight={'20vh'}>
+                  <Box>
                     <Attachments
                       recordId={contractId}
                       permissionKey={[
@@ -102,7 +102,7 @@ export const UpdateContract = () => {
 
         <br />
         <ContainerGrid>
-          <CustomGrid xs={12} md={8}>
+          <CustomGrid md={8}>
             <Box
               display={'flex'}
               gap={2}
