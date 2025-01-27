@@ -30,7 +30,7 @@ export const MergeTickets = () => {
         methods={methods}
         onSubmit={handleSubmit(submitMergedTicketsForm)}
       >
-        <HeadingFormGrid formFieldsList={mergeTicketsFormFields} />
+        <HeadingFormGrid spacing={1} formFieldsList={mergeTicketsFormFields} />
         <br />
         <CrispTicketInfo singleTicketDetail={singleTicketDetail} />
       </FormProvider>

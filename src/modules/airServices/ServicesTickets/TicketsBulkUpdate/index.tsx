@@ -60,12 +60,13 @@ export const TicketsBulkUpdate = () => {
                 />
               </Box>
               <FormGrid
+                spacing={1}
                 formFieldsList={ticketsBulkUpdateAddReplyFormFieldsData}
               />
             </Box>
           )}
           <br />
-          <FormGrid formFieldsList={ticketsBulkUpdateFormFields} />
+          <FormGrid spacing={1} formFieldsList={ticketsBulkUpdateFormFields} />
         </FormProvider>
       </CommonDrawer>
     </>

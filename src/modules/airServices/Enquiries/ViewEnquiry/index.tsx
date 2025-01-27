@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import useViewEnquiry from './useViewEnquiry';
 import { IChildModalState } from '../Enquiries.interface';
@@ -25,18 +25,16 @@ export const ViewEnquiry = ({ isModalOpen, onClose }: IChildModalState) => {
           {isModalOpen?.data?.[ARRAY_INDEX?.ZERO]?.query}
         </Typography>
 
-        <Grid container mt={2}>
-          <Grid item xs={12}>
-            <RHFTextField
-              name={'reply'}
-              label={'Reply to Enquiry'}
-              placeholder={'Reply to Enquiry'}
-              required
-              multiline
-              rows={4}
-            />
-          </Grid>
-        </Grid>
+        <Box mt={2}>
+          <RHFTextField
+            name={'reply'}
+            label={'Reply to Enquiry'}
+            placeholder={'Reply to Enquiry'}
+            required
+            multiline
+            rows={4}
+          />
+        </Box>
       </FormProvider>
     </CustomCommonDialog>
   );

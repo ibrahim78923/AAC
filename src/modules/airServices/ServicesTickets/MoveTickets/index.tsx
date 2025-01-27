@@ -25,7 +25,7 @@ export const MoveTickets = () => {
       handleSubmitButton={handleSubmit(submitMoveTicketsForm)}
     >
       <FormProvider methods={methods}>
-        <FormGrid formFieldsList={moveTicketsFormFields} />
+        <FormGrid spacing={1} formFieldsList={moveTicketsFormFields} />
       </FormProvider>
     </CustomCommonDialog>
   );

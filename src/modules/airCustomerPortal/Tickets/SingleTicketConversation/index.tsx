@@ -20,7 +20,7 @@ export const SingleTicketConversation = (props: any) => {
   return (
     <ApiRequestFlow
       hasNoData={!data?.data?.length}
-      NoDataMessage="No conversation found"
+      noDataMessage="No conversation found"
       noDataHeight="100%"
       hasError={isError}
       refreshApi={refetch}

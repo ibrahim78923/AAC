@@ -25,7 +25,7 @@ export const MoveFolder = () => {
       handleSubmitButton={handleSubmit(submitMoveFolder)}
     >
       <FormProvider methods={methods}>
-        <FormGrid formFieldsList={moveFolderFormFields} />
+        <FormGrid spacing={1} formFieldsList={moveFolderFormFields} />
       </FormProvider>
     </CustomCommonDialog>
   );

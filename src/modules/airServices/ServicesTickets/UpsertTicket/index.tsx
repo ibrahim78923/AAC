@@ -55,10 +55,12 @@ export const UpsertTicket = () => {
           onSubmit={handleSubmit(submitUpsertTicket)}
         >
           <FormGrid
+            spacing={1.5}
             formFieldsList={upsertTicketFormFields}
             disabled={isError}
-          />
-          {!!!ticketId && <DynamicForm dynamicFormFieldsList={form} />}
+          >
+            {!!!ticketId && <DynamicForm dynamicFormFieldsList={form} />}
+          </FormGrid>
           <br />
           <TicketAttachment ticketId={ticketId} />
         </FormProvider>

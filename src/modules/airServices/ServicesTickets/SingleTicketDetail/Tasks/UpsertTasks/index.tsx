@@ -43,8 +43,12 @@ export const UpsertTasks = () => {
             refreshApi={getDynamicFormData}
           >
             <FormProvider methods={methods}>
-              <FormGrid formFieldsList={upsertTicketTaskFormFormFields} />
-              <DynamicForm dynamicFormFieldsList={form} />
+              <FormGrid
+                spacing={1}
+                formFieldsList={upsertTicketTaskFormFormFields}
+              >
+                <DynamicForm dynamicFormFieldsList={form} />
+              </FormGrid>
             </FormProvider>
           </ApiRequestFlow>
         </Box>

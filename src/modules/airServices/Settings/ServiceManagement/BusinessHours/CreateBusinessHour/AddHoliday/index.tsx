@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import {
   FormProvider,
   RHFDatePicker,
@@ -28,27 +28,23 @@ export const AddHoliday = (props: any) => {
         handleSubmitButton={onSubmitRequest}
       >
         <FormProvider methods={methods}>
-          <Grid container gap={2}>
-            <Grid item xs={12}>
-              <RHFTextField
-                name="name"
-                label="Holiday Name"
-                placeholder="Enter holiday name"
-                size="small"
-                required
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <RHFDatePicker
-                name="date"
-                label="Date"
-                disablePast
-                required
-                size="small"
-                fullWidth
-              />
-            </Grid>
-          </Grid>
+          <RHFTextField
+            name="name"
+            label="Holiday Name"
+            placeholder="Enter holiday name"
+            size="small"
+            required
+          />
+          <Box sx={{ my: 2 }}>
+            <RHFDatePicker
+              name="date"
+              label="Date"
+              disablePast
+              required
+              size="small"
+              fullWidth
+            />
+          </Box>
         </FormProvider>
       </CustomCommonDialog>
     </>

@@ -35,7 +35,10 @@ export const UpsertConversation = () => {
       >
         <Box mt={1}>
           <FormProvider methods={methods}>
-            <FormGrid formFieldsList={upsertConversationFormFields} />
+            <FormGrid
+              spacing={1}
+              formFieldsList={upsertConversationFormFields}
+            />
             {!!isPortalOpen?.data?._id && (
               <>
                 <Typography

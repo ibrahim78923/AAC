@@ -41,8 +41,9 @@ export const AddTime = (props: any) => {
           refreshApi={getDynamicFormData}
         >
           <FormProvider methods={methods}>
-            <FormGrid formFieldsList={addTimeFormFields} />
-            <DynamicForm dynamicFormFieldsList={form} />
+            <FormGrid spacing={1} formFieldsList={addTimeFormFields}>
+              <DynamicForm dynamicFormFieldsList={form} />
+            </FormGrid>
           </FormProvider>
         </ApiRequestFlow>
       </Box>

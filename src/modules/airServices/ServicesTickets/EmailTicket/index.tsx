@@ -28,7 +28,7 @@ export const EmailTicket = () => {
       isLoading={apiCallInProgress}
     >
       <FormProvider methods={methods}>
-        <FormGrid formFieldsList={sendTicketEmailFormFields} />
+        <FormGrid spacing={1} formFieldsList={sendTicketEmailFormFields} />
       </FormProvider>
     </CommonDrawer>
   );

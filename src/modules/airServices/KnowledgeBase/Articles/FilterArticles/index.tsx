@@ -29,7 +29,7 @@ const FilterArticles = () => {
     >
       <Box mt={1}>
         <FormProvider methods={methods}>
-          <FormGrid formFieldsList={filterArticlesFormFields} />
+          <FormGrid spacing={1} formFieldsList={filterArticlesFormFields} />
         </FormProvider>
       </Box>
     </CommonDrawer>

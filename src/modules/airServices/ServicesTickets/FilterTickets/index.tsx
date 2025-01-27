@@ -28,7 +28,7 @@ export const FilterTickets = () => {
         cancelBtnHandler={resetTicketFilterForm}
       >
         <FormProvider methods={methods}>
-          <FormGrid formFieldsList={ticketsFilterFormFieldsData} />
+          <FormGrid spacing={1} formFieldsList={ticketsFilterFormFieldsData} />
         </FormProvider>
       </CommonDrawer>
     </>

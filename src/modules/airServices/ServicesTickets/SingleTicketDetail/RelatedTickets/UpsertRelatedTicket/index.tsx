@@ -52,6 +52,7 @@ export const UpsertRelatedTicket = () => {
       >
         <FormProvider methods={methods}>
           <FormGrid
+            spacing={1}
             formFieldsList={upsertTicketFormFields}
             disabled={isError}
           />

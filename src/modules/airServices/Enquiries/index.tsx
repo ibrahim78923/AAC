@@ -3,7 +3,7 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import Search from '@/components/Search';
 import { AIR_SERVICES_ENQUIRIES_PERMISSION } from '@/constants/permission-keys';
 import { FilterIcon } from '@/assets/icons';
-import { Button, Grid } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Filters from './Filters';
@@ -35,16 +35,32 @@ const Enquiries = () => {
   return (
     <>
       <PageTitledHeader title={'Enquiries'} />
-      <Grid container justifyContent={'space-between'} spacing={4}>
-        <Grid item xs={12} md={6}>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: 3,
+          my: 2,
+        }}
+      >
+        <Box>
           <PermissionsGuard
             permissions={[AIR_SERVICES_ENQUIRIES_PERMISSION?.SEARCH_AND_FILTER]}
           >
             <Search label="Search Here" setSearchBy={handleSearch} />
           </PermissionsGuard>
-        </Grid>
+        </Box>
 
-        <Grid item xs={12} md={6} textAlign={'end'}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: 2,
+          }}
+        >
           <PermissionsGuard
             permissions={Permissions?.AIR_SERVICES_ENQUIRIES_ACTIONS}
           >
@@ -61,7 +77,6 @@ const Enquiries = () => {
               className="small"
               startIcon={<FilterIcon />}
               color="secondary"
-              sx={{ ml: 2 }}
               onClick={() => {
                 openFilterModal();
               }}
@@ -69,31 +84,31 @@ const Enquiries = () => {
               Filter
             </Button>
           </PermissionsGuard>
-        </Grid>
+        </Box>
+      </Box>
 
-        <Grid item xs={12}>
-          <PermissionsGuard
-            permissions={[AIR_SERVICES_ENQUIRIES_PERMISSION?.ENQUIRIES_LIST]}
-          >
-            <TanstackTable
-              data={data?.data?.enquiries}
-              columns={enquiriesColumns}
-              isPagination
-              isLoading={isLoading}
-              isError={isError}
-              isFetching={isFetching}
-              isSuccess={isSuccess}
-              setPageLimit={setPageLimit}
-              setPage={setPage}
-              currentPage={data?.data?.meta?.page}
-              count={data?.data?.meta?.pages}
-              pageLimit={data?.data?.meta?.limit}
-              totalRecords={data?.data?.meta?.total}
-              onPageChange={(page: number) => setPage(page)}
-            />
-          </PermissionsGuard>
-        </Grid>
-      </Grid>
+      <Box>
+        <PermissionsGuard
+          permissions={[AIR_SERVICES_ENQUIRIES_PERMISSION?.ENQUIRIES_LIST]}
+        >
+          <TanstackTable
+            data={data?.data?.enquiries}
+            columns={enquiriesColumns}
+            isPagination
+            isLoading={isLoading}
+            isError={isError}
+            isFetching={isFetching}
+            isSuccess={isSuccess}
+            setPageLimit={setPageLimit}
+            setPage={setPage}
+            currentPage={data?.data?.meta?.page}
+            count={data?.data?.meta?.pages}
+            pageLimit={data?.data?.meta?.limit}
+            totalRecords={data?.data?.meta?.total}
+            onPageChange={(page: number) => setPage(page)}
+          />
+        </PermissionsGuard>
+      </Box>
 
       {isModalOpen?.filterOpen && (
         <Filters
