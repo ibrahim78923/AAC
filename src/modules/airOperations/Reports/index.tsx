@@ -1,9 +1,11 @@
-import { Grid, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { useReports } from './useReports';
 import { ItemLinkCard } from '@/components/Cards/ItemLinkCard/ItemLinkCard';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const Reports = () => {
   const { reportsTypes, isLoading, isError, isFetching, refetch } =
@@ -24,10 +26,10 @@ export const Reports = () => {
           SKELETON_TYPES?.MEDIUM_HORIZONTAL_TWO_LAYER_ROUNDED_CARD
         }
       >
-        <Grid container spacing={3}>
+        <ContainerGrid spacing={3}>
           {reportsTypes?.map((report: any) => (
             <PermissionsGuard permissions={report?.permission} key={report?.id}>
-              <Grid item md={5} lg={4} xs={12}>
+              <CustomGrid md={6} lg={4}>
                 <ItemLinkCard
                   Icon={report?.avatar ?? null}
                   itemType={report?.type}
@@ -41,10 +43,10 @@ export const Reports = () => {
                     baseModule: report?.baseModule,
                   }}
                 />
-              </Grid>
+              </CustomGrid>
             </PermissionsGuard>
           ))}
-        </Grid>
+        </ContainerGrid>
       </ApiRequestFlow>
     </>
   );

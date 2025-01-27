@@ -7,13 +7,14 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
-  Grid,
   Typography,
 } from '@mui/material';
 import { useCustomizeInventoryColumn } from './useCustomizeInventoryColumn';
 import { inventoryListsInitialColumns } from '../Inventory.data';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { CustomizeInventoryColumnI } from './CustomizeInventoryColumn.interface';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const CustomizeInventoryColumn: React.FC<CustomizeInventoryColumnI> = (
   props,
@@ -72,9 +73,9 @@ export const CustomizeInventoryColumn: React.FC<CustomizeInventoryColumnI> = (
       </DialogTitle>
       <Divider sx={{ marginY: 1 }}></Divider>
       <DialogContent>
-        <Grid container>
+        <ContainerGrid>
           {inventoryListsColumnsPersist?.slice?.(3)?.map((column: any) => (
-            <Grid item xs={12} sm={6} key={column?.id}>
+            <CustomGrid sm={6} key={column?.id}>
               <Box
                 display={'flex'}
                 alignItems={'center'}
@@ -97,9 +98,9 @@ export const CustomizeInventoryColumn: React.FC<CustomizeInventoryColumnI> = (
                   {column?.header}
                 </Typography>
               </Box>
-            </Grid>
+            </CustomGrid>
           ))}
-        </Grid>
+        </ContainerGrid>
       </DialogContent>
       <Divider sx={{ marginY: 1 }}></Divider>
       <DialogActions>

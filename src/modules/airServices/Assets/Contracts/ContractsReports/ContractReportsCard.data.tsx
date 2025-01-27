@@ -44,7 +44,7 @@ export const contractsTypeOptions = [
   },
 ];
 
-export const contractReportsTabelCoulmns = [
+export const contractReportsTableColumns = [
   {
     accessorFn: (row: any) => row?.name,
     id: 'name',

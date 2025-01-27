@@ -1,30 +1,39 @@
 import { DownloadLargeIcon } from '@/assets/icons';
 import { pxToRem } from '@/utils/getFontValue';
 import { LoadingButton } from '@mui/lab';
+import { useDownloadButton } from './useDownloadButton';
 
 export const DownloadButton = (props: any) => {
   const {
-    handleDownload,
     disabled = false,
-    loading,
     children = <DownloadLargeIcon />,
+    hasStyles = true,
+    variant = 'outlined',
+    color = 'inherit',
   } = props;
+
+  const { isDownloading, handleDownload } = useDownloadButton(props);
 
   return (
     <LoadingButton
       sx={{
-        cursor: 'pointer',
-        p: 0,
-        minWidth: pxToRem(40),
-        height: pxToRem(40),
-        marginTop: pxToRem(-10),
+        ...(hasStyles
+          ? {
+              cursor: 'pointer',
+              p: 0,
+              minWidth: pxToRem(40),
+              height: pxToRem(40),
+              marginTop: pxToRem(-10),
+            }
+          : {}),
       }}
-      variant="outlined"
-      color="inherit"
+      variant={variant}
+      color={color}
       size="small"
+      className="small"
       onClick={handleDownload}
-      disabled={disabled}
-      loading={loading}
+      disabled={isDownloading || disabled}
+      loading={isDownloading}
     >
       {children}
     </LoadingButton>

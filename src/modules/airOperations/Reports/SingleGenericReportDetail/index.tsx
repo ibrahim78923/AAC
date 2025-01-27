@@ -1,55 +1,59 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useSingleGenericReportDetail } from './useSingleGenericReportDetail';
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { createElement } from 'react';
-import { LoadingButton } from '@mui/lab';
 import { MUI_GRID_LENGTH } from '@/constants/strings';
 import {
   REPORTS_WIDGET_COMPONENT,
   REPORTS_WIDGETS,
 } from './SingleGenericReportDetail.data';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
+import { DOWNLOAD_FILE_TYPE } from '@/constants/file';
+import { DownloadButton } from '@/components/Buttons/DownloadButton';
 
 export const SingleGenericReportDetail = () => {
   const {
     reportWidgets = {},
     reportResults = {},
-    downloadReport,
     reportRef,
     singleReportApi,
-    isDownloading,
     moveBack,
+    showLoader,
   } = useSingleGenericReportDetail?.();
 
   return (
-    <ApiRequestFlow
-      showSkeleton={singleReportApi?.isLoading || singleReportApi?.isFetching}
-      hasError={singleReportApi?.isError}
-      refreshApi={singleReportApi?.refetch}
-    >
-      <Box ref={reportRef}>
-        <PageTitledHeader
-          title={reportWidgets?.name}
-          canMovedBack
-          moveBack={moveBack}
+    <Box ref={reportRef}>
+      <PageTitledHeader
+        title={reportWidgets?.name}
+        canMovedBack
+        moveBack={moveBack}
+      >
+        <DownloadButton
+          hasStyles={false}
+          variant="contained"
+          color="primary"
+          disabled={showLoader}
+          downloadRef={reportRef}
+          downloadFileType={DOWNLOAD_FILE_TYPE?.PDF}
         >
-          <LoadingButton
-            className="small"
-            variant="contained"
-            disabled={isDownloading}
-            loading={isDownloading}
-            onClick={downloadReport}
-          >
-            Download PDF
-          </LoadingButton>
-        </PageTitledHeader>
-        <br />
-        <Grid container spacing={2}>
+          Download PDF
+        </DownloadButton>
+      </PageTitledHeader>
+      <br />
+      <ApiRequestFlow
+        showSkeleton={showLoader}
+        hasError={singleReportApi?.isError}
+        refreshApi={singleReportApi?.refetch}
+        skeletonType={SKELETON_TYPES?.BASIC_CARD}
+        cardSkeletonType={SKELETON_TYPES?.LARGE_VERTICAL_TWO_LAYER_DOUBLE_CARD}
+      >
+        <ContainerGrid>
           {reportWidgets?.widgets?.map((item: any, index: any) => (
-            <Grid
+            <CustomGrid
               key={item?._id}
-              item
-              xs={12}
               lg={
                 item?.type === REPORTS_WIDGETS?.TEMPLATE_TEXT
                   ? MUI_GRID_LENGTH?.SIX
@@ -69,10 +73,10 @@ export const SingleGenericReportDetail = () => {
                   filterQuery: item?.filterQuery,
                   results: reportResults,
                 })}
-            </Grid>
+            </CustomGrid>
           ))}
-        </Grid>
-      </Box>
-    </ApiRequestFlow>
+        </ContainerGrid>
+      </ApiRequestFlow>
+    </Box>
   );
 };

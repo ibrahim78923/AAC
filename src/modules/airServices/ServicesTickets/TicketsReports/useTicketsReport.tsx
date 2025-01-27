@@ -5,10 +5,8 @@ import { MODULE_TYPE } from '@/constants/strings';
 import { AUTO_REFRESH_API_POLLING_TIME } from '@/config';
 import { isoDateString } from '@/lib/date-time';
 import { useFormLib } from '@/hooks/useFormLib';
-import { htmlToPdfConvert } from '@/lib/html-to-pdf-converter';
 
 export const useTicketsReport = () => {
-  const [loading, setLoading] = useState<boolean>(false);
   const [hasDate, setHasDate] = useState(false);
   const [filterDate, setFilterDate] = useState<any>({
     startDate: null,
@@ -79,15 +77,6 @@ export const useTicketsReport = () => {
 
   const apiCallInProgress = isLoading || isFetching;
 
-  const handleDownload = async () => {
-    if (isLoading || isFetching || isError) return;
-    setLoading(true);
-    try {
-      await htmlToPdfConvert?.(downloadRef, 'Contract_Report');
-    } catch (error) {}
-    setLoading(false);
-  };
-
   return {
     router,
     methods,
@@ -102,8 +91,6 @@ export const useTicketsReport = () => {
     onDateFilterSubmit,
     getValues,
     apiCallInProgress,
-    handleDownload,
-    loading,
     fulfilledTimeStamp,
   };
 };
