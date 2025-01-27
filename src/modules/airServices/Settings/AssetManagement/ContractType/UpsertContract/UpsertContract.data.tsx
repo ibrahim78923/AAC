@@ -25,9 +25,9 @@ export const ContractFieldsFormDefaultValues: any = (data?: any) => {
   };
 };
 
-export const ContractFieldsFormDataArray = [
+export const contractTypeFormFields = [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'name',
       label: 'Name',
@@ -37,7 +37,7 @@ export const ContractFieldsFormDataArray = [
     component: RHFTextField,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       name: 'description',
       label: 'Description',

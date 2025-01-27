@@ -46,7 +46,7 @@ export const upsertProductCatalogDefaultValuesFunction = (data?: any) => {
 };
 export const upsertProductCatalogFormFieldsDynamic = () => [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'name',
       label: 'Name',
@@ -57,12 +57,12 @@ export const upsertProductCatalogFormFieldsDynamic = () => [
     md: 6,
   },
   {
-    id: 2,
+    _id: 2,
     component: AssetTypeDropdown,
     md: 6,
   },
   {
-    id: 3,
+    _id: 3,
     componentProps: {
       name: 'manufacturer',
       label: 'Manufacturer',
@@ -72,7 +72,7 @@ export const upsertProductCatalogFormFieldsDynamic = () => [
     md: 6,
   },
   {
-    id: 4,
+    _id: 4,
     componentProps: {
       name: 'status',
       label: 'Status',
@@ -85,7 +85,7 @@ export const upsertProductCatalogFormFieldsDynamic = () => [
     md: 6,
   },
   {
-    id: 5,
+    _id: 5,
     componentProps: {
       name: 'modeOfProcurement',
       label: 'Mode of Procurement',
@@ -97,7 +97,7 @@ export const upsertProductCatalogFormFieldsDynamic = () => [
     md: 6,
   },
   {
-    id: 6,
+    _id: 6,
     componentProps: {
       name: 'description',
       label: 'Description',

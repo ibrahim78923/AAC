@@ -2,7 +2,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants/routes';
 import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { DragDropContext } from 'react-beautiful-dnd';
 import {
   Date,
@@ -18,6 +18,8 @@ import {
 import { DYNAMIC_FIELDS } from '@/utils/dynamic-forms';
 import usePurchaseOrderFields from './usePurchaseOrderFields';
 import { predefinedPurchaseOrderDataArray } from './PurchaseOrderFields.data';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export default function PurchaseOrderFields() {
   const {
@@ -44,8 +46,8 @@ export default function PurchaseOrderFields() {
           AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS?.ADD_NEW_PURCHASE_ORDER_FIELDS,
         ]}
       >
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={8}>
+        <ContainerGrid>
+          <CustomGrid md={8}>
             <Box
               borderRadius={2}
               bgcolor={'common.white'}
@@ -88,8 +90,8 @@ export default function PurchaseOrderFields() {
                 cancelPath={AIR_SERVICES?.ASSET_MANAGEMENT_SETTINGS}
               />
             </Box>
-          </Grid>
-          <Grid item xs={12} md={4}>
+          </CustomGrid>
+          <CustomGrid md={4}>
             <Box
               borderRadius={2}
               bgcolor={'common.white'}
@@ -99,8 +101,8 @@ export default function PurchaseOrderFields() {
             >
               <DraggableFields />
             </Box>
-          </Grid>
-        </Grid>
+          </CustomGrid>
+        </ContainerGrid>
 
         {modal?.text && (
           <Text

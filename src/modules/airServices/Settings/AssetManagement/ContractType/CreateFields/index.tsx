@@ -3,7 +3,7 @@ import useCreateFields from './useCreateFields';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants/routes';
 import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { DragDropContext } from 'react-beautiful-dnd';
 import {
   Date,
@@ -17,6 +17,8 @@ import {
   Upload,
 } from '@/components/DynamicFormModals';
 import { DYNAMIC_FIELDS } from '@/utils/dynamic-forms';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export default function CreateFields() {
   const {
@@ -45,8 +47,8 @@ export default function CreateFields() {
           AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS?.ADD_CONTRACT_TYPES,
         ]}
       >
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={8}>
+        <ContainerGrid>
+          <CustomGrid md={8}>
             <Box
               borderRadius={2}
               bgcolor={'common.white'}
@@ -90,8 +92,8 @@ export default function CreateFields() {
                 cancelPath={AIR_SERVICES?.CONTRACT_TYPES}
               />
             </Box>
-          </Grid>
-          <Grid item xs={12} md={4}>
+          </CustomGrid>
+          <CustomGrid md={4}>
             <Box
               borderRadius={2}
               bgcolor={'common.white'}
@@ -101,8 +103,8 @@ export default function CreateFields() {
             >
               <DraggableFields />
             </Box>
-          </Grid>
-        </Grid>
+          </CustomGrid>
+        </ContainerGrid>
 
         {modal?.text && (
           <Text

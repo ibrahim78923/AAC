@@ -5,18 +5,18 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 import * as Yup from 'yup';
 import { ARRAY_INDEX } from '@/constants/strings';
-import { IFieldConfig } from './ChangePassword.interface';
 import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
+import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 export const changePasswordValidationSchema = Yup?.object()?.shape({
   currentPassword: Yup?.string()
-    ?.required('Required')
+    ?.required('Current password is required')
     ?.max(
       CHARACTERS_LIMIT?.SERVICES_ACCOUNT_SETTINGS_ACCOUNT_DETAILS_CHANGE_PASSWORD,
       `Maximum Characters Limit is ${CHARACTERS_LIMIT?.SERVICES_ACCOUNT_SETTINGS_ACCOUNT_DETAILS_CHANGE_PASSWORD} `,
     ),
   newPassword: Yup?.string()
-    ?.required('Required')
+    ?.required('New password is required')
     ?.min(8, 'Password must be at least 8 characters')
     ?.max(
       CHARACTERS_LIMIT?.SERVICES_ACCOUNT_SETTINGS_ACCOUNT_DETAILS_CHANGE_PASSWORD,
@@ -27,7 +27,7 @@ export const changePasswordValidationSchema = Yup?.object()?.shape({
       'Password should be at least 8 characters long having 1 Capital letter, 1 Small letter and 1 number digit and 1 Special Character',
     ),
   confirmPassword: Yup?.string()
-    ?.required('Required')
+    ?.required('Confirm password is required')
     ?.oneOf([Yup?.ref('newPassword')], 'Password must match with new password'),
 });
 
@@ -40,10 +40,10 @@ export const changePasswordDefaultValues = {
 export const changePasswordDataArray = (
   showPassword: boolean[],
   togglePasswordVisibility: (index: number) => void,
-): IFieldConfig[] => [
+): ReactHookFormFieldsI[] => [
   {
-    _id: 2786,
-    gridLength: 6,
+    _id: 1,
+    md: 7,
     componentProps: {
       name: 'currentPassword',
       label: 'Current Password',
@@ -70,8 +70,8 @@ export const changePasswordDataArray = (
     component: RHFTextField,
   },
   {
-    _id: 6578,
-    gridLength: 6,
+    _id: 2,
+    md: 7,
     componentProps: {
       name: 'newPassword',
       label: 'New Password',
@@ -98,8 +98,8 @@ export const changePasswordDataArray = (
     component: RHFTextField,
   },
   {
-    _id: 9478,
-    gridLength: 6,
+    _id: 3,
+    md: 7,
     componentProps: {
       name: 'confirmPassword',
       label: 'Confirm Password',

@@ -1,21 +1,21 @@
 import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 import { timeZone } from '@/constants/time-zone';
 import * as Yup from 'yup';
-import { IProfileOtherData, IProfileWorkData } from './Profile.interface';
 import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
+import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 const option = ['English'];
 export const profileValidationSchema: any = Yup?.object()?.shape({
   firstName: Yup?.string()
     ?.trim()
-    ?.required('First name is Required')
+    ?.required('First name is required')
     ?.max(
       CHARACTERS_LIMIT?.SERVICES_ACCOUNT_SETTINGS_ACCOUNT_DETAILS_PROFILE_FIRST_NAME_MAX_CHARACTERS,
       `Maximum Characters Limit is ${CHARACTERS_LIMIT?.SERVICES_ACCOUNT_SETTINGS_ACCOUNT_DETAILS_PROFILE_FIRST_NAME_MAX_CHARACTERS} `,
     ),
   lastName: Yup?.string()
     ?.trim()
-    ?.required('Last name is Required')
+    ?.required('Last name is required')
     ?.max(
       CHARACTERS_LIMIT?.SERVICES_ACCOUNT_SETTINGS_ACCOUNT_DETAILS_PROFILE_LAST_NAME_MAX_CHARACTERS,
       `Maximum Characters Limit is ${CHARACTERS_LIMIT?.SERVICES_ACCOUNT_SETTINGS_ACCOUNT_DETAILS_PROFILE_LAST_NAME_MAX_CHARACTERS} `,
@@ -67,10 +67,10 @@ export const profileDefaultValues = (profileDetail: any) => {
   };
 };
 
-export const profileWorkDataArray: IProfileWorkData[] = [
+export const profileWorkDataArray: ReactHookFormFieldsI[] = [
   {
-    _id: 2786,
-    gridLength: 6,
+    _id: 1,
+    md: 6,
     componentProps: {
       name: 'firstName',
       label: 'First Name',
@@ -81,8 +81,8 @@ export const profileWorkDataArray: IProfileWorkData[] = [
     component: RHFTextField,
   },
   {
-    _id: 9478,
-    gridLength: 6,
+    _id: 2,
+    md: 6,
     componentProps: {
       name: 'lastName',
       label: 'Last Name',
@@ -94,8 +94,8 @@ export const profileWorkDataArray: IProfileWorkData[] = [
   },
 
   {
-    _id: 6756,
-    gridLength: 6,
+    _id: 3,
+    md: 6,
     componentProps: {
       name: 'workPhoneNumber',
       label: 'Work Phone Number',
@@ -104,8 +104,8 @@ export const profileWorkDataArray: IProfileWorkData[] = [
     component: RHFTextField,
   },
   {
-    _id: 3456,
-    gridLength: 6,
+    _id: 4,
+    md: 6,
     componentProps: {
       name: 'mobileNumber',
       label: 'Mobile Number',
@@ -114,8 +114,8 @@ export const profileWorkDataArray: IProfileWorkData[] = [
     component: RHFTextField,
   },
   {
-    _id: 7757,
-    gridLength: 6,
+    _id: 5,
+    md: 6,
     componentProps: {
       name: 'companyName',
       label: 'Company Name',
@@ -127,8 +127,8 @@ export const profileWorkDataArray: IProfileWorkData[] = [
   },
 
   {
-    _id: 8974,
-    gridLength: 6,
+    _id: 6,
+    md: 6,
     componentProps: {
       name: 'jobTitle',
       label: 'Job Title',
@@ -139,10 +139,10 @@ export const profileWorkDataArray: IProfileWorkData[] = [
   },
 ];
 
-export const profileOtherDataArray: IProfileOtherData[] = [
+export const profileOtherDataArray: ReactHookFormFieldsI[] = [
   {
-    _id: 7867,
-    gridLength: 6,
+    _id: 7,
+    md: 6,
     componentProps: {
       name: 'language',
       label: 'Language',
@@ -153,8 +153,8 @@ export const profileOtherDataArray: IProfileOtherData[] = [
     component: RHFAutocomplete,
   },
   {
-    _id: 5868,
-    gridLength: 6,
+    _id: 8,
+    md: 6,
     componentProps: {
       name: 'timeZone',
       label: 'Time Zone',
@@ -166,8 +166,8 @@ export const profileOtherDataArray: IProfileOtherData[] = [
     component: RHFAutocomplete,
   },
   {
-    _id: 7868,
-    gridLength: 6,
+    _id: 9,
+    md: 6,
     componentProps: {
       name: 'facebookURL',
       label: 'Facebook URL',
@@ -177,8 +177,8 @@ export const profileOtherDataArray: IProfileOtherData[] = [
     component: RHFTextField,
   },
   {
-    _id: 5678,
-    gridLength: 6,
+    _id: 10,
+    md: 6,
     componentProps: {
       name: 'linkedinURL',
       label: 'Linkedin URL',
@@ -188,8 +188,8 @@ export const profileOtherDataArray: IProfileOtherData[] = [
     component: RHFTextField,
   },
   {
-    _id: 9769,
-    gridLength: 6,
+    _id: 11,
+    md: 6,
     componentProps: {
       name: 'twitterURL',
       label: 'Twitter URL',

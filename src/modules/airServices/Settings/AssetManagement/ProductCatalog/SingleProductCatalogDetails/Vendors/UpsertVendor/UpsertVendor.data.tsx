@@ -56,21 +56,22 @@ export const upsertVendorDefaultValues = (data?: any) => {
 
 export const getUpsertVendorDataArray = () => [
   {
-    id: 1,
+    _id: 1,
     component: VendorCatalogDropdown,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       name: 'price',
       label: 'Price (£)',
       type: 'number',
       required: true,
+      inputProps: { min: 1 },
     },
     component: RHFTextField,
   },
   {
-    id: 3,
+    _id: 3,
     componentProps: {
       name: 'warrantyValidityYrs',
       label: 'Warranty/Validity',
@@ -81,7 +82,7 @@ export const getUpsertVendorDataArray = () => [
     md: 6,
   },
   {
-    id: 4,
+    _id: 4,
     componentProps: {
       name: 'warrantyValidityMonths',
       label: '\u00a0\u00a0',
@@ -92,7 +93,7 @@ export const getUpsertVendorDataArray = () => [
     md: 6,
   },
   {
-    id: 5,
+    _id: 5,
     componentProps: {
       name: 'quantity',
       label: 'Quantity',

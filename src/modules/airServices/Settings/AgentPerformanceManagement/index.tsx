@@ -1,8 +1,10 @@
-import { Grid, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { agentPerformanceManagement } from './AgentPerformanceManagement';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ISettingsCards } from '../Settings.interface';
 import { ItemLinkCard } from '@/components/Cards/ItemLinkCard/ItemLinkCard';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const AgentPerformanceManagement = () => {
   return (
@@ -11,10 +13,10 @@ export const AgentPerformanceManagement = () => {
         Agent Productivity & Workload Management
       </Typography>
       <br />
-      <Grid container spacing={3}>
+      <ContainerGrid spacing={3}>
         {agentPerformanceManagement?.map((item: ISettingsCards) => (
           <PermissionsGuard permissions={item?.permissions} key={item?.id}>
-            <Grid item md={6} lg={4} xs={12}>
+            <CustomGrid md={6} lg={4}>
               <ItemLinkCard
                 Icon={item?.avatar}
                 itemType={item?.type}
@@ -28,10 +30,10 @@ export const AgentPerformanceManagement = () => {
                 avatarMargin="auto"
                 marginY={1.2}
               />
-            </Grid>
+            </CustomGrid>
           </PermissionsGuard>
         ))}
-      </Grid>
+      </ContainerGrid>
     </>
   );
 };

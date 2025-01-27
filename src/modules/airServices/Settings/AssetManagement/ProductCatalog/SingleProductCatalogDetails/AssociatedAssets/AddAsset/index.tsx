@@ -1,8 +1,8 @@
-import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { addAssetDataArray } from './AddAsset.data';
 import { useAddAsset } from './useAddAsset';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const AddAsset = (props: any) => {
   const { addModalOpen, setAddModalOpen } = props;
@@ -21,13 +21,7 @@ export const AddAsset = (props: any) => {
       submitButtonText="Save"
     >
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <Grid container spacing={2}>
-          {addAssetDataArray?.map((item: any) => (
-            <Grid item xs={12} key={item?.id}>
-              <item.component {...item?.componentProps} size={'small'} />
-            </Grid>
-          ))}
-        </Grid>
+        <FormGrid spacing={1} formFieldsList={addAssetDataArray} />
       </FormProvider>
     </CustomCommonDialog>
   );

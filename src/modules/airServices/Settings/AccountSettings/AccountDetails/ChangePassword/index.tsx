@@ -1,12 +1,11 @@
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { useChangePassword } from './useChangePassword';
 import { FormProvider } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
-import { IFieldConfig } from './ChangePassword.interface';
+import { CustomAccordion } from '@/components/CustomAccordion';
+import { ACCORDION_VARIANTS } from '@/constants/mui-constant';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const ChangePassword = () => {
   const {
@@ -17,53 +16,47 @@ export const ChangePassword = () => {
     theme,
     postChangePasswordProgress,
   } = useChangePassword();
+
   return (
     <Box
       borderBottom={`.1rem solid ${theme?.palette?.grey?.[700]}`}
       borderRadius={2.5}
     >
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography variant="h6">Change Password</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <FormProvider methods={methods} onSubmit={handleSubmitChangePassword}>
-            <Grid
-              container
-              spacing={1}
-              display={'flex'}
-              flexDirection={'column'}
+      <CustomAccordion
+        expandIcon={<ExpandMoreIcon />}
+        summaryTitle="Change Password"
+        variantType={ACCORDION_VARIANTS?.INHERIT}
+        summaryKey="panel1a"
+      >
+        <FormProvider methods={methods} onSubmit={handleSubmitChangePassword}>
+          <FormGrid spacing={1} formFieldsList={changePasswordFields} />
+          <Box
+            sx={{
+              display: 'flex',
+              gap: 2,
+              justifyContent: 'end',
+              my: 2,
+            }}
+          >
+            <LoadingButton
+              loading={postChangePasswordProgress?.isLoading}
+              variant="contained"
+              className="small"
+              type="submit"
             >
-              {changePasswordFields?.map((item: IFieldConfig) => (
-                <Grid item xs={12} sm={item?.gridLength} key={item?._id}>
-                  <item.component {...item?.componentProps} />
-                </Grid>
-              ))}
-            </Grid>
-            <Box display={'flex'} justifyContent={'end'} gap={1}>
-              <LoadingButton
-                disabled={postChangePasswordProgress?.isLoading}
-                variant="contained"
-                className="small"
-                type="submit"
-              >
-                Save
-              </LoadingButton>
-              <LoadingButton
-                variant="outlined"
-                className="small"
-                onClick={() => reset()}
-              >
-                cancel
-              </LoadingButton>
-            </Box>
-          </FormProvider>
-        </AccordionDetails>
-      </Accordion>
+              Save
+            </LoadingButton>
+            <LoadingButton
+              disabled={postChangePasswordProgress?.isLoading}
+              variant="outlined"
+              className="small"
+              onClick={() => reset()}
+            >
+              cancel
+            </LoadingButton>
+          </Box>
+        </FormProvider>
+      </CustomAccordion>
     </Box>
   );
 };

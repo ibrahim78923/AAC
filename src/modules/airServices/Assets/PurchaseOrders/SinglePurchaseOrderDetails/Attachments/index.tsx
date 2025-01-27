@@ -1,9 +1,10 @@
-import { Grid } from '@mui/material';
 import { useState } from 'react';
 import { AttachmentForm } from './AttachmentForm';
 import { Attachments } from '@/components/Attachments';
 import { useRouter } from 'next/router';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const Attachment = () => {
   const [addAttachment, setAddAttachment] = useState(false);
@@ -18,22 +19,24 @@ export const Attachment = () => {
         canAttachFile
         permissionKey={[]}
       >
-        <Grid
-          container
-          justifyContent={'center'}
-          alignItems={'center'}
-          height={'70vh'}
+        <ContainerGrid
+          customStyles={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '70vh',
+          }}
         >
-          <Grid item xs={12} md={6} lg={4}>
+          <CustomGrid md={6} lg={4}>
             <AttachmentForm />
-          </Grid>
-        </Grid>
+          </CustomGrid>
+        </ContainerGrid>
       </Attachments>
 
       {addAttachment && (
         <CustomCommonDialog
           isPortalOpen={addAttachment}
           closePortal={() => setAddAttachment(false)}
+          showActionButtons={false}
         >
           <AttachmentForm setAddAttachment={setAddAttachment} />
         </CustomCommonDialog>
