@@ -24,7 +24,7 @@ export const AgentBioData = (props: any) => {
       borderColor="custom.off_white_three"
     >
       <ContainerGrid>
-        <CustomGrid item xs={12} md={4}>
+        <CustomGrid md={4}>
           <Box
             sx={{
               height: '100%',
@@ -105,7 +105,7 @@ export const AgentBioData = (props: any) => {
             </Box>
           </Box>
         </CustomGrid>
-        <CustomGrid item xs={12} md={3.5} padding={1.5}>
+        <CustomGrid md={3.5}>
           <Box sx={{ padding: 1.5 }}>
             <Box display={'flex'} flexWrap={'wrap'} gap={1} my={2}>
               <Typography variant="body2" fontWeight={600}>
@@ -129,38 +129,50 @@ export const AgentBioData = (props: any) => {
             </Box>
           </Box>
         </CustomGrid>
-        <CustomGrid item xs={12} md={1} textAlign={'center'}>
-          <IconButton onClick={() => handleEditButtonClick?.()}>
+        <CustomGrid md={1}>
+          <IconButton
+            sx={{ textAlign: 'center' }}
+            onClick={() => handleEditButtonClick?.()}
+          >
             <EditRequestorsIcon />
           </IconButton>
         </CustomGrid>
-        <CustomGrid item xs={12} md={3} padding={1.5} textAlign={'end'}>
-          {!!agentLevelDetail?.data ? (
-            <Box
-              display={'flex'}
-              alignItems={'center'}
-              flexWrap={'wrap'}
-              gap={1}
-              border={'1px solid'}
-              borderColor={'custom.off_white'}
-              p={1.5}
-            >
-              <Avatar
-                src={AGENT_LEVELS_IMAGES?.[agentLevelDetail?.data?.badges]?.src}
-                sx={{ width: 30, height: 30 }}
-                alt={agentLevelDetail?.data?.badges}
-              />
-              <Typography
-                variant="body2"
-                textTransform={'capitalize'}
-                color="slateBlue.main"
+        <CustomGrid md={3}>
+          <Box
+            sx={{
+              padding: 1.5,
+              textAlign: 'end',
+            }}
+          >
+            {!!agentLevelDetail?.data ? (
+              <Box
+                display={'flex'}
+                alignItems={'center'}
+                flexWrap={'wrap'}
+                gap={1}
+                border={'1px solid'}
+                borderColor={'custom.off_white'}
+                p={1.5}
               >
-                {agentLevelDetail?.data?.badges ?? '---'}
-              </Typography>
-            </Box>
-          ) : (
-            <></>
-          )}
+                <Avatar
+                  src={
+                    AGENT_LEVELS_IMAGES?.[agentLevelDetail?.data?.badges]?.src
+                  }
+                  sx={{ width: 30, height: 30 }}
+                  alt={agentLevelDetail?.data?.badges}
+                />
+                <Typography
+                  variant="body2"
+                  textTransform={'capitalize'}
+                  color="slateBlue.main"
+                >
+                  {agentLevelDetail?.data?.badges ?? '---'}
+                </Typography>
+              </Box>
+            ) : (
+              <></>
+            )}
+          </Box>
         </CustomGrid>
       </ContainerGrid>
     </Box>

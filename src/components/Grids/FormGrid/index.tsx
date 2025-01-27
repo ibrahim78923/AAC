@@ -5,34 +5,10 @@ export const FormGrid = (props: any) => {
   const {
     formFieldsList = [],
     spacing = 2,
-    hasHeading = false,
     disabled,
     children,
     md = 12,
   } = props;
-
-  if (hasHeading)
-    return (
-      <ContainerGrid spacing={spacing}>
-        {formFieldsList?.map((form: any) => (
-          <CustomGrid
-            xs={12}
-            md={form?.md ?? md}
-            key={form?._id}
-            customStyles={form?.gridSx}
-          >
-            <form.component
-              {...form?.componentProps}
-              size={'small'}
-              disabled={form?.componentProps?.disabled || disabled}
-            >
-              {form?.heading ? form?.heading : null}
-            </form.component>
-          </CustomGrid>
-        ))}
-        {children}
-      </ContainerGrid>
-    );
 
   return (
     <ContainerGrid spacing={spacing}>

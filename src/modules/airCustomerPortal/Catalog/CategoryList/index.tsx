@@ -31,7 +31,7 @@ export const CategoryList = () => {
       >
         <>
           <ContainerGrid>
-            <CustomGrid xs={12} md={6} lg={3}>
+            <CustomGrid md={6} lg={3}>
               <IconInfoCard
                 name="All Services"
                 description="Browse the list of all services offered and raise a request."
@@ -50,7 +50,7 @@ export const CategoryList = () => {
 
             {!!categoryList?.length &&
               categoryList?.map((category: any) => (
-                <CustomGrid xs={12} md={6} lg={3} key={category?._id}>
+                <CustomGrid md={6} lg={3} key={category?._id}>
                   <IconInfoCard
                     name={category?.categoryName}
                     description={category?.description}

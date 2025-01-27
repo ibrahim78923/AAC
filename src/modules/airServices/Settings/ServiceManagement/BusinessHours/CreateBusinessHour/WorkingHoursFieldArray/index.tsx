@@ -4,6 +4,7 @@ import { CopyPrimaryColorIcon, TrashIcon } from '@/assets/icons';
 import { useFieldArray } from 'react-hook-form';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { ARRAY_INDEX } from '@/constants/strings';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const WorkingHoursFieldArray = ({ control, name }: any) => {
   const { fields, append, remove } = useFieldArray({
@@ -22,9 +23,8 @@ export const WorkingHoursFieldArray = ({ control, name }: any) => {
         mb={2}
       >
         {fields?.map((item, index) => (
-          <CustomGrid
+          <ContainerGrid
             key={item?.id}
-            isContainer
             customStyles={{
               alignItems: 'center',
               justifyContent: 'center',
@@ -60,7 +60,7 @@ export const WorkingHoursFieldArray = ({ control, name }: any) => {
                 </Box>
               )}
             </CustomGrid>
-          </CustomGrid>
+          </ContainerGrid>
         ))}
       </Box>
     </>

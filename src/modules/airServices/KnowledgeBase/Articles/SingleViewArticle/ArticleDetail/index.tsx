@@ -38,10 +38,7 @@ export const ArticleDetail = () => {
       hasError={showError}
       refreshApi={getSingleArticle}
     >
-      <ContainerGrid
-        spacing={1}
-        customStyles={{ justifyContent: 'space-between' }}
-      >
+      <ContainerGrid>
         <CustomGrid lg={8.9}>
           <Typography variant="h3" color="slateBlue.main" my={2}>
             <TruncateText text={data?.data?.title?.toLowerCase()} />
@@ -64,7 +61,7 @@ export const ArticleDetail = () => {
                 <Attachments
                   recordId={articleId as string}
                   size={{ width: '100%', height: '100%' }}
-                  permissionKey={[]}
+                  hasNoDeletePermission
                   hasStyling={false}
                   canDelete={false}
                 />
@@ -88,24 +85,22 @@ export const ArticleDetail = () => {
                     fontWeight={'fontWeightSmall'}
                     color="slateBlue.main"
                     my={2}
+                    sx={{ px: 2 }}
                   >
                     {item?.heading}
                   </Typography>
-                  <CustomGrid
-                    container
-                    key={item?._id}
-                    flexDirection={'column'}
-                    spacing={1.5}
-                  >
+                  <Box sx={{ px: 2 }}>
                     {item?.details?.map(
                       (ele: SingleViewArticleDetailArrayI) => (
-                        <CustomGrid
-                          item
+                        <Box
                           key={ele?._id}
-                          display={'flex'}
-                          justifyContent={'space-between'}
-                          alignItems={'center'}
-                          gap={2}
+                          sx={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            gap: 2,
+                            my: 2,
+                          }}
                         >
                           <Typography variant="body3" color={'grey.600'}>
                             {ele?.title}
@@ -113,10 +108,10 @@ export const ArticleDetail = () => {
                           <Typography variant="body4" color="slateBlue.main">
                             {ele?.des}
                           </Typography>
-                        </CustomGrid>
+                        </Box>
                       ),
                     )}
-                  </CustomGrid>
+                  </Box>
                   <Divider sx={{ my: 2 }} />
                 </Fragment>
               );

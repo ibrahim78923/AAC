@@ -1,5 +1,4 @@
 import { Box, Typography } from '@mui/material';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { CatalogRequest } from '../CatalogRequest';
 import useCatalogService from './useCatalogService';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
@@ -11,6 +10,7 @@ import { AvatarInfoCard } from '@/components/Cards/AvatarInfoCard';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { SingleBreadcrumb } from '@/components/Breadcrumbs/SingleBreadcrumb';
 
 const CatalogService = () => {
   const {
@@ -20,7 +20,6 @@ const CatalogService = () => {
     isError,
     refetch,
     router,
-    theme,
     companyId,
     portalStyles,
     showLoader,
@@ -41,22 +40,14 @@ const CatalogService = () => {
           });
         }}
         title={
-          <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1}>
-            <Typography
-              variant="h3"
-              sx={{ color: theme?.palette?.primary?.main }}
-            >
-              Tickets
-            </Typography>
-            <ArrowForwardIosIcon fontSize="small" />
-            <Typography variant="h5">
-              {servicesDetails?.data?.itemName}
-            </Typography>
-          </Box>
+          <SingleBreadcrumb
+            previousPathname="Tickets"
+            activePathname={servicesDetails?.data?.itemName}
+          />
         }
       />
       <ContainerGrid>
-        <CustomGrid xs={12} md={6} lg={4}>
+        <CustomGrid md={6} lg={4}>
           <AvatarInfoCard
             name={servicesDetails?.data?.itemName}
             description={servicesDetails?.data?.description}

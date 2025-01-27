@@ -67,7 +67,7 @@ export const PermissionsAccordion = (props: any) => {
                 >
                   <ContainerGrid spacing={1}>
                     {subModule?.permissions?.map((item: any) => (
-                      <CustomGrid xs={12} md={4} key={item?.slug}>
+                      <CustomGrid md={6} key={item?.slug}>
                         <RHFCheckbox
                           name={item?.slug}
                           label={item?.name}

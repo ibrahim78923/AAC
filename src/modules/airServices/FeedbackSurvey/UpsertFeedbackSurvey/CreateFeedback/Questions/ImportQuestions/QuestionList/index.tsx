@@ -9,6 +9,7 @@ import { FeedbackSurveySectionI } from '@/types/modules/AirServices/FeedbackSurv
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const QuestionList: React.FC<QuestionListI> = (props) => {
   const {
@@ -75,54 +76,51 @@ export const QuestionList: React.FC<QuestionListI> = (props) => {
                   componentProps.disabled = true;
                 }
                 return (
-                  <CustomGrid
-                    isContainer
+                  <ContainerGrid
+                    spacing={0}
                     customStyles={{ alignItems: 'center' }}
                     key={question?._id}
                   >
-                    <CustomGrid
-                      md={0.6}
-                      customStyles={{
-                        mt: { md: 'none', xs: 1 },
-                        textAlign: 'center',
-                      }}
-                    >
-                      <Checkbox
-                        icon={<CheckboxIcon />}
-                        checkedIcon={<CheckboxCheckedIcon />}
-                        onChange={(e) => handleCheckboxClick(e, question)}
-                      />
+                    <CustomGrid md={0.6}>
+                      <Box sx={{ textAlign: { xs: ' center', md: 'left' } }}>
+                        <Checkbox
+                          icon={<CheckboxIcon />}
+                          checkedIcon={<CheckboxCheckedIcon />}
+                          onChange={(e) => handleCheckboxClick(e, question)}
+                        />
+                      </Box>
                     </CustomGrid>
-                    <CustomGrid
-                      md={11.3}
-                      customStyles={{
-                        border: `1px solid ${
-                          isQuestionSelected(question)
-                            ? theme?.palette?.primary?.main
-                            : theme?.palette?.custom?.off_white_three
-                        }`,
-                        p: 1,
-                        my: { md: 1 },
-                        borderRadius: 2,
-                      }}
-                    >
-                      <Typography variant="h6" mb={1}>
-                        {question?.questionTitle}
-                      </Typography>
-                      <>
-                        {FEEDBACK_SURVEY_RESPONSE_QUESTION?.[
-                          question?.questionType
-                        ] &&
-                          createElement(
-                            FEEDBACK_SURVEY_RESPONSE_QUESTION?.[
-                              question?.questionType
-                            ],
-                            { ...componentProps },
-                            question?.description,
-                          )}
-                      </>
+                    <CustomGrid md={11.3}>
+                      <Box
+                        sx={{
+                          border: `1px solid ${
+                            isQuestionSelected(question)
+                              ? theme?.palette?.primary?.main
+                              : theme?.palette?.custom?.off_white_three
+                          }`,
+                          p: 1,
+                          my: { md: 1 },
+                          borderRadius: 2,
+                        }}
+                      >
+                        <Typography variant="h6" mb={1}>
+                          {question?.questionTitle}
+                        </Typography>
+                        <>
+                          {FEEDBACK_SURVEY_RESPONSE_QUESTION?.[
+                            question?.questionType
+                          ] &&
+                            createElement(
+                              FEEDBACK_SURVEY_RESPONSE_QUESTION?.[
+                                question?.questionType
+                              ],
+                              { ...componentProps },
+                              question?.description,
+                            )}
+                        </>
+                      </Box>
                     </CustomGrid>
-                  </CustomGrid>
+                  </ContainerGrid>
                 );
               })}
             </Box>

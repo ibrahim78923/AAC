@@ -19,6 +19,11 @@ export const useApprovals = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [isPortalOpen, setIsPortalOpen] = useState<any>({
+    isOpen: false,
+    action: '',
+    id: null,
+  });
 
   const [lazyGetApprovalRequestsTrigger, lazyGetApprovalRequestsStatus]: any =
     useLazyGetAirServicesAssetsPurchaseOrderApprovalApprovalRequestsQuery();
@@ -62,6 +67,14 @@ export const useApprovals = () => {
     }
   };
 
+  const setAction = (action: string, id: string) => {
+    setIsPortalOpen({
+      isOpen: true,
+      action,
+      id,
+    });
+  };
+
   return {
     lazyGetApprovalRequestsStatus,
     approvalsList,
@@ -76,5 +89,8 @@ export const useApprovals = () => {
     user,
     sendReminderForPurchaseOrderApproval,
     postPurchaseOrderApprovalRemindersStatus,
+    setAction,
+    isPortalOpen,
+    setIsPortalOpen,
   };
 };

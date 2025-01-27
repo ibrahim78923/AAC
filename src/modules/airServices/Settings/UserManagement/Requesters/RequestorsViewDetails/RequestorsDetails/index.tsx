@@ -10,6 +10,7 @@ import { otherDateFormat } from '@/lib/date-time';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const RequestorsDetails = () => {
   const {
@@ -40,8 +41,8 @@ export const RequestorsDetails = () => {
           paddingY={2}
           borderColor="custom.off_white_three"
         >
-          <CustomGrid container>
-            <CustomGrid xs={12} md={5}>
+          <ContainerGrid>
+            <CustomGrid md={5}>
               <Box
                 sx={{
                   height: '100%',
@@ -132,7 +133,7 @@ export const RequestorsDetails = () => {
                 </Box>
               </Box>
             </CustomGrid>
-            <CustomGrid item xs={12} md={5}>
+            <CustomGrid md={5}>
               <Box sx={{ padding: 1.5 }}>
                 <Box display={'flex'} flexWrap={'wrap'} gap={1} my={2}>
                   <Typography variant="body2" fontWeight={600}>
@@ -169,12 +170,14 @@ export const RequestorsDetails = () => {
                 </Box>
               </Box>
             </CustomGrid>
-            <CustomGrid xs={12} md={2} sx={{ textAlign: 'end' }}>
-              <IconButton onClick={() => setIsDrawerOpen(true)}>
-                <EditRequestorsIcon />
-              </IconButton>
+            <CustomGrid md={2}>
+              <Box sx={{ textAlign: 'end' }}>
+                <IconButton onClick={() => setIsDrawerOpen(true)}>
+                  <EditRequestorsIcon />
+                </IconButton>
+              </Box>
             </CustomGrid>
-          </CustomGrid>
+          </ContainerGrid>
         </Box>
       </ApiRequestFlow>
       <Box py={'18px'}>
