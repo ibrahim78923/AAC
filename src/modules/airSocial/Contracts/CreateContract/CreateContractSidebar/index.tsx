@@ -10,6 +10,12 @@ import Signees from './Signees';
 export default function CreateContractSidebar({
   handleAddDynamicField,
   allDataFields,
+  signeeFields,
+  handleAddSigneeCard,
+  partyFields,
+  handleDeleteSigneeCard,
+  appendSignee,
+  removeSignee,
 }: any) {
   const { tabValue, handleChangeTab } = useCreateContractSidebar();
 
@@ -39,7 +45,14 @@ export default function CreateContractSidebar({
       </TabPanel>
 
       <TabPanel value="signees">
-        <Signees />
+        <Signees
+          signeeFields={signeeFields}
+          handleAddSigneeCard={handleAddSigneeCard}
+          partyFields={partyFields}
+          handleDeleteSigneeCard={handleDeleteSigneeCard}
+          appendSignee={appendSignee}
+          removeSignee={removeSignee}
+        />
       </TabPanel>
     </TabContext>
   );

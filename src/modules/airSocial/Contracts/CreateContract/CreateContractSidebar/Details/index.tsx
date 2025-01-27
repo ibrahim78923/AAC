@@ -2,19 +2,24 @@ import React from 'react';
 import { Avatar, AvatarGroup, Box } from '@mui/material';
 import { styles } from './Details.style';
 import { AvatarImage } from '@/assets/images';
+import { getSession } from '@/utils';
+import { IMG_URL } from '@/config';
 
 export default function Details() {
+  const { user } = getSession();
   return (
     <Box sx={styles?.ownerDetailsContainer}>
       <Box sx={styles?.detailsTitle}>Owner</Box>
 
       <Box sx={styles?.ownerDetails}>
-        <Avatar src={AvatarImage.src} sx={styles?.ownerAvatar}>
+        <Avatar src={`${IMG_URL}${user?.avatar?.url}`} sx={styles?.ownerAvatar}>
           {'JD'}
         </Avatar>
         <Box sx={styles?.ownerInfo}>
-          <Box sx={styles?.ownerRole}>John Doe</Box>
-          <Box sx={styles?.ownerEmail}>compliance@orcalo.co.uk</Box>
+          <Box sx={styles?.ownerRole}>
+            {user?.firstName} {user?.lastName}
+          </Box>
+          <Box sx={styles?.ownerEmail}>{user?.email}</Box>
         </Box>
       </Box>
 

@@ -2,20 +2,22 @@ import { useCallback, useEffect, useState } from 'react';
 import { useForm, useFieldArray, useWatch } from 'react-hook-form';
 import {
   defaultValues,
-  ENUM_SIGNATURE_METHODS,
+  ENUM_SIGNATURE_TYPE,
   validationSchema,
 } from './CreateContract.data';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { generateUniqueId } from '@/utils/dynamic-forms';
+// import { generateUniqueId } from '@/utils/dynamic-forms';
 import { useRouter } from 'next/router';
 // import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useCreateCommonContractTemplateMutation,
-  // useCreateCommonContractAsDraftMutation,
+  useCreateCommonContractAsDraftMutation,
   useGetCommonContractTemplateByIdQuery,
   useUpdateCommonContractTemplateMutation,
+  // usePostSignAndSendMutation,
 } from '@/services/commonFeatures/contracts';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+// import { getPartiesFormData, getSigneesFormData } from '@/utils/contracts';
 
 export default function useCreateContract() {
   /* VARIABLE DECLERATION
@@ -25,16 +27,17 @@ export default function useCreateContract() {
   const [activeView, setActiveView] = useState<string>('create');
   const [openModalManageSignature, setOpenModalManageSignature] =
     useState<boolean>(false);
-  const { data: dataTemplateById } = useGetCommonContractTemplateByIdQuery(
-    templateId,
-    { skip: !templateId },
-  );
+  const [templateCatgValue, setTemplateCatgValue] = useState<string>('');
+  const [openModalTemplateCategories, setOpenModalTemplateCategories] =
+    useState<boolean>(false);
+  const { data: dataTemplateById, isLoading: loadingGetTemplateById } =
+    useGetCommonContractTemplateByIdQuery(templateId, { skip: !templateId });
 
-  const methods: any = useForm({
+  const methods: any = useForm<any>({
     resolver: yupResolver(validationSchema()),
-    defaultValues: defaultValues({}),
+    defaultValues: defaultValues(dataTemplateById?.data ?? {}),
   });
-  const { control, handleSubmit, reset } = methods;
+  const { control, handleSubmit, reset, setValue } = methods;
 
   // Signees FieldArray
   const {
@@ -61,6 +64,11 @@ export default function useCreateContract() {
     name: 'parties',
   });
 
+  const partyValues = useWatch({
+    control,
+    name: 'parties',
+  });
+
   const {
     fields: dynamicFields,
     append: appendDynamicField,
@@ -70,12 +78,13 @@ export default function useCreateContract() {
     name: 'dynamicFields',
   });
 
-  const [openModalConfirmationSignDoc, setOpenModalConfirmationSignDoc] =
+  const [openModalSignAndSend, setOpenModalSignAndSend] =
     useState<boolean>(false);
   const [openModalPhoneNumber, setOpenModalPhoneNumber] =
     useState<boolean>(false);
   const [isIndividualSignature, setIsIndividualSignature] = useState(false);
   const [selectedSigneeId, setSelectedSigneeId] = useState<string | null>(null);
+  const [isConfirmSigning, setIsConfirmSigning] = useState(false);
 
   /* EVENT LISTENERS
   -------------------------------------------------------------------------------------*/
@@ -87,61 +96,87 @@ export default function useCreateContract() {
   }, [signeeValues]);
 
   useEffect(() => {
-    reset(defaultValues({}));
+    reset(defaultValues(dataTemplateById?.data ?? {}));
   }, [dataTemplateById, methods, reset]);
+
+  useEffect(() => {
+    partyValues?.forEach((party: any, index: number) => {
+      if (party.name && !party.moduleId) {
+        setValue(`parties.${index}.moduleId`, party.name._id, {
+          shouldDirty: true,
+        });
+      }
+    });
+  }, [partyValues, setValue]);
 
   /* ASYNC FUNCTIONS
   -------------------------------------------------------------------------------------*/
   const [createCommonContractTemplate, { isLoading: loadingCreateTemplate }] =
     useCreateCommonContractTemplateMutation();
-  const onSubmit = async (values: any) => {
-    const payload = {
-      name: values?.name ?? '',
-      folderId: values?.folderId ?? '652d0c8612be46f5da445de8',
-      // status: values?.status ?? 'PENDING',
-      attachment: values?.attachment ?? null,
-      message: values?.message ?? '',
-      visibleTo: values?.visibleTo ?? 'EVERYONE',
-      logo: values?.logo ?? null,
-      parties: values?.parties?.map((party: any) => ({
-        name: party?.name ?? null,
-        address: party?.address ?? '',
-        idNumber: party?.idNumber ?? '',
-        email: party?.email ?? '',
-        referredAs: party?.referredAs ?? '',
-        moduleType: party.moduleType,
-        moduleId: party?.moduleId,
-      })),
-      signees: values?.signees?.map((signee: any) => ({
-        signingOrder: signee?.signingOrder,
-        onBehalfOf: signee?.onBehalfOf,
-        personalTitle: signee?.personalTitle,
-        name: signee?.name,
-        email: signee?.email,
-        signatureStatus: signee?.signatureStatus,
-        signatureType: signee?.signatureType,
-        moduleId: signee?.moduleId,
-      })),
-    };
-    try {
-      await createCommonContractTemplate(payload)?.unwrap();
-      successSnackbar('Contract template created successfully');
-      reset();
-    } catch (error: any) {
-      errorSnackbar('An error occured');
+
+  const [createCommonContractAsDraft, { isLoading: loadingCreateDraft }] =
+    useCreateCommonContractAsDraftMutation();
+
+  const onSubmit = async (values: any, saveAs: string) => {
+    const formData = new FormData();
+    formData.append('name', values?.name);
+    formData.append('folderId', values?.folderId ?? '676a8264884c3ce8851b91f9');
+    if (saveAs === 'draft') {
+      formData.append('status', 'DRAFT');
+    }
+    formData.append('attachment', values?.attachment);
+    formData.append('message', values?.message);
+    formData.append('visibleTo', values?.visibleTo);
+    formData.append('logo', values?.logo);
+    formData.append('parties', JSON.stringify(values?.parties));
+    formData.append('signees', JSON.stringify(values?.signees));
+    formData.append('dynamicFields', JSON.stringify(values?.dynamicFields));
+
+    if (saveAs === 'template') {
+      try {
+        await createCommonContractTemplate(formData)?.unwrap();
+        setOpenModalTemplateCategories(false);
+        successSnackbar('Contract template created successfully');
+        reset();
+      } catch (error: any) {
+        errorSnackbar('An error occured');
+      }
+    }
+    if (saveAs === 'draft') {
+      try {
+        await createCommonContractAsDraft(formData)?.unwrap();
+        successSnackbar('Contract created as draft successfully');
+        reset();
+      } catch (error: any) {
+        errorSnackbar('An error occured');
+      }
     }
   };
 
-  const handleSubmitCreateTemplate = handleSubmit(onSubmit);
+  const handleSubmitCreateTemplate = (saveAs: string) =>
+    handleSubmit((values: any) => onSubmit(values, saveAs));
 
-  const [updateCommonContractTemplate] =
+  // Template Save Changes
+  const [updateCommonContractTemplate, { isLoading: loadingUpdateTemplate }] =
     useUpdateCommonContractTemplateMutation();
 
   const onSubmitUpdateTemplate = async (values: any) => {
+    const formData = new FormData();
+    formData.append('name', values?.name);
+    formData.append('folderId', values?.folderId);
+    // formData.append('status', values?.status ?? 'PENDING');
+    formData.append('attachment', values?.attachment);
+    formData.append('message', values?.message);
+    formData.append('visibleTo', values?.visibleTo);
+    formData.append('logo', values?.logo);
+    formData.append('parties', JSON.stringify(values?.parties));
+    formData.append('signees', JSON.stringify(values?.signees));
+    // formData.append('dynamicFields', JSON.stringify(values?.dynamicFields));
+
     try {
       await updateCommonContractTemplate({
         id: templateId,
-        body: values,
+        body: formData,
       })?.unwrap();
       successSnackbar('Contract template updated successfully');
     } catch (error: any) {
@@ -149,7 +184,9 @@ export default function useCreateContract() {
     }
   };
 
-  const handleSubmitUpdateTemplate = handleSubmit(onSubmitUpdateTemplate);
+  const handleSubmitUpdateTemplate = handleSubmit((values: any) => {
+    onSubmitUpdateTemplate(values);
+  });
 
   /* EVENT FUNCTIONS
   -------------------------------------------------------------------------------------*/
@@ -165,18 +202,21 @@ export default function useCreateContract() {
   );
 
   const handleAddSigneeCard = useCallback(() => {
+    const maxSigningOrder = Math.max(
+      0,
+      ...signeeFields.map((signee: any) => signee.signingOrder || 0),
+    );
+
     appendSignee({
-      _id: generateUniqueId(),
-      signingOrder: signeeFields.length + 1,
+      signingOrder: maxSigningOrder + 1,
       onBehalfOf: null,
       personalTitle: '',
       name: '',
       email: '',
       signatureStatus: 'PENDING',
-      signatureType: ENUM_SIGNATURE_METHODS.CLICK,
-      moduleId: '',
+      signatureType: ENUM_SIGNATURE_TYPE.CLICK,
     });
-  }, [appendSignee]);
+  }, [appendSignee, signeeFields]);
 
   const handleDeleteSigneeCard = useCallback(
     (index: number) => {
@@ -187,7 +227,6 @@ export default function useCreateContract() {
 
   const handleAddPartyCard = useCallback(() => {
     appendParty({
-      _id: generateUniqueId(),
       name: null,
       address: '',
       idNumber: '',
@@ -201,7 +240,6 @@ export default function useCreateContract() {
   const handleAddDynamicField = useCallback(
     (data: any) => {
       appendDynamicField({
-        _id: generateUniqueId(),
         label: data?.name,
         name: `dynamicFields.${dynamicFields?.length}.${data?.name}`,
         type: data?.type,
@@ -256,11 +294,11 @@ export default function useCreateContract() {
     methods.setValue('signees', updatedSignees, { shouldDirty: true });
   };
 
-  const handleOpenModalConfirmationSignDoc = () => {
-    setOpenModalConfirmationSignDoc(true);
+  const handleOpenModalSignAndSend = () => {
+    setOpenModalSignAndSend(true);
   };
-  const handleCloseModalConfirmationSignDoc = () => {
-    setOpenModalConfirmationSignDoc(false);
+  const handleCloseModalSignAndSend = () => {
+    setOpenModalSignAndSend(false);
   };
 
   const handleOpenModalPhoneNumber = () => {
@@ -268,6 +306,12 @@ export default function useCreateContract() {
   };
   const handleCloseModalPhoneNumber = () => {
     setOpenModalPhoneNumber(false);
+  };
+
+  const handleChangeConfirmSigning = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setIsConfirmSigning(event.target.checked);
   };
 
   return {
@@ -289,13 +333,16 @@ export default function useCreateContract() {
     methods,
     handleSubmitCreateTemplate,
     partyFields,
+    partyValues,
     signeeFields,
+    signeeValues,
     loadingCreateTemplate,
+    loadingCreateDraft,
     dynamicFields,
 
-    openModalConfirmationSignDoc,
-    handleOpenModalConfirmationSignDoc,
-    handleCloseModalConfirmationSignDoc,
+    openModalSignAndSend,
+    handleOpenModalSignAndSend,
+    handleCloseModalSignAndSend,
 
     openModalPhoneNumber,
     handleOpenModalPhoneNumber,
@@ -307,7 +354,19 @@ export default function useCreateContract() {
     setSelectedSigneeId,
 
     dataTemplateById,
+    loadingGetTemplateById,
+    loadingUpdateTemplate,
     handleSubmitUpdateTemplate,
     handleAddDynamicField,
+
+    isConfirmSigning,
+    handleChangeConfirmSigning,
+    appendSignee,
+    removeSignee,
+
+    openModalTemplateCategories,
+    setOpenModalTemplateCategories,
+    templateCatgValue,
+    setTemplateCatgValue,
   };
 }

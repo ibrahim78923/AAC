@@ -18,6 +18,7 @@ export default function CommonDialog(props: CommonDialogProps) {
     closeIcon = true,
     onSubmit,
     okText = 'Save',
+    okDisabled,
     cancelText,
     children,
     isLoading,
@@ -69,6 +70,7 @@ export default function CommonDialog(props: CommonDialogProps) {
                 sx={{
                   height: '36px',
                 }}
+                disabled={okDisabled}
               >
                 {okText}
               </LoadingButton>

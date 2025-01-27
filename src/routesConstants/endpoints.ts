@@ -798,10 +798,11 @@ export const AIR_MARKETER_EMAIL_FOLDER = {
 export const COMMON_CONTRACTS = {
   FOLDER: '/common-contract-folder',
   TEMPLATE: '/common-contract-template',
-  CREATE_CONTRACT: '/common-contract/add-common-contract',
+  POST_SIGN_ADN_SEND: '/common-contract/add-common-contract',
   GET_CONTRACTS: '/common-contract/get-common-contracts',
   GET_CONTRACT_BY_ID: '/common-contract',
   SAVE_AS_DRAFT: '/common-contract/save-as-draft',
   GET_TEMPLATE_BY_FOLDER: '/common-contract-template/by-folder',
+  GET_RECENTLY_USED_TEMPLATES: '/common-contract-template/get-recent/templates',
   GET_COMMON_CONTRACTS: '/common-contract/get-common-contracts',
 };
