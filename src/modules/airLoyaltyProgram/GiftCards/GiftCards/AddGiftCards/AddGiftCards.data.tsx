@@ -26,7 +26,7 @@ export const addGiftCardFormFieldsDynamic = (
   activeFromValue: any,
 ) => [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'amount',
       label: 'Amount',
@@ -35,7 +35,7 @@ export const addGiftCardFormFieldsDynamic = (
     component: RHFTextField,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       name: 'recipient',
       label: 'Recipient',
@@ -50,7 +50,7 @@ export const addGiftCardFormFieldsDynamic = (
     component: RHFAutocompleteAsync,
   },
   {
-    id: 3,
+    _id: 3,
     componentProps: {
       name: 'activeFrom',
       label: 'Active From',
@@ -61,7 +61,7 @@ export const addGiftCardFormFieldsDynamic = (
     component: RHFDatePicker,
   },
   {
-    id: 4,
+    _id: 4,
     componentProps: {
       name: 'activeTo',
       label: 'Active To',

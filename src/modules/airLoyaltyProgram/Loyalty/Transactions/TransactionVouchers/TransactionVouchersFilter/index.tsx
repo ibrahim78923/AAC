@@ -1,7 +1,8 @@
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useTransactionVouchersFilter } from './useTransactionVouchersFilter';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const TransactionVouchersFilter = (props: any) => {
   const { isDrawerOpen } = props;
@@ -33,13 +34,7 @@ export const TransactionVouchersFilter = (props: any) => {
       >
         <Box mt={1}>
           <FormProvider methods={methods}>
-            <Grid container spacing={2}>
-              {transactionFilterFormFields?.map((item: any) => (
-                <Grid item xs={12} key={item?.id}>
-                  <item.component {...item?.componentProps} size={'small'} />
-                </Grid>
-              ))}
-            </Grid>
+            <FormGrid formFieldsList={transactionFilterFormFields} />
           </FormProvider>
         </Box>
       </CommonDrawer>

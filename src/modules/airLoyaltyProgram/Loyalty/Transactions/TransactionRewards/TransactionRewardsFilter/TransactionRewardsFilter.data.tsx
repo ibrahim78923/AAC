@@ -20,7 +20,7 @@ export const rewardsFilterFormFieldsDynamic = (
   rewardsApiQuery: any,
 ) => [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'consumer',
       label: 'Consumer',
@@ -32,7 +32,7 @@ export const rewardsFilterFormFieldsDynamic = (
     component: RHFAutocompleteAsync,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       name: 'rewardRedeemed',
       label: 'Reward Redeemed',
@@ -44,7 +44,7 @@ export const rewardsFilterFormFieldsDynamic = (
     component: RHFAutocompleteAsync,
   },
   {
-    id: 5,
+    _id: 3,
     componentProps: {
       name: 'dateRange',
       label: 'Date Range',

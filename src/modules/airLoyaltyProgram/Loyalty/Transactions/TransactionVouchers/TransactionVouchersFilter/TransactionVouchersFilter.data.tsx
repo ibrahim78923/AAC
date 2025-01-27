@@ -20,7 +20,7 @@ export const vouchersFilterFormFieldsDynamic = (
   shopApiQuery?: any,
 ) => [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'consumer',
       label: 'Consumer',
@@ -32,7 +32,7 @@ export const vouchersFilterFormFieldsDynamic = (
     component: RHFAutocompleteAsync,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       name: 'voucherRedeemed',
       label: 'Voucher Redeemed',

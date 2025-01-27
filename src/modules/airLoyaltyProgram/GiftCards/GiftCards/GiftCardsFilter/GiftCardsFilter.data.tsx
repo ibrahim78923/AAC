@@ -25,7 +25,7 @@ export const giftCardDefaultValues = (data?: any) => {
 };
 export const giftCardFilterFromFields = [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'minAmount',
       label: 'Minimum current amount',
@@ -34,7 +34,7 @@ export const giftCardFilterFromFields = [
     component: RHFTextField,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       name: 'maxAmount',
       label: 'Maximum current amount',
@@ -43,7 +43,7 @@ export const giftCardFilterFromFields = [
     component: RHFTextField,
   },
   {
-    id: 3,
+    _id: 3,
     componentProps: {
       name: 'status',
       label: 'Status',
@@ -53,7 +53,7 @@ export const giftCardFilterFromFields = [
     component: RHFAutocomplete,
   },
   {
-    id: 4,
+    _id: 4,
     componentProps: {
       name: 'dateRange',
       label: 'Date Range',

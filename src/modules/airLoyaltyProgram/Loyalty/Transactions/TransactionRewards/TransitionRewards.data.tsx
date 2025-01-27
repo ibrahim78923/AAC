@@ -35,7 +35,7 @@ export const transactionsRewardsColumns: any = () => [
     accessorFn: (row: any) => row?.redeemedQuantity,
     id: 'redeemedQuantity',
     header: 'Points',
-    cell: (info: any) => `-${info?.getValue()}` || '---',
+    cell: (info: any) => `${info?.getValue()}` || '---',
   },
   {
     accessorFn: (row: any) => row?.escrowRedeemedQuantity,

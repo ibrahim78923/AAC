@@ -12,7 +12,7 @@ export const filtersDefaultValues: any = (filterValue: any) => {
 
 export const pointsFilterFormFieldsDynamic = (shopApiQuery?: any) => [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'consumer',
       label: 'Consumer',
@@ -24,7 +24,7 @@ export const pointsFilterFormFieldsDynamic = (shopApiQuery?: any) => [
     component: RHFAutocompleteAsync,
   },
   {
-    id: 5,
+    _id: 2,
     componentProps: {
       name: 'date',
       label: 'Created Date',

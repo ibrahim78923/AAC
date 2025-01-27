@@ -1,8 +1,10 @@
-import { Avatar, Box, Grid, Skeleton, Typography } from '@mui/material';
+import { Avatar, Box, Skeleton, Typography } from '@mui/material';
 import { useWidgets } from './useWidgets';
 import { ApiPollingButton } from '@/components/Buttons/ApiPollingButton';
 import { AUTO_REFRESH_API_TIME_INTERVAL } from '@/config';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const Widgets = () => {
   const {
@@ -29,11 +31,11 @@ export const Widgets = () => {
             intervalTime={AUTO_REFRESH_API_TIME_INTERVAL?.DASHBOARD}
           />
         </Box>
-        <Grid container spacing={3}>
+        <ContainerGrid spacing={3}>
           {widgetsData?.map((widget: any) => {
             if (isLoading || isFetching) {
               return (
-                <Grid item xs={12} md={6} lg={3} key={widget?._id}>
+                <CustomGrid md={6} lg={3} key={widget?._id}>
                   <Skeleton
                     variant={'rounded'}
                     height={95}
@@ -45,11 +47,11 @@ export const Widgets = () => {
                       p: 2,
                     }}
                   />
-                </Grid>
+                </CustomGrid>
               );
             }
             return (
-              <Grid item xs={12} md={6} lg={3} key={widget?._id}>
+              <CustomGrid md={6} lg={3} key={widget?._id}>
                 <Box
                   border={1}
                   borderColor={'custom.pale_gray'}
@@ -103,10 +105,10 @@ export const Widgets = () => {
                     </Typography>
                   </Box>
                 </Box>
-              </Grid>
+              </CustomGrid>
             );
           })}
-        </Grid>
+        </ContainerGrid>
       </Box>
     </ApiRequestFlow>
   );
