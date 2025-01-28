@@ -13,7 +13,7 @@ export const useAssets = () => {
   const product = useMemo(() => getActiveAccountSession(), []);
   const accountId = product?._id;
 
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetServicesAccountSettingsEmailNotificationQuery(
       {
         accountId,
@@ -54,6 +54,7 @@ export const useAssets = () => {
     switchLoading,
     onSwitchChange,
     data,
+    refetch,
   };
 };
 export default useAssets;

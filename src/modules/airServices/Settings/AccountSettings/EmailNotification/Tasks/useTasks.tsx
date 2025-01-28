@@ -14,7 +14,7 @@ export const useTasks = () => {
   const product = useMemo(() => getActiveAccountSession(), []);
   const accountId = product?._id;
 
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetServicesAccountSettingsEmailNotificationQuery(
       {
         accountId,
@@ -55,6 +55,7 @@ export const useTasks = () => {
     switchLoading,
     onSwitchChange,
     data,
+    refetch,
   };
 };
 export default useTasks;

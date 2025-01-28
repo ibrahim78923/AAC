@@ -8,60 +8,50 @@ import {
   usePostNewVendorMutation,
 } from '@/services/airServices/settings/asset-management/vendor';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { filteredEmptyValues } from '@/utils/api';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
-import {
-  useLazyGetDynamicFieldsQuery,
-  usePostDynamicFormAttachmentsMutation,
-} from '@/services/dynamic-fields';
-import {
-  DYNAMIC_FIELDS,
-  DYNAMIC_FORM_FIELDS_TYPES,
-  dynamicAttachmentsPost,
-} from '@/utils/dynamic-forms';
+import { DYNAMIC_FIELDS } from '@/utils/dynamic-forms';
 import { IVendorProps } from '../Vendor.interface';
-import { isoDateString } from '@/lib/date-time';
 import { useFormLib } from '@/hooks/useFormLib';
+import { useDynamicForm } from '@/components/DynamicForm/useDynamicForm';
 
 export const useAddNewVendor = (props: IVendorProps) => {
   const router = useRouter();
   const { vendorId } = router?.query;
   const { setIsADrawerOpen } = props;
 
-  const [form, setForm] = useState<any>([]);
-
   const [postNewVendorTrigger, postNewVendorStatus] =
     usePostNewVendorMutation();
   const [patchNewVendorTrigger, patchNewVendorStatus] =
     usePatchNewVendorMutation();
 
-  const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
-    useLazyGetDynamicFieldsQuery();
-  const [postAttachmentTrigger, postAttachmentStatus] =
-    usePostDynamicFormAttachmentsMutation();
-
-  const getDynamicFormData = async () => {
-    const params = {
-      productType: DYNAMIC_FIELDS?.PT_SERVICES,
-      moduleType: DYNAMIC_FIELDS?.MT_VENDOR,
-    };
-    const getDynamicFieldsParameters = { params };
-
-    try {
-      const res: any = await getDynamicFieldsTrigger(
-        getDynamicFieldsParameters,
-      )?.unwrap();
-      setForm(res);
-    } catch (error) {
-      setForm([]);
-    }
+  const dynamicFormProps = {
+    productType: DYNAMIC_FIELDS?.PT_SERVICES,
+    moduleType: DYNAMIC_FIELDS?.MT_VENDOR,
   };
+
+  const {
+    form,
+    handleUploadAttachments,
+    isDynamicFormLoading,
+    hasDynamicFormError,
+    attachmentsApiCallInProgress,
+    getDynamicFormData,
+  } = useDynamicForm(dynamicFormProps);
+
   useEffect(() => {
     getDynamicFormData();
   }, []);
 
-  const { data: vinData, isLoading } = useGetVendorsByIdQuery(
+  const {
+    data: vinData,
+    isLoading,
+    isFetching,
+    isError,
+    isUninitialized,
+    refetch,
+  } = useGetVendorsByIdQuery(
     {
       params: {
         id: vendorId,
@@ -85,48 +75,11 @@ export const useAddNewVendor = (props: IVendorProps) => {
   const onSubmit = async (data: any) => {
     const filteredEmptyData = filteredEmptyValues(data);
 
-    const customFields: any = {};
-    const body: any = {};
-    const attachmentPromises: Promise<any>[] = [];
-
     try {
-      dynamicAttachmentsPost({
-        form,
+      const { body }: any = await handleUploadAttachments?.(
         data,
-        attachmentPromises,
-        customFields,
-        postAttachmentTrigger,
-      });
-
-      await Promise?.all(attachmentPromises);
-
-      const customFieldKeys = new Set(
-        form?.map((field: any) => field?.componentProps?.label),
+        filteredEmptyData,
       );
-
-      Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
-        if (customFieldKeys?.has(key)) {
-          if (value instanceof Date) {
-            value = isoDateString(value);
-          }
-          if (
-            typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
-            !Array?.isArray(value) &&
-            value !== null
-          ) {
-            customFields[key] = { ...customFields[key], ...value };
-          } else {
-            customFields[key] = value;
-          }
-        } else {
-          body[key] = value;
-        }
-      });
-
-      if (Object?.keys(customFields)?.length > 0) {
-        body.customFields = customFields;
-      }
-
       if (!!vendorId) {
         submitUpdateNewVendor(body);
         return;
@@ -161,20 +114,30 @@ export const useAddNewVendor = (props: IVendorProps) => {
     reset?.();
   };
 
+  const apiCallInProgress =
+    patchNewVendorStatus?.isLoading ||
+    postNewVendorStatus?.isLoading ||
+    attachmentsApiCallInProgress;
+
+  const showLoader = isLoading || isFetching || isDynamicFormLoading;
+  const hasError = isError || hasDynamicFormError;
+
+  const refreshApi = () => {
+    if (!isUninitialized) {
+      refetch?.();
+    }
+    getDynamicFormData?.();
+  };
+
   return {
     methods,
-    newVendorValidationSchema,
-    newVendorDefaultValues,
     handleSubmit,
     onSubmit,
-    submitUpdateNewVendor,
-    isLoading,
     handleClose,
-    patchNewVendorStatus,
-    postNewVendorStatus,
-    getDynamicFieldsStatus,
     form,
-    postAttachmentStatus,
-    getDynamicFormData,
+    apiCallInProgress,
+    refreshApi,
+    hasError,
+    showLoader,
   };
 };
