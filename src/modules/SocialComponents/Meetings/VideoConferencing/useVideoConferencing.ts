@@ -1,13 +1,13 @@
 import { CALENDAR_STATUS } from '@/constants/strings';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
-  useChangeStatusCalendarMutation,
   useDeleteCalendarMutation,
   useGetGoogleMeetAuthQuery,
   useGetMeetingsCalendarsListQuery,
   useGetMsTeamsAuthQuery,
   useGetZoomAuthQuery,
+  useUpdateSocialComponentsMeetingsSingleCalendarMutation,
 } from '@/services/commonFeatures/meetings/settings';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useEffect, useState } from 'react';
 
 export const useVideoConferencing = () => {
@@ -70,7 +70,7 @@ export const useVideoConferencing = () => {
   };
 
   const [changeStatusTrigger, changeStatusProgress] =
-    useChangeStatusCalendarMutation();
+    useUpdateSocialComponentsMeetingsSingleCalendarMutation();
 
   const handleChangeStatus = async (meetingId: string) => {
     const meetingToChange = meetingsListData?.find(
@@ -93,8 +93,7 @@ export const useVideoConferencing = () => {
 
     try {
       const response: any = await changeStatusTrigger({
-        id: meetingId,
-        body: { status: newStatus },
+        body: { status: newStatus, id: meetingId },
       })?.unwrap();
 
       setMeetingsListData(

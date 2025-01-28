@@ -1,7 +1,9 @@
+import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { ContainerGrid } from '../ContainerGrid';
 import { CustomGrid } from '../CustomGrid';
+import { FormGridPropsI } from '../Grids.interface';
 
-export const FormGrid = (props: any) => {
+export const FormGrid = (props: FormGridPropsI) => {
   const {
     formFieldsList = [],
     spacing = 2,
@@ -12,7 +14,7 @@ export const FormGrid = (props: any) => {
 
   return (
     <ContainerGrid spacing={spacing}>
-      {formFieldsList?.map((form: any) => (
+      {formFieldsList?.map((form: ReactHookFormFieldsI) => (
         <CustomGrid
           xs={12}
           md={form?.md ?? md}

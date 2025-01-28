@@ -69,6 +69,14 @@ export const meetingSettingsApi = baseAPI?.injectEndpoints({
       }),
       providesTags: [ZOOM_TAG],
     }),
+    updateSocialComponentsMeetingsSingleCalendar: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.MEETINGS_SETTINGS_UPDATE_CALENDAR,
+        method: 'PATCH',
+        body: apiDataParameter?.body,
+      }),
+      invalidatesTags: [TAGS],
+    }),
   }),
 });
 
@@ -81,4 +89,5 @@ export const {
   useGetMsTeamsAuthQuery,
   useGetGoogleMeetAuthQuery,
   useGetZoomAuthQuery,
+  useUpdateSocialComponentsMeetingsSingleCalendarMutation,
 } = meetingSettingsApi;

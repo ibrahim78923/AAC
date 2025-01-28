@@ -1,4 +1,4 @@
-import { Box, Grid, IconButton } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import { MeetingCards } from './MeetingCards';
 import { useListView } from './useListView';
 import Search from '@/components/Search';
@@ -9,6 +9,7 @@ import { SOCIAL_COMPONENTS } from '@/constants';
 import { AgentConversionDelete } from './AgentConversionDelete';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS } from '@/constants/permission-keys';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const ListView = () => {
   const {
@@ -30,7 +31,7 @@ export const ListView = () => {
   } = useListView();
   return (
     <>
-      <Grid container spacing={2}>
+      <ContainerGrid>
         <PermissionsGuard
           permissions={[
             SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.SHOW_COUNT_WIDGETS,
@@ -48,7 +49,7 @@ export const ListView = () => {
             />
           ))}
         </PermissionsGuard>
-      </Grid>
+      </ContainerGrid>
       <Box
         p={2}
         border={`.1rem solid ${theme?.palette?.custom?.dark}`}

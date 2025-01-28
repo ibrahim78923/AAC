@@ -1,7 +1,8 @@
 import { ContainerGrid } from '../ContainerGrid';
 import { CustomGrid } from '../CustomGrid';
+import { ListGridPropsI } from '../Grids.interface';
 
-export const ListGrid = (props: any) => {
+export const ListGrid = (props: ListGridPropsI) => {
   const {
     list = [],
     spacing = 2,

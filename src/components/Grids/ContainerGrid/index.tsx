@@ -1,6 +1,7 @@
 import { Grid } from '@mui/material';
+import { ContainerGridPropsI } from '../Grids.interface';
 
-export const ContainerGrid = (props: any) => {
+export const ContainerGrid = (props: ContainerGridPropsI) => {
   const {
     spacing = 2,
     rowSpacing = spacing,

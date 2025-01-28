@@ -1,10 +1,10 @@
 import { CALENDAR_STATUS } from '@/constants/strings';
 import {
-  useChangeStatusCalendarMutation,
   useDeleteCalendarMutation,
   useGetGoogleCalendarAuthQuery,
   useGetMeetingsCalendarsListQuery,
   useGetOfficeCalendarAuthQuery,
+  useUpdateSocialComponentsMeetingsSingleCalendarMutation,
 } from '@/services/commonFeatures/meetings/settings';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useState, useEffect } from 'react';
@@ -62,7 +62,7 @@ export const useCalendarIntegration = () => {
   };
 
   const [changeStatusTrigger, changeStatusProgress] =
-    useChangeStatusCalendarMutation();
+    useUpdateSocialComponentsMeetingsSingleCalendarMutation();
 
   const handleChangeStatus = async (calendarId: string) => {
     const calendarToChange = calendarListData?.find(
@@ -96,8 +96,7 @@ export const useCalendarIntegration = () => {
       }
 
       const response: any = await changeStatusTrigger({
-        id: calendarId,
-        body: { status: newStatus },
+        body: { status: newStatus, id: calendarId },
       })?.unwrap();
 
       setCalendarListData(

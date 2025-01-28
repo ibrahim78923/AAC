@@ -1,6 +1,7 @@
 import { Grid } from '@mui/material';
+import { CustomGridPropsI } from '../Grids.interface';
 
-export const CustomGrid = (props: any) => {
+export const CustomGrid = (props: CustomGridPropsI) => {
   const {
     xs = 12,
     sm = xs,

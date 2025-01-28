@@ -1,5 +1,6 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { MeetingCardsPropsI } from './MeetingCard.interface';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const MeetingCards = ({
   meetingHeading,
@@ -10,7 +11,7 @@ export const MeetingCards = ({
   router,
 }: MeetingCardsPropsI) => {
   return (
-    <Grid item xs={12} sm={6} lg={4}>
+    <CustomGrid sm={6} lg={4}>
       <Box
         display={'flex'}
         alignItems={'center'}
@@ -43,6 +44,6 @@ export const MeetingCards = ({
         <Typography color={'secondary'}>{meetingHeading}</Typography>
         <Typography variant="h4">{meetingCount}</Typography>
       </Box>
-    </Grid>
+    </CustomGrid>
   );
 };
