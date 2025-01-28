@@ -8,29 +8,31 @@ import {
 } from '@/services/airServices/settings/agent-performance-management/canned-responses';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
-import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useFormLib } from '@/hooks/useFormLib';
+import { PAGINATION } from '@/config';
 
 export const useMoveFolderModal = (props: any) => {
   const {
-    openMoveFolderModal,
-    setOpenMoveFolderModal,
-    setSelectedData,
     selectedData,
+    setSelectedData,
+    setIsPortalOpen,
+    totalRecords,
+    getResponseList,
+    page,
+    setPage,
   } = props;
 
   const router = useRouter();
-  const searchParams = useSearchParams();
 
-  const [cannedResponseId, setCannedResponseId] = useState<any>('');
+  const cannedResponseId = router?.query?.id;
 
-  useEffect(() => {
-    if (router?.isReady) {
-      setCannedResponseId(searchParams?.get('id'));
-    }
-  }, [router?.isReady]);
+  const refetchApi = async () => {
+    const newPage =
+      selectedData?.length === totalRecords ? PAGINATION?.CURRENT_PAGE : page;
+    setPage?.(newPage);
+    await getResponseList?.(newPage);
+  };
 
   const apiQueryFolders = useLazyGetAirServicesSettingsCannedFoldersQuery();
 
@@ -45,7 +47,7 @@ export const useMoveFolderModal = (props: any) => {
     usePatchAirServicesSettingsCannedAddMoveResponsesMutation();
 
   const closeModal = () => {
-    setOpenMoveFolderModal?.(false);
+    setIsPortalOpen({ isOpen: false, action: '' });
     setSelectedData([]);
     reset();
   };
@@ -65,8 +67,9 @@ export const useMoveFolderModal = (props: any) => {
     };
     try {
       await moveResponsesTrigger(moveResponsesParameter)?.unwrap();
-      successSnackbar('Moved Successfully!');
+      successSnackbar('Moved successfully!');
       closeModal();
+      await refetchApi();
     } catch (error) {
       const errorResponse = error as IErrorResponse;
       errorSnackbar(errorResponse?.data?.message);
@@ -76,11 +79,9 @@ export const useMoveFolderModal = (props: any) => {
   return {
     methods,
     onSubmit,
-    openMoveFolderModal,
     closeModal,
     apiQueryFolders,
     isLoading,
-    reset,
     handleSubmit,
   };
 };

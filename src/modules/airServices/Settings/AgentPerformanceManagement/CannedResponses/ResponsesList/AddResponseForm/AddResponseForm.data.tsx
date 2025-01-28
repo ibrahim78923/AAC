@@ -6,6 +6,7 @@ import {
 } from '@/components/ReactHookForm';
 import { ACCEPT_FILE_EXTENSIONS } from '@/constants/file';
 import { CANNED_RESPONSES } from '@/constants/strings';
+import { REGEX } from '@/constants/validation';
 import { uploadFileMaxSize } from '@/utils/avatarUtils';
 import * as Yup from 'yup';
 
@@ -28,10 +29,18 @@ export const addResponseValidationSchema = Yup?.object()?.shape({
   title: Yup?.string()
     ?.trim()
     ?.max(30, 'Title up to 30 characters')
-    ?.required('Title is Required'),
-  message: Yup?.string()?.trim()?.required('Message is Required'),
+    ?.required('Title is required'),
+  message: Yup?.string()
+    ?.trim()
+    ?.required('Message is required')
+    ?.test('is-not-empty', 'Message is required', (value) => {
+      const strippedContent = value
+        ?.replace(REGEX?.GLOBAL_HTML_TAG, '')
+        ?.trim();
+      return strippedContent !== '';
+    }),
   fileUrl: Yup?.mixed()?.nullable(),
-  availableFor: Yup?.string()?.trim()?.required('Availability is Required'),
+  availableFor: Yup?.string()?.trim()?.required('Availability is required'),
 });
 
 export const addResponseDefaultValues: any = (folderName: any, data?: any) => {

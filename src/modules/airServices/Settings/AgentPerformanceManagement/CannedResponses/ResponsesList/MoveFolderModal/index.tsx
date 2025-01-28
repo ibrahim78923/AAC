@@ -3,10 +3,11 @@ import { useMoveFolderModal } from './useMoveFolderModal';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 
 export const MoveFolderModal = (props: any) => {
+  const { isPortalOpen } = props;
+
   const {
     methods,
     onSubmit,
-    openMoveFolderModal,
     closeModal,
     apiQueryFolders,
     isLoading,
@@ -16,7 +17,7 @@ export const MoveFolderModal = (props: any) => {
   return (
     <>
       <CustomCommonDialog
-        isPortalOpen={openMoveFolderModal}
+        isPortalOpen={isPortalOpen?.isOpen}
         closePortal={closeModal}
         dialogTitle="Move"
         submitButtonText="Move"

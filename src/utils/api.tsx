@@ -160,3 +160,17 @@ export const generateRadomString = (length = 8) => {
     result += CHARACTERS[Math?.floor(Math?.random() * CHARACTERS?.length)];
   return result;
 };
+
+export const convertCurrentCaseToTitleCase = (
+  str: any,
+  split = '-',
+): string => {
+  return str
+    ?.split?.(split)
+    ?.map?.(
+      (word: string) =>
+        word?.charAt?.(ARRAY_INDEX?.ZERO)?.toUpperCase?.() +
+        word?.slice?.(ARRAY_INDEX?.ONE),
+    )
+    ?.join?.(' ');
+};

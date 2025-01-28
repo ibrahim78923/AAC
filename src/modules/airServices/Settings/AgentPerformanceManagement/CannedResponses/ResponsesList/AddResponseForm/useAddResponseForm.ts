@@ -15,8 +15,13 @@ import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { useFormLib } from '@/hooks/useFormLib';
 
 export const useAddResponseForm = (props: any) => {
-  const { open, setDrawerOpen, folderName, selectedData, setSelectedData } =
-    props;
+  const {
+    isPortalOpen,
+    setIsPortalOpen,
+    folderName,
+    selectedData,
+    setSelectedData,
+  } = props;
 
   const searchParams = useSearchParams();
   const cannedResponseId: any = searchParams.get('id');
@@ -43,7 +48,7 @@ export const useAddResponseForm = (props: any) => {
   const availableForChanged = watch(CANNED_RESPONSES?.AVAILABLE_FOR);
 
   const closeDrawer = () => {
-    setDrawerOpen(false);
+    setIsPortalOpen({ isOpen: false, action: '' });
     setSelectedAgentsList([]);
     setSelectedData([]);
     reset();
@@ -84,7 +89,7 @@ export const useAddResponseForm = (props: any) => {
 
     try {
       await postResponseTrigger(responseParameter)?.unwrap();
-      successSnackbar('Response Added Successfully');
+      successSnackbar('Response added successfully');
       closeDrawer();
     } catch (error) {
       const errorResponse = error as IErrorResponse;
@@ -98,7 +103,7 @@ export const useAddResponseForm = (props: any) => {
     };
     try {
       await patchResponseTrigger(responseParameter)?.unwrap();
-      successSnackbar('Response Updated Successfully!');
+      successSnackbar('Response updated successfully!');
       closeDrawer();
     } catch (error) {
       const errorResponse = error as IErrorResponse;
@@ -110,7 +115,10 @@ export const useAddResponseForm = (props: any) => {
     setOpenSelectAgentsModal(false);
     reset(addResponseDefaultValues(folderName, editableObj));
     setSelectedAgentsList(editableObj?.agentDetails);
-  }, [open]);
+  }, [isPortalOpen?.isOpen]);
+
+  const apiCallInProgress =
+    postResponseStatus?.isLoading || patchResponseStatus?.isLoading;
 
   return {
     methods,
@@ -120,14 +128,12 @@ export const useAddResponseForm = (props: any) => {
     setSelectedAgentsList,
     setOpenSelectAgentsModal,
     openSelectAgentsModal,
-    open,
     closeDrawer,
     editableObj,
-    postResponseStatus,
-    patchResponseStatus,
     availableForChanged,
     setValue,
     hasAttachment,
     setHasAttachment,
+    apiCallInProgress,
   };
 };

@@ -1,7 +1,7 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpdateWorkloadTicket } from './useUpdateWorkloadTicket';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const UpdateWorkloadTicket = ({ openDrawer, onClose, data }: any) => {
   const {
@@ -30,13 +30,7 @@ export const UpdateWorkloadTicket = ({ openDrawer, onClose, data }: any) => {
       isLoading={patchTicketStatus?.isLoading}
     >
       <FormProvider methods={methods}>
-        <Grid container spacing={2}>
-          {workloadTicketDataArray?.map((item: any) => (
-            <Grid item xs={12} md={item?.md} key={item?.id}>
-              <item.component {...item?.componentProps} size={'small'} />
-            </Grid>
-          ))}
-        </Grid>
+        <FormGrid formFieldsList={workloadTicketDataArray} />
       </FormProvider>
     </CommonDrawer>
   );

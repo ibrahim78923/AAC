@@ -87,7 +87,6 @@ export const cannedResponsesAPI = baseAPI?.injectEndpoints({
         method: 'PATCH',
         body: moveResponsesParameter?.body,
       }),
-      invalidatesTags: [TAG1],
     }),
 
     deleteAirServicesSettingsCannedAddResponses: builder?.mutation({
@@ -96,7 +95,6 @@ export const cannedResponsesAPI = baseAPI?.injectEndpoints({
         method: 'DELETE',
         params: apiDataParameter?.queryParams,
       }),
-      invalidatesTags: [TAG1],
     }),
 
     getAirServicesSettingsCannedFolders: builder?.query({

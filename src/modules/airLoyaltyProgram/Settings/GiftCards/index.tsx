@@ -1,10 +1,12 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
-import { Box, Grid, InputAdornment } from '@mui/material';
+import { Box, InputAdornment } from '@mui/material';
 import { useGiftCards } from './useGiftCards';
 import { LoadingButton } from '@mui/lab';
 import { PoundSignIcon } from '@/assets/icons';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const GiftCards = () => {
   const {
@@ -35,8 +37,8 @@ export const GiftCards = () => {
           refreshApi={refetch}
         >
           <FormProvider methods={methods}>
-            <Grid container spacing={1}>
-              <Grid item xs={12} md={7}>
+            <ContainerGrid spacing={1}>
+              <CustomGrid md={7}>
                 <RHFTextField
                   name="giftCardMaxAmount"
                   label="Maximum amount limit"
@@ -54,8 +56,8 @@ export const GiftCards = () => {
                     ),
                   }}
                 />
-              </Grid>
-            </Grid>
+              </CustomGrid>
+            </ContainerGrid>
           </FormProvider>
         </ApiRequestFlow>
       </Box>
@@ -74,7 +76,7 @@ export const GiftCards = () => {
           variant="outlined"
           color="inherit"
           disabled={apiCallInProgress}
-          onClick={() => reset()}
+          onClick={reset}
         >
           Cancel
         </LoadingButton>

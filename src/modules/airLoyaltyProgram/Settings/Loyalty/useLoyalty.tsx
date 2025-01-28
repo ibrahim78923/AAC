@@ -6,13 +6,11 @@ import {
 import { useEffect } from 'react';
 import { useGetLoyaltySettings } from '../SettingsHooks/useGetLoyaltySettings';
 import { useFormLib } from '@/hooks/useFormLib';
+import { loyaltySettingsFormDefaultValues } from './Loyalty.data';
 
 export const useLoyalty = () => {
   const formLibProps = {
-    defaultValues: {
-      maxPointLimit: '',
-      exchangeRate: '',
-    },
+    defaultValues: loyaltySettingsFormDefaultValues(),
   };
 
   const { handleSubmit, reset, methods } = useFormLib(formLibProps);
@@ -87,10 +85,7 @@ export const useLoyalty = () => {
   };
 
   useEffect(() => {
-    reset(() => ({
-      maxPointLimit: data?.data?.maxPointLimit,
-      exchangeRate: data?.data?.exchangeRate,
-    }));
+    reset(() => loyaltySettingsFormDefaultValues(data?.data));
   }, [data, reset]);
 
   const showLoader =
