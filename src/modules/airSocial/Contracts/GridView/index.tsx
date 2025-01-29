@@ -12,6 +12,7 @@ import useGridView from './useGridView';
 
 const ContractsGrid = ({
   activeFolder,
+
   selectedRecords,
   setSelectedRecords,
   tabValue,
@@ -28,6 +29,7 @@ const ContractsGrid = ({
     setPageLimit,
     theme,
   } = useGridView({ tabValue, activeFolder });
+
 
   return (
     <div>

@@ -163,6 +163,7 @@ export const contractsColumns = ({
         >
           {' '}
           <FolderRoundedIcon /> {info?.getValue()?.name ?? '--'}
+
         </Box>
       ),
     },
@@ -188,6 +189,7 @@ export const contractsColumns = ({
             }}
           ></Box>
           {`${info?.getValue()?.firstName} ${info?.getValue()?.lastName}`}
+
         </Box>
       ),
     },

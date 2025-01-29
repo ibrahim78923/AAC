@@ -5,6 +5,7 @@ import { useTheme } from '@mui/material';
 import { useState } from 'react';
 
 export default function useGridView({ tabValue, activeFolder }: any) {
+
   const theme = useTheme();
 
   const [isViewAllActivityDrawerOpen, setIsViewAllActivityDrawerOpen] =
@@ -22,6 +23,7 @@ export default function useGridView({ tabValue, activeFolder }: any) {
     });
 
   // '676a8264884c3ce8851b91f9'
+
 
   return {
     isViewAllActivityDrawerOpen,
