@@ -8,8 +8,16 @@ import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const PendingApprovals = () => {
-  const { data, isLoading, isFetching, isError, router, refetch, companyId } =
-    usePendingApprovals();
+  const {
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    router,
+    refetch,
+    companyId,
+    openApprovalDetail,
+  } = usePendingApprovals();
 
   return (
     <CardLayout
@@ -36,7 +44,12 @@ export const PendingApprovals = () => {
       >
         {data?.data?.map((approval: ApprovalsDataI) => (
           <Fragment key={approval?._id}>
-            <ApprovalCard data={approval} />
+            <ApprovalCard
+              data={approval}
+              openApprovalDetail={(data: ApprovalsDataI) =>
+                openApprovalDetail?.(data)
+              }
+            />
           </Fragment>
         ))}
       </ApiRequestFlow>

@@ -1,13 +1,15 @@
-import { Box, Typography, Chip, Avatar } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import { NextRouter, useRouter } from 'next/router';
-import { fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import { fullNameInitial } from '@/utils/avatarUtils';
 import { TICKET_TYPE } from '@/constants/strings';
 import { TicketCardPropsI } from './TicketCard.interface';
 import { TruncateText } from '@/components/TruncateText';
 import { otherDateFormat } from '@/lib/date-time';
 import { capitalizeFirstLetter } from '@/utils/api';
+import { CustomAvatar } from '@/components/Avatars/CustomAvatar';
+import { CustomChip } from '@/components/Chip/CustomChip';
 
 export const TicketsCard = (props: TicketCardPropsI) => {
   const { ticket } = props;
@@ -55,17 +57,13 @@ export const TicketsCard = (props: TicketCardPropsI) => {
           gap={1}
           my={0.5}
         >
-          <Avatar
-            src={generateImage(ticket?.requesterDetails?.avatar?.url)}
-            sx={{ bgcolor: 'blue.main', width: 25, height: 25 }}
-          >
-            <Typography variant="body2" textTransform={'uppercase'}>
-              {fullNameInitial(
-                ticket?.requesterDetails?.firstName,
-                ticket?.requesterDetails?.lastName,
-              )}
-            </Typography>
-          </Avatar>
+          <CustomAvatar
+            nameInitial={fullNameInitial(
+              ticket?.requesterDetails?.firstName,
+              ticket?.requesterDetails?.lastName,
+            )}
+            avatarSrc={ticket?.requesterDetails?.avatar?.url}
+          />
           <Typography variant="body2" color={'blue.main'} fontWeight={500}>{` ${
             ticket?.ticketType === TICKET_TYPE?.INC
               ? ''
@@ -88,12 +86,10 @@ export const TicketsCard = (props: TicketCardPropsI) => {
         </Typography>
       </Box>
       {!!ticket?.status ? (
-        <Chip
+        <CustomChip
           label={capitalizeFirstLetter(ticket?.status) ?? '---'}
-          sx={{
-            backgroundColor: 'grey.400',
-            color: 'slateBlue.main',
-          }}
+          backgroundColor="grey.400"
+          textColor="slateBlue.main"
         />
       ) : (
         '---'

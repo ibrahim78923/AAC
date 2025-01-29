@@ -1,6 +1,8 @@
+import { CustomAvatar } from '@/components/Avatars/CustomAvatar';
+import { AVATAR_VARIANTS } from '@/constants/mui-constant';
 import { uiDateFormat } from '@/lib/date-time';
 import { fullName, fullNameInitial, truncateText } from '@/utils/avatarUtils';
-import { Avatar, Box, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useState } from 'react';
 
 export const DetailCard = (props: any) => {
@@ -16,19 +18,18 @@ export const DetailCard = (props: any) => {
       sx={{ cursor: 'pointer' }}
     >
       <Box display={'flex'} alignItems={'center'} gap={2} flexWrap={'wrap'}>
-        <Avatar
-          sx={{ bgcolor: 'blue.main' }}
-          style={{ width: 30, height: 30 }}
-          src={data?.requesterDetails?.profileImg?.src}
-          variant="rounded"
-        >
-          <Typography variant="body2" textTransform={'uppercase'}>
-            {fullNameInitial(
-              data?.requesterDetails?.firstName,
-              data?.requesterDetails?.lastName,
-            )}
-          </Typography>
-        </Avatar>
+        <CustomAvatar
+          nameInitial={fullNameInitial(
+            data?.requesterDetails?.firstName,
+            data?.requesterDetails?.lastName,
+          )}
+          avatarSize={{
+            width: 30,
+            height: 30,
+            variant: AVATAR_VARIANTS?.ROUNDED,
+          }}
+          avatarSrc={data?.requesterDetails?.avatar?.url}
+        />
         <Box>
           <Typography>
             {` ${' '} ${truncateText(data?.subject, 30) ?? '---'}`}
@@ -190,9 +191,12 @@ export const DetailCard = (props: any) => {
         {' '}
         {showInfo ? 'Hide info' : 'Show info'}
       </Typography>
-      {showInfo && (
-        <Box mt={3} dangerouslySetInnerHTML={{ __html: data?.description }} />
-      )}
+      {showInfo &&
+        (!!data?.description ? (
+          <Box mt={3} dangerouslySetInnerHTML={{ __html: data?.description }} />
+        ) : (
+          '---'
+        ))}
     </Box>
   );
 };
