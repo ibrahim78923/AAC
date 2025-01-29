@@ -50,11 +50,10 @@ export const actionsTaskOptions = [
   { value: 'assignTo', label: 'Assign to Agent' },
 ];
 export const actionsAssetOptions = [
-  { value: 'status', label: 'Set Status as' },
   { value: 'impact', label: 'Set Impact as' },
   { value: 'locationId', label: 'Set location as' },
   { value: 'assetLifeExpiry', label: 'Set end of life as' },
-  { value: 'assetType', label: 'Set Category as' },
+  { value: 'assetType', label: 'Set Asset Type as' },
   { value: 'departmentId', label: 'Set Department as' },
   { value: 'usedBy', label: 'Set used by as' },
 ];

@@ -19,6 +19,7 @@ import { getActivePermissionsSession } from '@/utils';
 import { AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS } from '@/constants/permission-keys';
 import { AIR_SERVICES } from '@/constants/routes';
 import { FeedbackSurveyListI } from '@/types/modules/AirServices/FeedbackSurvey';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
 
 export const useCustomerSatisfactionList = (props: { status?: string }) => {
   const { status } = props;
@@ -111,16 +112,26 @@ export const useCustomerSatisfactionList = (props: { status?: string }) => {
       surveyType: FEEDBACK_SURVEY_TYPES?.CUSTOMER_SATISFACTION,
       status: FEEDBACK_STATUS?.DRAFT,
     };
-    const response: any = await patchChangeSurveyStatusTrigger(statusBody);
-    if (response?.data?.message) {
+    const statusCheck =
+      data?.data?.feedbackSurvey?.filter(
+        (survey: FeedbackSurveyListI) =>
+          survey?.status === FEEDBACK_STATUS?.PUBLISHED,
+      )?.length <= 1;
+    if (statusCheck) {
+      errorSnackbar('Please publish other survey first to change status');
+      return;
+    }
+    try {
+      await patchChangeSurveyStatusTrigger(statusBody)?.unwrap();
       closeMenu();
       successSnackbar(
         `${activeCheck?.[ARRAY_INDEX?.ZERO]
           ?.surveyTitle} Save as draft successfully`,
       );
       setActiveCheck([]);
-    } else {
-      errorSnackbar(response?.error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   };
   const feedbackDropdownOption = feedbackDropdown(

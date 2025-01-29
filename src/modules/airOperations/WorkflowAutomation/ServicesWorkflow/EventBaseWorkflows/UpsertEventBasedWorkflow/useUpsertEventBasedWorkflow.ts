@@ -55,6 +55,7 @@ export const useUpsertEventBasedWorkflow = () => {
     notifyBefore: 'notifyBefore',
     plannedEndDate: 'plannedEndDate',
     plannedStartDate: 'plannedStartDate',
+    setAssetType: 'Set Asset Type as',
   };
 
   const buttonData = {
@@ -138,6 +139,8 @@ export const useUpsertEventBasedWorkflow = () => {
         return collectionNameData?.users;
       case collectionNameData?.assignTo:
         return collectionNameData?.users;
+      case collectionNameData?.setAssetType:
+        return collectionNameData?.type;
       default:
         return '';
     }

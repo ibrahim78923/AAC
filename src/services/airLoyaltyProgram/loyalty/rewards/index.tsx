@@ -5,9 +5,10 @@ const TAG = 'LOYALTY_REWARDS';
 const loyaltyRewardsApi = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getLoyaltyProgramRewardsList: builder?.query({
-      query: () => ({
+      query: (params) => ({
         url: END_POINTS?.GET_REWARDS_LIST,
         method: 'GET',
+        params,
       }),
       providesTags: [TAG],
     }),
