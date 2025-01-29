@@ -124,8 +124,8 @@ const ProfilMenu = () => {
           </Box>
         </MenuItem>
         <Divider />
-        {!isNullOrEmpty(ProfileDropDown(basePath)) &&
-          ProfileDropDown(basePath)?.map((item) => (
+        {!isNullOrEmpty(ProfileDropDown(basePath, user)) &&
+          ProfileDropDown(basePath, user)?.map((item) => (
             <MenuItem
               key={uuidv4()}
               onClick={closeStatusDropDown}

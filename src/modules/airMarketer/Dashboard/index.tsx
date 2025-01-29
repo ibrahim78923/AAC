@@ -69,7 +69,7 @@ const Dashboard = () => {
           </Typography>
         )}
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} sx={{ mb: 2 }}>
         <Stack
           direction={{ lg: 'row' }}
           gap={1}
@@ -156,6 +156,7 @@ const Dashboard = () => {
           </Stack>
         </Stack>
       </Grid>
+
       {dashboardNotFound ? (
         <NoData message="No default dashboard found!">
           <Button
@@ -171,7 +172,8 @@ const Dashboard = () => {
           <SkeletonForm />
         </Grid>
       ) : (
-        <Box ref={downloadRef}>
+        <Grid container spacing={2} ref={downloadRef}>
+
           {dashboardsData?.Profile_Stats?.length > indexNumbers?.ZERO && (
             <Grid item xs={12}>
               <ProfileStatistics />
@@ -249,7 +251,8 @@ const Dashboard = () => {
               },
             )
           )}
-        </Box>
+        </Grid>
+
       )}
     </Grid>
   );

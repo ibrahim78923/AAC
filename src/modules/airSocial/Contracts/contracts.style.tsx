@@ -22,12 +22,14 @@ export const styles = {
       backgroundColor: theme?.palette?.primary?.lighter,
     },
   }),
-  exposeMenuOnHover: () => ({
+  exposeMenuOnHover: (activeFolder: any, item: any, theme: any) => ({
     alignItems: 'center',
     gap: '10px',
     justifyContent: 'space-between',
+    ...(activeFolder?._id === item?._id && {
+      background: theme?.palette?.custom?.light_lavender_gray,
+    }),
     height: '40px',
-
     '&:hover': {
       '& .menu-toggle': { opacity: '1 !important', transition: '0.3s' },
     },
