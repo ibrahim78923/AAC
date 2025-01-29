@@ -97,6 +97,8 @@ export const AIR_SERVICES = {
 export const AIR_CUSTOMER_PORTAL = {
   DASHBOARD: `/air-customer-portal`,
   EDIT_PROFILE: `/air-customer-portal/edit-profile`,
+  DELEGATES: `/air-customer-portal/delegates`,
+  ACTIVITY_LOGS: `/air-customer-portal/activity-logs`,
   TICKETS: `/air-customer-portal/tickets`,
   SINGLE_TICKETS: `/air-customer-portal/tickets/single-ticket`,
   KNOWLEDGE_BASE: '/air-customer-portal/knowledge-base',

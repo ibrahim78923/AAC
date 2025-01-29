@@ -806,4 +806,6 @@ export const COMMON_CONTRACTS = {
   GET_TEMPLATE_BY_FOLDER: '/common-contract-template/by-folder',
   GET_RECENTLY_USED_TEMPLATES: '/common-contract-template/get-recent/templates',
   GET_COMMON_CONTRACTS: '/common-contract/get-common-contracts',
+  GET_COMMON_CONTRACTS_FOLDERS: '/common-contract-folder',
+  POST_COMMON_CONTRACTS_FOLDERS: '/common-contract-folder',
 };

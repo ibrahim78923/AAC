@@ -4,7 +4,7 @@ import { useGetCommonContractsListQuery } from '@/services/commonFeatures/contra
 import { useTheme } from '@mui/material';
 import { useState } from 'react';
 
-export default function useGridView({ tabValue }: any) {
+export default function useGridView({ tabValue, activeFolder }: any) {
   const theme = useTheme();
 
   const [isViewAllActivityDrawerOpen, setIsViewAllActivityDrawerOpen] =
@@ -17,9 +17,11 @@ export default function useGridView({ tabValue }: any) {
     useGetCommonContractsListQuery({
       page,
       limit: pageLimit,
-      folderId: '676a8264884c3ce8851b91f9',
+      folderId: activeFolder?._id,
       ...(tabValue !== CONTRACTS_STATUS?.ALL && { status: tabValue }),
     });
+
+  // '676a8264884c3ce8851b91f9'
 
   return {
     isViewAllActivityDrawerOpen,
