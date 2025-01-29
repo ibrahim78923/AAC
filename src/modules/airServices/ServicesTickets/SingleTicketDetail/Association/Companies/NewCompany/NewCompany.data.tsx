@@ -10,7 +10,7 @@ import { ContactOwnerDropdown } from '@/modules/airServices/ServicesTickets/Serv
 
 export const formFields = [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'domain',
       label: 'Company Domain Name (URL)',
@@ -20,16 +20,17 @@ export const formFields = [
     component: RHFTextField,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       name: 'name',
       label: 'Company Name',
       placeholder: 'Company Name',
+      required: true,
     },
     component: RHFTextField,
   },
   {
-    id: 3,
+    _id: 3,
     componentProps: {
       name: 'profilePicture',
       fullWidth: true,
@@ -42,11 +43,11 @@ export const formFields = [
     component: RHFDropZone,
   },
   {
-    id: 4,
+    _id: 4,
     component: ContactOwnerDropdown,
   },
   {
-    id: 5,
+    _id: 5,
     componentProps: {
       name: 'description',
       label: 'Description',
@@ -56,7 +57,7 @@ export const formFields = [
     component: RHFEditor,
   },
   {
-    id: 6,
+    _id: 6,
     componentProps: {
       name: 'industry',
       label: 'Industry',
@@ -66,7 +67,7 @@ export const formFields = [
     component: RHFAutocomplete,
   },
   {
-    id: 7,
+    _id: 7,
     componentProps: {
       name: 'type',
       label: 'Type',
@@ -76,7 +77,7 @@ export const formFields = [
     component: RHFAutocomplete,
   },
   {
-    id: 8,
+    _id: 8,
     componentProps: {
       name: 'city',
       label: 'City',
@@ -85,7 +86,7 @@ export const formFields = [
     component: RHFTextField,
   },
   {
-    id: 9,
+    _id: 9,
     componentProps: {
       name: 'postalCode',
       label: 'Postal Code',
@@ -94,7 +95,7 @@ export const formFields = [
     component: RHFTextField,
   },
   {
-    id: 10,
+    _id: 10,
     componentProps: {
       name: 'address',
       label: 'Address',
@@ -103,7 +104,7 @@ export const formFields = [
     component: RHFTextField,
   },
   {
-    id: 11,
+    _id: 11,
     componentProps: {
       name: 'noOfEmloyee',
       label: 'No Of Employees',
@@ -112,7 +113,7 @@ export const formFields = [
     component: RHFTextField,
   },
   {
-    id: 12,
+    _id: 12,
     componentProps: {
       name: 'totalRevenue',
       label: 'Annual Revenue (£)',
@@ -121,7 +122,7 @@ export const formFields = [
     component: RHFTextField,
   },
   {
-    id: 13,
+    _id: 13,
     componentProps: {
       name: 'linkedInUrl',
       label: 'LinkedIn Company URL',

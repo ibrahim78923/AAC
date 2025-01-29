@@ -9,13 +9,11 @@ import { filteredEmptyValues } from '@/utils/api';
 import { ARRAY_INDEX, MODULE_TYPE } from '@/constants/strings';
 import { useGetServiceSystematicReportsQuery } from '@/services/airServices/reports';
 import { AUTO_REFRESH_API_POLLING_TIME } from '@/config';
-import { htmlToPdfConvert } from '@/lib/html-to-pdf-converter';
 import { isoDateString } from '@/lib/date-time';
 import { useFormLib } from '@/hooks/useFormLib';
 
 export const useContractReports = () => {
   const router = useRouter();
-  const [loading, setLoading] = useState<boolean>(false);
   const [hasDate, setHasDate] = useState<boolean>(false);
 
   const [filterDate, setFilterDate] = useState<any>({
@@ -36,7 +34,7 @@ export const useContractReports = () => {
     },
   };
 
-  const { handleSubmit, getValues, watch, setValue, methods } = useFormLib(
+  const { getValues, watch, setValue, methods } = useFormLib(
     contractReportMethodProps,
   );
   watch?.();
@@ -73,15 +71,6 @@ export const useContractReports = () => {
 
   const apiCallInProgress = isLoading || isFetching;
 
-  const handleDownload = async () => {
-    if (isLoading || isFetching || isError) return;
-    setLoading(true);
-    try {
-      await htmlToPdfConvert?.(downloadRef, 'Contract_Report');
-    } catch (error) {}
-    setLoading(false);
-  };
-
   const contractReportsCardData = ContractReportsCountData(data?.data);
   const contractReportsChartData = filteredEmptyValues(
     ContractReportsChartData(data?.data),
@@ -107,12 +96,8 @@ export const useContractReports = () => {
   return {
     router,
     methods,
-    handleSubmit,
     onDateFilterSubmit,
-    handleDownload,
     contractReportsCardData,
-    loading,
-    refetch,
     setHasDate,
     shouldDateSet,
     contractReportsChartData,
@@ -120,6 +105,7 @@ export const useContractReports = () => {
     isLoading,
     isFetching,
     isError,
+    refetch,
     data,
     getValues,
     apiCallInProgress,

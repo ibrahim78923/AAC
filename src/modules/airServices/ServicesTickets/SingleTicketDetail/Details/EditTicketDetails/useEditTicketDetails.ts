@@ -5,7 +5,7 @@ import {
   useGetSingleServicesTicketsDetailsForEditByIdQuery,
 } from '@/services/airServices/tickets/single-ticket-details/details';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { filteredEmptyValues } from '@/utils/api';
 import { ARRAY_INDEX, TICKET_TYPE } from '@/constants/strings';
 import {
@@ -13,53 +13,36 @@ import {
   editTicketDetailsFormFieldsDynamic,
   editTicketDetailsValidationSchema,
 } from './EditTicketDetails.data';
-import {
-  useLazyGetDynamicFieldsQuery,
-  usePostDynamicFormAttachmentsMutation,
-} from '@/services/dynamic-fields';
-import {
-  DYNAMIC_FIELDS,
-  DYNAMIC_FORM_FIELDS_TYPES,
-  dynamicAttachmentsPost,
-} from '@/utils/dynamic-forms';
+import { DYNAMIC_FIELDS } from '@/utils/dynamic-forms';
 import { REGEX } from '@/constants/validation';
 import { AIR_SERVICES } from '@/constants/routes';
 import { isoDateString } from '@/lib/date-time';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useDynamicForm } from '@/components/DynamicForm/useDynamicForm';
 
 const { ZERO } = ARRAY_INDEX ?? {};
 const { SR } = TICKET_TYPE ?? {};
 
 export const useEditTicketDetails = () => {
   const router = useRouter();
-  const [form, setForm] = useState<any>([]);
   const ticketId = router?.query?.ticketId;
 
   const [editTicketsDetailsTrigger, editTicketsDetailsStatus] =
     useEditSingleServicesTicketsDetailsByIdMutation();
 
-  const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
-    useLazyGetDynamicFieldsQuery();
-
-  const [postAttachmentTrigger, postAttachmentStatus] =
-    usePostDynamicFormAttachmentsMutation();
-
-  const getDynamicFormData = async () => {
-    const params = {
-      productType: DYNAMIC_FIELDS?.PT_SERVICES,
-      moduleType: DYNAMIC_FIELDS?.MT_TICKETS,
-    };
-    const getDynamicFieldsParameters = { params };
-
-    try {
-      const res: any = await getDynamicFieldsTrigger(
-        getDynamicFieldsParameters,
-      )?.unwrap();
-      setForm(res);
-    } catch (error: any) {
-      setForm([]);
-    }
+  const dynamicFormProps = {
+    productType: DYNAMIC_FIELDS?.PT_SERVICES,
+    moduleType: DYNAMIC_FIELDS?.MT_TICKETS,
   };
+
+  const {
+    form,
+    handleUploadAttachments,
+    isDynamicFormLoading,
+    hasDynamicFormError,
+    attachmentsApiCallInProgress,
+    getDynamicFormData,
+  } = useDynamicForm(dynamicFormProps);
 
   useEffect(() => {
     getDynamicFormData();
@@ -124,47 +107,11 @@ export const useEditTicketDetails = () => {
       return;
     }
 
-    const customFields: any = {};
-    const body: any = {};
-    const attachmentPromises: Promise<any>[] = [];
-
     try {
-      dynamicAttachmentsPost({
-        form,
-        data: formData,
-        attachmentPromises,
-        customFields,
-        postAttachmentTrigger,
-      });
-
-      await Promise?.all(attachmentPromises);
-
-      const customFieldKeys = new Set(
-        form?.map((field: any) => field?.componentProps?.label),
+      const { body }: any = await handleUploadAttachments?.(
+        formData,
+        newFormData,
       );
-
-      Object?.entries(newFormData)?.forEach(([key, value]) => {
-        if (customFieldKeys?.has(key)) {
-          if (value instanceof Date) {
-            value = isoDateString(value);
-          }
-          if (
-            typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
-            !Array?.isArray(value) &&
-            value !== null
-          ) {
-            customFields[key] = { ...customFields[key], ...value };
-          } else {
-            customFields[key] = value;
-          }
-        } else {
-          body[key] = value;
-        }
-      });
-
-      if (Object?.keys(customFields)?.length > 0) {
-        body.customFields = customFields;
-      }
       const ticketDetailsData = new FormData();
       ticketDetailsData.append('status', newFormData?.status?._id);
       ticketDetailsData.append('pirority', newFormData?.priority?._id);
@@ -233,16 +180,12 @@ export const useEditTicketDetails = () => {
     getValues,
     setValue,
   );
-  const getApiCallInProgress =
-    isLoading ||
-    isFetching ||
-    getDynamicFieldsStatus?.isLoading ||
-    getDynamicFieldsStatus?.isFetching;
+  const getApiCallInProgress = isLoading || isFetching || isDynamicFormLoading;
 
-  const getApiCallHasError = getDynamicFieldsStatus?.isError || isError;
+  const getApiCallHasError = hasDynamicFormError || isError;
 
   const ticketPostApiInProgress =
-    editTicketsDetailsStatus?.isLoading || postAttachmentStatus?.isLoading;
+    editTicketsDetailsStatus?.isLoading || attachmentsApiCallInProgress;
 
   return {
     methods,

@@ -15,13 +15,13 @@ export const Settings = () => {
       />
 
       <Box
-        width={'100%'}
+        minHeight={'80vh'}
         display="flex"
         gap={1}
         flexWrap={'wrap'}
         flexDirection={{ xs: 'column', sm: 'row' }}
       >
-        <Box paddingRight={2} flex={0.25}>
+        <Box paddingRight={2} flex={0.3}>
           <Divider />
           <Box paddingY={2}>
             {meetingSettingsData?.map((item: any) => (
@@ -31,8 +31,19 @@ export const Settings = () => {
             ))}
           </Box>
         </Box>
-        <Divider orientation="vertical" variant="fullWidth" flexItem />
-        <Box flex={1} paddingX={2}>
+        <Box
+          sx={{
+            flex: 1,
+            borderLeft: { md: 1, xs: 0 },
+            borderTop: { xs: 1, md: 0 },
+            borderLeftColor: { md: 'custom.off_white_three', xs: '' },
+            borderTopColor: { xs: 'custom.off_white_three', md: '' },
+            pt: { xs: 1, md: 0 },
+            paddingX: { xs: 0.5, md: 2 },
+            overflow: 'auto',
+            maxWidth: '100%',
+          }}
+        >
           {renderSettingsModule?.[activeModule as any]}
         </Box>
       </Box>

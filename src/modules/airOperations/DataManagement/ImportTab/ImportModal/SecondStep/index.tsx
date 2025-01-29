@@ -2,7 +2,6 @@ import { InfoCircleGreenIcon } from '@/assets/icons';
 import {
   Box,
   Button,
-  Grid,
   List,
   ListItem,
   Typography,
@@ -11,6 +10,8 @@ import {
 import { style } from './SecondStep.style';
 import { importDataField } from '../ImportModal.data';
 import { FIELD_TYPES } from '@/constants/strings';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 const SecondStep = (props: any) => {
   const { handlePreview, requiredColumns = [], productOptions } = props;
@@ -31,16 +32,16 @@ const SecondStep = (props: any) => {
         )}
       </List>
       <Box my={2.4}>
-        <Grid container>
+        <ContainerGrid>
           {importDataField(productOptions)?.map(
             (item: any) =>
               item?.tag === 'import' && (
-                <Grid item xs={12} key={item?.id}>
+                <CustomGrid key={item?.id}>
                   <item.component {...item?.componentProps} />
-                </Grid>
+                </CustomGrid>
               ),
           )}
-        </Grid>
+        </ContainerGrid>
       </Box>
       <Button
         variant="text"

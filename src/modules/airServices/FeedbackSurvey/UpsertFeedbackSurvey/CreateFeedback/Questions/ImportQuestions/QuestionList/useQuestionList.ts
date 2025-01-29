@@ -1,13 +1,15 @@
 import { useGetSingleFeedbackQuery } from '@/services/airServices/feedback-survey';
 import { QuestionListI } from './QuestionList.interface';
 import { FeedbackSurveyQuestionI } from '@/types/modules/AirServices/FeedbackSurvey';
+import { useTheme } from '@mui/material';
 
 export const useQuestionList = (props: QuestionListI) => {
   const { surveyId, setQuestionsData, questionsData } = props;
+  const theme = useTheme();
   const getParams = {
     id: surveyId,
   };
-  const { data, isLoading, isFetching, isError, isSuccess } =
+  const { data, isLoading, isFetching, isError, isSuccess, refetch } =
     useGetSingleFeedbackQuery(getParams, {
       refetchOnMountOrArgChange: true,
       skip: !!!surveyId,
@@ -37,5 +39,7 @@ export const useQuestionList = (props: QuestionListI) => {
     isSuccess,
     handleCheckboxClick,
     isQuestionSelected,
+    refetch,
+    theme,
   };
 };

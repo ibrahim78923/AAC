@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { addResponseDataArray } from './AddResponseForm.data';
 import { SelectAgentsModal } from './SelectAgentsModal';
@@ -11,8 +11,11 @@ import {
 import { Attachments } from '@/components/Attachments';
 import { AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { CustomAvatarGroup } from '@/components/Avatars/CustomAvatarGroup';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const AddResponseForm = (props: any) => {
+  const { isPortalOpen } = props;
   const {
     methods,
     handleSubmit,
@@ -21,37 +24,29 @@ export const AddResponseForm = (props: any) => {
     setSelectedAgentsList,
     setOpenSelectAgentsModal,
     openSelectAgentsModal,
-    open,
     closeDrawer,
     editableObj,
-    postResponseStatus,
-    patchResponseStatus,
     availableForChanged,
     setValue,
     hasAttachment,
     setHasAttachment,
+    apiCallInProgress,
   } = useAddResponseForm(props);
 
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={open}
+        isDrawerOpen={isPortalOpen?.isOpen}
         onClose={closeDrawer}
         title={`${
           editableObj
             ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
             : GENERIC_UPSERT_FORM_CONSTANT?.ADD
         } Response`}
-        submitHandler={() => {
-          handleSubmit(submitAddResponse)();
-        }}
+        submitHandler={handleSubmit(submitAddResponse)}
         isOk
-        isLoading={
-          postResponseStatus?.isLoading || patchResponseStatus?.isLoading
-        }
-        disabledCancelBtn={
-          postResponseStatus?.isLoading || patchResponseStatus?.isLoading
-        }
+        isLoading={apiCallInProgress}
+        disabledCancelBtn={apiCallInProgress}
         footer
         okText={`${
           editableObj
@@ -63,26 +58,26 @@ export const AddResponseForm = (props: any) => {
           methods={methods}
           onSubmit={handleSubmit(submitAddResponse)}
         >
-          <Grid container spacing={2}>
+          <ContainerGrid>
             {addResponseDataArray(setOpenSelectAgentsModal, hasAttachment)?.map(
               (item: any) => (
-                <Grid item xs={12} key={item?.id}>
+                <CustomGrid key={item?.id}>
                   <item.component {...item?.componentProps} size={'small'} />
                   {item?.avatarGroup &&
                     !!selectedAgentsList?.length &&
                     availableForChanged === CANNED_RESPONSES?.SELECT_AGENTS && (
-                      <Grid item xs={12}>
+                      <CustomGrid>
                         <CustomAvatarGroup
                           max={4}
                           selectedUsers={selectedAgentsList}
                         />
-                      </Grid>
+                      </CustomGrid>
                     )}
-                </Grid>
+                </CustomGrid>
               ),
             )}
 
-            <Grid item xs={12}>
+            <CustomGrid>
               {!!editableObj && (
                 <>
                   <Typography
@@ -105,8 +100,8 @@ export const AddResponseForm = (props: any) => {
                   </Box>
                 </>
               )}
-            </Grid>
-          </Grid>
+            </CustomGrid>
+          </ContainerGrid>
         </FormProvider>
       </CommonDrawer>
       {openSelectAgentsModal && (

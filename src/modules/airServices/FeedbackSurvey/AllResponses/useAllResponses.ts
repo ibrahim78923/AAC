@@ -10,7 +10,7 @@ export const useAllResponses = () => {
       id: surveyId,
     },
   };
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetSingleSurveyDetailsForAllResponseQuery?.(apiDataParameter, {
       refetchOnMountOrArgChange: true,
       skip: !surveyId,
@@ -21,5 +21,6 @@ export const useAllResponses = () => {
     isLoading,
     isFetching,
     isError,
+    refetch,
   };
 };

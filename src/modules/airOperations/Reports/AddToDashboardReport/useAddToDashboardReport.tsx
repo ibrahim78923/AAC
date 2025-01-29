@@ -1,5 +1,5 @@
 import { PAGINATION } from '@/config';
-import { ARRAY_INDEX } from '@/constants/strings';
+import { ARRAY_INDEX, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { useAddOperationsReportsToMultipleDashboardMutation } from '@/services/airOperations/reports';
 import { useRouter } from 'next/router';
 import { AddToDashboardFormFieldsI } from './AddToDashboard.interface';
@@ -50,9 +50,16 @@ export const useAddToDashboardReport = () => {
     await getReportsList?.(newPage);
   };
 
+  const singleSelectedDashboards =
+    selectedReportsList?.length === SELECTED_ARRAY_LENGTH?.ONE
+      ? selectedReportsList?.[ARRAY_INDEX?.ZERO]?.dashboardDetails
+      : undefined;
+
   const formLibProps = {
     validationSchema: addToDashboardReportFormValidationSchemaDynamic,
-    defaultValues: addToDashboardReportFormDefaultValuesDynamic?.(),
+    defaultValues: addToDashboardReportFormDefaultValuesDynamic?.(
+      singleSelectedDashboards,
+    ),
   };
 
   const { handleSubmit, reset, methods } = useFormLib(formLibProps);
@@ -67,9 +74,9 @@ export const useAddToDashboardReport = () => {
       body: {
         linkDashboard: {
           action: BACKEND_REPORT_ACCESS?.ADD_TO_EXISTING,
-          existingDashboards: formData?.dashboard?.map(
-            (dashboard: AutocompleteAsyncOptionsI) => dashboard?._id,
-          ),
+          existingDashboards: formData?.dashboard
+            ?.filter((dashboard: any) => !!dashboard?._id)
+            ?.map((dashboard: AutocompleteAsyncOptionsI) => dashboard?._id),
           productId: id,
         },
       },

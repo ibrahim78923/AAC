@@ -1,9 +1,11 @@
-import { Grid, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { useWorkflowAutomation } from './useWorkflowAutomation';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ItemLinkCard } from '@/components/Cards/ItemLinkCard/ItemLinkCard';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const WorkflowAutomation = () => {
   const { isLoading, isError, isFetching, workflowAutomationTypes, refetch } =
@@ -23,13 +25,13 @@ export const WorkflowAutomation = () => {
         }
         length={2}
       >
-        <Grid container spacing={3}>
+        <ContainerGrid spacing={3}>
           {workflowAutomationTypes?.map((workflow) => (
             <PermissionsGuard
               permissions={workflow?.permission}
               key={workflow?.id}
             >
-              <Grid item xs={12} md={6} lg={4}>
+              <CustomGrid md={6} lg={4}>
                 <ItemLinkCard
                   Icon={workflow?.avatar}
                   itemType={workflow?.type}
@@ -39,10 +41,10 @@ export const WorkflowAutomation = () => {
                   hasLink={workflow?.hasAccount}
                   itemPurposeFontSize="body3"
                 />
-              </Grid>
+              </CustomGrid>
             </PermissionsGuard>
           ))}
-        </Grid>
+        </ContainerGrid>
       </ApiRequestFlow>
     </>
   );

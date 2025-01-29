@@ -33,10 +33,8 @@ import {
   useLazyGetDynamicFieldsQuery,
   usePostDynamicFormAttachmentsMutation,
 } from '@/services/dynamic-fields';
-import { getSession } from '@/utils';
 
 const useCreateBroadcast = () => {
-  const { user }: any = getSession();
   const router = useRouter();
   const theme = useTheme<Theme>();
   const navigate = useRouter();
@@ -97,6 +95,7 @@ const useCreateBroadcast = () => {
   const previewName = watch(SMS_MARKETING_CONSTANTS?.NAME);
   const previewAttachment = watch(SMS_MARKETING_CONSTANTS?.ATTACHMENT);
   const templateData = watch('templateId');
+
   const [detailsMsg, setDetailMsg] = useState(templateData?.detail);
   const avatarFileUrl = {
     fileUrl: templateData?.imageUrl,
@@ -125,8 +124,8 @@ const useCreateBroadcast = () => {
       if (variableValue) {
         const regex = new RegExp(`\\[${variable}\\]`, 'g');
         detailsTextMsg = detailsTextMsg?.replace(regex, variableValue);
-        setDetailMsg(detailsTextMsg);
       }
+      setDetailMsg(detailsTextMsg);
     });
     setValue('detail', templateData?.detail);
   }, [JSON?.stringify(variableValues), setValue, templateData?.detail]);
@@ -201,7 +200,7 @@ const useCreateBroadcast = () => {
 
     const payloadData: any = {
       ...data,
-      senderId: user?._id,
+      // senderId: user?._id,
       campaignId: data?.campaignId?._id,
       templateId: data?.templateId?._id,
       templateSid: templateData?.sid,
@@ -274,10 +273,11 @@ const useCreateBroadcast = () => {
       Object?.keys(body)?.forEach((key) => {
         formData?.append(key, body[key]);
       });
-
+      // if () {
       await postWhatsappBroadcast({ body: formData })?.unwrap();
       successSnackbar(`Broadcast ${createStatus} Successfully`);
       router?.back();
+      // }
     } catch (e: any) {
       errorSnackbar(e?.data?.message);
     }

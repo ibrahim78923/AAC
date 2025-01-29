@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useGetCommonContractTemplatesByFolderQuery } from '@/services/commonFeatures/contracts';
+import {
+  useGetCommonContractTemplatesByFolderQuery,
+  useGetCommonContractTemplateRecentlyUsedQuery,
+} from '@/services/commonFeatures/contracts';
 
 export default function useContractTemplates() {
   const router = useRouter();
@@ -12,12 +15,23 @@ export default function useContractTemplates() {
     isFetching: fetchingGetTemplates,
   } = useGetCommonContractTemplatesByFolderQuery({ meta: false });
 
+  const {
+    data: recentlyUsedTemplatesData,
+    isLoading: loadingRecentlyUsedTemplates,
+    isFetching: fetchingRecentlyUsedTemplates,
+  } = useGetCommonContractTemplateRecentlyUsedQuery({});
+
   return {
     router,
     searchBy,
     setSearchBy,
+
     loadingGetTemplates,
     fetchingGetTemplates,
     contractTemplatesData,
+
+    recentlyUsedTemplatesData,
+    loadingRecentlyUsedTemplates,
+    fetchingRecentlyUsedTemplates,
   };
 }

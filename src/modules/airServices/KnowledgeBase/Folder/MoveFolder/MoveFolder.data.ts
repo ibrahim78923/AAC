@@ -16,7 +16,7 @@ export const moveFolderDefaultValues = (currentFolderName?: string) => {
 
 export const moveFolderFormFieldsDynamic = () => [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'movingFrom',
       label: 'Moving From',
@@ -26,7 +26,7 @@ export const moveFolderFormFieldsDynamic = () => [
     component: RHFTextField,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       label: 'Move To',
     },

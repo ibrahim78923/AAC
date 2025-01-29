@@ -45,7 +45,7 @@ export const upsertLocationsDefaultValues = (data?: any) => {
 
 export const upsertLocationsFormFieldsDynamic = () => [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'locationName',
       label: 'Location Name',
@@ -56,7 +56,7 @@ export const upsertLocationsFormFieldsDynamic = () => [
     component: RHFTextField,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       name: 'destination',
       label: 'Destination',
@@ -66,14 +66,14 @@ export const upsertLocationsFormFieldsDynamic = () => [
     component: RHFTextField,
   },
   {
-    id: 3,
+    _id: 3,
     componentProps: {
       name: 'description',
       label: 'Description',
       placeholder: 'Type Description Here',
       fullWidth: true,
       multiline: true,
-      minRows: 3,
+      rows: 4,
     },
     component: RHFTextField,
   },

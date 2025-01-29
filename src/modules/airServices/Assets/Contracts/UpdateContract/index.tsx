@@ -7,9 +7,10 @@ import { AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS } from '@/constants/permissio
 import { AIR_SERVICES } from '@/constants/routes';
 import { uploadFileMaxSize } from '@/utils/avatarUtils';
 import { ACCEPT_FILE_EXTENSIONS } from '@/constants/file';
-import { FormGrid } from '@/components/Grids/FormGrid';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { HeadingFormGrid } from '@/components/Grids/HeadingFormGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const UpdateContract = () => {
   const {
@@ -37,11 +38,11 @@ export const UpdateContract = () => {
               md: 'none',
             },
             borderRadius: { xs: 3, md: 0 },
-            padding: { md: 0, xs: 1.5 },
+            padding: { md: 0, xs: 2 },
           }}
         >
-          <CustomGrid isContainer>
-            <CustomGrid xs={12} md={8}>
+          <ContainerGrid>
+            <CustomGrid md={8}>
               <Box
                 sx={{
                   border: {
@@ -59,13 +60,10 @@ export const UpdateContract = () => {
                   isTitleCapital
                   moveBack={() => router?.push(AIR_SERVICES?.ASSETS_CONTRACTS)}
                 />
-                <FormGrid
-                  formFieldsList={updateContractFormFields}
-                  hasHeading
-                />
+                <HeadingFormGrid formFieldsList={updateContractFormFields} />
               </Box>
             </CustomGrid>
-            <CustomGrid xs={12} md={4}>
+            <CustomGrid md={4}>
               <RHFDropZone
                 name="attachment"
                 fullWidth={true}
@@ -87,7 +85,7 @@ export const UpdateContract = () => {
                   >
                     Attachments
                   </Typography>
-                  <Box maxHeight={'20vh'}>
+                  <Box>
                     <Attachments
                       recordId={contractId}
                       permissionKey={[
@@ -99,12 +97,12 @@ export const UpdateContract = () => {
                 </>
               )}
             </CustomGrid>
-          </CustomGrid>
+          </ContainerGrid>
         </Box>
 
         <br />
-        <CustomGrid isContainer>
-          <CustomGrid xs={12} md={8}>
+        <ContainerGrid>
+          <CustomGrid md={8}>
             <Box
               display={'flex'}
               gap={2}
@@ -131,7 +129,7 @@ export const UpdateContract = () => {
               </LoadingButton>
             </Box>
           </CustomGrid>
-        </CustomGrid>
+        </ContainerGrid>
       </FormProvider>
     </>
   );

@@ -4,13 +4,15 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { AddCircle, Cancel, Edit } from '@mui/icons-material';
-import { Box, Button, Grid, IconButton } from '@mui/material';
+import { Box, Button, IconButton } from '@mui/material';
 import { useDynamicQuestions } from './useDynamicQuestions';
 import {
   dynamicQuestionOptions,
   dynamicQuestionType,
 } from './DynamicQuestions.data';
 import { DynamicQuestionsI } from './DynamicQuestions.interface';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const DynamicQuestions: React.FC<DynamicQuestionsI> = (props) => {
   const { sectionIndex, questionIndex, watchType, sectionCondition } = props;
@@ -24,9 +26,9 @@ export const DynamicQuestions: React.FC<DynamicQuestionsI> = (props) => {
     handleEditOption,
   } = useDynamicQuestions(props);
   return (
-    <Grid container>
+    <ContainerGrid>
       {isOption && (
-        <Grid item xs={12} display="flex" alignItems="end">
+        <CustomGrid customStyles={{ display: 'flex', alignItems: 'end' }}>
           {watchType?.value === dynamicQuestionType?.multipleChoice && (
             <RHFRadioGroup
               name={`displayOption`}
@@ -46,38 +48,36 @@ export const DynamicQuestions: React.FC<DynamicQuestionsI> = (props) => {
               <Edit color="primary" />
             </IconButton>
           )}
-        </Grid>
+        </CustomGrid>
       )}
-      {!isOption &&
-        fields?.map((field, index) => (
-          <Grid
-            item
-            key={field?.id}
-            xs={12}
-            display={'flex'}
-            alignItems={'center'}
-            gap={1}
-          >
-            <Box>
-              <RHFTextField
-                name={`sections.${sectionIndex}.questions.${questionIndex}.text.${index}.text`}
-                label={`Option ${index + 1}`}
-                placeholder={`${index + 1}`}
-                size="small"
-                variant="standard"
+      <CustomGrid>
+        {!isOption &&
+          fields?.map((field, index) => (
+            <Box
+              key={field?.id}
+              sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+            >
+              <Box>
+                <RHFTextField
+                  name={`sections.${sectionIndex}.questions.${questionIndex}.text.${index}.text`}
+                  label={`Option ${index + 1}`}
+                  placeholder={`${index + 1}`}
+                  size="small"
+                  variant="standard"
+                />
+              </Box>
+              <Cancel
+                sx={{
+                  cursor: fields?.length > 1 ? 'pointer' : 'no-drop',
+                  color: 'error.main',
+                  mt: 1.5,
+                }}
+                onClick={() => handleRemove(index)}
               />
             </Box>
-            <Cancel
-              sx={{
-                cursor: fields?.length > 1 ? 'pointer' : 'no-drop',
-                color: 'error.main',
-                mt: 1.5,
-              }}
-              onClick={() => handleRemove(index)}
-            />
-          </Grid>
-        ))}
-      <Box display="flex" gap={1}>
+          ))}
+      </CustomGrid>
+      <CustomGrid customStyles={{ display: 'flex', gap: 1 }}>
         {!isOption && (
           <>
             <Button
@@ -93,7 +93,7 @@ export const DynamicQuestions: React.FC<DynamicQuestionsI> = (props) => {
             </Button>
           </>
         )}
-      </Box>
-    </Grid>
+      </CustomGrid>
+    </ContainerGrid>
   );
 };

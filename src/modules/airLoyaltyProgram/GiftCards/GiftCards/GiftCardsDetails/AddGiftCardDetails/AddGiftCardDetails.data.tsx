@@ -23,7 +23,7 @@ export const addGiftCardDetailsDefaultValues = () => {
 
 export const addGiftCardDetailsFormFieldsDynamic = () => [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'amount',
       label: 'Amount',

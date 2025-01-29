@@ -28,7 +28,7 @@ export const sendTicketEmailFormDefaultValues = {
 
 export const sendTicketEmailFormFields = [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'recipients',
       label: 'To',
@@ -42,7 +42,7 @@ export const sendTicketEmailFormFields = [
     component: RHFAutocomplete,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       name: 'subject',
       label: 'Subject',
@@ -52,7 +52,7 @@ export const sendTicketEmailFormFields = [
     component: RHFTextField,
   },
   {
-    id: 3,
+    _id: 3,
     componentProps: {
       name: 'html',
       label: 'Note',

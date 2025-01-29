@@ -25,9 +25,9 @@ export const AssetFieldFormDefaultValues: any = (data?: any) => {
   };
 };
 
-export const AssetFieldFormDataArray = [
+export const assetFieldFormFields = [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'name',
       label: 'Name',
@@ -37,7 +37,7 @@ export const AssetFieldFormDataArray = [
     component: RHFTextField,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       name: 'description',
       label: 'Description',

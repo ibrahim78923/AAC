@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Box,
   Divider,
@@ -17,6 +17,9 @@ import DataFieldCheckbox from '../../../form-fields/DataFieldCheckbox';
 import DataFieldNumber from '../../../form-fields/DataFieldNumber';
 import { defaultFieldsData } from '../../../CreateContract.data';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import ModalDuplicateDataField from './ModalDuplicateDataField';
+import useAllFields from './useAllFields';
+import ModalPropertiesField from './ModalPropertiesField';
 
 const getDataField = (field: any) => {
   switch (field?.type) {
@@ -32,22 +35,38 @@ const getDataField = (field: any) => {
     case FIELD_TYPES?.CHECKBOX:
       return <DataFieldCheckbox data={field} />;
 
+    case FIELD_TYPES?.SELECT:
+      return <DataFieldCheckbox data={field} />;
     default:
       return <DataFieldText />;
   }
 };
 
-export default function AllFields({ data }: any) {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+export default function AllFields({ data, handleAddDynamicField }: any) {
   const allFields = [...defaultFieldsData, ...data];
+
+  const {
+    anchorEl,
+    open,
+    handleClick,
+    handleClose,
+    methods,
+    openModalCreateDataField,
+    handleOpenModalCreateDataField,
+    handleCloseModalCreateDataField,
+    handleSubmitCreateDataField,
+    handleOpenPropertiesModal,
+    handleCloseModal,
+    openModal,
+    PropertiesMethods,
+    handleSubmitPropertiesField,
+    selectedField,
+    AddDescription,
+    fields,
+    append,
+    remove,
+    register,
+  } = useAllFields(handleAddDynamicField);
 
   return (
     <Box sx={styles.allFields}>
@@ -59,14 +78,14 @@ export default function AllFields({ data }: any) {
 
       {/* {!data || (data?.length === 0 && <NoData height="auto" />)} */}
       {allFields?.length > 0 &&
-        allFields?.map((field: any) => (
-          <Box key={field?.id} sx={styles?.field}>
+        allFields?.map((field: any, index: number) => (
+          <Box key={field?.id || `field-${index}`} sx={styles?.field}>
             <FieldIcon size={30}>{getFieldIcon(field?.type)}</FieldIcon>
             <Box sx={styles?.fieldInfo}>
               <Box sx={styles?.fieldName}>{field?.label}</Box>
               {getDataField(field)}
             </Box>
-            <IconButton onClick={handleClick}>
+            <IconButton onClick={(event) => handleClick(event, field)}>
               <MoreHorizIcon />
             </IconButton>
             <Menu
@@ -90,11 +109,15 @@ export default function AllFields({ data }: any) {
                 horizontal: 'right',
               }}
             >
-              <MenuItem>properties</MenuItem>
-              <MenuItem>Duplicate field</MenuItem>
+              <MenuItem onClick={handleOpenPropertiesModal}>
+                properties
+              </MenuItem>
+              <MenuItem onClick={handleOpenModalCreateDataField}>
+                Duplicate field
+              </MenuItem>
               <Divider />
 
-              <MenuItem>Delete field</MenuItem>
+              <MenuItem disabled={!selectedField?.id}>Delete field</MenuItem>
               <Typography variant="body2" color={'#667085'}>
                 connot be removed because <br /> it is part of the default field
                 set
@@ -102,6 +125,26 @@ export default function AllFields({ data }: any) {
             </Menu>
           </Box>
         ))}
+
+      <ModalDuplicateDataField
+        open={openModalCreateDataField}
+        onClose={handleCloseModalCreateDataField}
+        methods={methods}
+        onSubmit={handleSubmitCreateDataField}
+      />
+
+      <ModalPropertiesField
+        open={openModal}
+        onClose={handleCloseModal}
+        methods={PropertiesMethods}
+        onSubmit={handleSubmitPropertiesField}
+        selectedField={selectedField}
+        AddDescription={AddDescription}
+        fields={fields}
+        append={append}
+        remove={remove}
+        register={register}
+      />
     </Box>
   );
 }

@@ -19,7 +19,9 @@ export const Attachments = (props: AttachmentsPropsI) => {
     children = <NoData message="No attachments found" height="100%" />,
     hasStyling = true,
     canDelete = true,
+    hasNoDeletePermission = false,
   } = props;
+
   const {
     deleteModal,
     setDeleteModal,
@@ -67,6 +69,7 @@ export const Attachments = (props: AttachmentsPropsI) => {
                     setDeleteModal({ open: true, id: singleAttachment?._id })
                   }
                   permissionKey={permissionKey}
+                  hasNoDeletePermission={hasNoDeletePermission}
                   hasStyling={hasStyling}
                   canDelete={canDelete}
                 />

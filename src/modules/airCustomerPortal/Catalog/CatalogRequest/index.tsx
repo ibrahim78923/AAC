@@ -1,10 +1,9 @@
 import useCatalogRequest from './useCatalogRequest';
-import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { CatalogRequestI } from './CatalogRequest.interface';
-import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const CatalogRequest = (props: CatalogRequestI) => {
   const { open } = props;
@@ -16,7 +15,6 @@ export const CatalogRequest = (props: CatalogRequestI) => {
     handleClose,
     postTicketStatus,
     portalStyles,
-    requestForSomeOne,
   } = useCatalogRequest(props);
 
   return (
@@ -47,17 +45,7 @@ export const CatalogRequest = (props: CatalogRequestI) => {
       })}
     >
       <FormProvider methods={methods}>
-        <Grid container>
-          {catalogRequestFormField?.map((item: ReactHookFormFieldsI) => (
-            <Grid item xs={12} md={item?.md} key={item?.id}>
-              <item.component
-                {...item?.componentProps}
-                size={'small'}
-                requestForSomeOne={requestForSomeOne}
-              />
-            </Grid>
-          ))}
-        </Grid>
+        <FormGrid formFieldsList={catalogRequestFormField} />
       </FormProvider>
     </CustomCommonDialog>
   );

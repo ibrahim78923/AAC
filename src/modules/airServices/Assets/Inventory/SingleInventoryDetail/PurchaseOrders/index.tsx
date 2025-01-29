@@ -1,11 +1,10 @@
-import NoData from '@/components/NoData';
 import { Box, Typography } from '@mui/material';
 import { InventoryCard } from '@/components/Cards/InventoryCard/index';
 import { usePurchaseOrders } from './usePurchaseOrders';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
-import ApiErrorState from '@/components/ApiErrorState';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const PurchaseOrder = () => {
   const {
@@ -22,18 +21,24 @@ export const PurchaseOrder = () => {
     refetch,
   } = usePurchaseOrders();
 
-  if (isLoading || isFetching) return <SkeletonTable />;
-
-  if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
-
   return (
     <PermissionsGuard
       permissions={[
         AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.VIEW_RESPECTIVE_PURCHASE_ORDER,
       ]}
     >
-      {!!data?.data?.purchaseOrdersList?.length ? (
-        data?.data?.purchaseOrdersList?.map((singlePurchaseOrder: any) => (
+      <ApiRequestFlow
+        showSkeleton={isLoading || isFetching}
+        hasNoData={!data?.data?.purchaseOrdersList?.length}
+        hasError={isError}
+        refreshApi={refetch}
+        noDataMessage="No purchase order associated"
+        skeletonType={SKELETON_TYPES?.BASIC_CARD}
+        cardSkeletonType={
+          SKELETON_TYPES?.SMALL_HORIZONTAL_TWO_LAYER_CIRCULAR_CARD
+        }
+      >
+        {data?.data?.purchaseOrdersList?.map((singlePurchaseOrder: any) => (
           <Box key={singlePurchaseOrder?._id}>
             <InventoryCard
               openDeleteModal={openDeleteModal}
@@ -65,10 +70,8 @@ export const PurchaseOrder = () => {
               </Box>
             </InventoryCard>
           </Box>
-        ))
-      ) : (
-        <NoData message={'No purchase order associated'} />
-      )}
+        ))}
+      </ApiRequestFlow>
     </PermissionsGuard>
   );
 };

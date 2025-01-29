@@ -23,11 +23,7 @@ import {
 } from '@/assets/icons';
 import { LoadingButton } from '@mui/lab';
 import { AlertModals } from '@/components/AlertModals';
-import {
-  AGENT_REQUEST_STATUS,
-  AIR_CUSTOMER_PORTAL_TICKET,
-  MEETINGS_DETAILS_TYPE,
-} from '@/constants/strings';
+import { STATUS_CONTANTS } from '@/constants/strings';
 import { indexNumbers } from '@/constants';
 
 const BroadcastHeader = (props: any) => {
@@ -183,12 +179,7 @@ const BroadcastHeader = (props: any) => {
               >
                 <MenuItem
                   disabled={
-                    recordStatus ===
-                      MEETINGS_DETAILS_TYPE?.COMPLETED_MEETINGS ||
-                    recordStatus === AIR_CUSTOMER_PORTAL_TICKET?.PROCESSING ||
-                    recordStatus === AGENT_REQUEST_STATUS?.REJECTED
-                      ? true
-                      : false
+                    recordStatus !== STATUS_CONTANTS?.DRAFT ? true : false
                   }
                   onClick={() => {
                     navigate?.push({

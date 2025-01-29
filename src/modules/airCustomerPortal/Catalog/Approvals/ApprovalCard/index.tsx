@@ -1,14 +1,10 @@
 import { TICKET_APPROVALS } from '@/constants/strings';
-import {
-  fullName,
-  fullNameInitial,
-  generateImage,
-  truncateText,
-} from '@/utils/avatarUtils';
-import { Avatar, Box, Button, Typography } from '@mui/material';
+import { fullName, fullNameInitial, truncateText } from '@/utils/avatarUtils';
+import { Box, Button, Typography } from '@mui/material';
 import { APPROVAL_CARD_STATUS } from './ApprovalCard.data';
 import { ApprovalCardPropsI } from '../AllApprovals/AllApprovals.interface';
 import { formatTimeDifference } from '@/lib/date-time';
+import { UserInfo } from '@/components/UserInfo';
 
 export const ApprovalCard = (props: ApprovalCardPropsI) => {
   const {
@@ -28,6 +24,7 @@ export const ApprovalCard = (props: ApprovalCardPropsI) => {
       borderRadius={3}
       bgcolor={'grey.100'}
       display={'flex'}
+      gap={2}
       justifyContent={'space-between'}
       alignItems={'center'}
       sx={{ cursor: 'pointer' }}
@@ -50,28 +47,16 @@ export const ApprovalCard = (props: ApprovalCardPropsI) => {
           alignItems={'center'}
           flexWrap={'wrap'}
           my={1}
-          justifyContent={'space-between'}
         >
-          <Box display={'flex'} gap={1} flexWrap={'wrap'} alignItems={'center'}>
-            <Avatar
-              sx={{ bgcolor: 'blue.main', width: 25, height: 25 }}
-              src={generateImage(data?.requesterDetails?.avatar?.url)}
-            >
-              <Typography variant="body4" textTransform={'uppercase'}>
-                {fullNameInitial(
-                  data?.requesterDetails?.firstName,
-                  data?.requesterDetails?.lastName,
-                )}
-              </Typography>
-            </Avatar>
-            <Typography
-              color={'blue.light'}
-              variant="body3"
-              borderRight={'1px solid'}
-              borderColor={'grey.900'}
-              px={1.5}
-            >
-              {fullName(
+          <UserInfo
+            avatarSrc={data?.requesterDetails?.avatar?.url}
+            nameInitial={fullNameInitial(
+              data?.requesterDetails?.firstName,
+              data?.requesterDetails?.lastName,
+            )}
+            isNameCapital={false}
+            name={
+              fullName(
                 data?.requesterDetails?.firstName,
                 data?.requesterDetails?.lastName,
               ) === 'None'
@@ -79,58 +64,72 @@ export const ApprovalCard = (props: ApprovalCardPropsI) => {
                 : `${fullName(
                     data?.requesterDetails?.firstName,
                     data?.requesterDetails?.lastName,
-                  )} sent approval request`}
-            </Typography>
-          </Box>
+                  )} sent approval request`
+            }
+          />
           <Typography
             color={'grey.900'}
-            fontSize={'0.75rem'}
-            px={1.5}
-            borderRight={'1px solid'}
+            variant="body3"
+            pl={1}
+            borderLeft={'1px solid'}
             borderColor={'grey.900'}
           >
             {formatTimeDifference(data?.createdAt)}
           </Typography>
-          <Typography color={'grey.900'} fontSize={'0.75rem'}>
+          <Typography
+            color={'grey.900'}
+            variant="body3"
+            pl={1}
+            borderLeft={'1px solid'}
+            borderColor={'grey.900'}
+          >
             Via Portal
           </Typography>
         </Box>
       </Box>
-      <Box>
-        {showStatus && (
+      {showStatus && (
+        <Box>
           <Typography
-            variant="body2"
+            variant="body3"
+            sx={{ textTransform: 'capitalize' }}
             color={APPROVAL_CARD_STATUS?.[data?.approvalStatus]}
           >
-            {data?.approvalStatus?.[0]?.toUpperCase() +
-              data?.approvalStatus?.slice?.(1)?.toLowerCase()}
+            {data?.approvalStatus?.toLowerCase()}
           </Typography>
-        )}
-        {showButton && (
-          <Box display={'flex'} gap={1} flexWrap={'wrap'}>
-            <Button
-              variant="contained"
-              color="success"
-              onClick={(e: any) => {
-                e?.stopPropagation();
-                setApproval?.({ ...data, state: TICKET_APPROVALS?.APPROVE });
-              }}
-            >
-              Approve
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={(e: any) => {
-                e?.stopPropagation();
-                setApproval?.({ ...data, state: TICKET_APPROVALS?.REJECT });
-              }}
-            >
-              Reject
-            </Button>
-          </Box>
-        )}
-      </Box>
+        </Box>
+      )}
+      {showButton && (
+        <Box
+          display={'flex'}
+          alignItems={'center'}
+          justifyContent={'flex-end'}
+          gap={1}
+          flexWrap={'wrap'}
+        >
+          <Button
+            className="small"
+            variant="contained"
+            color="success"
+            onClick={(e: any) => {
+              e?.stopPropagation();
+              setApproval?.({ ...data, state: TICKET_APPROVALS?.APPROVE });
+            }}
+          >
+            Approve
+          </Button>
+          <Button
+            className="small"
+            variant="contained"
+            color="error"
+            onClick={(e: any) => {
+              e?.stopPropagation();
+              setApproval?.({ ...data, state: TICKET_APPROVALS?.REJECT });
+            }}
+          >
+            Reject
+          </Button>
+        </Box>
+      )}
     </Box>
   );
 };

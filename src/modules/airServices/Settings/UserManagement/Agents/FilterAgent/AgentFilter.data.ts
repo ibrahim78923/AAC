@@ -10,11 +10,11 @@ export const defaultValuesAgentFilter = (data: any) => {
 
 export const agentFilterFields = [
   {
-    id: 7,
+    _id: 7,
     component: DepartmentListDropdown,
   },
   {
-    id: 6,
+    _id: 6,
     component: RoleListDropdown,
   },
 ];

@@ -1,29 +1,55 @@
-import TanstackTable from '@/components/Table/TanstackTable';
-import React, { useState } from 'react';
-import {
-  contractsColumns,
-  contractsData,
-  viewActivityData,
-} from './GridView.data';
+import React from 'react';
+import { Box, Typography } from '@mui/material';
+import { contractsColumns, viewActivityData } from './GridView.data';
 import CommonDrawer from '@/components/CommonDrawer';
-import { Box, Typography, useTheme } from '@mui/material';
+import TanstackTable from '@/components/Table/TanstackTable';
 import { CustomTooltip } from '@/components/CustomTooltip';
 import { SentIcon, SignedIcon, ViewedIcon } from '@/assets/icons';
 import { CONTRACTS_STATUS } from '@/constants';
 import { v4 as uuidv4 } from 'uuid';
 import DefaultUserIcon from '@/assets/icons/shared/default-user';
+import useGridView from './useGridView';
 
-const ContractsGrid = () => {
-  const theme = useTheme();
-
-  const [isViewAllActivityDrawerOpen, setIsViewAllActivityDrawerOpen] =
-    useState(false);
+const ContractsGrid = ({
+  selectedRecords,
+  setSelectedRecords,
+  tabValue,
+}: any) => {
+  const {
+    isViewAllActivityDrawerOpen,
+    setIsViewAllActivityDrawerOpen,
+    data,
+    isSuccess,
+    isError,
+    isFetching,
+    isLoading,
+    setPage,
+    setPageLimit,
+    theme,
+  } = useGridView({ tabValue });
 
   return (
     <div>
       <TanstackTable
-        columns={contractsColumns({ setIsViewAllActivityDrawerOpen })}
-        data={contractsData}
+        columns={contractsColumns({
+          setIsViewAllActivityDrawerOpen,
+          setSelectedRecords,
+          selectedRecords,
+          data: data?.data?.commoncontract,
+        })}
+        data={data?.data?.commoncontract ?? []}
+        isPagination
+        isSuccess={isSuccess}
+        isError={isError}
+        isFetching={isFetching}
+        isLoading={isLoading}
+        currentPage={data?.data?.meta?.page}
+        count={data?.data?.meta?.pages}
+        pageLimit={data?.data?.meta?.limit}
+        totalRecords={data?.data?.meta?.total}
+        onPageChange={(page: any) => setPage(page)}
+        setPage={setPage}
+        setPageLimit={setPageLimit}
       />
 
       <CommonDrawer

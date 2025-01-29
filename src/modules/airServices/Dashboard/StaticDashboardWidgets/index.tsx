@@ -1,8 +1,9 @@
 import NoData from '@/components/NoData';
-import { Grid } from '@mui/material';
 import { AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS } from '../Dashboard.data';
 import { createElement } from 'react';
 import { TICKET_GRAPH_TYPES } from '@/constants/strings';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 const { PRIORITY } = TICKET_GRAPH_TYPES ?? {};
 
@@ -27,9 +28,9 @@ export const StaticDashboardWidgets = (props: any) => {
     );
 
   return (
-    <Grid container spacing={3}>
+    <ContainerGrid spacing={3}>
       {widgets?.map((item: any) => (
-        <Grid item xs={12} lg={6} {...gridSize} key={item?.name ?? item}>
+        <CustomGrid lg={6} {...gridSize} key={item?.name ?? item}>
           {AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS?.[item?.name ?? item] &&
             createElement(
               AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS?.[item?.name ?? item],
@@ -39,8 +40,8 @@ export const StaticDashboardWidgets = (props: any) => {
                 ...componentProps,
               },
             )}
-        </Grid>
+        </CustomGrid>
       ))}
-    </Grid>
+    </ContainerGrid>
   );
 };

@@ -1,12 +1,15 @@
-import { Box, Grid, Skeleton } from '@mui/material';
+import { Box, Skeleton } from '@mui/material';
 import { TicketCard } from '../TicketCard';
 import { useTicketStatusCount } from './useTicketStatusCount';
 import ApiErrorState from '@/components/ApiErrorState';
 import { TICKET_TYPE } from '../WelcomeCard/WelcomeCard.data';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const TicketStatusCount = () => {
   const { data, isLoading, isFetching, isError, ticketsCountsData, refetch } =
     useTicketStatusCount();
+
   if (isLoading || isFetching)
     return (
       <Skeleton
@@ -16,6 +19,7 @@ export const TicketStatusCount = () => {
         sx={{ bgcolor: 'grey.900', borderRadius: 3 }}
       />
     );
+
   if (isError)
     return (
       <Box width="100%" borderRadius={3}>
@@ -23,22 +27,23 @@ export const TicketStatusCount = () => {
           height=""
           textColor="common.white"
           canRefresh
-          refresh={() => refetch?.()}
+          refresh={refetch}
         />
       </Box>
     );
+
   return (
-    <Grid container spacing={1} sx={{ height: '100%' }}>
+    <ContainerGrid spacing={1}>
       {ticketsCountsData?.map((singleData: any) => (
-        <Grid item xs={12} sm={6} md={5} lg={4} key={singleData?._id}>
+        <CustomGrid sm={6} md={5} lg={4} key={singleData?._id}>
           <TicketCard
             color={singleData?.color}
             count={singleData?.count}
             label={singleData?.label}
             totalCount={data?.ticketsCount[TICKET_TYPE?.TOTAL]}
           />
-        </Grid>
+        </CustomGrid>
       ))}
-    </Grid>
+    </ContainerGrid>
   );
 };

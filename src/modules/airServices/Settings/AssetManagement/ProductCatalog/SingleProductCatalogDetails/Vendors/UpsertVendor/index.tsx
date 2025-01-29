@@ -1,7 +1,7 @@
-import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertVendor } from './useUpsertVendor';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const UpsertAsset = (props: any) => {
   const { isUpsertModalOpen, setIsUpsertModalOpen } = props;
@@ -30,13 +30,7 @@ export const UpsertAsset = (props: any) => {
       dialogTitle={isUpsertModalOpen?.data ? 'Update Vendor' : 'Add Vendor'}
     >
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <Grid container spacing={2}>
-          {upsertVendorDataArray?.map((item: any) => (
-            <Grid item xs={12} md={item?.md} key={item?.id}>
-              <item.component {...item?.componentProps} size={'small'} />
-            </Grid>
-          ))}
-        </Grid>
+        <FormGrid spacing={1} formFieldsList={upsertVendorDataArray} />
       </FormProvider>
     </CustomCommonDialog>
   );

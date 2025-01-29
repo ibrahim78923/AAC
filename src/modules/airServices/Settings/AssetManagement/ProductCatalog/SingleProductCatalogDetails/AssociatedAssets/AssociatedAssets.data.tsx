@@ -1,5 +1,4 @@
 import { TruncateText } from '@/components/TruncateText';
-import { truncateText } from '@/utils/avatarUtils';
 import { DeleteForever } from '@mui/icons-material';
 
 export const getAssociatedAssetsColumns = (setIsDeleteModalOpen: any) => [
@@ -20,7 +19,9 @@ export const getAssociatedAssetsColumns = (setIsDeleteModalOpen: any) => [
     id: 'state',
     isSortable: true,
     header: 'Asset State',
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: any) => (
+      <TruncateText text={info?.getValue()?.replace('_', ' ')?.toLowerCase()} />
+    ),
   },
   {
     accessorFn: (row: any) => row?.associatedAssets?._id,

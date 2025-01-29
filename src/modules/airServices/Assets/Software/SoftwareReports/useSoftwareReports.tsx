@@ -10,13 +10,11 @@ import {
 import { ARRAY_INDEX, MODULE_TYPE } from '@/constants/strings';
 import { useGetServiceSystematicReportsQuery } from '@/services/airServices/reports';
 import { AUTO_REFRESH_API_POLLING_TIME } from '@/config';
-import { htmlToPdfConvert } from '@/lib/html-to-pdf-converter';
 import { isoDateString } from '@/lib/date-time';
 import { useFormLib } from '@/hooks/useFormLib';
 
 export const useSoftwareReports = () => {
   const router: NextRouter = useRouter();
-  const [loading, setLoading] = useState<boolean>(false);
   const [hasDate, setHasDate] = useState<boolean>(false);
   const [filterDate, setFilterDate] = useState<any>({
     startDate: null,
@@ -36,7 +34,7 @@ export const useSoftwareReports = () => {
     },
   };
 
-  const { handleSubmit, getValues, watch, setValue, methods } = useFormLib(
+  const { getValues, watch, setValue, methods } = useFormLib(
     softwareReportMethodProps,
   );
   watch?.();
@@ -80,15 +78,6 @@ export const useSoftwareReports = () => {
     setAnchorElDate?.(null);
   };
 
-  const handleDownload = async () => {
-    if (isLoading || isFetching || isError) return;
-    setLoading(true);
-    try {
-      await htmlToPdfConvert?.(downloadRef, 'Software_Report');
-    } catch (error) {}
-    setLoading(false);
-  };
-
   const softwareReportsCardsData = SoftwareReportsCountData(data?.data);
   const softwareReportsChartsData = filteredEmptyValues(
     SoftwareReportsChartData(data?.data),
@@ -108,21 +97,18 @@ export const useSoftwareReports = () => {
 
   return {
     router,
-    handleDownload,
-    loading,
     softwareReportsCardsData,
-    softwareReportsChartsData,
     methods,
-    handleSubmit,
-    data,
+    softwareReportsTableColumns,
+    softwareReportsChartsData,
+    downloadRef,
     isLoading,
     isFetching,
     isError,
     refetch,
-    softwareReportsTableColumns,
-    downloadRef,
     setHasDate,
     shouldDateSet,
+    data,
     onDateFilterSubmit,
     getValues,
     apiCallInProgress,

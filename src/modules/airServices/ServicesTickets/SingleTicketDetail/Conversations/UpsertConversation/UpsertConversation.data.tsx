@@ -53,7 +53,7 @@ export const upsertConversationFormValidationSchema = Yup?.object()?.shape({
 
 export const upsertConversationFormFieldsDynamic = (portalAction: string) => [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'type',
       label: portalAction?.includes(NOTE) ? NOTE : portalAction,
@@ -65,7 +65,7 @@ export const upsertConversationFormFieldsDynamic = (portalAction: string) => [
   ...(!portalAction?.includes(NOTE)
     ? [
         {
-          id: 2,
+          _id: 2,
           componentProps: {
             name: 'from',
             label: 'From',
@@ -78,7 +78,7 @@ export const upsertConversationFormFieldsDynamic = (portalAction: string) => [
       ]
     : []),
   {
-    id: 3,
+    _id: 3,
     componentProps: {
       name: 'recipients',
       label: portalAction?.includes(NOTE) ? 'Notify to' : `${portalAction} to`,
@@ -88,7 +88,7 @@ export const upsertConversationFormFieldsDynamic = (portalAction: string) => [
     component: RHFTextField,
   },
   {
-    id: 4,
+    _id: 4,
     componentProps: {
       name: 'html',
       label: 'Description',
@@ -99,11 +99,11 @@ export const upsertConversationFormFieldsDynamic = (portalAction: string) => [
     component: RHFEditor,
   },
   {
-    id: 6,
+    _id: 6,
     component: ConversationResponseType,
   },
   {
-    id: 5,
+    _id: 5,
     componentProps: {
       name: 'attachments',
       label: 'Attach file',

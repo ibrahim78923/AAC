@@ -12,6 +12,24 @@ export const commonContractsAPI = baseAPI.injectEndpoints({
       invalidatesTags: ['COMMON_CONTRACTS'],
     }),
 
+    createCommonContractAsDraft: builder.mutation({
+      query: (body) => ({
+        url: COMMON_CONTRACTS?.SAVE_AS_DRAFT,
+        method: 'POST',
+        body: body,
+      }),
+      invalidatesTags: ['COMMON_CONTRACTS'],
+    }),
+
+    postSignAndSend: builder.mutation({
+      query: (body) => ({
+        url: COMMON_CONTRACTS?.POST_SIGN_ADN_SEND,
+        method: 'POST',
+        body: body,
+      }),
+      invalidatesTags: ['COMMON_CONTRACTS'],
+    }),
+
     getCommonContractTemplates: builder.query({
       query: (params) => ({
         url: COMMON_CONTRACTS?.TEMPLATE,
@@ -38,13 +56,13 @@ export const commonContractsAPI = baseAPI.injectEndpoints({
       providesTags: ['COMMON_CONTRACTS'],
     }),
 
-    createCommonContractAsDraft: builder.mutation({
-      query: (body) => ({
-        url: COMMON_CONTRACTS?.SAVE_AS_DRAFT,
-        method: 'POST',
-        body: body,
+    getCommonContractTemplateRecentlyUsed: builder.query({
+      query: (params) => ({
+        url: COMMON_CONTRACTS?.GET_RECENTLY_USED_TEMPLATES,
+        method: 'GET',
+        params,
       }),
-      invalidatesTags: ['COMMON_CONTRACTS'],
+      providesTags: ['COMMON_CONTRACTS'],
     }),
 
     updateCommonContractTemplate: builder.mutation({
@@ -93,6 +111,8 @@ export const {
   useGetCommonContractTemplatesQuery,
   useGetCommonContractTemplatesByFolderQuery,
   useGetCommonContractTemplateByIdQuery,
+  useGetCommonContractTemplateRecentlyUsedQuery,
   useUpdateCommonContractTemplateMutation,
   useCreateCommonContractAsDraftMutation,
+  usePostSignAndSendMutation,
 } = commonContractsAPI;

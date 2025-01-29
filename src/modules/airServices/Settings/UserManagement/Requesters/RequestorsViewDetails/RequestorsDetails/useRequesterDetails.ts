@@ -12,7 +12,7 @@ export const useRequesterDetails = () => {
     },
   };
 
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetSingleRequesterDetailsByIdQuery(getSingleAgentDetailsParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!_id,
@@ -25,5 +25,6 @@ export const useRequesterDetails = () => {
     isError,
     isDrawerOpen,
     setIsDrawerOpen,
+    refetch,
   };
 };

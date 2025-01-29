@@ -34,6 +34,7 @@ export const DepartmentCard = (props: IDepartmentsProps) => {
             {truncateText(item?.name)}
           </Typography>
         </Box>
+
         <PermissionsGuard
           permissions={
             Permissions?.AIR_SERVICES_SETTINGS_USER_MANAGEMENT_EDIT_DELETE_DEPARTMENTS

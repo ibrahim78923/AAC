@@ -1,21 +1,19 @@
 import React from 'react';
-import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
-import { useLazyGetRequesterDropdownQuery } from '@/services/airCustomerPortal/catalog';
+import { RHFSelect } from '@/components/ReactHookForm';
 
-export default function OnBehalfOf({ name }: { name: string }) {
-  const apiQueryRequester = useLazyGetRequesterDropdownQuery();
-
+export default function OnBehalfOf({
+  name,
+  data,
+}: {
+  name: string;
+  data: any;
+}) {
   return (
-    <RHFAutocompleteAsync
+    <RHFSelect
       name={name}
       label="On Behalf Of"
       fullWidth
       size="small"
-      apiQuery={apiQueryRequester}
-      externalParams={{}}
-      getOptionLabel={(option: any) =>
-        `${option?.firstName} ${option?.lastName}`
-      }
       placeholder="Select party"
       sx={{
         '& > .MuiTypography-root.MuiTypography-body2': {
@@ -24,6 +22,12 @@ export default function OnBehalfOf({ name }: { name: string }) {
           mb: '4.5px',
         },
       }}
-    />
+    >
+      {data?.map((item: any) => (
+        <option key={item?.value} value={item?.value}>
+          {item?.label}
+        </option>
+      ))}
+    </RHFSelect>
   );
 }

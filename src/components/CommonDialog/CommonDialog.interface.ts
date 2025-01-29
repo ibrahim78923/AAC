@@ -6,6 +6,7 @@ export interface CommonDialogProps extends Omit<DialogProps, 'title'> {
   closeIcon?: boolean;
   onSubmit?: () => void;
   okText?: string;
+  okDisabled?: boolean;
   cancelText?: string;
   isLoading?: boolean;
   renderFooter?: React.ReactNode;

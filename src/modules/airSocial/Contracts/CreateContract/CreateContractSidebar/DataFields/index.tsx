@@ -63,7 +63,10 @@ export default function DataFields({
         handleAddDynamicField={handleAddDynamicField}
       />
 
-      <AllFields data={allDataFields} />
+      <AllFields
+        data={allDataFields}
+        handleAddDynamicField={handleAddDynamicField}
+      />
     </Box>
   );
 }

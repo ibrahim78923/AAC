@@ -1,11 +1,10 @@
 import { AntSwitch } from '@/components/AntSwitch';
-import { Box, CircularProgress, Divider, Typography } from '@mui/material';
+import { Box, Divider, Typography } from '@mui/material';
 import { Fragment } from 'react';
 import { contractsData } from './Contracts.data';
 import useContracts from './useContracts';
-import ApiErrorState from '@/components/ApiErrorState';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { IItemData, IItemDetail } from '../EmailNotification.interface';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const Contracts = () => {
   const {
@@ -15,14 +14,15 @@ export const Contracts = () => {
     switchLoading,
     onSwitchChange,
     data,
+    refetch,
   } = useContracts();
 
-  if (isError) return <ApiErrorState />;
-
-  if (isLoading || isFetching) return <SkeletonTable />;
-
   return (
-    <>
+    <ApiRequestFlow
+      showSkeleton={isLoading || isFetching}
+      hasError={isError}
+      refreshApi={refetch}
+    >
       {contractsData?.map((head: IItemData) => (
         <Fragment key={head?._id}>
           <Typography variant={'h5'} color={'blue.main'}>
@@ -49,18 +49,15 @@ export const Contracts = () => {
                 {item?.title}
               </Typography>
 
-              {switchLoading[item?._id] ? (
-                <CircularProgress size={20} />
-              ) : (
-                <AntSwitch
-                  onChange={() => onSwitchChange(item?._id)}
-                  checked={!data?.data?.notificationsOff?.[item?._id]}
-                />
-              )}
+              <AntSwitch
+                isLoading={switchLoading[item?._id]}
+                onChange={() => onSwitchChange(item?._id)}
+                checked={!data?.data?.notificationsOff?.[item?._id]}
+              />
             </Box>
           ))}
         </Fragment>
       ))}
-    </>
+    </ApiRequestFlow>
   );
 };

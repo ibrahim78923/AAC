@@ -8,17 +8,27 @@ import { useFormContext } from 'react-hook-form';
 import DefaultSignatures from '../form-fields/DefaultSignatures';
 import useCreateContract from '../useCreateContract';
 import DocumentHistory from '../components/DocumentHistory';
+import { getPartyName } from '@/utils/contracts';
 
 export default function Preview() {
   const { watch } = useFormContext();
+  const data = watch();
   const defaultAttachment = watch('defaultAttachment');
 
-  const { signees, handleOpenModalManageSignature } = useCreateContract();
+  const {
+    // handleOpenModalManageSignature,
+    signeeFields,
+    signeeValues,
+
+    isIndividualSignature,
+    handleChangeIndividualSignature,
+    setSelectedSigneeId,
+  } = useCreateContract();
 
   return (
     <Grid container spacing="30px">
       <Grid item xs={12} sm={6}>
-        <Box sx={styles?.contractTitle}>{'Untitled Draft'}</Box>
+        <Box sx={styles?.contractTitle}>{data?.name}</Box>
       </Grid>
 
       <Grid item xs={12} sm={6}>
@@ -32,107 +42,125 @@ export default function Preview() {
           />
         </Box>
       </Grid>
-
-      <Grid item xs={12} sm={6}>
-        <Box sx={styles?.fieldCard}>
-          <Box sx={styles?.fieldCardField}>
-            <Box sx={styles?.fieldCardLabel}>{'Full name'}</Box>
-            <Box sx={styles?.fieldCardValue}>{'John Doe'}</Box>
-          </Box>
-          <Box sx={styles?.fieldCardField}>
-            <Box sx={styles?.fieldCardLabel}>
-              {'Hereinafter referred to as'}
+      {data?.parties?.length > 0 &&
+        data?.parties?.map((party: any) => (
+          <Grid item xs={12} sm={6} key={party?._id || party?.id}>
+            <Box sx={styles?.fieldCard}>
+              <Box sx={styles?.fieldCardField}>
+                <Box sx={styles?.fieldCardLabel}>{'Full name'}</Box>
+                <Box sx={styles?.fieldCardValue}>
+                  {getPartyName(party?.name)}
+                </Box>
+              </Box>
+              <Box sx={styles?.fieldCardField}>
+                <Box sx={styles?.fieldCardLabel}>
+                  {'Hereinafter referred to as'}
+                </Box>
+                <Box sx={styles?.fieldCardValue}>
+                  {party?.referredAs ? party?.referredAs : '--'}
+                </Box>
+              </Box>
             </Box>
-            <Box sx={styles?.fieldCardValue}>{'Sender'}</Box>
-          </Box>
-        </Box>
-      </Grid>
-
-      <Grid item xs={12} sm={6}>
-        <Box sx={styles?.fieldCard}>
-          <Box sx={styles?.fieldCardField}>
-            <Box sx={styles?.fieldCardLabel}>
-              {'Hereinafter referred to as'}
+          </Grid>
+        ))}
+      {data?.parties?.length === 0 && (
+        <Grid item xs={12} sm={6}>
+          <Box sx={styles?.fieldCard}>
+            <Box sx={styles?.fieldCardField}>
+              <Box sx={styles?.fieldCardLabel}>{'Full name'}</Box>
+              <Box sx={styles?.fieldCardValue}>{'--'}</Box>
             </Box>
-            <Box sx={styles?.fieldCardValue}>{'Recipient'}</Box>
+            <Box sx={styles?.fieldCardField}>
+              <Box sx={styles?.fieldCardLabel}>
+                {'Hereinafter referred to as'}
+              </Box>
+              <Box sx={styles?.fieldCardValue}>{'--'}</Box>
+            </Box>
           </Box>
-        </Box>
-      </Grid>
+        </Grid>
+      )}
 
       <Grid item xs={12}>
         <Box>Start adding document content here...</Box>
         <Box>Make sure that the “Full text editing” mode is switched on.</Box>
       </Grid>
 
-      <Grid item xs={12} sm={6}>
-        <Box sx={styles?.signatureCard}>
-          <Box sx={styles?.signatureCardBody}>
-            <Box sx={styles?.signatureCardField}>
-              <Box sx={styles?.fieldCardLabel}>{'On behalf of'}</Box>
-              <Box sx={styles?.fieldCardValue}>{'Fiatsign'}</Box>
-            </Box>
-            <Box sx={styles?.signatureCardField}>
-              <Box sx={styles?.fieldCardLabel}>{'Email'}</Box>
-              <Box sx={styles?.fieldCardValue}>
-                {'developers@orcalo.co.uk.'}
+      {data?.signees?.length === 0 && (
+        <Grid item xs={12} sm={6}>
+          <Box sx={styles?.signatureCard}>
+            <Box sx={styles?.signatureCardBody}>
+              <Box sx={styles?.signatureCardField}>
+                <Box sx={styles?.fieldCardLabel}>{'On behalf of'}</Box>
+                <Box sx={styles?.fieldCardValue}>{'--'}</Box>
+              </Box>
+              <Box sx={styles?.signatureCardField}>
+                <Box sx={styles?.fieldCardLabel}>{'Email'}</Box>
+                <Box sx={styles?.fieldCardValue}>{'--'}</Box>
+              </Box>
+              <Box sx={styles?.signatureCardField}>
+                <Box sx={styles?.fieldCardLabel}>{'Full name'}</Box>
+                <Box sx={styles?.fieldCardValue}>{'--'}</Box>
+              </Box>
+              <Box sx={styles?.signatureCardField}>
+                <Box sx={styles?.fieldCardLabel}>{'IP Address'}</Box>
+                <Box sx={styles?.fieldCardValue}>{'-'}</Box>
               </Box>
             </Box>
-            <Box sx={styles?.signatureCardField}>
-              <Box sx={styles?.fieldCardLabel}>{'Full name'}</Box>
-              <Box sx={styles?.fieldCardValue}>{'John Doe'}</Box>
-            </Box>
-            <Box sx={styles?.signatureCardField}>
-              <Box sx={styles?.fieldCardLabel}>{'IP Address'}</Box>
-              <Box sx={styles?.fieldCardValue}>{'-'}</Box>
-            </Box>
-          </Box>
-          <Box sx={styles?.signatureCardFooter}>
-            <Box sx={styles?.signatureCardFooterInner}>
-              <Box sx={styles?.signingDigitally}>
-                <IconSigningDigitally />
-                <Box>Signing digitally</Box>
+            <Box sx={styles?.signatureCardFooter}>
+              <Box sx={styles?.signatureCardFooterInner}>
+                <Box sx={styles?.signingDigitally}>
+                  <IconSigningDigitally />
+                  <Box>Signing digitally</Box>
+                </Box>
               </Box>
-            </Box>
 
-            <Box sx={styles?.signatureCardFooterStripe} />
-          </Box>
-        </Box>
-      </Grid>
-
-      <Grid item xs={12} sm={6}>
-        <Box sx={styles?.signatureCard}>
-          <Box sx={styles?.signatureCardBody}>
-            <Box sx={styles?.signatureCardField}>
-              <Box sx={styles?.fieldCardLabel}>{'On behalf of'}</Box>
-              <Box sx={styles?.fieldCardValue}>{'Fiatsign'}</Box>
+              <Box sx={styles?.signatureCardFooterStripe} />
             </Box>
-            <Box sx={styles?.signatureCardField}>
-              <Box sx={styles?.fieldCardLabel}>{'Email'}</Box>
-              <Box sx={styles?.fieldCardValue}>
-                {'developers@orcalo.co.uk.'}
+          </Box>
+        </Grid>
+      )}
+      {data?.signees?.length > 0 &&
+        data?.signees?.map((signee: any) => (
+          <Grid item xs={12} sm={6} key={signee?._id || signee?.id}>
+            <Box sx={styles?.signatureCard}>
+              <Box sx={styles?.signatureCardBody}>
+                <Box sx={styles?.signatureCardField}>
+                  <Box sx={styles?.fieldCardLabel}>{'On behalf of'}</Box>
+                  <Box sx={styles?.fieldCardValue}>
+                    {signee?.onBehalfOf ?? '--'}
+                  </Box>
+                </Box>
+                <Box sx={styles?.signatureCardField}>
+                  <Box sx={styles?.fieldCardLabel}>{'Email'}</Box>
+                  <Box sx={styles?.fieldCardValue}>
+                    {signee?.email ? signee.email : '--'}
+                  </Box>
+                </Box>
+                <Box sx={styles?.signatureCardField}>
+                  <Box sx={styles?.fieldCardLabel}>{'Full name'}</Box>
+                  <Box sx={styles?.fieldCardValue}>
+                    {signee?.name ? signee?.name : '--'}
+                  </Box>
+                </Box>
+                <Box sx={styles?.signatureCardField}>
+                  <Box sx={styles?.fieldCardLabel}>{'IP Address'}</Box>
+                  <Box sx={styles?.fieldCardValue}>{'-'}</Box>
+                </Box>
+              </Box>
+              <Box sx={styles?.signatureCardFooter}>
+                <Box sx={styles?.signatureCardFooterInner}>
+                  <Box sx={styles?.signingDigitally}>
+                    <IconSigningDigitally />
+                    <Box>Signing digitally</Box>
+                  </Box>
+                </Box>
+
+                <Box sx={styles?.signatureCardFooterStripe} />
               </Box>
             </Box>
-            <Box sx={styles?.signatureCardField}>
-              <Box sx={styles?.fieldCardLabel}>{'Full name'}</Box>
-              <Box sx={styles?.fieldCardValue}>{'John Doe'}</Box>
-            </Box>
-            <Box sx={styles?.signatureCardField}>
-              <Box sx={styles?.fieldCardLabel}>{'IP Address'}</Box>
-              <Box sx={styles?.fieldCardValue}>{'-'}</Box>
-            </Box>
-          </Box>
-          <Box sx={styles?.signatureCardFooter}>
-            <Box sx={styles?.signatureCardFooterInner}>
-              <Box sx={styles?.signingDigitally}>
-                <IconSigningDigitally />
-                <Box>Signing digitally</Box>
-              </Box>
-            </Box>
+          </Grid>
+        ))}
 
-            <Box sx={styles?.signatureCardFooterStripe} />
-          </Box>
-        </Box>
-      </Grid>
       {defaultAttachment && (
         <Grid item xs={12}>
           <Box sx={styles?.attachmentPreview}>
@@ -165,12 +193,17 @@ export default function Preview() {
         </Grid>
       )}
 
-      <Grid item xs={12}>
-        <DefaultSignatures
-          signees={signees}
-          onClickChange={handleOpenModalManageSignature}
-        />
-      </Grid>
+      {signeeFields?.length > 0 && (
+        <Grid item xs={12}>
+          <DefaultSignatures
+            isIndividualSignature={isIndividualSignature}
+            onChangeIndividualSignature={handleChangeIndividualSignature}
+            signees={signeeValues}
+            setSelectedSigneeId={setSelectedSigneeId}
+            preview={true}
+          />
+        </Grid>
+      )}
 
       <Grid item xs={12}>
         <DocumentHistory />

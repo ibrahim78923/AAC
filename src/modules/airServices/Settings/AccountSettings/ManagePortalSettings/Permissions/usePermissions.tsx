@@ -7,8 +7,6 @@ import {
   customerPortalSettingsSchemaValidation,
 } from './Permissions.data';
 import { useEffect, useMemo } from 'react';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
-import ApiErrorState from '@/components/ApiErrorState';
 import { getActiveAccountSession } from '@/utils';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useFormLib } from '@/hooks/useFormLib';
@@ -71,17 +69,15 @@ export const usePermissions = () => {
     }
   };
 
-  const checkApiErrorOrLoading = () => {
-    if (isLoading || isFetching) return <SkeletonTable />;
-    if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
-    return undefined;
-  };
+  const showLoader = isLoading || isFetching;
 
   return {
     methods,
     handleSubmit,
     onSubmit,
-    checkApiErrorOrLoading,
     patchCustomerPortalPermissionsStatus,
+    showLoader,
+    isError,
+    refetch,
   };
 };

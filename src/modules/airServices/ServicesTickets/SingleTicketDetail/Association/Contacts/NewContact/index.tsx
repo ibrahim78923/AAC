@@ -1,14 +1,6 @@
-import { Grid } from '@mui/material';
 import { formFields } from './NewContact.data';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export default function NewContact() {
-  return (
-    <Grid container spacing={2}>
-      {formFields?.map((item: any) => (
-        <Grid item xs={12} key={item?.id}>
-          <item.component {...item?.componentProps} size={'small'} />
-        </Grid>
-      ))}
-    </Grid>
-  );
+  return <FormGrid formFieldsList={formFields} />;
 }

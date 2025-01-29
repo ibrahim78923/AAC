@@ -8,11 +8,10 @@ import { AIR_SERVICES } from '@/constants/routes';
 import { WorkloadScheduleDelete } from './WorkloadScheduleDelete';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useWorkloadSchedule } from './useWorkloadSchedule';
-import NoData from '@/components/NoData';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import ApiErrorState from '@/components/ApiErrorState';
 import { AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { TruncateText } from '@/components/TruncateText';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const WorkloadSchedule = () => {
   const {
@@ -29,10 +28,6 @@ export const WorkloadSchedule = () => {
     refetch,
   } = useWorkloadSchedule();
 
-  if (isLoading || isFetching) return <SkeletonForm />;
-
-  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
-
   return (
     <>
       <PageTitledHeader
@@ -48,9 +43,16 @@ export const WorkloadSchedule = () => {
           })
         }
       />
-
-      {!!data?.data?.length ? (
-        data?.data?.map((item: any) => (
+      <ApiRequestFlow
+        showSkeleton={isLoading || isFetching}
+        hasError={isError}
+        refreshApi={refetch}
+        hasNoData={!!!data?.data?.length}
+        noDataMessage="No workload schedule found"
+        skeletonType={SKELETON_TYPES?.BASIC_CARD}
+        cardSkeletonType={SKELETON_TYPES?.THREE_LAYER_BIG_LARGE_CARD}
+      >
+        {data?.data?.map((item: any) => (
           <Box
             key={item?._id}
             display={'flex'}
@@ -91,10 +93,8 @@ export const WorkloadSchedule = () => {
               </IconButton>
             </Box>
           </Box>
-        ))
-      ) : (
-        <NoData message="No workload schedule found" />
-      )}
+        ))}
+      </ApiRequestFlow>
 
       {openDeleteModal && (
         <WorkloadScheduleDelete

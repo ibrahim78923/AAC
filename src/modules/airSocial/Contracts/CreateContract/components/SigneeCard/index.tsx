@@ -7,13 +7,37 @@ import PersonalTitle from './form-fields/PersonalTitle';
 import SigneeEmail from './form-fields/SigneeEmail';
 import SigningOrder from './form-fields/SigningOrder';
 import SigneeFullName from './form-fields/SigneeFullName';
+import SigningDigitally from './form-fields/SigningDigitally';
 
 interface SigneeCardProps {
   index: number;
   onDelete?: () => void;
+  numberOfSignees?: number;
+  partyValues?: any;
 }
 
-export default function SigneeCard({ index, onDelete }: SigneeCardProps) {
+export default function SigneeCard({
+  index,
+  onDelete,
+  numberOfSignees,
+  partyValues,
+}: SigneeCardProps) {
+  const signingOrderData = Array(numberOfSignees)
+    .fill(null)
+    .map((_, index) => ({
+      label: `${index + 1}`,
+      value: `${index + 1}`,
+    }));
+
+  const onBehalfOfData = partyValues?.map((party: any) => {
+    return {
+      value: party?.name?._id,
+      label:
+        party?.name?.name ||
+        `${party?.name?.firstName || ''} ${party?.name?.lastName || ''}`.trim(),
+    };
+  });
+
   return (
     <Box sx={styles?.signeeCard}>
       <Box sx={styles?.cardHeader}>
@@ -31,10 +55,16 @@ export default function SigneeCard({ index, onDelete }: SigneeCardProps) {
       </Box>
       <Grid container spacing={'4px'}>
         <Grid item xs={12} sx={styles?.fieldLabel}>
-          <SigningOrder name={`signees.${index}.signingOrder`} />
+          <SigningOrder
+            data={signingOrderData}
+            name={`signees.${index}.signingOrder`}
+          />
         </Grid>
         <Grid item xs={12} sx={styles?.fieldLabel}>
-          <OnBehalfOf name={`signees.${index}.onBehalfOf`} />
+          <OnBehalfOf
+            name={`signees.${index}.onBehalfOf`}
+            data={onBehalfOfData || []}
+          />
         </Grid>
         <Grid item xs={12} sx={styles?.fieldLabel}>
           <PersonalTitle name={`signees.${index}.personalTitle`} />
@@ -45,7 +75,9 @@ export default function SigneeCard({ index, onDelete }: SigneeCardProps) {
         <Grid item xs={12} sx={styles?.fieldLabel}>
           <SigneeEmail name={`signees.${index}.email`} />
         </Grid>
-        <Grid item xs={12} sx={styles?.fieldLabel}></Grid>
+        <Grid item xs={12} sx={styles?.fieldLabel}>
+          <SigningDigitally />
+        </Grid>
       </Grid>
     </Box>
   );

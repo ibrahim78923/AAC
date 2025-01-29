@@ -13,7 +13,7 @@ export const useTickets = () => {
   const product = useMemo(() => getActiveAccountSession(), []);
   const accountId = product?._id;
 
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetServicesAccountSettingsEmailNotificationQuery(
       {
         accountId,
@@ -54,6 +54,7 @@ export const useTickets = () => {
     switchLoading,
     onSwitchChange,
     data,
+    refetch,
   };
 };
 export default useTickets;

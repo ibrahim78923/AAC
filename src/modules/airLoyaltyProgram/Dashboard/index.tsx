@@ -1,4 +1,4 @@
-import { Box, Grid, Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import { Header } from './Header';
 import { useDashboard } from './useDashboard';
 import { Widgets } from './Widgets';
@@ -8,6 +8,8 @@ import { GiftCards } from './GiftCards';
 import { PointsTransaction } from './PointsTransaction';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_LOYALTY_PROGRAM_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const Dashboard = () => {
   const {
@@ -35,17 +37,17 @@ export const Dashboard = () => {
         <Widgets />
         <TopConsumer />
         <Box>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={4}>
+          <ContainerGrid spacing={3}>
+            <CustomGrid md={6} lg={4}>
               <Rewards />
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
+            </CustomGrid>
+            <CustomGrid md={6} lg={4}>
               <GiftCards />
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
+            </CustomGrid>
+            <CustomGrid md={6} lg={4}>
               <PointsTransaction />
-            </Grid>
-          </Grid>
+            </CustomGrid>
+          </ContainerGrid>
         </Box>
       </Stack>
     </PermissionsGuard>

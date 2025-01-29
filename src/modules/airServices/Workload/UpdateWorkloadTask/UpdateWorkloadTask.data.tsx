@@ -48,7 +48,7 @@ export const getWorkloadDataArray = (
   watch?: any,
 ) => [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'title',
       label: 'Title',
@@ -59,7 +59,7 @@ export const getWorkloadDataArray = (
     component: RHFTextField,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       name: 'description',
       label: 'Description',
@@ -69,7 +69,7 @@ export const getWorkloadDataArray = (
     component: RHFEditor,
   },
   {
-    id: 4,
+    _id: 3,
     componentProps: {
       name: 'assignTo',
       label: 'Assignee',
@@ -77,7 +77,7 @@ export const getWorkloadDataArray = (
     component: AssignToAndAgent,
   },
   {
-    id: 5,
+    _id: 4,
     componentProps: {
       name: 'status',
       label: 'Status',
@@ -90,7 +90,7 @@ export const getWorkloadDataArray = (
     component: RHFAutocomplete,
   },
   {
-    id: 6,
+    _id: 5,
     componentProps: {
       name: 'startDate',
       label: 'Planned Start Date',
@@ -101,7 +101,7 @@ export const getWorkloadDataArray = (
     component: RHFDesktopDateTimePicker,
   },
   {
-    id: 8,
+    _id: 6,
     componentProps: {
       name: 'endDate',
       label: 'Planned End Date',
@@ -113,7 +113,7 @@ export const getWorkloadDataArray = (
     component: RHFDesktopDateTimePicker,
   },
   {
-    id: 10,
+    _id: 7,
     componentProps: {
       name: 'plannedEffort',
       label: 'Planned Effort',

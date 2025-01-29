@@ -1,13 +1,11 @@
-import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertAgent } from './useUpsertAgent';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import ApiErrorState from '@/components/ApiErrorState';
-import { componentMap } from '@/utils/dynamic-forms';
-import { createElement } from 'react';
 import { IAgentsProps } from '../Agents.interface';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
+import { FormGrid } from '@/components/Grids/FormGrid';
+import { DynamicForm } from '@/components/DynamicForm';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const UpsertAgent = (props: IAgentsProps) => {
   const { isAgentModalOpen, selectedAgentList } = props;
@@ -17,9 +15,11 @@ export const UpsertAgent = (props: IAgentsProps) => {
     handleUpsertAgentSubmit,
     handleClose,
     upsertAgentFormFields,
-    getDynamicFieldsStatus,
     form,
     apiCallInProgress,
+    isDynamicFormLoading,
+    hasDynamicFormError,
+    getDynamicFormData,
   } = useUpsertAgent(props);
 
   return (
@@ -41,34 +41,17 @@ export const UpsertAgent = (props: IAgentsProps) => {
         disabledCancelButton={apiCallInProgress}
         handleSubmitButton={handleSubmit(handleUpsertAgentSubmit)}
       >
-        {getDynamicFieldsStatus?.isLoading ||
-        getDynamicFieldsStatus?.isFetching ? (
-          <SkeletonForm />
-        ) : getDynamicFieldsStatus?.isError ? (
-          <ApiErrorState />
-        ) : (
-          <>
-            <FormProvider methods={methods}>
-              <Grid container spacing={1}>
-                {upsertAgentFormFields?.map((form: any) => (
-                  <Grid item xs={12} md={form?.gridLength} key={form?.id}>
-                    <form.component {...form?.componentProps} size="small" />
-                  </Grid>
-                ))}
-                {form?.map((item: any) => (
-                  <Grid item xs={12} key={item?.id}>
-                    {componentMap[item?.component] &&
-                      createElement(componentMap[item?.component], {
-                        ...item?.componentProps,
-                        name: item?.componentProps?.label,
-                        size: 'small',
-                      })}
-                  </Grid>
-                ))}
-              </Grid>
-            </FormProvider>
-          </>
-        )}
+        <ApiRequestFlow
+          showSkeleton={isDynamicFormLoading}
+          hasError={hasDynamicFormError}
+          refreshApi={getDynamicFormData}
+        >
+          <FormProvider methods={methods}>
+            <FormGrid formFieldsList={upsertAgentFormFields} spacing={1}>
+              <DynamicForm dynamicFormFieldsList={form} />
+            </FormGrid>
+          </FormProvider>
+        </ApiRequestFlow>
       </CustomCommonDialog>
     </>
   );

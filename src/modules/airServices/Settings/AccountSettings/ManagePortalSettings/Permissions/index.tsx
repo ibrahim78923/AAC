@@ -1,4 +1,4 @@
-import { Box, Grid, Tooltip, Typography } from '@mui/material';
+import { Box, Tooltip, Typography } from '@mui/material';
 import ErrorIcon from '@mui/icons-material/Error';
 import {
   FormProvider,
@@ -9,24 +9,33 @@ import { permissionData } from './Permissions.data';
 import { LoadingButton } from '@mui/lab';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { usePermissions } from './usePermissions';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const Permissions = () => {
   const {
     methods,
     handleSubmit,
     onSubmit,
-    checkApiErrorOrLoading,
+    showLoader,
+    isError,
+    refetch,
     patchCustomerPortalPermissionsStatus,
   } = usePermissions();
 
   return (
     <Box border={'.1rem solid'} borderColor={'grey.700'} p={2} borderRadius={4}>
       <PageTitledHeader title="Permissions" />
-      {checkApiErrorOrLoading() ?? (
+      <ApiRequestFlow
+        showSkeleton={showLoader}
+        hasError={isError}
+        refreshApi={refetch}
+      >
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={2}>
+          <ContainerGrid>
             {permissionData?.map((item: any) => (
-              <Grid item xs={12} key={item?.id}>
+              <CustomGrid key={item?.id}>
                 <Box borderBottom={1} borderColor={'grey.700'}>
                   {item?.mainHeading && (
                     <Typography {...item?.mainHeadingProp}>
@@ -48,10 +57,10 @@ export const Permissions = () => {
                     )}
                   </Box>
                 </Box>
-              </Grid>
+              </CustomGrid>
             ))}
 
-            <Grid item xs={12}>
+            <CustomGrid>
               <Box display={'flex'} justifyContent={'flex-end'} gap={2}>
                 <LoadingButton
                   variant={'outlined'}
@@ -70,10 +79,10 @@ export const Permissions = () => {
                   Save
                 </LoadingButton>
               </Box>
-            </Grid>
-          </Grid>
+            </CustomGrid>
+          </ContainerGrid>
         </FormProvider>
-      )}
+      </ApiRequestFlow>
     </Box>
   );
 };

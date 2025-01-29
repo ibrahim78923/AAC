@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { createElement } from 'react';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { MUI_GRID_LENGTH } from '@/constants/strings';
@@ -7,6 +7,8 @@ import {
   REPORTS_WIDGET_COMPONENT,
   REPORTS_WIDGETS,
 } from './ReportsWidgets.data';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const ReportsWidgets = (props: any) => {
   const { reportWidgets, reportResults } = props;
@@ -34,11 +36,9 @@ export const ReportsWidgets = (props: any) => {
           outerMarginBottom={2}
         />
       )}
-      <Grid container spacing={2}>
+      <ContainerGrid>
         {reportWidgets?.widgets?.map((item: any, index: any) => (
-          <Grid
-            item
-            xs={12}
+          <CustomGrid
             lg={
               item?.type === REPORTS_WIDGETS?.TEXT_FIELD
                 ? MUI_GRID_LENGTH?.TWELVE
@@ -58,9 +58,9 @@ export const ReportsWidgets = (props: any) => {
                 donutChart: item?.genericChart,
                 filterQuery: item?.filterQuery,
               })}
-          </Grid>
+          </CustomGrid>
         ))}
-      </Grid>
+      </ContainerGrid>
     </Box>
   );
 };

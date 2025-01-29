@@ -1,11 +1,11 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
-import { Box, Grid, InputAdornment } from '@mui/material';
+import { FormProvider } from '@/components/ReactHookForm';
+import { Box } from '@mui/material';
 import { useLoyalty } from './useLoyalty';
 import { LoadingButton } from '@mui/lab';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import ApiErrorState from '@/components/ApiErrorState';
-import { PoundSignIcon } from '@/assets/icons';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { loyaltySettingsFormFields } from './Loyalty.data';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const Loyalty = () => {
   const {
@@ -16,6 +16,7 @@ export const Loyalty = () => {
     showLoader,
     isError,
     reset,
+    getLoyaltySettings,
   } = useLoyalty();
 
   return (
@@ -29,47 +30,15 @@ export const Loyalty = () => {
         />
       </Box>
       <Box sx={{ flexGrow: 1 }}>
-        {showLoader ? (
-          <SkeletonForm length={2} />
-        ) : isError ? (
-          <ApiErrorState />
-        ) : (
+        <ApiRequestFlow
+          showSkeleton={showLoader}
+          hasError={isError}
+          refreshApi={getLoyaltySettings}
+        >
           <FormProvider methods={methods}>
-            <Grid container spacing={1}>
-              <Grid item xs={12} md={8}>
-                <RHFTextField
-                  name="maxPointLimit"
-                  label="Maximum points limit"
-                  placeholder="Enter maximum points limit (e.g., 1000)"
-                  size="small"
-                  type="number"
-                  inputProps={{
-                    min: 0,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12} md={8}>
-                <RHFTextField
-                  name="exchangeRate"
-                  label="Exchange rate per point"
-                  placeholder="Enter exchange rate per point (e.g., 1)"
-                  size="small"
-                  type="number"
-                  inputProps={{
-                    min: 0,
-                  }}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <PoundSignIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Grid>
-            </Grid>
+            <FormGrid formFieldsList={loyaltySettingsFormFields} />
           </FormProvider>
-        )}
+        </ApiRequestFlow>
       </Box>
       <Box
         sx={{
@@ -86,7 +55,7 @@ export const Loyalty = () => {
           variant="outlined"
           color="inherit"
           disabled={apiCallInProgress}
-          onClick={() => reset()}
+          onClick={reset}
         >
           Cancel
         </LoadingButton>

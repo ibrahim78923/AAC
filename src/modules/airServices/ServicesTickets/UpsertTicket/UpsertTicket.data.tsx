@@ -121,11 +121,11 @@ export const upsertTicketFormFieldsDynamic = (
 ) => {
   return [
     {
-      id: 1,
+      _id: 1,
       component: RequesterFieldDropdown,
     },
     {
-      id: 2,
+      _id: 2,
       componentProps: {
         name: 'subject',
         label: 'Subject',
@@ -136,7 +136,7 @@ export const upsertTicketFormFieldsDynamic = (
       component: RHFTextField,
     },
     {
-      id: 3,
+      _id: 3,
       componentProps: {
         name: 'description',
         label: 'Description',
@@ -148,7 +148,7 @@ export const upsertTicketFormFieldsDynamic = (
       component: RHFEditor,
     },
     {
-      id: 6,
+      _id: 6,
       componentProps: {
         name: 'priority',
         label: 'Priority',
@@ -163,11 +163,11 @@ export const upsertTicketFormFieldsDynamic = (
     ...(!!!ticketId
       ? [
           {
-            id: 4,
+            _id: 4,
             component: CategoryFieldDropdown,
           },
           {
-            id: 5,
+            _id: 5,
             componentProps: {
               name: 'status',
               label: 'Status',
@@ -181,11 +181,11 @@ export const upsertTicketFormFieldsDynamic = (
           },
 
           {
-            id: 7,
+            _id: 7,
             component: DepartmentFieldDropdown,
           },
           {
-            id: 8,
+            _id: 8,
             componentProps: {
               name: 'source',
               label: 'Source',
@@ -197,7 +197,7 @@ export const upsertTicketFormFieldsDynamic = (
             component: RHFAutocomplete,
           },
           {
-            id: 9,
+            _id: 9,
             componentProps: {
               name: 'impact',
               label: 'Impact',
@@ -209,11 +209,11 @@ export const upsertTicketFormFieldsDynamic = (
             component: RHFAutocomplete,
           },
           {
-            id: 10,
+            _id: 10,
             component: AgentFieldDropdown,
           },
           {
-            id: 11,
+            _id: 11,
             componentProps: {
               name: 'plannedStartDate',
               label: 'Planned Start Date',
@@ -225,7 +225,7 @@ export const upsertTicketFormFieldsDynamic = (
             md: 12,
           },
           {
-            id: 13,
+            _id: 13,
             componentProps: {
               name: 'plannedEndDate',
               label: 'Planned End Date',
@@ -238,7 +238,7 @@ export const upsertTicketFormFieldsDynamic = (
             md: 12,
           },
           {
-            id: 15,
+            _id: 15,
             componentProps: {
               name: 'plannedEffort',
               label: 'Planned Effort',
@@ -251,13 +251,13 @@ export const upsertTicketFormFieldsDynamic = (
             component: RHFTextField,
           },
           {
-            id: 16,
+            _id: 16,
             component: AssetFieldDropdown,
           },
         ]
       : []),
     {
-      id: 17,
+      _id: 17,
       componentProps: {
         name: 'attachFile',
         fullWidth: true,

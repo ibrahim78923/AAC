@@ -1,5 +1,6 @@
-import { Box, Button, Divider, Menu, MenuItem } from '@mui/material';
 import React from 'react';
+import { useRouter } from 'next/router';
+import { Box, Button, Divider, Menu, MenuItem } from '@mui/material';
 import { styles } from './HeaderCreateContract.style';
 import {
   IconPlainBack,
@@ -7,12 +8,12 @@ import {
   IconContractMore,
 } from '@/assets/icons';
 import useHeaderCreateContract from './useHeaderCreateContract';
-import { useRouter } from 'next/router';
 import ModalShareContract from '../ModalShareContract';
 
 interface HeaderCreateContractProps {
   onClickSave?: () => void;
   onClickSign?: () => void;
+  onClickSaveAsDraft: () => void;
   onClickSaveAsTemplate: () => void;
   methods?: any;
 }
@@ -20,10 +21,13 @@ interface HeaderCreateContractProps {
 export default function HeaderCreateContract({
   onClickSave,
   onClickSign,
+  onClickSaveAsDraft,
   onClickSaveAsTemplate,
   methods,
 }: HeaderCreateContractProps) {
   const router = useRouter();
+  const { templateId } = router?.query;
+
   const {
     anchorElMoreMenu,
     openMoreMenu,
@@ -88,7 +92,12 @@ export default function HeaderCreateContract({
             }}
           >
             <MenuItem onClick={handleCloseMoreMenu}>Download pdf</MenuItem>
-            <MenuItem onClick={handleCloseMoreMenu}>
+            <MenuItem
+              onClick={() => {
+                handleCloseMoreMenu();
+                onClickSaveAsDraft();
+              }}
+            >
               Save as a new draft
             </MenuItem>
             <MenuItem
@@ -108,7 +117,7 @@ export default function HeaderCreateContract({
             variant="outlined"
             color="secondary"
             className="small"
-            disabled={!methods?.formState.isDirty}
+            disabled={!templateId || !methods?.formState?.isDirty}
           >
             Save Changes
           </Button>
@@ -118,6 +127,7 @@ export default function HeaderCreateContract({
             variant="contained"
             color="primary"
             className="small"
+            disabled
           >
             Sign & Send
           </Button>

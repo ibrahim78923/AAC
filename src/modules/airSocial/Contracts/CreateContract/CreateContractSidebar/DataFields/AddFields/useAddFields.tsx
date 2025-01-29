@@ -20,9 +20,23 @@ export default function useAddFields(handleAddDynamicField: any) {
   });
   const { handleSubmit, reset } = methods;
 
+  const formatName = (name: string) => {
+    return name
+      ?.replace(/\s(.)/g, function (match, group1) {
+        return group1.toUpperCase();
+      })
+      ?.replace(/\s/g, '')
+      ?.replace(/^(.)/, function (match, group1) {
+        return group1?.toLowerCase();
+      });
+  };
+
   const onSubmit = (values: any) => {
-    // console.log('Form values:::', values);
-    handleAddDynamicField(values);
+    const formattedValues = {
+      ...values,
+      name: formatName(values?.name),
+    };
+    handleAddDynamicField(formattedValues);
     handleCloseModalCreateDataField();
   };
 

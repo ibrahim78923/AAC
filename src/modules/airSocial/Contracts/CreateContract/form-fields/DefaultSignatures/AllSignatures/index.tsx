@@ -3,7 +3,7 @@ import { Box, Button } from '@mui/material';
 import { styles } from './AllSignatures.style';
 
 interface AllSignatureProps {
-  onClickChange: () => void;
+  onClickChange?: () => void;
   signatureType?: any;
 }
 
@@ -23,9 +23,7 @@ export default function AllSignatures({
           color="inherit"
           size="small"
           className="small"
-          onClick={() => {
-            onClickChange();
-          }}
+          onClick={onClickChange}
         >
           Change
         </Button>

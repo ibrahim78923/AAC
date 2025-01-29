@@ -1,41 +1,43 @@
-import ApiErrorState from '@/components/ApiErrorState';
-import NoData from '@/components/NoData';
 import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
 import { ERROR_TIME } from '@/constants/api-mapped';
 import { fullName, generateImage } from '@/utils/avatarUtils';
 import { Avatar, Box, Typography } from '@mui/material';
 import { useViewTimeEntries } from './useViewTimeEntries';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { otherDateFormat } from '@/lib/date-time';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
 
 export const ViewTimeEntries = () => {
   const { isLoading, isError, timeEntryData, isFetching, refetch } =
     useViewTimeEntries();
 
-  if (isLoading || isFetching) return <SkeletonTable />;
-  if (isError) return <ApiErrorState canRefresh refresh={() => refetch?.()} />;
-
   return (
     <>
       <>
-        <Box display={'flex'} py={2}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 4, py: 2 }}>
           <Typography variant="body1" color="slateBlue.main">
             {' '}
             Total Time track
           </Typography>
-          <Typography
-            variant="body1"
-            color="slateBlue.main"
-            sx={{ ml: '4rem' }}
-          >
-            {timeEntryData?.data?.totalTimeTrack === ERROR_TIME?.NAN_HOUR_MIN
-              ? '0h0m'
-              : timeEntryData?.data?.totalTimeTrack}
-          </Typography>
+          {isLoading || isFetching ? (
+            <CustomLinearProgress />
+          ) : (
+            <Typography variant="body1" color="slateBlue.main">
+              {timeEntryData?.data?.totalTimeTrack === ERROR_TIME?.NAN_HOUR_MIN
+                ? '0h0m'
+                : timeEntryData?.data?.totalTimeTrack}
+            </Typography>
+          )}
         </Box>
-        <Box sx={{ overflow: 'auto', maxHeight: '18rem' }}>
-          {!!timeEntryData?.data?.response?.length ? (
-            timeEntryData?.data?.response?.map((item: any) => (
+        <ApiRequestFlow
+          showSkeleton={isLoading || isFetching}
+          hasError={isError}
+          refreshApi={refetch}
+          noDataMessage="No time entries found"
+          hasNoData={!!!timeEntryData?.data?.response?.length}
+        >
+          <Box sx={{ overflow: 'auto', maxHeight: '18rem' }}>
+            {timeEntryData?.data?.response?.map((item: any) => (
               <Box key={item?._id}>
                 <Box
                   display="flex"
@@ -146,11 +148,9 @@ export const ViewTimeEntries = () => {
                   </Typography>
                 </Box>
               </Box>
-            ))
-          ) : (
-            <NoData message="No time entries found" height="100%" />
-          )}
-        </Box>
+            ))}
+          </Box>
+        </ApiRequestFlow>
       </>
     </>
   );

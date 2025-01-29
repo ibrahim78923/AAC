@@ -19,9 +19,15 @@ export const ItemLinkCard = (props: any) => {
     hasLink = true,
     itemPurposeFontSize = 'body2',
     hasQuery,
+    hoverStyles = {},
+    borderColor,
   } = props;
 
   const router = useRouter();
+
+  const cardBorder = !hasLink ? 'custom.off_white_three' : 'primary.main';
+  const backgroundColor = !hasLink ? 'grey.200' : 'common.white';
+  const cursor = hasLink ? 'pointer' : 'not-allowed';
 
   return (
     <Box
@@ -41,11 +47,14 @@ export const ItemLinkCard = (props: any) => {
         padding: 2,
         textAlign,
         border: `1px solid`,
-        borderColor: !hasLink ? 'custom.off_white_three' : 'primary.main',
-        cursor: hasLink ? 'pointer' : 'not-allowed',
-        backgroundColor: !hasLink ? 'grey.200' : 'common.white',
+        borderColor: borderColor ?? cardBorder,
+        cursor,
+        backgroundColor,
         height: '100%',
         flexWrap: 'wrap',
+        '&:hover': {
+          ...hoverStyles,
+        },
       }}
     >
       {Icon !== null && (

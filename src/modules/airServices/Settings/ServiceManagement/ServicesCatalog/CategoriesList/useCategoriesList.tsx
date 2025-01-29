@@ -17,7 +17,7 @@ export const useCategoriesList = () => {
     limit: pageLimit,
   };
 
-  const { data, isError, isSuccess, isLoading, isFetching } =
+  const { data, isError, isSuccess, isLoading, isFetching, refetch } =
     useGetAirServicesSettingsServiceCatalogCategoriesQuery(
       { param },
       {
@@ -54,5 +54,6 @@ export const useCategoriesList = () => {
     openPortal,
     handlePageChange,
     categoryId,
+    refetch,
   };
 };

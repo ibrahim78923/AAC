@@ -1,5 +1,5 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import {
   FormProvider,
@@ -12,8 +12,6 @@ import { AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS } from '@/constants/permissio
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { pxToRem } from '@/utils/getFontValue';
 import { softwareStatusReportsOptions } from './SoftwareReports.data';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
-import ApiErrorState from '@/components/ApiErrorState';
 import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import NoData from '@/components/NoData';
 import { AIR_SERVICES } from '@/constants/routes';
@@ -21,12 +19,15 @@ import { ItemChipCard } from '@/components/Cards/ItemChipCard/ItemChipCard';
 import { ApiPollingButton } from '@/components/Buttons/ApiPollingButton';
 import { DownloadButton } from '@/components/Buttons/DownloadButton';
 import { AUTO_REFRESH_API_TIME_INTERVAL } from '@/config';
+import { DOWNLOAD_FILE_TYPE } from '@/constants/file';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const SoftwareReports = () => {
   const {
     router,
-    handleDownload,
-    loading,
     softwareReportsCardsData,
     methods,
     softwareReportsTableColumns,
@@ -45,22 +46,6 @@ export const SoftwareReports = () => {
     fulfilledTimeStamp,
   } = useSoftwareReports();
 
-  if (isError)
-    return (
-      <>
-        <PageTitledHeader
-          title={'Software Reports'}
-          canMovedBack
-          moveBack={() =>
-            router?.push({
-              pathname: AIR_SERVICES?.REPORTS,
-            })
-          }
-        />
-        <ApiErrorState canRefresh refresh={refetch} />;
-      </>
-    );
-
   return (
     <FormProvider methods={methods}>
       <PageTitledHeader
@@ -72,69 +57,82 @@ export const SoftwareReports = () => {
           })
         }
       >
-        <ApiPollingButton
-          showLoader={apiCallInProgress}
-          onClick={refetch}
-          isSmall={false}
-          customStyles={{
-            cursor: 'pointer',
-            height: pxToRem(40),
-            marginTop: pxToRem(-10),
-          }}
-          intervalTime={AUTO_REFRESH_API_TIME_INTERVAL?.REPORTS}
-          isFetching={isFetching}
-          fulfilledTimeStamp={fulfilledTimeStamp}
-        />
-
-        <PermissionsGuard
-          permissions={[AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS?.FILTER]}
-        >
-          <Box>
-            <RHFDateRangePicker
-              name={'createdDate'}
-              placeholder={'Date'}
-              size="small"
-              disabled={loading || isLoading || isFetching}
-              hasButton
-              onSubmitBtnClick={(setAnchorElDate: any) =>
-                onDateFilterSubmit?.(setAnchorElDate)
-              }
-              onSubmitBtnDisable={
-                !getValues?.('createdDate')?.startDate && true
-              }
-              cancelBtnEffect={() => setHasDate?.(false)}
-              closePopOver={() => shouldDateSet?.()}
+        {isError ? (
+          <></>
+        ) : (
+          <>
+            <ApiPollingButton
+              showLoader={apiCallInProgress}
+              onClick={refetch}
+              isSmall={false}
+              customStyles={{
+                cursor: 'pointer',
+                height: pxToRem(40),
+                marginTop: pxToRem(-10),
+              }}
+              intervalTime={AUTO_REFRESH_API_TIME_INTERVAL?.REPORTS}
+              isFetching={isFetching}
+              fulfilledTimeStamp={fulfilledTimeStamp}
             />
-          </Box>
-        </PermissionsGuard>
-        <PermissionsGuard
-          permissions={[AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS?.DOWNLOAD]}
-        >
-          <DownloadButton
-            handleDownload={handleDownload}
-            disabled={loading || isLoading || isFetching}
-            loading={loading}
-          />
-        </PermissionsGuard>
+
+            <PermissionsGuard
+              permissions={[AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS?.FILTER]}
+            >
+              <Box>
+                <RHFDateRangePicker
+                  name={'createdDate'}
+                  placeholder={'Date'}
+                  size="small"
+                  disabled={isLoading || isFetching}
+                  hasButton
+                  onSubmitBtnClick={(setAnchorElDate: any) =>
+                    onDateFilterSubmit?.(setAnchorElDate)
+                  }
+                  onSubmitBtnDisable={
+                    !getValues?.('createdDate')?.startDate && true
+                  }
+                  cancelBtnEffect={() => setHasDate?.(false)}
+                  closePopOver={() => shouldDateSet?.()}
+                />
+              </Box>
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[
+                AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS?.DOWNLOAD,
+              ]}
+            >
+              <DownloadButton
+                disabled={isLoading || isFetching}
+                downloadRef={downloadRef}
+                downloadFileType={DOWNLOAD_FILE_TYPE?.PDF}
+              />
+            </PermissionsGuard>
+          </>
+        )}
       </PageTitledHeader>
-      {isLoading || isFetching ? (
-        <SkeletonTable />
-      ) : (
+      <ApiRequestFlow
+        showSkeleton={isLoading || isFetching}
+        hasError={isError}
+        refreshApi={refetch}
+        skeletonType={SKELETON_TYPES?.BASIC_CARD}
+        cardSkeletonType={SKELETON_TYPES?.LARGE_VERTICAL_TWO_LAYER_DOUBLE_CARD}
+      >
         <PermissionsGuard
           permissions={[AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS?.VIEW]}
         >
           <Box ref={downloadRef}>
-            <Grid container spacing={1.5} mb={2}>
+            <ContainerGrid spacing={1.5}>
               {Object?.entries(softwareReportsCardsData)?.map(
                 ([key, value]: any) => (
-                  <Grid item lg={3} md={6} xs={12} key={key}>
+                  <CustomGrid lg={3} md={6} key={key}>
                     <ItemChipCard itemName={key} chipLabel={value} />
-                  </Grid>
+                  </CustomGrid>
                 ),
               )}
-            </Grid>
-            <Grid container spacing={1.5}>
-              <Grid item xs={12} lg={5}>
+            </ContainerGrid>
+            <br />
+            <ContainerGrid spacing={1.5}>
+              <CustomGrid lg={4}>
                 <Box
                   height={'100%'}
                   boxShadow={1}
@@ -164,8 +162,8 @@ export const SoftwareReports = () => {
                     <NoData height="100%" />
                   )}
                 </Box>
-              </Grid>
-              <Grid item xs={12} lg={7}>
+              </CustomGrid>
+              <CustomGrid lg={8}>
                 <Box
                   boxShadow={1}
                   border={'1px solid'}
@@ -176,21 +174,20 @@ export const SoftwareReports = () => {
                   height={'100%'}
                 >
                   <FormProvider methods={methods}>
-                    <Grid container mb={1}>
-                      <Grid item xs={12} md={4}>
+                    <ContainerGrid>
+                      <CustomGrid md={4}>
                         <RHFAutocomplete
                           name={'status'}
                           placeholder={'Select option'}
                           size="small"
                           disableClearable
                           options={softwareStatusReportsOptions}
-                          disabled={loading}
                           getOptionLabel={(option: AutocompleteOptionsI) =>
                             option?.label
                           }
                         />
-                      </Grid>
-                    </Grid>
+                      </CustomGrid>
+                    </ContainerGrid>
                   </FormProvider>
                   <TanstackTable
                     data={
@@ -201,11 +198,11 @@ export const SoftwareReports = () => {
                     columns={softwareReportsTableColumns}
                   />
                 </Box>
-              </Grid>
-            </Grid>
+              </CustomGrid>
+            </ContainerGrid>
           </Box>
         </PermissionsGuard>
-      )}
+      </ApiRequestFlow>
     </FormProvider>
   );
 };

@@ -6,12 +6,13 @@ import AllSignatures from './AllSignatures';
 
 interface DefaultSignaturesProps {
   signees: any;
-  onClickChange: () => void;
+  onClickChange?: () => void;
   isIndividualSignature: boolean;
   onChangeIndividualSignature: (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => void;
   setSelectedSigneeId: (id: string | null) => void;
+  preview?: boolean;
 }
 
 export default function DefaultSignatures({
@@ -20,6 +21,7 @@ export default function DefaultSignatures({
   isIndividualSignature,
   onChangeIndividualSignature,
   setSelectedSigneeId,
+  preview = false,
 }: DefaultSignaturesProps) {
   // const { isIndividualSignature, handleChangeIndividualSignature } =
   //   useDefaultSignatures();
@@ -36,6 +38,7 @@ export default function DefaultSignatures({
                 checked={isIndividualSignature}
                 onChange={onChangeIndividualSignature}
                 inputProps={{ 'aria-label': 'signature-types' }}
+                disabled={preview}
               />
             }
           />
@@ -47,7 +50,6 @@ export default function DefaultSignatures({
           {signees?.map((signee: any) => (
             <IndividualSignature
               key={signee?._id}
-              isIndividualSignature={isIndividualSignature}
               setSelectedSigneeId={setSelectedSigneeId}
               onClickChange={onClickChange}
               signee={signee}

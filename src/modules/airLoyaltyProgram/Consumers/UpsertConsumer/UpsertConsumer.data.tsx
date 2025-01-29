@@ -24,7 +24,7 @@ export const consumerFormFieldDefaultValues = (data: any) => ({
 
 export const upsertConsumerData: ReactHookFormFieldsI[] = [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'firstName',
       label: 'First Name',
@@ -33,7 +33,7 @@ export const upsertConsumerData: ReactHookFormFieldsI[] = [
     component: RHFTextField,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       name: 'lastName',
       label: 'Last Name',
@@ -42,7 +42,7 @@ export const upsertConsumerData: ReactHookFormFieldsI[] = [
     component: RHFTextField,
   },
   {
-    id: 3,
+    _id: 3,
     componentProps: {
       name: 'address',
       label: 'Address',
@@ -51,7 +51,7 @@ export const upsertConsumerData: ReactHookFormFieldsI[] = [
     component: RHFTextField,
   },
   {
-    id: 4,
+    _id: 4,
     componentProps: {
       name: 'email',
       label: 'Email',
@@ -60,7 +60,7 @@ export const upsertConsumerData: ReactHookFormFieldsI[] = [
     component: RHFTextField,
   },
   {
-    id: 5,
+    _id: 5,
     componentProps: {
       name: 'previousPointsBalance',
       label: 'Previous Points Balance',
@@ -70,7 +70,7 @@ export const upsertConsumerData: ReactHookFormFieldsI[] = [
     component: RHFTextField,
   },
   {
-    id: 6,
+    _id: 6,
     componentProps: {
       name: 'currentPointBalance',
       label: 'Current Points Balance',
@@ -80,7 +80,7 @@ export const upsertConsumerData: ReactHookFormFieldsI[] = [
     component: RHFTextField,
   },
   {
-    id: 7,
+    _id: 7,
     componentProps: {
       name: 'numberofTransactions',
       label: 'Number Of Transactions',
@@ -90,7 +90,7 @@ export const upsertConsumerData: ReactHookFormFieldsI[] = [
     component: RHFTextField,
   },
   {
-    id: 8,
+    _id: 8,
     componentProps: {
       name: 'firstPointsReceptionDate',
       label: 'First Point Reception Date',
@@ -100,7 +100,7 @@ export const upsertConsumerData: ReactHookFormFieldsI[] = [
     component: RHFDateTimePicker,
   },
   {
-    id: 9,
+    _id: 9,
     componentProps: {
       name: 'lastTransactionDate',
       label: 'Last Transaction Date',
@@ -110,7 +110,7 @@ export const upsertConsumerData: ReactHookFormFieldsI[] = [
     component: RHFDateTimePicker,
   },
   {
-    id: 10,
+    _id: 10,
     componentProps: {
       name: 'totalPointsEarned',
       label: 'Total Points Received',
@@ -120,7 +120,7 @@ export const upsertConsumerData: ReactHookFormFieldsI[] = [
     component: RHFTextField,
   },
   {
-    id: 11,
+    _id: 11,
     componentProps: {
       name: 'status',
       label: 'Status',
@@ -129,7 +129,7 @@ export const upsertConsumerData: ReactHookFormFieldsI[] = [
     component: RHFTextField,
   },
   {
-    id: 12,
+    _id: 12,
     componentProps: {
       name: 'phoneNumber',
       label: 'Phone Number',
@@ -138,7 +138,7 @@ export const upsertConsumerData: ReactHookFormFieldsI[] = [
     component: RHFTextField,
   },
   {
-    id: 13,
+    _id: 13,
     componentProps: {
       name: 'tier',
       label: 'Tier',

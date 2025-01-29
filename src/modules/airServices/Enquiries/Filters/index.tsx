@@ -1,7 +1,5 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider, RHFAutocomplete } from '@/components/ReactHookForm';
-import { Grid } from '@mui/material';
-import React from 'react';
 import useFilters from './useFilters';
 import { IChildModalState } from '../Enquiries.interface';
 
@@ -31,17 +29,13 @@ export const Filters = ({
       cancelBtnHandler={() => resetEnquiriesFilters?.()}
     >
       <FormProvider methods={methods}>
-        <Grid container spacing={1}>
-          <Grid item xs={12}>
-            <RHFAutocomplete
-              name={'status'}
-              label={'Status'}
-              size={'small'}
-              placeholder={'Status'}
-              options={statusOptions}
-            />
-          </Grid>
-        </Grid>
+        <RHFAutocomplete
+          name={'status'}
+          label={'Status'}
+          size={'small'}
+          placeholder={'Status'}
+          options={statusOptions}
+        />
       </FormProvider>
     </CommonDrawer>
   );

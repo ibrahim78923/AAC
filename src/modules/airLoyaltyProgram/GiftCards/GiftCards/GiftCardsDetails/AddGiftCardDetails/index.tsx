@@ -1,7 +1,8 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useAddGiftCardDetails } from './useAddGiftCardDetails';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const AddGiftCardDetails = (props: any) => {
   const { isPortalOpen } = props;
@@ -30,13 +31,7 @@ export const AddGiftCardDetails = (props: any) => {
       >
         <Box>
           <FormProvider methods={methods}>
-            <Grid container spacing={2}>
-              {addGiftCardDetailsFormFields?.map((item: any) => (
-                <Grid item xs={12} key={item?.id}>
-                  <item.component {...item?.componentProps} size={'small'} />
-                </Grid>
-              ))}
-            </Grid>
+            <FormGrid formFieldsList={addGiftCardDetailsFormFields} />
           </FormProvider>
         </Box>
       </CommonDrawer>

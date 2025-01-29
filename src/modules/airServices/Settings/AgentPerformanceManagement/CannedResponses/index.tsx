@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { CreateNewFolder } from './CreateNewFolder';
 import Search from '@/components/Search';
@@ -13,6 +13,8 @@ import { AddNewCard } from '@/components/Cards/AddNewCard';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
 import { SemiInteractiveInfoCard } from '@/components/Cards/SemiInteractiveInfoCard';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const CannedResponses = () => {
   const {
@@ -46,39 +48,37 @@ export const CannedResponses = () => {
           AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.SEARCH_EDIT_DELETE_CANNED_RESPONSES,
         ]}
       >
-        <Box my={1}>
+        <Box my={2}>
           <Search label={'Search Here'} setSearchBy={handleSearch} />
         </Box>
       </PermissionsGuard>
 
-      <ApiRequestFlow
-        showSkeleton={
-          lazyGetCannedResponsesStatus?.isLoading ||
-          lazyGetCannedResponsesStatus?.isFetching
-        }
-        hasError={lazyGetCannedResponsesStatus?.isError}
-        refreshApi={getCannedResponsesListData}
-        skeletonType={SKELETON_TYPES?.BASIC_CARD}
-        cardSkeletonType={SKELETON_TYPES?.LARGE_VERTICAL_TWO_LAYER_DOUBLE_CARD}
-      >
-        <Grid container spacing={3} mt={1}>
-          <PermissionsGuard
-            permissions={[
-              AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.ADD_CANNED_RESPONSES_FOLDERS,
-            ]}
-          >
-            <Grid item lg={4} sm={6} xs={12}>
-              <AddNewCard
-                title="Add New"
-                iconBackgroundColor="custom.light_lavender_gray"
-                iconColor="blue.dull_blue"
-                onClick={() =>
-                  setOpenModal({ create: true, delete: false, editData: null })
-                }
-              />
-            </Grid>
-          </PermissionsGuard>
-
+      <ContainerGrid spacing={3}>
+        <PermissionsGuard
+          permissions={[
+            AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.ADD_CANNED_RESPONSES_FOLDERS,
+          ]}
+        >
+          <CustomGrid lg={4} xl={3} sm={6}>
+            <AddNewCard
+              title="Add New"
+              iconBackgroundColor="custom.light_lavender_gray"
+              iconColor="blue.dull_blue"
+              onClick={() =>
+                setOpenModal({ create: true, delete: false, editData: null })
+              }
+            />
+          </CustomGrid>
+        </PermissionsGuard>
+        <ApiRequestFlow
+          showSkeleton={
+            lazyGetCannedResponsesStatus?.isLoading ||
+            lazyGetCannedResponsesStatus?.isFetching
+          }
+          hasError={lazyGetCannedResponsesStatus?.isError}
+          refreshApi={getCannedResponsesListData}
+          skeletonType={SKELETON_TYPES?.ITEM}
+        >
           <PermissionsGuard
             permissions={[
               AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.VIEW_DEFAULT_CANNED_RESPONSES_FOLDERS,
@@ -87,7 +87,7 @@ export const CannedResponses = () => {
             {cannedResponses
               ?.filter((item: any) => item?.perDefine)
               ?.map((response: any) => (
-                <Grid item lg={4} sm={6} xs={12} key={response?._id}>
+                <CustomGrid lg={4} sm={6} xl={3} key={response?._id}>
                   <SemiInteractiveInfoCard
                     onClick={() =>
                       router?.push({
@@ -105,14 +105,14 @@ export const CannedResponses = () => {
                       response,
                     )}
                   />
-                </Grid>
+                </CustomGrid>
               ))}
           </PermissionsGuard>
 
           {cannedResponses
             ?.filter((item: any) => !item?.perDefine)
             ?.map((response: any) => (
-              <Grid item lg={4} sm={6} xs={12} key={response?._id}>
+              <CustomGrid lg={4} sm={6} xl={3} key={response?._id}>
                 <SemiInteractiveInfoCard
                   onClick={() =>
                     router?.push({
@@ -134,21 +134,22 @@ export const CannedResponses = () => {
                     AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.EDIT_DELETE_CUSTOM_FOLDERS,
                   ]}
                 />
-              </Grid>
+              </CustomGrid>
             ))}
-          <Grid item xs={12}>
-            <CustomPagination
-              currentPage={page}
-              count={cannedResponsesMetaData?.pages}
-              pageLimit={pageLimit}
-              totalRecords={cannedResponsesMetaData?.total}
-              onPageChange={(page: number) => setPage(page)}
-              setPage={setPage}
-              setPageLimit={setPageLimit}
-            />
-          </Grid>
-        </Grid>
-      </ApiRequestFlow>
+        </ApiRequestFlow>
+      </ContainerGrid>
+
+      <Box my={2}>
+        <CustomPagination
+          currentPage={page}
+          count={cannedResponsesMetaData?.pages}
+          pageLimit={pageLimit}
+          totalRecords={cannedResponsesMetaData?.total}
+          onPageChange={(page: number) => setPage(page)}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+        />
+      </Box>
 
       {openModal?.create && (
         <CreateNewFolder

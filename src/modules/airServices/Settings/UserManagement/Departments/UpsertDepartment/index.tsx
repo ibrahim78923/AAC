@@ -1,16 +1,16 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertDepartment } from './useUpsertDepartment';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import ApiErrorState from '@/components/ApiErrorState';
-import { componentMap } from '@/utils/dynamic-forms';
-import { createElement } from 'react';
 import { Attachments } from '@/components/Attachments';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { IDepartmentsProps } from '../Departments.interface';
 import { departmentFormFieldsDynamic } from './UpsertDepartment.data';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { FormGrid } from '@/components/Grids/FormGrid';
+import { DynamicForm } from '@/components/DynamicForm';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const UpsertDepartment = (props: IDepartmentsProps) => {
   const { openUpsertModal, selectedDepartment } = props;
@@ -20,8 +20,10 @@ export const UpsertDepartment = (props: IDepartmentsProps) => {
     submitUpsertDepartment,
     methods,
     form,
-    getDynamicFieldsStatus,
     apiCallInProgress,
+    isDynamicFormLoading,
+    hasDynamicFormError,
+    getDynamicFormData,
   } = useUpsertDepartment(props);
 
   return (
@@ -39,23 +41,15 @@ export const UpsertDepartment = (props: IDepartmentsProps) => {
         disabledCancelButton={apiCallInProgress}
         handleSubmitButton={handleSubmit(submitUpsertDepartment)}
       >
-        {getDynamicFieldsStatus?.isLoading ||
-        getDynamicFieldsStatus?.isFetching ? (
-          <SkeletonForm />
-        ) : getDynamicFieldsStatus?.isError ? (
-          <ApiErrorState />
-        ) : (
+        <ApiRequestFlow
+          showSkeleton={isDynamicFormLoading}
+          hasError={hasDynamicFormError}
+          refreshApi={getDynamicFormData}
+        >
           <FormProvider methods={methods}>
-            <Grid container spacing={1}>
-              {departmentFormFieldsDynamic?.map((item: any) => (
-                <Grid item key={item?.id} xs={12}>
-                  <item.component {...item?.componentProps} size={'small'}>
-                    {item?.heading ? item?.heading : null}
-                  </item.component>
-                </Grid>
-              ))}
+            <FormGrid formFieldsList={departmentFormFieldsDynamic} spacing={1}>
               {!!selectedDepartment?._id && (
-                <Grid item xs={12}>
+                <CustomGrid xs={12}>
                   <Typography
                     variant="body1"
                     fontWeight={500}
@@ -74,21 +68,13 @@ export const UpsertDepartment = (props: IDepartmentsProps) => {
                       colSpan={{ sm: 12, lg: 12 }}
                     />
                   </Box>
-                </Grid>
+                  <br />
+                </CustomGrid>
               )}
-              {form?.map((item: any) => (
-                <Grid item xs={12} key={item?.id}>
-                  {componentMap[item?.component] &&
-                    createElement(componentMap[item?.component], {
-                      ...item?.componentProps,
-                      name: item?.componentProps?.label,
-                      size: 'small',
-                    })}
-                </Grid>
-              ))}
-            </Grid>
+              <DynamicForm dynamicFormFieldsList={form} />
+            </FormGrid>
           </FormProvider>
-        )}
+        </ApiRequestFlow>
       </CustomCommonDialog>
     </>
   );

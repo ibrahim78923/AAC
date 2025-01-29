@@ -27,7 +27,10 @@ export const transactionsPointsColumns: any = () => [
     accessorFn: (row: any) => row?.totalPointRedeemed,
     id: 'totalPointRedeemed',
     header: 'Reward Redeemed',
-    cell: (info: any) => `-${info?.getValue()}` || '---',
+    cell: (info: any) =>
+      `${
+        !!info?.getValue() ? `-${info?.getValue()}` : info?.getValue() ?? '---'
+      }`,
   },
   {
     accessorFn: (row: any) => row?.createdAt,

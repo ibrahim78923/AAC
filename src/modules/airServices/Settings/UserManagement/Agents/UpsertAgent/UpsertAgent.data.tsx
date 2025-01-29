@@ -55,7 +55,7 @@ export const defaultValues = (selectedAgentList: any, form?: any) => {
 
 export const agentFieldsData = (selectedAgentList: any) => [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'firstName',
       fullWidth: true,
@@ -67,7 +67,7 @@ export const agentFieldsData = (selectedAgentList: any) => [
     component: RHFTextField,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       name: 'lastName',
       fullWidth: true,
@@ -79,7 +79,7 @@ export const agentFieldsData = (selectedAgentList: any) => [
     component: RHFTextField,
   },
   {
-    id: 3,
+    _id: 3,
     componentProps: {
       name: 'email',
       fullWidth: true,
@@ -92,7 +92,7 @@ export const agentFieldsData = (selectedAgentList: any) => [
     component: RHFTextField,
   },
   {
-    id: 4,
+    _id: 4,
     componentProps: {
       name: 'phoneNumber',
       fullWidth: true,
@@ -104,12 +104,12 @@ export const agentFieldsData = (selectedAgentList: any) => [
   },
 
   {
-    id: 5,
+    _id: 5,
     gridLength: 12,
     component: DepartmentListDropdown,
   },
   {
-    id: 6,
+    _id: 6,
     gridLength: 12,
     component: RoleListDropdown,
     componentProps: {
@@ -117,7 +117,7 @@ export const agentFieldsData = (selectedAgentList: any) => [
     },
   },
   {
-    id: 7,
+    _id: 7,
     componentProps: {
       fullWidth: true,
       name: 'timezone',

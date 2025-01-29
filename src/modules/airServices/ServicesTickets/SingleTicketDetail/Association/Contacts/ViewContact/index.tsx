@@ -1,19 +1,28 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import ApiErrorState from '@/components/ApiErrorState';
-import { Avatar, Grid, Typography } from '@mui/material';
+import { Avatar, Typography } from '@mui/material';
 import { generateImage } from '@/utils/avatarUtils';
 import NoData from '@/components/NoData';
 import useViewContact from './useViewContact';
 import { formFields } from './ViewContact.data';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 export default function ViewContact({ modalId, setModalId }: any) {
-  const { onClose, data, isLoading, isFetching, isError, methodsNewContact } =
-    useViewContact({
-      modalId,
-      setModalId,
-    });
+  const {
+    onClose,
+    data,
+    isLoading,
+    isFetching,
+    refetch,
+    isError,
+    methodsNewContact,
+  } = useViewContact({
+    modalId,
+    setModalId,
+  });
 
   return (
     <CommonDrawer
@@ -21,16 +30,16 @@ export default function ViewContact({ modalId, setModalId }: any) {
       onClose={onClose}
       title={'View Contact Details'}
     >
-      {isLoading || isFetching ? (
-        <SkeletonForm />
-      ) : isError ? (
-        <ApiErrorState />
-      ) : (
+      <ApiRequestFlow
+        showSkeleton={isLoading || isFetching}
+        hasError={isError}
+        refreshApi={refetch}
+      >
         <FormProvider methods={methodsNewContact}>
-          <Grid container spacing={2}>
+          <ContainerGrid>
             {formFields?.map((item: any) => (
-              <Grid item xs={12} key={item?.id}>
-                {item?.id === 2 ? (
+              <CustomGrid key={item?.id}>
+                {item?.id === ARRAY_INDEX?.TWO ? (
                   <>
                     <Typography
                       variant="body1"
@@ -60,11 +69,11 @@ export default function ViewContact({ modalId, setModalId }: any) {
                     disabled
                   />
                 )}
-              </Grid>
+              </CustomGrid>
             ))}
-          </Grid>
+          </ContainerGrid>
         </FormProvider>
-      )}
+      </ApiRequestFlow>
     </CommonDrawer>
   );
 }

@@ -1,8 +1,8 @@
-import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { AssetFieldFormDataArray } from '../AssetType.data';
+import { assetFieldFormFields } from '../AssetType.data';
 import useParentType from './useParentType';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export default function ParentType({ parentDetails, setParentDetails }: any) {
   const {
@@ -32,13 +32,7 @@ export default function ParentType({ parentDetails, setParentDetails }: any) {
       dialogMaxWidth={'sm'}
     >
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <Grid container spacing={1}>
-          {AssetFieldFormDataArray?.map((item: any) => (
-            <Grid item xs={12} key={item?.id}>
-              <item.component {...item?.componentProps} size={'small'} />
-            </Grid>
-          ))}
-        </Grid>
+        <FormGrid spacing={1} formFieldsList={assetFieldFormFields} />
       </FormProvider>
     </CustomCommonDialog>
   );

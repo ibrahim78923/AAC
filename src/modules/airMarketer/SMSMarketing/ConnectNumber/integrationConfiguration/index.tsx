@@ -29,7 +29,7 @@ import { AIR_MARKETER } from '@/routesConstants/paths';
 import {
   useDeleteTwilioConfigurationPhoneNumberMutation,
   useGetTwilioConfigurationsQuery,
-  useUpdateAccountConfigMutation,
+  useUpdateSMSAccountConfigMutation,
 } from '@/services/airMarketer/SmsMarketing/AddNewAccount';
 import { AlertModals } from '@/components/AlertModals';
 import { enqueueSnackbar } from 'notistack';
@@ -83,7 +83,7 @@ const IntegrationConfiguration = () => {
   };
 
   const [updateAccountConfig, { isLoading: connectUpdateAccountConfig }] =
-    useUpdateAccountConfigMutation();
+    useUpdateSMSAccountConfigMutation();
 
   const handleUpdateConfig = async (id: any) => {
     const payload = {
@@ -115,7 +115,6 @@ const IntegrationConfiguration = () => {
         body: payload,
         id: activeAccount?._id,
       })?.unwrap();
-
       const updatedAccount = { ...activeAccount };
       delete updatedAccount?.configurationId;
       delete updatedAccount?.twilioNumber;
@@ -144,11 +143,7 @@ const IntegrationConfiguration = () => {
         <IconButton onClick={() => window.history.back()}>
           <ArrowBackIcon />
         </IconButton>
-        <Typography
-          variant="h4"
-          sx={{ fontWeight: '600' }}
-          onClick={() => handleUpdateDisConnectConfig()}
-        >
+        <Typography variant="h4" sx={{ fontWeight: '600' }}>
           Integration Configuration
         </Typography>
       </Box>
@@ -182,23 +177,17 @@ const IntegrationConfiguration = () => {
         </>
       ) : (
         <>
-          {data?.data?.twilioconfigurations?.map((item: any) => (
-            <Box sx={{ mt: 3 }} key={item?._id}>
-              <Accordion>
-                <AccordionSummary
-                  expandIcon={<IconArrowRounded />}
-                  aria-controls="panel1-content"
-                  id="panel1-header"
-                  sx={styles?.accordionSummary(theme)}
-                >
-                  <Box sx={styles?.accordionSummaryInner()}>
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '15px',
-                      }}
-                    >
+          {data?.data?.twilioconfigurations?.map((item: any) => {
+            return (
+              <Box sx={{ mt: 3 }} key={item?._id}>
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<IconArrowRounded />}
+                    aria-controls="panel1-content"
+                    id="panel1-header"
+                    sx={styles?.accordionSummary(theme)}
+                  >
+                    <Box sx={styles?.accordionSummaryInner()}>
                       <Box
                         sx={{
                           display: 'flex',
@@ -206,66 +195,76 @@ const IntegrationConfiguration = () => {
                           gap: '15px',
                         }}
                       >
-                        <Box sx={styles?.glowIcons(theme)}>
-                          <IconTwilio />
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '15px',
+                          }}
+                        >
+                          <Box sx={styles?.glowIcons(theme)}>
+                            <IconTwilio />
+                          </Box>
+                          <Typography variant="body2">{item?.name}</Typography>
                         </Box>
-                        <Typography variant="body2">{item?.name}</Typography>
-                      </Box>
-                      <Box sx={{ marginTop: '8px' }}>
-                        <IconConnect />
-                      </Box>
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '15px',
-                        }}
-                      >
-                        <Box sx={styles?.glowIcons(theme)}>
-                          <IconAirFP />
+                        <Box sx={{ marginTop: '8px' }}>
+                          <IconConnect />
                         </Box>
-                        <Typography variant="body2">
-                          {item?.userDetails?.email}
-                        </Typography>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '15px',
+                          }}
+                        >
+                          <Box sx={styles?.glowIcons(theme)}>
+                            <IconAirFP />
+                          </Box>
+                          <Typography variant="body2">
+                            {item?.userDetails?.email}
+                          </Typography>
+                        </Box>
                       </Box>
-                    </Box>
 
-                    <Box>
-                      <FormControlLabel
-                        control={
-                          activeRecord === item?._id &&
-                          connectUpdateAccountConfig ? (
-                            <CircularProgress size={20} sx={{ mr: 1 }} />
-                          ) : (
-                            <Switch
-                              checked={configId === item?._id}
-                              size="small"
-                              onClick={() => {
-                                setActiveRecord(item?._id);
-                                if (configId === item?._id) {
-                                  handleUpdateDisConnectConfig();
-                                } else {
-                                  handleUpdateConfig(item?._id);
-                                }
-                              }}
-                            />
-                          )
-                        }
-                        label="Disconnect"
-                      />
+                      <Box>
+                        <FormControlLabel
+                          control={
+                            activeRecord === item?._id &&
+                            connectUpdateAccountConfig ? (
+                              <CircularProgress size={20} sx={{ mr: 1 }} />
+                            ) : (
+                              <>
+                                <Switch
+                                  checked={configId === item?._id}
+                                  size="small"
+                                  onClick={() => {
+                                    setActiveRecord(item?._id);
+                                    if (configId === item?._id) {
+                                      handleUpdateDisConnectConfig();
+                                    } else {
+                                      handleUpdateConfig(item?._id);
+                                    }
+                                  }}
+                                />
+                              </>
+                            )
+                          }
+                          label="Disconnect"
+                        />
+                      </Box>
                     </Box>
-                  </Box>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <TanstackTable
-                    columns={getRowValues}
-                    data={item?.phoneNumbers}
-                    isPagination={false}
-                  />
-                </AccordionDetails>
-              </Accordion>
-            </Box>
-          ))}
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <TanstackTable
+                      columns={getRowValues}
+                      data={item?.phoneNumbers ?? []}
+                      isPagination={false}
+                    />
+                  </AccordionDetails>
+                </Accordion>
+              </Box>
+            );
+          })}
         </>
       )}
 

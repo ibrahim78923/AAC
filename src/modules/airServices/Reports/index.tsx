@@ -1,19 +1,20 @@
-import { Grid } from '@mui/material';
 import { reportsTypes } from './Reports.data';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ServicesReportsTypesI } from './Reports.interface';
 import { ItemLinkCard } from '@/components/Cards/ItemLinkCard/ItemLinkCard';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const Reports = () => {
   return (
     <>
       <PageTitledHeader title="Reports and Analytics" />
       <br />
-      <Grid container spacing={3}>
+      <ContainerGrid>
         {reportsTypes?.map((item: ServicesReportsTypesI) => (
           <PermissionsGuard permissions={item?.permissions} key={item?.id}>
-            <Grid item xs={12} md={6} lg={4}>
+            <CustomGrid md={6} lg={4}>
               <ItemLinkCard
                 Icon={item?.avatar}
                 itemType={item?.type}
@@ -21,10 +22,10 @@ export const Reports = () => {
                 itemPurpose={item?.purpose}
                 itemTypeFontSize="h6"
               />
-            </Grid>
+            </CustomGrid>
           </PermissionsGuard>
         ))}
-      </Grid>
+      </ContainerGrid>
     </>
   );
 };

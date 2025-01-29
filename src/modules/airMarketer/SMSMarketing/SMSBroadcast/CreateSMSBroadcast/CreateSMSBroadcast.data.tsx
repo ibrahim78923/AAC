@@ -37,15 +37,10 @@ export const validationSchema = (
   });
 };
 
-export const defaultValues = (
-  data?: any,
-  form?: any,
-  getIsPhoneConnected?: any,
-) => {
+export const defaultValues = (data?: any, form?: any) => {
   const initialValues: any = dynamicFormInitialValue(data, form);
   return {
     name: data?.name ?? '',
-    senderId: getIsPhoneConnected?.data?.phoneNumber,
     campaignId: data?.campaignId ?? null,
     templateId: data?.templateId ?? null,
     recipients: data?.recipients ? 'Select' : '',
@@ -68,16 +63,6 @@ export const createBroadcast = () => {
         label: 'Broadcast Name',
         required: true,
         placeholder: 'Enter name',
-      },
-      component: RHFTextField,
-      md: 12,
-    },
-    {
-      componentProps: {
-        name: 'senderId',
-        label: 'Sender',
-        disabled: true,
-        placeholder: 'Sender',
       },
       component: RHFTextField,
       md: 12,

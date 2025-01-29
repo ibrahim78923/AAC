@@ -1,11 +1,10 @@
-import NoData from '@/components/NoData';
 import { Typography } from '@mui/material';
 import { InventoryCard } from '@/components/Cards/InventoryCard/index';
 import { useContract } from './useContract';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
-import ApiErrorState from '@/components/ApiErrorState';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const Contract = () => {
   const {
@@ -22,18 +21,24 @@ export const Contract = () => {
     refetch,
   } = useContract();
 
-  if (isLoading || isFetching) return <SkeletonTable />;
-
-  if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
-
   return (
     <PermissionsGuard
       permissions={[
         AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.VIEW_RESPECTIVE_CONTRACTS,
       ]}
     >
-      {!!data?.data?.length ? (
-        data?.data?.map((singleContract: any) => (
+      <ApiRequestFlow
+        showSkeleton={isLoading || isFetching}
+        hasNoData={!data?.data?.length}
+        hasError={isError}
+        refreshApi={refetch}
+        noDataMessage="There are no active contract available"
+        skeletonType={SKELETON_TYPES?.BASIC_CARD}
+        cardSkeletonType={
+          SKELETON_TYPES?.SMALL_HORIZONTAL_TWO_LAYER_CIRCULAR_CARD
+        }
+      >
+        {data?.data?.map((singleContract: any) => (
           <InventoryCard
             openDeleteModal={openDeleteModal}
             setOpenDeleteModal={setOpenDeleteModal}
@@ -54,10 +59,8 @@ export const Contract = () => {
               {singleContract?.contractTypeDetails?.name?.toLowerCase()}
             </Typography>
           </InventoryCard>
-        ))
-      ) : (
-        <NoData message={'There are no active contract available'} />
-      )}
+        ))}
+      </ApiRequestFlow>
     </PermissionsGuard>
   );
 };
