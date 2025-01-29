@@ -158,6 +158,7 @@ export const addUsersArray = () => {
         name: 'superAdminRoleId',
         label: 'Assign Role',
         placeholder: 'Select Role',
+
         fullWidth: true,
         select: true,
         required: true,
