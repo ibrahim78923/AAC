@@ -1,4 +1,4 @@
-import { Box, Divider, Grid, Typography } from '@mui/material';
+import { Box, Divider, Typography } from '@mui/material';
 import { Attachments } from '@/components/Attachments';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { useArticleDetail } from './useArticleDetail';
@@ -10,6 +10,8 @@ import { UpdateArticle } from '../UpdateArticle';
 import { TruncateText } from '@/components/TruncateText';
 import { Fragment } from 'react';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const ArticleDetail = () => {
   const {
@@ -36,8 +38,8 @@ export const ArticleDetail = () => {
       hasError={showError}
       refreshApi={getSingleArticle}
     >
-      <Grid container spacing={1} justifyContent={'space-between'}>
-        <Grid item xs={12} lg={8.9}>
+      <ContainerGrid>
+        <CustomGrid lg={8.9}>
           <Typography variant="h3" color="slateBlue.main" my={2}>
             <TruncateText text={data?.data?.title?.toLowerCase()} />
           </Typography>
@@ -59,25 +61,22 @@ export const ArticleDetail = () => {
                 <Attachments
                   recordId={articleId as string}
                   size={{ width: '100%', height: '100%' }}
-                  permissionKey={[]}
+                  hasNoDeletePermission
                   hasStyling={false}
                   canDelete={false}
                 />
               </Box>
             </>
           )}
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          lg={3}
-          borderLeft={{
-            lg: `1px solid ${theme?.palette?.custom?.off_white_three}`,
-            xs: ' none',
-          }}
-          borderTop={`1px solid ${theme?.palette?.custom?.off_white_three}`}
-        >
-          <>
+        </CustomGrid>
+        <CustomGrid lg={3}>
+          <Box
+            borderLeft={{
+              lg: `1px solid ${theme?.palette?.custom?.off_white_three}`,
+              xs: ' none',
+            }}
+            borderTop={`1px solid ${theme?.palette?.custom?.off_white_three}`}
+          >
             {articleDetails?.map((item: SingleViewArticleSideDataI) => {
               return (
                 <Fragment key={item?._id}>
@@ -86,24 +85,22 @@ export const ArticleDetail = () => {
                     fontWeight={'fontWeightSmall'}
                     color="slateBlue.main"
                     my={2}
+                    sx={{ px: 2 }}
                   >
                     {item?.heading}
                   </Typography>
-                  <Grid
-                    container
-                    key={item?._id}
-                    flexDirection={'column'}
-                    spacing={1.5}
-                  >
+                  <Box sx={{ px: 2 }}>
                     {item?.details?.map(
                       (ele: SingleViewArticleDetailArrayI) => (
-                        <Grid
-                          item
+                        <Box
                           key={ele?._id}
-                          display={'flex'}
-                          justifyContent={'space-between'}
-                          alignItems={'center'}
-                          gap={2}
+                          sx={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            gap: 2,
+                            my: 2,
+                          }}
                         >
                           <Typography variant="body3" color={'grey.600'}>
                             {ele?.title}
@@ -111,18 +108,18 @@ export const ArticleDetail = () => {
                           <Typography variant="body4" color="slateBlue.main">
                             {ele?.des}
                           </Typography>
-                        </Grid>
+                        </Box>
                       ),
                     )}
-                  </Grid>
+                  </Box>
                   <Divider sx={{ my: 2 }} />
                 </Fragment>
               );
             })}
-          </>
+          </Box>
           <UpdateArticle />
-        </Grid>
-      </Grid>
+        </CustomGrid>
+      </ContainerGrid>
     </ApiRequestFlow>
   );
 };

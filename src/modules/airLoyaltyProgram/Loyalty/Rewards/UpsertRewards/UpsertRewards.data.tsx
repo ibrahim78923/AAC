@@ -39,24 +39,20 @@ export const rewardsValidationSchema: any = Yup?.object()?.shape({
     ?.positive('Greater than zero')
     ?.typeError('Not a number')
     ?.required('Cost Price is required'),
-  quantity: Yup?.number()
-    ?.positive('Greater than zero')
-    ?.typeError('Not a number'),
-  activeFrom: Yup?.date()?.nullable(),
+  activeFrom: Yup?.date()?.nullable()?.required('Active from is required'),
   activeTo: Yup?.date()
     ?.nullable()
     .min(
       Yup?.ref('activeFrom'),
-      'The active to date must be later than or equal to the active from date.',
-    ),
+      'The active to date must be grater than or equal to the active from date.',
+    )
+    ?.required('Active to is required'),
   limitRewards: Yup?.string()?.nullable(),
-  limit: Yup?.mixed()
-    ?.nullable()
-    ?.when('limitRewards', {
-      is: (value: any) => value === 'limited',
-      then: (schema: any) => schema?.required('Limit is Required'),
-      otherwise: (schema: any) => schema?.notRequired(),
-    }),
+  limit: Yup?.string()?.when('limitRewards', {
+    is: (value: any) => value === 'limited',
+    then: (schema: any) => schema?.required('Limit is Required'),
+    otherwise: (schema: any) => schema?.notRequired(),
+  }),
 });
 
 export const addRewardsDefaultValues = (data: any) => {
@@ -67,10 +63,12 @@ export const addRewardsDefaultValues = (data: any) => {
     appliedTo: data?.data?.tierDetails ?? null,
     costPrice: data?.data?.costPrice ?? 0,
     quantity: data?.data?.quantity ?? 0,
-    activeFrom: new Date(data?.data?.activeFrom) ?? new Date(),
-    activeTo: new Date(data?.data?.activeTo) ?? new Date(),
+    activeFrom: !!data?.data?.activeFrom
+      ? new Date(data?.data?.activeFrom)
+      : null,
+    activeTo: !!data?.data?.activeTo ? new Date(data?.data?.activeTo) : null,
     limitRewards: data?.data?.redeemedLimitType ?? 'unlimited',
-    limit: data?.data?.redemptionLimitPerConsumer ?? '',
+    limit: data?.data?.redemptionLimitPerConsumer || '',
   };
 };
 
@@ -135,6 +133,7 @@ export const upsertRewardsData = (watch: any) => [
       label: 'Quantity',
       placeholder: 'Enter Quantity',
       fullWidth: true,
+      required: true,
     },
     component: RHFTextField,
     md: 12,
@@ -146,6 +145,7 @@ export const upsertRewardsData = (watch: any) => [
       label: 'Active from',
       fullWidth: true,
       disablePast: true,
+      required: true,
     },
     component: RHFDatePicker,
     md: 12,
@@ -156,7 +156,9 @@ export const upsertRewardsData = (watch: any) => [
       name: 'activeTo',
       label: 'Active to',
       fullWidth: true,
-      minDateTime: watch('activeFrom'),
+      required: true,
+      minDate: watch('activeFrom'),
+      disabled: !!!watch('activeFrom'),
     },
     component: RHFDatePicker,
     md: 12,

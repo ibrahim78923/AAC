@@ -24,11 +24,7 @@ import { AIR_MARKETER_SMS_MARKETING_PERMISSIONS } from '@/constants/permission-k
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { LoadingButton } from '@mui/lab';
 import { SMSBroadcastHeaderProps } from '@/modules/airMarketer/SMSMarketing/SMSBroadcast/SMSBroadcast-interface';
-import {
-  AGENT_REQUEST_STATUS,
-  AIR_CUSTOMER_PORTAL_TICKET,
-  MEETINGS_DETAILS_TYPE,
-} from '@/constants/strings';
+import { STATUS_CONTANTS } from '@/constants/strings';
 
 const SMSBroadcastHeader = (props: SMSBroadcastHeaderProps) => {
   const {
@@ -138,7 +134,7 @@ const SMSBroadcastHeader = (props: SMSBroadcastHeaderProps) => {
               <MenuItem value={'Completed'}>Completed</MenuItem>
               <MenuItem value={'Scheduled'}>Scheduled</MenuItem>
               <MenuItem value={'Draft'}>Draft</MenuItem>
-              <MenuItem value={'Failed'}>Failed</MenuItem>
+
             </Select>
           </FormControl>
         </PermissionsGuard>
@@ -186,12 +182,7 @@ const SMSBroadcastHeader = (props: SMSBroadcastHeaderProps) => {
               >
                 <MenuItem
                   disabled={
-                    recordStatus ===
-                      MEETINGS_DETAILS_TYPE?.COMPLETED_MEETINGS ||
-                    recordStatus === AIR_CUSTOMER_PORTAL_TICKET?.PROCESSING ||
-                    recordStatus === AGENT_REQUEST_STATUS?.REJECTED
-                      ? true
-                      : false
+                    recordStatus !== STATUS_CONTANTS?.DRAFT ? true : false
                   }
                   onClick={() => {
                     navigate?.push({

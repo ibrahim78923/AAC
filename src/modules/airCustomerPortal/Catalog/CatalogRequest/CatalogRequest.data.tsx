@@ -39,12 +39,13 @@ export const placeRequestDefaultValues = {
 export const placeRequest = (
   categoryType?: string,
   checkPermission?: string,
+  requestForSomeOne?: any,
 ) => {
   const formFields = [
     ...(!!categoryType
       ? [
           {
-            id: 3,
+            _id: 1,
             componentProps: {
               name: 'noOfItem',
               label: 'No of item',
@@ -60,7 +61,7 @@ export const placeRequest = (
       ? []
       : [
           {
-            id: 4,
+            _id: 2,
             componentProps: {
               name: 'requesterName',
               label: 'Requester Name',
@@ -72,7 +73,7 @@ export const placeRequest = (
             md: 12,
           },
           {
-            id: 5,
+            _id: 3,
             componentProps: {
               name: 'requesterEmail',
               label: 'Requester Email',
@@ -87,14 +88,17 @@ export const placeRequest = (
     ...(checkPermission
       ? [
           {
-            id: 1,
+            _id: 4,
             component: GetCatalogRequesterDropdown,
+            componentProps: {
+              requestForSomeOne,
+            },
             md: 12,
           },
         ]
       : []),
     {
-      id: 2,
+      _id: 5,
       componentProps: {
         name: 'requestForSomeOneElse',
         label: 'Request For Someone else',

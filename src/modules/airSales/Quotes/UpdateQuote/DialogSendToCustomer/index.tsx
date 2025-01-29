@@ -89,8 +89,7 @@ const DialogSendToCustomer = ({
       formData.append('recordId', quoteId);
       const body = {
         id: quoteId,
-        // status: quoteStatus?.published,
-        status: quoteStatus?.draft,
+        status: quoteStatus?.published,
         email: values?.email,
         validTill: dayjs(dataGetQuoteById?.data?.expiryDate)?.format(
           DATE_FORMAT?.API,

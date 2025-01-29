@@ -2,7 +2,7 @@ import { AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS } from '@/constant
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants/routes';
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { DragDropContext } from 'react-beautiful-dnd';
 import {
   Date,
@@ -18,6 +18,8 @@ import {
 import { DYNAMIC_FIELDS } from '@/utils/dynamic-forms';
 import useTaskFields from './useTaskFields';
 import { predefinedTaskDataArray } from './TaskFields.data';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export default function TaskFields() {
   const {
@@ -44,8 +46,8 @@ export default function TaskFields() {
           AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS?.ADD_NEW_FIELDS_FOR_TICKET_AND_THEIR_TASKS,
         ]}
       >
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={8}>
+        <ContainerGrid>
+          <CustomGrid md={8}>
             <Box
               borderRadius={2}
               bgcolor={'common.white'}
@@ -88,8 +90,8 @@ export default function TaskFields() {
                 cancelPath={AIR_SERVICES?.FIELD_MANAGER}
               />
             </Box>
-          </Grid>
-          <Grid item xs={12} md={4}>
+          </CustomGrid>
+          <CustomGrid md={4}>
             <Box
               borderRadius={2}
               bgcolor={'common.white'}
@@ -99,8 +101,8 @@ export default function TaskFields() {
             >
               <DraggableFields />
             </Box>
-          </Grid>
-        </Grid>
+          </CustomGrid>
+        </ContainerGrid>
 
         {modal?.text && (
           <Text

@@ -8,7 +8,6 @@ import {
   upsertContractFormFieldsDataFunction,
   upsertContractFormSchemaFunction,
 } from './UpsertContract.data';
-import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import {
@@ -32,7 +31,6 @@ import { isoDateString } from '@/lib/date-time';
 import { useFormLib } from '@/hooks/useFormLib';
 
 export const useUpsertContract = () => {
-  const theme = useTheme();
   const router = useRouter();
 
   const [form, setForm] = useState<any>([]);
@@ -322,23 +320,25 @@ export const useUpsertContract = () => {
     contractId,
   );
 
+  const apiCallInProgress =
+    postContractStatus?.isLoading ||
+    putContractStatus?.isLoading ||
+    postAttachmentStatus?.isLoading;
+
   return {
     methods,
     handleSubmit,
     submitUpsertContractForm,
     upsertContractFormFieldsData,
-    theme,
     handleCancelBtn,
-    postContractStatus,
-    putContractStatus,
     isLoading,
     isFetching,
     isError,
     contractId,
     form,
     getDynamicFieldsStatus,
-    postAttachmentStatus,
     watchForContractType,
     refetch,
+    apiCallInProgress,
   };
 };

@@ -33,10 +33,13 @@ export const useAssetsReceived = () => {
     { data, isError, isSuccess, isLoading, isFetching },
   ] = useLazyGetAirServicesAssetsPurchaseOrderAssetsReceivedQuery();
 
+  const handleAssetsReceived = async () => {
+    try {
+      await getAssetsReceivedTrigger(assetReceivedParams)?.unwrap();
+    } catch (error) {}
+  };
+
   useEffect(() => {
-    const handleAssetsReceived = async () => {
-      await getAssetsReceivedTrigger(assetReceivedParams);
-    };
     handleAssetsReceived();
   }, [getAssetsReceivedTrigger, assetReceivedParams?.toString()]);
 
@@ -61,5 +64,6 @@ export const useAssetsReceived = () => {
     purchaseOrderIdData,
     purchaseLoading,
     purchaseFetching,
+    handleAssetsReceived,
   };
 };

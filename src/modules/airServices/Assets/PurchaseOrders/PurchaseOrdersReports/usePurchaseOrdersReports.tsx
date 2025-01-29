@@ -9,13 +9,11 @@ import {
 import { ARRAY_INDEX, MODULE_TYPE } from '@/constants/strings';
 import { useGetServiceSystematicReportsQuery } from '@/services/airServices/reports';
 import { AUTO_REFRESH_API_POLLING_TIME } from '@/config';
-import { htmlToPdfConvert } from '@/lib/html-to-pdf-converter';
 import { isoDateString } from '@/lib/date-time';
 import { useFormLib } from '@/hooks/useFormLib';
 
 export const usePurchaseOrderReports = () => {
   const router: NextRouter = useRouter();
-  const [loading, setLoading] = useState<boolean>(false);
   const [hasDate, setHasDate] = useState(false);
   const [filterDate, setFilterDate] = useState<any>({
     startDate: null,
@@ -34,7 +32,7 @@ export const usePurchaseOrderReports = () => {
     },
   };
 
-  const { handleSubmit, getValues, watch, setValue, methods } = useFormLib(
+  const { getValues, watch, setValue, methods } = useFormLib(
     purchaseOrderReportMethodProps,
   );
   watch?.();
@@ -77,15 +75,6 @@ export const usePurchaseOrderReports = () => {
     setAnchorElDate?.(null);
   };
 
-  const handleDownload = async () => {
-    if (isLoading || isFetching || isError) return;
-    setLoading(true);
-    try {
-      await htmlToPdfConvert?.(downloadRef, 'Purchase_Order_Report');
-    } catch (error) {}
-    setLoading(false);
-  };
-
   const purchaseOrderData = data?.data;
   const purchaseOrderReportsCardsData = PurchaseOrderReportsCountData(
     data?.data,
@@ -107,21 +96,17 @@ export const usePurchaseOrderReports = () => {
 
   return {
     router,
-    handleDownload,
-    loading,
-    purchaseOrderReportsChartsData,
-    purchaseOrderReportsCardsData,
     methods,
-    handleSubmit,
     onDateFilterSubmit,
-    data,
+    downloadRef,
     isLoading,
     isFetching,
     isError,
     refetch,
-    downloadRef,
     setHasDate,
     shouldDateSet,
+    purchaseOrderReportsChartsData,
+    purchaseOrderReportsCardsData,
     purchaseOrderData,
     getValues,
     apiCallInProgress,

@@ -1,115 +1,56 @@
 import { PAGINATION } from '@/config';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { responsesTableColumns } from './ResponsesList.data';
+import { useState } from 'react';
+import { responsesListActionsDynamic } from './ResponsesList.data';
 import { CANNED_RESPONSES } from '@/constants/strings';
-import { useLazyGetAirServicesSettingsCannedResponsesListQuery } from '@/services/airServices/settings/agent-performance-management/canned-responses';
-import { useSearchParams } from 'next/navigation';
-import { errorSnackbar } from '@/lib/snackbar';
+import { convertCurrentCaseToTitleCase } from '@/utils/api';
 
 export const useResponsesList = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
 
-  const [cannedResponseId, setCannedResponseId] = useState<any>('');
   const [selectedData, setSelectedData] = useState([]);
-  const [openAddResponseDrawer, setOpenAddResponseDrawer] = useState(false);
-  const [openMoveFolderModal, setOpenMoveFolderModal] = useState(false);
-  const [deleteModal, setDeleteModal] = useState(false);
+
+  const [isPortalOpen, setIsPortalOpen] = useState({
+    isOpen: false,
+    action: '',
+  });
 
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState<any>('');
-
-  const [lazyGetResponsesListTrigger, lazyGetResponsesListStatus] =
-    useLazyGetAirServicesSettingsCannedResponsesListQuery();
-  const responsesList = lazyGetResponsesListStatus?.data?.data?.responses;
-  const responsesListMetaData = lazyGetResponsesListStatus?.data?.data?.meta;
-
-  const getResponsesListListData = async (currentPage = page) => {
-    const getResponsesListParam = new URLSearchParams();
-
-    getResponsesListParam?.append('page', currentPage + '');
-    getResponsesListParam?.append('limit', pageLimit + '');
-    getResponsesListParam?.append('search', search + '');
-    getResponsesListParam?.append('folderId', cannedResponseId);
-    const getResponsesListParameter = {
-      queryParams: getResponsesListParam,
-    };
-    try {
-      await lazyGetResponsesListTrigger(getResponsesListParameter)?.unwrap();
-    } catch (error) {}
-  };
-
-  useEffect(() => {
-    if (cannedResponseId) {
-      getResponsesListListData?.(page);
-    }
-  }, [search, page, pageLimit, cannedResponseId]);
 
   const handleSearch = (data: any) => {
     setPage(PAGINATION?.CURRENT_PAGE);
     setSearch(data);
   };
 
-  const handleActionClick = (ActionType: string) => {
-    if (ActionType === CANNED_RESPONSES?.DELETE) {
-      return setDeleteModal(true);
-    }
-    if (ActionType === CANNED_RESPONSES?.EDIT) {
-      if (selectedData?.length > 1) {
-        errorSnackbar(`Can't update multiple records`);
-        return;
-      }
-      return setOpenAddResponseDrawer(true);
-    }
-    if (ActionType === CANNED_RESPONSES?.MOVE) {
-      return setOpenMoveFolderModal(true);
-    }
+  const setPortalAction = (action: string) => {
+    setIsPortalOpen({ isOpen: true, action });
   };
 
-  const convertToTitleCase = (str: any): string => {
-    return str
-      ?.split?.('-')
-      ?.map?.(
-        (word: string) => word?.charAt?.(0)?.toUpperCase?.() + word?.slice?.(1),
-      )
-      ?.join?.(' ');
+  const openAddResponsePortal = () => {
+    setSelectedData([]);
+    setPortalAction(CANNED_RESPONSES?.EDIT);
   };
 
-  const tableColumns = responsesTableColumns(
+  const responsesListActions = responsesListActionsDynamic(
+    setPortalAction,
     selectedData,
-    setSelectedData,
-    responsesList,
   );
 
-  useEffect(() => {
-    if (router?.isReady) {
-      setCannedResponseId(searchParams?.get('id'));
-    }
-  }, [router?.isReady]);
+  const folderName = convertCurrentCaseToTitleCase(router?.query?.response);
 
   return {
-    setOpenMoveFolderModal,
-    openMoveFolderModal,
-    setDeleteModal,
     setSelectedData,
-    deleteModal,
-    setOpenAddResponseDrawer,
-    setPageLimit,
     setPage,
-    pageLimit,
     page,
-    openAddResponseDrawer,
     selectedData,
-    convertToTitleCase,
+    folderName,
     router,
-    handleActionClick,
-    tableColumns,
     handleSearch,
-    responsesList,
-    responsesListMetaData,
-    lazyGetResponsesListStatus,
-    getResponsesListListData,
+    isPortalOpen,
+    setIsPortalOpen,
+    responsesListActions,
+    openAddResponsePortal,
+    search,
   };
 };

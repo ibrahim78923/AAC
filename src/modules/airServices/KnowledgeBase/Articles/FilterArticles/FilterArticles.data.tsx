@@ -22,7 +22,7 @@ export const filterArticlesDataDefaultValues = (
 
 export const filterArticlesFormFieldsDynamic = () => [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'status',
       label: 'Status',
@@ -34,7 +34,7 @@ export const filterArticlesFormFieldsDynamic = () => [
     component: RHFAutocomplete,
   },
   {
-    id: 2,
+    _id: 2,
     component: AuthorsFields,
   },
 ];

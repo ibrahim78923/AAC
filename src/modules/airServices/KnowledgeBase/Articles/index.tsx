@@ -1,4 +1,3 @@
-import { Grid } from '@mui/material';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS } from '@/constants/permission-keys';
 import { SingleFolderDetail } from '../Folder/SingleFolderDetail';
@@ -13,6 +12,8 @@ import { useEffect } from 'react';
 import { useAppDispatch } from '@/redux/store';
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants/routes';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const Articles = () => {
   const dispatch = useAppDispatch();
@@ -40,11 +41,11 @@ export const Articles = () => {
 
   return (
     <>
-      <Grid container spacing={2}>
-        <Grid item xs={12} lg={3} xl={1.75}>
+      <ContainerGrid>
+        <CustomGrid lg={3} xl={1.75}>
           <Folder />
-        </Grid>
-        <Grid item xs={12} lg={9} xl={10.25}>
+        </CustomGrid>
+        <CustomGrid lg={9} xl={10.25}>
           <SingleFolderDetail />
           <PermissionsGuard
             permissions={[
@@ -55,8 +56,8 @@ export const Articles = () => {
             <br />
             <ArticlesLists />
           </PermissionsGuard>
-        </Grid>
-      </Grid>
+        </CustomGrid>
+      </ContainerGrid>
     </>
   );
 };

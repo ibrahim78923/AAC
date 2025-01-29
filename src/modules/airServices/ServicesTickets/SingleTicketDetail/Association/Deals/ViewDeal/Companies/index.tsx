@@ -1,89 +1,50 @@
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Avatar,
-  Box,
-  Typography,
-} from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import { Box, Typography } from '@mui/material';
+import { fullName, getInitialsSingleName } from '@/utils/avatarUtils';
+import { UncontrolledAccordion } from '@/components/Accordions/UncontrolledAccordion';
+import { ACCORDION_VARIANTS } from '@/constants/mui-constant';
+import { DataRecordCount } from '@/components/DataRecordCount';
+import { UserInfo } from '@/components/UserInfo';
 
-export default function Companies({ theme, dealCompanies }: any) {
+export default function Companies({ dealCompanies }: any) {
   return (
-    <Accordion
-      sx={{
-        mt: 3,
-        borderRadius: '8px !important',
-        boxShadow: `0px 0px 4px 0px ${theme?.palette?.custom?.steel_blue}`,
-        '&.Mui-expanded': {
-          boxShadow: `0px 0px 4px 0px ${theme?.palette?.custom?.steel_blue}`,
-        },
-      }}
+    <UncontrolledAccordion
+      variantType={ACCORDION_VARIANTS?.CARD}
+      accordionSummary={
+        <DataRecordCount
+          totalCount={dealCompanies?.length}
+          recordName="Companies"
+          recordNameVariant="h5"
+        />
+      }
     >
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <Typography variant={'h5'}>
-          <Typography
-            variant={'body1'}
-            component={'span'}
-            bgcolor={'secondary.main'}
-            borderRadius={1}
-            p={0.4}
-            color={'common.white'}
-            mr={0.5}
-          >
-            {dealCompanies?.length < 10
-              ? `0${dealCompanies?.length}`
-              : dealCompanies?.length}
-          </Typography>
-          Companies
+      {!dealCompanies?.length ? (
+        <Typography variant={'body2'} fontWeight={500}>
+          No Companies Associated With This Record
         </Typography>
-      </AccordionSummary>
-      <AccordionDetails>
-        {!dealCompanies?.length ? (
-          <Typography variant={'body2'} fontWeight={500}>
-            No Companies Associated With This Record
-          </Typography>
-        ) : (
-          dealCompanies?.map((item: any) => (
-            <Box
-              display={'flex'}
-              alignItems={'center'}
-              justifyContent={'space-between'}
-              gap={1}
-              key={item?._id}
-              overflow={'auto'}
-              mb={2}
-            >
-              <Box display={'flex'} alignItems={'center'} gap={1}>
-                <Avatar
-                  sx={{
-                    bgcolor: theme?.palette?.blue?.main,
-                    width: 40,
-                    height: 40,
-                  }}
-                  src={generateImage(item?.profilePicture?.url)}
-                >
-                  <Typography variant={'body2'} textTransform={'uppercase'}>
-                    {fullNameInitial(item?.name)}
-                  </Typography>
-                </Avatar>
-                <Box display={'flex'} flexDirection={'column'}>
-                  <Typography variant={'body2'} fontWeight={500}>
-                    {item?.name ?? '---'}
-                  </Typography>
-                  <Typography variant={'subtitle2'} fontWeight={400}>
-                    {item?.domain ?? '---'}
-                  </Typography>
-                </Box>
-              </Box>
-              <Typography variant={'body2'}>
-                {item?.owner?.phoneNumber ?? '---'}
-              </Typography>
-            </Box>
-          ))
-        )}
-      </AccordionDetails>
-    </Accordion>
+      ) : (
+        dealCompanies?.map((item: any) => (
+          <Box
+            display={'flex'}
+            alignItems={'center'}
+            justifyContent={'space-between'}
+            gap={1}
+            key={item?._id}
+            overflow={'auto'}
+            mb={2}
+          >
+            <UserInfo
+              name={fullName(item?.name)}
+              email={item?.domain ?? '---'}
+              avatarSrc={item?.profilePicture}
+              nameInitial={getInitialsSingleName(item?.name)}
+              avatarSize={{ width: 35, height: 35 }}
+            />
+            <Typography variant={'body2'}>
+              {item?.owner?.phoneNumber ?? '---'}
+            </Typography>
+          </Box>
+        ))
+      )}
+    </UncontrolledAccordion>
   );
 }

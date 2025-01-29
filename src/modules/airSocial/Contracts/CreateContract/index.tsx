@@ -16,11 +16,12 @@ import MessageToRecipient from './form-fields/MessageToRecipient';
 import DefaultSignatures from './form-fields/DefaultSignatures';
 import ModalManageSignatures from './components/ModalManageSignatures';
 import DocumentHistory from './components/DocumentHistory';
-import ModalConfirmationSignDoc from './components/ModalConfirmationSignDoc';
 import ModalPhoneNumber from './components/ModalPhoneNumber';
 import CreateContractSidebar from './CreateContractSidebar';
 import Preview from './Preview';
 import PDFCreateContract from './PDFCreateContract';
+import ModalSignAndSend from './components/ModalSignAndSend';
+import ModalTemplateCategories from './components/ModalTemplateCategories';
 
 export default function CreateContract() {
   const {
@@ -42,12 +43,16 @@ export default function CreateContract() {
     methods,
     handleSubmitCreateTemplate,
     partyFields,
+    partyValues,
     signeeFields,
+    signeeValues,
     loadingCreateTemplate,
+    loadingCreateDraft,
     dynamicFields,
-    openModalConfirmationSignDoc,
-    handleOpenModalConfirmationSignDoc,
-    handleCloseModalConfirmationSignDoc,
+
+    openModalSignAndSend,
+    handleOpenModalSignAndSend,
+    handleCloseModalSignAndSend,
 
     openModalPhoneNumber,
     handleOpenModalPhoneNumber,
@@ -57,9 +62,22 @@ export default function CreateContract() {
     handleChangeIndividualSignature,
     selectedSigneeId,
     setSelectedSigneeId,
-    handleAddDynamicField,
+
     // dataTemplateById,
+    loadingGetTemplateById,
+    loadingUpdateTemplate,
     handleSubmitUpdateTemplate,
+    handleAddDynamicField,
+
+    isConfirmSigning,
+    handleChangeConfirmSigning,
+    appendSignee,
+    removeSignee,
+
+    openModalTemplateCategories,
+    setOpenModalTemplateCategories,
+    templateCatgValue,
+    setTemplateCatgValue,
   } = useCreateContract();
 
   return (
@@ -67,14 +85,20 @@ export default function CreateContract() {
       <PlainHeader>
         <HeaderCreateContract
           onClickSave={handleSubmitUpdateTemplate}
-          onClickSign={handleOpenModalConfirmationSignDoc}
-          onClickSaveAsTemplate={handleSubmitCreateTemplate}
+          onClickSign={handleOpenModalSignAndSend}
+          onClickSaveAsTemplate={() => setOpenModalTemplateCategories(true)}
+          onClickSaveAsDraft={handleSubmitCreateTemplate('draft')}
           methods={methods}
         />
       </PlainHeader>
 
       <Backdrop
-        open={loadingCreateTemplate}
+        open={
+          loadingCreateTemplate ||
+          loadingCreateDraft ||
+          loadingGetTemplateById ||
+          loadingUpdateTemplate
+        }
         sx={{
           background: 'rgba(255, 255, 255, 0.75)',
           color: (theme) => theme?.palette?.primary?.main,
@@ -116,7 +140,7 @@ export default function CreateContract() {
                             item
                             xs={12}
                             md={4}
-                            key={party?._id}
+                            key={party?._id || `party-${index}`}
                             sx={styles?.partyCardgridItem}
                           >
                             <PartyCard
@@ -150,12 +174,14 @@ export default function CreateContract() {
                             item
                             xs={12}
                             md={4}
-                            key={signee?._id}
+                            key={signee?._id || `signee-${index}`}
                             sx={styles?.partyCardgridItem}
                           >
                             <SigneeCard
+                              numberOfSignees={signeeFields.length}
                               index={index}
                               onDelete={() => handleDeleteSigneeCard(index)}
+                              partyValues={partyValues}
                             />
                           </Grid>
                         ))}
@@ -174,24 +200,25 @@ export default function CreateContract() {
                       <MessageToRecipient />
                     </Grid>
 
-                    <Grid item xs={12}>
-                      <DefaultSignatures
-                        isIndividualSignature={isIndividualSignature}
-                        onChangeIndividualSignature={
-                          handleChangeIndividualSignature
-                        }
-                        signees={signeeFields}
-                        onClickChange={handleOpenModalManageSignature}
-                        setSelectedSigneeId={setSelectedSigneeId}
-                      />
-                    </Grid>
-
+                    {signeeFields?.length > 0 && (
+                      <Grid item xs={12}>
+                        <DefaultSignatures
+                          isIndividualSignature={isIndividualSignature}
+                          onChangeIndividualSignature={
+                            handleChangeIndividualSignature
+                          }
+                          signees={signeeValues}
+                          onClickChange={handleOpenModalManageSignature}
+                          setSelectedSigneeId={setSelectedSigneeId}
+                        />
+                      </Grid>
+                    )}
                     <Grid item xs={12}>
                       <Button
                         variant={'contained'}
                         className={'small'}
                         fullWidth
-                        onClick={handleOpenModalConfirmationSignDoc}
+                        onClick={handleOpenModalSignAndSend}
                         disabled={true}
                       >
                         Sign & Send
@@ -217,6 +244,12 @@ export default function CreateContract() {
               <CreateContractSidebar
                 allDataFields={dynamicFields}
                 handleAddDynamicField={handleAddDynamicField}
+                signeeFields={signeeValues}
+                handleAddSigneeCard={handleAddSigneeCard}
+                partyFields={partyFields}
+                handleDeleteSigneeCard={handleDeleteSigneeCard}
+                appendSignee={appendSignee}
+                removeSignee={removeSignee}
               />
             </Box>
           </Box>
@@ -246,18 +279,33 @@ export default function CreateContract() {
         }}
       />
 
-      <ModalConfirmationSignDoc
-        open={openModalConfirmationSignDoc}
-        onClose={handleCloseModalConfirmationSignDoc}
+      <ModalSignAndSend
+        open={openModalSignAndSend}
+        onClose={handleCloseModalSignAndSend}
         onSubmit={() => {
-          handleCloseModalConfirmationSignDoc();
+          handleCloseModalSignAndSend();
           handleOpenModalPhoneNumber();
         }}
+        signatureType={'DRAW'}
+        isConfirmSigning={isConfirmSigning}
+        handleChangeConfirmSigning={handleChangeConfirmSigning}
       />
 
       <ModalPhoneNumber
         open={openModalPhoneNumber}
         onClose={handleCloseModalPhoneNumber}
+      />
+
+      <ModalTemplateCategories
+        open={openModalTemplateCategories}
+        onClose={() => {
+          setOpenModalTemplateCategories(false);
+          setTemplateCatgValue('');
+        }}
+        setValue={setTemplateCatgValue}
+        value={templateCatgValue}
+        onSubmit={handleSubmitCreateTemplate('template')}
+        okDisabled={!templateCatgValue}
       />
     </>
   );

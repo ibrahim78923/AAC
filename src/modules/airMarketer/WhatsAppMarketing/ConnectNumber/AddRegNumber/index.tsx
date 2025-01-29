@@ -92,7 +92,7 @@ const AddRegNumber: FC<any> = ({
   const handleUpdateConfig = async (id: any) => {
     const payload = {
       status: 'ACTIVE',
-      twilioConfigurationId: id,
+      whatsappConfigurationId: id,
     };
     try {
       await updateAccountConfig({

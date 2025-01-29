@@ -6,8 +6,30 @@ import { CONTRACTS_STATUS } from '@/constants';
 import { Box, Button, Checkbox, Typography, useTheme } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 
-export const contractsColumns = ({ setIsViewAllActivityDrawerOpen }: any) => {
+export const contractsColumns = ({
+  setIsViewAllActivityDrawerOpen,
+  setSelectedRecords,
+  selectedRecords,
+  data,
+}: any) => {
   const theme = useTheme();
+
+  const handleClick = (itemId: string) => {
+    if (selectedRecords?.includes(itemId)) {
+      setSelectedRecords(selectedRecords.filter((id: string) => id !== itemId));
+    } else {
+      setSelectedRecords([...(selectedRecords || []), itemId]);
+    }
+  };
+
+  const handleSelectAll = () => {
+    if (selectedRecords?.length === data?.length) {
+      setSelectedRecords([]);
+    } else {
+      const allTaskIds = data?.map((task: { _id: string }) => task?._id) || [];
+      setSelectedRecords(allTaskIds);
+    }
+  };
 
   const handelStatusSwitch = (status: string) => {
     switch (status) {
@@ -96,22 +118,30 @@ export const contractsColumns = ({ setIsViewAllActivityDrawerOpen }: any) => {
       cell: (info: any) => (
         <Checkbox
           // checked={false}
+          checked={selectedRecords?.includes(info?.row?.original?._id)}
           color="primary"
           name={info?.getValue()}
+          onClick={() => handleClick(info?.row?.original?._id)}
         />
       ),
       header: (
         <Checkbox
           color="primary"
           name="Id"
+          onClick={handleSelectAll}
+          checked={
+            selectedRecords?.length > 0
+              ? selectedRecords?.length === data?.length
+              : false
+          }
           // checked={false}
         />
       ),
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.contracts,
-      id: 'contracts',
+      accessorFn: (row: any) => row?.name,
+      id: 'name',
       header: 'Contracts',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -132,7 +162,7 @@ export const contractsColumns = ({ setIsViewAllActivityDrawerOpen }: any) => {
           sx={{ whiteSpace: 'nowrap' }}
         >
           {' '}
-          <FolderRoundedIcon /> {info?.getValue()}
+          <FolderRoundedIcon /> {info?.getValue() ?? '--'}
         </Box>
       ),
     },
@@ -151,12 +181,12 @@ export const contractsColumns = ({ setIsViewAllActivityDrawerOpen }: any) => {
         >
           <Box
             sx={{
-              background: 'lightgrey',
+              background: theme?.palette?.grey[300],
               width: '40px',
               height: '40px',
               borderRadius: '50%',
             }}
-          ></Box>{' '}
+          ></Box>
           {info?.getValue()}
         </Box>
       ),
@@ -168,80 +198,86 @@ export const contractsColumns = ({ setIsViewAllActivityDrawerOpen }: any) => {
       cell: (info: any) => (
         <>
           <Box>
-            <Box>
-              {info?.getValue()?.map((item: any, index: any) => (
-                <Box
-                  key={uuidv4()}
-                  display="flex"
-                  alignItems="flex-start"
-                  gap="10px"
-                >
-                  <Box sx={{ display: 'flex', gap: '5px' }}>
-                    {item?.statuses?.map((status: string) => (
-                      <Box key={uuidv4()}>
-                        {status?.includes(CONTRACTS_STATUS?.SIGNED) && (
-                          <CustomTooltip title="Signed">
-                            <Box>
-                              <SignedIcon />
-                            </Box>
-                          </CustomTooltip>
-                        )}
-                        {status?.includes(CONTRACTS_STATUS?.REJECTED) && (
-                          <CustomTooltip title="Rejected">
-                            <Box>
-                              <SignedIcon color={theme?.palette?.error?.main} />
-                            </Box>
-                          </CustomTooltip>
-                        )}
-                        {status?.includes(CONTRACTS_STATUS?.VIEWED) && (
-                          <CustomTooltip title="Viewed">
-                            <Box>
-                              <ViewedIcon />
-                            </Box>
-                          </CustomTooltip>
-                        )}
-                        {status?.includes(CONTRACTS_STATUS?.SENT) && (
-                          <CustomTooltip title="Sent">
-                            <Box>
-                              <SentIcon />
-                            </Box>
-                          </CustomTooltip>
-                        )}
+            {info?.getValue() ? (
+              <Box>
+                {info?.getValue()?.map((item: any, index: any) => (
+                  <Box
+                    key={uuidv4()}
+                    display="flex"
+                    alignItems="flex-start"
+                    gap="10px"
+                  >
+                    <Box sx={{ display: 'flex', gap: '5px' }}>
+                      {item?.statuses?.map((status: string) => (
+                        <Box key={uuidv4()}>
+                          {status?.includes(CONTRACTS_STATUS?.SIGNED) && (
+                            <CustomTooltip title="Signed">
+                              <Box>
+                                <SignedIcon />
+                              </Box>
+                            </CustomTooltip>
+                          )}
+                          {status?.includes(CONTRACTS_STATUS?.REJECTED) && (
+                            <CustomTooltip title="Rejected">
+                              <Box>
+                                <SignedIcon
+                                  color={theme?.palette?.error?.main}
+                                />
+                              </Box>
+                            </CustomTooltip>
+                          )}
+                          {status?.includes(CONTRACTS_STATUS?.VIEWED) && (
+                            <CustomTooltip title="Viewed">
+                              <Box>
+                                <ViewedIcon />
+                              </Box>
+                            </CustomTooltip>
+                          )}
+                          {status?.includes(CONTRACTS_STATUS?.SENT) && (
+                            <CustomTooltip title="Sent">
+                              <Box>
+                                <SentIcon />
+                              </Box>
+                            </CustomTooltip>
+                          )}
+                        </Box>
+                      ))}
+                    </Box>
+                    <Box>
+                      <Box sx={{ fontSize: '14px', fontWeight: '600' }}>
+                        {item?.company}
                       </Box>
-                    ))}
-                  </Box>
-                  <Box>
-                    <Box sx={{ fontSize: '14px', fontWeight: '600' }}>
-                      {item?.company}
-                    </Box>
-                    <Box
-                      sx={{
-                        fontSize: '12px',
-                        fontWeight: '400',
-                        color: theme?.palette?.custom?.slate_blue,
-                      }}
-                    >
-                      {item?.userName}
-                    </Box>
-                    {info?.row?.original?.activity?.length === index + 1 && (
-                      <Button
-                        sx={{ marginLeft: '-10px', height: '30px' }}
-                        onClick={() => setIsViewAllActivityDrawerOpen(true)}
+                      <Box
+                        sx={{
+                          fontSize: '12px',
+                          fontWeight: '400',
+                          color: theme?.palette?.custom?.slate_blue,
+                        }}
                       >
-                        <Typography
-                          sx={{
-                            fontSize: '12px',
-                            color: theme?.palette?.primary?.main,
-                          }}
+                        {item?.userName}
+                      </Box>
+                      {info?.row?.original?.activity?.length === index + 1 && (
+                        <Button
+                          sx={{ marginLeft: '-10px', height: '30px' }}
+                          onClick={() => setIsViewAllActivityDrawerOpen(true)}
                         >
-                          View all
-                        </Typography>
-                      </Button>
-                    )}
+                          <Typography
+                            sx={{
+                              fontSize: '12px',
+                              color: theme?.palette?.primary?.main,
+                            }}
+                          >
+                            View all
+                          </Typography>
+                        </Button>
+                      )}
+                    </Box>
                   </Box>
-                </Box>
-              ))}
-            </Box>
+                ))}
+              </Box>
+            ) : (
+              '--'
+            )}
           </Box>
         </>
       ),
@@ -276,71 +312,6 @@ export const contractsData = [
     owner: 'Owner 1',
     creationDate: 'Creation Date 1',
     status: 'DRAFT',
-    createdAt: 'May 04, 2023',
-  },
-  {
-    contracts: 'Contract 1',
-    folder: 'Practice Signed',
-    activity: [
-      {
-        company: 'MarketiconLTD',
-        userName: 'John Doe',
-        statuses: ['SIGNED', 'SENT', 'VIEWED'],
-      },
-      {
-        company: 'Orcalo LTD',
-        userName: 'Ali Wahab',
-        statuses: ['VIEWED', 'SENT'],
-      },
-    ],
-    owner: 'Owner 1',
-    creationDate: 'Creation Date 1',
-    status: 'SIGNED',
-    createdAt: 'May 04, 2023',
-  },
-  {
-    contracts: 'Contract 1',
-    folder: 'Practice Signed',
-    activity: [
-      {
-        company: 'MarketiconLTD',
-        userName: 'John Doe',
-        statuses: ['SIGNED', 'SENT'],
-      },
-    ],
-    owner: 'Owner 1',
-    creationDate: 'Creation Date 1',
-    status: 'PENDING',
-    createdAt: 'May 04, 2023',
-  },
-  {
-    contracts: 'Contract 1',
-    folder: 'Practice Signed',
-    activity: [
-      {
-        company: 'MarketiconLTD',
-        userName: 'John Doe',
-        statuses: ['VIEWED', 'SENT'],
-      },
-    ],
-    owner: 'Owner 1',
-    creationDate: 'Creation Date 1',
-    status: 'REJECTED',
-    createdAt: 'May 04, 2023',
-  },
-  {
-    contracts: 'Contract 1',
-    folder: 'Practice Signed',
-    activity: [
-      {
-        company: 'MarketiconLTD',
-        userName: 'John Doe',
-        statuses: ['SENT', 'REJECTED'],
-      },
-    ],
-    owner: 'Owner 1',
-    creationDate: 'Creation Date 1',
-    status: 'CHANGE_REQUEST',
     createdAt: 'May 04, 2023',
   },
 ];

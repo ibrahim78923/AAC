@@ -1,4 +1,4 @@
-import { Box, Button, Grid } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import Search from '@/components/Search';
 import { FullCalendarView } from './FullCalendarView';
 import { useCalendarView } from './useCalendarView';
@@ -11,6 +11,8 @@ import { AlertModals } from '@/components/AlertModals';
 import { EventDialog } from './EventDialog';
 import { calendarButtons } from './CalendarView.data';
 import { CalendarButtonI } from './CalenderView.interface';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const CalendarView = () => {
   const {
@@ -39,9 +41,9 @@ export const CalendarView = () => {
   return (
     <>
       <Header />
-      <Grid container spacing={2}>
+      <ContainerGrid>
         {meetingCard?.map((item: any) => (
-          <Grid item xs={12} sm={6} lg={4} key={item?.id}>
+          <CustomGrid sm={6} lg={4} key={item?.id}>
             <MeetingCard
               heading={item?.heading}
               meetingsCount={item?.meetingsCount}
@@ -49,9 +51,9 @@ export const CalendarView = () => {
               router={router}
               type={item?.type}
             />
-          </Grid>
+          </CustomGrid>
         ))}
-      </Grid>
+      </ContainerGrid>
       <Box
         p={2}
         border={`.1rem solid ${theme?.palette?.custom?.dark}`}

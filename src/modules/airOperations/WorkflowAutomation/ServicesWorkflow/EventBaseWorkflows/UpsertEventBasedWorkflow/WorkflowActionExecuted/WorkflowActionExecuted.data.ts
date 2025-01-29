@@ -38,6 +38,7 @@ export const optionsConstant = {
   setLocationAs: 'Set location as',
   status: 'Set Status as',
   usedBy: 'Set used by as',
+  assetType: 'Set Asset Type as',
 };
 export const actionsData = ({
   index,
@@ -48,6 +49,7 @@ export const actionsData = ({
   apiQueryLocations,
   apiUsersListDropdown,
   productId,
+  apiAssetType,
 }: any) => {
   const moduleTypeOptions = watch('module');
 
@@ -71,6 +73,8 @@ export const actionsData = ({
       return apiQueryLocations;
     } else if (selectedLabel === optionsConstant?.usedBy) {
       return apiUsersListDropdown;
+    } else if (selectedLabel === optionsConstant?.assetType) {
+      return apiAssetType;
     }
     return null;
   };
@@ -115,7 +119,8 @@ export const actionsData = ({
     selectedLabel === optionsConstant?.agent ||
     selectedLabel === optionsConstant?.setLocationAs ||
     selectedLabel === optionsConstant?.category ||
-    selectedLabel === optionsConstant?.usedBy
+    selectedLabel === optionsConstant?.usedBy ||
+    selectedLabel === optionsConstant?.assetType
   ) {
     valueComponent = {
       _id: 6,
@@ -126,14 +131,20 @@ export const actionsData = ({
         placeholder: 'Select',
         apiQuery: apiQuery,
         externalParams:
-          selectedLabel === optionsConstant?.usedBy ? { productId } : undefined,
+          selectedLabel === optionsConstant?.usedBy
+            ? { productId }
+            : selectedLabel === optionsConstant?.assetType
+              ? { meta: false }
+              : undefined,
         getOptionLabel:
           selectedLabel === optionsConstant?.agent ||
           selectedLabel === optionsConstant?.usedBy
             ? (option: any) => `${option?.firstName} ${option?.lastName}`
             : selectedLabel === optionsConstant?.setLocationAs
               ? (option: any) => option?.locationName
-              : (option: any) => option?.categoryName,
+              : selectedLabel === optionsConstant?.assetType
+                ? (option: any) => option?.name
+                : (option: any) => option?.categoryName,
       },
       component: RHFAutocompleteAsync,
     };

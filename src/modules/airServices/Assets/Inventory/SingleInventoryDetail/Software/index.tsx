@@ -1,11 +1,10 @@
-import NoData from '@/components/NoData';
 import { InventoryCard } from '@/components/Cards/InventoryCard/index';
 import { useSoftware } from './useSoftware';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
-import ApiErrorState from '@/components/ApiErrorState';
 import { Box } from '@mui/material';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const Software = () => {
   const {
@@ -20,16 +19,25 @@ export const Software = () => {
     deleteIsLoading,
     refetch,
   } = useSoftware();
-  if (isLoading || isFetching) return <SkeletonTable />;
-  if (isError) return <ApiErrorState canRefresh refresh={refetch} />;
+
   return (
     <PermissionsGuard
       permissions={[
         AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.VIEW_RELATED_SOFTWARES,
       ]}
     >
-      {!!data?.data?.inventories?.length ? (
-        data?.data?.inventories?.map((singleSoftware: any) => (
+      <ApiRequestFlow
+        showSkeleton={isLoading || isFetching}
+        hasNoData={!data?.data?.inventories?.length}
+        hasError={isError}
+        refreshApi={refetch}
+        noDataMessage="No software found"
+        skeletonType={SKELETON_TYPES?.BASIC_CARD}
+        cardSkeletonType={
+          SKELETON_TYPES?.SMALL_HORIZONTAL_TWO_LAYER_CIRCULAR_CARD
+        }
+      >
+        {data?.data?.inventories?.map((singleSoftware: any) => (
           <Box key={singleSoftware?.inventorySoftwares?._id}>
             <InventoryCard
               openDeleteModal={openDeleteModal}
@@ -43,10 +51,8 @@ export const Software = () => {
               deleteIsLoading={deleteIsLoading?.isLoading}
             />
           </Box>
-        ))
-      ) : (
-        <NoData message={'No Software found'} />
-      )}
+        ))}
+      </ApiRequestFlow>
     </PermissionsGuard>
   );
 };

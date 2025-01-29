@@ -35,7 +35,7 @@ export const upsertRolesAndRightDefaultValues = (data?: any) => {
 
 export const upsertRolesAndRightFormFieldsDynamic = () => [
   {
-    id: 1,
+    _id: 1,
     component: RHFTextField,
     componentProps: {
       label: 'Name',
@@ -45,7 +45,7 @@ export const upsertRolesAndRightFormFieldsDynamic = () => [
     },
   },
   {
-    id: 'description',
+    _id: 'description',
     component: RHFTextField,
     componentProps: {
       name: 'description',

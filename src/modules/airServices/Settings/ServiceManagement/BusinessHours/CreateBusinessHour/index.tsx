@@ -1,5 +1,5 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import {
   FormProvider,
   RHFAutocomplete,
@@ -21,6 +21,8 @@ import { timeZone } from '@/constants/time-zone';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { Fragment } from 'react';
 import { otherDateFormat } from '@/lib/date-time';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const CreateBusinessHour = () => {
   const {
@@ -55,8 +57,8 @@ export const CreateBusinessHour = () => {
       <br />
 
       <FormProvider methods={methods} onSubmit={onSubmitRequest}>
-        <Grid container spacing={3}>
-          <Grid item lg={6} xs={12}>
+        <ContainerGrid spacing={3}>
+          <CustomGrid lg={6}>
             <Box
               border="0.06rem solid"
               borderColor="custom.light_lavender_gray"
@@ -66,8 +68,8 @@ export const CreateBusinessHour = () => {
               {loadingStatus ? (
                 <SkeletonForm />
               ) : (
-                <Grid container spacing={3}>
-                  <Grid item xs={12}>
+                <ContainerGrid spacing={3}>
+                  <CustomGrid>
                     <RHFTextField
                       name={'name'}
                       label={'Name'}
@@ -75,17 +77,17 @@ export const CreateBusinessHour = () => {
                       required
                       disabled={singleBusinessHour?.data?.data?.perDefine}
                     />
-                  </Grid>
+                  </CustomGrid>
 
-                  <Grid item xs={12}>
+                  <CustomGrid>
                     <RHFEditor
                       name={'description'}
                       label={'Description'}
                       style={{ height: '12rem' }}
                     />
-                  </Grid>
+                  </CustomGrid>
 
-                  <Grid item xs={12}>
+                  <CustomGrid>
                     <RHFAutocomplete
                       name={'timeZone'}
                       required
@@ -94,13 +96,13 @@ export const CreateBusinessHour = () => {
                       size={'small'}
                       getOptionLabel={(option: any) => option?.label}
                     />
-                  </Grid>
-                </Grid>
+                  </CustomGrid>
+                </ContainerGrid>
               )}
             </Box>
-          </Grid>
+          </CustomGrid>
 
-          <Grid item lg={6} xs={12}>
+          <CustomGrid lg={6}>
             <Box
               border={1}
               borderColor={'custom.light_lavender_gray'}
@@ -186,8 +188,8 @@ export const CreateBusinessHour = () => {
                 </>
               )}
             </Box>
-          </Grid>
-        </Grid>
+          </CustomGrid>
+        </ContainerGrid>
 
         <Box
           mt={2}

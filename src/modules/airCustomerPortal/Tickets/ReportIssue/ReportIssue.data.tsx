@@ -7,6 +7,8 @@ import { Dispatch, SetStateAction } from 'react';
 import * as Yup from 'yup';
 import { RequesterDropdown } from './RequesterDropdown';
 import { AssociateAssetsDropdown } from './AssociateAssetsDropdown';
+import { ACCEPT_FILE_EXTENSIONS } from '@/constants/file';
+import { uploadFileMaxSize } from '@/utils/avatarUtils';
 
 export const reportIssueFormValidationSchema = (checkPermission: any) =>
   Yup?.object()?.shape({
@@ -117,6 +119,12 @@ export const reportIssueFormFieldsDynamic = [
     componentProps: {
       name: 'attachFile',
       fullWidth: true,
+      fileType: `PNG, JPG and PDF (max ${uploadFileMaxSize} MB)`,
+      accept: {
+        'image/png': ACCEPT_FILE_EXTENSIONS?.PNG,
+        'image/jpeg': ACCEPT_FILE_EXTENSIONS?.JPEG,
+        'application/pdf': ACCEPT_FILE_EXTENSIONS?.PDF,
+      },
     },
     component: RHFDropZone,
     md: 12,

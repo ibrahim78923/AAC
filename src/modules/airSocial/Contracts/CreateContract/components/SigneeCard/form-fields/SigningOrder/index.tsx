@@ -3,9 +3,10 @@ import React from 'react';
 
 interface SigneeOrderProps {
   name: string;
+  data: { label: string; value: string }[];
 }
 
-export default function SigningOrder({ name }: SigneeOrderProps) {
+export default function SigningOrder({ name, data }: SigneeOrderProps) {
   return (
     <RHFSelect
       name={name}
@@ -15,9 +16,11 @@ export default function SigningOrder({ name }: SigneeOrderProps) {
       select={true}
       placeholder="Select Signee Order"
     >
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
+      {data?.map((item) => (
+        <option key={item?.value} value={item?.value}>
+          {item?.label}
+        </option>
+      ))}
     </RHFSelect>
   );
 }

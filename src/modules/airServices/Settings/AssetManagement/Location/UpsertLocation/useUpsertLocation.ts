@@ -70,7 +70,7 @@ export const useUpsertLocation = () => {
 
     try {
       await postLocationTrigger(parentLocationApiData)?.unwrap();
-      successSnackbar('Location Added Successfully');
+      successSnackbar('Location added successfully');
       handleCancel();
     } catch (error) {
       const errorResponse = error as IErrorResponse;
@@ -91,7 +91,7 @@ export const useUpsertLocation = () => {
 
     try {
       await postChildLocationTrigger(postChildLocationParameter)?.unwrap();
-      successSnackbar('Child Location Added Successfully');
+      successSnackbar('Child location added successfully');
       handleCancel();
     } catch (error) {
       const errorResponse = error as IErrorResponse;
@@ -107,7 +107,7 @@ export const useUpsertLocation = () => {
 
     try {
       await putLocationTrigger(putLocationParameter)?.unwrap();
-      successSnackbar('Location Updated Successfully');
+      successSnackbar('Location updated successfully');
       handleCancel();
     } catch (error) {
       const errorResponse = error as IErrorResponse;
@@ -124,19 +124,22 @@ export const useUpsertLocation = () => {
     reset(() => locationDefaultValues(data?.data, router?.query));
   }, [data, reset, type]);
 
+  const apiCallInProgress =
+    postLocationStatus?.isLoading ||
+    putLocationStatus?.isLoading ||
+    postChildLocationStatus?.isLoading;
+
   return {
     methods,
     moveToLocationPage,
-    parentId,
-    childId,
     handleCancel,
     type,
+    parentId,
+    childId,
     isLoading,
     isFetching,
     upsertLocation,
     handleSubmit,
-    postLocationStatus,
-    putLocationStatus,
-    postChildLocationStatus,
+    apiCallInProgress,
   };
 };

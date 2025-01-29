@@ -1,10 +1,13 @@
-import { getDefaultValues } from './ViewContact.data';
+import {
+  getDefaultValues,
+  viewContactFormFieldsDynamic,
+} from './ViewContact.data';
 import { useEffect } from 'react';
 import { useGetAirServicesTicketContactByIdQuery } from '@/services/airServices/tickets/single-ticket-details/association';
 import { useFormLib } from '@/hooks/useFormLib';
 
 export default function useViewContact({ modalId, setModalId }: any) {
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetAirServicesTicketContactByIdQuery(
       { params: { id: modalId?.id } },
       { refetchOnMountOrArgChange: true },
@@ -29,6 +32,10 @@ export default function useViewContact({ modalId, setModalId }: any) {
     });
   };
 
+  const viewContactFormFields = viewContactFormFieldsDynamic?.(
+    data?.data?.profilePicture,
+  );
+
   return {
     onClose,
     data,
@@ -36,5 +43,7 @@ export default function useViewContact({ modalId, setModalId }: any) {
     isFetching,
     isError,
     methodsNewContact,
+    refetch,
+    viewContactFormFields,
   };
 }

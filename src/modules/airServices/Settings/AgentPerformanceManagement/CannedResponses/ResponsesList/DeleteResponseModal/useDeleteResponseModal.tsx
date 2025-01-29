@@ -1,14 +1,33 @@
 import { useDeleteAirServicesSettingsCannedAddResponsesMutation } from '@/services/airServices/settings/agent-performance-management/canned-responses';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { PAGINATION } from '@/config';
 
-export default function useDeleteResponseModal({
-  selectedData,
-  setSelectedData,
-  setDeleteModal,
-}: any) {
+export default function useDeleteResponseModal(props: any) {
+  const {
+    selectedData,
+    setSelectedData,
+    setIsPortalOpen,
+    totalRecords,
+    getResponseList,
+    page,
+    setPage,
+  } = props;
+
   const [deleteResponsesTrigger, { isLoading }] =
     useDeleteAirServicesSettingsCannedAddResponsesMutation();
+
+  const refetchApi = async () => {
+    const newPage =
+      selectedData?.length === totalRecords ? PAGINATION?.CURRENT_PAGE : page;
+    setPage?.(newPage);
+    await getResponseList?.(newPage);
+  };
+
+  const closeModal = () => {
+    setSelectedData([]);
+    setIsPortalOpen({ isOpen: false, action: '' });
+  };
 
   const deleteResponses = async () => {
     const deleteParams = new URLSearchParams();
@@ -21,14 +40,13 @@ export default function useDeleteResponseModal({
     try {
       await deleteResponsesTrigger(deleteResponsesParameter)?.unwrap();
       successSnackbar('Deleted successfully!');
-      setSelectedData([]);
-      setDeleteModal(false);
+      closeModal?.();
+      await refetchApi?.();
     } catch (error) {
       const errorResponse = error as IErrorResponse;
       errorSnackbar(errorResponse?.data?.message);
-      setDeleteModal(false);
     }
   };
 
-  return { deleteResponses, isLoading };
+  return { deleteResponses, isLoading, closeModal };
 }

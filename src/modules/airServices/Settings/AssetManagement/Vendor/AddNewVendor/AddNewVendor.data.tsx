@@ -121,7 +121,7 @@ export const newVendorDefaultValues = (data?: any, form?: any) => {
 
 export const newVendorDataArray = [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'name',
       label: 'Name',
@@ -131,7 +131,7 @@ export const newVendorDataArray = [
     component: RHFTextField,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       name: 'contactName',
       label: 'Contact Name',
@@ -140,7 +140,7 @@ export const newVendorDataArray = [
     component: RHFTextField,
   },
   {
-    id: 3,
+    _id: 3,
     componentProps: {
       name: 'phone',
       label: 'Phone',
@@ -149,7 +149,7 @@ export const newVendorDataArray = [
     component: RHFTextField,
   },
   {
-    id: 4,
+    _id: 4,
     componentProps: {
       name: 'mobile',
       label: 'Mobile',
@@ -158,7 +158,7 @@ export const newVendorDataArray = [
     component: RHFTextField,
   },
   {
-    id: 5,
+    _id: 5,
     componentProps: {
       name: 'email',
       label: 'Email',
@@ -167,31 +167,31 @@ export const newVendorDataArray = [
     component: RHFTextField,
   },
   {
-    id: 6,
+    _id: 6,
     componentProps: {
       name: 'description',
       label: 'Description',
       fullWidth: true,
       placeholder: 'Description',
       multiline: true,
-      minRows: 3,
+      rows: 3,
     },
     component: RHFTextField,
   },
   {
-    id: 7,
+    _id: 7,
     componentProps: {
       name: 'address',
       label: 'Address',
       fullWidth: true,
       placeholder: 'Address',
       multiline: true,
-      minRows: 3,
+      rows: 3,
     },
     component: RHFTextField,
   },
   {
-    id: 8,
+    _id: 8,
     componentProps: {
       name: 'country',
       label: 'Country',
@@ -200,7 +200,7 @@ export const newVendorDataArray = [
     component: RHFTextField,
   },
   {
-    id: 9,
+    _id: 9,
     componentProps: {
       name: 'state',
       label: 'State',
@@ -209,7 +209,7 @@ export const newVendorDataArray = [
     component: RHFTextField,
   },
   {
-    id: 10,
+    _id: 10,
     componentProps: {
       name: 'city',
       label: 'City',
@@ -218,7 +218,7 @@ export const newVendorDataArray = [
     component: RHFTextField,
   },
   {
-    id: 11,
+    _id: 11,
     componentProps: {
       name: 'zipCode',
       label: 'ZipCode',

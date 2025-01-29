@@ -200,7 +200,7 @@ const useCreateForm = (formType: any) => {
         },
       );
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong!', {
+      enqueueSnackbar(error?.data?.message[0] || error?.data?.message, {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }

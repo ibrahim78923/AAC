@@ -9,9 +9,10 @@ import { pxToRem } from '@/utils/getFontValue';
 import { AddWidgets } from './AddWidgets';
 import { StaticDashboardWidgets } from '../StaticDashboardWidgets';
 import { Header } from './Header';
-import { FormGrid } from '@/components/Grids/FormGrid';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { HeadingFormGrid } from '@/components/Grids/HeadingFormGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const UpsertDashboard = () => {
   const {
@@ -39,46 +40,48 @@ export const UpsertDashboard = () => {
         hasError={isError}
         refreshApi={refetch}
       >
-        <CustomGrid isContainer>
-          <CustomGrid
-            xl={6}
-            customStyles={{
-              display: 'flex',
-              flexDirection: 'column',
-              maxHeight: '100%',
-            }}
-          >
-            <Box flexGrow={1}>
-              <FormProvider methods={methods}>
-                <FormGrid
-                  formFieldsList={upsertServiceDashboardFormFields}
-                  hasHeading
-                />
-                <AddWidgets
-                  dashboardWidgetsWatch={dashboardWidgetsWatch}
-                  reportsWatch={reportsWatch}
-                  setValue={setValue}
-                />
-              </FormProvider>
-            </Box>
-            <Box textAlign={'right'}>
-              <Button
-                className="small"
-                variant="text"
-                onClick={openPreviewDashboard}
-                startIcon={<Visibility />}
-              >
-                Preview Dashboard
-              </Button>
+        <ContainerGrid>
+          <CustomGrid xl={6}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100%',
+              }}
+            >
+              <Box sx={{ flexGrow: 1 }}>
+                <FormProvider methods={methods}>
+                  <HeadingFormGrid
+                    formFieldsList={upsertServiceDashboardFormFields}
+                  />
+                  <AddWidgets
+                    dashboardWidgetsWatch={dashboardWidgetsWatch}
+                    reportsWatch={reportsWatch}
+                    setValue={setValue}
+                  />
+                </FormProvider>
+              </Box>
+              <Box sx={{ textAlign: 'right' }}>
+                <Button
+                  className="small"
+                  variant="text"
+                  onClick={openPreviewDashboard}
+                  startIcon={<Visibility />}
+                >
+                  Preview Dashboard
+                </Button>
+              </Box>
             </Box>
           </CustomGrid>
           <CustomGrid xl={6}>
             <Box
-              border="1px solid"
-              borderColor="custom.off_white_three"
-              p={2}
-              borderRadius={2}
-              overflow={'auto'}
+              sx={{
+                border: '1px solid',
+                borderColor: 'custom.off_white_three',
+                p: 2,
+                borderRadius: 2,
+                overflow: 'auto',
+              }}
             >
               <Typography
                 variant="subtitle1"
@@ -89,11 +92,13 @@ export const UpsertDashboard = () => {
                 Details view
               </Typography>
               <Box
-                p={2}
-                maxHeight={'70vh'}
-                minHeight={'70vh'}
-                overflow={'auto'}
-                minWidth={pxToRem(600)}
+                sx={{
+                  p: 2,
+                  maxHeight: '70vh',
+                  minHeight: '70vh',
+                  overflow: 'auto',
+                  minWidth: pxToRem(600),
+                }}
               >
                 <StaticDashboardWidgets
                   widgets={reportsWatch}
@@ -104,15 +109,17 @@ export const UpsertDashboard = () => {
               </Box>
             </Box>
           </CustomGrid>
-        </CustomGrid>
+        </ContainerGrid>
         <Box
-          display="flex"
-          gap={1}
-          py={2}
-          mt={2}
-          justifyContent="flex-end"
-          borderTop="1px solid"
-          borderColor="custom.off_white_three"
+          sx={{
+            display: 'flex',
+            gap: 1,
+            py: 2,
+            mt: 2,
+            justifyContent: 'flex-end',
+            borderTop: '1px solid',
+            borderColor: 'custom.off_white_three',
+          }}
         >
           <LoadingButton
             className="small"

@@ -2,10 +2,12 @@ import { DocumentTextIcon } from '@/assets/icons';
 import NoData from '@/components/NoData';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { LoadingButton } from '@mui/lab';
-import { Box, Divider, Grid, Typography } from '@mui/material';
+import { Box, Divider, Typography } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { FormProvider } from '@/components/ReactHookForm';
-import { TruncateText } from '@/components/TruncateText';
+import { ItemSummaryCard } from '@/components/Cards/ItemSummaryCard';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const KnowledgeBaseRelatedArticles = (props: any) => {
   const {
@@ -14,7 +16,6 @@ export const KnowledgeBaseRelatedArticles = (props: any) => {
     relatedArticlesData,
     handleRelatedArticles,
     singleArticleId,
-    theme,
     showFeedbackField,
     feedbackMethod,
     feedbackSubmit,
@@ -40,24 +41,14 @@ export const KnowledgeBaseRelatedArticles = (props: any) => {
           <NoData message="No related articles found" />
         ) : (
           relatedArticlesData?.map(
-            (item: any) =>
-              item?._id !== singleArticleId && (
-                <Box
-                  key={item?._id}
-                  display="flex"
-                  alignItems="center"
-                  p={1}
-                  borderRadius={1}
-                  bgcolor={theme?.palette?.grey?.[100]}
-                  mt={0.5}
-                  onClick={() => handleRelatedArticles(item?._id)}
-                  sx={{
-                    cursor: 'pointer',
-                    ':hover': { bgcolor: theme?.palette?.grey?.[700] },
-                  }}
-                >
-                  <DocumentTextIcon />
-                  <TruncateText text={item?.title?.toLowerCase()} />
+            (article: any) =>
+              article?._id !== singleArticleId && (
+                <Box key={article?._id}>
+                  <ItemSummaryCard
+                    onClick={() => handleRelatedArticles(article?._id)}
+                    Icon={<DocumentTextIcon />}
+                    name={article?.title}
+                  />
                 </Box>
               ),
           )
@@ -71,21 +62,21 @@ export const KnowledgeBaseRelatedArticles = (props: any) => {
             feedback.
           </Typography>
           <FormProvider methods={feedbackMethod} onSubmit={feedbackSubmit}>
-            <Grid container>
+            <ContainerGrid>
               {feedbackDataArray?.map((item: any) => {
                 if (
                   item?.showField ||
                   (item?.componentProps.name === 'email' && companyId)
                 ) {
                   return (
-                    <Grid item xs={12} key={item?.id}>
+                    <CustomGrid key={item?.id}>
                       <item.component {...item?.componentProps} />
-                    </Grid>
+                    </CustomGrid>
                   );
                 }
                 return null;
               })}
-            </Grid>
+            </ContainerGrid>
             <Divider sx={{ m: 1.5 }} />
             <Box display="flex" justifyContent="flex-end" gap={1}>
               <LoadingButton

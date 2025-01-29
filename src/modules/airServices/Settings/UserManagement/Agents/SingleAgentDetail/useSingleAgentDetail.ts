@@ -17,7 +17,7 @@ export const useSingleAgentDetail = () => {
     },
   };
 
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetSingleAgentDetailsQuery(getSingleAgentDetailsParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!agentId,
@@ -74,5 +74,6 @@ export const useSingleAgentDetail = () => {
     setIsAgentModalOpen,
     permissionRoleDetails,
     agentLevelDetail,
+    refetch,
   };
 };

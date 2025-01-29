@@ -2,6 +2,7 @@ import useAuth from '@/hooks/useAuth';
 import { errorSnackbar } from '@/lib/snackbar';
 import {
   useLazyGetAgentsDropDownInWorkflowQuery,
+  useLazyGetAssetTypeInWorkflowQuery,
   useLazyGetCategoriesDropdownInWorkflowQuery,
   useLazyGetDepartmentDropdownInWorkflowQuery,
   useLazyGetLocationsDropdownInWorkflowQuery,
@@ -40,6 +41,7 @@ export const useWorkflowActionExecuted = (props: any) => {
   const apiQueryCategories = useLazyGetCategoriesDropdownInWorkflowQuery();
   const apiQueryLocations = useLazyGetLocationsDropdownInWorkflowQuery();
   const apiUsersListDropdown = useLazyGetUsersListDropdownInWorkflowQuery();
+  const apiAssetType = useLazyGetAssetTypeInWorkflowQuery();
 
   return {
     fields,
@@ -53,5 +55,6 @@ export const useWorkflowActionExecuted = (props: any) => {
     apiQueryLocations,
     apiUsersListDropdown,
     productId,
+    apiAssetType,
   };
 };

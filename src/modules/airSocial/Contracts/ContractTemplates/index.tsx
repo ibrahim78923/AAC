@@ -8,7 +8,6 @@ import useContractTemplates from './useContractTemplates';
 import { styles } from './ContractTemplates.style';
 import { Box, Grid, Skeleton, Typography } from '@mui/material';
 import { IconPlainBack } from '@/assets/icons';
-import { mockRecentlyUsed } from './Templates.data';
 import { AIR_SOCIAL_CONTRACTS } from '@/constants/routes';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -16,9 +15,14 @@ export default function ContractTemplates() {
   const {
     router,
     setSearchBy,
+
     loadingGetTemplates,
     fetchingGetTemplates,
     contractTemplatesData,
+
+    recentlyUsedTemplatesData,
+    loadingRecentlyUsedTemplates,
+    fetchingRecentlyUsedTemplates,
   } = useContractTemplates();
 
   return (
@@ -47,14 +51,14 @@ export default function ContractTemplates() {
 
         <Box sx={styles.recentlyUsedItems}>
           <Box sx={styles.recentlyUsedHighlight}>Recently Used</Box>
-          {mockRecentlyUsed.map((item: any) => (
+          {recentlyUsedTemplatesData?.data.map((item: any) => (
             <Box
               key={item._id}
               component={Link}
               sx={styles.recentlyUsedItem}
               href={`${AIR_SOCIAL_CONTRACTS.CONTRACTS_CREATE}?id=${item._id}`}
             >
-              {item.title}
+              {item?.name}
             </Box>
           ))}
         </Box>
@@ -71,7 +75,7 @@ export default function ContractTemplates() {
                 }
               />
             </Grid>
-            {(loadingGetTemplates || fetchingGetTemplates) &&
+            {(loadingRecentlyUsedTemplates || fetchingRecentlyUsedTemplates) &&
               Array(5)
                 .fill(null)
                 .map(() => (
@@ -85,7 +89,7 @@ export default function ContractTemplates() {
                     />
                   </Grid>
                 ))}
-            {mockRecentlyUsed.map((item: any) => (
+            {recentlyUsedTemplatesData?.data?.map((item: any) => (
               <Grid item xs={6} sm={4} md={3} lg={2} key={item?._id}>
                 <TemplateCard data={item} />
               </Grid>

@@ -1,4 +1,6 @@
-import { ARRAY_INDEX, NOTISTACK_VARIANTS } from '@/constants/strings';
+import { MESSAGES } from '@/constants/messages';
+import { SNACKBAR_VARIANTS } from '@/constants/snackbar';
+import { ARRAY_INDEX } from '@/constants/strings';
 import { isoDateString } from '@/lib/date-time';
 import { enqueueSnackbar } from 'notistack';
 
@@ -7,23 +9,24 @@ export const transformResponse = (response: any) => {
 };
 
 export const errorSnackbar = (message?: any) => {
-  enqueueSnackbar(
-    Array?.isArray(message) ? message?.[0] : message ?? `Something went wrong`,
-    {
-      variant: NOTISTACK_VARIANTS?.ERROR,
-    },
-  );
+  const errorMessage = Array.isArray(message)
+    ? message?.[ARRAY_INDEX?.ZERO]
+    : message ?? MESSAGES?.SOMETHING_WENT_WRONG;
+
+  enqueueSnackbar(errorMessage, {
+    variant: SNACKBAR_VARIANTS?.ERROR,
+  });
 };
 
-export const successSnackbar = (message: any = 'Success') => {
+export const successSnackbar = (message: any = MESSAGES?.SUCCESS) => {
   enqueueSnackbar(message, {
-    variant: NOTISTACK_VARIANTS?.SUCCESS,
+    variant: SNACKBAR_VARIANTS?.SUCCESS,
   });
 };
 
 export const warningSnackbar = (message: any) => {
   enqueueSnackbar(message, {
-    variant: NOTISTACK_VARIANTS?.WARNING,
+    variant: SNACKBAR_VARIANTS?.WARNING,
   });
 };
 
@@ -156,4 +159,18 @@ export const generateRadomString = (length = 8) => {
   for (let i = length; i > 0; --i)
     result += CHARACTERS[Math?.floor(Math?.random() * CHARACTERS?.length)];
   return result;
+};
+
+export const convertCurrentCaseToTitleCase = (
+  str: any,
+  split = '-',
+): string => {
+  return str
+    ?.split?.(split)
+    ?.map?.(
+      (word: string) =>
+        word?.charAt?.(ARRAY_INDEX?.ZERO)?.toUpperCase?.() +
+        word?.slice?.(ARRAY_INDEX?.ONE),
+    )
+    ?.join?.(' ');
 };

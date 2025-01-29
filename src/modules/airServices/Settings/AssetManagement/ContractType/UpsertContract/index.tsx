@@ -1,8 +1,8 @@
-import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import useUpsertContract from './useUpsertContract';
-import { ContractFieldsFormDataArray } from './UpsertContract.data';
+import { contractTypeFormFields } from './UpsertContract.data';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export default function UpsertContract({ openDialog, setOpenDialog }: any) {
   const {
@@ -31,13 +31,7 @@ export default function UpsertContract({ openDialog, setOpenDialog }: any) {
       }
     >
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <Grid container spacing={1}>
-          {ContractFieldsFormDataArray?.map((item: any) => (
-            <Grid item xs={12} key={item?.id}>
-              <item.component {...item?.componentProps} size={'small'} />
-            </Grid>
-          ))}
-        </Grid>
+        <FormGrid spacing={1} formFieldsList={contractTypeFormFields} />
       </FormProvider>
     </CustomCommonDialog>
   );

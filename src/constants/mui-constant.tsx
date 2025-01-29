@@ -29,6 +29,7 @@ export const ACCORDION_VARIANTS = {
   SECONDARY: 'secondary',
   INHERIT: 'inherit',
   TERTIARY: 'tertiary',
+  CARD: 'card',
 };
 
 export const ACCORDION_ACTIONS = {
@@ -52,6 +53,8 @@ export const SKELETON_TYPES = {
   THREE_LAYER_BIG_LARGE_CARD: 'three-layer-big-large-card',
   TWO_LAYER_CARD: 'two-layer-card',
   THREE_LAYER_LARGE_REVERSE_CARD: 'three-layer-reverse-card',
+  GRID: 'grid',
+  ITEM: 'item',
 };
 
 export const SKELETON_VARIANTS: any = {

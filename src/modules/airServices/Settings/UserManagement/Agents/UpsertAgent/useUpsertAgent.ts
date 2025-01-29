@@ -12,24 +12,15 @@ import { filteredEmptyValues } from '@/utils/api';
 import { ARRAY_INDEX, ROLES } from '@/constants/strings';
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants/routes';
-import { useEffect, useState } from 'react';
-import {
-  useLazyGetDynamicFieldsQuery,
-  usePostDynamicFormAttachmentsMutation,
-} from '@/services/dynamic-fields';
-import {
-  DYNAMIC_FIELDS,
-  DYNAMIC_FORM_FIELDS_TYPES,
-  dynamicAttachmentsPost,
-} from '@/utils/dynamic-forms';
+import { useEffect } from 'react';
+import { DYNAMIC_FIELDS } from '@/utils/dynamic-forms';
 import { IAgentsProps } from '../Agents.interface';
 import { UpsertAgentResponseI } from './UpsertAgent.interface';
-import { isoDateString } from '@/lib/date-time';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useFormLib } from '@/hooks/useFormLib';
+import { useDynamicForm } from '@/components/DynamicForm/useDynamicForm';
 
 export const useUpsertAgent = (props: IAgentsProps) => {
-  const [form, setForm] = useState<any>([]);
   const router = useRouter();
 
   const { selectedAgentList, setIsAgentModalOpen, setSelectedAgentList } =
@@ -43,27 +34,19 @@ export const useUpsertAgent = (props: IAgentsProps) => {
     verifyServicesSettingsUserManagementAgentViaIgStatus,
   ] = useVerifyServicesSettingsUserManagementAgentViaIgMutation();
 
-  const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
-    useLazyGetDynamicFieldsQuery();
-  const [postAttachmentTrigger, postAttachmentStatus] =
-    usePostDynamicFormAttachmentsMutation();
-
-  const getDynamicFormData = async () => {
-    const params = {
-      productType: DYNAMIC_FIELDS?.PT_SERVICES,
-      moduleType: DYNAMIC_FIELDS?.MT_ADD_AGENT,
-    };
-    const getDynamicFieldsParameters = { params };
-
-    try {
-      const res: any = await getDynamicFieldsTrigger(
-        getDynamicFieldsParameters,
-      )?.unwrap();
-      setForm(res);
-    } catch (error: any) {
-      setForm([]);
-    }
+  const dynamicFormProps = {
+    productType: DYNAMIC_FIELDS?.PT_SERVICES,
+    moduleType: DYNAMIC_FIELDS?.MT_ADD_AGENT,
   };
+
+  const {
+    form,
+    handleUploadAttachments,
+    isDynamicFormLoading,
+    hasDynamicFormError,
+    attachmentsApiCallInProgress,
+    getDynamicFormData,
+  } = useDynamicForm(dynamicFormProps);
 
   useEffect(() => {
     getDynamicFormData();
@@ -92,47 +75,11 @@ export const useUpsertAgent = (props: IAgentsProps) => {
   const handleUpsertAgentSubmit = async (data: any) => {
     const filteredEmptyData = filteredEmptyValues(data);
 
-    const customFields: any = {};
-    const body: any = {};
-    const attachmentPromises: Promise<any>[] = [];
-
     try {
-      dynamicAttachmentsPost({
-        form,
+      const { customFields }: any = await handleUploadAttachments?.(
         data,
-        attachmentPromises,
-        customFields,
-        postAttachmentTrigger,
-      });
-
-      await Promise?.all(attachmentPromises);
-
-      const customFieldKeys = new Set(
-        form?.map((field: any) => field?.componentProps?.label),
+        filteredEmptyData,
       );
-
-      Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
-        if (customFieldKeys?.has(key)) {
-          if (value instanceof Date) {
-            value = isoDateString(value);
-          }
-          if (
-            typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
-            !Array?.isArray(value) &&
-            value !== null
-          ) {
-            customFields[key] = { ...customFields[key], ...value };
-          } else {
-            customFields[key] = value;
-          }
-        } else {
-          body[key] = value;
-        }
-      });
-
-      if (Object?.keys(customFields)?.length > 0) {
-        body.customFields = customFields;
-      }
 
       const payload = {
         firstName: filteredEmptyData?.firstName,
@@ -214,7 +161,7 @@ export const useUpsertAgent = (props: IAgentsProps) => {
   const apiCallInProgress =
     patchAgentStatus?.isLoading ||
     postAgentStatus?.isLoading ||
-    postAttachmentStatus?.isLoading ||
+    attachmentsApiCallInProgress ||
     verifyServicesSettingsUserManagementAgentViaIgStatus?.isLoading;
 
   return {
@@ -223,8 +170,10 @@ export const useUpsertAgent = (props: IAgentsProps) => {
     handleUpsertAgentSubmit,
     handleClose,
     upsertAgentFormFields,
-    getDynamicFieldsStatus,
     form,
     apiCallInProgress,
+    isDynamicFormLoading,
+    hasDynamicFormError,
+    getDynamicFormData,
   };
 };

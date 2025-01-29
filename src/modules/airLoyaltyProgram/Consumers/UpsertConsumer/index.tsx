@@ -1,11 +1,11 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { FormProvider } from '@/components/ReactHookForm';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { upsertConsumerData } from './UpsertConsumer.data';
 import { useUpsertConsumer } from './useUpsertConsumer';
-import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { AIR_LOYALTY_PROGRAM } from '@/constants/routes';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const UpsertConsumer = () => {
   const { methods, router, isLoading, isFetching, isError, refetch } =
@@ -33,17 +33,7 @@ export const UpsertConsumer = () => {
             <Typography variant={'h5'} mb={1}>
               Information
             </Typography>
-            <Grid container spacing={2}>
-              {upsertConsumerData?.map((item: ReactHookFormFieldsI) => (
-                <Grid item xs={12} md={6} key={item?.id}>
-                  <item.component
-                    {...item?.componentProps}
-                    size={'small'}
-                    disabled
-                  />
-                </Grid>
-              ))}
-            </Grid>
+            <FormGrid disabled formFieldsList={upsertConsumerData} md={6} />
           </FormProvider>
         </ApiRequestFlow>
       </Box>

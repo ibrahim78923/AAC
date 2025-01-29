@@ -37,16 +37,17 @@ export const Settings = () => {
         </Box>
       </Box>
       <Box
-        flex={1}
-        paddingX={2}
         sx={{
+          flex: 1,
           borderLeft: { md: 1, xs: 0 },
           borderTop: { xs: 1, md: 0 },
           borderLeftColor: { md: 'custom.off_white_three', xs: '' },
           borderTopColor: { xs: 'custom.off_white_three', md: '' },
+          pt: { xs: 1, md: 0 },
+          paddingX: { xs: 0.5, md: 2 },
+          overflow: 'auto',
+          maxWidth: '100%',
         }}
-        overflow={'auto'}
-        maxWidth={'100%'}
       >
         {renderSettingsModule?.[activeModule]}
       </Box>

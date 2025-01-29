@@ -36,8 +36,8 @@ export const AvatarInfoCard = (props: any) => {
         p={1}
         height="100%"
       >
-        <Box>
-          {hasCheckbox && (
+        {hasCheckbox && (
+          <Box>
             <Checkbox
               checked={checked}
               onClick={(e) => {
@@ -46,12 +46,12 @@ export const AvatarInfoCard = (props: any) => {
               onChange={onCheckboxChange}
               sx={{ p: 0 }}
             />
-          )}
-        </Box>
+          </Box>
+        )}
         <Box
           sx={{
             display: hasCheckbox ? 'block' : 'flex',
-            gap: 2,
+            gap: { xs: 1, md: 2 },
             alignItems: 'center',
           }}
         >

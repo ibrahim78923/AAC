@@ -1,8 +1,8 @@
-import ApiErrorState from '@/components/ApiErrorState';
 import { Header } from './Header';
 import { ArticleDetail } from './ArticleDetail';
 import { NextRouter, useRouter } from 'next/router';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import NoData from '@/components/NoData';
 
 export const SingleViewArticle = () => {
   const router: NextRouter = useRouter();
@@ -14,7 +14,7 @@ export const SingleViewArticle = () => {
     return (
       <>
         <Header />
-        <ApiErrorState message="No Article Found" />
+        <NoData message="No Article Found" />
       </>
     );
 

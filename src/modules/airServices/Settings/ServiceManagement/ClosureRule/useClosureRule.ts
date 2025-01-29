@@ -19,7 +19,7 @@ import { useFormLib } from '@/hooks/useFormLib';
 export const useClosureRule = () => {
   const router = useRouter();
 
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetAirServicesSettingsServiceClosureRulesQuery(null, {
       refetchOnMountOrArgChange: true,
     });
@@ -204,5 +204,6 @@ export const useClosureRule = () => {
     isFetching,
     onSubmit,
     handleSubmit,
+    refetch,
   };
 };

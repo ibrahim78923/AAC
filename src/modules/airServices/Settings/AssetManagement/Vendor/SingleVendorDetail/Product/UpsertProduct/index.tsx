@@ -1,7 +1,7 @@
-import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertProduct } from './useUpsertProduct';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const UpsertProduct = (props: any) => {
   const { upsertProductModal, editData } = props;
@@ -35,13 +35,7 @@ export const UpsertProduct = (props: any) => {
       dialogTitle={editData?._id ? 'Update Product' : 'Add Product'}
     >
       <FormProvider methods={methods}>
-        <Grid container spacing={2}>
-          {upsertProductFields?.map((item: any) => (
-            <Grid item xs={12} lg={item?.gridLength} flex={1} key={item?.id}>
-              <item.component {...item?.componentProps} />
-            </Grid>
-          ))}
-        </Grid>
+        <FormGrid formFieldsList={upsertProductFields} />
       </FormProvider>
     </CustomCommonDialog>
   );

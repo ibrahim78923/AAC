@@ -1,6 +1,6 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { useAddItemsToInventory } from './useAddItemsToInventory';
-import { Avatar, Box, Grid, Typography } from '@mui/material';
+import { Avatar, Box, Typography } from '@mui/material';
 import { ItemStatusImage, TotalItemImage } from '@/assets/images';
 import { FormProvider } from '@/components/ReactHookForm';
 import { AddedInventoryItems } from './AddedInventoryItems';
@@ -9,6 +9,8 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { truncateText } from '@/utils/avatarUtils';
 import { ADDED_INVENTORY_METHODS } from './AddItemsToInventory.data';
 import { CustomChip } from '@/components/Chip/CustomChip';
+import { FormGrid } from '@/components/Grids/FormGrid';
+import { HeadingFormGrid } from '@/components/Grids/HeadingFormGrid';
 
 export const AddItemsToInventory = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
@@ -137,44 +139,25 @@ export const AddItemsToInventory = (props: any) => {
                 />
               ) : (
                 <>
-                  <Grid
-                    container
-                    spacing={1}
-                    border={'2px solid'}
-                    borderColor={'primary.light'}
-                    bgcolor="custom.light_green_background"
-                    p={1}
-                    borderRadius={2}
+                  <Box
+                    sx={{
+                      border: '2px solid',
+                      borderColor: 'primary.light',
+                      backgroundColor: 'custom.light_green_background',
+                      p: 1,
+                      borderRadius: 2,
+                    }}
                   >
-                    {addItemsToInventoryCountFormFields?.map(
-                      (formField: any) => (
-                        <Grid
-                          item
-                          xs={12}
-                          md={formField?.md}
-                          key={formField?.id}
-                        >
-                          <formField.component
-                            {...formField?.componentProps}
-                            size="small"
-                          >
-                            {formField?.heading ? formField?.heading : null}
-                          </formField.component>
-                        </Grid>
-                      ),
-                    )}
-                  </Grid>
+                    <HeadingFormGrid
+                      spacing={1}
+                      formFieldsList={addItemsToInventoryCountFormFields}
+                    />
+                  </Box>
                   <br />
-                  <Grid container spacing={1}>
-                    {addItemsToInventoryFormFields?.map((formField: any) => (
-                      <Grid item xs={12} md={formField?.md} key={formField?.id}>
-                        <formField.component
-                          {...formField?.componentProps}
-                          size="small"
-                        />
-                      </Grid>
-                    ))}
-                  </Grid>
+                  <FormGrid
+                    spacing={1}
+                    formFieldsList={addItemsToInventoryFormFields}
+                  />
                 </>
               )}
             </FormProvider>

@@ -28,17 +28,18 @@ export const upsertRolesDefaultValues: any = (slugs: any) => {
 
 export const upsertRolesFormData = [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       label: 'Name',
       name: 'name',
       placeholder: 'Enter Role Name',
       required: true,
     },
+    md: 7,
     component: RHFTextField,
   },
   {
-    id: 3,
+    _id: 3,
     componentProps: {
       label: 'Description',
       name: 'description',
@@ -46,6 +47,7 @@ export const upsertRolesFormData = [
       required: true,
       style: { height: '20vh' },
     },
+    md: 7,
     component: RHFEditor,
   },
 ];

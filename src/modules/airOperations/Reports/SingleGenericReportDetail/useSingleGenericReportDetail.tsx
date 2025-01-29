@@ -1,13 +1,12 @@
-import { htmlToPdfConvert } from '@/lib/html-to-pdf-converter';
 import { useGetOperationsSingleReportDetailsForDownloadQuery } from '@/services/airOperations/reports';
 import { useRouter } from 'next/router';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 
 export const useSingleGenericReportDetail = () => {
   const router = useRouter();
   const { reportId } = router?.query;
   const reportRef = useRef(null);
-  const [isDownloading, setIsDownloading] = useState(false);
+
   const apiDataParameter = {
     queryParams: {
       id: reportId,
@@ -21,17 +20,10 @@ export const useSingleGenericReportDetail = () => {
       skip: !reportId,
     },
   );
+
   const reportWidgets = singleReportApi?.data?.data?.result?.genericReports;
   const reportResults =
     singleReportApi?.data?.data?.result?.genericReportsResult;
-
-  const downloadReport = async () => {
-    setIsDownloading(true);
-    try {
-      await htmlToPdfConvert?.(reportRef, reportWidgets?.name);
-    } catch (error) {}
-    setIsDownloading(false);
-  };
 
   const moveBack = () =>
     router?.push({
@@ -41,14 +33,15 @@ export const useSingleGenericReportDetail = () => {
         baseModule: router?.query?.baseModule,
       },
     });
+
+  const showLoader = singleReportApi?.isLoading || singleReportApi?.isFetching;
+
   return {
     reportWidgets,
     reportResults,
-    downloadReport,
     reportRef,
-    router,
     singleReportApi,
-    isDownloading,
     moveBack,
+    showLoader,
   };
 };

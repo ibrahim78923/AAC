@@ -1,12 +1,12 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { Grid } from '@mui/material';
 import { useAddNewVendor } from './useAddNewVendor';
 import { newVendorDataArray } from './AddNewVendor.data';
-import { componentMap } from '@/utils/dynamic-forms';
-import { createElement } from 'react';
 import { IVendorProps } from '../Vendor.interface';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { FormGrid } from '@/components/Grids/FormGrid';
+import { DynamicForm } from '@/components/DynamicForm';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
 const AddNewVendor = (props: IVendorProps) => {
   const { isADrawerOpen, update } = props;
@@ -15,68 +15,40 @@ const AddNewVendor = (props: IVendorProps) => {
     methods,
     handleSubmit,
     onSubmit,
-    isLoading,
     handleClose,
-    patchNewVendorStatus,
-    postNewVendorStatus,
-    getDynamicFieldsStatus,
     form,
-    postAttachmentStatus,
-    getDynamicFormData,
+    apiCallInProgress,
+    refreshApi,
+    hasError,
+    showLoader,
   } = useAddNewVendor(props);
 
   return (
     <CommonDrawer
-      footer={true}
+      footer
       isDrawerOpen={isADrawerOpen as boolean}
       onClose={handleClose}
-      title={update ? 'Edit Vendor' : 'New Vendor'}
+      title={`${
+        update
+          ? GENERIC_UPSERT_FORM_CONSTANT?.EDIT
+          : GENERIC_UPSERT_FORM_CONSTANT?.NEW
+      } Vendor`}
       okText="Save"
       isOk
       submitHandler={handleSubmit(onSubmit)}
-      isLoading={
-        patchNewVendorStatus?.isLoading ||
-        postNewVendorStatus?.isLoading ||
-        postAttachmentStatus?.isLoading
-      }
-      isDisabled={
-        postNewVendorStatus?.isLoading ||
-        patchNewVendorStatus?.isLoading ||
-        postAttachmentStatus?.isLoading
-      }
-      disabledCancelBtn={
-        postNewVendorStatus?.isLoading ||
-        patchNewVendorStatus?.isLoading ||
-        postAttachmentStatus?.isLoading
-      }
+      isLoading={apiCallInProgress}
+      isDisabled={apiCallInProgress}
+      disabledCancelBtn={apiCallInProgress}
     >
       <ApiRequestFlow
-        showSkeleton={
-          isLoading ||
-          getDynamicFieldsStatus?.isLoading ||
-          getDynamicFieldsStatus?.isFetching
-        }
-        hasError={getDynamicFieldsStatus?.isError}
-        refreshApi={getDynamicFormData}
+        showSkeleton={showLoader}
+        hasError={hasError}
+        refreshApi={refreshApi}
       >
         <FormProvider methods={methods}>
-          <Grid container spacing={2}>
-            {newVendorDataArray?.map((item: any) => (
-              <Grid item xs={12} key={item?.id}>
-                <item.component {...item?.componentProps} size={'small'} />
-              </Grid>
-            ))}
-            {form?.map((item: any) => (
-              <Grid item xs={12} key={item?.id}>
-                {componentMap[item?.component] &&
-                  createElement(componentMap[item?.component], {
-                    ...item?.componentProps,
-                    name: item?.componentProps?.label,
-                    size: 'small',
-                  })}
-              </Grid>
-            ))}
-          </Grid>
+          <FormGrid formFieldsList={newVendorDataArray}>
+            <DynamicForm dynamicFormFieldsList={form} />
+          </FormGrid>
         </FormProvider>
       </ApiRequestFlow>
     </CommonDrawer>

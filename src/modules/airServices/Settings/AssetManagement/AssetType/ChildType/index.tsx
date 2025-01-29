@@ -1,8 +1,8 @@
-import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { AssetFieldFormDataArray } from '../AssetType.data';
 import useChildType from './useChildType';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
+import { FormGrid } from '@/components/Grids/FormGrid';
+import { assetFieldFormFields } from '../AssetType.data';
 
 export default function ChildType({ childDetails, setChildDetails }: any) {
   const {
@@ -29,13 +29,7 @@ export default function ChildType({ childDetails, setChildDetails }: any) {
       submitButtonText={childDetails?.parentData ? 'Update' : 'Save'}
     >
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <Grid container spacing={1}>
-          {AssetFieldFormDataArray?.map((item: any) => (
-            <Grid item xs={12} key={item?.id}>
-              <item.component {...item?.componentProps} size={'small'} />
-            </Grid>
-          ))}
-        </Grid>
+        <FormGrid spacing={1} formFieldsList={assetFieldFormFields} />
       </FormProvider>
     </CustomCommonDialog>
   );

@@ -10,7 +10,7 @@ export const useContractUtilization = () => {
   const { width, height, left, top } = useDrawingArea();
   const searchParams = useSearchParams();
   const softwareId = searchParams?.get('softwareId');
-  const { data, isLoading, isError, isFetching } =
+  const { data, isLoading, isError, isFetching, refetch } =
     useGetAssetsSoftwareContractUtilizationQuery(softwareId, {
       refetchOnMountOrArgChange: true,
       skip: !!!softwareId,
@@ -117,5 +117,6 @@ export const useContractUtilization = () => {
     options,
     contractUtilizationChartData,
     totalCount,
+    refetch,
   };
 };

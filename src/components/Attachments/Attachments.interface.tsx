@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 export interface AttachmentsPropsI {
   recordId: string | string[];
-  permissionKey: string[];
+  permissionKey?: string[];
   size?: any;
   colSpan?: { [key: string]: number };
   canAttachFile?: boolean;
@@ -11,4 +11,5 @@ export interface AttachmentsPropsI {
   hasAttachments?: any;
   hasStyling?: boolean;
   canDelete?: boolean;
+  hasNoDeletePermission?: boolean;
 }

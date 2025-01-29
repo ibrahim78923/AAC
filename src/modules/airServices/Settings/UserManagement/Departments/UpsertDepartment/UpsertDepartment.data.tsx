@@ -45,7 +45,7 @@ export const departmentFormValues: any = (data: any, form?: any) => {
 
 export const departmentFormFieldsDynamic: any = [
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       label: 'Name',
       name: 'name',
@@ -56,11 +56,11 @@ export const departmentFormFieldsDynamic: any = [
     component: RHFTextField,
   },
   {
-    id: 3,
+    _id: 3,
     component: DepartmentHeadListDropdown,
   },
   {
-    id: 4,
+    _id: 4,
     componentProps: {
       label: 'Description',
       name: 'description',
@@ -70,7 +70,7 @@ export const departmentFormFieldsDynamic: any = [
     component: RHFEditor,
   },
   {
-    id: 5,
+    _id: 5,
     componentProps: {
       variant: 'h4',
     },
@@ -78,11 +78,11 @@ export const departmentFormFieldsDynamic: any = [
     component: Typography,
   },
   {
-    id: 6,
+    _id: 6,
     component: MembersListDropdown,
   },
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'fileUrl',
       label: 'Image',

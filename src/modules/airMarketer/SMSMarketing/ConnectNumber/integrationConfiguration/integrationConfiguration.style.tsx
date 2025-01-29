@@ -4,6 +4,7 @@ export const styles = {
     height: '88px',
     border: `1px solid ${theme?.palette?.grey[700]}`,
     borderRadius: '8px',
+    display: 'flex',
   }),
   accordionSummaryInner: () => ({
     display: 'flex',

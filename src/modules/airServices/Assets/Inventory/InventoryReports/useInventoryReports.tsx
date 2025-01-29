@@ -9,13 +9,11 @@ import {
 import { ARRAY_INDEX, MODULE_TYPE } from '@/constants/strings';
 import { useGetServiceSystematicReportsQuery } from '@/services/airServices/reports';
 import { AUTO_REFRESH_API_POLLING_TIME } from '@/config';
-import { htmlToPdfConvert } from '@/lib/html-to-pdf-converter';
 import { isoDateString } from '@/lib/date-time';
 import { useFormLib } from '@/hooks/useFormLib';
 
 export const useInventoryReports = () => {
   const router: NextRouter = useRouter();
-  const [loading, setLoading] = useState<boolean>(false);
   const [hasDate, setHasDate] = useState(false);
   const [filterDate, setFilterDate] = useState<any>({
     startDate: null,
@@ -34,7 +32,7 @@ export const useInventoryReports = () => {
     },
   };
 
-  const { handleSubmit, getValues, watch, setValue, methods } = useFormLib(
+  const { getValues, watch, setValue, methods } = useFormLib(
     inventoryReportMethodProps,
   );
   watch?.();
@@ -77,15 +75,6 @@ export const useInventoryReports = () => {
     setAnchorElDate?.(null);
   };
 
-  const handleDownload = async () => {
-    if (isLoading || isFetching || isError) return;
-    setLoading(true);
-    try {
-      await htmlToPdfConvert?.(downloadRef, 'Inventory_Report');
-    } catch (error) {}
-    setLoading(false);
-  };
-
   const inventoryData = data?.data;
   const inventoryReportsCardsData = InventoryReportsCountData(data?.data);
   const inventoryReportsChartsData = filteredEmptyValues(
@@ -105,21 +94,17 @@ export const useInventoryReports = () => {
 
   return {
     router,
-    handleDownload,
-    loading,
-    inventoryReportsChartsData,
-    inventoryReportsCardsData,
     methods,
-    handleSubmit,
     onDateFilterSubmit,
-    data,
+    downloadRef,
     isLoading,
     isFetching,
     isError,
     refetch,
-    downloadRef,
     setHasDate,
     shouldDateSet,
+    inventoryReportsChartsData,
+    inventoryReportsCardsData,
     inventoryData,
     getValues,
     apiCallInProgress,

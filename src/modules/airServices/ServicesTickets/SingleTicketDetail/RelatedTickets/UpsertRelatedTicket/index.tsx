@@ -1,12 +1,12 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useUpsertRelatedTicket } from './useUpsertRelatedTicket';
 import { Attachments } from '@/components/Attachments';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
-import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const UpsertRelatedTicket = () => {
   const {
@@ -51,17 +51,11 @@ export const UpsertRelatedTicket = () => {
         refreshApi={refetch}
       >
         <FormProvider methods={methods}>
-          <Grid container spacing={2}>
-            {upsertTicketFormFields?.map((item: ReactHookFormFieldsI) => (
-              <Grid item xs={12} md={item?.md} key={item?.id}>
-                <item.component
-                  {...item?.componentProps}
-                  size={'small'}
-                  disabled={item?.componentProps?.disabled ?? isError}
-                />
-              </Grid>
-            ))}
-          </Grid>
+          <FormGrid
+            spacing={1}
+            formFieldsList={upsertTicketFormFields}
+            disabled={isError}
+          />
           <br />
           {!!childTicketId && (
             <>

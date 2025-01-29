@@ -1,10 +1,12 @@
 import * as Yup from 'yup';
 import GetSoftwareUserContractDropdown from '../../../SoftwareFormFieldsDropdowns/GetSoftwareContractDropdown';
 import GetSoftwareUserUsersDropdown from '../../../SoftwareFormFieldsDropdowns/GetSoftwareUserUsersDropdown';
+
 export const addUserValidationSchema: any = Yup?.object()?.shape({
-  user: Yup?.mixed()?.nullable()?.required('Required'),
+  user: Yup?.mixed()?.nullable()?.required('User is required'),
   contract: Yup?.mixed()?.nullable(),
 });
+
 export const addUserDefaultValues = () => {
   return {
     user: null,
@@ -12,15 +14,13 @@ export const addUserDefaultValues = () => {
   };
 };
 
-export const addUserData = () => [
+export const addUserFormFieldsDynamic = () => [
   {
-    id: 1,
+    _id: 1,
     component: GetSoftwareUserUsersDropdown,
-    md: 12,
   },
   {
-    id: 2,
+    _id: 2,
     component: GetSoftwareUserContractDropdown,
-    md: 12,
   },
 ];

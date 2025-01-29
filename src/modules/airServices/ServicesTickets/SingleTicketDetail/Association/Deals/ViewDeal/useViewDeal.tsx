@@ -19,7 +19,7 @@ export default function useViewDeal({ modalId, setModalId }: any) {
     },
   };
 
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetAirServicesDealByIdQuery(getDealByIdParameter, {
       refetchOnMountOrArgChange: true,
     });
@@ -48,5 +48,6 @@ export default function useViewDeal({ modalId, setModalId }: any) {
     dealProducts,
     dealQuotes,
     dealAttachments,
+    refetch,
   };
 }

@@ -1,4 +1,3 @@
-import { Grid } from '@mui/material';
 import { useDashboard } from './useDashboard';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import AddBoxIcon from '@mui/icons-material/AddBox';
@@ -6,6 +5,8 @@ import { ReportIssue } from '../Tickets/ReportIssue';
 import NonRegisterDashboard from './NonRegisterDashboard';
 import { PublicSingleDropdownButton } from '@/components/Buttons/PublicSingleDropdownButton';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 const Dashboard = () => {
   const {
@@ -43,13 +44,13 @@ const Dashboard = () => {
           startIcon={<AddBoxIcon />}
         />
       </PageTitledHeader>
-      <Grid container spacing={2}>
+      <ContainerGrid>
         {dashboardWidgets?.map((item: any) => (
-          <Grid key={item?._id} item xs={12} lg={item?.lg}>
+          <CustomGrid key={item?._id} lg={item?.lg}>
             <item.component {...item?.componentProps} />
-          </Grid>
+          </CustomGrid>
         ))}
-      </Grid>
+      </ContainerGrid>
       {openReportAnIssueModal && (
         <ReportIssue
           isPortalOpen={openReportAnIssueModal}

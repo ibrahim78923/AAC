@@ -7,51 +7,34 @@ import {
   useUpdateDepartmentMutation,
 } from '@/services/airServices/settings/user-management/departments';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
-import {
-  useLazyGetDynamicFieldsQuery,
-  usePostDynamicFormAttachmentsMutation,
-} from '@/services/dynamic-fields';
-import {
-  DYNAMIC_FIELDS,
-  DYNAMIC_FORM_FIELDS_TYPES,
-  dynamicAttachmentsPost,
-} from '@/utils/dynamic-forms';
-import { useEffect, useState } from 'react';
-import { isoDateString } from '@/lib/date-time';
+import { DYNAMIC_FIELDS } from '@/utils/dynamic-forms';
+import { useEffect } from 'react';
 import { filteredEmptyValues } from '@/utils/api';
 import { useFormLib } from '@/hooks/useFormLib';
+import { useDynamicForm } from '@/components/DynamicForm/useDynamicForm';
 
 export const useUpsertDepartment = (props: any) => {
   const { setOpenUpsertModal, selectedDepartment, setSelectedDepartment } =
     props;
-  const [form, setForm] = useState<any>([]);
 
   const [postDepartmentTrigger, postDepartmentStatus] =
     usePostDepartmentMutation();
   const [updateDepartmentTrigger, updateDepartmentStatus] =
     useUpdateDepartmentMutation();
 
-  const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
-    useLazyGetDynamicFieldsQuery();
-  const [postAttachmentTrigger, postAttachmentStatus] =
-    usePostDynamicFormAttachmentsMutation();
-
-  const getDynamicFormData = async () => {
-    const params = {
-      productType: DYNAMIC_FIELDS?.PT_SERVICES,
-      moduleType: DYNAMIC_FIELDS?.MT_DEPARTMENT,
-    };
-    const getDynamicFieldsParameters = { params };
-
-    try {
-      const res: any = await getDynamicFieldsTrigger(
-        getDynamicFieldsParameters,
-      )?.unwrap();
-      setForm(res);
-    } catch (error: any) {
-      setForm([]);
-    }
+  const dynamicFormProps = {
+    productType: DYNAMIC_FIELDS?.PT_SERVICES,
+    moduleType: DYNAMIC_FIELDS?.MT_DEPARTMENT,
   };
+
+  const {
+    form,
+    handleUploadAttachments,
+    isDynamicFormLoading,
+    hasDynamicFormError,
+    attachmentsApiCallInProgress,
+    getDynamicFormData,
+  } = useDynamicForm(dynamicFormProps);
 
   useEffect(() => {
     getDynamicFormData();
@@ -73,47 +56,11 @@ export const useUpsertDepartment = (props: any) => {
   const submitUpsertDepartment = async (data: any) => {
     const filteredEmptyData = filteredEmptyValues(data);
 
-    const customFields: any = {};
-    const body: any = {};
-    const attachmentPromises: Promise<any>[] = [];
-
     try {
-      dynamicAttachmentsPost({
-        form,
+      const { body }: any = await handleUploadAttachments?.(
         data,
-        attachmentPromises,
-        customFields,
-        postAttachmentTrigger,
-      });
-
-      await Promise?.all(attachmentPromises);
-
-      const customFieldKeys = new Set(
-        form?.map((field: any) => field?.componentProps?.label),
+        filteredEmptyData,
       );
-
-      Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
-        if (customFieldKeys?.has(key)) {
-          if (value instanceof Date) {
-            value = isoDateString(value);
-          }
-          if (
-            typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
-            !Array?.isArray(value) &&
-            value !== null
-          ) {
-            customFields[key] = { ...customFields[key], ...value };
-          } else {
-            customFields[key] = value;
-          }
-        } else {
-          body[key] = value;
-        }
-      });
-
-      if (Object?.keys(customFields)?.length > 0) {
-        body.customFields = customFields;
-      }
 
       const departmentFormData = new FormData();
       departmentFormData?.append('name', data?.name);
@@ -178,7 +125,7 @@ export const useUpsertDepartment = (props: any) => {
   const apiCallInProgress =
     postDepartmentStatus?.isLoading ||
     updateDepartmentStatus?.isLoading ||
-    postAttachmentStatus?.isLoading;
+    attachmentsApiCallInProgress;
 
   return {
     handleClose,
@@ -189,8 +136,9 @@ export const useUpsertDepartment = (props: any) => {
     updateDepartmentStatus,
     selectedDepartment,
     form,
-    getDynamicFieldsStatus,
-    postAttachmentStatus,
     apiCallInProgress,
+    isDynamicFormLoading,
+    hasDynamicFormError,
+    getDynamicFormData,
   };
 };

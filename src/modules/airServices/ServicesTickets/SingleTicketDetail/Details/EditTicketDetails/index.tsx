@@ -1,14 +1,12 @@
 import { FormProvider } from '@/components/ReactHookForm';
-import { Box, Grid, Typography } from '@mui/material';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { Box, Typography } from '@mui/material';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 import { LoadingButton } from '@mui/lab';
 import { useEditTicketDetails } from './useEditTicketDetails';
-import ApiErrorState from '@/components/ApiErrorState';
-import { componentMap } from '@/utils/dynamic-forms';
-import { createElement } from 'react';
-import { ReactHookFormFieldsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { FormGrid } from '@/components/Grids/FormGrid';
+import { DynamicForm } from '@/components/DynamicForm';
 
 const { UPDATE_INFO_EDIT_TICKET_DETAILS } =
   AIR_SERVICES_TICKETS_TICKETS_DETAILS ?? {};
@@ -33,36 +31,19 @@ export const EditTicketDetails = () => {
       <Typography variant="h5" mb={2} color="slateBlue.main">
         Properties
       </Typography>
-      {getApiCallInProgress ? (
-        <SkeletonForm gridSize={{ md: 4 }} length={8} />
-      ) : getApiCallHasError ? (
-        <ApiErrorState
-          canRefresh
-          refresh={() => {
-            refetch?.();
-            getDynamicFormData?.();
-          }}
-        />
-      ) : (
+      <ApiRequestFlow
+        showSkeleton={getApiCallInProgress}
+        hasError={getApiCallHasError}
+        refreshApi={() => {
+          refetch?.();
+          getDynamicFormData?.();
+        }}
+      >
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
           <PermissionsGuard permissions={[UPDATE_INFO_EDIT_TICKET_DETAILS]}>
-            <Grid container spacing={2}>
-              {ticketDetailsFormFields?.map((item: ReactHookFormFieldsI) => (
-                <Grid item xs={12} md={4} key={item?.id}>
-                  <item.component {...item?.componentProps} size={'small'} />
-                </Grid>
-              ))}
-              {form?.map((item: ReactHookFormFieldsI) => (
-                <Grid item xs={12} md={4} key={item?.id}>
-                  {componentMap[item?.component] &&
-                    createElement(componentMap[item?.component], {
-                      ...item?.componentProps,
-                      name: item?.componentProps?.label,
-                      size: 'small',
-                    })}
-                </Grid>
-              ))}
-            </Grid>
+            <FormGrid formFieldsList={ticketDetailsFormFields} md={4}>
+              <DynamicForm dynamicFormFieldsList={form} md={4} />
+            </FormGrid>
             <Box textAlign={'end'} p={2}>
               <LoadingButton
                 className="small"
@@ -86,7 +67,7 @@ export const EditTicketDetails = () => {
             </Box>
           </PermissionsGuard>
         </FormProvider>
-      )}
+      </ApiRequestFlow>
     </Box>
   );
 };

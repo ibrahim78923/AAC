@@ -3,12 +3,11 @@ import { FormProvider } from '@/components/ReactHookForm';
 import useNewPurchaseOrder from './useNewPurchaseOrder';
 import ItemsDetails from './ItemsDetails';
 import { LoadingButton } from '@mui/lab';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
-import ApiErrorState from '@/components/ApiErrorState';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 const NewPurchaseOrder = () => {
   const {
@@ -21,10 +20,11 @@ const NewPurchaseOrder = () => {
     router,
     loadingStatus,
     watch,
-    singlePurchaseOrder,
     form,
-    getDynamicFieldsStatus,
     handleSubmit,
+    showLoader,
+    hasError,
+    refresh,
   } = useNewPurchaseOrder();
 
   return (
@@ -38,13 +38,11 @@ const NewPurchaseOrder = () => {
         canMovedBack
         moveBack={handlePageBack}
       />
-      {singlePurchaseOrder?.isLoading ||
-      getDynamicFieldsStatus?.isLoading ||
-      getDynamicFieldsStatus?.isFetching ? (
-        <SkeletonForm />
-      ) : getDynamicFieldsStatus?.isError ? (
-        <ApiErrorState />
-      ) : (
+      <ApiRequestFlow
+        showSkeleton={showLoader}
+        hasError={hasError}
+        refreshApi={refresh}
+      >
         <FormProvider methods={methods} onSubmit={handleSubmit(submit)}>
           <Grid container rowSpacing={1.8}>
             <Grid
@@ -110,7 +108,7 @@ const NewPurchaseOrder = () => {
             </LoadingButton>
           </Box>
         </FormProvider>
-      )}
+      </ApiRequestFlow>
     </>
   );
 };

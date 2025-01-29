@@ -1,9 +1,11 @@
-import { Box, Card, Grid, Typography } from '@mui/material';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { scheduleCards } from './ScheduleMeetings.data';
-import { styles } from './ScheduleMeetings.style';
 import { SOCIAL_COMPONENTS } from '@/constants/routes';
 import { useScheduleMeetings } from './useScheduleMeetings';
+import { ItemLinkCard } from '@/components/Cards/ItemLinkCard/ItemLinkCard';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { Theme } from '@mui/material';
 
 export const ScheduleMeetings = () => {
   const { moduleId, moduleType, modules, router } = useScheduleMeetings();
@@ -20,29 +22,32 @@ export const ScheduleMeetings = () => {
           )
         }
       />
-      <Grid container spacing={{ lg: 3, xs: 2 }}>
+      <br />
+      <ContainerGrid spacing={3}>
         {scheduleCards(moduleId, moduleType)?.map((item: any) => (
-          <Grid item xl={3} lg={4} md={6} xs={12} key={item?.id}>
-            <Box
-              sx={styles?.cardBox}
-              onClick={() =>
-                router?.push({
-                  pathname: SOCIAL_COMPONENTS?.UPSERT_MEETING,
-                  query: item?.query,
-                })
-              }
-            >
-              <Card sx={styles?.cardStyle}>
-                <item.icon />
-                <Typography variant="formTopHeading" color="slateBlue.main">
-                  {item?.title}
-                </Typography>
-                <Typography variant="body2">{item?.description}</Typography>
-              </Card>
-            </Box>
-          </Grid>
+          <CustomGrid xl={3} lg={4} md={6} key={item?.id}>
+            <ItemLinkCard
+              Icon={item?.icon}
+              itemType={item?.title}
+              itemLink={SOCIAL_COMPONENTS?.UPSERT_MEETING}
+              itemPurpose={item?.description}
+              display="block"
+              itemTypeFontSize="h5"
+              avatarVariant="circular"
+              avatarSize={{ width: 56, height: 56 }}
+              textAlign="center"
+              avatarMargin="auto"
+              marginY={2}
+              hasQuery={item?.query}
+              borderColor="custom.off_white_three"
+              hoverStyles={{
+                boxShadow: (theme: Theme) =>
+                  `0px 0px 4px 4px ${theme?.palette?.primary?.light}`,
+              }}
+            />
+          </CustomGrid>
         ))}
-      </Grid>
+      </ContainerGrid>
     </>
   );
 };

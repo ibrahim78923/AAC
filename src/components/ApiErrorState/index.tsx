@@ -21,6 +21,7 @@ const ApiErrorState = (props: ApiErrorStatePropsI) => {
       flexDirection={'column'}
       alignItems={'center'}
       justifyContent={'center'}
+      width={'100%'}
     >
       <Box
         display={'grid'}

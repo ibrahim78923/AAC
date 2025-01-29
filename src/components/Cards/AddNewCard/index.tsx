@@ -10,6 +10,8 @@ export const AddNewCard = (props: any) => {
     iconBackgroundColor = 'primary.lighter',
     iconBorderColor = 'transparent',
     iconColor = 'primary.main',
+    cardBorderColor = 'custom.off_white_three',
+    iconPadding = 0.6,
   } = props;
 
   return (
@@ -23,7 +25,7 @@ export const AddNewCard = (props: any) => {
       gap={1}
       height="100%"
       border="1px solid"
-      borderColor="custom.off_white_three"
+      borderColor={cardBorderColor}
       borderRadius={2}
       sx={{ cursor: 'pointer' }}
       onClick={onClick}
@@ -37,13 +39,13 @@ export const AddNewCard = (props: any) => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          padding: 0.6,
+          padding: iconPadding,
         }}
       >
         <Add fontSize="large" color="primary" sx={{ color: iconColor }} />
       </Box>
       {title && (
-        <Typography fontWeight={600} color="slateBlue.main">
+        <Typography fontWeight={600} variant="subtitle2" color="slateBlue.main">
           {title}
         </Typography>
       )}

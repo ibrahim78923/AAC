@@ -582,6 +582,7 @@ export const CONTRACTS_STATUS = {
   VIEWED: 'VIEWED',
   SENT: 'SENT',
   ALL: 'ALL',
+  DEFAULT: 'DEFAULT',
 };
 
 export const CONTRACTS_STATUS_TITLES = {

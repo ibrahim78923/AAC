@@ -14,14 +14,14 @@ export const moveTicketsDefaultValue = {
 
 export const moveTicketsFormFieldsDynamic = () => [
   {
-    id: 1,
+    _id: 1,
     component: DepartmentFieldDropdown,
     componentProps: {
       required: true,
     },
   },
   {
-    id: 2,
+    _id: 2,
     component: AgentFieldDropdown,
     componentProps: {
       required: true,

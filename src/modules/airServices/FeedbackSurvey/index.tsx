@@ -1,8 +1,10 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { feedbackCards, feedbackComponent } from './FeedbackSurvey.data';
 import { useFeedbackSurvey } from './useFeedbackSurvey';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const FeedbackSurvey = () => {
   const {
@@ -20,13 +22,11 @@ export const FeedbackSurvey = () => {
         borderRadius={4}
         p={2}
       >
-        <Grid container spacing={4}>
+        <ContainerGrid spacing={4}>
           {feedbackCards?.map((item) => (
             <PermissionsGuard permissions={item?.permissions} key={item?.id}>
-              <Grid
-                item
+              <CustomGrid
                 sm={supportPermissions && satisfactionPermissions ? 6 : 12}
-                xs={12}
               >
                 <Box
                   p={2}
@@ -61,10 +61,10 @@ export const FeedbackSurvey = () => {
                     {item?.description}
                   </Typography>
                 </Box>
-              </Grid>
+              </CustomGrid>
             </PermissionsGuard>
           ))}
-        </Grid>
+        </ContainerGrid>
       </Box>
       <br />
       {feedbackComponent?.[router?.query?.type]}

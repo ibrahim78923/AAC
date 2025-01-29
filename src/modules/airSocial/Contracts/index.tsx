@@ -60,6 +60,8 @@ const Contracts = () => {
   const { openModalSignPdf, setOpenModalSignPdf, onSubmitModalSignPdf } =
     useContracts();
 
+  const [selectedRecords, setSelectedRecords] = useState([]);
+
   const router = useRouter();
   const isSmallScreen = useMediaQuery('(max-width: 1000px)');
 
@@ -85,15 +87,17 @@ const Contracts = () => {
   const { handleSubmit, reset } = methods;
   const onSubmit = () => {};
 
-  const [value, setValue] = useState(CONTRACTS_STATUS?.ALL);
+  const [tabValue, setTabValue] = useState(CONTRACTS_STATUS?.ALL);
+
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
+    setSelectedRecords([]);
+    setTabValue(newValue);
   };
 
   //Filters
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
 
-  const methodsFilter: any = useForm({
+  const methodsFilter: any = useForm<any>({
     resolver: yupResolver(contractsFiltersValidationSchema),
     defaultValues: contractsFiltersDefaultValues,
   });
@@ -339,7 +343,7 @@ const Contracts = () => {
             >
               <Tabs
                 sx={styles?.tabRoot(theme)}
-                value={value}
+                value={tabValue}
                 onChange={handleChange}
                 allowScrollButtonsMobile
                 orientation="horizontal"
@@ -357,7 +361,7 @@ const Contracts = () => {
             </Box>
 
             <Box sx={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-              <Actions />
+              <Actions selectedRecords={selectedRecords} />
 
               <Tooltip title={'Refresh Filter'}>
                 <Button
@@ -387,7 +391,11 @@ const Contracts = () => {
             </Box>
           </Box>
 
-          <ContractsGrid />
+          <ContractsGrid
+            selectedRecords={selectedRecords}
+            setSelectedRecords={setSelectedRecords}
+            tabValue={tabValue}
+          />
         </Grid>
       </Grid>
 

@@ -1,5 +1,5 @@
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
-import { Box, Grid, Theme } from '@mui/material';
+import { Box, Theme } from '@mui/material';
 import { ReportIssuePropsI } from './ReportIssue.interface';
 import { useReportIssue } from './useReportIssue';
 import { PORTAL_TICKET_FIELDS } from '@/constants/strings';
@@ -7,6 +7,8 @@ import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPo
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
 import { CustomChip } from '@/components/Chip/CustomChip';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const ReportIssue = (props: ReportIssuePropsI) => {
   const { isPortalOpen } = props;
@@ -69,8 +71,8 @@ export const ReportIssue = (props: ReportIssuePropsI) => {
         })}
       >
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={4}>
-            <Grid item xs={12}>
+          <ContainerGrid spacing={4}>
+            <CustomGrid>
               {reportIssueFormFields?.map((item) => {
                 if (requestorCondition(item))
                   return (
@@ -144,8 +146,8 @@ export const ReportIssue = (props: ReportIssuePropsI) => {
                   />
                 );
               })}
-            </Grid>
-          </Grid>
+            </CustomGrid>
+          </ContainerGrid>
         </FormProvider>
       </CustomCommonDialog>
     </>

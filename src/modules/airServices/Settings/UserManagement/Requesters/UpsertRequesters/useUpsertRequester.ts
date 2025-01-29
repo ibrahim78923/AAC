@@ -10,27 +10,18 @@ import {
   usePatchRequesterMutation,
   usePostAddRequesterMutation,
 } from '@/services/airServices/settings/user-management/requesters';
-import {
-  useLazyGetDynamicFieldsQuery,
-  usePostDynamicFormAttachmentsMutation,
-} from '@/services/dynamic-fields';
-import {
-  DYNAMIC_FIELDS,
-  DYNAMIC_FORM_FIELDS_TYPES,
-  dynamicAttachmentsPost,
-} from '@/utils/dynamic-forms';
-import { useEffect, useState } from 'react';
+import { DYNAMIC_FIELDS } from '@/utils/dynamic-forms';
+import { useEffect } from 'react';
 import { IRequestersProps } from '../Requesters.interface';
 import { useAuthCompanyVerificationMutation } from '@/services/auth';
 import { UpsertRequestersResponseI } from './UpsertRequesters.interface';
-import { isoDateString } from '@/lib/date-time';
 import { filteredEmptyValues } from '@/utils/api';
 import { useFormLib } from '@/hooks/useFormLib';
+import { useDynamicForm } from '@/components/DynamicForm/useDynamicForm';
 
 export const useUpsertRequester = (props: IRequestersProps) => {
   const { setIsDrawerOpen, singleRequesterDetails } = props;
   const router = useRouter();
-  const [form, setForm] = useState<any>([]);
 
   const { _id } = router?.query;
 
@@ -39,28 +30,22 @@ export const useUpsertRequester = (props: IRequestersProps) => {
   const [addRequesterTrigger, addRequesterStatus] =
     usePostAddRequesterMutation();
 
-  const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
-    useLazyGetDynamicFieldsQuery();
-  const [postAttachmentTrigger, postAttachmentStatus] =
-    usePostDynamicFormAttachmentsMutation();
   const [igVerificationTrigger, igVerificationStatus] =
     useAuthCompanyVerificationMutation();
-  const getDynamicFormData = async () => {
-    const params = {
-      productType: DYNAMIC_FIELDS?.PT_SERVICES,
-      moduleType: DYNAMIC_FIELDS?.MT_ADD_REQUESTER,
-    };
-    const getDynamicFieldsParameters = { params };
 
-    try {
-      const res: any = await getDynamicFieldsTrigger(
-        getDynamicFieldsParameters,
-      )?.unwrap();
-      setForm(res);
-    } catch (error: any) {
-      setForm([]);
-    }
+  const dynamicFormProps = {
+    productType: DYNAMIC_FIELDS?.PT_SERVICES,
+    moduleType: DYNAMIC_FIELDS?.MT_ADD_REQUESTER,
   };
+
+  const {
+    form,
+    handleUploadAttachments,
+    isDynamicFormLoading,
+    hasDynamicFormError,
+    attachmentsApiCallInProgress,
+    getDynamicFormData,
+  } = useDynamicForm(dynamicFormProps);
 
   useEffect(() => {
     getDynamicFormData();
@@ -92,47 +77,11 @@ export const useUpsertRequester = (props: IRequestersProps) => {
   const submitUpsertRequester = async (data: any) => {
     const filteredEmptyData = filteredEmptyValues(data);
 
-    const customFields: any = {};
-    const body: any = {};
-    const attachmentPromises: Promise<any>[] = [];
-
     try {
-      dynamicAttachmentsPost({
-        form,
+      const { customFields }: any = await handleUploadAttachments?.(
         data,
-        attachmentPromises,
-        customFields,
-        postAttachmentTrigger,
-      });
-
-      await Promise?.all(attachmentPromises);
-
-      const customFieldKeys = new Set(
-        form?.map((field: any) => field?.componentProps?.label),
+        filteredEmptyData,
       );
-
-      Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
-        if (customFieldKeys?.has(key)) {
-          if (value instanceof Date) {
-            value = isoDateString(value);
-          }
-          if (
-            typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
-            !Array?.isArray(value) &&
-            value !== null
-          ) {
-            customFields[key] = { ...customFields[key], ...value };
-          } else {
-            customFields[key] = value;
-          }
-        } else {
-          body[key] = value;
-        }
-      });
-
-      if (Object?.keys(customFields)?.length > 0) {
-        body.customFields = customFields;
-      }
 
       const payload = {
         firstName: filteredEmptyData?.firstName,
@@ -192,6 +141,11 @@ export const useUpsertRequester = (props: IRequestersProps) => {
   const upsertRequestersFormFields = upsertRequestersArray?.(
     singleRequesterDetails,
   );
+  const apiCallInProgress =
+    addRequesterStatus?.isLoading ||
+    patchRequesterStatus?.isLoading ||
+    attachmentsApiCallInProgress ||
+    igVerificationStatus?.isLoading;
 
   return {
     handleClose,
@@ -202,9 +156,11 @@ export const useUpsertRequester = (props: IRequestersProps) => {
     patchRequesterStatus,
     _id,
     upsertRequestersFormFields,
-    getDynamicFieldsStatus,
-    postAttachmentStatus,
+    isDynamicFormLoading,
+    hasDynamicFormError,
     form,
     igVerificationStatus,
+    apiCallInProgress,
+    getDynamicFormData,
   };
 };

@@ -12,6 +12,11 @@ export const LOCATION_TYPE = {
   CHILD: 'child',
 };
 
+export const UPSERT_LOCATION_TITLE = {
+  EDIT_CHILD_LOCATION: 'Edit child location',
+  EDIT_LOCATION: 'Edit location',
+};
+
 export const validationSchemaAddNewLocation = yup?.object()?.shape({
   locationName: yup?.string()?.trim()?.required('Location name is required'),
   contactName: yup
@@ -131,8 +136,8 @@ export const locationDefaultValues: any = (
 
 export const addNewLocationDataFields = (type: string) => [
   {
-    id: 1,
-    gridLength: 6,
+    _id: 1,
+    md: 6,
     componentProps: {
       fullWidth: true,
       name: 'locationName',
@@ -144,8 +149,8 @@ export const addNewLocationDataFields = (type: string) => [
   ...(type === LOCATION_TYPE?.CHILD
     ? [
         {
-          id: 2,
-          gridLength: 6,
+          _id: 2,
+          md: 6,
           componentProps: {
             fullWidth: true,
             disabled: type === LOCATION_TYPE?.CHILD,
@@ -157,18 +162,18 @@ export const addNewLocationDataFields = (type: string) => [
       ]
     : []),
   {
-    id: 3,
+    _id: 3,
     componentProps: {
       fullWidth: true,
       name: 'contactName',
       label: 'Contact Name',
     },
     component: RHFTextField,
-    gridLength: 6,
+    md: 6,
   },
   {
-    id: 4,
-    gridLength: 6,
+    _id: 4,
+    md: 6,
     componentProps: {
       fullWidth: true,
       name: 'email',
@@ -177,83 +182,83 @@ export const addNewLocationDataFields = (type: string) => [
     component: RHFTextField,
   },
   {
-    id: 5,
+    _id: 5,
     componentProps: {
       fullWidth: true,
       name: 'phone',
       label: 'Phone',
     },
     component: RHFTextField,
-    gridLength: 6,
+    md: 6,
   },
   {
-    id: 6,
+    _id: 6,
     componentProps: {
       variant: 'h4',
       fontWeight: 600,
     },
     heading: 'Address',
-    gridLength: 12,
+    md: 12,
     component: Typography,
   },
   {
-    id: 7,
+    _id: 7,
     componentProps: {
       fullWidth: true,
       name: 'address.addressLine1',
       label: 'Address Line 1',
     },
-    gridLength: 6,
+    md: 6,
     component: RHFTextField,
   },
   {
-    id: 8,
+    _id: 8,
     componentProps: {
       fullWidth: true,
       name: 'address.addressLine2',
       label: 'Address Line 2',
     },
-    gridLength: 6,
+    md: 6,
     component: RHFTextField,
   },
   {
-    id: 9,
+    _id: 9,
     componentProps: {
       fullWidth: true,
       name: 'address.city',
       label: 'City',
     },
-    gridLength: 6,
+    md: 6,
     component: RHFTextField,
   },
   {
-    id: 10,
+    _id: 10,
     componentProps: {
       fullWidth: true,
       name: 'address.country',
       label: 'Country',
     },
     component: RHFTextField,
-    gridLength: 6,
+    md: 6,
   },
   {
-    id: 11,
+    _id: 11,
     componentProps: {
       fullWidth: true,
       name: 'address.state',
       label: 'State',
     },
     component: RHFTextField,
-    gridLength: 6,
+    md: 6,
   },
   {
-    id: 12,
+    _id: 12,
     componentProps: {
       fullWidth: true,
       name: 'address.zipCode',
       label: 'Zip Code',
     },
     component: RHFTextField,
-    gridLength: 6,
+    md: 6,
   },
 ];

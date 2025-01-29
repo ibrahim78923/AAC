@@ -67,7 +67,7 @@ export const mergeTicketsFormFieldsDynamic = (
 ) => {
   return [
     {
-      id: 1,
+      _id: 1,
       component: RHFAutocomplete,
       componentProps: {
         name: 'ticketSelection',
@@ -80,7 +80,7 @@ export const mergeTicketsFormFieldsDynamic = (
     ...(watchForTicketSelection?._id === TICKET_SELECTION_TYPE?.REQUESTER
       ? [
           {
-            id: 2,
+            _id: 2,
             componentProps: {
               label: 'Search requester id',
               hasEndIcon: false,
@@ -88,7 +88,7 @@ export const mergeTicketsFormFieldsDynamic = (
             component: RequesterFieldDropdown,
           },
           {
-            id: 3,
+            _id: 3,
             component: Typography,
             heading: `${
               !!watch('requester')?._id
@@ -106,7 +106,7 @@ export const mergeTicketsFormFieldsDynamic = (
     ...(!!watchForTicketSelection?._id
       ? [
           {
-            id: 4,
+            _id: 4,
             component:
               ticketSelectionFieldDropdowns?.[watchForTicketSelection?._id],
           },

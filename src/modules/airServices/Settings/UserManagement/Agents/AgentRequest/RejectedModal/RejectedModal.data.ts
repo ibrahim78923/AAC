@@ -11,7 +11,7 @@ export const defaultValuesRejectedModal = {
 
 export const rejectedModalField = [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'rejected',
       multiline: true,

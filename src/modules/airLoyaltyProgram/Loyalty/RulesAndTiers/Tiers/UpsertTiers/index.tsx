@@ -1,11 +1,11 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { useUpsertTiers } from './useUpsertTiers';
-import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { FORM_STEP_CONSTANT } from './UpsertTiers.data';
 import { RULES_AND_TIERS_PORTAL_ACTION_CONSTANTS } from '../../RulesAndTiers.constant';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { HeadingFormGrid } from '@/components/Grids/HeadingFormGrid';
 
 export const UpsertTiers = () => {
   const {
@@ -59,15 +59,7 @@ export const UpsertTiers = () => {
         refresh={refetch}
       >
         <FormProvider methods={methods}>
-          <Grid container spacing={1.5}>
-            {upsertTiersBasicFormFields?.map((item: any) => (
-              <Grid item xs={12} key={item?.id}>
-                <item.component {...item?.componentProps} size="small">
-                  {item?.heading ? item?.heading : <></>}
-                </item.component>
-              </Grid>
-            ))}
-          </Grid>
+          <HeadingFormGrid formFieldsList={upsertTiersBasicFormFields} />
         </FormProvider>
       </ApiRequestFlow>
     </CommonDrawer>

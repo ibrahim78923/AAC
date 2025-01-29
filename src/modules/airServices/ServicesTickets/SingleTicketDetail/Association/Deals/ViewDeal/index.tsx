@@ -1,6 +1,4 @@
-import ApiErrorState from '@/components/ApiErrorState';
 import CommonDrawer from '@/components/CommonDrawer';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { Box, Typography } from '@mui/material';
 import Contacts from './Contacts';
 import Companies from './Companies';
@@ -9,6 +7,7 @@ import Attachments from './Attachments';
 import Tickets from './Tickets';
 import Quotes from './Quotes';
 import useViewDeal from './useViewDeal';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export default function ViewDeal({ modalId, setModalId }: any) {
   const {
@@ -25,6 +24,7 @@ export default function ViewDeal({ modalId, setModalId }: any) {
     dealProducts,
     dealQuotes,
     dealAttachments,
+    refetch,
   } = useViewDeal({
     modalId,
     setModalId,
@@ -36,11 +36,11 @@ export default function ViewDeal({ modalId, setModalId }: any) {
       onClose={onClose}
       title={dealData?.name || 'View Deal Details'}
     >
-      {isLoading || isFetching ? (
-        <SkeletonForm />
-      ) : isError ? (
-        <ApiErrorState />
-      ) : (
+      <ApiRequestFlow
+        showSkeleton={isLoading || isFetching}
+        hasError={isError}
+        refreshApi={refetch}
+      >
         <Box my={1}>
           <Box
             borderRadius={2}
@@ -70,7 +70,7 @@ export default function ViewDeal({ modalId, setModalId }: any) {
           <Quotes theme={theme} dealQuotes={dealQuotes} />
           <Attachments theme={theme} dealAttachments={dealAttachments} />
         </Box>
-      )}
+      </ApiRequestFlow>
     </CommonDrawer>
   );
 }

@@ -57,7 +57,7 @@ const StepLineItems = (props: any) => {
     discountVoucherValue,
     setInputValueDiscount,
     totalLoyaltyRewardsSum,
-    totalVoucherSum,
+    // totalVoucherSum,
     totalSumDiscount,
     setVoucher,
     setGiftCard,
@@ -530,7 +530,7 @@ const StepLineItems = (props: any) => {
                     }}
                   >
                     (
-                    {totalVoucherSum === 0
+                    {!Voucher[0]?.value && !checkedIs.voucher
                       ? 0
                       : VoucherData?.data[0]?.percentageOff}
                     %)

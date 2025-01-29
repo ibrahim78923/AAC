@@ -1,4 +1,4 @@
-import { Box, Button, Grid } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { useKnowledgeBase } from './useKnowledgeBase';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import AddBoxIcon from '@mui/icons-material/AddBox';
@@ -11,6 +11,7 @@ import { IconInfoCard } from '@/components/Cards/IconInfoCard/IconInfoCard';
 import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
+import { ListGrid } from '@/components/Grids/ListGrid';
 
 export const KnowledgeBase = () => {
   const {
@@ -86,33 +87,35 @@ export const KnowledgeBase = () => {
         hasNoData={!knowledgeBaseFolderData?.length}
         noDataMessage={'There are no knowledge base articles available'}
       >
-        <Grid container spacing={2}>
-          {knowledgeBaseFolderData?.map((folder: any) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={folder?._id}>
-              <IconInfoCard
-                name={folder?.name}
-                description={fullName(
-                  folder?.createdBy?.firstName,
-                  folder?.createdBy?.lastName,
-                )}
-                descriptionType="Created By: "
-                dateType="Created Date : "
-                createdDate={folder?.createdAt}
-                onClick={() =>
-                  router?.push({
-                    pathname: AIR_CUSTOMER_PORTAL?.KNOWLEDGE_BASE_DETAIL,
-                    query: {
-                      folderId: folder?._id,
-                      ...(router?.query?.companyId && {
-                        companyId: router?.query?.companyId,
-                      }),
-                    },
-                  })
-                }
-              />
-            </Grid>
-          ))}
-        </Grid>
+        <ListGrid
+          sm={6}
+          md={4}
+          lg={3}
+          list={knowledgeBaseFolderData}
+          render={(folder: any) => (
+            <IconInfoCard
+              name={folder?.name}
+              description={fullName(
+                folder?.createdBy?.firstName,
+                folder?.createdBy?.lastName,
+              )}
+              descriptionType="Created By: "
+              dateType="Created Date : "
+              createdDate={folder?.createdAt}
+              onClick={() =>
+                router?.push({
+                  pathname: AIR_CUSTOMER_PORTAL?.KNOWLEDGE_BASE_DETAIL,
+                  query: {
+                    folderId: folder?._id,
+                    ...(router?.query?.companyId && {
+                      companyId: router?.query?.companyId,
+                    }),
+                  },
+                })
+              }
+            />
+          )}
+        />
       </ApiRequestFlow>
       {openReportAnIssueModal && (
         <ReportIssue

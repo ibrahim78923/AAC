@@ -1,7 +1,10 @@
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { RHFTimePicker } from '@/components/ReactHookForm';
 import { CopyPrimaryColorIcon, TrashIcon } from '@/assets/icons';
 import { useFieldArray } from 'react-hook-form';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ARRAY_INDEX } from '@/constants/strings';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const WorkingHoursFieldArray = ({ control, name }: any) => {
   const { fields, append, remove } = useFieldArray({
@@ -20,32 +23,31 @@ export const WorkingHoursFieldArray = ({ control, name }: any) => {
         mb={2}
       >
         {fields?.map((item, index) => (
-          <Grid
+          <ContainerGrid
             key={item?.id}
-            container
-            alignItems="center"
-            justifyContent="center"
+            customStyles={{
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
             spacing={1}
           >
-            <Grid item sm={5}>
+            <CustomGrid sm={5}>
               <RHFTimePicker
                 name={`${name}.${index}.startTime`}
                 size="small"
                 ampm={false}
               />
-            </Grid>
-            <Grid item sm={1}>
-              to
-            </Grid>
-            <Grid item sm={5}>
+            </CustomGrid>
+            <CustomGrid sm={1}>to</CustomGrid>
+            <CustomGrid sm={5}>
               <RHFTimePicker
                 name={`${name}.${index}.endTime`}
                 size="small"
                 ampm={false}
               />
-            </Grid>
-            <Grid item xs={1}>
-              {index === 0 ? (
+            </CustomGrid>
+            <CustomGrid xs={1}>
+              {index === ARRAY_INDEX?.ZERO ? (
                 <Box
                   sx={{ cursor: 'pointer' }}
                   onClick={() => append({ startTime: null, endTime: null })}
@@ -57,8 +59,8 @@ export const WorkingHoursFieldArray = ({ control, name }: any) => {
                   <TrashIcon />
                 </Box>
               )}
-            </Grid>
-          </Grid>
+            </CustomGrid>
+          </ContainerGrid>
         ))}
       </Box>
     </>

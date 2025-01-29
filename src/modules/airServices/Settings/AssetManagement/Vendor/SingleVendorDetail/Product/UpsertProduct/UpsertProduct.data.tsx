@@ -3,8 +3,11 @@ import * as Yup from 'yup';
 import { ProductCatalogDropdown } from './ProductCatalogDropdown';
 
 export const upsertProductValidationSchema = Yup?.object()?.shape({
-  productCatalog: Yup?.object()?.required('Required'),
-  price: Yup?.number()?.min(1)?.typeError('Enter Number')?.required('Required'),
+  productCatalog: Yup?.object()?.required('Product catalog is required'),
+  price: Yup?.number()
+    ?.min(1)
+    ?.typeError('Enter Number')
+    ?.required('Price is required'),
   years: Yup?.string(),
   months: Yup?.string(),
   quantity: Yup?.number()?.typeError('Enter Number'),
@@ -52,14 +55,15 @@ const warrantyValidityMonthsOptions = [
 
 export const upsertProductDataArray = (editData: any) => [
   {
-    id: 9478,
+    _id: 1,
     componentProps: {
       disabled: editData?.length === 0 ? false : true,
     },
     component: ProductCatalogDropdown,
+    md: 12,
   },
   {
-    id: 2786,
+    _id: 2,
     componentProps: {
       name: 'price',
       label: 'Price (£)',
@@ -67,12 +71,14 @@ export const upsertProductDataArray = (editData: any) => [
       size: 'small',
       fullWidth: true,
       required: true,
+      inputProps: { min: 1 },
     },
     component: RHFTextField,
+    md: 12,
   },
   {
-    id: 3456,
-    gridLength: 6,
+    _id: 3,
+    md: 6,
     componentProps: {
       name: 'years',
       label: 'Warranty/Validity',
@@ -83,8 +89,8 @@ export const upsertProductDataArray = (editData: any) => [
     component: RHFAutocomplete,
   },
   {
-    id: 4435,
-    gridLength: 6,
+    _id: 4,
+    md: 6,
     componentProps: {
       name: 'months',
       label: '\u00a0\u00a0',
@@ -95,7 +101,8 @@ export const upsertProductDataArray = (editData: any) => [
     component: RHFAutocomplete,
   },
   {
-    id: 5654,
+    _id: 5,
+    md: 12,
     componentProps: {
       name: 'quantity',
       label: 'Quantity',

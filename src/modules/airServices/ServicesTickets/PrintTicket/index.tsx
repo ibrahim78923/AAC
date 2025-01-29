@@ -1,9 +1,11 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import { Box, Divider, Grid, Typography } from '@mui/material';
+import { Box, Divider, Typography } from '@mui/material';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { fullName } from '@/utils/avatarUtils';
 import { usePrintTicket } from './usePrintTicket';
 import { otherDateFormat } from '@/lib/date-time';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const PrintTicket = () => {
   const {
@@ -76,10 +78,13 @@ export const PrintTicket = () => {
           </Typography>
         </Typography>
         <Divider sx={{ marginTop: '1rem', marginBottom: '1rem' }} />
-        <Typography variant="h4"> TICKET PROPERTIES </Typography>
-        <Grid container mt={1}>
+        <Typography variant="h4" sx={{ my: 1 }}>
+          {' '}
+          TICKET PROPERTIES{' '}
+        </Typography>
+        <ContainerGrid>
           {printDataField?.map((item: any) => (
-            <Grid item key={item?.id} xs={12} lg={3.5}>
+            <CustomGrid key={item?.id} xs={12} lg={3.5}>
               <Box display={'flex'} flexDirection={'row'}>
                 <Box display={'flex'} flexDirection={'column'}>
                   <Typography variant="h6" fontWeight={'bold'}>
@@ -88,9 +93,9 @@ export const PrintTicket = () => {
                   <Typography variant="body1">{item?.text}</Typography>
                 </Box>
               </Box>
-            </Grid>
+            </CustomGrid>
           ))}
-        </Grid>
+        </ContainerGrid>
         <Divider sx={{ marginTop: '2rem' }} />
         <Typography variant="h4"> DESCRIPTION</Typography>
         {!!singleTicketDetail?.description ? (

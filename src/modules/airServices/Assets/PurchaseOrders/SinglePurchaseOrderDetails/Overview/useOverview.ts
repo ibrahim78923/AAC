@@ -14,7 +14,7 @@ export const useOverview = () => {
   const theme = useTheme();
   const router = useRouter();
   const purchaseOrderId = router?.query?.purchaseOrderId;
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetAirServicesPurchaseOrderOverviewQuery(purchaseOrderId, {
       refetchOnMountOrArgChange: true,
       skip: !!!purchaseOrderId,
@@ -58,5 +58,6 @@ export const useOverview = () => {
     handleRowClick,
     isError,
     overviewData,
+    refetch,
   };
 };

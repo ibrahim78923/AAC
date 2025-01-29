@@ -259,7 +259,7 @@ const IntegrationConfiguration = () => {
                 <AccordionDetails>
                   <TanstackTable
                     columns={getRowValues}
-                    data={item?.whatsappPhoneNumbers}
+                    data={item?.whatsappPhoneNumbers ?? []}
                     isPagination={false}
                   />
                 </AccordionDetails>

@@ -1,5 +1,5 @@
 import {
-  addUserData,
+  addUserFormFieldsDynamic,
   addUserDefaultValues,
   addUserValidationSchema,
 } from './UsersAdd.data';
@@ -47,7 +47,7 @@ const useUsersAdd = () => {
     }
   };
 
-  const addUserDataFormFieldsAddUser = addUserData();
+  const addUserFormFields = addUserFormFieldsDynamic();
 
   return {
     methods,
@@ -56,7 +56,7 @@ const useUsersAdd = () => {
     openModal,
     closeModal,
     isModalOpen,
-    addUserDataFormFieldsAddUser,
+    addUserFormFields,
     isLoading,
   };
 };

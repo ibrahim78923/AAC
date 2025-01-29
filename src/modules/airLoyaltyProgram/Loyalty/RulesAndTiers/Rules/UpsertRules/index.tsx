@@ -1,8 +1,10 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { useUpsertRules } from './useUpsertRules';
 import { FormProvider, RHFAutocomplete } from '@/components/ReactHookForm';
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { attributesOption } from './UpsertRules.data';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const UpsertRules = () => {
   const {
@@ -32,8 +34,8 @@ export const UpsertRules = () => {
     >
       <Box mt={1}>
         <FormProvider methods={methods}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
+          <ContainerGrid>
+            <CustomGrid>
               <RHFAutocomplete
                 name="attribute"
                 label="Select attribute"
@@ -42,17 +44,17 @@ export const UpsertRules = () => {
                 placeholder="Select attribute"
                 size={'small'}
               />
-            </Grid>
+            </CustomGrid>
             {!!!watchForAttribute?._id ? (
               <></>
             ) : (
               upsertRulesFormFields?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={item?.id}>
+                <CustomGrid md={item?.md} key={item?.id}>
                   <item.component {...item?.componentProps} size={'small'} />
-                </Grid>
+                </CustomGrid>
               ))
             )}
-          </Grid>
+          </ContainerGrid>
         </FormProvider>
       </Box>
     </CommonDrawer>

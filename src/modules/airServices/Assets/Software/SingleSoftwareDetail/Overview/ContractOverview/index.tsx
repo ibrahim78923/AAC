@@ -1,9 +1,9 @@
 import { styles } from './ContractOverview.style';
 import { Box, Typography } from '@mui/material';
-import ApiErrorState from '@/components/ApiErrorState';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { useContractOverview } from './useContractOverview';
 import { formatDateExpiry } from '@/lib/date-time';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 function ContractOverview(props: {
   contractOverviewLabel: {
@@ -12,21 +12,30 @@ function ContractOverview(props: {
     subHeading2: string;
   };
 }) {
-  const { data, isLoading, isError, contractOverviewLabel, theme, isFetching } =
-    useContractOverview(props);
+  const {
+    data,
+    isLoading,
+    isError,
+    contractOverviewLabel,
+    theme,
+    isFetching,
+    refetch,
+  } = useContractOverview(props);
+
   return (
     <>
       <Box sx={styles?.mainBox(theme)}>
         <Typography sx={styles?.heading}>
           {contractOverviewLabel?.heading}
         </Typography>
-        {isLoading || isFetching ? (
-          <Box p={2}>
-            <SkeletonTable />
-          </Box>
-        ) : isError ? (
-          <ApiErrorState />
-        ) : (
+        <ApiRequestFlow
+          showSkeleton={isLoading || isFetching}
+          hasError={isError}
+          skeletonType={SKELETON_TYPES?.BARS}
+          length={2}
+          errorHeight="100%"
+          refreshApi={refetch}
+        >
           <Box sx={styles?.contentBox}>
             <Box sx={styles?.contentBoxData(theme)}>
               <Typography>{contractOverviewLabel?.subHeading1}</Typography>
@@ -45,7 +54,7 @@ function ContractOverview(props: {
               </Typography>
             </Box>
           </Box>
-        )}
+        </ApiRequestFlow>
       </Box>
     </>
   );

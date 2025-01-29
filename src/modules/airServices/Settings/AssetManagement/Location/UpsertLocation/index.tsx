@@ -1,10 +1,15 @@
 import { FormProvider } from '@/components/ReactHookForm';
-import { Box, Divider, Grid } from '@mui/material';
-import { LOCATION_TYPE, addNewLocationDataFields } from './UpsertLocation.data';
+import { Box, Divider } from '@mui/material';
+import {
+  LOCATION_TYPE,
+  UPSERT_LOCATION_TITLE,
+  addNewLocationDataFields,
+} from './UpsertLocation.data';
 import { useUpsertLocation } from './useUpsertLocation';
 import { LoadingButton } from '@mui/lab';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { HeadingFormGrid } from '@/components/Grids/HeadingFormGrid';
 
 const UpsertLocation = () => {
   const {
@@ -17,76 +22,50 @@ const UpsertLocation = () => {
     isLoading,
     isFetching,
     upsertLocation,
-    postLocationStatus,
-    putLocationStatus,
-    postChildLocationStatus,
     handleSubmit,
+    apiCallInProgress,
   } = useUpsertLocation();
 
   return (
-    <ApiRequestFlow showSkeleton={isLoading || isFetching}>
-      <FormProvider methods={methods} onSubmit={handleSubmit(upsertLocation)}>
-        <Grid container spacing={2}>
-          <Grid item lg={9}>
-            <PageTitledHeader
-              title={
-                !!childId
-                  ? 'Edit child location'
-                  : !!parentId && type === LOCATION_TYPE?.PARENT
-                    ? 'Edit location'
-                    : `Add new ${type} location`
-              }
-              canMovedBack
-              moveBack={() => moveToLocationPage?.()}
-            />
-            <Grid item container xs={12} overflow="auto">
-              <Grid container spacing={2}>
-                {addNewLocationDataFields(type)?.map((form: any) => (
-                  <Grid item xs={12} md={form?.gridLength} key={form?.id}>
-                    <form.component {...form?.componentProps} size="small">
-                      {form?.heading ? form?.heading : null}
-                    </form.component>
-                  </Grid>
-                ))}
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-        <Divider sx={{ py: '0.5rem', mt: '2rem' }} />
-        <Box display={'flex'} justifyContent={'flex-end'} pt={2} gap={1} mr={2}>
-          <LoadingButton
-            variant="outlined"
-            color="secondary"
-            className="small"
-            onClick={handleCancel}
-            disabled={
-              postLocationStatus?.isLoading ||
-              putLocationStatus?.isLoading ||
-              postChildLocationStatus?.isLoading
-            }
-          >
-            Cancel
-          </LoadingButton>
-          <LoadingButton
-            disabled={
-              postLocationStatus?.isLoading ||
-              putLocationStatus?.isLoading ||
-              postChildLocationStatus?.isLoading
-            }
-            loading={
-              postLocationStatus?.isLoading ||
-              putLocationStatus?.isLoading ||
-              postChildLocationStatus?.isLoading
-            }
-            variant="contained"
-            type="submit"
-            className="small"
-          >
-            Save
-          </LoadingButton>
-        </Box>
-      </FormProvider>
-    </ApiRequestFlow>
+    <>
+      <PageTitledHeader
+        title={
+          !!childId
+            ? UPSERT_LOCATION_TITLE?.EDIT_CHILD_LOCATION
+            : !!parentId && type === LOCATION_TYPE?.PARENT
+              ? UPSERT_LOCATION_TITLE?.EDIT_LOCATION
+              : `Add new ${type} location`
+        }
+        canMovedBack
+        moveBack={() => moveToLocationPage?.()}
+      />
+      <ApiRequestFlow showSkeleton={isLoading || isFetching}>
+        <FormProvider methods={methods} onSubmit={handleSubmit(upsertLocation)}>
+          <HeadingFormGrid formFieldsList={addNewLocationDataFields(type)} />
+          <Divider sx={{ py: '0.5rem', mt: '2rem' }} />
+          <Box display={'flex'} justifyContent={'flex-end'} pt={2} gap={1}>
+            <LoadingButton
+              variant="outlined"
+              color="secondary"
+              className="small"
+              onClick={handleCancel}
+              disabled={apiCallInProgress}
+            >
+              Cancel
+            </LoadingButton>
+            <LoadingButton
+              disabled={apiCallInProgress}
+              loading={apiCallInProgress}
+              variant="contained"
+              type="submit"
+              className="small"
+            >
+              Save
+            </LoadingButton>
+          </Box>
+        </FormProvider>
+      </ApiRequestFlow>
+    </>
   );
 };
 

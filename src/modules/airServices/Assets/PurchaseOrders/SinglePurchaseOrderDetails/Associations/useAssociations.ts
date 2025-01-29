@@ -16,7 +16,7 @@ export const useAssociations = () => {
     },
   };
 
-  const { data, isLoading, isError, isFetching } =
+  const { data, isLoading, isError, isFetching, refetch } =
     useGetAirServicesAssociateTicketsQuery(associateTicketsAssetsParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!purchaseOrderId,
@@ -29,5 +29,6 @@ export const useAssociations = () => {
     isLoading,
     isError,
     isFetching,
+    refetch,
   };
 };

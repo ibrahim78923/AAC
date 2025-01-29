@@ -22,7 +22,7 @@ export const addAssetDefaultValues = {
 
 export const addAssetDataArray = [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'displayName',
       label: 'Display Name',
@@ -32,7 +32,7 @@ export const addAssetDataArray = [
     component: RHFTextField,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       name: 'state',
       label: 'Asset State',

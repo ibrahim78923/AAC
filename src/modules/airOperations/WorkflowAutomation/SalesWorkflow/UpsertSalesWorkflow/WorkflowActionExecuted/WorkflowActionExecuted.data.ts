@@ -17,7 +17,7 @@ const setBillOption = [
   'two years',
 ];
 const setTaskTypeOption = ['Call', 'Email'];
-const setTaskStatusOption = ['Pending', 'Inprogress', 'Completed'];
+const setTaskStatusOption = ['Pending', 'Inprogress', 'Complete'];
 const reminderOption = [
   'Today',
   'Tomorrow',

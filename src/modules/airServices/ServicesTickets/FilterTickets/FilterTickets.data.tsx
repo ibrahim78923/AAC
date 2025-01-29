@@ -48,7 +48,7 @@ export const ticketsFilterFormFieldsDefaultValues = (
 
 export const ticketsFilterFormFieldsDataFunction = () => [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       fullWidth: true,
       name: 'ticketType',
@@ -60,7 +60,7 @@ export const ticketsFilterFormFieldsDataFunction = () => [
     component: RHFAutocomplete,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       fullWidth: true,
       name: 'createdOn',
@@ -69,7 +69,7 @@ export const ticketsFilterFormFieldsDataFunction = () => [
     component: RHFDatePicker,
   },
   {
-    id: 3,
+    _id: 3,
     componentProps: {
       fullWidth: true,
       name: 'status',
@@ -81,11 +81,11 @@ export const ticketsFilterFormFieldsDataFunction = () => [
     component: RHFAutocomplete,
   },
   {
-    id: 4,
+    _id: 4,
     component: AgentFieldDropdown,
   },
   {
-    id: 5,
+    _id: 5,
     componentProps: {
       hasEndIcon: false,
       required: false,
@@ -93,11 +93,11 @@ export const ticketsFilterFormFieldsDataFunction = () => [
     component: RequesterFieldDropdown,
   },
   {
-    id: 6,
+    _id: 6,
     component: DepartmentFieldDropdown,
   },
   {
-    id: 7,
+    _id: 7,
     componentProps: {
       fullWidth: true,
       name: 'pirority',
@@ -109,7 +109,7 @@ export const ticketsFilterFormFieldsDataFunction = () => [
     component: RHFAutocomplete,
   },
   {
-    id: 8,
+    _id: 8,
     componentProps: {
       fullWidth: true,
       name: 'impact',
@@ -121,11 +121,11 @@ export const ticketsFilterFormFieldsDataFunction = () => [
     component: RHFAutocomplete,
   },
   {
-    id: 9,
+    _id: 9,
     component: CategoryFieldDropdown,
   },
   {
-    id: 10,
+    _id: 10,
     componentProps: {
       fullWidth: true,
       name: 'typeSource',
@@ -137,7 +137,7 @@ export const ticketsFilterFormFieldsDataFunction = () => [
     component: RHFAutocomplete,
   },
   {
-    id: 11,
+    _id: 11,
     componentProps: {
       fullWidth: true,
       name: 'plannedStartDate',
@@ -147,7 +147,7 @@ export const ticketsFilterFormFieldsDataFunction = () => [
     component: RHFDesktopDateTimePicker,
   },
   {
-    id: 12,
+    _id: 12,
     componentProps: {
       fullWidth: true,
       name: 'plannedEndDate',

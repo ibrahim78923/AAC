@@ -1,5 +1,7 @@
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { IClosureRuleProps } from '../ClosureRule.interface';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const ClosureRulesConditions = (props: IClosureRuleProps) => {
   const {
@@ -16,26 +18,26 @@ export const ClosureRulesConditions = (props: IClosureRuleProps) => {
   const renderConditions = (condition: boolean | undefined, data: any[]) => {
     if (!condition || !data) return null;
     return data?.map((item: any) => (
-      <Grid item xs={12} md={item?.md} key={item?.id}>
+      <CustomGrid md={item?.md} key={item?.id}>
         <item.component {...item?.componentProps} />
-      </Grid>
+      </CustomGrid>
     ));
   };
 
   return (
     <Box mt={1}>
-      <Grid container>
+      <ContainerGrid>
         {renderConditions(closeIncident || false, closeIncidentData)}
-      </Grid>
-      <Grid container>
+      </ContainerGrid>
+      <ContainerGrid>
         {renderConditions(resolveIncident || false, resolveIncidentData)}
-      </Grid>
-      <Grid container>
+      </ContainerGrid>
+      <ContainerGrid>
         {renderConditions(serviceResolveIncident || false, serviceResolveData)}
-      </Grid>
-      <Grid container>
+      </ContainerGrid>
+      <ContainerGrid>
         {renderConditions(serviceCloseIncident || false, serviceCloseData)}
-      </Grid>
+      </ContainerGrid>
     </Box>
   );
 };

@@ -9,6 +9,13 @@ import {
 
 export const approvalStatus = ['APPROVED', 'REJECTED', 'CANCELED'];
 
+export const APPROVALS_STATUS = {
+  RECEIVED: 'RECEIVED',
+  REQUEST_SENT: 'REQUEST_SENT',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+};
+
 export const approvalsStatusObj = (
   status: any,
   approverId: any,

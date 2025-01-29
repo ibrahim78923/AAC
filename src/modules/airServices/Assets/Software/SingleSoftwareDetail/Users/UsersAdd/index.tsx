@@ -1,10 +1,8 @@
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
 import useUsersAdd from './useUsersAdd';
 import { FormProvider } from '@/components/ReactHookForm';
-import { PlusSharedColorIcon } from '@/assets/icons';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
+import { FormGrid } from '@/components/Grids/FormGrid';
+import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
 
 export const UsersAdd = () => {
   const {
@@ -14,26 +12,13 @@ export const UsersAdd = () => {
     openModal,
     closeModal,
     isModalOpen,
-    addUserDataFormFieldsAddUser,
+    addUserFormFields,
     isLoading,
   } = useUsersAdd();
+
   return (
     <FormProvider methods={methods}>
-      <Box>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Button
-              onClick={openModal}
-              startIcon={<PlusSharedColorIcon />}
-              color="primary"
-              variant="contained"
-              className="small"
-            >
-              Add User
-            </Button>
-          </Grid>
-        </Grid>
-      </Box>
+      <AddNewItemButton size="medium" name="Add User" onClick={openModal} />
       <CustomCommonDialog
         isPortalOpen={isModalOpen}
         closePortal={closeModal}
@@ -44,13 +29,7 @@ export const UsersAdd = () => {
         handleSubmitButton={handleSubmit(onSubmit)}
       >
         <FormProvider methods={methods}>
-          <Grid container spacing={2}>
-            {addUserDataFormFieldsAddUser?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={item?.id}>
-                <item.component {...item?.componentProps} size={'small'} />
-              </Grid>
-            ))}
-          </Grid>
+          <FormGrid formFieldsList={addUserFormFields} />
         </FormProvider>
       </CustomCommonDialog>
     </FormProvider>

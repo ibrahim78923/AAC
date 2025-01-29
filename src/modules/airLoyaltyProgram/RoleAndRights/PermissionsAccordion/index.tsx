@@ -1,13 +1,15 @@
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { RHFCheckbox } from '@/components/ReactHookForm';
 import { AntSwitch } from '@/components/AntSwitch';
 import { Fragment } from 'react';
 import { pxToRem } from '@/utils/getFontValue';
-import { CustomAccordion } from '@/components/CustomAccordion';
 import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
 import { ACCORDION_VARIANTS, SKELETON_TYPES } from '@/constants/mui-constant';
 import { usePermissionsAccordion } from './usePermissionsAccordion';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { UncontrolledAccordion } from '@/components/Accordions/UncontrolledAccordion';
 
 export const PermissionsAccordion = (props: any) => {
   const { disabled } = props;
@@ -41,7 +43,7 @@ export const PermissionsAccordion = (props: any) => {
               />
             </Box>
           ) : (
-            <CustomAccordion
+            <UncontrolledAccordion
               key={parent?.name}
               summaryTitle={parent?.name}
               accordionSummary={
@@ -58,25 +60,25 @@ export const PermissionsAccordion = (props: any) => {
               }
             >
               {parent?.subModules?.map((subModule: any) => (
-                <CustomAccordion
+                <UncontrolledAccordion
                   variantType={ACCORDION_VARIANTS?.INHERIT}
                   key={subModule?.subModule}
                   summaryTitle={subModule?.name}
                 >
-                  <Grid container spacing={1}>
+                  <ContainerGrid spacing={1}>
                     {subModule?.permissions?.map((item: any) => (
-                      <Grid item xs={12} md={4} key={item?.slug}>
+                      <CustomGrid md={6} key={item?.slug}>
                         <RHFCheckbox
                           name={item?.slug}
                           label={item?.name}
                           disabled={disabled}
                         />
-                      </Grid>
+                      </CustomGrid>
                     ))}
-                  </Grid>
-                </CustomAccordion>
+                  </ContainerGrid>
+                </UncontrolledAccordion>
               ))}
-            </CustomAccordion>
+            </UncontrolledAccordion>
           )}
         </Fragment>
       ))}

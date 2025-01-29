@@ -1,9 +1,10 @@
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertProductCatalog } from './useUpsertProductCatalog';
 import { LoadingButton } from '@mui/lab';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const UpsertProductCatalog = () => {
   const {
@@ -31,13 +32,7 @@ export const UpsertProductCatalog = () => {
           methods={methods}
           onSubmit={handleSubmit(submitUpsertProductCatalog)}
         >
-          <Grid container spacing={2}>
-            {upsertProductCatalogFormFields?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={item?.id}>
-                <item.component {...item?.componentProps} size={'small'} />
-              </Grid>
-            ))}
-          </Grid>
+          <FormGrid formFieldsList={upsertProductCatalogFormFields} />
           <Box
             sx={{
               display: 'flex',

@@ -305,7 +305,7 @@ export const upsertContractFormFieldsDataFunction = (
   contractId: any,
 ) => [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       color: 'slateBlue.main',
       variant: 'h4',
@@ -315,7 +315,7 @@ export const upsertContractFormFieldsDataFunction = (
     component: Typography,
   },
   {
-    id: 2,
+    _id: 2,
     component: RHFTextField,
     md: 6,
     componentProps: {
@@ -326,13 +326,13 @@ export const upsertContractFormFieldsDataFunction = (
     },
   },
   {
-    id: 4,
+    _id: 3,
     md: 6,
     component: GetContractContractTypeDropdown,
     componentProps: { name: 'type', contractId },
   },
   {
-    id: 5,
+    _id: 4,
     md: 6,
     component: GetContractAssetsDropdown,
     componentProps: {
@@ -340,7 +340,7 @@ export const upsertContractFormFieldsDataFunction = (
     },
   },
   {
-    id: 6,
+    _id: 5,
     componentProps: {
       name: 'status',
       label: 'Status',
@@ -353,7 +353,7 @@ export const upsertContractFormFieldsDataFunction = (
     component: RHFAutocomplete,
   },
   {
-    id: 7,
+    _id: 6,
     component: RHFTextField,
     md: 6,
     componentProps: {
@@ -363,17 +363,17 @@ export const upsertContractFormFieldsDataFunction = (
     },
   },
   {
-    id: 8,
+    _id: 7,
     component: GetContractAdminAgentDropdown,
     md: 6,
   },
   {
-    id: 9,
+    _id: 8,
     md: 6,
     component: GetContractVendorDropdown,
   },
   {
-    id: 10,
+    _id: 9,
     componentProps: {
       color: 'slateBlue.main',
       variant: 'h4',
@@ -383,7 +383,7 @@ export const upsertContractFormFieldsDataFunction = (
     component: Typography,
   },
   {
-    id: 11,
+    _id: 10,
     componentProps: {
       name: 'startDate',
       label: 'Start Date',
@@ -394,7 +394,7 @@ export const upsertContractFormFieldsDataFunction = (
     md: 6,
   },
   {
-    id: 12,
+    _id: 11,
     componentProps: {
       name: 'endDate',
       label: 'End Date',
@@ -407,7 +407,7 @@ export const upsertContractFormFieldsDataFunction = (
     md: 6,
   },
   {
-    id: 13,
+    _id: 12,
     componentProps: {
       name: 'autoRenew',
       label: (
@@ -427,7 +427,7 @@ export const upsertContractFormFieldsDataFunction = (
     md: 12,
   },
   {
-    id: 14,
+    _id: 13,
     componentProps: {
       name: 'notifyExpiry',
       label: (
@@ -449,7 +449,7 @@ export const upsertContractFormFieldsDataFunction = (
   ...(watchForNotifyExpiry
     ? [
         {
-          id: 15,
+          _id: 14,
           component: RHFTextField,
           md: 6,
           componentProps: {
@@ -460,7 +460,7 @@ export const upsertContractFormFieldsDataFunction = (
           },
         },
         {
-          id: 16,
+          _id: 15,
           component: GetContractApproverDropdown,
           md: 6,
         },
@@ -469,7 +469,7 @@ export const upsertContractFormFieldsDataFunction = (
   ...(watchForContractType?.name === CONTRACT_TYPES_CHECK?.SOFTWARE_LICENSE
     ? [
         {
-          id: 17,
+          _id: 16,
           componentProps: {
             color: 'slateBlue.main',
             variant: 'h4',
@@ -479,12 +479,12 @@ export const upsertContractFormFieldsDataFunction = (
           component: Typography,
         },
         {
-          id: 18,
+          _id: 17,
           component: GetContractSoftwareDropdown,
           md: 6,
         },
         {
-          id: 19,
+          _id: 18,
           componentProps: {
             name: 'itemDetail',
           },
@@ -493,7 +493,7 @@ export const upsertContractFormFieldsDataFunction = (
         },
 
         {
-          id: 20,
+          _id: 19,
           component: RHFAutocomplete,
           md: 6,
           componentProps: {
@@ -506,7 +506,7 @@ export const upsertContractFormFieldsDataFunction = (
           },
         },
         {
-          id: 21,
+          _id: 20,
           componentProps: {
             color: 'slateBlue.main',
             variant: 'h4',
@@ -516,7 +516,7 @@ export const upsertContractFormFieldsDataFunction = (
           component: Typography,
         },
         {
-          id: 22,
+          _id: 21,
           component: RHFAutocomplete,
           md: 6,
           componentProps: {
@@ -529,7 +529,7 @@ export const upsertContractFormFieldsDataFunction = (
           },
         },
         {
-          id: 23,
+          _id: 22,
           component: RHFTextField,
           md: 6,
           componentProps: {

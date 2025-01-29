@@ -70,6 +70,7 @@ const useNewPurchaseOrders = () => {
       refetchOnMountOrArgChange: true,
       skip: !!!purchaseOrderId,
     });
+
   const loadingStatus =
     patchPurchaseOrderStatus?.isLoading ||
     postPurchaseOrderStatus?.isLoading ||
@@ -199,6 +200,21 @@ const useNewPurchaseOrders = () => {
     }
   }, [singlePurchaseOrder?.data, reset, form]);
 
+  const showLoader =
+    singlePurchaseOrder?.isLoading ||
+    getDynamicFieldsStatus?.isLoading ||
+    getDynamicFieldsStatus?.isFetching;
+
+  const refresh = () => {
+    if (!singlePurchaseOrder?.isUninitialized) {
+      singlePurchaseOrder?.refetch();
+    }
+    getDynamicFormData();
+  };
+
+  const hasError =
+    singlePurchaseOrder?.isError || getDynamicFieldsStatus?.isError;
+
   return {
     methods,
     submit,
@@ -209,10 +225,12 @@ const useNewPurchaseOrders = () => {
     router,
     loadingStatus,
     watch,
-    singlePurchaseOrder,
     form,
-    getDynamicFieldsStatus,
     handleSubmit,
+    showLoader,
+    hasError,
+    refresh,
+    getDynamicFormData,
   };
 };
 

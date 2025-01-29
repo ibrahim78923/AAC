@@ -15,9 +15,9 @@ import {
   TableRow,
 } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
-import ApiErrorState from '@/components/ApiErrorState';
 import { pxToRem } from '@/utils/getFontValue';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const ReceivedItems = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
@@ -33,6 +33,7 @@ export const ReceivedItems = (props: any) => {
     patchAddToItemStatus,
     isFetching,
     isError,
+    refetch,
   } = useReceivedItems(props);
 
   return (
@@ -61,11 +62,13 @@ export const ReceivedItems = (props: any) => {
             quantity
           </Alert>
         )}
-        {isLoading || isFetching ? (
-          <SkeletonTable />
-        ) : isError ? (
-          <ApiErrorState />
-        ) : (
+
+        <ApiRequestFlow
+          showSkeleton={isLoading || isFetching}
+          hasError={isError}
+          refreshApi={refetch}
+          skeletonType={SKELETON_TYPES?.TABLE}
+        >
           <FormProvider methods={method}>
             <TableContainer>
               <Table sx={{ minWidth: pxToRem(100) }}>
@@ -95,7 +98,7 @@ export const ReceivedItems = (props: any) => {
               </Table>
             </TableContainer>
           </FormProvider>
-        )}
+        </ApiRequestFlow>
       </>
     </CommonDrawer>
   );

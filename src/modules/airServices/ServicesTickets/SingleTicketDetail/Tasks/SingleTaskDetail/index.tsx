@@ -1,4 +1,4 @@
-import { Avatar, Grid, Typography } from '@mui/material';
+import { Avatar, Typography } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import {
   FormProvider,
@@ -18,6 +18,8 @@ import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-key
 import { isValidElement } from 'react';
 import { DYNAMIC_FORM_FIELDS_TYPES, isValidDate } from '@/utils/dynamic-forms';
 import { uiDateFormat } from '@/lib/date-time';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const SingleTaskDetail = () => {
   const {
@@ -56,7 +58,7 @@ export const SingleTaskDetail = () => {
             <Typography variant="body2" mb={-2}>
               {isPortalOpen?.data?.assignedUser?.email ?? '---'}
             </Typography>
-            <Grid item xs={10}>
+            <CustomGrid xs={10}>
               <RHFAutocomplete
                 name="status"
                 sx={styles?.statusFieldStyle}
@@ -66,27 +68,34 @@ export const SingleTaskDetail = () => {
                   option === newValue
                 }
               />
-            </Grid>
-            <Grid
-              container
+            </CustomGrid>
+            <ContainerGrid
               spacing={2.5}
-              sx={{ mt: 2, flexDirection: 'column' }}
+              customStyles={{ mt: 2, flexDirection: 'column' }}
             >
               {drawerDetail(isPortalOpen?.data, theme)?.map((item: any) => (
-                <Grid
+                <CustomGrid
                   key={item?.id}
-                  item
-                  sx={{ display: 'flex', justifyContent: 'space-between' }}
+                  customStyles={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                  }}
                 >
-                  <Grid item xs={6} sx={styles?.detailDrawerGridCenter}>
+                  <CustomGrid
+                    xs={6}
+                    customStyles={styles?.detailDrawerCustomGridCenter}
+                  >
                     <Typography
                       variant="body2"
                       sx={styles?.detailDrawerTitle(theme)}
                     >
                       {item?.title}
                     </Typography>
-                  </Grid>
-                  <Grid item xs={6} sx={styles?.detailDrawerGridCenter}>
+                  </CustomGrid>
+                  <CustomGrid
+                    xs={6}
+                    customStyles={styles?.detailDrawerCustomGridCenter}
+                  >
                     {item?.profile && (
                       <Avatar
                         style={styles?.detailDrawerImg}
@@ -115,25 +124,30 @@ export const SingleTaskDetail = () => {
                     >
                       {item?.details ? item?.details : '....'}
                     </Typography>
-                  </Grid>
-                </Grid>
+                  </CustomGrid>
+                </CustomGrid>
               ))}
 
               {Object?.entries(overviewData)?.map(([key, value]: any) => (
-                <Grid
+                <CustomGrid
                   key={key}
-                  item
-                  sx={{ display: 'flex', justifyContent: 'space-between' }}
+                  customStyles={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                  }}
                 >
-                  <Grid item xs={6} sx={styles?.detailDrawerGridCenter}>
+                  <CustomGrid
+                    xs={6}
+                    customStyles={styles?.detailDrawerCustomGridCenter}
+                  >
                     <Typography
                       variant={'body2'}
                       sx={styles?.detailDrawerTitle(theme)}
                     >
                       {key}:
                     </Typography>
-                  </Grid>
-                  <Grid item xs={6}>
+                  </CustomGrid>
+                  <CustomGrid xs={6}>
                     <Typography
                       variant={'body2'}
                       fontWeight={400}
@@ -160,10 +174,10 @@ export const SingleTaskDetail = () => {
                         value?.toString()
                       )}
                     </Typography>
-                  </Grid>
-                </Grid>
+                  </CustomGrid>
+                </CustomGrid>
               ))}
-              <Grid item>
+              <CustomGrid>
                 <RHFTextField
                   name="comments"
                   label="Add Comment"
@@ -172,8 +186,8 @@ export const SingleTaskDetail = () => {
                   fullWidth
                   placeholder="Type here"
                 />
-              </Grid>
-            </Grid>
+              </CustomGrid>
+            </ContainerGrid>
           </FormProvider>
         </PermissionsGuard>
       </CommonDrawer>

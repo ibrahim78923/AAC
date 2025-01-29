@@ -1,11 +1,11 @@
 import Search from '@/components/Search';
-import { Box, Button } from '@mui/material';
-import { AddWhiteBgIcon } from '@/assets/icons';
+import { Box } from '@mui/material';
 import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { useHeader } from './useHeader';
 import { loyaltyProgramUsersActionComponent } from './Header.data';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_LOYALTY_PROGRAM_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
 
 export const Header = () => {
   const {
@@ -50,14 +50,11 @@ export const Header = () => {
               AIR_LOYALTY_PROGRAM_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.ADD_USER,
             ]}
           >
-            <Button
-              className="small"
-              variant="contained"
-              startIcon={<AddWhiteBgIcon />}
+            <AddNewItemButton
+              size="medium"
+              name="Add User"
               onClick={openAddUserPortal}
-            >
-              Add User
-            </Button>
+            />
           </PermissionsGuard>
         </Box>
       </Box>

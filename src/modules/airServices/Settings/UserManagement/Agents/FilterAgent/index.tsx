@@ -1,9 +1,10 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { useAgentFilter } from './useAgentFilter';
 import { IAgentsProps } from '../Agents.interface';
 import { agentFilterFields } from './AgentFilter.data';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 const AgentFilter = (props: IAgentsProps) => {
   const { isAgentFilterDrawerOpen } = props;
@@ -31,13 +32,7 @@ const AgentFilter = (props: IAgentsProps) => {
       >
         <Box mt={1}>
           <FormProvider methods={methods}>
-            <Grid container spacing={2}>
-              {agentFilterFields?.map((form: any) => (
-                <Grid item xs={12} key={form?.id}>
-                  <form.component {...form?.componentProps} size="small" />
-                </Grid>
-              ))}
-            </Grid>
+            <FormGrid formFieldsList={agentFilterFields} />
           </FormProvider>
         </Box>
       </CommonDrawer>

@@ -27,7 +27,7 @@ export const ticketsBulkUpdateToFormSchema: any = {
 
 export const ticketsBulkUpdateAddReplyFormFieldsData = [
   {
-    id: 11,
+    _id: 11,
     componentProps: {
       name: 'to',
       label: 'To',
@@ -41,7 +41,7 @@ export const ticketsBulkUpdateAddReplyFormFieldsData = [
     component: RHFAutocomplete,
   },
   {
-    id: 13,
+    _id: 13,
     componentProps: {
       fullWidth: true,
       name: 'description',
@@ -52,7 +52,7 @@ export const ticketsBulkUpdateAddReplyFormFieldsData = [
     component: RHFEditor,
   },
   {
-    id: 15,
+    _id: 15,
     componentProps: {
       fullWidth: true,
       name: 'file',
@@ -112,7 +112,7 @@ export const ticketsBulkUpdateFormValidationSchemaFunction: any = (
 
 export const ticketsBulkUpdateFormFieldsDynamic = () => [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       fullWidth: true,
       name: 'pirority',
@@ -123,7 +123,7 @@ export const ticketsBulkUpdateFormFieldsDynamic = () => [
     component: RHFAutocomplete,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       fullWidth: true,
       name: 'status',
@@ -134,7 +134,7 @@ export const ticketsBulkUpdateFormFieldsDynamic = () => [
     component: RHFAutocomplete,
   },
   {
-    id: 3,
+    _id: 3,
     component: RHFAutocomplete,
     componentProps: {
       fullWidth: true,
@@ -145,11 +145,11 @@ export const ticketsBulkUpdateFormFieldsDynamic = () => [
     },
   },
   {
-    id: 4,
+    _id: 4,
     component: AgentFieldDropdown,
   },
   {
-    id: 5,
+    _id: 5,
     component: RHFAutocomplete,
     componentProps: {
       fullWidth: true,
@@ -160,7 +160,7 @@ export const ticketsBulkUpdateFormFieldsDynamic = () => [
     },
   },
   {
-    id: 6,
+    _id: 6,
     component: CategoryFieldDropdown,
   },
 ];

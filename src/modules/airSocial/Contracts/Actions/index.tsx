@@ -15,7 +15,7 @@ import {
 } from './actions.data';
 import { useLazyGetAllDealsAsyncQuery } from '@/services/commonFeatures/email/outlook';
 
-const Actions = () => {
+const Actions = ({ selectedRecords }: any) => {
   const theme: any = useTheme();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -33,7 +33,7 @@ const Actions = () => {
 
   const [isDealAssociations, setIsDealAssociations] = useState(false);
 
-  const methods: any = useForm({
+  const methods: any = useForm<any>({
     resolver: yupResolver(associationsValidationSchema),
     defaultValues: associationsDefaultValues,
   });
@@ -56,6 +56,7 @@ const Actions = () => {
         sx={{
           width: { xs: '100%', sm: 'auto', md: 'auto', lg: '112px' },
         }}
+        disabled={selectedRecords?.length < 1}
       >
         Actions
         <ArrowDropDown />

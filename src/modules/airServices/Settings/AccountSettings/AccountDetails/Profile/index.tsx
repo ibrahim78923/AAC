@@ -1,10 +1,10 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { profileWorkDataArray, profileOtherDataArray } from './Profile.data';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useProfile } from './useProfile';
 import { LoadingButton } from '@mui/lab';
 import { IPropsAccountDetails } from '../AccountDetails.interface';
-import { IProfileOtherData, IProfileWorkData } from './Profile.interface';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const Profile = (props: IPropsAccountDetails) => {
   const { isLoading, methods, handleSubmitProfile, handleCancel } =
@@ -15,25 +15,20 @@ export const Profile = (props: IPropsAccountDetails) => {
       <Typography variant="h5" mb={1}>
         Work Information
       </Typography>
-      <Grid container spacing={2}>
-        {profileWorkDataArray?.map((item: IProfileWorkData) => (
-          <Grid item xs={12} md={item?.gridLength} key={item?._id}>
-            <item.component {...item?.componentProps} />
-          </Grid>
-        ))}
-      </Grid>
+      <FormGrid formFieldsList={profileWorkDataArray} />
       <br />
       <Typography variant="h5" mb={1}>
         Other Information
       </Typography>
-      <Grid container spacing={2}>
-        {profileOtherDataArray?.map((item: IProfileOtherData) => (
-          <Grid item xs={12} md={item?.gridLength} key={item?._id}>
-            <item.component {...item?.componentProps} />
-          </Grid>
-        ))}
-      </Grid>
-      <Box display={'flex'} justifyContent={'end'} gap={1}>
+      <FormGrid formFieldsList={profileOtherDataArray} />
+      <Box
+        sx={{
+          display: 'flex',
+          gap: 2,
+          justifyContent: 'end',
+          my: 2,
+        }}
+      >
         <LoadingButton
           variant="outlined"
           className="small"

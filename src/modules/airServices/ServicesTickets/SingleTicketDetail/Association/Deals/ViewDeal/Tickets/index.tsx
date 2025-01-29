@@ -1,71 +1,47 @@
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  Typography,
-} from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Box, Typography } from '@mui/material';
+import { DataRecordCount } from '@/components/DataRecordCount';
+import { UncontrolledAccordion } from '@/components/Accordions/UncontrolledAccordion';
+import { ACCORDION_VARIANTS } from '@/constants/mui-constant';
 
-export default function Tickets({ theme, dealTickets }: any) {
+export default function Tickets({ dealTickets }: any) {
   return (
-    <Accordion
-      sx={{
-        mt: 3,
-        borderRadius: '8px !important',
-        boxShadow: `0px 0px 4px 0px ${theme?.palette?.custom?.steel_blue}`,
-        '&.Mui-expanded': {
-          boxShadow: `0px 0px 4px 0px ${theme?.palette?.custom?.steel_blue}`,
-        },
-      }}
+    <UncontrolledAccordion
+      variantType={ACCORDION_VARIANTS?.CARD}
+      accordionSummary={
+        <DataRecordCount
+          totalCount={dealTickets?.length}
+          recordName="Tickets"
+          recordNameVariant="h5"
+        />
+      }
     >
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <Typography variant={'h5'}>
-          <Typography
-            variant={'body1'}
-            component={'span'}
-            bgcolor={'secondary.main'}
-            borderRadius={1}
-            p={0.4}
-            color={'common.white'}
-            mr={0.5}
-          >
-            {dealTickets?.length < 10
-              ? `0${dealTickets?.length}`
-              : dealTickets?.length}
-          </Typography>
-          Tickets
+      {!dealTickets?.length ? (
+        <Typography variant={'body2'} fontWeight={500}>
+          No Tickets Associated With This Record
         </Typography>
-      </AccordionSummary>
-      <AccordionDetails>
-        {!dealTickets?.length ? (
-          <Typography variant={'body2'} fontWeight={500}>
-            No Tickets Associated With This Record
-          </Typography>
-        ) : (
-          dealTickets?.map((item: any) => (
-            <Box
-              display={'flex'}
-              alignItems={'center'}
-              justifyContent={'space-between'}
-              gap={1}
-              key={item?._id}
-              overflow={'auto'}
-              mb={2}
-            >
-              <Box display={'flex'} flexDirection={'column'}>
-                <Typography variant={'body2'} fontWeight={500}>
-                  {item?.ticketIdNumber ?? '---'}
-                </Typography>
-                <Typography variant={'subtitle2'} fontWeight={400}>
-                  {item?.subject ?? '---'}
-                </Typography>
-              </Box>
-              <Typography variant={'body2'}>{item?.status ?? '---'}</Typography>
+      ) : (
+        dealTickets?.map((item: any) => (
+          <Box
+            display={'flex'}
+            alignItems={'center'}
+            justifyContent={'space-between'}
+            gap={1}
+            key={item?._id}
+            overflow={'auto'}
+            mb={2}
+          >
+            <Box display={'flex'} flexDirection={'column'}>
+              <Typography variant={'body2'} fontWeight={500}>
+                {item?.ticketIdNumber ?? '---'}
+              </Typography>
+              <Typography variant={'subtitle2'} fontWeight={400}>
+                {item?.subject ?? '---'}
+              </Typography>
             </Box>
-          ))
-        )}
-      </AccordionDetails>
-    </Accordion>
+            <Typography variant={'body2'}>{item?.status ?? '---'}</Typography>
+          </Box>
+        ))
+      )}
+    </UncontrolledAccordion>
   );
 }

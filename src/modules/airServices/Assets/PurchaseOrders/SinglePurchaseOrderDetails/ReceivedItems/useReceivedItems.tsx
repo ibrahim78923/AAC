@@ -27,7 +27,13 @@ export const useReceivedItems = (props: any) => {
     },
   };
 
-  const { data, isLoading, isFetching, isError }: { [key: string]: any } =
+  const {
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    refetch,
+  }: { [key: string]: any } =
     useGetAirServicesAssetsPurchaseOrderDetailsAddToReceivedItemsQuery(
       getSingleAddToPurchaseOrderParameter,
       {
@@ -116,5 +122,6 @@ export const useReceivedItems = (props: any) => {
     patchAddToItemStatus,
     isFetching,
     isError,
+    refetch,
   };
 };

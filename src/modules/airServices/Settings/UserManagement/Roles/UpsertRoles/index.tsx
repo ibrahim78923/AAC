@@ -1,13 +1,15 @@
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Box, Button, Divider, Grid, Typography } from '@mui/material';
+import { Box, Button, Divider, Typography } from '@mui/material';
 import { AIR_SERVICES } from '@/constants/routes';
 import { FormProvider } from '@/components/ReactHookForm';
 import { upsertRolesFormData } from './UpsertRoles.data';
 import useUpsertRoles from './useUpsertRoles';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
-import ApiErrorState from '@/components/ApiErrorState';
 import { LoadingButton } from '@mui/lab';
 import PermissionsAccordion from './PermissionsAccordion';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { FormGrid } from '@/components/Grids/FormGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
 const UpsertRoles = () => {
   const {
@@ -22,43 +24,39 @@ const UpsertRoles = () => {
     patchPermissionsStatus,
     getRolesIsError,
     permissionAccordionsProps,
+    refetch,
   } = useUpsertRoles();
-
-  if (getRolesIsError) return <ApiErrorState />;
-
-  if (getRolesIsLoading || getRolesIsFetching) return <SkeletonTable />;
 
   return (
     <>
-      <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
-        <ArrowBackIcon
-          onClick={() => router?.push(AIR_SERVICES?.USER_ROLES_SETTINGS)}
-          sx={{ cursor: 'pointer' }}
-        />
-        <Typography variant="h3">
-          {roleId ? `Update Role` : `Add New Role`}
-        </Typography>
-      </Box>
-
-      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <Grid container>
-          {upsertRolesFormData?.map((item: any) => (
-            <Grid item xs={12} key={item?.id}>
-              <Box width={'50%'}>
-                <item.component {...item?.componentProps} size={'small'} />
+      <PageTitledHeader
+        title={`${
+          roleId
+            ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
+            : `${GENERIC_UPSERT_FORM_CONSTANT?.ADD} ${GENERIC_UPSERT_FORM_CONSTANT?.NEW}`
+        } Role`}
+        canMovedBack
+        moveBack={() => router?.push(AIR_SERVICES?.USER_ROLES_SETTINGS)}
+      />
+      <ApiRequestFlow
+        showSkeleton={getRolesIsLoading || getRolesIsFetching}
+        hasError={getRolesIsError}
+        refreshApi={refetch}
+      >
+        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+          <FormGrid formFieldsList={upsertRolesFormData} spacing={1}>
+            <CustomGrid xs={12}>
+              <Divider sx={{ my: 2 }} />
+              <Typography variant="h5">Permissions</Typography>
+            </CustomGrid>
+            <CustomGrid xs={12}>
+              <Box sx={{ my: 2 }}>
+                <PermissionsAccordion {...permissionAccordionsProps} />
               </Box>
-            </Grid>
-          ))}
-
-          <Grid item xs={12}>
-            <Divider sx={{ my: 2 }} />
-            <Typography variant="h5">Permissions</Typography>
-          </Grid>
-          <Grid item xs={12} my={2}>
-            <PermissionsAccordion {...permissionAccordionsProps} />
-          </Grid>
-
-          <Grid item xs={12} textAlign={'end'}>
+            </CustomGrid>
+          </FormGrid>
+          <br />
+          <Box textAlign={'end'}>
             <Button
               type={'button'}
               variant={'outlined'}
@@ -82,11 +80,13 @@ const UpsertRoles = () => {
                 patchPermissionsStatus?.isLoading
               }
             >
-              {roleId ? `Update` : `Submit`}
+              {roleId
+                ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
+                : GENERIC_UPSERT_FORM_CONSTANT?.SUBMIT}
             </LoadingButton>
-          </Grid>
-        </Grid>
-      </FormProvider>
+          </Box>
+        </FormProvider>
+      </ApiRequestFlow>
     </>
   );
 };

@@ -265,6 +265,7 @@ const StepBuyerInfo = ({
             <TemplateBasic
               quotesData={quotesData}
               loyalityCalculation={loyalityCalculation}
+              BuyerInfoLoading={BuyerInfoLoading}
             />
           </TemplateFrame>
         </Grid>

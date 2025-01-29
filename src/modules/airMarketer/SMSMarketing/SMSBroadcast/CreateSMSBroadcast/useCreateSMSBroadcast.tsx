@@ -16,7 +16,6 @@ import {
   SMS_MARKETING_CONSTANTS,
   STATUS_CONTANTS,
 } from '@/constants/strings';
-import useSMSMarketing from '../../useSMSMarketing';
 import { indexNumbers, productSuiteName } from '@/constants';
 import {
   DYNAMIC_FIELDS,
@@ -36,7 +35,6 @@ const useCreateSMSBroadcast = () => {
   const [createStatus, setCreateStatus] = useState(STATUS_CONTANTS?.COMPLETED);
   const [detailsMsg, setDetailMsg] = useState();
   const [isSchedule, setIsSchedule] = useState(false);
-  const { getIsPhoneConnected } = useSMSMarketing();
 
   // Dynamic form
   const [form, setForm] = useState<any>([]);
@@ -77,7 +75,7 @@ const useCreateSMSBroadcast = () => {
     resolver: yupResolver<any>(
       validationSchema(isSchedule, form, createStatus),
     ),
-    defaultValues: defaultValues({}, form, getIsPhoneConnected),
+    defaultValues: defaultValues({}, form),
   });
 
   const { handleSubmit, reset, watch, setValue } = methods;
@@ -113,7 +111,7 @@ const useCreateSMSBroadcast = () => {
             ? new Date(data?.schedualDate)
             : null,
       };
-      reset(() => defaultValues(fieldsToSet, form, getIsPhoneConnected));
+      reset(() => defaultValues(fieldsToSet, form));
       setDetailMsg(data?.detail);
       setRecipientType(
         data?.groupDetails?.length > 0
@@ -136,13 +134,13 @@ const useCreateSMSBroadcast = () => {
     const cleanedDetailsText = removeHtmlTags(detailsText);
     const payloadData: any = {
       ...values,
-      senderId: getIsPhoneConnected?.data?._id,
       campaignId: values?.campaignId?._id,
       templateId: values?.templateId?._id,
       status: createStatus,
       detail: cleanedDetailsText,
     };
     if (isSchedule) {
+      payloadData.status = STATUS_CONTANTS?.SCHEDULED;
       payloadData.schedualDate = values?.schedualDate;
     }
 

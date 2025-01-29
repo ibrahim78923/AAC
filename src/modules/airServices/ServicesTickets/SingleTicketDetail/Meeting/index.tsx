@@ -1,4 +1,4 @@
-import { Box, Button, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { MeetingCards } from './MeetingCards';
 import { useMeeting } from './useMeeting';
 import Search from '@/components/Search';
@@ -6,10 +6,12 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { listViewDetails } from './Meeting.data';
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE, MODULE_TYPE } from '@/constants/strings';
-import { PlusIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS } from '@/constants/permission-keys';
 import { SOCIAL_COMPONENTS } from '@/constants/routes';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
 
 export const Meeting = () => {
   const {
@@ -38,20 +40,22 @@ export const Meeting = () => {
           SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.SHOW_COUNT_WIDGETS,
         ]}
       >
-        <Grid container spacing={2}>
+        <ContainerGrid>
           {meetings?.map((meeting: any) => (
-            <MeetingCards
-              key={meeting?.id}
-              meetingHeading={meeting?.meetingHeading}
-              meetingType={meeting?.meetingType}
-              meetingCount={meeting?.meetingCount}
-              color={meeting?.color}
-              setCardValue={setCardValue}
-              isActive={isActiveCard === meeting?.meetingType}
-              onClick={activeCard}
-            />
+            <CustomGrid sm={6} lg={4} key={meeting?.id}>
+              <MeetingCards
+                key={meeting?.id}
+                meetingHeading={meeting?.meetingHeading}
+                meetingType={meeting?.meetingType}
+                meetingCount={meeting?.meetingCount}
+                color={meeting?.color}
+                setCardValue={setCardValue}
+                isActive={isActiveCard === meeting?.meetingType}
+                onClick={activeCard}
+              />
+            </CustomGrid>
           ))}
-        </Grid>
+        </ContainerGrid>
       </PermissionsGuard>
       <Box
         p={2}
@@ -77,11 +81,9 @@ export const Meeting = () => {
               SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.CREATE_MEETING,
             ]}
           >
-            <Button
-              startIcon={<PlusIcon />}
-              variant="contained"
-              sx={{ cursor: 'pointer' }}
-              className="small"
+            <AddNewItemButton
+              size="medium"
+              name=" Schedule Meeting"
               onClick={() =>
                 router?.push({
                   pathname: SOCIAL_COMPONENTS?.SCHEDULE_MEETING,
@@ -91,9 +93,7 @@ export const Meeting = () => {
                   },
                 })
               }
-            >
-              Schedule Meeting
-            </Button>
+            />
           </PermissionsGuard>
         </Box>
         <br />

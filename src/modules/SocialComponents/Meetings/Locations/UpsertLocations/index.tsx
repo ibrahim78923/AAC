@@ -1,11 +1,12 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { useUpsertLocations } from './useUpsertLocations';
 import { FormProvider } from '@/components/ReactHookForm';
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import {
   BUTTON_TITLE_FORM_USER,
   TITLE_FORM_USER,
 } from './UpsertLocations.data';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const UpsertLocations = (props: any) => {
   const { isPortalOpen } = props;
@@ -43,13 +44,7 @@ export const UpsertLocations = (props: any) => {
     >
       <Box mt={1}>
         <FormProvider methods={methods}>
-          <Grid container spacing={1}>
-            {upsertLocationsFormFields?.map((item: any) => (
-              <Grid item xs={12} key={item?.id}>
-                <item.component {...item?.componentProps} size={'small'} />
-              </Grid>
-            ))}
-          </Grid>
+          <FormGrid spacing={1} formFieldsList={upsertLocationsFormFields} />
         </FormProvider>
       </Box>
     </CommonDrawer>

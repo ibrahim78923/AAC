@@ -592,7 +592,7 @@ export { default as IconAddText } from './modules/airSocial/contracts/icon-add-t
 export { default as IconAddSignature } from './modules/airSocial/contracts/icon-add-signature';
 export { default as IconAddTextCopy } from './modules/airSocial/contracts/icon-add-text-copy';
 export { default as IconAddTextDelete } from './modules/airSocial/contracts/icon-add-text-trash';
-
+export { default as IconCpu } from './modules/airSocial/contracts/icon-cpu';
 export { default as IconArrowSwitch } from './shared/arrow-switch';
 export { default as IconArrowRounded } from './shared/arrow-rounded';
 export { default as IconAirFP } from './shared/air-fp-logo';

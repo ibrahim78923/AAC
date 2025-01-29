@@ -1,6 +1,5 @@
 import { PAGINATION } from '@/config';
 import { useEffect, useState } from 'react';
-import { LOYALTY_REWARDS_TYPE } from '@/constants/strings';
 import { loyaltyRewardColumnDynamic } from './Rewards.data';
 import { useRouter } from 'next/router';
 import {
@@ -37,12 +36,9 @@ export const useRewards = () => {
 
   const getLoyaltyRewardsList = async () => {
     const apiDataParameter = {
-      queryParams: {
-        page,
-        limit: pageLimit,
-        search,
-        type: LOYALTY_REWARDS_TYPE?.ALL,
-      },
+      page,
+      limit: pageLimit,
+      search,
     };
     try {
       await lazyGetLoyaltyRewardsListTrigger?.(apiDataParameter)?.unwrap();
