@@ -151,8 +151,8 @@ export const contractsColumns = ({
       ),
     },
     {
-      accessorFn: (row: any) => row?.folder,
-      id: 'folder',
+      accessorFn: (row: any) => row?.folders,
+      id: 'folders',
       header: 'Folder',
       cell: (info: any) => (
         <Box
@@ -162,7 +162,7 @@ export const contractsColumns = ({
           sx={{ whiteSpace: 'nowrap' }}
         >
           {' '}
-          <FolderRoundedIcon /> {info?.getValue() ?? '--'}
+          <FolderRoundedIcon /> {info?.getValue()?.name ?? '--'}
         </Box>
       ),
     },
@@ -187,7 +187,7 @@ export const contractsColumns = ({
               borderRadius: '50%',
             }}
           ></Box>
-          {info?.getValue()}
+          {`${info?.getValue()?.firstName} ${info?.getValue()?.lastName}`}
         </Box>
       ),
     },

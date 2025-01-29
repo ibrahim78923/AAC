@@ -11,6 +11,7 @@ import DefaultUserIcon from '@/assets/icons/shared/default-user';
 import useGridView from './useGridView';
 
 const ContractsGrid = ({
+  activeFolder,
   selectedRecords,
   setSelectedRecords,
   tabValue,
@@ -26,7 +27,7 @@ const ContractsGrid = ({
     setPage,
     setPageLimit,
     theme,
-  } = useGridView({ tabValue });
+  } = useGridView({ tabValue, activeFolder });
 
   return (
     <div>

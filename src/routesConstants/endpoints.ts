@@ -253,6 +253,7 @@ export const END_POINTS = {
   DELETE_INVENTORY_SOFTWARE: '/assets/delete-software',
   CHANGE_PASSWORD: '/auth/change-password',
   SET_PASSWORD: '/auth/new-password',
+  CONFIRM_PASSWORD: '/auth/confirm-password',
   AGENT_REJECT_REQUEST: '/agent/reject-request',
   APPROVED_REQUEST: '/agent/approve-request',
   ADD_SOFTWARE_USERS: '/assets/add-software-users',
@@ -806,4 +807,6 @@ export const COMMON_CONTRACTS = {
   GET_TEMPLATE_BY_FOLDER: '/common-contract-template/by-folder',
   GET_RECENTLY_USED_TEMPLATES: '/common-contract-template/get-recent/templates',
   GET_COMMON_CONTRACTS: '/common-contract/get-common-contracts',
+  GET_COMMON_CONTRACTS_FOLDERS: '/common-contract-folder',
+  POST_COMMON_CONTRACTS_FOLDERS: '/common-contract-folder',
 };

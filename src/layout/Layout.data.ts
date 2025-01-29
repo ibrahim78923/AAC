@@ -811,7 +811,7 @@ export const StatusDropDown = [
   },
 ];
 
-export const ProfileDropDown = (basePath: any) => {
+export const ProfileDropDown = (basePath: any, user: any) => {
   return [
     {
       label: PROFILE_DROPDOWNS?.EDIT_PROFILE,
@@ -824,19 +824,35 @@ export const ProfileDropDown = (basePath: any) => {
     },
     {
       label: PROFILE_DROPDOWNS?.CHANGE_PASSWORD,
-      key: ORG_ADMIN?.EDIT_PROFILE,
+      key:
+        basePath === PROFILE_DROPDOWNS?.AIR_CUSTOMER_PORTAL
+          ? AIR_CUSTOMER_PORTAL?.EDIT_PROFILE
+          : basePath === 'org-admin'
+            ? ORG_ADMIN?.DASHBOARD_EDIT_PROFILE
+            : ORG_ADMIN?.EDIT_PROFILE,
     },
     {
       label: PROFILE_DROPDOWNS?.DELEGATE,
-      key: COMMON_ROUTES?.DELEGATE,
-    },
-    {
-      label: PROFILE_DROPDOWNS?.ACTIVITY_LOGS,
       key:
-        basePath === ORG_ADMIN.DASHBOARD
-          ? ORG_ADMIN.ORG_ADMIN_ACTIVITY_LOGS
-          : COMMON_ROUTES?.ACTIVITY_LOGS,
+        basePath === PROFILE_DROPDOWNS?.AIR_CUSTOMER_PORTAL
+          ? AIR_CUSTOMER_PORTAL?.DELEGATES
+          : basePath === 'org-admin'
+            ? ORG_ADMIN?.DASHBOARD_DELEGATE
+            : COMMON_ROUTES?.DELEGATE,
     },
+    ...(user?.role !== 'ORG_REQUESTER'
+      ? [
+          {
+            label: PROFILE_DROPDOWNS?.ACTIVITY_LOGS,
+            key:
+              basePath === PROFILE_DROPDOWNS?.AIR_CUSTOMER_PORTAL
+                ? AIR_CUSTOMER_PORTAL?.ACTIVITY_LOGS
+                : basePath === 'org-admin'
+                  ? ORG_ADMIN?.ORG_ADMIN_ACTIVITY_LOGS
+                  : COMMON_ROUTES?.ACTIVITY_LOGS,
+          },
+        ]
+      : []),
   ];
 };
 

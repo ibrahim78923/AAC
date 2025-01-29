@@ -4,10 +4,13 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Grid, Button, Typography, Box } from '@mui/material';
+import { Grid, Typography, Box } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
 import {
+  changePasswordDataArray,
+  changePasswordDefaultValues,
+  changePasswordValidationSchema,
   forgetPasswordDataArray,
   forgetPasswordDefaultValues,
   forgetPasswordValidationSchema,
@@ -15,13 +18,19 @@ import {
 import { CompanyLogoIcon } from '@/assets/icons';
 import { LoginDashboardImage } from '@/assets/images';
 import { styles } from './ForgetPassword.style';
-import { useForgotPasswordMutation } from '@/services/auth';
+import {
+  useConfirmPasswordMutation,
+  useForgotPasswordMutation,
+} from '@/services/auth';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { LoadingButton } from '@mui/lab';
+import { useRouter } from 'next/router';
 
 const ForgetPassword = () => {
   const [isEmailSuccess, setIsEmailSuccess] = useState<boolean>(false);
   const theme = useTheme();
-  const [forgotPassword] = useForgotPasswordMutation();
+  const router: any = useRouter();
+  const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
 
   const forgetPasswordForm = useForm({
     resolver: yupResolver(forgetPasswordValidationSchema),
@@ -43,6 +52,27 @@ const ForgetPassword = () => {
   };
 
   const { handleSubmit } = forgetPasswordForm;
+
+  const [ConfirmPassword, { isLoading: changePasswordLoading }] =
+    useConfirmPasswordMutation();
+
+  const changePasswordForm = useForm({
+    resolver: yupResolver(changePasswordValidationSchema),
+    defaultValues: changePasswordDefaultValues,
+  });
+
+  const onSubmitChangePassword = async (values: any) => {
+    try {
+      await ConfirmPassword(values)?.unwrap();
+      successSnackbar('Password reset successfully');
+      router?.push('/login');
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      errorSnackbar(errMsg ?? 'Error occurred');
+    }
+  };
+
+  const { handleSubmit: handleChangeSubmit } = changePasswordForm;
 
   return (
     <Box sx={{ height: '100vh' }}>
@@ -70,7 +100,7 @@ const ForgetPassword = () => {
               variant="h3"
               sx={{ color: theme?.palette?.grey[500_8], textAlign: 'center' }}
             >
-              Forgot Password{' '}
+              {!isEmailSuccess ? 'Forgot' : 'Set'} Password{' '}
             </Typography>
             {!isEmailSuccess && (
               <Typography
@@ -88,15 +118,36 @@ const ForgetPassword = () => {
             <Box style={styles.formStyling}>
               {isEmailSuccess ? (
                 <>
-                  <Typography variant="h3" sx={{ textAlign: 'center' }}>
-                    Email Sent
-                  </Typography>
-                  <Typography
-                    variant="h6"
-                    sx={{ textAlign: 'center', marginTop: '20px' }}
+                  <FormProvider
+                    methods={changePasswordForm}
+                    onSubmit={handleChangeSubmit(onSubmitChangePassword)}
                   >
-                    Password reset email has been sent to registered email.
-                  </Typography>
+                    <Grid container spacing={4}>
+                      {changePasswordDataArray?.map((item: any) => (
+                        <Grid
+                          item
+                          xs={12}
+                          md={item?.md}
+                          key={uuidv4()}
+                          sx={{ paddingTop: '15px !important' }}
+                        >
+                          <item.component
+                            {...item.componentProps}
+                            size={'small'}
+                          ></item.component>
+                        </Grid>
+                      ))}
+                    </Grid>
+
+                    <LoadingButton
+                      type="submit"
+                      variant="contained"
+                      sx={{ marginTop: '15px', width: '100%' }}
+                      loading={changePasswordLoading}
+                    >
+                      Continue
+                    </LoadingButton>
+                  </FormProvider>
                 </>
               ) : (
                 <>
@@ -115,13 +166,14 @@ const ForgetPassword = () => {
                       ))}
                     </Grid>
 
-                    <Button
+                    <LoadingButton
                       type="submit"
                       variant="contained"
-                      sx={{ marginY: '30px', width: '100%' }}
+                      sx={{ marginTop: '30px', width: '100%' }}
+                      loading={isLoading}
                     >
                       Continue
-                    </Button>
+                    </LoadingButton>
                   </FormProvider>
                 </>
               )}

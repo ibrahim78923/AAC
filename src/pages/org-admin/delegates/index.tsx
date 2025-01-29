@@ -1,13 +1,13 @@
-import React from 'react';
-
-import SuperAdminLayout from '../../../layout';
-
+import { Permissions } from '@/constants/permissions';
+import Layout from '@/layout';
 import Delegates from '@/modules/orgAdmin/Delegates';
 
-const DelegatesPage = () => {
-  return <Delegates />;
+const DelegatesOrgPage = () => {
+  return (
+    <Layout guardRoute permissions={Permissions?.ORG_ADMIN_DASHBOARD}>
+      <Delegates />
+    </Layout>
+  );
 };
-export default DelegatesPage;
-DelegatesPage.getLayout = function getLayout(page: any) {
-  return <SuperAdminLayout>{page}</SuperAdminLayout>;
-};
+
+export default DelegatesOrgPage;

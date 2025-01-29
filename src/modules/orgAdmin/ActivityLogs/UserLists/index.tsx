@@ -11,8 +11,8 @@ const UserLists = ({
   label = '',
   time,
   userImg,
-  performedBy,
-  moduleId,
+  // performedBy,
+  // moduleId,
 }: UserListI) => {
   return (
     <Box key={uuidv4()} sx={styles?.customWrapper()}>
@@ -32,11 +32,11 @@ const UserLists = ({
             </Avatar>
             <Box>
               {/* This line is more modify WRF Backend data */}
-              <Link href={`${performedBy}`}>
+              <Link href={``}>
                 {performedByName}
                 <Box sx={{ textTransform: 'lowercase' }}>
                   has {label}{' '}
-                  <Link href={`${moduleId}`} style={styles?.msg}>
+                  <Link href={``} style={styles?.msg}>
                     {' '}
                     {moduleName}{' '}
                   </Link>
