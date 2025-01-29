@@ -113,6 +113,13 @@ export const authAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['auth'],
     }),
+    confirmPassword: builder.mutation({
+      query: (payload: any) => ({
+        url: END_POINTS?.CONFIRM_PASSWORD,
+        method: 'POST',
+        body: payload,
+      }),
+    }),
   }),
 });
 
@@ -131,5 +138,6 @@ export const {
   useChangePasswordMutation,
   useGetEmailCheckQuery,
   useSetPasswordMutation,
+  useConfirmPasswordMutation,
   useGetDrnCheckQuery,
 } = authAPI;
