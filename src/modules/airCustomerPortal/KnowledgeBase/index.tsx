@@ -1,12 +1,8 @@
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import { useKnowledgeBase } from './useKnowledgeBase';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import AddBoxIcon from '@mui/icons-material/AddBox';
 import Search from '@/components/Search';
 import { fullName } from '@/utils/avatarUtils';
-import { PublicSingleDropdownButton } from '@/components/Buttons/PublicSingleDropdownButton';
-import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
-import { ReportIssue } from './ReportIssue';
 import { IconInfoCard } from '@/components/Cards/IconInfoCard/IconInfoCard';
 import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
@@ -15,66 +11,18 @@ import { ListGrid } from '@/components/Grids/ListGrid';
 
 export const KnowledgeBase = () => {
   const {
-    openReportAnIssueModal,
-    setOpenReportAnIssueModal,
     knowledgeBaseFolderData,
     isLoading,
     isFetching,
     isError,
     setSearch,
-    newTicketsDropdown,
-    auth,
     refetch,
-    customerPortalStyling,
-    reportAnIssuePermission,
     router,
   } = useKnowledgeBase();
 
   return (
     <>
-      <PageTitledHeader title={'Knowledge Base'}>
-        {!auth?.isAuthenticated ? (
-          reportAnIssuePermission && (
-            <Button
-              variant="contained"
-              onClick={() => setOpenReportAnIssueModal?.(true)}
-              sx={(theme: any) => ({
-                bgcolor:
-                  customerPortalStyling?.btnPrimary ||
-                  customizePortalDefaultValues(theme)?.btnPrimary,
-                color: 'common.white',
-                '&:hover': {
-                  bgcolor:
-                    customerPortalStyling?.btnPrimary ||
-                    customizePortalDefaultValues(theme)?.btnPrimary,
-                  color: 'common.white',
-                },
-              })}
-            >
-              Report An Issue
-            </Button>
-          )
-        ) : (
-          <PublicSingleDropdownButton
-            dropdownOptions={newTicketsDropdown}
-            dropdownName={'New'}
-            btnVariant="contained"
-            startIcon={<AddBoxIcon />}
-            sx={(theme: any) => ({
-              bgcolor:
-                customerPortalStyling?.btnPrimary ||
-                customizePortalDefaultValues(theme)?.btnPrimary,
-              color: 'common.white',
-              '&:hover': {
-                bgcolor:
-                  customerPortalStyling?.btnPrimary ||
-                  customizePortalDefaultValues(theme)?.btnPrimary,
-                color: 'common.white',
-              },
-            })}
-          />
-        )}
-      </PageTitledHeader>
+      <PageTitledHeader title={'Knowledge Base'} />
       <Box mb={2}>
         <Search label="Search Here" setSearchBy={setSearch} size="small" />
       </Box>
@@ -117,12 +65,6 @@ export const KnowledgeBase = () => {
           )}
         />
       </ApiRequestFlow>
-      {openReportAnIssueModal && (
-        <ReportIssue
-          isPortalOpen={openReportAnIssueModal}
-          setIsPortalOpen={setOpenReportAnIssueModal}
-        />
-      )}
     </>
   );
 };

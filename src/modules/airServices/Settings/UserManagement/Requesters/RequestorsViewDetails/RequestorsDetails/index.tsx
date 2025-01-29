@@ -1,8 +1,8 @@
 import { EditRequestorsIcon } from '@/assets/icons';
-import { Avatar, Box, IconButton, Typography, useTheme } from '@mui/material';
+import { Box, IconButton, Typography, useTheme } from '@mui/material';
 import UpsertRequesters from '../../UpsertRequesters';
 import { RequestedTickets } from '../RequestedTickets';
-import { fullName, generateImage } from '@/utils/avatarUtils';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { useRequesterDetails } from './useRequesterDetails';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { TruncateText } from '@/components/TruncateText';
@@ -11,6 +11,7 @@ import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomAvatar } from '@/components/Avatars/CustomAvatar';
 
 export const RequestorsDetails = () => {
   const {
@@ -62,13 +63,16 @@ export const RequestorsDetails = () => {
                   alignItems={'center'}
                   gap={3}
                 >
-                  <Avatar
-                    sx={{
-                      bgcolor: 'blue.main',
+                  <CustomAvatar
+                    avatarSize={{
                       width: 150,
                       height: 150,
                     }}
-                    src={generateImage(data?.data?.avatar?.url)}
+                    avatarSrc={data?.data?.avatar?.url}
+                    nameInitial={fullNameInitial(
+                      data?.data?.firstName,
+                      data?.data?.lastName,
+                    )}
                   />
                   <Box
                     flex={1}

@@ -1,6 +1,8 @@
+import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import { TICKET_APPROVALS } from '@/constants/strings';
 import { useGetCustomerPortalDashboardPendingForApprovalsTicketsQuery } from '@/services/airCustomerPortal';
 import { useRouter } from 'next/router';
+import { ApprovalsDataI } from '../../Catalog/Approvals/AllApprovals/AllApprovals.interface';
 
 export const usePendingApprovals = () => {
   const router = useRouter();
@@ -19,6 +21,17 @@ export const usePendingApprovals = () => {
       },
     );
 
+  const openApprovalDetail = (data: ApprovalsDataI) => {
+    router?.push({
+      pathname: AIR_CUSTOMER_PORTAL?.APPROVALS_DETAIL,
+      query: {
+        approvalId: data?._id,
+        ticketId: data?.ticketId,
+        ...(!!companyId && { companyId }),
+      },
+    });
+  };
+
   return {
     data,
     isLoading,
@@ -27,5 +40,6 @@ export const usePendingApprovals = () => {
     router,
     refetch,
     companyId,
+    openApprovalDetail,
   };
 };
