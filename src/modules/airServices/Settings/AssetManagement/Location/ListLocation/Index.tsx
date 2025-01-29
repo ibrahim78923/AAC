@@ -3,11 +3,11 @@ import { useListLocation } from './useListLocation';
 import { DeleteLocation } from '../DeleteLocation';
 import { AIR_SERVICES } from '@/constants/routes';
 import { LOCATION_TYPE } from '../UpsertLocation/UpsertLocation.data';
-import { CustomAccordion } from '@/components/CustomAccordion';
 import { ItemInitialHoveredIconCard } from '@/components/Cards/ItemInitialHoveredIconCard';
 import { ACCORDION_VARIANTS, SKELETON_TYPES } from '@/constants/mui-constant';
 import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { UncontrolledAccordion } from '@/components/Accordions/UncontrolledAccordion';
 
 export const ListLocation = () => {
   const {
@@ -36,7 +36,7 @@ export const ListLocation = () => {
       <Box bgcolor={'grey.400'} p={2} borderRadius={2}>
         <>
           {locationList?.map((parent: any) => (
-            <CustomAccordion
+            <UncontrolledAccordion
               variantType={ACCORDION_VARIANTS?.TERTIARY}
               key={parent?._id}
               summaryKey={parent?._id}
@@ -86,7 +86,7 @@ export const ListLocation = () => {
                   })
                 }
               />
-            </CustomAccordion>
+            </UncontrolledAccordion>
           ))}
         </>
       </Box>

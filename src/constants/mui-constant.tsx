@@ -29,6 +29,7 @@ export const ACCORDION_VARIANTS = {
   SECONDARY: 'secondary',
   INHERIT: 'inherit',
   TERTIARY: 'tertiary',
+  CARD: 'card',
 };
 
 export const ACCORDION_ACTIONS = {

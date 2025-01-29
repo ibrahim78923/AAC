@@ -6,11 +6,11 @@ import { Box } from '@mui/material';
 import ParentType from './ParentType';
 import ChildType from './ChildType';
 import useAssetType from './useAssetType';
-import { CustomAccordion } from '@/components/CustomAccordion';
 import { ACCORDION_VARIANTS, SKELETON_TYPES } from '@/constants/mui-constant';
 import { ItemInitialHoveredIconCard } from '@/components/Cards/ItemInitialHoveredIconCard';
 import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { UncontrolledAccordion } from '@/components/Accordions/UncontrolledAccordion';
 
 export const AssetType = () => {
   const {
@@ -63,7 +63,7 @@ export const AssetType = () => {
             }}
           />
           {data?.data?.map((parent: any) => (
-            <CustomAccordion
+            <UncontrolledAccordion
               variantType={ACCORDION_VARIANTS?.TERTIARY}
               key={parent?._id}
               disabled={parent?.perDefine}
@@ -111,7 +111,7 @@ export const AssetType = () => {
                   })
                 }
               />
-            </CustomAccordion>
+            </UncontrolledAccordion>
           ))}
         </Box>
       </ApiRequestFlow>

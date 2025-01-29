@@ -1,7 +1,7 @@
 import { ACCORDION_VARIANTS } from '@/constants/mui-constant';
 import { pxToRem } from '@/utils/getFontValue';
 
-export const customAccordionStyles: any = {
+export const uncontrolledAccordionStyles: any = {
   [ACCORDION_VARIANTS?.SECONDARY]: {
     summary: {
       backgroundColor: 'blue.main',
@@ -43,6 +43,18 @@ export const customAccordionStyles: any = {
     },
     root: {
       mb: 2,
+    },
+  },
+  [ACCORDION_VARIANTS?.CARD]: {
+    root: {
+      mt: 3,
+      borderRadius: '8px !important',
+      boxShadow: (theme: any) =>
+        `0px 0px 4px 0px ${theme?.palette?.custom?.steel_blue}`,
+      '&.Mui-expanded': {
+        boxShadow: (theme: any) =>
+          `0px 0px 4px 0px ${theme?.palette?.custom?.steel_blue}`,
+      },
     },
   },
 };

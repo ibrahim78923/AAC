@@ -1,4 +1,9 @@
-import { RHFDatePicker, RHFTextField } from '@/components/ReactHookForm';
+import {
+  RHFDatePicker,
+  RHFDropZone,
+  RHFTextField,
+} from '@/components/ReactHookForm';
+import { ACCEPT_FILE_EXTENSIONS } from '@/constants/file';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { ContactOwnerContactDropdown } from '@/modules/airServices/ServicesTickets/ServiceTicketFormFields/ContactOwnerContactDropdown';
 import { ContactsStatusDropdown } from '@/modules/airServices/ServicesTickets/ServiceTicketFormFields/ContactsStatusDropdown';
@@ -21,9 +26,9 @@ export const getDefaultValues = (data: any) => {
   };
 };
 
-export const formFields = [
+export const viewContactFormFieldsDynamic = (attachment: any) => [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'email',
       label: 'Email',
@@ -32,9 +37,27 @@ export const formFields = [
     },
     component: RHFTextField,
   },
-  { id: 2 },
   {
-    id: 3,
+    _id: 2,
+    componentProps: {
+      name: 'fileUrl',
+      label: ' Profile Picture',
+      isPreviewMode: true,
+      fullWidth: true,
+      attachmentPreviewDetail: {
+        fileUrl: attachment?.url,
+        orignalName: !!attachment?.url ? ' ' : 'No image found',
+      },
+      accept: {
+        'image/png': ACCEPT_FILE_EXTENSIONS?.PNG,
+        'image/jpeg': ACCEPT_FILE_EXTENSIONS?.JPEG,
+      },
+    },
+    component: RHFDropZone,
+    md: 12,
+  },
+  {
+    _id: 3,
     componentProps: {
       name: 'firstName',
       label: 'First Name',
@@ -43,7 +66,7 @@ export const formFields = [
     component: RHFTextField,
   },
   {
-    id: 4,
+    _id: 4,
     componentProps: {
       name: 'lastName',
       label: 'Last Name',
@@ -52,7 +75,7 @@ export const formFields = [
     component: RHFTextField,
   },
   {
-    id: 5,
+    _id: 5,
     componentProps: {
       name: 'address',
       label: 'Address',
@@ -61,7 +84,7 @@ export const formFields = [
     component: RHFTextField,
   },
   {
-    id: 6,
+    _id: 6,
     componentProps: {
       name: 'dateOfBirth',
       label: 'Date Of Birth',
@@ -71,7 +94,7 @@ export const formFields = [
     component: RHFDatePicker,
   },
   {
-    id: 7,
+    _id: 7,
     componentProps: {
       name: 'phoneNumber',
       label: 'Phone Number',
@@ -80,7 +103,7 @@ export const formFields = [
     component: RHFTextField,
   },
   {
-    id: 8,
+    _id: 8,
     componentProps: {
       name: 'whatsAppNumber',
       label: 'WhatsApp Number',
@@ -89,7 +112,7 @@ export const formFields = [
     component: RHFTextField,
   },
   {
-    id: 9,
+    _id: 9,
     componentProps: {
       name: 'jobTitle',
       label: 'Job Title',
@@ -98,7 +121,7 @@ export const formFields = [
     component: RHFTextField,
   },
   {
-    id: 10,
+    _id: 10,
     componentProps: {
       name: 'dateOfJoining',
       label: 'Date Of Joining',
@@ -107,15 +130,15 @@ export const formFields = [
     component: RHFDatePicker,
   },
   {
-    id: 11,
+    _id: 11,
     component: ContactOwnerContactDropdown,
   },
   {
-    id: 12,
+    _id: 12,
     component: LifeCycleStageDropdown,
   },
   {
-    id: 13,
+    _id: 13,
     component: ContactsStatusDropdown,
   },
 ];
