@@ -1,11 +1,12 @@
 import { Avatar, Box, IconButton, Typography, useTheme } from '@mui/material';
 import { DATE_TIME_FORMAT } from '@/constants';
-import { fullName, generateImage, truncateText } from '@/utils/avatarUtils';
+import { fullName, fullNameInitial, truncateText } from '@/utils/avatarUtils';
 import { EditRequestorsIcon } from '@/assets/icons';
 import { AGENT_LEVELS_IMAGES } from '@/constants/images';
 import { otherDateFormat } from '@/lib/date-time';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomAvatar } from '@/components/Avatars/CustomAvatar';
 
 export const AgentBioData = (props: any) => {
   const theme = useTheme();
@@ -44,13 +45,16 @@ export const AgentBioData = (props: any) => {
               alignItems={'center'}
               gap={3}
             >
-              <Avatar
-                sx={{
-                  bgcolor: 'blue.main',
+              <CustomAvatar
+                avatarSize={{
                   width: 150,
                   height: 150,
                 }}
-                src={generateImage(data?.data?.avatar?.url)}
+                avatarSrc={data?.data?.avatar?.url}
+                nameInitial={fullNameInitial(
+                  data?.data?.firstName,
+                  data?.data?.lastName,
+                )}
               />
               <Box
                 flex={1}

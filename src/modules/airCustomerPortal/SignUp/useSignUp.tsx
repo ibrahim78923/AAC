@@ -127,7 +127,7 @@ export default function useSignUp() {
       reset();
       router?.push(AUTH?.LOGIN);
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
   };
 
