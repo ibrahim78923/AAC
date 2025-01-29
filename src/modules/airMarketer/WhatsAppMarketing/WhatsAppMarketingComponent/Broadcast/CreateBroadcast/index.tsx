@@ -105,6 +105,7 @@ const CreateBroadcast = () => {
               color="inherit"
               className="small"
               onClick={handleSaveAsDraft}
+              disabled={isSchedule ? true : false}
               loading={
                 createStatus === STATUS_CONTANTS?.DRAFT && postBroadcastLoading
               }

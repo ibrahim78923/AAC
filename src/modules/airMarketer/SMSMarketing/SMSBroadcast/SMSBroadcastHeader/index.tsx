@@ -134,7 +134,7 @@ const SMSBroadcastHeader = (props: SMSBroadcastHeaderProps) => {
               <MenuItem value={'Completed'}>Completed</MenuItem>
               <MenuItem value={'Scheduled'}>Scheduled</MenuItem>
               <MenuItem value={'Draft'}>Draft</MenuItem>
-              <MenuItem value={'Failed'}>Failed</MenuItem>
+
             </Select>
           </FormControl>
         </PermissionsGuard>
