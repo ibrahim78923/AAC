@@ -5,10 +5,11 @@ import {
   Typography,
 } from '@mui/material';
 import { ACCORDION_VARIANTS } from '@/constants/mui-constant';
-import { customAccordionStyles } from './CustomAccordion.styles';
-import { expandIcons } from './CustomAccordion.data';
+import { uncontrolledAccordionStyles } from './UncontrolledAccordion.styles';
+import { expandIcons } from './UncontrolledAccordion.data';
+import { UncontrolledAccordionsPropsI } from '../Accordions.interface';
 
-export const CustomAccordion = (props: any) => {
+export const UncontrolledAccordion = (props: UncontrolledAccordionsPropsI) => {
   const {
     accordionSummary,
     children,
@@ -26,7 +27,7 @@ export const CustomAccordion = (props: any) => {
     expandIcon,
   } = props;
 
-  const accordionVariantStyles = customAccordionStyles?.[variantType];
+  const accordionVariantStyles = uncontrolledAccordionStyles?.[variantType];
   const mappedExpandIcon = expandIcon ?? expandIcons?.[variantType];
 
   return (

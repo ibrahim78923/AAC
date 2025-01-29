@@ -1,89 +1,50 @@
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Avatar,
-  Box,
-  Typography,
-} from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import { Box, Typography } from '@mui/material';
+import { UncontrolledAccordion } from '@/components/Accordions/UncontrolledAccordion';
+import { ACCORDION_VARIANTS } from '@/constants/mui-constant';
+import { DataRecordCount } from '@/components/DataRecordCount';
+import { UserInfo } from '@/components/UserInfo';
+import { fullName, getInitialsSingleName } from '@/utils/avatarUtils';
 
-export default function Contacts({ theme, dealContacts }: any) {
+export default function Contacts({ dealContacts }: any) {
   return (
-    <Accordion
-      sx={{
-        mt: 3,
-        borderRadius: '8px !important',
-        boxShadow: `0px 0px 4px 0px ${theme?.palette?.custom?.steel_blue}`,
-        '&.Mui-expanded': {
-          boxShadow: `0px 0px 4px 0px ${theme?.palette?.custom?.steel_blue}`,
-        },
-      }}
+    <UncontrolledAccordion
+      variantType={ACCORDION_VARIANTS?.CARD}
+      accordionSummary={
+        <DataRecordCount
+          totalCount={dealContacts?.length}
+          recordName="Contacts"
+          recordNameVariant="h5"
+        />
+      }
     >
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <Typography variant={'h5'}>
-          <Typography
-            variant={'body1'}
-            component={'span'}
-            bgcolor={'secondary.main'}
-            borderRadius={1}
-            p={0.4}
-            color={'common.white'}
-            mr={0.5}
-          >
-            {dealContacts?.length < 10
-              ? `0${dealContacts?.length}`
-              : dealContacts?.length}
-          </Typography>
-          Contacts
+      {!dealContacts?.length ? (
+        <Typography variant={'body2'} fontWeight={500}>
+          No Contacts Associated With This Record
         </Typography>
-      </AccordionSummary>
-      <AccordionDetails>
-        {!dealContacts?.length ? (
-          <Typography variant={'body2'} fontWeight={500}>
-            No Contacts Associated With This Record
-          </Typography>
-        ) : (
-          dealContacts?.map((item: any) => (
-            <Box
-              display={'flex'}
-              alignItems={'center'}
-              justifyContent={'space-between'}
-              gap={1}
-              key={item?._id}
-              overflow={'auto'}
-              mb={2}
-            >
-              <Box display={'flex'} alignItems={'center'} gap={1}>
-                <Avatar
-                  sx={{
-                    bgcolor: theme?.palette?.blue?.main,
-                    width: 40,
-                    height: 40,
-                  }}
-                  src={generateImage(item?.profilePicture)}
-                >
-                  <Typography variant={'body2'} textTransform={'uppercase'}>
-                    {fullNameInitial(item?.name)}
-                  </Typography>
-                </Avatar>
-                <Box display={'flex'} flexDirection={'column'}>
-                  <Typography variant={'body2'} fontWeight={500}>
-                    {item?.name ?? '---'}
-                  </Typography>
-                  <Typography variant={'subtitle2'} fontWeight={400}>
-                    {item?.email ?? '---'}
-                  </Typography>
-                </Box>
-              </Box>
-              <Typography variant={'body2'}>
-                {item?.phoneNumber ?? '---'}
-              </Typography>
-            </Box>
-          ))
-        )}
-      </AccordionDetails>
-    </Accordion>
+      ) : (
+        dealContacts?.map((item: any) => (
+          <Box
+            display={'flex'}
+            alignItems={'center'}
+            justifyContent={'space-between'}
+            gap={1}
+            key={item?._id}
+            overflow={'auto'}
+            mb={2}
+          >
+            <UserInfo
+              name={fullName(item?.name)}
+              email={item?.email ?? '---'}
+              avatarSrc={item?.profilePicture}
+              nameInitial={getInitialsSingleName(item?.name)}
+              avatarSize={{ width: 35, height: 35 }}
+            />
+            <Typography variant={'body2'}>
+              {item?.phoneNumber ?? '---'}
+            </Typography>
+          </Box>
+        ))
+      )}
+    </UncontrolledAccordion>
   );
 }

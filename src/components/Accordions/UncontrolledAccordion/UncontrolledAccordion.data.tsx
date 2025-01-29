@@ -13,4 +13,5 @@ export const expandIcons = {
       }}
     />
   ),
+  [ACCORDION_VARIANTS?.CARD]: <ExpandMore />,
 };

@@ -3,9 +3,9 @@ import { Box } from '@mui/material';
 import { useChangePassword } from './useChangePassword';
 import { FormProvider } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
-import { CustomAccordion } from '@/components/CustomAccordion';
 import { ACCORDION_VARIANTS } from '@/constants/mui-constant';
 import { FormGrid } from '@/components/Grids/FormGrid';
+import { UncontrolledAccordion } from '@/components/Accordions/UncontrolledAccordion';
 
 export const ChangePassword = () => {
   const {
@@ -22,7 +22,7 @@ export const ChangePassword = () => {
       borderBottom={`.1rem solid ${theme?.palette?.grey?.[700]}`}
       borderRadius={2.5}
     >
-      <CustomAccordion
+      <UncontrolledAccordion
         expandIcon={<ExpandMoreIcon />}
         summaryTitle="Change Password"
         variantType={ACCORDION_VARIANTS?.INHERIT}
@@ -56,7 +56,7 @@ export const ChangePassword = () => {
             </LoadingButton>
           </Box>
         </FormProvider>
-      </CustomAccordion>
+      </UncontrolledAccordion>
     </Box>
   );
 };
