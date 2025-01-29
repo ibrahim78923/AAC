@@ -48,7 +48,7 @@ export const orgEmployeeValidationSchema = Yup.object().shape({
     .required('Field is Required')
     .email('Invalid email address'),
   phoneNumber: Yup.string()
-    .nullable() // Allow null or undefined values
+    .nullable()
     .matches(/^\+\d{1,}(\s\d+)*$/, 'Invalid phone number')
     .transform((value, originalValue) => {
       if (
@@ -56,7 +56,7 @@ export const orgEmployeeValidationSchema = Yup.object().shape({
         originalValue === null ||
         originalValue === undefined
       ) {
-        return null; // Convert empty string or null/undefined to null
+        return null;
       }
       return value;
     }),
@@ -86,7 +86,7 @@ export const superAdminValidationSchema = Yup.object().shape({
     .required('Field is Required')
     .email('Invalid email address'),
   phoneNumber: Yup.string()
-    .nullable() // Allow null or undefined values
+    .nullable()
     .matches(/^\+\d{1,}(\s\d+)*$/, 'Invalid phone number')
     .transform((value, originalValue) => {
       if (
@@ -94,7 +94,7 @@ export const superAdminValidationSchema = Yup.object().shape({
         originalValue === null ||
         originalValue === undefined
       ) {
-        return null; // Convert empty string or null/undefined to null
+        return null;
       }
       return value;
     }),
@@ -157,6 +157,7 @@ export const addUsersArray = () => {
       componentProps: {
         name: 'superAdminRoleId',
         label: 'Assign Role',
+        placeholder: 'Select Role',
         fullWidth: true,
         select: true,
         required: true,
