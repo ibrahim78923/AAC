@@ -18,6 +18,7 @@ export const UserInfo = (props: any) => {
     optionDetailProps,
     tooltipTitle,
     customTooltipProps,
+    nameVariant = 'body4',
   } = props;
 
   return (
@@ -41,7 +42,7 @@ export const UserInfo = (props: any) => {
       />
       <Box>
         <Typography
-          variant="body4"
+          variant={nameVariant}
           component={'div'}
           color="slateBlue.main"
           onClick={() => handleNameClick?.()}

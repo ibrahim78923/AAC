@@ -88,7 +88,6 @@ const Contracts = () => {
       nested: true,
     });
 
-
   const router = useRouter();
   const isSmallScreen = useMediaQuery('(max-width: 1000px)');
 
@@ -126,7 +125,6 @@ const Contracts = () => {
       errorSnackbar(error?.data?.message);
     }
   };
-
 
   const [tabValue, setTabValue] = useState(CONTRACTS_STATUS?.ALL);
 
@@ -583,7 +581,6 @@ const Contracts = () => {
 
           <ContractsGrid
             activeFolder={activeFolder}
-
             selectedRecords={selectedRecords}
             setSelectedRecords={setSelectedRecords}
             tabValue={tabValue}

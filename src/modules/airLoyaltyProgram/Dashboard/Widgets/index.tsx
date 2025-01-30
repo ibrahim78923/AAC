@@ -1,10 +1,11 @@
-import { Avatar, Box, Skeleton, Typography } from '@mui/material';
+import { Box, Skeleton, Typography } from '@mui/material';
 import { useWidgets } from './useWidgets';
 import { ApiPollingButton } from '@/components/Buttons/ApiPollingButton';
 import { AUTO_REFRESH_API_TIME_INTERVAL } from '@/config';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { IconAvatar } from '@/components/Avatars/IconAvatar';
 
 export const Widgets = () => {
   const {
@@ -72,12 +73,12 @@ export const Widgets = () => {
                     },
                   }}
                 >
-                  <Avatar
-                    sx={{
-                      bgcolor: theme?.palette?.grey?.[400],
+                  <IconAvatar
+                    avatarSize={{
                       width: 42,
                       height: 42,
                     }}
+                    backgroundColor={'grey.400'}
                   >
                     <widget.avatar
                       fill={
@@ -86,8 +87,7 @@ export const Widgets = () => {
                           : undefined
                       }
                     />
-                  </Avatar>
-
+                  </IconAvatar>
                   <Box>
                     <Typography
                       variant={'body3'}

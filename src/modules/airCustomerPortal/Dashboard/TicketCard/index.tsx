@@ -1,8 +1,9 @@
-import { Avatar, Box, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { FirstAidKitIcon } from '@/assets/icons';
 import { TruncateText } from '@/components/TruncateText';
 import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
 import { PROGRESS_VALUE } from '@/constants/mui-constant';
+import { IconAvatar } from '@/components/Avatars/IconAvatar';
 
 export const TicketCard = (props: any) => {
   const { totalCount = 0, color, count = 0, label } = props;
@@ -25,15 +26,15 @@ export const TicketCard = (props: any) => {
           pb: 1.2,
         }}
       >
-        <Avatar
-          sx={{
+        <IconAvatar
+          avatarSize={{
             width: 36,
             height: 36,
-            backgroundColor: color,
           }}
+          backgroundColor={color}
         >
           <FirstAidKitIcon />
-        </Avatar>
+        </IconAvatar>
         <Box>
           <Typography variant="h3" fontWeight={700} color="blue.main">
             {count}

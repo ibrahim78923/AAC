@@ -1,15 +1,7 @@
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import {
-  Avatar,
-  Box,
-  Button,
-  Divider,
-  Grid,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Divider, Grid, Tooltip, Typography } from '@mui/material';
 import { DateFilter } from './DateFilter';
 import { ManageWorkload } from './ManageWorkload';
 import { UnassignedWork } from './UnassignedWork';
@@ -28,10 +20,11 @@ import { AIR_SERVICES_WORKLOAD_CALENDER_VIEW_PERMISSIONS } from '@/constants/per
 import ViewWorkloadDrawer from './ViewWorkloadDrawer';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { WORKLOAD_STATUSES_OBJECT } from './Workload.data';
-import { fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import { fullNameInitial } from '@/utils/avatarUtils';
 import { UpdateWorkloadTicket } from './UpdateWorkloadTicket';
 import { SkeletonWorkload } from './SkeletonWorkload';
 import { otherDateFormat } from '@/lib/date-time';
+import { CustomAvatar } from '@/components/Avatars/CustomAvatar';
 
 export const Workload = () => {
   const {
@@ -342,42 +335,38 @@ export const Workload = () => {
                   }
                 >
                   {eventInfo?.event?.extendedProps?.ticketIdParent ? (
-                    <Avatar
-                      src={generateImage(
-                        eventInfo?.event?.extendedProps?.avatar?.url,
-                      )}
-                      sx={{
+                    <CustomAvatar
+                      avatarSrc={eventInfo?.event?.extendedProps?.avatar?.url}
+                      avatarSize={{
                         width: 28,
                         height: 28,
-                        color: 'primary.main',
-                        fontSize: '12px',
                       }}
-                    >
-                      {fullNameInitial(
+                      nameInitial={fullNameInitial(
                         eventInfo?.event?.extendedProps?.agentDetails
                           ?.firstName,
                         eventInfo?.event?.extendedProps?.agentDetails?.lastName,
                       )}
-                    </Avatar>
+                      backgroundColor="grey.200"
+                      initialColor="primary.main"
+                    />
                   ) : (
-                    <Avatar
-                      src={generateImage(
+                    <CustomAvatar
+                      avatarSrc={
                         eventInfo?.event?.extendedProps?.assignedUser?.avatar
-                          ?.url,
-                      )}
-                      sx={{
+                          ?.url
+                      }
+                      avatarSize={{
                         width: 28,
                         height: 28,
-                        color: 'primary.main',
-                        fontSize: '12px',
                       }}
-                    >
-                      {fullNameInitial(
+                      nameInitial={fullNameInitial(
                         eventInfo?.event?.extendedProps?.assignedUser
                           ?.firstName,
                         eventInfo?.event?.extendedProps?.assignedUser?.lastName,
                       )}
-                    </Avatar>
+                      backgroundColor="grey.200"
+                      initialColor="primary.main"
+                    />
                   )}
 
                   <Typography

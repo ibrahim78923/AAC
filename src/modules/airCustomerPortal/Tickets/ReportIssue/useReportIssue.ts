@@ -55,9 +55,11 @@ export const useReportIssue = (props: ReportIssuePropsI) => {
 
   const { methods, handleSubmit, reset, watch } = useFormLib({
     validationSchema: reportIssueFormValidationSchema(checkRequesterPermission),
-    defaultValues: reportIssueFormDefaultValues?.(),
+    defaultValues: reportIssueFormDefaultValues?.(auth?.user),
   });
-
+  useEffect(() => {
+    reset(reportIssueFormDefaultValues?.(auth?.user));
+  }, [reset, auth?.user]);
   const [postReportAnIssueTrigger, postReportAnIssueStatus] =
     usePostReportAnIssueTicketsMutation();
   const [getArticleTrigger, getArticleStatus] = useLazyGetAllArticlesQuery();

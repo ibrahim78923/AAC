@@ -1,8 +1,9 @@
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { AvatarGroup } from '@mui/material';
 import { CustomAvatar } from '../CustomAvatar';
+import { CustomAvatarGroupPropsI } from '../Avatars.interface';
 
-export const CustomAvatarGroup = (props: any) => {
+export const CustomAvatarGroup = (props: CustomAvatarGroupPropsI) => {
   const { avatarSize, max, customStyles, selectedUsers } = props;
 
   return (

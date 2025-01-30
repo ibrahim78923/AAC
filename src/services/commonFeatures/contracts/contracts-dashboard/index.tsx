@@ -47,7 +47,6 @@ export const commonContractsDashboardAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAGS,
     }),
-
   }),
 });
 export const {
@@ -56,5 +55,4 @@ export const {
   useGetCommonContractsSharedFoldersListQuery,
   useGetCommonContractsPersonalFoldersListQuery,
   usePostCreateContractFolderMutation,
-
 } = commonContractsDashboardAPI;

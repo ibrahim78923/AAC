@@ -1,5 +1,5 @@
 import { LogoImage } from '@/assets/images';
-import { Avatar, Box, Drawer, Typography } from '@mui/material';
+import { Box, Drawer, Typography } from '@mui/material';
 import { MessageBox } from './MessageBox';
 import { ChatEditor } from './ChatEditor';
 import { useState } from 'react';
@@ -7,6 +7,7 @@ import { DeleteMessage } from './DeleteMessage';
 import { Close } from '@mui/icons-material';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setIsPortalClose } from '@/redux/slices/airServices/ticket-conversation/slice';
+import { StaticAvatar } from '@/components/Avatars/StaticAvatar';
 
 export const Discuss = () => {
   const [selectedMessage, setSelectedMessage] = useState<any>({});
@@ -56,9 +57,9 @@ export const Discuss = () => {
             justifyContent={'space-between'}
           >
             <Box display={'flex'} alignItems={'center'} gap={1}>
-              <Avatar
-                src={LogoImage?.src}
-                sx={{
+              <StaticAvatar
+                avatarSrc={LogoImage?.src}
+                avatarSize={{
                   width: 30,
                   height: 30,
                 }}

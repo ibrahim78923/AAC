@@ -1,10 +1,11 @@
 import { Badge, Box, Typography } from '@mui/material';
-import Avatar from '@mui/material/Avatar';
-import { fullName, generateImage } from '@/utils/avatarUtils';
+import { fullName, getInitialsSingleName } from '@/utils/avatarUtils';
 import { AGENT_LEVELS_IMAGES } from '@/constants/images';
 import { AGENT_LEVELS } from '@/constants/strings';
 import NoData from '@/components/NoData';
 import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
+import { CustomAvatar } from '@/components/Avatars/CustomAvatar';
+import { StaticAvatar } from '@/components/Avatars/StaticAvatar';
 
 export const TopPerformer = (props: any) => {
   const { data } = props;
@@ -40,17 +41,19 @@ export const TopPerformer = (props: any) => {
                 overlap="circular"
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                 badgeContent={
-                  <Avatar
+                  <StaticAvatar
                     alt={hasTopPerformer?.badges}
-                    src={AGENT_LEVELS_IMAGES?.[hasTopPerformer?.badges]?.src}
-                    sx={{ width: 22, height: 22 }}
+                    avatarSrc={
+                      AGENT_LEVELS_IMAGES?.[hasTopPerformer?.badges]?.src
+                    }
+                    avatarSize={{ width: 20, height: 20 }}
                   />
                 }
               >
-                <Avatar
-                  alt={fullName(hasTopPerformer?.name)}
-                  src={generateImage(hasTopPerformer?.agent?.avatar?.url)}
-                  sx={{
+                <CustomAvatar
+                  nameInitial={getInitialsSingleName(hasTopPerformer?.name)}
+                  avatarSrc={hasTopPerformer?.agent?.avatar?.url}
+                  avatarSize={{
                     width: 40,
                     height: 40,
                   }}

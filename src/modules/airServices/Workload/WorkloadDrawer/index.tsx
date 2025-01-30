@@ -1,6 +1,5 @@
 import { EditGreyIcon, FilterIcon, TicketBannerIcon } from '@/assets/icons';
 import {
-  Avatar,
   Box,
   Button,
   Chip,
@@ -24,17 +23,13 @@ import ApiErrorState from '@/components/ApiErrorState';
 import { UpdateWorkloadTask } from '../UpdateWorkloadTask';
 import NoData from '@/components/NoData';
 import useWorkloadDrawer from './useWorkloadDrawer';
-import {
-  fullNameInitial,
-  generateImage,
-  truncateText,
-} from '@/utils/avatarUtils';
-import { ARRAY_INDEX } from '@/constants/strings';
+import { fullNameInitial, truncateText } from '@/utils/avatarUtils';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { UpdateWorkloadTicket } from '../UpdateWorkloadTicket';
 import { otherDateFormat } from '@/lib/date-time';
 import { workloadDefaultDateRange } from '../Workload.data';
 import { Autorenew } from '@mui/icons-material';
+import { CustomAvatar } from '@/components/Avatars/CustomAvatar';
 
 const WorkloadDrawer = ({
   setOpenDrawer,
@@ -93,18 +88,14 @@ const WorkloadDrawer = ({
         <Box width={{ lg: '520px', sm: '500px', xs: '100vw' }}>
           <Box display={'flex'} justifyContent={'space-between'} p={4}>
             <Box display={'flex'} gap={1}>
-              <Avatar
-                sx={{
-                  bgcolor: 'primary.lighter',
-                  color: 'primary.main',
+              <CustomAvatar
+                avatarSize={{
+                  width: 40,
+                  height: 40,
                 }}
-                src={generateImage(user?.avatar?.url)}
-              >
-                {fullNameInitial(
-                  user?.firstName?.[ARRAY_INDEX?.ZERO],
-                  user?.lastName?.[ARRAY_INDEX?.ZERO],
-                )}
-              </Avatar>
+                avatarSrc={user?.avatar?.url}
+                nameInitial={fullNameInitial(user?.firstName, user?.lastName)}
+              />
               <Box>
                 <Typography
                   color={'custom.main'}
