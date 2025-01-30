@@ -37,4 +37,19 @@ export const styles = {
       '& .menu-toggle': { opacity: '1 !important', transition: '0.3s' },
     },
   }),
+  exposeFolderMenuOnHover: () => ({
+    alignItems: 'center',
+    gap: '10px',
+    justifyContent: 'space-between',
+    // ...(activeFolder?._id === item?._id && {
+    //   background: theme?.palette?.custom?.light_lavender_gray,
+    // }),
+    height: '40px',
+    '&:hover': {
+      '& .menu-toggle': { opacity: '1 !important', transition: '0.3s' },
+    },
+    '&:focus': {
+      '& .menu-toggle': { opacity: '1 !important', transition: '0.3s' },
+    },
+  }),
 };

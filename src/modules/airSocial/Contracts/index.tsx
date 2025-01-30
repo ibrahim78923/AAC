@@ -37,7 +37,6 @@ import {
   contractsFilterData,
   contractsFiltersDefaultValues,
   contractsFiltersValidationSchema,
-  renameFolderDefaultValues,
   renameFolderValidationSchema,
   tabData,
 } from './contracts.data';
@@ -56,8 +55,10 @@ import {
   useGetCommonContractsPersonalFoldersListQuery,
   useGetCommonContractsSharedFoldersListQuery,
   usePostCreateContractFolderMutation,
+  useUpdateCreateContractFolderMutation,
 } from '@/services/commonFeatures/contracts/contracts-dashboard';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { v4 as uuidv4 } from 'uuid';
 
 const Contracts = () => {
   const theme = useTheme();
@@ -65,7 +66,7 @@ const Contracts = () => {
 
   const [selectedRecords, setSelectedRecords] = useState([]);
   const [searchValue, setSearchValue] = useState('');
-  const [activeMenu, setActiveMenu] = useState('');
+  const [activeMenu, setActiveMenu] = useState<any>({});
   const [activeFolder, setActiveFolder] = useState<any>({});
 
   const { data, isLoading } = useGetCommonContractsSharedFoldersListQuery({
@@ -76,14 +77,17 @@ const Contracts = () => {
     nested: true,
   });
 
-  const { data: personalConData, isLoading: personalConIsLoading } =
-    useGetCommonContractsPersonalFoldersListQuery({
-      page: 1,
-      limit: 10,
-      ...(searchValue.length && { search: searchValue }),
-      meta: true,
-      nested: true,
-    });
+  const {
+    data: personalConData,
+    isLoading: personalConIsLoading,
+    status: personalConStatus,
+  } = useGetCommonContractsPersonalFoldersListQuery({
+    page: 1,
+    limit: 10,
+    ...(searchValue.length && { search: searchValue }),
+    meta: true,
+    nested: true,
+  });
 
   const isSmallScreen = useMediaQuery('(max-width: 1000px)');
 
@@ -98,32 +102,34 @@ const Contracts = () => {
     setAnchorEl(null);
   };
 
+  //Create Folder or sub folder
   const methods: any = useForm({
     resolver: yupResolver(addNewFolderValidationSchema),
     defaultValues: addNewFolderDefaultValues,
   });
   const { handleSubmit, reset } = methods;
-
   const [
     postCreateContractFolder,
     { isLoading: postCreateContractFolderLoading },
   ] = usePostCreateContractFolderMutation();
-
   const onSubmit = async (values: any) => {
     const payload = {
       name: values?.name,
-      parentFolderId: activeMenu,
+      ...(activeMenu?._id?.length && { parentFolderId: activeMenu?._id }),
     };
     try {
       await postCreateContractFolder({ payload })?.unwrap();
       successSnackbar('Folder Created Successfully');
+      setActiveMenu({});
+      reset();
+      setIsAddFolderDrawerOpen(false);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
 
+  // Tabs
   const [tabValue, setTabValue] = useState(CONTRACTS_STATUS?.ALL);
-
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setSelectedRecords([]);
     setTabValue(newValue);
@@ -131,7 +137,6 @@ const Contracts = () => {
 
   //Filters
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
-
   const methodsFilter: any = useForm<any>({
     resolver: yupResolver(contractsFiltersValidationSchema),
     defaultValues: contractsFiltersDefaultValues,
@@ -141,7 +146,7 @@ const Contracts = () => {
 
   useEffect(() => {
     if (personalConData?.data?.commoncontractfolder) {
-      setActiveFolder({ key: 'personal' });
+      setActiveFolder(personalConData?.data?.commoncontractfolder[0]);
     }
   }, [personalConData?.data?.commoncontractfolder]);
 
@@ -209,7 +214,7 @@ const Contracts = () => {
               >
                 <Typography variant="h5">Contracts</Typography>
               </AccordionSummary>
-              <AccordionDetails>
+              <AccordionDetails sx={{ padding: '18px 0px 20px 20px' }}>
                 <Box>
                   {/* My Contracts  */}
                   {personalConIsLoading ? (
@@ -273,7 +278,7 @@ const Contracts = () => {
                             >
                               My Contracts
                             </Box>
-                            <Box>
+                            <Box onClick={(e) => e.stopPropagation()}>
                               <IconButton
                                 onClick={() => setIsAddFolderDrawerOpen(true)}
                               >
@@ -285,39 +290,45 @@ const Contracts = () => {
                         <AccordionDetails
                           sx={{ padding: '0px 0px 0px !important' }}
                         >
-                          <Box
-                            sx={{
-                              position: 'relative',
-                              padding: '0px 20px 0px !important',
-                              width: '100%',
-                              overflowY: 'auto',
-                              maxHeight: 'auto',
-                              '&::before': {
-                                position: 'absolute',
-                                content: '""',
-                                background:
-                                  theme?.palette?.custom?.light_lavender_gray,
-                                width: '1px',
-                                height: '100%',
-                                zIndex: 1,
-                                left: '8px',
-                              },
-                            }}
-                          >
-                            {personalConData?.data?.commoncontractfolder && (
-                              <RecursiveAccordion
-                                activeFolder={activeFolder}
-                                setActiveFolder={setActiveFolder}
-                                setActiveMenu={setActiveMenu}
-                                folders={
-                                  personalConData?.data?.commoncontractfolder
-                                }
-                                setIsAddFolderDrawerOpen={
-                                  setIsAddFolderDrawerOpen
-                                }
-                              />
-                            )}
-                          </Box>
+                          {personalConData?.data?.commoncontractfolder ? (
+                            <Box
+                              sx={{
+                                position: 'relative',
+                                padding: '0px 20px 0px !important',
+                                width: '100%',
+                                overflowY: 'auto',
+                                maxHeight: 'auto',
+                                '&::before': {
+                                  position: 'absolute',
+                                  content: '""',
+                                  background:
+                                    theme?.palette?.custom?.light_lavender_gray,
+                                  width: '1px',
+                                  height: '100%',
+                                  zIndex: 1,
+                                  left: '8px',
+                                },
+                              }}
+                            >
+                              {personalConData?.data?.commoncontractfolder && (
+                                <RecursiveAccordion
+                                  activeFolder={activeFolder}
+                                  setActiveFolder={setActiveFolder}
+                                  setActiveMenu={setActiveMenu}
+                                  folders={
+                                    personalConData?.data?.commoncontractfolder
+                                  }
+                                  setIsAddFolderDrawerOpen={
+                                    setIsAddFolderDrawerOpen
+                                  }
+                                  personalConStatus={personalConStatus}
+                                  activeMenu={activeMenu}
+                                />
+                              )}
+                            </Box>
+                          ) : (
+                            <></>
+                          )}
                         </AccordionDetails>
                       </Accordion>
                     </>
@@ -535,7 +546,7 @@ const Contracts = () => {
               >
                 {tabData?.map((tab) => (
                   <Tab
-                    key={tab?.value}
+                    key={uuidv4()}
                     sx={styles?.tabsStyle?.(theme)}
                     label={tab?.label}
                     value={tab.value}
@@ -589,10 +600,12 @@ const Contracts = () => {
         open={isAddFolderDrawerOpen}
         handleClose={() => {
           reset();
+          setActiveMenu({});
           setIsAddFolderDrawerOpen(false);
         }}
         handleCancel={() => {
           reset();
+          setActiveMenu({});
           setIsAddFolderDrawerOpen(false);
         }}
         handleSubmit={handleSubmit(onSubmit)}
@@ -625,7 +638,7 @@ const Contracts = () => {
             <FormProvider methods={methodsFilter}>
               <Grid container spacing={2}>
                 {contractsFilterData()?.map((item: any) => (
-                  <Grid item xs={12} md={item?.md} key={item?.id}>
+                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
                     <item.component {...item?.componentProps} size={'small'}>
                       {item?.componentProps?.select &&
                         item?.options?.map((option: any) => (
@@ -645,194 +658,20 @@ const Contracts = () => {
   );
 };
 
-const MenuDropdown = ({ setIsAddFolderDrawerOpen, setActiveMenu, id }: any) => {
-  const theme = useTheme();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-
-  const [searchValue, setSearchValue] = useState('');
-
-  const [isMoveToFolderDrawerOpen, setIsMoveToFolderDrawerOpen] =
-    useState(false);
-  const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
-
-  const [isDeleteModal, setIsDeleteModal] = useState(false);
-
-  const handleClick = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const methodsRename: any = useForm({
-    resolver: yupResolver(renameFolderValidationSchema),
-    defaultValues: renameFolderDefaultValues,
-  });
-  const { handleSubmit: handleSubmitRename, reset: resetRename } =
-    methodsRename;
-  const onSubmitRename = () => {};
-
-  return (
-    <div>
-      <Box sx={{ transform: 'rotate(90deg)' }}>
-        <IconButton
-          id="basic-button"
-          aria-controls={open ? 'basic-menu' : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? 'true' : undefined}
-          onClick={handleClick}
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <ThreeDotsIcon color="black" />
-        </IconButton>
-      </Box>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-      >
-        <MenuItem
-          onClick={() => {
-            setIsAddFolderDrawerOpen(true);
-            handleClose;
-            setActiveMenu(id);
-          }}
-        >
-          New Subfolder
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            setIsMoveToFolderDrawerOpen(true);
-            handleClose();
-          }}
-        >
-          Move to a folder
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            setIsRenameModalOpen(true);
-            handleClose();
-          }}
-        >
-          Rename
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            setIsDeleteModal(true);
-            handleClose();
-          }}
-        >
-          Delete
-        </MenuItem>
-      </Menu>
-
-      {/* move to folder  */}
-      <CommonDrawer
-        footer
-        isDrawerOpen={isMoveToFolderDrawerOpen}
-        onClose={() => setIsMoveToFolderDrawerOpen(false)}
-        title="Move to folder"
-        okText="Apply"
-        cancelText="cancel"
-        isOk
-      >
-        <>
-          <Search
-            searchBy={searchValue}
-            setSearchBy={setSearchValue}
-            label="Search By Name"
-            fullWidth
-            size="small"
-            sx={{
-              marginBottom: '15px',
-              '& input': {
-                padding: '10px',
-                '&::placeholder': {
-                  fontSize: '14px',
-                },
-              },
-            }}
-          />
-          <Typography variant="h6" sx={{ mb: 1, mt: 2 }}>
-            Main Folder
-          </Typography>
-          <Box>
-            <MenuItem sx={{ gap: '10px' }}>
-              <FolderBlackIcon
-                color={theme?.palette?.primary?.main}
-                size={22}
-              />
-              <Typography variant="body1">SubFolder 1</Typography>
-            </MenuItem>
-            <MenuItem sx={{ gap: '10px' }}>
-              <FolderBlackIcon
-                color={theme?.palette?.primary?.main}
-                size={22}
-              />
-              <Typography variant="body1">SubFolder 2</Typography>
-            </MenuItem>
-          </Box>
-        </>
-      </CommonDrawer>
-
-      {/* rename folder  */}
-      <CommonModal
-        open={isRenameModalOpen}
-        handleClose={() => {
-          resetRename();
-          setIsRenameModalOpen(false);
-        }}
-        handleCancel={() => {
-          resetRename();
-          setIsRenameModalOpen(false);
-        }}
-        handleSubmit={handleSubmitRename(onSubmitRename)}
-        title="Rename Folder"
-        okText="Add"
-        cancelText="Cancel"
-        footer
-      >
-        <FormProvider methods={methodsRename}>
-          <Grid item xs={12}>
-            <RHFTextField name="name" label="Rename" required={true} />
-          </Grid>
-        </FormProvider>
-      </CommonModal>
-
-      {/* delete modal  */}
-      <AlertModals
-        message="You're about to delete a record. Are you sure?"
-        type="delete"
-        open={isDeleteModal}
-        handleClose={() => setIsDeleteModal(false)}
-        handleSubmitBtn={() => setIsDeleteModal(false)}
-        // loading={loading}
-      />
-    </div>
-  );
-};
-
 const RecursiveAccordion = ({
   activeFolder,
   setActiveFolder,
   setActiveMenu,
+  activeMenu,
   folders,
   setIsAddFolderDrawerOpen,
+  personalConStatus,
 }: any) => {
   const theme = useTheme();
   return (
     <Box>
-      {folders.map((item: any) => (
-        <Accordion key={item?.id} sx={{ margin: '0px !important' }}>
+      {folders?.map((item: any) => (
+        <Accordion key={uuidv4()} sx={{ margin: '0px !important' }}>
           <AccordionSummary
             expandIcon={
               item?.nestedFolders?.length > 0 ? (
@@ -877,7 +716,7 @@ const RecursiveAccordion = ({
                   <MenuDropdown
                     setIsAddFolderDrawerOpen={setIsAddFolderDrawerOpen}
                     setActiveMenu={setActiveMenu}
-                    id={item?._id}
+                    item={item}
                   />
                 </Box>
               </MenuItem>
@@ -905,8 +744,10 @@ const RecursiveAccordion = ({
                     activeFolder={activeFolder}
                     setActiveFolder={setActiveFolder}
                     folders={item?.nestedFolders}
+                    activeMenu={activeMenu}
                     setIsAddFolderDrawerOpen={setIsAddFolderDrawerOpen}
                     setActiveMenu={setActiveMenu}
+                    personalConStatus={personalConStatus}
                   />
                 </Box>
               )}
@@ -915,6 +756,380 @@ const RecursiveAccordion = ({
         </Accordion>
       ))}
     </Box>
+  );
+};
+
+const RecursiveFolderAccordion = ({ folders }: any) => {
+  const theme = useTheme();
+  return (
+    <Box>
+      {folders?.map((item: any) => (
+        <Accordion key={uuidv4()} sx={{ margin: '0px !important' }}>
+          <AccordionSummary
+            expandIcon={
+              item?.nestedFolders?.length > 0 ? (
+                <ExpandMoreIcon />
+              ) : (
+                <ExpandMoreIcon sx={{ color: '#fff' }} />
+              )
+            }
+            aria-controls="panel1-content"
+            id="panel1-header"
+            sx={{
+              flexDirection: 'row-reverse',
+              justifyContent: 'flex-end',
+              height: '40px !important',
+              minHeight: '40px !important',
+              margin: '0px !important',
+              marginLeft: '-20px !important',
+            }}
+          >
+            <Box sx={{ width: '100%' }}>
+              <MenuItem sx={styles?.exposeFolderMenuOnHover()}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    ':hover': {
+                      fontWeight: '500',
+                    },
+                  }}
+                >
+                  <FolderBlackIcon /> {item?.name}
+                </Box>
+              </MenuItem>
+            </Box>
+          </AccordionSummary>
+          <AccordionDetails sx={{ padding: '0px 0px 0px !important' }}>
+            <Box
+              sx={{
+                padding: '0px 20px 0px !important',
+                position: 'relative',
+                '&::before': {
+                  position: 'absolute',
+                  content: '""',
+                  background: theme?.palette?.custom?.light_lavender_gray,
+                  width: '1px',
+                  height: '100%',
+                  zIndex: 1,
+                  left: '9px',
+                },
+              }}
+            >
+              {item?.nestedFolders && item?.nestedFolders?.length > 0 && (
+                <Box sx={{ ml: 1.5 }}>
+                  <RecursiveFolderAccordion folders={item?.nestedFolders} />
+                </Box>
+              )}
+            </Box>
+          </AccordionDetails>
+        </Accordion>
+      ))}
+    </Box>
+  );
+};
+
+const MenuDropdown = ({
+  setIsAddFolderDrawerOpen,
+  setActiveMenu,
+  item,
+}: any) => {
+  const theme = useTheme();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
+  const [searchValue, setSearchValue] = useState('');
+  const [selectedMenu, setSelectedMenu] = useState<any>({});
+
+  const { data: personalConData, isLoading: personalConIsLoading } =
+    useGetCommonContractsPersonalFoldersListQuery({
+      page: 1,
+      limit: 10,
+      ...(searchValue.length && { search: searchValue }),
+      meta: true,
+      nested: true,
+    });
+
+  const [isMoveToFolderDrawerOpen, setIsMoveToFolderDrawerOpen] =
+    useState(false);
+  const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
+
+  const [isDeleteModal, setIsDeleteModal] = useState(false);
+
+  const handleClick = (event: any) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const methodsRename: any = useForm({
+    resolver: yupResolver(renameFolderValidationSchema),
+    defaultValues: {
+      name: selectedMenu?.name,
+    },
+  });
+  const { handleSubmit: handleSubmitRename, reset: resetRename } =
+    methodsRename;
+
+  const [
+    updateCreateContractFolder,
+    { isLoading: updateCreateContractFolderLoading },
+  ] = useUpdateCreateContractFolderMutation();
+
+  const onSubmitRename = async (values: any) => {
+    const payload = {
+      name: values?.name,
+    };
+    try {
+      await updateCreateContractFolder({
+        payload,
+        id: selectedMenu?._id,
+      })?.unwrap();
+      successSnackbar('Folder Renamed Successfully');
+      setActiveMenu({});
+      resetRename();
+      setIsRenameModalOpen(false);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedMenu?.name) {
+      methodsRename.setValue('name', selectedMenu?.name);
+    }
+  }, [selectedMenu]);
+
+  return (
+    <div>
+      <Box sx={{ transform: 'rotate(90deg)' }}>
+        <IconButton
+          id="basic-button"
+          aria-controls={open ? 'basic-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClick}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <ThreeDotsIcon color="black" />
+        </IconButton>
+      </Box>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            setIsAddFolderDrawerOpen(true);
+            setActiveMenu(item);
+          }}
+        >
+          New Subfolder
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setIsMoveToFolderDrawerOpen(true);
+            handleClose();
+            setSelectedMenu(item);
+          }}
+        >
+          Move to a folder
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setIsRenameModalOpen(true);
+            handleClose();
+            setSelectedMenu(item);
+            setActiveMenu(item);
+          }}
+        >
+          Rename
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setIsDeleteModal(true);
+            handleClose();
+          }}
+        >
+          Delete
+        </MenuItem>
+      </Menu>
+
+      {/* move to folder  */}
+      <CommonDrawer
+        footer
+        isDrawerOpen={isMoveToFolderDrawerOpen}
+        onClose={() => setIsMoveToFolderDrawerOpen(false)}
+        title="Move to folder"
+        okText="Apply"
+        cancelText="cancel"
+        isOk
+      >
+        <>
+          <Search
+            searchBy={searchValue}
+            setSearchBy={setSearchValue}
+            label="Search By Name"
+            fullWidth
+            size="small"
+            sx={{
+              marginBottom: '15px',
+              '& input': {
+                padding: '10px',
+                '&::placeholder': {
+                  fontSize: '14px',
+                },
+              },
+            }}
+          />
+          <Typography variant="h6" sx={{ mb: 1, mt: 2 }}>
+            Main Folder
+          </Typography>
+          {/* <Box>
+            <MenuItem sx={{ gap: '10px' }}>
+              <FolderBlackIcon
+                color={theme?.palette?.primary?.main}
+                size={22}
+              />
+              <Typography variant="body1">SubFolder 1</Typography>
+            </MenuItem>
+            <MenuItem sx={{ gap: '10px' }}>
+              <FolderBlackIcon
+                color={theme?.palette?.primary?.main}
+                size={22}
+              />
+              <Typography variant="body1">SubFolder 2</Typography>
+            </MenuItem>
+          </Box> */}
+          {personalConIsLoading ? (
+            <>
+              <Box>
+                <Skeleton
+                  variant="rounded"
+                  width="100%"
+                  height={35}
+                  sx={{ mt: 1 }}
+                />
+                <Skeleton
+                  variant="rounded"
+                  width="80%"
+                  height={35}
+                  sx={{ mt: 1, ml: 2 }}
+                />
+                <Skeleton
+                  variant="rounded"
+                  width="80%"
+                  height={35}
+                  sx={{ mt: 1, ml: 2 }}
+                />
+              </Box>
+            </>
+          ) : (
+            <>
+              <Accordion sx={{ margin: '0px !important' }} defaultExpanded>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1-content"
+                  id="panel1-header"
+                  sx={{
+                    flexDirection: 'row-reverse',
+                    height: '40px !important',
+                    minHeight: '40px !important',
+                    margin: '0px !important',
+                    marginLeft: '-22px !important',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      width: '100%',
+                      background: 'unset',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    <Box sx={{ ml: 1 }}>My Contracts</Box>
+                  </Box>
+                </AccordionSummary>
+                <AccordionDetails sx={{ padding: '0px 0px 0px !important' }}>
+                  <Box
+                    sx={{
+                      position: 'relative',
+                      padding: '0px 20px 0px !important',
+                      width: '100%',
+                      overflowY: 'auto',
+                      maxHeight: 'auto',
+                      '&::before': {
+                        position: 'absolute',
+                        content: '""',
+                        background: theme?.palette?.custom?.light_lavender_gray,
+                        width: '1px',
+                        height: '100%',
+                        zIndex: 1,
+                        left: '8px',
+                      },
+                    }}
+                  >
+                    {personalConData?.data?.commoncontractfolder && (
+                      <RecursiveFolderAccordion
+                        folders={personalConData?.data?.commoncontractfolder}
+                      />
+                    )}
+                  </Box>
+                </AccordionDetails>
+              </Accordion>
+            </>
+          )}
+        </>
+      </CommonDrawer>
+
+      {/* rename folder  */}
+      <CommonModal
+        open={isRenameModalOpen}
+        handleClose={() => {
+          resetRename();
+          setIsRenameModalOpen(false);
+        }}
+        handleCancel={() => {
+          resetRename();
+          setIsRenameModalOpen(false);
+        }}
+        handleSubmit={handleSubmitRename(onSubmitRename)}
+        title="Rename Folder"
+        okText="Add"
+        cancelText="Cancel"
+        footer
+        isLoading={updateCreateContractFolderLoading}
+      >
+        <FormProvider methods={methodsRename}>
+          <Grid item xs={12}>
+            <RHFTextField name="name" label="Rename" required={true} />
+          </Grid>
+        </FormProvider>
+      </CommonModal>
+
+      {/* delete modal  */}
+      <AlertModals
+        message="You're about to delete a record. Are you sure?"
+        type="delete"
+        open={isDeleteModal}
+        handleClose={() => setIsDeleteModal(false)}
+        handleSubmitBtn={() => setIsDeleteModal(false)}
+        // loading={loading}
+      />
+    </div>
   );
 };
 export default Contracts;

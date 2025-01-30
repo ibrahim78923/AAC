@@ -809,4 +809,5 @@ export const COMMON_CONTRACTS = {
   GET_COMMON_CONTRACTS: '/common-contract/get-common-contracts',
   GET_COMMON_CONTRACTS_FOLDERS: '/common-contract-folder',
   POST_COMMON_CONTRACTS_FOLDERS: '/common-contract-folder',
+  GET_COMMON_MY_FOLDERS: '/common-contract-folder/my-folders',
 };
