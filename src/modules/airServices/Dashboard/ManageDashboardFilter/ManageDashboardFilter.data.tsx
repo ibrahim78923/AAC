@@ -41,6 +41,10 @@ export const manageDashboardsFilterFormFieldsDynamic = () => [
   {
     _id: 2,
     component: DashboardOwnersFieldDropdown,
+    componentProps: {
+      label: 'User',
+      placeholder: 'Select user',
+    },
   },
   {
     _id: 3,

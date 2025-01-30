@@ -50,7 +50,7 @@ export const Announcement = (props: SingleDashboardComponentPropsI) => {
                     key={announcement?._id}
                     firstName={announcement?.userName}
                     userAvatarSrc={announcement?.userAvatar}
-                    feedTitle={announcement?.title}
+                    title={announcement?.title}
                     dateFrom={announcement?.createdAt}
                     hasBorderBottom
                   />

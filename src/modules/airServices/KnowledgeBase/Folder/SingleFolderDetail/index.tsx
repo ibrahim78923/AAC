@@ -33,7 +33,11 @@ export const SingleFolderDetail = () => {
       >
         <Box display={'flex'} alignItems={'center'} gap={2} flexWrap={'wrap'}>
           <Typography variant="h4" component={'div'} color="slateBlue.main">
-            <TruncateText text={folderDataName?.toLowerCase()} size={45} />
+            <TruncateText
+              text={folderDataName?.toLowerCase()}
+              size={45}
+              isCapital={false}
+            />
           </Typography>
           <PermissionsGuard
             permissions={[
@@ -69,6 +73,7 @@ export const SingleFolderDetail = () => {
             text={!!folderDataDescription ? folderDataDescription : '---'}
             size={100}
             boxProps={{ my: 0.5, color: 'grey.900' }}
+            isCapital={false}
           />
         </Typography>
         <Divider />
