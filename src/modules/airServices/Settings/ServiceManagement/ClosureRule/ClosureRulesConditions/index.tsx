@@ -26,16 +26,16 @@ export const ClosureRulesConditions = (props: IClosureRuleProps) => {
 
   return (
     <Box mt={1}>
-      <ContainerGrid>
+      <ContainerGrid spacing={0}>
         {renderConditions(closeIncident || false, closeIncidentData)}
       </ContainerGrid>
-      <ContainerGrid>
+      <ContainerGrid spacing={0}>
         {renderConditions(resolveIncident || false, resolveIncidentData)}
       </ContainerGrid>
-      <ContainerGrid>
+      <ContainerGrid spacing={0}>
         {renderConditions(serviceResolveIncident || false, serviceResolveData)}
       </ContainerGrid>
-      <ContainerGrid>
+      <ContainerGrid spacing={0}>
         {renderConditions(serviceCloseIncident || false, serviceCloseData)}
       </ContainerGrid>
     </Box>

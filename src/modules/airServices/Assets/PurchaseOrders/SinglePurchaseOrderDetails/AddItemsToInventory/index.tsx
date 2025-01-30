@@ -1,6 +1,6 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { useAddItemsToInventory } from './useAddItemsToInventory';
-import { Avatar, Box, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { ItemStatusImage, TotalItemImage } from '@/assets/images';
 import { FormProvider } from '@/components/ReactHookForm';
 import { AddedInventoryItems } from './AddedInventoryItems';
@@ -11,6 +11,7 @@ import { ADDED_INVENTORY_METHODS } from './AddItemsToInventory.data';
 import { CustomChip } from '@/components/Chip/CustomChip';
 import { FormGrid } from '@/components/Grids/FormGrid';
 import { HeadingFormGrid } from '@/components/Grids/HeadingFormGrid';
+import { StaticAvatar } from '@/components/Avatars/StaticAvatar';
 
 export const AddItemsToInventory = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
@@ -73,10 +74,9 @@ export const AddItemsToInventory = (props: any) => {
               flexWrap={'wrap'}
             >
               <Box display={'flex'} gap={1} flex={0.5}>
-                <Avatar
-                  src={TotalItemImage?.src}
-                  alt=""
-                  sx={{ width: 25, height: 25 }}
+                <StaticAvatar
+                  avatarSrc={TotalItemImage?.src}
+                  alt="total-items"
                 />
                 <Box>
                   <Typography
@@ -102,10 +102,9 @@ export const AddItemsToInventory = (props: any) => {
                 flex={0.5}
                 justifyContent={'center'}
               >
-                <Avatar
-                  src={ItemStatusImage?.src}
-                  alt=""
-                  sx={{ width: 25, height: 25 }}
+                <StaticAvatar
+                  avatarSrc={ItemStatusImage?.src}
+                  alt="item-status"
                 />
                 <Box>
                   <Typography
@@ -123,6 +122,7 @@ export const AddItemsToInventory = (props: any) => {
                         ?.toLowerCase() ?? '---'
                     }
                     variant="outlined"
+                    isCapital
                   />
                 </Box>
               </Box>

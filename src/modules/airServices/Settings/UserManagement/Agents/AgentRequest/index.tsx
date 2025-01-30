@@ -1,10 +1,10 @@
-import { Avatar, Box, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import RejectedModal from './RejectedModal';
 import { useAgentRequest } from './useAgentRequest';
 import { AGENT_REQUEST_STATUS } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
-import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { LoadingButton } from '@mui/lab';
 import { TruncateText } from '@/components/TruncateText';
 import { uiDateFormat } from '@/lib/date-time';
@@ -12,6 +12,7 @@ import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomAvatar } from '@/components/Avatars/CustomAvatar';
 
 const AgentRequest = () => {
   const {
@@ -56,24 +57,22 @@ const AgentRequest = () => {
                 p={1}
                 height={'100%'}
               >
-                <Avatar
-                  sx={{
-                    bgcolor: theme?.palette?.blue?.main,
+                <CustomAvatar
+                  nameInitial={fullNameInitial(
+                    item?.userDetails?.firstName,
+                    item?.userDetails?.lastName,
+                  )}
+                  avatarSrc={item?.userDetails?.avatar?.url}
+                  avatarSize={{
                     width: 80,
                     height: 80,
+                  }}
+                  customStyles={{
                     border: '2px solid',
-                    borderColor: 'primary.main',
+                    borderColor: 'custom.mulled_wine',
                     margin: 'auto',
                   }}
-                  src={generateImage(item?.userDetails?.avatar?.url)}
-                >
-                  <Typography textTransform={'uppercase'}>
-                    {fullNameInitial(
-                      item?.userDetails?.firstName,
-                      item?.userDetails?.lastName,
-                    )}
-                  </Typography>
-                </Avatar>
+                />
                 <Typography variant="h4" py={0.5} fontWeight={700}>
                   {
                     <TruncateText

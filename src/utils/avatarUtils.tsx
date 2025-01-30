@@ -77,7 +77,7 @@ export const getImageByType = (data: any, imageUrl = data?.fileUrl) => {
 };
 
 export const getInitialsSingleName = (name: any) => {
-  if (!name) return '';
+  if (!name) return '-';
   const initials = name
     ?.split(' ')
     ?.map((n: any) => n[ARRAY_INDEX?.ZERO])
