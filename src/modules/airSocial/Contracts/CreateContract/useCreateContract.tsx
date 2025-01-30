@@ -1,10 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useForm, useFieldArray, useWatch } from 'react-hook-form';
-import {
-  defaultValues,
-  ENUM_SIGNATURE_TYPE,
-  validationSchema,
-} from './CreateContract.data';
+import { defaultValues, validationSchema } from './CreateContract.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 // import { generateUniqueId } from '@/utils/dynamic-forms';
 import { useRouter } from 'next/router';
@@ -17,13 +13,19 @@ import {
   // usePostSignAndSendMutation,
 } from '@/services/commonFeatures/contracts';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
-// import { getPartiesFormData, getSigneesFormData } from '@/utils/contracts';
+import {
+  getPartiesFormData,
+  getSigneesFormData,
+  ENUM_SIGNATURE_TYPE,
+} from '@/utils/contracts';
+import { AIR_SOCIAL_CONTRACTS } from '@/constants/routes';
 
 export default function useCreateContract() {
   /* VARIABLE DECLERATION
   -------------------------------------------------------------------------------------*/
   const router = useRouter();
-  const { templateId } = router?.query;
+  const { templateId, folderId } = router?.query;
+
   const [activeView, setActiveView] = useState<string>('create');
   const [openModalManageSignature, setOpenModalManageSignature] =
     useState<boolean>(false);
@@ -120,32 +122,38 @@ export default function useCreateContract() {
   const onSubmit = async (values: any, saveAs: string) => {
     const formData = new FormData();
     formData.append('name', values?.name);
-    formData.append('folderId', values?.folderId ?? '676a8264884c3ce8851b91f9');
-    if (saveAs === 'draft') {
-      formData.append('status', 'DRAFT');
-    }
     formData.append('attachment', values?.attachment);
     formData.append('message', values?.message);
-    formData.append('visibleTo', values?.visibleTo);
     formData.append('logo', values?.logo);
-    formData.append('parties', JSON.stringify(values?.parties));
-    formData.append('signees', JSON.stringify(values?.signees));
+    formData.append('parties', getPartiesFormData(values?.parties));
+    formData.append('signees', getSigneesFormData(values?.signees));
     formData.append('dynamicFields', JSON.stringify(values?.dynamicFields));
 
     if (saveAs === 'template') {
+      formData.append('category', templateCatgValue);
       try {
         await createCommonContractTemplate(formData)?.unwrap();
         setOpenModalTemplateCategories(false);
         successSnackbar('Contract template created successfully');
+        router.back();
         reset();
       } catch (error: any) {
         errorSnackbar('An error occured');
       }
     }
     if (saveAs === 'draft') {
+      // formData.append('visibleTo', values?.visibleTo);
+      formData.append('status', 'DRAFT');
+      formData.append('folderId', values?.folderId ?? folderId);
+      if (templateId) {
+        if (typeof templateId === 'string') {
+          formData.append('templateId', templateId);
+        }
+      }
       try {
         await createCommonContractAsDraft(formData)?.unwrap();
         successSnackbar('Contract created as draft successfully');
+        router.push(AIR_SOCIAL_CONTRACTS?.CONTRACTS);
         reset();
       } catch (error: any) {
         errorSnackbar('An error occured');
@@ -169,8 +177,8 @@ export default function useCreateContract() {
     formData.append('message', values?.message);
     formData.append('visibleTo', values?.visibleTo);
     formData.append('logo', values?.logo);
-    formData.append('parties', JSON.stringify(values?.parties));
-    formData.append('signees', JSON.stringify(values?.signees));
+    formData.append('parties', getPartiesFormData(values?.parties));
+    formData.append('signees', getSigneesFormData(values?.signees));
     // formData.append('dynamicFields', JSON.stringify(values?.dynamicFields));
 
     try {

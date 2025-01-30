@@ -2,22 +2,6 @@
 import * as Yup from 'yup';
 import { FIELD_TYPES } from '@/utils/contracts';
 
-export const ENUM_SIGNATURE_TYPE = {
-  CLICK: 'CLICK',
-  SMS: 'SMS',
-  DRAW: 'DRAW',
-} as const;
-export const SIGNATURE_METHODS_LABEL = {
-  CLICK: 'Sign with a Click',
-  SMS: 'SMS Verification',
-  DRAW: 'Draw a Signature',
-};
-export const SIGNATURE_METHODS = [
-  { value: ENUM_SIGNATURE_TYPE.CLICK, label: SIGNATURE_METHODS_LABEL.CLICK },
-  { value: ENUM_SIGNATURE_TYPE.SMS, label: SIGNATURE_METHODS_LABEL.SMS },
-  { value: ENUM_SIGNATURE_TYPE.DRAW, label: SIGNATURE_METHODS_LABEL.DRAW },
-];
-
 export const validationSchema = () => {
   return Yup?.object()?.shape({
     name: Yup?.string()?.trim()?.required('Field is Required'),

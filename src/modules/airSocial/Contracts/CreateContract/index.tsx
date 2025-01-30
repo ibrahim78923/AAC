@@ -22,6 +22,7 @@ import Preview from './Preview';
 import PDFCreateContract from './PDFCreateContract';
 import ModalSignAndSend from './components/ModalSignAndSend';
 import ModalTemplateCategories from './components/ModalTemplateCategories';
+import { ENUM_CONTRACT_TYPE } from '@/utils/contracts';
 
 export default function CreateContract() {
   const {
@@ -119,7 +120,7 @@ export default function CreateContract() {
                 />
               </Box>
               {activeView === 'create' &&
-                (router?.query?.signPDF ? (
+                (router?.query?.contractType === ENUM_CONTRACT_TYPE?.PDF ? (
                   <PDFCreateContract />
                 ) : (
                   <Grid container spacing={'30px'}>
@@ -306,6 +307,7 @@ export default function CreateContract() {
         value={templateCatgValue}
         onSubmit={handleSubmitCreateTemplate('template')}
         okDisabled={!templateCatgValue}
+        isLoading={loadingCreateTemplate}
       />
     </>
   );

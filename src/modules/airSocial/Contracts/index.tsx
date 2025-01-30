@@ -50,10 +50,8 @@ import { styles } from './contracts.style';
 import Actions from './Actions';
 import CommonDrawer from '@/components/CommonDrawer';
 import { AlertModals } from '@/components/AlertModals';
-import { useRouter } from 'next/router';
-import { AIR_SOCIAL_CONTRACTS } from '@/constants/routes';
 import useContracts from './useContracts';
-import ModalSignPdf from './ModalSignPdf';
+// import ModalSignPdf from './ModalSignPdf';
 import {
   useGetCommonContractsPersonalFoldersListQuery,
   useGetCommonContractsSharedFoldersListQuery,
@@ -63,8 +61,7 @@ import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const Contracts = () => {
   const theme = useTheme();
-  const { openModalSignPdf, setOpenModalSignPdf, onSubmitModalSignPdf } =
-    useContracts();
+  const { handleClickCreateDraft, handleClickSignPdf } = useContracts();
 
   const [selectedRecords, setSelectedRecords] = useState([]);
   const [searchValue, setSearchValue] = useState('');
@@ -88,7 +85,6 @@ const Contracts = () => {
       nested: true,
     });
 
-  const router = useRouter();
   const isSmallScreen = useMediaQuery('(max-width: 1000px)');
 
   const [isAddFolderDrawerOpen, setIsAddFolderDrawerOpen] = useState(false);
@@ -477,7 +473,7 @@ const Contracts = () => {
                 <MenuItem
                   onClick={() => {
                     handleClose();
-                    router?.push(AIR_SOCIAL_CONTRACTS?.CONTRACTS_TEMPLATES);
+                    handleClickCreateDraft();
                   }}
                 >
                   <Box sx={{ display: 'flex', gap: '10px' }}>
@@ -495,7 +491,7 @@ const Contracts = () => {
                 <MenuItem
                   onClick={() => {
                     handleClose();
-                    setOpenModalSignPdf(true);
+                    handleClickSignPdf();
                   }}
                 >
                   <Box sx={{ display: 'flex', gap: '10px' }}>
@@ -645,12 +641,6 @@ const Contracts = () => {
           </Box>
         </>
       </CommonDrawer>
-
-      <ModalSignPdf
-        open={openModalSignPdf}
-        onClose={() => setOpenModalSignPdf(false)}
-        onSubmit={onSubmitModalSignPdf}
-      />
     </Box>
   );
 };
