@@ -8,6 +8,7 @@ import { reportIssueFormFieldsDynamic } from './ReportIssue.data';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
 import { CustomChip } from '@/components/Chip/CustomChip';
+import { Fragment } from 'react';
 
 export const ReportIssue = (props: ReportIssuePropsI) => {
   const { isPortalOpen } = props;
@@ -71,7 +72,7 @@ export const ReportIssue = (props: ReportIssuePropsI) => {
         {reportIssueFormFieldsDynamic?.map((item) => {
           if (requestorCondition(item))
             return (
-              <>
+              <Fragment key={item?.id}>
                 <RHFTextField
                   name="requesterEmail"
                   label="Requester Email"
@@ -86,14 +87,14 @@ export const ReportIssue = (props: ReportIssuePropsI) => {
                   size="small"
                   required
                 />
-              </>
+              </Fragment>
             );
           if (
             !!checkArticlePermission &&
             item?.componentProps?.name === PORTAL_TICKET_FIELDS?.SUBJECT
           )
             return (
-              <>
+              <Fragment key={item?.id}>
                 <item.component
                   {...item?.componentProps}
                   key={item?.id}
@@ -126,7 +127,7 @@ export const ReportIssue = (props: ReportIssuePropsI) => {
                     </Box>
                   )
                 )}
-              </>
+              </Fragment>
             );
           return (
             <item.component
