@@ -35,10 +35,11 @@ export const RequestApprovalForm = (props: ConfirmModalPropsI) => {
         <RHFTextField
           name="reason"
           multiline
-          minRows={7}
+          rows={7}
           fullWidth
           placeholder="Add Your Remarks here"
           label="Remarks"
+          required
         />
       </FormProvider>
     </CustomCommonDialog>

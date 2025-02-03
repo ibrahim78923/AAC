@@ -74,6 +74,7 @@ export const ApprovalDetail = () => {
           setIsConfirmModalOpen={setIsConfirmModalOpen}
           selectedApproval={selectedApproval}
           setSelectedApproval={setSelectedApproval}
+          refetch={refetch}
         />
       )}
     </>
