@@ -69,7 +69,7 @@ export default function CreateContract() {
     loadingUpdateTemplate,
     handleSubmitUpdateTemplate,
     handleAddDynamicField,
-
+    handleUpdateDynamicField,
     isConfirmSigning,
     handleChangeConfirmSigning,
     appendSignee,
@@ -245,6 +245,7 @@ export default function CreateContract() {
               <CreateContractSidebar
                 allDataFields={dynamicFields}
                 handleAddDynamicField={handleAddDynamicField}
+                handleUpdateDynamicField={handleUpdateDynamicField}
                 signeeFields={signeeValues}
                 handleAddSigneeCard={handleAddSigneeCard}
                 partyFields={partyFields}

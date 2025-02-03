@@ -75,6 +75,7 @@ export default function useCreateContract() {
     fields: dynamicFields,
     append: appendDynamicField,
     // remove: removeDynamicField,
+    update: updateDynamicField,
   } = useFieldArray({
     control,
     name: 'dynamicFields',
@@ -251,9 +252,26 @@ export default function useCreateContract() {
         label: data?.name,
         name: `dynamicFields.${dynamicFields?.length}.${data?.name}`,
         type: data?.type,
+        required: false,
+        description: '',
+        value: '',
       });
     },
     [appendDynamicField],
+  );
+
+  const handleUpdateDynamicField = useCallback(
+    (index: any, data: { required?: any; value?: any }) => {
+      if (dynamicFields[index]) {
+        updateDynamicField(index, {
+          ...dynamicFields[index],
+          required: data?.required ?? dynamicFields[index]?.required,
+          // description: data?.description ?? dynamicFields[index]?.description,
+          value: data?.value ?? dynamicFields[index]?.value,
+        });
+      }
+    },
+    [updateDynamicField, dynamicFields],
   );
 
   const handleOpenModalManageSignature = () => {
@@ -366,7 +384,7 @@ export default function useCreateContract() {
     loadingUpdateTemplate,
     handleSubmitUpdateTemplate,
     handleAddDynamicField,
-
+    handleUpdateDynamicField,
     isConfirmSigning,
     handleChangeConfirmSigning,
     appendSignee,

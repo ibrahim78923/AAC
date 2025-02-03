@@ -55,6 +55,7 @@ import AllFields from './AllFields';
 export default function DataFields({
   handleAddDynamicField,
   allDataFields,
+  handleUpdateDynamicField,
 }: any) {
   return (
     <Box sx={styles?.dataFields}>
@@ -66,6 +67,7 @@ export default function DataFields({
       <AllFields
         data={allDataFields}
         handleAddDynamicField={handleAddDynamicField}
+        handleUpdateDynamicField={handleUpdateDynamicField}
       />
     </Box>
   );
