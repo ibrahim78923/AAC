@@ -52,6 +52,7 @@ import { AlertModals } from '@/components/AlertModals';
 import useContracts from './useContracts';
 // import ModalSignPdf from './ModalSignPdf';
 import {
+  useDeleteContractFolderMutation,
   useGetCommonContractsPersonalFoldersListQuery,
   useGetCommonContractsSharedFoldersListQuery,
   usePostCreateContractFolderMutation,
@@ -671,7 +672,7 @@ const RecursiveAccordion = ({
   return (
     <Box>
       {folders?.map((item: any) => (
-        <Accordion key={uuidv4()} sx={{ margin: '0px !important' }}>
+        <Accordion key={item?._id} sx={{ margin: '0px !important' }}>
           <AccordionSummary
             expandIcon={
               item?.nestedFolders?.length > 0 ? (
@@ -694,6 +695,7 @@ const RecursiveAccordion = ({
             <Box sx={{ width: '100%' }}>
               <MenuItem
                 sx={styles?.exposeMenuOnHover(activeFolder, item, theme)}
+                onClick={() => setActiveFolder(item)}
               >
                 <Box
                   sx={{
@@ -704,7 +706,6 @@ const RecursiveAccordion = ({
                       fontWeight: '500',
                     },
                   }}
-                  onClick={() => setActiveFolder(item)}
                 >
                   <FolderBlackIcon /> {item?.name}
                 </Box>
@@ -759,73 +760,112 @@ const RecursiveAccordion = ({
   );
 };
 
-const RecursiveFolderAccordion = ({ folders }: any) => {
+const RecursiveFolderAccordion = ({
+  folders,
+  setFolderToMove,
+  folderToMove,
+  selectedMenu,
+}: any) => {
   const theme = useTheme();
+
+  const isFolderOrNestedSelected = (folder: any) => {
+    if (folder._id === selectedMenu?._id) return true;
+    if (selectedMenu && folder.parentFolderId === selectedMenu._id) return true;
+    return false;
+  };
+
   return (
     <Box>
-      {folders?.map((item: any) => (
-        <Accordion key={uuidv4()} sx={{ margin: '0px !important' }}>
-          <AccordionSummary
-            expandIcon={
-              item?.nestedFolders?.length > 0 ? (
-                <ExpandMoreIcon />
-              ) : (
-                <ExpandMoreIcon sx={{ color: '#fff' }} />
-              )
-            }
-            aria-controls="panel1-content"
-            id="panel1-header"
-            sx={{
-              flexDirection: 'row-reverse',
-              justifyContent: 'flex-end',
-              height: '40px !important',
-              minHeight: '40px !important',
-              margin: '0px !important',
-              marginLeft: '-20px !important',
-            }}
-          >
-            <Box sx={{ width: '100%' }}>
-              <MenuItem sx={styles?.exposeFolderMenuOnHover()}>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '10px',
-                    ':hover': {
-                      fontWeight: '500',
-                    },
-                  }}
-                >
-                  <FolderBlackIcon /> {item?.name}
-                </Box>
-              </MenuItem>
-            </Box>
-          </AccordionSummary>
-          <AccordionDetails sx={{ padding: '0px 0px 0px !important' }}>
-            <Box
+      {folders?.map((item: any) => {
+        const isSelected = isFolderOrNestedSelected(item);
+        return (
+          <Accordion key={item?._id} sx={{ margin: '0px !important' }}>
+            <AccordionSummary
+              expandIcon={
+                item?.nestedFolders?.length > 0 ? (
+                  <ExpandMoreIcon />
+                ) : (
+                  <ExpandMoreIcon sx={{ color: '#fff' }} />
+                )
+              }
+              aria-controls="panel1-content"
+              id="panel1-header"
               sx={{
-                padding: '0px 20px 0px !important',
-                position: 'relative',
-                '&::before': {
-                  position: 'absolute',
-                  content: '""',
-                  background: theme?.palette?.custom?.light_lavender_gray,
-                  width: '1px',
-                  height: '100%',
-                  zIndex: 1,
-                  left: '9px',
-                },
+                flexDirection: 'row-reverse',
+                justifyContent: 'flex-end',
+                height: '40px !important',
+                minHeight: '40px !important',
+                margin: '0px !important',
+                marginLeft: '-20px !important',
               }}
             >
-              {item?.nestedFolders && item?.nestedFolders?.length > 0 && (
-                <Box sx={{ ml: 1.5 }}>
-                  <RecursiveFolderAccordion folders={item?.nestedFolders} />
-                </Box>
-              )}
-            </Box>
-          </AccordionDetails>
-        </Accordion>
-      ))}
+              <Box
+                sx={{
+                  width: '100%',
+                  cursor: isSelected ? 'not-allowed !important' : 'pointer',
+                }}
+              >
+                <MenuItem
+                  sx={styles?.exposeFolderMenuOnHover(
+                    folderToMove,
+                    item,
+                    theme,
+                    isSelected,
+                  )}
+                  disabled={isSelected}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '10px',
+
+                      ':hover': {
+                        fontWeight: '500',
+                      },
+                    }}
+                    onClick={() => (isSelected ? null : setFolderToMove(item))}
+                  >
+                    <FolderBlackIcon
+                      color={theme?.palette?.primary?.main}
+                      size={22}
+                    />{' '}
+                    {item?.name}
+                  </Box>
+                </MenuItem>
+              </Box>
+            </AccordionSummary>
+            <AccordionDetails sx={{ padding: '0px 0px 0px !important' }}>
+              <Box
+                sx={{
+                  padding: '0px 20px 0px !important',
+                  position: 'relative',
+                  '&::before': {
+                    position: 'absolute',
+                    content: '""',
+                    background: theme?.palette?.custom?.light_lavender_gray,
+                    width: '1px',
+                    height: '100%',
+                    zIndex: 1,
+                    left: '9px',
+                  },
+                }}
+              >
+                {item?.nestedFolders && item?.nestedFolders?.length > 0 && (
+                  <Box sx={{ ml: 1.5 }}>
+                    <RecursiveFolderAccordion
+                      folders={item?.nestedFolders}
+                      setFolderToMove={setFolderToMove}
+                      folderToMove={folderToMove}
+                      selectedMenu={selectedMenu}
+                    />
+                  </Box>
+                )}
+              </Box>
+            </AccordionDetails>
+          </Accordion>
+        );
+      })}
     </Box>
   );
 };
@@ -841,6 +881,8 @@ const MenuDropdown = ({
 
   const [searchValue, setSearchValue] = useState('');
   const [selectedMenu, setSelectedMenu] = useState<any>({});
+
+  const [folderToMove, setFolderToMove] = useState<any>({});
 
   const { data: personalConData, isLoading: personalConIsLoading } =
     useGetCommonContractsPersonalFoldersListQuery({
@@ -877,6 +919,8 @@ const MenuDropdown = ({
     updateCreateContractFolder,
     { isLoading: updateCreateContractFolderLoading },
   ] = useUpdateCreateContractFolderMutation();
+  const [deleteContractFolder, { isLoading: deleteContractFolderLoading }] =
+    useDeleteContractFolderMutation();
 
   const onSubmitRename = async (values: any) => {
     const payload = {
@@ -901,6 +945,38 @@ const MenuDropdown = ({
       methodsRename.setValue('name', selectedMenu?.name);
     }
   }, [selectedMenu]);
+
+  const handelMoveToFolder = async () => {
+    const payload = {
+      name: selectedMenu?.name,
+      parentFolderId: folderToMove?._id,
+    };
+    try {
+      await updateCreateContractFolder({
+        payload,
+        id: selectedMenu?._id,
+      })?.unwrap();
+      successSnackbar('Folder Moved Successfully');
+      setActiveMenu({});
+      resetRename();
+      setIsMoveToFolderDrawerOpen(false);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
+
+  const handelDelete = async () => {
+    try {
+      await deleteContractFolder({
+        id: [selectedMenu?._id],
+      })?.unwrap();
+      successSnackbar('Folder Deleted Successfully');
+      setActiveMenu({});
+      setIsDeleteModal(false);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
 
   return (
     <div>
@@ -959,6 +1035,7 @@ const MenuDropdown = ({
         </MenuItem>
         <MenuItem
           onClick={() => {
+            setSelectedMenu(item);
             setIsDeleteModal(true);
             handleClose();
           }}
@@ -976,6 +1053,8 @@ const MenuDropdown = ({
         okText="Apply"
         cancelText="cancel"
         isOk
+        submitHandler={handelMoveToFolder}
+        isLoading={updateCreateContractFolderLoading}
       >
         <>
           <Search
@@ -997,22 +1076,6 @@ const MenuDropdown = ({
           <Typography variant="h6" sx={{ mb: 1, mt: 2 }}>
             Main Folder
           </Typography>
-          {/* <Box>
-            <MenuItem sx={{ gap: '10px' }}>
-              <FolderBlackIcon
-                color={theme?.palette?.primary?.main}
-                size={22}
-              />
-              <Typography variant="body1">SubFolder 1</Typography>
-            </MenuItem>
-            <MenuItem sx={{ gap: '10px' }}>
-              <FolderBlackIcon
-                color={theme?.palette?.primary?.main}
-                size={22}
-              />
-              <Typography variant="body1">SubFolder 2</Typography>
-            </MenuItem>
-          </Box> */}
           {personalConIsLoading ? (
             <>
               <Box>
@@ -1085,6 +1148,9 @@ const MenuDropdown = ({
                     {personalConData?.data?.commoncontractfolder && (
                       <RecursiveFolderAccordion
                         folders={personalConData?.data?.commoncontractfolder}
+                        setFolderToMove={setFolderToMove}
+                        folderToMove={folderToMove}
+                        selectedMenu={selectedMenu}
                       />
                     )}
                   </Box>
@@ -1126,8 +1192,8 @@ const MenuDropdown = ({
         type="delete"
         open={isDeleteModal}
         handleClose={() => setIsDeleteModal(false)}
-        handleSubmitBtn={() => setIsDeleteModal(false)}
-        // loading={loading}
+        handleSubmitBtn={handelDelete}
+        loading={deleteContractFolderLoading}
       />
     </div>
   );

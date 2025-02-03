@@ -55,6 +55,13 @@ export const commonContractsDashboardAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAGS,
     }),
+    deleteContractFolder: builder.mutation({
+      query: ({ id }: any) => ({
+        url: `${COMMON_CONTRACTS?.POST_COMMON_CONTRACTS_FOLDERS}/{id}?ids=${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: TAGS,
+    }),
   }),
 });
 export const {
@@ -64,4 +71,5 @@ export const {
   useGetCommonContractsPersonalFoldersListQuery,
   usePostCreateContractFolderMutation,
   useUpdateCreateContractFolderMutation,
+  useDeleteContractFolderMutation,
 } = commonContractsDashboardAPI;
