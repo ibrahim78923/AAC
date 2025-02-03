@@ -2,6 +2,7 @@ import {
   RHFAutocomplete,
   RHFAutocompleteAsync,
 } from '@/components/ReactHookForm';
+import { PAGINATION } from '@/config';
 import { ROLES } from '@/constants/strings';
 import { fullName } from '@/utils/avatarUtils';
 
@@ -18,7 +19,7 @@ export const salesWorkflowFilterFields = (
   sessionUserData: any,
 ) => [
   {
-    id: 434,
+    _id: 1,
     componentProps: {
       name: 'status',
       label: 'Status',
@@ -29,7 +30,7 @@ export const salesWorkflowFilterFields = (
     component: RHFAutocomplete,
   },
   {
-    id: 865,
+    _id: 2,
     componentProps: {
       name: 'createdBy',
       label: 'Created By',
@@ -40,7 +41,7 @@ export const salesWorkflowFilterFields = (
       externalParams: {
         role: ROLES?.ORG_EMPLOYEE,
         organization: sessionUserData?.organization?._id,
-        limit: 500,
+        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
       },
       apiQuery: userDropdown,
       placeholder: 'Select User',
@@ -48,7 +49,7 @@ export const salesWorkflowFilterFields = (
     component: RHFAutocompleteAsync,
   },
   {
-    id: 238,
+    _id: 3,
     componentProps: {
       name: 'type',
       label: 'Type',

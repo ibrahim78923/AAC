@@ -1,23 +1,22 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { Grid } from '@mui/material';
-import { salesWorkflowFilterFields } from './FilterSalesWorkflow.data';
 import { useFilterSalesWorkflow } from './useFilterSalesWorkflow';
 import { FilterSalesWorkflowI } from './FilterSalesWorkflow.interface';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const FilterSalesWorkflow: React.FC<FilterSalesWorkflowI> = (props) => {
   const { isFilterOpen, setIsFilterOpen, loading, onSubmit } = props;
   const {
     methods,
     handleSubmit,
-    userDropdown,
     handleReset,
     buttonCalled,
     createdByValue,
     statusValue,
     typeValue,
-    sessionUserData,
+    salesWorkflowFilterFormFields,
   } = useFilterSalesWorkflow(props);
+
   return (
     <CommonDrawer
       isDrawerOpen={isFilterOpen}
@@ -35,15 +34,7 @@ export const FilterSalesWorkflow: React.FC<FilterSalesWorkflowI> = (props) => {
       isDisabled={loading || !(statusValue || createdByValue || typeValue)}
     >
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <Grid container spacing={3}>
-          {salesWorkflowFilterFields(userDropdown, sessionUserData)?.map(
-            (item) => (
-              <Grid item key={item?.id} xs={12}>
-                <item.component {...item?.componentProps} size="small" />
-              </Grid>
-            ),
-          )}
-        </Grid>
+        <FormGrid formFieldsList={salesWorkflowFilterFormFields} />
       </FormProvider>
     </CommonDrawer>
   );

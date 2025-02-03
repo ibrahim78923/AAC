@@ -1,79 +1,71 @@
-import { Box, Grid, IconButton, Typography } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Box, Typography } from '@mui/material';
 import {
   cardRelatedData,
   serviceWorkflowsCardData,
 } from './ServicesWorkflow.data';
 import { useServiceWorkflow } from './useServiceWorkflow';
 import { AIR_OPERATIONS } from '@/constants/routes';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const ServicesWorkflow = () => {
   const { theme, router, activeItem, handleItemClick } = useServiceWorkflow();
   return (
     <>
       <Box
-        display={'flex'}
-        flexWrap={'wrap'}
-        gap={1}
-        border={`1px solid ${theme?.palette?.grey?.[700]}`}
-        borderRadius={2}
-        boxShadow={1}
-        p={2}
-        sx={{ cursor: 'pointer' }}
+        sx={{
+          border: '1px solid',
+          borderColor: 'grey.700',
+          boxShadow: 1,
+          p: 2,
+        }}
       >
-        <Box display={'flex'} alignItems={'center'} gap={0.5} mb={1}>
-          <IconButton
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              router?.push({
-                pathname: AIR_OPERATIONS?.WORKFLOW_AUTOMATION,
-              });
-            }}
-          >
-            <ArrowBackIcon />
-          </IconButton>
-
-          <Typography variant="h5">Services Workflow</Typography>
-        </Box>
-        <Grid container gap={4} justifyContent={'center'}>
+        <PageTitledHeader
+          moveBack={() => {
+            router?.push({
+              pathname: AIR_OPERATIONS?.WORKFLOW_AUTOMATION,
+            });
+          }}
+          title="Services Workflow"
+          canMovedBack
+        />
+        <ContainerGrid
+          customStyles={{
+            justifyContent: 'center',
+          }}
+        >
           {serviceWorkflowsCardData?.map((item) => {
             return (
-              <Grid
-                key={item?.id}
-                item
-                xl={3.7}
-                md={5.5}
-                p={2}
-                display={'flex'}
-                justifyContent={'center'}
-                alignItems={'center'}
-                flexDirection={'column'}
-                boxShadow={'rgba(149, 157, 165, 0.2) 0px 8px 24px'}
-                borderRadius={2}
-                sx={{
-                  backgroundColor:
-                    activeItem === item?.id
-                      ? theme?.palette?.primary?.light
-                      : 'inherit',
-                  '&:hover': {
-                    boxShadow: `0 0 6px 0 ${theme?.palette?.warning?.light}`,
-                  },
-                }}
-                onClick={() => handleItemClick?.(item?.id, item?.title)}
-              >
-                <Typography variant="h5" py={1}>
-                  {item?.title}
-                </Typography>
-                <Typography
-                  textAlign={'center'}
-                  height={{ lg: 100, md: 150, xs: 140 }}
+              <CustomGrid key={item?.id} xl={3.7} md={5.5}>
+                <Box
+                  sx={{
+                    px: 2,
+                    py: 3,
+                    cursor: 'pointer',
+                    boxShadow: `${theme?.palette?.custom.off_white_three} 0px 8px 24px`,
+                    borderRadius: 2,
+                    height: '100%',
+                    textAlign: 'center',
+                    backgroundColor:
+                      activeItem === item?.id ? 'primary.light' : 'inherit',
+                    '&:hover': {
+                      boxShadow: `0 0 6px 0 ${theme?.palette?.warning?.light}`,
+                    },
+                  }}
+                  onClick={() => handleItemClick?.(item?.id, item?.title)}
                 >
-                  {item?.description}
-                </Typography>
-              </Grid>
+                  <Typography variant="h5" color="slateBlue.main" my={1}>
+                    {item?.title}
+                  </Typography>
+                  <Typography color="slateBlue.main">
+                    {item?.description}
+                  </Typography>
+                </Box>
+              </CustomGrid>
             );
           })}
-        </Grid>
+        </ContainerGrid>
       </Box>
       <Box mt={2}>{cardRelatedData[activeItem]}</Box>
     </>

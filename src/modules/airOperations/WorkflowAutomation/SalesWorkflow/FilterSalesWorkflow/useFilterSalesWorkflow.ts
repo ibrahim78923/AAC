@@ -1,4 +1,7 @@
-import { salesWorkflowsFilterValues } from './FilterSalesWorkflow.data';
+import {
+  salesWorkflowFilterFields,
+  salesWorkflowsFilterValues,
+} from './FilterSalesWorkflow.data';
 import { useState } from 'react';
 import { useLazyGetAdminUserDropdownListQuery } from '@/services/airOperations/workflow-automation/sales-workflow';
 import { getSession } from '@/utils';
@@ -24,6 +27,12 @@ export const useFilterSalesWorkflow = (props: FilterSalesWorkflowI) => {
   const createdByValue = watch('createdBy');
   const typeValue = watch('type');
   const sessionUserData = getSession()?.user;
+
+  const salesWorkflowFilterFormFields = salesWorkflowFilterFields(
+    userDropdown,
+    sessionUserData,
+  );
+
   return {
     handleSubmit,
     methods,
@@ -34,5 +43,6 @@ export const useFilterSalesWorkflow = (props: FilterSalesWorkflowI) => {
     createdByValue,
     typeValue,
     sessionUserData,
+    salesWorkflowFilterFormFields,
   };
 };

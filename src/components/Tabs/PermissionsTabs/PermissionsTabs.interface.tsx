@@ -19,4 +19,5 @@ export interface PermissionTabsPropsI {
   border?: string | number;
   orientation?: 'horizontal' | 'vertical';
   handleTabChange?: any;
+  hasNoPermissions?: boolean;
 }

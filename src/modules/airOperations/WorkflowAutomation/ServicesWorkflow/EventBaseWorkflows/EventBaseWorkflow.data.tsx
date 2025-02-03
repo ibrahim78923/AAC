@@ -16,6 +16,9 @@ import { TruncateText } from '@/components/TruncateText';
 import { getActivePermissionsSession } from '@/utils';
 import { uiDateFormat } from '@/lib/date-time';
 import { CustomChip } from '@/components/Chip/CustomChip';
+import Tickets from './Tickets';
+import Assets from './Assets';
+import Tasks from './Tasks';
 
 export const EventBaseWorkflowActionsDropdown = (
   handleActionClick: (type: string) => void,
@@ -218,3 +221,33 @@ export const listsColumnsFunction = (
 ];
 
 export const eventBaseWorkflowTabsData = ['Tickets', 'Assets', 'Tasks'];
+
+export const eventBaseWorkflowTabsDataDynamic = [
+  {
+    _id: 1,
+    name: 'Tickets',
+    id: 'tickets',
+    tabPermissions: [],
+    component: Tickets,
+    hasNoPermissions: true,
+    componentProps: {},
+  },
+  {
+    _id: 2,
+    name: 'Assets',
+    id: 'assets',
+    hasNoPermissions: true,
+    tabPermissions: [],
+    component: Assets,
+    componentProps: {},
+  },
+  {
+    _id: 3,
+    name: 'Tasks',
+    id: 'tasks',
+    hasNoPermissions: true,
+    tabPermissions: [],
+    component: Tasks,
+    componentProps: {},
+  },
+];

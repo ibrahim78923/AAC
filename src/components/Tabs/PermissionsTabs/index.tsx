@@ -1,11 +1,9 @@
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
-import useAuth from '@/hooks/useAuth';
 import { styles } from '../HorizontalTabs/HorizontalTabs.style';
-import { Card, useTheme } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { Box, Card, Tab, Tabs, useTheme } from '@mui/material';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { PermissionTabsPropsI } from './PermissionsTabs.interface';
+import { getActivePermissionsSession } from '@/utils';
+import { checkPermissions } from '@/utils/data-transformation';
 
 export const PermissionsTabs = (props: PermissionTabsPropsI) => {
   const {
@@ -17,42 +15,33 @@ export const PermissionsTabs = (props: PermissionTabsPropsI) => {
     border = 'none',
     orientation = 'horizontal',
     handleTabChange,
+    hasNoPermissions = false,
   } = props;
 
   const theme = useTheme();
   const [value, setValue] = useState(defaultValue);
 
   useEffect(() => {
-    setValue(defaultValue);
+    if (value !== defaultValue) setValue(defaultValue);
   }, [defaultValue]);
 
-  const handleChange = (_: React.SyntheticEvent, newValue: number) => {
-    handleTabChange?.(newValue);
-    setValue(newValue);
-  };
+  const handleChange = useCallback(
+    (_: React.SyntheticEvent, newValue: number) => {
+      handleTabChange?.(newValue);
+      setValue(newValue);
+    },
+    [handleTabChange],
+  );
 
-  const checkPermissions = (
-    currentPermissions: any,
-    modulePermissions: any,
-  ) => {
-    const permissionsDictionary: any = {};
-    modulePermissions?.forEach((permission: any) => {
-      permissionsDictionary[permission] = true;
+  const filteredTabs = useMemo(() => {
+    if (hasNoPermissions) return tabsDataArray;
+    const currentPermissions = getActivePermissionsSession() || [];
+    const permitTabs = tabsDataArray?.filter((tab: any) => {
+      if (tab?.hasNoPermissions) return tab;
+      return checkPermissions(currentPermissions, tab?.tabPermissions);
     });
-
-    return (
-      currentPermissions?.some(
-        (permission: any) => permissionsDictionary?.[permission],
-      ) || false
-    );
-  };
-
-  const { currentPermissions } = useAuth();
-
-  const filteredTabs = tabsDataArray?.filter((tab: any) => {
-    if (tab?.hasNoPermissions) return tab;
-    return checkPermissions(currentPermissions, tab?.tabPermissions);
-  });
+    return permitTabs;
+  }, [tabsDataArray]);
 
   return (
     <Card sx={styles?.cardStyle(spacing, disableBoxShadow, border)}>
