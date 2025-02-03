@@ -41,19 +41,21 @@ export const KnowledgeBaseArticles = (props: KnowledgeBaseArticlesI) => {
           </Typography>
           <Typography color="secondary">Modified on: {modifiedDate}</Typography>
         </Box>
-        <Box
-          display={'flex'}
-          justifyContent={'center'}
-          alignItems={{ xs: 'center', lg: 'flex-start' }}
-          flexDirection={'column'}
-        >
-          <Typography variant="h6">Purpose:</Typography>
+        {!!purposeDescription && (
           <Box
-            dangerouslySetInnerHTML={{
-              __html: truncateText(purposeDescription, 40),
-            }}
-          />
-        </Box>
+            display={'flex'}
+            justifyContent={'center'}
+            alignItems={{ xs: 'center', lg: 'flex-start' }}
+            flexDirection={'column'}
+          >
+            <Typography variant="h6">Purpose:</Typography>
+            <Box
+              dangerouslySetInnerHTML={{
+                __html: truncateText(purposeDescription, 40),
+              }}
+            />
+          </Box>
+        )}
       </Box>
       <IconButton
         onClick={() =>
