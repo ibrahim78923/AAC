@@ -1,8 +1,8 @@
 import Layout from '@/layout';
-import { KnowledgeBaseArticleDetail } from '@/modules/airCustomerPortal/KnowledgeBase/KnowledgeBaseDetail/KnowledgeBaseArticleDetail';
+import { ArticleDetail } from '@/modules/airCustomerPortal/KnowledgeBase/Articles/ArticleDetail';
 
 const KnowledgeBaseTicketDetailPage = () => {
-  return <KnowledgeBaseArticleDetail />;
+  return <ArticleDetail />;
 };
 
 KnowledgeBaseTicketDetailPage.getLayout = function getLayout(page: any) {

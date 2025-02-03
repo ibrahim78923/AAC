@@ -1,41 +1,51 @@
 import { RHFMultiCheckbox, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const feedbackValidationSchema = (emailValidation: any) =>
+export const articleFeedbackFormValidationSchema = () =>
   Yup?.object()?.shape({
-    email: Yup?.string()?.when(() =>
-      emailValidation
-        ? Yup?.string()?.email()?.required('Email is required')
-        : Yup?.string()?.notRequired(),
-    ),
+    email: Yup?.string()
+      ?.email('Enter valid email')
+      ?.required('Email is required'),
     feedback: Yup?.array()
       ?.required('Field is required')
       ?.min(1, 'At least one field is required'),
     comment: Yup?.string(),
   });
 
-export const feedbackDefaultValues = {
-  email: '',
-  feedback: null,
-  comment: '',
+export const articleFeedbackFormDefaultValues = (
+  email?: string | undefined,
+) => {
+  return {
+    email: email ?? '',
+    feedback: null,
+    comment: '',
+  };
 };
 
-export const feedbackDataArray = [
+export const articleFeedbackFormFieldsDynamic = () => [
   {
-    id: 9584,
-    showField: false,
+    _id: 1,
     componentProps: {
       name: 'email',
       label: 'Email',
       placeholder: 'User Email',
-      size: 'small',
       required: true,
     },
     component: RHFTextField,
   },
+  //TODO: will be used when added by BE in api
+  // {
+  //   _id: 2,
+  //   componentProps: {
+  //     name: 'name',
+  //     label: 'Name',
+  //     placeholder: 'Enter Name',
+  //     required: true,
+  //   },
+  //   component: RHFTextField,
+  // },
   {
-    id: 2355,
-    showField: true,
+    _id: 3,
     componentProps: {
       name: 'feedback',
       label: 'Your Feedback',
@@ -54,15 +64,14 @@ export const feedbackDataArray = [
     component: RHFMultiCheckbox,
   },
   {
-    id: 6547,
-    showField: true,
+    _id: 4,
     componentProps: {
       name: 'comment',
       label: 'Comment Here',
       placeholder: 'Write something',
       fullWidth: true,
       multiline: true,
-      minRows: 3,
+      rows: 3,
     },
     component: RHFTextField,
   },

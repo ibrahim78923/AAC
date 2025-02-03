@@ -1,5 +1,5 @@
 import Layout from '@/layout';
-import { KnowledgeBaseDetail } from '@/modules/airCustomerPortal/KnowledgeBase/KnowledgeBaseDetail';
+import { KnowledgeBaseDetail } from '@/modules/airCustomerPortal/KnowledgeBase/Articles';
 
 const KnowledgeBaseDetailPage = () => {
   return <KnowledgeBaseDetail />;

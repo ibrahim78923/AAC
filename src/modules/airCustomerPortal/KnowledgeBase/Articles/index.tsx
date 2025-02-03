@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import Search from '@/components/Search';
 import { useKnowledgeBaseDetail } from './useKnowledgeBaseDetail';
-import { KnowledgeBaseArticles } from './KnowledgeBaseArticles';
+import { ArticleCard } from './ArticleCard';
 import CustomPagination from '@/components/CustomPagination';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { uiDateFormat } from '@/lib/date-time';
@@ -44,7 +44,7 @@ export const KnowledgeBaseDetail = () => {
       >
         <>
           {articlesData?.map((item: any) => (
-            <KnowledgeBaseArticles
+            <ArticleCard
               key={item?._id}
               articleId={item?._id}
               articlesTitle={item?.title}
