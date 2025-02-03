@@ -1,4 +1,4 @@
-import { DataRecordCount } from '@/components/DataRecordCount';
+import { RecordCountChip } from '@/components/Chip/RecordCountChip';
 import { useAppSelector } from '@/redux/store';
 
 export const TotalCount = () => {
@@ -11,7 +11,7 @@ export const TotalCount = () => {
   );
 
   return (
-    <DataRecordCount
+    <RecordCountChip
       recordName=" Child Tickets"
       isCountLoading={isTotalCountLoading}
       totalCount={totalCount}

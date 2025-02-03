@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { DataRecordCount } from '@/components/DataRecordCount';
+import { RecordCountChip } from '@/components/Chip/RecordCountChip';
 import { UncontrolledAccordion } from '@/components/Accordions/UncontrolledAccordion';
 import { ACCORDION_VARIANTS } from '@/constants/mui-constant';
 
@@ -8,7 +8,7 @@ export default function Tickets({ dealTickets }: any) {
     <UncontrolledAccordion
       variantType={ACCORDION_VARIANTS?.CARD}
       accordionSummary={
-        <DataRecordCount
+        <RecordCountChip
           totalCount={dealTickets?.length}
           recordName="Tickets"
           recordNameVariant="h5"

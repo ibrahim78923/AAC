@@ -1,7 +1,14 @@
 import { CHIP_SHAPE, CHIP_VARIANTS } from '@/constants/mui-constant';
 import { Chip } from '@mui/material';
+import { CustomChipPropsI } from '../Chip.interface';
 
-export const CustomChip = (props: any) => {
+const mapBorderRadius = {
+  [CHIP_SHAPE?.OVAL]: 4,
+  [CHIP_SHAPE?.ROUNDED]: 2,
+  [CHIP_SHAPE?.SQUARE]: 1,
+};
+
+export const CustomChip = (props: CustomChipPropsI) => {
   const {
     size = 'small',
     label,
@@ -21,16 +28,11 @@ export const CustomChip = (props: any) => {
     hoverBackgroundColor = backgroundColor,
   } = props;
 
-  const mapBorderRadius = {
-    [CHIP_SHAPE?.OVAL]: 4,
-    [CHIP_SHAPE?.ROUNDED]: 2,
-  };
-
   return (
     <Chip
       size={size}
       label={label}
-      variant={variant}
+      variant={variant as any}
       color={color}
       disabled={disabled}
       icon={icon}

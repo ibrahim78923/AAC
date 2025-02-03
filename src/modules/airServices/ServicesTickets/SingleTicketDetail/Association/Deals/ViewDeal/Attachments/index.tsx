@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import { UncontrolledAccordion } from '@/components/Accordions/UncontrolledAccordion';
 import { ACCORDION_VARIANTS, AVATAR_VARIANTS } from '@/constants/mui-constant';
-import { DataRecordCount } from '@/components/DataRecordCount';
+import { RecordCountChip } from '@/components/Chip/RecordCountChip';
 import { CustomAvatar } from '@/components/Avatars/CustomAvatar';
 
 export default function Attachments({ dealAttachments }: any) {
@@ -9,7 +9,7 @@ export default function Attachments({ dealAttachments }: any) {
     <UncontrolledAccordion
       variantType={ACCORDION_VARIANTS?.CARD}
       accordionSummary={
-        <DataRecordCount
+        <RecordCountChip
           totalCount={dealAttachments?.length}
           recordName="Attachments"
           recordNameVariant="h5"

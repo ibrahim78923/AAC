@@ -16,6 +16,7 @@ export const ItemSkeleton = (props: any) => {
           <Box
             sx={{
               p: 2,
+              height: '100%',
               borderRadius: 2,
               border: '1px solid',
               borderColor: 'custom.off_white_three',

@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material';
 import { getInitialsSingleName } from '@/utils/avatarUtils';
 import { UncontrolledAccordion } from '@/components/Accordions/UncontrolledAccordion';
 import { ACCORDION_VARIANTS } from '@/constants/mui-constant';
-import { DataRecordCount } from '@/components/DataRecordCount';
+import { RecordCountChip } from '@/components/Chip/RecordCountChip';
 import { UserInfo } from '@/components/UserInfo';
 
 export default function Products({ dealProducts }: any) {
@@ -10,7 +10,7 @@ export default function Products({ dealProducts }: any) {
     <UncontrolledAccordion
       variantType={ACCORDION_VARIANTS?.CARD}
       accordionSummary={
-        <DataRecordCount
+        <RecordCountChip
           totalCount={dealProducts?.length}
           recordName="Products"
           recordNameVariant="h5"

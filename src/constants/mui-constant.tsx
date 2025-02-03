@@ -20,9 +20,10 @@ export const CHIP_VARIANTS = {
   OUTLINED: 'outlined',
 };
 
-export const CHIP_SHAPE = {
+export const CHIP_SHAPE: any = {
   OVAL: 'oval',
   ROUNDED: 'rounded',
+  SQUARE: 'square',
 };
 
 export const ACCORDION_VARIANTS = {

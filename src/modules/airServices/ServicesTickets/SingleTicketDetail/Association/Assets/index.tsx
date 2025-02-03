@@ -10,7 +10,7 @@ import AddAssets from './AddAssets';
 import { AlertModals } from '@/components/AlertModals';
 import AddPurchaseOrder from './AddPurchaseOrder';
 import useAssets from './useAssets';
-import { DataRecordCount } from '@/components/DataRecordCount';
+import { RecordCountChip } from '@/components/Chip/RecordCountChip';
 
 export default function Assets({
   ticketType,
@@ -86,7 +86,7 @@ export default function Assets({
       <PermissionsGuard
         permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ASSET_LIST_VIEW]}
       >
-        <DataRecordCount
+        <RecordCountChip
           recordName="Assets Inventory"
           isCountLoading={isLoadingAssets || isFetchingAssets}
           totalCount={dataAssets?.length}
