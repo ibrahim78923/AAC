@@ -35,6 +35,7 @@ export const ApiRequestFlow = (props: any) => {
     noDataChildren,
     errorMessage,
     canRefresh = true,
+    errorTextColor,
   } = props;
 
   const SkeletonComponent = skeletonTypes?.[skeletonType];
@@ -57,6 +58,7 @@ export const ApiRequestFlow = (props: any) => {
         refresh={refreshApi}
         height={errorHeight}
         refreshButtonProps={refreshButtonProps}
+        textColor={errorTextColor}
       >
         {errorChildren}
       </ApiErrorState>

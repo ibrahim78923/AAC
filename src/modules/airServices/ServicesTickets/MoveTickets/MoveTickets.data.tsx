@@ -4,7 +4,7 @@ import { AgentFieldDropdown } from '../ServiceTicketFormFields/AgentFieldDropdow
 
 export const moveTicketsValidationSchema = Yup?.object()?.shape({
   department: Yup?.mixed()?.nullable()?.required('Department is required'),
-  agent: Yup?.mixed()?.nullable()?.required('Agent is required'),
+  agent: Yup?.mixed()?.nullable(),
 });
 
 export const moveTicketsDefaultValue = {
@@ -23,8 +23,5 @@ export const moveTicketsFormFieldsDynamic = () => [
   {
     _id: 2,
     component: AgentFieldDropdown,
-    componentProps: {
-      required: true,
-    },
   },
 ];

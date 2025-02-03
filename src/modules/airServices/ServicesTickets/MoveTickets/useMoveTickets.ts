@@ -61,13 +61,13 @@ export const useMoveTickets = () => {
       'isChildTicket',
       singleTicketDetail?.isChildTicket,
     );
-    moveTicketFormData?.append('requester', singleTicketDetail?.requester);
+    !!singleTicketDetail?.requester &&
+      moveTicketFormData?.append('requester', singleTicketDetail?.requester);
     moveTicketFormData?.append('ticketType', singleTicketDetail?.ticketType);
     moveTicketFormData?.append('moduleType', singleTicketDetail?.moduleType);
-    moveTicketFormData?.append('status', singleTicketDetail?.status);
     moveTicketFormData?.append('id', singleTicketDetail?._id);
     moveTicketFormData?.append('department', data?.department?._id);
-    moveTicketFormData?.append('agent', data?.agent?._id);
+    !!data?.agent?._id && moveTicketFormData?.append('agent', data?.agent?._id);
 
     const putTicketParameter = {
       body: moveTicketFormData,

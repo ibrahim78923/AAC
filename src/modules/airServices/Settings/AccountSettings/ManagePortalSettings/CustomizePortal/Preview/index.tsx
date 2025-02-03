@@ -3,14 +3,7 @@ import {
   AirCustomerPortalLogo,
   AirCustomerPortalProfile,
 } from '@/assets/images';
-import {
-  Avatar,
-  Box,
-  Button,
-  Grid,
-  IconButton,
-  Typography,
-} from '@mui/material';
+import { Box, Button, IconButton, Typography } from '@mui/material';
 import Image from 'next/image';
 import usePreview from './usePreview';
 import { NavbarDataArray } from './Preview.data';
@@ -22,7 +15,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import AddBoxIcon from '@mui/icons-material/AddBox';
-import { generateImage } from '@/utils/avatarUtils';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { CustomAvatar } from '@/components/Avatars/CustomAvatar';
+import { StaticAvatar } from '@/components/Avatars/StaticAvatar';
 
 const Preview = (props: IPreviewProps) => {
   const {
@@ -46,8 +42,8 @@ const Preview = (props: IPreviewProps) => {
       minWidth={'650px'}
       width={'100%'}
     >
-      <Grid container>
-        <Grid item xs={3}>
+      <ContainerGrid spacing={0}>
+        <CustomGrid xs={3}>
           <Box
             borderRight={1}
             borderColor={'grey.400'}
@@ -55,56 +51,37 @@ const Preview = (props: IPreviewProps) => {
             pb={2}
             height={'100%'}
           >
-            {/* TODO: check if works then remove it otherwise will do another hit n trial */}
-            {/* <Box p={2} mb={2}>
-              {isFileInstance(image) ? (
-                <Image
-                  src={URL?.createObjectURL(image)}
-                  alt={'Air Apple Cart'}
-                  width={153}
-                  height={38}
-                  style={{ objectFit: 'cover' }}
-                />
-              ) : isStringUrl(image?.url) ? (
-                <Image
-                  src={generateImage(image?.url)}
-                  alt={'Air Apple Cart'}
-                  width={153}
-                  height={38}
-                  style={{ objectFit: 'cover' }}
-                />
-              ) : (
-                <Image
-                  src={AirCustomerPortalLogo}
-                  alt={'Air Apple Cart'}
-                  width={153}
-                  height={38}
-                  style={{ objectFit: 'cover' }}
-                />
-              )}
-            </Box> */}
-
             <Box p={2} mb={2}>
               {isFileInstance(image) ? (
-                <Avatar
-                  src={URL?.createObjectURL(image)}
+                <StaticAvatar
+                  avatarSrc={URL?.createObjectURL(image)}
                   alt={'Air Apple Cart'}
-                  sx={{ width: '100%', height: 38, objectFit: 'cover' }}
-                  variant="square"
+                  avatarSize={{
+                    width: '100%',
+                    height: 38,
+                    variant: 'square',
+                  }}
                 />
               ) : isStringUrl(image?.url) ? (
-                <Avatar
-                  src={generateImage(image?.url)}
+                <CustomAvatar
+                  avatarSrc={image?.url}
                   alt={'Air Apple Cart'}
-                  sx={{ width: '100%', height: 38, objectFit: 'cover' }}
-                  variant="square"
+                  avatarSize={{
+                    width: '100%',
+                    height: 38,
+                    variant: 'square',
+                  }}
+                  backgroundColor="transparent"
                 />
               ) : (
-                <Avatar
-                  src={AirCustomerPortalLogo?.src}
+                <StaticAvatar
+                  avatarSrc={AirCustomerPortalLogo?.src}
                   alt={'Air Apple Cart'}
-                  sx={{ width: '100%', height: 38, objectFit: 'cover' }}
-                  variant="square"
+                  avatarSize={{
+                    width: '100%',
+                    height: 38,
+                    variant: 'square',
+                  }}
                 />
               )}
             </Box>
@@ -138,8 +115,8 @@ const Preview = (props: IPreviewProps) => {
               </Box>
             ))}
           </Box>
-        </Grid>
-        <Grid item xs={9}>
+        </CustomGrid>
+        <CustomGrid xs={9}>
           <Box p={2}>
             <Box
               display={'flex'}
@@ -224,8 +201,8 @@ const Preview = (props: IPreviewProps) => {
               style={{ width: '100%', height: '100%' }}
             />
           </Box>
-        </Grid>
-      </Grid>
+        </CustomGrid>
+      </ContainerGrid>
     </Box>
   );
 };

@@ -17,7 +17,7 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 
 export const SpecificUsers = (props: any) => {
-  const { name } = props;
+  const { name, disabled } = props;
   const { control } = useFormContext();
   const { fields } = useFieldArray({
     control,
@@ -26,7 +26,7 @@ export const SpecificUsers = (props: any) => {
 
   return (
     <>
-      <UsersFieldDropdown />
+      <UsersFieldDropdown disabled={disabled} />
       <TableContainer
         sx={{
           maxHeight: pxToRem(400),
@@ -53,6 +53,7 @@ export const SpecificUsers = (props: any) => {
                   {specificUsersAccessFormFieldsDynamic?.(
                     'permissionsUsers',
                     index,
+                    disabled,
                   )?.map(
                     (
                       singleField: SpecificUsersAccessFormFieldsDynamicI | any,
