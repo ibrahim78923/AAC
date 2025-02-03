@@ -24,6 +24,7 @@ const CustomTextEditor = ({
         [{ align: [] }],
         [{ color: [] }, { background: [] }],
         [{ list: 'ordered' }, { list: 'bullet' }],
+        ['link'],
       ],
     },
   };

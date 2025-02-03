@@ -170,7 +170,7 @@ export const ContractsReports = () => {
                   py={2}
                   height={'100%'}
                 >
-                  <ContainerGrid mb={1}>
+                  <ContainerGrid>
                     <CustomGrid md={4}>
                       <RHFAutocomplete
                         name={'contracts'}

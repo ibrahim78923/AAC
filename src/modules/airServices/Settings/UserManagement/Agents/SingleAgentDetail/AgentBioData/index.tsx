@@ -1,4 +1,4 @@
-import { Avatar, Box, IconButton, Typography, useTheme } from '@mui/material';
+import { Box, IconButton, Typography, useTheme } from '@mui/material';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { fullName, fullNameInitial, truncateText } from '@/utils/avatarUtils';
 import { EditRequestorsIcon } from '@/assets/icons';
@@ -7,6 +7,7 @@ import { otherDateFormat } from '@/lib/date-time';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 import { CustomAvatar } from '@/components/Avatars/CustomAvatar';
+import { StaticAvatar } from '@/components/Avatars/StaticAvatar';
 
 export const AgentBioData = (props: any) => {
   const theme = useTheme();
@@ -158,11 +159,11 @@ export const AgentBioData = (props: any) => {
                 borderColor={'custom.off_white'}
                 p={1.5}
               >
-                <Avatar
-                  src={
+                <StaticAvatar
+                  avatarSrc={
                     AGENT_LEVELS_IMAGES?.[agentLevelDetail?.data?.badges]?.src
                   }
-                  sx={{ width: 30, height: 30 }}
+                  avatarSize={{ width: 30, height: 30 }}
                   alt={agentLevelDetail?.data?.badges}
                 />
                 <Typography

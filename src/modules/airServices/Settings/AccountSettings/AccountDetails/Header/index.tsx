@@ -1,23 +1,18 @@
-import {
-  Typography,
-  Box,
-  useTheme,
-  Avatar,
-  CircularProgress,
-} from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Typography, Box } from '@mui/material';
 import { EmailIcon, PhoneIcon } from '@/assets/icons';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useHeader } from './useHeader';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_ACCOUNT_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
-import { generateImage } from '@/utils/avatarUtils';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { IPropsAccountDetails } from '../AccountDetails.interface';
 import { AIR_SERVICES } from '@/constants/routes';
 import { CustomChip } from '@/components/Chip/CustomChip';
+import { CustomAvatar } from '@/components/Avatars/CustomAvatar';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { CustomCircularProgress } from '@/components/ProgressBars/CustomCircularProgress';
 
 export const Header = (props: IPropsAccountDetails) => {
-  const theme = useTheme();
   const { profileDetail } = props;
   const {
     handleFileChange,
@@ -29,30 +24,22 @@ export const Header = (props: IPropsAccountDetails) => {
   } = useHeader();
   return (
     <Box
-      border={`.1rem solid ${theme?.palette?.grey?.[700]}`}
+      border={`.1rem solid `}
+      borderColor="grey.700"
       p={{ xs: 1, sm: 2 }}
       borderRadius={2}
       mb={1}
     >
-      <Box
-        display={'flex'}
-        justifyContent={'space-between'}
-        alignItems={'center'}
-        flexWrap={'wrap'}
-        gap={2}
-      >
-        <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
-          <ArrowBackIcon
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              router?.push({
-                pathname: AIR_SERVICES?.ACCOUNT_SETTINGS,
-              });
-            }}
-          />
-          <Typography variant="h5">Account Details</Typography>
-        </Box>
-      </Box>
+      <PageTitledHeader
+        title="Account Details"
+        titleVariant="h5"
+        canMovedBack
+        moveBack={() => {
+          router?.push({
+            pathname: AIR_SERVICES?.ACCOUNT_SETTINGS,
+          });
+        }}
+      />
       <PermissionsGuard
         permissions={[
           AIR_SERVICES_SETTINGS_ACCOUNT_SETTINGS_PERMISSIONS?.VIEW_ACCOUNT_DETAILS,
@@ -74,11 +61,13 @@ export const Header = (props: IPropsAccountDetails) => {
                 disabled={patchProfileAvatarStatus?.isLoading}
               />
               {!patchProfileAvatarStatus?.isLoading ? (
-                <Avatar
-                  src={generateImage(profileDetail?.avatar?.url)}
-                  sx={{ height: 90, width: 90 }}
-                  alt="user"
-                  variant="rounded"
+                <CustomAvatar
+                  avatarSrc={profileDetail?.avatar?.url}
+                  avatarSize={{ height: 90, width: 90, variant: 'rounded' }}
+                  nameInitial={fullNameInitial(
+                    profileDetail?.firstName,
+                    profileDetail?.lastName,
+                  )}
                 />
               ) : (
                 <Box
@@ -87,7 +76,7 @@ export const Header = (props: IPropsAccountDetails) => {
                   alignItems="center"
                   justifyContent={'center'}
                 >
-                  <CircularProgress />
+                  <CustomCircularProgress />
                 </Box>
               )}
               {isHovered && (
@@ -114,9 +103,10 @@ export const Header = (props: IPropsAccountDetails) => {
               display={'flex'}
               flexDirection={{ xs: 'column', sm: 'row' }}
               gap={1}
+              alignItems={'center'}
             >
               <Typography variant="h4">
-                {profileDetail?.firstName + ' ' + profileDetail?.lastName}
+                {fullName(profileDetail?.firstName, profileDetail?.lastName)}
               </Typography>
               <CustomChip
                 backgroundColor={'success.lighter'}
@@ -128,17 +118,20 @@ export const Header = (props: IPropsAccountDetails) => {
               display={'flex'}
               flexDirection={{ xs: 'column', sm: 'row' }}
               gap={1}
+              alignItems={'center'}
             >
               <Box display={'flex'} gap={1}>
                 <EmailIcon />
                 <Typography variant="body2">{profileDetail?.email}</Typography>
               </Box>
-              <Box display={'flex'} gap={1}>
-                <PhoneIcon />
-                <Typography variant="body2">
-                  {profileDetail?.phoneNumber}
-                </Typography>
-              </Box>
+              {!!profileDetail?.phoneNumber && (
+                <Box display={'flex'} gap={1}>
+                  <PhoneIcon />
+                  <Typography variant="body2">
+                    {profileDetail?.phoneNumber}
+                  </Typography>
+                </Box>
+              )}
             </Box>
           </Box>
         </Box>

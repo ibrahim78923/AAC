@@ -1,14 +1,20 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { CategoryList } from './CategoryList';
 import { ServicesList } from './ServicesList';
-import { Divider } from '@mui/material';
+import { Box } from '@mui/material';
 
 export const Catalog = () => {
   return (
     <>
       <PageTitledHeader title="All Services" />
       <CategoryList />
-      <Divider sx={{ my: 2 }} />
+      <Box
+        sx={{
+          py: 2,
+          borderTop: '1px solid',
+          borderColor: 'custom.off_white_three',
+        }}
+      />
       <ServicesList />
     </>
   );

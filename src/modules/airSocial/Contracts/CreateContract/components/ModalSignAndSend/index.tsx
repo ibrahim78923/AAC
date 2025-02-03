@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import SignatureCanvas from 'react-signature-canvas';
 import CommonDialog from '@/components/CommonDialog';
-import { ENUM_SIGNATURE_TYPE } from '../../CreateContract.data';
+import { ENUM_SIGNATURE_TYPE } from '@/utils/contracts';
 import { styles } from './ModalSignAndSend.style';
 import { IconTrashContracts } from '@/assets/icons';
 

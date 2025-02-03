@@ -1,6 +1,7 @@
 import { CustomCircularProgressBar } from '@/components/ProgressBars/CustomCircularProgressBar';
-import { Avatar, Box, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { SurveyCardI } from './SurveyCard.interface';
+import { IconAvatar } from '@/components/Avatars/IconAvatar';
 
 export const SurveyCard: React.FC<SurveyCardI> = (props) => {
   const { hasSpinner, data, hasStatusIcon } = props;
@@ -22,11 +23,9 @@ export const SurveyCard: React.FC<SurveyCardI> = (props) => {
           {data?.status}
         </Typography>
         <Box display={'flex'} gap={0.5} alignItems={'center'}>
-          <Avatar
-            sx={{ width: 24, height: 24, backgroundColor: 'transparent' }}
-          >
+          <IconAvatar backgroundColor={'transparent'}>
             <data.rateIcon />
-          </Avatar>
+          </IconAvatar>
           <Typography variant="body1" color="slateBlue.main" fontWeight={600}>
             {data?.rate ?? '---'}
           </Typography>
@@ -41,9 +40,12 @@ export const SurveyCard: React.FC<SurveyCardI> = (props) => {
         />
       )}
       {hasStatusIcon && (
-        <Avatar sx={{ width: 35, height: 35, backgroundColor: 'transparent' }}>
+        <IconAvatar
+          avatarSize={{ width: 35, height: 35 }}
+          backgroundColor={'transparent'}
+        >
           <data.statusIcon />
-        </Avatar>
+        </IconAvatar>
       )}
     </Box>
   );

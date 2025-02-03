@@ -1,7 +1,7 @@
 import { InventoryCard } from '@/components/Cards/InventoryCard';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { LoadingButton } from '@mui/lab';
-import { Box, Divider, Skeleton, Typography } from '@mui/material';
+import { Box, Skeleton, Typography } from '@mui/material';
 import { Fragment } from 'react';
 import { useSingleTicketDetail } from './useSingleTicketDetail';
 import { TICKET_STATUS } from '@/constants/strings';
@@ -12,6 +12,7 @@ import { otherDateFormat } from '@/lib/date-time';
 import { capitalizeFirstLetter } from '@/utils/api';
 import { CustomChip } from '@/components/Chip/CustomChip';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { Attachments } from '@/components/Attachments';
 
 export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
   const {
@@ -26,8 +27,15 @@ export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
 
   return (
     <>
-      <Box display={'flex'} gap={1} flexWrap={'wrap'}>
-        <Box flex={0.8}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: 2,
+          flexDirection: { xs: 'column', md: 'row' },
+        }}
+      >
+        <Box flex={1}>
           <Typography
             fontWeight={700}
             variant="body1"
@@ -67,16 +75,20 @@ export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
             <Typography>No description available</Typography>
           )}
         </Box>
-        <Divider
-          orientation="vertical"
-          flexItem
+        <Box
           sx={{
-            margin: '0 2rem',
-            border: `.1rem solid ${theme?.palette?.grey[700]}`,
-            backgroundColor: 'transparent',
+            flex: 0.3,
+            borderLeft: {
+              md: `2px solid ${theme?.palette?.grey?.[700]}`,
+              xs: 'none',
+            },
+            borderTop: {
+              md: 'none',
+              xs: `1px solid ${theme?.palette?.grey?.[700]}`,
+            },
+            padding: 1,
           }}
-        />
-        <Box>
+        >
           <Typography
             variant="body1"
             fontWeight={700}
@@ -172,6 +184,28 @@ export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
           )}
         </Box>
       </Box>
+      <br />
+      {!!singleTicketData?._id && (
+        <>
+          <Typography
+            variant="body1"
+            fontWeight="fontWeightMedium"
+            color="slateBlue.main"
+            my={2}
+          >
+            Attachments
+          </Typography>
+          <Box>
+            <Attachments
+              recordId={singleTicketData?._id as string}
+              size={{ width: '100%', height: '100%' }}
+              hasNoDeletePermission
+              hasStyling={false}
+              canDelete={false}
+            />
+          </Box>
+        </>
+      )}
       <br />
       <Typography variant="body2" color="slateBlue.main">
         {' '}

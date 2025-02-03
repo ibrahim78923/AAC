@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import { UncontrolledAccordion } from '@/components/Accordions/UncontrolledAccordion';
 import { ACCORDION_VARIANTS } from '@/constants/mui-constant';
-import { DataRecordCount } from '@/components/DataRecordCount';
+import { RecordCountChip } from '@/components/Chip/RecordCountChip';
 import { UserInfo } from '@/components/UserInfo';
 import { fullName, getInitialsSingleName } from '@/utils/avatarUtils';
 
@@ -10,7 +10,7 @@ export default function Contacts({ dealContacts }: any) {
     <UncontrolledAccordion
       variantType={ACCORDION_VARIANTS?.CARD}
       accordionSummary={
-        <DataRecordCount
+        <RecordCountChip
           totalCount={dealContacts?.length}
           recordName="Contacts"
           recordNameVariant="h5"

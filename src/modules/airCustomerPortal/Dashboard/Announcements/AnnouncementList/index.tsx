@@ -29,8 +29,9 @@ export const AnnouncementList = (props: AnnouncementsListPropsI) => {
             key={announcement?._id}
             firstName={announcement?.createdBy?.firstName}
             lastName={announcement?.createdBy?.lastName}
+            description={announcement?.description}
             userAvatarSrc={announcement?.createdBy?.avatar?.url}
-            feedTitle={announcement?.title}
+            title={announcement?.title}
             dateFrom={announcement?.createdAt}
             hasBorderBottom={index !== data?.data?.length - 1}
           />

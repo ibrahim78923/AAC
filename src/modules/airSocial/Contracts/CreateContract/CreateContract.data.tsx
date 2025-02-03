@@ -2,22 +2,6 @@
 import * as Yup from 'yup';
 import { FIELD_TYPES } from '@/utils/contracts';
 
-export const ENUM_SIGNATURE_TYPE = {
-  CLICK: 'CLICK',
-  SMS: 'SMS',
-  DRAW: 'DRAW',
-} as const;
-export const SIGNATURE_METHODS_LABEL = {
-  CLICK: 'Sign with a Click',
-  SMS: 'SMS Verification',
-  DRAW: 'Draw a Signature',
-};
-export const SIGNATURE_METHODS = [
-  { value: ENUM_SIGNATURE_TYPE.CLICK, label: SIGNATURE_METHODS_LABEL.CLICK },
-  { value: ENUM_SIGNATURE_TYPE.SMS, label: SIGNATURE_METHODS_LABEL.SMS },
-  { value: ENUM_SIGNATURE_TYPE.DRAW, label: SIGNATURE_METHODS_LABEL.DRAW },
-];
-
 export const validationSchema = () => {
   return Yup?.object()?.shape({
     name: Yup?.string()?.trim()?.required('Field is Required'),
@@ -60,18 +44,27 @@ export const defaultFieldsData = [
     label: 'Start Date',
     type: FIELD_TYPES.DATE,
     placeholder: 'Set date',
+    required: false,
+    description: '',
+    value: '',
   },
   {
     name: 'renewalTerms',
     label: 'Renewal terms',
     type: FIELD_TYPES.TEXT,
     placeholder: 'Add text',
+    required: false,
+    description: '',
+    value: '',
   },
   {
     name: 'contractCurrency',
     label: 'Contract currency',
     type: FIELD_TYPES.CHECKBOX,
     placeholder: 'Select',
+    required: false,
+    description: '',
+    value: '',
     options: [
       { value: 'USD', label: 'USD' },
       { value: 'EUR', label: 'EUR' },
@@ -83,6 +76,9 @@ export const defaultFieldsData = [
     label: 'Total yearly Contract Value',
     type: FIELD_TYPES.SELECT,
     placeholder: 'Select',
+    required: false,
+    description: '',
+    value: '',
     options: [
       { value: 'yes', label: 'Yes' },
       { value: 'no', label: 'No' },
@@ -93,5 +89,8 @@ export const defaultFieldsData = [
     label: 'Amount',
     type: FIELD_TYPES.NUMBER,
     placeholder: 'Add value',
+    required: false,
+    description: '',
+    value: '',
   },
 ];

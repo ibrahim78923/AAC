@@ -10,7 +10,7 @@ import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import NewCompany from './NewCompany';
 import ExistingCompany from './ExistingCompany';
 import ViewCompany from './ViewCompany';
-import { DataRecordCount } from '@/components/DataRecordCount';
+import { RecordCountChip } from '@/components/Chip/RecordCountChip';
 
 export default function Companies({ isDrawerOpen, setIsDrawerOpen }: any) {
   const {
@@ -98,7 +98,7 @@ export default function Companies({ isDrawerOpen, setIsDrawerOpen }: any) {
           AIR_SERVICES_TICKETS_TICKETS_DETAILS?.COMPANIES_LIST_VIEW,
         ]}
       >
-        <DataRecordCount
+        <RecordCountChip
           recordName="Companies"
           isCountLoading={isLoading || isFetching}
           totalCount={data?.length}

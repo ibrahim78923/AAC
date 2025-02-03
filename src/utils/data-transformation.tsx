@@ -1,3 +1,5 @@
+import { ARRAY_INDEX, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
+
 export const filteredArrayDummyDataByKey = (
   array: any = [],
   checkKey: any = '',
@@ -35,4 +37,18 @@ export const groupArrayByKey = (
     accumulator[key]?.push(currentItem);
     return accumulator;
   }, {});
+};
+
+export const checkPermissions = (
+  currentPermissions: string[],
+  modulePermissions: string[],
+): boolean => {
+  if (!modulePermissions?.length) return false;
+  if (modulePermissions?.length === SELECTED_ARRAY_LENGTH?.ONE) {
+    return currentPermissions?.includes(modulePermissions?.[ARRAY_INDEX?.ZERO]);
+  }
+  const permissionsSet = new Set(modulePermissions);
+  return currentPermissions?.some(
+    (permission) => permissionsSet?.has(permission),
+  );
 };

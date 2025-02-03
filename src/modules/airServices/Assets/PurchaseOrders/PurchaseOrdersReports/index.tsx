@@ -182,7 +182,7 @@ export const PurchaseOrdersReports = () => {
                   height={'100%'}
                 >
                   <FormProvider methods={methods}>
-                    <ContainerGrid mb={1}>
+                    <ContainerGrid>
                       <CustomGrid md={4}>
                         <RHFAutocomplete
                           name={'status'}

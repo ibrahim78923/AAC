@@ -3,7 +3,9 @@ import DocumentIcon from '@/assets/icons/modules/airSocial/contracts/documentIco
 import FolderRoundedIcon from '@/assets/icons/shared/folder-rounded';
 import { CustomTooltip } from '@/components/CustomTooltip';
 import { CONTRACTS_STATUS } from '@/constants';
+import { AIR_SOCIAL_CONTRACTS } from '@/constants/routes';
 import { Box, Button, Checkbox, Typography, useTheme } from '@mui/material';
+import { useRouter } from 'next/router';
 import { v4 as uuidv4 } from 'uuid';
 
 export const contractsColumns = ({
@@ -13,7 +15,7 @@ export const contractsColumns = ({
   data,
 }: any) => {
   const theme = useTheme();
-
+  const router = useRouter();
   const handleClick = (itemId: string) => {
     if (selectedRecords?.includes(itemId)) {
       setSelectedRecords(selectedRecords.filter((id: string) => id !== itemId));
@@ -134,7 +136,6 @@ export const contractsColumns = ({
               ? selectedRecords?.length === data?.length
               : false
           }
-          // checked={false}
         />
       ),
       isSortable: false,
@@ -146,7 +147,21 @@ export const contractsColumns = ({
       cell: (info: any) => (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           {handelTypeSwitch(info?.row?.original?.status)}{' '}
-          <Box sx={{ whiteSpace: 'nowrap' }}>{info?.getValue()}</Box>
+          <Box
+            sx={{
+              whiteSpace: 'nowrap',
+              color: theme?.palette?.primary?.main,
+              cursor: 'pointer',
+            }}
+            onClick={() =>
+              router?.push({
+                pathname: AIR_SOCIAL_CONTRACTS?.CONTRACTS_CREATE,
+                query: { contractId: info?.row?.original?._id },
+              })
+            }
+          >
+            {info?.getValue()}
+          </Box>
         </Box>
       ),
     },
@@ -163,7 +178,6 @@ export const contractsColumns = ({
         >
           {' '}
           <FolderRoundedIcon /> {info?.getValue()?.name ?? '--'}
-
         </Box>
       ),
     },
@@ -189,7 +203,6 @@ export const contractsColumns = ({
             }}
           ></Box>
           {`${info?.getValue()?.firstName} ${info?.getValue()?.lastName}`}
-
         </Box>
       ),
     },

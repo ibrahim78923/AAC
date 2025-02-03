@@ -30,10 +30,11 @@ export const AnnouncementList = (props: any) => {
         {announcements?.map((announcement: any, index: number) => (
           <InteractiveUserFeedCard
             key={announcement?._id}
+            description={announcement?.description}
             firstName={announcement?.createdBy?.firstName}
             lastName={announcement?.createdBy?.lastName}
             userAvatarSrc={announcement?.createdBy?.avatar?.url}
-            feedTitle={announcement?.title}
+            title={announcement?.title}
             dateFrom={announcement?.createdAt}
             hasBorderBottom={index !== announcements?.length - 1}
             hasAction={user?._id === announcement?.createdBy?._id}

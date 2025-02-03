@@ -3,7 +3,7 @@ import { ARTICLE_STATUS } from '@/constants/strings';
 import { uiDateFormat } from '@/lib/date-time';
 import { UncontrolledAccordion } from '@/components/Accordions/UncontrolledAccordion';
 import { ACCORDION_VARIANTS } from '@/constants/mui-constant';
-import { DataRecordCount } from '@/components/DataRecordCount';
+import { RecordCountChip } from '@/components/Chip/RecordCountChip';
 import { CustomChip } from '@/components/Chip/CustomChip';
 
 export default function Quotes({ dealQuotes }: any) {
@@ -11,7 +11,7 @@ export default function Quotes({ dealQuotes }: any) {
     <UncontrolledAccordion
       variantType={ACCORDION_VARIANTS?.CARD}
       accordionSummary={
-        <DataRecordCount
+        <RecordCountChip
           totalCount={dealQuotes?.length}
           recordName="Quotes"
           recordNameVariant="h5"

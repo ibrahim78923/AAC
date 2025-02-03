@@ -1,26 +1,23 @@
-import useUsersAdd from './useUsersAdd';
+import { useUsersAdd } from './useUsersAdd';
 import { FormProvider } from '@/components/ReactHookForm';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 import { FormGrid } from '@/components/Grids/FormGrid';
-import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
 
-export const UsersAdd = () => {
+export const UsersAdd = (props: any) => {
+  const { isPortalOpen } = props;
   const {
     methods,
     handleSubmit,
     onSubmit,
-    openModal,
-    closeModal,
-    isModalOpen,
     addUserFormFields,
     isLoading,
-  } = useUsersAdd();
+    closeModal,
+  } = useUsersAdd(props);
 
   return (
     <FormProvider methods={methods}>
-      <AddNewItemButton size="medium" name="Add User" onClick={openModal} />
       <CustomCommonDialog
-        isPortalOpen={isModalOpen}
+        isPortalOpen={isPortalOpen?.isOpen}
         closePortal={closeModal}
         dialogTitle="Add User"
         submitButtonText="Add"

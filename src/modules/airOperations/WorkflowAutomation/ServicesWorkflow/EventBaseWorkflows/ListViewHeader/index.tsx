@@ -1,15 +1,16 @@
-import { FilterSharedIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import { Permissions } from '@/constants/permissions';
 import FilterWorkflow from '../../FilterWorkflow';
-import { EventBasedWorkflowDelete } from '../EventBasedWorkflowDelete';
+import { DeleteWorkflows } from '../../DeleteWorkflows';
 import { useListHeader } from './useListHeader';
 import { WorkflowListHeaderI } from '@/types/modules/AirOperations/WorkflowAutomation';
 import { AIR_OPERATIONS } from '@/constants/routes';
+import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
+import { FilterButton } from '@/components/Buttons/FilterButton';
 
 const ListViewHeader: React.FC<WorkflowListHeaderI> = (props) => {
   const {
@@ -23,21 +24,43 @@ const ListViewHeader: React.FC<WorkflowListHeaderI> = (props) => {
     deleteWorkflow,
     handleWorkflow,
     setPage,
+    totalRecords,
+    page,
+    selectedAction,
+    setSelectedAction,
   } = props;
-  const { handleDelete, deleteStatus, handleSearch } = useListHeader(props);
+
+  const { handleSearch } = useListHeader(props);
+
   return (
     <>
-      <Box display={'flex'} justifyContent={'space-between'}>
-        <Box mb={1}>
-          <PermissionsGuard
-            permissions={[
-              AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.SEARCH_RECORD,
-            ]}
-          >
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: 2,
+          flexWrap: 'wrap',
+        }}
+      >
+        <PermissionsGuard
+          permissions={[
+            AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.SEARCH_RECORD,
+          ]}
+        >
+          <Box mb={1}>
             <Search label="Search Here" setSearchBy={handleSearch} />
-          </PermissionsGuard>
-        </Box>
-        <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
+          </Box>
+        </PermissionsGuard>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: 2,
+            flexWrap: 'wrap',
+          }}
+        >
           <PermissionsGuard
             permissions={
               Permissions?.AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW
@@ -53,46 +76,46 @@ const ListViewHeader: React.FC<WorkflowListHeaderI> = (props) => {
               AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.FILTER_RECORD,
             ]}
           >
-            <Button
-              color="secondary"
-              variant="outlined"
-              startIcon={<FilterSharedIcon />}
-              onClick={() => setIsDrawerOpen?.(true)}
-              className="small"
-            >
+            <FilterButton onClick={() => setIsDrawerOpen?.(true)}>
               Filter
-            </Button>
+            </FilterButton>
           </PermissionsGuard>
           <PermissionsGuard
             permissions={[
               AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.CREATE_EVENTBASE_WORKFLOW,
             ]}
           >
-            <Button
-              variant="contained"
+            <AddNewItemButton
+              name=" Create Event base Workflow"
               onClick={() =>
                 router?.push(AIR_OPERATIONS?.UPSERT_EVENT_BASED_WORKFLOW)
               }
-              className="small"
-            >
-              Create Event base Workflow
-            </Button>
+              hasStartIcon={false}
+            />
           </PermissionsGuard>
         </Box>
       </Box>
-      <FilterWorkflow
-        isDrawerOpen={isDrawerOpen}
-        setIsDrawerOpen={setIsDrawerOpen}
-        onSubmitFilter={onSubmitListFilter}
-        handleWorkflow={handleWorkflow}
-        setPage={setPage}
-      />
-      <EventBasedWorkflowDelete
-        deleteWorkflow={deleteWorkflow}
-        setDeleteWorkflow={setDeleteWorkflow}
-        handleDelete={handleDelete}
-        deleteStatus={deleteStatus}
-      />
+      <br />
+      {isDrawerOpen && (
+        <FilterWorkflow
+          isDrawerOpen={isDrawerOpen}
+          setIsDrawerOpen={setIsDrawerOpen}
+          onSubmitFilter={onSubmitListFilter}
+          handleWorkflow={handleWorkflow}
+          setPage={setPage}
+        />
+      )}
+      {deleteWorkflow && (
+        <DeleteWorkflows
+          deleteWorkflow={deleteWorkflow}
+          setDeleteWorkflow={setDeleteWorkflow}
+          setPage={setPage}
+          page={page}
+          totalRecords={totalRecords}
+          selectedAction={selectedAction}
+          setSelectedAction={setSelectedAction}
+        />
+      )}
     </>
   );
 };

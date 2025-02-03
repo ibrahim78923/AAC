@@ -12,7 +12,6 @@ import useGridView from './useGridView';
 
 const ContractsGrid = ({
   activeFolder,
-
   selectedRecords,
   setSelectedRecords,
   tabValue,
@@ -29,7 +28,6 @@ const ContractsGrid = ({
     setPageLimit,
     theme,
   } = useGridView({ tabValue, activeFolder });
-
 
   return (
     <div>
@@ -66,7 +64,7 @@ const ContractsGrid = ({
       >
         <Box>
           {viewActivityData?.map((item: any) => (
-            <Box key={item.id}>
+            <Box key={uuidv4()}>
               <Typography sx={{ fontSize: '14px', fontWeight: '600', mb: 2 }}>
                 {item?.category}
               </Typography>

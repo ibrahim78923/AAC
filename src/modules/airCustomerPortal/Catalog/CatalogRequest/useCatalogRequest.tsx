@@ -68,7 +68,11 @@ const useCatalogRequest = (props: CatalogRequestI) => {
     }
     placeRequestData?.append('status', TICKET_STATUS?.OPEN);
     placeRequestData?.append('subject', servicesDetails?.data?.itemName);
-    placeRequestData?.append('description', servicesDetails?.data?.description);
+    !!servicesDetails?.data?.description &&
+      placeRequestData?.append(
+        'description',
+        servicesDetails?.data?.description,
+      );
     placeRequestData?.append('serviceId', serviceId as string);
     placeRequestData?.append('moduleType', MODULE_TYPE?.CUSTOMER_PORTAL);
     placeRequestData?.append('ticketType', TICKET_TYPE?.SR);

@@ -41,12 +41,16 @@ export const ArticleDetail = () => {
       <ContainerGrid>
         <CustomGrid lg={8.9}>
           <Typography variant="h3" color="slateBlue.main" my={2}>
-            <TruncateText text={data?.data?.title?.toLowerCase()} />
+            <TruncateText
+              text={data?.data?.title?.toLowerCase()}
+              size={50}
+              isCapital={false}
+            />
           </Typography>
           <Box
             sx={{ wordBreak: 'break-all', overflow: 'auto' }}
             dangerouslySetInnerHTML={{ __html: data?.data?.details }}
-          ></Box>
+          />
           {!!articleId && (
             <>
               <Typography
@@ -85,11 +89,11 @@ export const ArticleDetail = () => {
                     fontWeight={'fontWeightSmall'}
                     color="slateBlue.main"
                     my={2}
-                    sx={{ px: 2 }}
+                    sx={{ px: { xs: 1, md: 2 } }}
                   >
                     {item?.heading}
                   </Typography>
-                  <Box sx={{ px: 2 }}>
+                  <Box sx={{ px: { xs: 1, md: 2 } }}>
                     {item?.details?.map(
                       (ele: SingleViewArticleDetailArrayI) => (
                         <Box
@@ -98,6 +102,7 @@ export const ArticleDetail = () => {
                             display: 'flex',
                             justifyContent: 'space-between',
                             alignItems: 'center',
+                            flexWrap: 'wrap',
                             gap: 2,
                             my: 2,
                           }}

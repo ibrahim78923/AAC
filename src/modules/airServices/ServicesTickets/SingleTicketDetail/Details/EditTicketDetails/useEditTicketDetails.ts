@@ -92,7 +92,7 @@ export const useEditTicketDetails = () => {
       errorSnackbar('Service does not belong to selected category');
       return;
     }
-    const newFormData = filteredEmptyValues(formData);
+    const newFormData: any = filteredEmptyValues(formData);
 
     const { plannedEffort } = getValues();
 
@@ -113,6 +113,8 @@ export const useEditTicketDetails = () => {
         newFormData,
       );
       const ticketDetailsData = new FormData();
+      !!ticketDetail?.requester &&
+        ticketDetailsData?.append('requester', ticketDetail?.requester);
       ticketDetailsData.append('status', newFormData?.status?._id);
       ticketDetailsData.append('pirority', newFormData?.priority?._id);
       !!newFormData?.department?._id &&

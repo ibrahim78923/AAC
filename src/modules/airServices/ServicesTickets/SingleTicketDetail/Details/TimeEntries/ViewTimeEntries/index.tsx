@@ -1,11 +1,12 @@
 import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
 import { ERROR_TIME } from '@/constants/api-mapped';
-import { fullName, generateImage } from '@/utils/avatarUtils';
-import { Avatar, Box, Typography } from '@mui/material';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
+import { Box, Typography } from '@mui/material';
 import { useViewTimeEntries } from './useViewTimeEntries';
 import { otherDateFormat } from '@/lib/date-time';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
+import { UserInfo } from '@/components/UserInfo';
 
 export const ViewTimeEntries = () => {
   const { isLoading, isError, timeEntryData, isFetching, refetch } =
@@ -45,15 +46,19 @@ export const ViewTimeEntries = () => {
                   gap={2}
                   flexWrap={'wrap'}
                 >
-                  <Avatar
-                    src={generateImage(item?.agentDetails?.avatar?.url)}
-                  />
-                  <Typography variant="body1" color="slateBlue.main">
-                    {fullName(
+                  <UserInfo
+                    nameVariant="body1"
+                    name={fullName(
                       item?.agentDetails?.firstName,
                       item?.agentDetails?.lastName,
                     )}
-                  </Typography>
+                    nameInitial={fullNameInitial(
+                      item?.agentDetails?.firstName,
+                      item?.agentDetails?.lastName,
+                    )}
+                    avatarSrc={item?.agentDetails?.avatar?.url}
+                    avatarSize={{ width: 35, height: 35 }}
+                  />
                 </Box>
                 <br />
                 <Box

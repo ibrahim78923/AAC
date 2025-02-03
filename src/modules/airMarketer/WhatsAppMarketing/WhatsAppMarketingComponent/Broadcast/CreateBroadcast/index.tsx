@@ -33,7 +33,7 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { componentMap } from '@/utils/dynamic-forms';
 import { generateImage } from '@/utils/avatarUtils';
 import { indexNumbers } from '@/constants';
-import { AttachFileCard } from '@/components/AttachFileCard';
+import { AttachFileCard } from '@/components/Avatars/AttachFileCard';
 
 const CreateBroadcast = () => {
   const {

@@ -32,6 +32,7 @@ export const UpdateRequestStatus = () => {
           fullWidth
           multiline
           rows={7}
+          required
         />
       </FormProvider>
     </CustomCommonDialog>

@@ -7,7 +7,7 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material';
-import { SIGNATURE_METHODS } from '../../CreateContract.data';
+import { SIGNATURE_METHODS } from '@/utils/contracts';
 
 interface ModalManageSignaturesProps {
   open: boolean;

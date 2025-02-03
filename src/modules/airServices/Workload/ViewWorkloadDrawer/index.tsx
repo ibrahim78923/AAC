@@ -5,17 +5,14 @@ import {
   RHFAutocomplete,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { Avatar, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { styles } from './ViewWorkloadDrawer.styles';
 import { drawerDetail, statusOptions } from './ViewWorkloadDrawer.data';
-import {
-  generateColorFromName,
-  generateImage,
-  getImageByType,
-} from '@/utils/avatarUtils';
-import { isValidElement } from 'react';
-import { DYNAMIC_FORM_FIELDS_TYPES, isValidDate } from '@/utils/dynamic-forms';
-import { uiDateFormat } from '@/lib/date-time';
+import { generateColorFromName } from '@/utils/avatarUtils';
+import { DynamicFormDataDisplay } from '@/components/DynamicForm/DynamicFormDataDisplay';
+import { pxToRem } from '@/utils/getFontValue';
+import { CustomAvatar } from '@/components/Avatars/CustomAvatar';
+import { AVATAR_VARIANTS } from '@/constants/mui-constant';
 
 export default function ViewWorkloadDrawer({ openDrawer, onClose, data }: any) {
   const {
@@ -31,7 +28,6 @@ export default function ViewWorkloadDrawer({ openDrawer, onClose, data }: any) {
     <CommonDrawer
       isDrawerOpen={openDrawer}
       onClose={() => onClose(false)}
-      title={data?.extendedProps?.taskId}
       okText={'Update'}
       isOk
       cancelText={'Cancel'}
@@ -40,126 +36,136 @@ export default function ViewWorkloadDrawer({ openDrawer, onClose, data }: any) {
       disabledCancelBtn={patchTaskStatus?.isLoading}
       isDisabled={patchTaskStatus?.isLoading}
       isLoading={patchTaskStatus?.isLoading}
+      titleSx={{ width: '100%' }}
+      titleBoxSx={{ flex: 1, marginBottom: 0.2 }}
+      title={
+        <Box
+          sx={{
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 2,
+            mb: 0,
+            flexWrap: 'wrap',
+            paddingRight: 1,
+          }}
+        >
+          <Typography variant="body2" sx={{ flex: 1 }}>
+            {data?.extendedProps?.taskId}
+          </Typography>
+          <Box sx={{ flex: 1 }}>
+            <FormProvider onSubmit={handleSubmit(onSubmit)} methods={methods}>
+              <RHFAutocomplete
+                name="status"
+                fullWidth
+                sx={{
+                  minWidth: { xs: 'inherit', sm: pxToRem(200) },
+                  '.MuiInputBase-input': {
+                    padding: `${pxToRem(5)} !important`,
+                  },
+                  '.MuiFormHelperText-root': {
+                    display: 'none',
+                  },
+                  '& .MuiOutlinedInput-root ': {
+                    height: pxToRem(36),
+                  },
+                }}
+                options={statusOptions}
+                size="small"
+                isOptionEqualToValue={(option: any, newValue: any) =>
+                  option === newValue
+                }
+              />
+            </FormProvider>
+          </Box>
+        </Box>
+      }
     >
       <FormProvider onSubmit={handleSubmit(onSubmit)} methods={methods}>
-        <Typography variant="body2" mb={-2}>
+        <Typography variant="body2">
           {data?.extendedProps?.assignedUser?.email ?? 'Email not found'}
         </Typography>
-        <Grid item xs={10}>
-          <RHFAutocomplete
-            name={'status'}
-            sx={styles?.statusFieldStyle}
-            options={statusOptions}
-            size={'small'}
-            isOptionEqualToValue={(option: any, newValue: any) =>
-              option === newValue
-            }
-          />
-        </Grid>
-        <Grid container spacing={2.5} sx={{ mt: 2, flexDirection: 'column' }}>
-          {drawerDetail(data?.extendedProps, theme)?.map((item: any) => (
-            <Grid
-              key={item?.id}
-              item
-              sx={{ display: 'flex', justifyContent: 'space-between' }}
-            >
-              <Grid item xs={6} sx={styles?.detailDrawerGridCenter}>
-                <Typography
-                  variant="body2"
-                  sx={styles?.detailDrawerTitle(theme)}
-                >
-                  {item?.title}
-                </Typography>
-              </Grid>
-              <Grid item xs={6} sx={styles?.detailDrawerGridCenter}>
-                {item?.profile && (
-                  <Avatar
-                    style={styles?.detailDrawerImg}
-                    src={generateImage(item?.profile)}
-                    alt=""
-                  />
-                )}
-                {item?.workspace && (
-                  <Avatar
-                    sx={{
-                      bgcolor: generateColorFromName(item?.workspace),
-                      width: 25,
-                      height: 25,
-                      fontSize: 14,
-                      mr: 0.5,
-                    }}
-                    variant="rounded"
-                  >
-                    {item?.workspace?.slice?.(0, 2)?.toUpperCase()}
-                  </Avatar>
-                )}
-                <Typography
-                  variant="body2"
-                  fontWeight={400}
-                  color={'slateBlue.main'}
-                >
-                  {item?.details ? item?.details : '....'}
-                </Typography>
-              </Grid>
-            </Grid>
-          ))}
+        {drawerDetail(data?.extendedProps, theme)?.map((item: any) => (
+          <Box
+            key={item?.id}
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              my: 2,
+              gap: 2,
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Typography variant="body2" sx={styles?.detailDrawerTitle(theme)}>
+                {item?.title}
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              {item?.profile && <CustomAvatar avatarSrc={item?.profile} />}
+              {item?.workspace && (
+                <CustomAvatar
+                  backgroundColor={generateColorFromName(item?.workspace)}
+                  avatarSize={{
+                    variant: AVATAR_VARIANTS?.ROUNDED,
+                  }}
+                  avatarSrc=""
+                  nameInitial={item?.workspace?.slice?.(0, 2)}
+                />
+              )}
+              <Typography
+                variant="body2"
+                fontWeight={400}
+                color={'slateBlue.main'}
+              >
+                {item?.details ? item?.details : '....'}
+              </Typography>
+            </Box>
+          </Box>
+        ))}
 
-          {Object?.entries(overviewData)?.map(([key, value]: any) => (
-            <Grid
-              key={key}
-              item
-              sx={{ display: 'flex', justifyContent: 'space-between' }}
-            >
-              <Grid item xs={6} sx={styles?.detailDrawerGridCenter}>
-                <Typography
-                  variant={'body2'}
-                  sx={styles?.detailDrawerTitle(theme)}
-                >
-                  {key}:
-                </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Typography
-                  variant={'body2'}
-                  fontWeight={400}
-                  color={'slateBlue.main'}
-                  component={'div'}
-                >
-                  {isValidElement(value) ? (
-                    value
-                  ) : typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
-                    value !== null &&
-                    DYNAMIC_FORM_FIELDS_TYPES?.LABEL in value ? (
-                    value?.label
-                  ) : typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
-                    value !== null &&
-                    DYNAMIC_FORM_FIELDS_TYPES?.FILE_URL in value ? (
-                    <Avatar
-                      src={getImageByType(value?.fileType, value?.fileUrl)}
-                      alt="file-preview"
-                      sx={{ width: 45, height: 45 }}
-                      variant={'rounded'}
-                    />
-                  ) : isValidDate(value) ? (
-                    uiDateFormat(value)
-                  ) : (
-                    value?.toString()
-                  )}
-                </Typography>
-              </Grid>
-            </Grid>
-          ))}
-          <Grid item>
-            <RHFTextField
-              name="comments"
-              label="Add Comment"
-              multiline={true}
-              rows={5}
-              fullWidth={true}
-              placeholder="Type here"
-            />
-          </Grid>
-        </Grid>
+        {Object?.entries(overviewData)?.map(([key, value]: any) => (
+          <Box
+            key={key}
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              my: 2,
+              gap: 2,
+              alignItems: 'center',
+              flexWrap: 'wrap',
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Typography
+                variant={'body2'}
+                sx={styles?.detailDrawerTitle(theme)}
+              >
+                {key}:
+              </Typography>
+            </Box>
+            <Box>
+              <Typography
+                variant={'body2'}
+                fontWeight={400}
+                color={'slateBlue.main'}
+                component={'div'}
+              >
+                <DynamicFormDataDisplay value={value} />
+              </Typography>
+            </Box>
+          </Box>
+        ))}
+        <RHFTextField
+          name="comments"
+          label="Add Comment"
+          multiline
+          rows={5}
+          fullWidth
+          placeholder="Type here"
+        />
       </FormProvider>
     </CommonDrawer>
   );

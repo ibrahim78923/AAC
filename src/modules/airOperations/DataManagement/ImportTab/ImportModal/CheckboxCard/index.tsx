@@ -1,6 +1,8 @@
-import { Avatar, Box, Radio, Typography, useTheme } from '@mui/material';
+import { Box, Radio, Typography, useTheme } from '@mui/material';
 import { style } from './CheckboxCard.style';
 import { CheckboxCardI } from './CheckboxCard.interface';
+import { AVATAR_VARIANTS } from '@/constants/mui-constant';
+import { IconAvatar } from '@/components/Avatars/IconAvatar';
 
 const CheckboxCard = ({
   icon: Icon,
@@ -24,15 +26,16 @@ const CheckboxCard = ({
           gap: 2,
         }}
       >
-        <Avatar
-          sx={{
+        <IconAvatar
+          avatarSize={{
             width: 56,
             height: 56,
+            variant: AVATAR_VARIANTS?.ROUNDED,
           }}
-          variant="rounded"
+          backgroundColor={'grey.400'}
         >
           <Icon />
-        </Avatar>
+        </IconAvatar>
         <Box>
           <Typography variant="h5" fontWeight={500} pb={0.4}>
             {title}

@@ -173,7 +173,6 @@ const Dashboard = () => {
         </Grid>
       ) : (
         <Grid container spacing={2} ref={downloadRef}>
-
           {dashboardsData?.Profile_Stats?.length > indexNumbers?.ZERO && (
             <Grid item xs={12}>
               <ProfileStatistics />
@@ -252,7 +251,6 @@ const Dashboard = () => {
             )
           )}
         </Grid>
-
       )}
     </Grid>
   );

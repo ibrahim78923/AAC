@@ -209,18 +209,22 @@ export const meetingFormFields = (props: any) => {
       },
       component: RHFAutocompleteAsync,
     },
-    {
-      id: 11,
-      sx: {
-        display:
-          (meetingType === meetingContents?.group ||
-            meetingId ||
-            !!watchRecurring) &&
-          'none',
-      },
-      componentProps: props,
-      component: AllowAttendee,
-    },
+    ...(watchMeetingType?.label !== meetingContents?.inPersonMeeting
+      ? [
+          {
+            id: 11,
+            sx: {
+              display:
+                (meetingType === meetingContents?.group ||
+                  meetingId ||
+                  !!watchRecurring) &&
+                'none',
+            },
+            componentProps: props,
+            component: AllowAttendee,
+          },
+        ]
+      : []),
     {
       id: 12,
       sx: {

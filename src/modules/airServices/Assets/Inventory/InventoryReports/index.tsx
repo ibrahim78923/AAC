@@ -123,7 +123,7 @@ export const InventoryReports = () => {
           permissions={[AIR_SERVICES_REPORTS_INVENTORY_PERMISSIONS?.VIEW]}
         >
           <Box ref={downloadRef}>
-            <ContainerGrid spacing={1.5} mb={2}>
+            <ContainerGrid spacing={1.5}>
               {Object?.entries(inventoryReportsCardsData)?.map(
                 ([key, value]: any) => (
                   <CustomGrid md={6} lg={3} key={key}>

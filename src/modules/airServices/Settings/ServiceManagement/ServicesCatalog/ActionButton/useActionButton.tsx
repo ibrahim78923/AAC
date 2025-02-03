@@ -31,7 +31,7 @@ export const useActionButton = (props: any) => {
   const handleDeleteBtn = async () => {
     const deleteParams = new URLSearchParams();
     selectedCheckboxes?.forEach(
-      (categoryId: string) => deleteParams?.append('ids', categoryId),
+      (categoryId: string) => deleteParams?.append('ids', categoryId?._id),
     );
     const updatedData = { queryParams: deleteParams };
 

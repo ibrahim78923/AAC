@@ -16,7 +16,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 import { UserInfo } from '@/components/UserInfo';
 import { LogInfo } from '@/components/LogInfo';
-import { AttachFileCard } from '@/components/AttachFileCard';
+import { AttachFileCard } from '@/components/Avatars/AttachFileCard';
 import { otherDateFormat } from '@/lib/date-time';
 
 export const ConversationCard = (props: any) => {

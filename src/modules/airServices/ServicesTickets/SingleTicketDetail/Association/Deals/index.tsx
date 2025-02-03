@@ -7,7 +7,7 @@ import AddDeals from './AddDeals';
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import ViewDeal from './ViewDeal';
-import { DataRecordCount } from '@/components/DataRecordCount';
+import { RecordCountChip } from '@/components/Chip/RecordCountChip';
 
 export default function Deals({ isDrawerOpen, setIsDrawerOpen }: any) {
   const {
@@ -54,7 +54,7 @@ export default function Deals({ isDrawerOpen, setIsDrawerOpen }: any) {
       <PermissionsGuard
         permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.DEALS_LIST_VIEW]}
       >
-        <DataRecordCount
+        <RecordCountChip
           recordName="Deals"
           isCountLoading={isLoading || isFetching}
           totalCount={data?.length}

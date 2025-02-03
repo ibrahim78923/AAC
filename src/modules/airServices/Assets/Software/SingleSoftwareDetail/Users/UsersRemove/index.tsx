@@ -1,12 +1,20 @@
-import { Box, Typography } from '@mui/material';
+import { AlertModals } from '@/components/AlertModals';
+import { useUsersRemove } from './useUsersRemove';
 
-const UsersRemove = () => {
+const UsersRemove = (props: any) => {
+  const { isPortalOpen } = props;
+  const { handleUserRemove, closeModal, isLoading } = useUsersRemove(props);
+
   return (
-    <Box sx={{ width: { sm: '484px', xs: '100%' } }}>
-      <Typography sx={{ mt: 2 }}>
-        Are you sure want to Remove this user?
-      </Typography>
-    </Box>
+    <AlertModals
+      type="Deallocate Contract"
+      message="Are you sure want to Remove this user?"
+      open={isPortalOpen?.isOpen as boolean}
+      handleClose={closeModal}
+      handleSubmitBtn={handleUserRemove}
+      loading={isLoading}
+      disableCancelBtn={isLoading}
+    />
   );
 };
 

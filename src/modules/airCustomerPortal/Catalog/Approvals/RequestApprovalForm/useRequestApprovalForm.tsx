@@ -21,7 +21,7 @@ export const useRequestApprovalForm = (props: ConfirmModalPropsI) => {
       reason: '',
     },
     validationSchema: Yup?.object()?.shape({
-      reason: Yup?.string()?.trim()?.required('Required'),
+      reason: Yup?.string()?.trim()?.required('Remark is required'),
     }),
   };
 

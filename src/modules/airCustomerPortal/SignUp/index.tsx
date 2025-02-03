@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { CustomerPortalHeader } from '../CustomerPortalHeader';
 import { FormProvider } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
@@ -8,6 +8,8 @@ import { AUTH } from '@/constants';
 import useSignUp from './useSignUp';
 import { signUpFormFields } from './SignUp.data';
 import NoData from '@/components/NoData';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const SignUp = () => {
   const {
@@ -29,28 +31,21 @@ export const SignUp = () => {
   return (
     <>
       <CustomerPortalHeader buttonText={'Sign In'} pathname={AUTH?.LOGIN} />
-      <Grid
-        container
-        spacing={2}
-        height={'90vh'}
-        alignItems={'center'}
-        px={{ xs: 2, md: 0 }}
+      <ContainerGrid
+        customStyles={{
+          height: '90vh',
+          alignItems: 'center',
+          px: { xs: 2, md: 0 },
+        }}
       >
-        <Grid
-          item
-          xs={12}
-          md={6}
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'center'}
-        >
-          <Box width={{ xs: '100%', md: '70%' }}>
+        <CustomGrid md={6}>
+          <Box maxWidth={{ xs: '100%', md: '70%' }} margin="auto">
             <Typography variant="h2">Welcome to Air Applecart</Typography>
             <Typography sx={{ py: 1 }} variant="h6" color="grey.900" mb={4}>
               Let&rsquo;s Get Started!
             </Typography>
 
-            <Box width={{ xs: '100%', md: '80%' }} margin={'auto'}>
+            <Box maxWidth={{ xs: '100%', md: '80%' }} margin={'auto'}>
               <FormProvider
                 size={'small'}
                 methods={methods}
@@ -113,8 +108,8 @@ export const SignUp = () => {
               </FormProvider>
             </Box>
           </Box>
-        </Grid>
-        <Grid item xs={12} md={6} display={'flex'} justifyContent={'flex-end'}>
+        </CustomGrid>
+        <CustomGrid md={6}>
           <Image
             src={SignUpImage}
             alt={'dashboard'}
@@ -122,8 +117,8 @@ export const SignUp = () => {
             height={513}
             style={{ width: '100%', height: 'auto' }}
           />
-        </Grid>
-      </Grid>
+        </CustomGrid>
+      </ContainerGrid>
     </>
   );
 };

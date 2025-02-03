@@ -1,7 +1,7 @@
+import { CustomAvatar } from '@/components/Avatars/CustomAvatar';
 import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
-import { generateImage } from '@/utils/avatarUtils';
 import { MoreVert } from '@mui/icons-material';
-import { Avatar, Box, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 export const MessageCard = (props: any) => {
   const { message, chatMessagesDropdown, authUser } = props;
@@ -16,10 +16,9 @@ export const MessageCard = (props: any) => {
       }
       mb={2}
     >
-      <Avatar
-        sx={{ backgroundColor: 'primary.light', width: 40, height: 40 }}
-        src={generateImage(message?.createdByAvatar)}
-        alt="profile-image"
+      <CustomAvatar
+        avatarSize={{ width: 40, height: 40 }}
+        avatarSrc={message?.createdByAvatar}
       />
       <Box bgcolor={'primary.light'} p={1} borderRadius={2}>
         <Box>

@@ -71,7 +71,6 @@ export const softwareUsers = baseAPI?.injectEndpoints({
         method: 'DELETE',
         params,
       }),
-      invalidatesTags: [TAG],
     }),
     getDepartmentDropdown: builder?.query({
       query: ({ params }: any) => ({

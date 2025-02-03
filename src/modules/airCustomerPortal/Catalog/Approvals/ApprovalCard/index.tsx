@@ -1,10 +1,11 @@
 import { TICKET_APPROVALS } from '@/constants/strings';
 import { fullName, fullNameInitial, truncateText } from '@/utils/avatarUtils';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { APPROVAL_CARD_STATUS } from './ApprovalCard.data';
 import { ApprovalCardPropsI } from '../AllApprovals/AllApprovals.interface';
 import { formatTimeDifference } from '@/lib/date-time';
 import { UserInfo } from '@/components/UserInfo';
+import { InteractiveButton } from '@/components/Buttons/InteractiveButton';
 
 export const ApprovalCard = (props: ApprovalCardPropsI) => {
   const {
@@ -106,9 +107,7 @@ export const ApprovalCard = (props: ApprovalCardPropsI) => {
           gap={1}
           flexWrap={'wrap'}
         >
-          <Button
-            className="small"
-            variant="contained"
+          <InteractiveButton
             color="success"
             onClick={(e: any) => {
               e?.stopPropagation();
@@ -116,10 +115,8 @@ export const ApprovalCard = (props: ApprovalCardPropsI) => {
             }}
           >
             Approve
-          </Button>
-          <Button
-            className="small"
-            variant="contained"
+          </InteractiveButton>
+          <InteractiveButton
             color="error"
             onClick={(e: any) => {
               e?.stopPropagation();
@@ -127,7 +124,7 @@ export const ApprovalCard = (props: ApprovalCardPropsI) => {
             }}
           >
             Reject
-          </Button>
+          </InteractiveButton>
         </Box>
       )}
     </Box>

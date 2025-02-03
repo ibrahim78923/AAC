@@ -61,11 +61,11 @@ export const reportIssueFormValidationSchema = (checkPermission: any) =>
     attachFile: Yup?.mixed()?.nullable(),
   });
 
-export const reportIssueFormDefaultValues = () => {
+export const reportIssueFormDefaultValues = (userData: any) => {
   return {
-    requesterEmail: '',
-    name: '',
-    requester: null,
+    requesterEmail: userData?.email || '',
+    name: `${userData?.firstName} ${userData?.lastName}` || '',
+    requester: userData || null,
     subject: '',
     description: '',
     associatesAssets: [],

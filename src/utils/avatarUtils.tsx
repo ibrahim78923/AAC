@@ -64,6 +64,7 @@ export const formatFileSize = (fileSize = 0) => {
   const KILO_BYTES = MARKER;
   const MEGA_BYTES = MARKER * MARKER;
 
+  if (!!!fileSize) return;
   if (fileSize < KILO_BYTES) return fileSize + ' KB';
   if (fileSize < MEGA_BYTES)
     return (fileSize / KILO_BYTES).toFixed(DECIMAL) + ' MB';
@@ -77,7 +78,7 @@ export const getImageByType = (data: any, imageUrl = data?.fileUrl) => {
 };
 
 export const getInitialsSingleName = (name: any) => {
-  if (!name) return '';
+  if (!name) return '-';
   const initials = name
     ?.split(' ')
     ?.map((n: any) => n[ARRAY_INDEX?.ZERO])

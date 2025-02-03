@@ -8,39 +8,43 @@ import {
 import * as Yup from 'yup';
 
 export const PropertiesValidationSchema = Yup.object().shape({
-  date: Yup?.string()?.trim(),
+  value: Yup?.string()?.trim(),
   dateFormate: Yup?.string()?.trim(),
-  AddDescription: Yup?.string()?.trim(),
-  description: Yup?.string()?.trim(),
+  AddDescription: Yup?.string(),
+});
+
+export const PropertiesTextValidationSchema = Yup.object().shape({
+  value: Yup?.string()?.trim(),
+  AddDescription: Yup?.string(),
 });
 
 export const PropertiesCheckboxValidationSchema = Yup.object().shape({
-  AddDescription: Yup?.string()?.trim(),
+  AddDescription: Yup?.string(),
 });
 
 export const PropertiesSelectValidationSchema = Yup.object().shape({
   selectValue: Yup?.string()?.trim(),
-  AddDescription: Yup?.string()?.trim(),
+  AddDescription: Yup?.string(),
   label: Yup?.string()?.trim(),
-  settings: Yup?.string()?.trim(),
+  required: Yup?.boolean(),
 });
 
 export const PropertiesNumberValidationSchema = Yup.object().shape({
   value: Yup?.string()?.trim(),
-  AddDescription: Yup?.string()?.trim(),
+  AddDescription: Yup?.string(),
   format: Yup?.string()?.trim(),
-  settings: Yup?.string()?.trim(),
+  required: Yup?.boolean(),
 });
 
 export const PropertiesDefaultValues = {
-  date: '',
+  value: '',
   dateFormate: '',
 };
 
 export const PropertiesDateFields = [
   {
     componentProps: {
-      name: 'date',
+      name: 'value',
       label: 'Date',
       fullWidth: true,
     },
@@ -69,14 +73,13 @@ export const PropertiesDateFields = [
       { value: 'DMMMMMYYYY', label: 'D MMMMM YYYY' },
       { value: 'DMMMMYYYY', label: 'D. MMMM YYYY' },
       { value: 'DDMMMMYYYY', label: 'DD MMMM YYYY' },
-      { value: 'DDMMMMYYYY', label: 'DD MMMM, YYYY' },
     ],
     component: RHFSelect,
     md: 12,
   },
   {
     componentProps: {
-      name: 'settings',
+      name: 'required',
       label: 'settings (Required field)',
       fullWidth: true,
       placeholder: 'enter text....',
@@ -99,7 +102,7 @@ export const PropertiesCheckboxFields = [
   },
   {
     componentProps: {
-      name: 'settings',
+      name: 'required',
       label: 'settings (Required field)',
       fullWidth: true,
       placeholder: 'enter text....',
@@ -113,7 +116,7 @@ export const PropertiesCheckboxFields = [
 export const PropertiesSelectFields = [
   {
     componentProps: {
-      name: 'selectValue',
+      name: 'value',
       label: 'value',
       fullWidth: true,
       select: true,
@@ -146,7 +149,7 @@ export const PropertiesSelectFields = [
   },
   {
     componentProps: {
-      name: 'settings',
+      name: 'required',
       label: 'settings (Required field)',
       fullWidth: true,
       placeholder: 'enter text....',
@@ -195,7 +198,40 @@ export const PropertiesNumberFields = [
   },
   {
     componentProps: {
-      name: 'settings',
+      name: 'required',
+      label: 'settings (Required field)',
+      fullWidth: true,
+      placeholder: 'enter text....',
+      row: 4,
+    },
+    component: RHFSwitch,
+    md: 12,
+  },
+];
+
+export const PropertiesTextFields = [
+  {
+    componentProps: {
+      name: 'value',
+      label: 'Value',
+      placeholder: 'Enter Value',
+      fullWidth: true,
+    },
+    component: RHFTextField,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'AddDescription',
+      label: 'Add field description',
+      fullWidth: true,
+    },
+    component: RHFCheckbox,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'required',
       label: 'settings (Required field)',
       fullWidth: true,
       placeholder: 'enter text....',

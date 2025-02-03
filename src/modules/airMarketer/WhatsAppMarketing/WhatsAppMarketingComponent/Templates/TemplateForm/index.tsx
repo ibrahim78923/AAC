@@ -16,7 +16,7 @@ import { Info } from '@mui/icons-material';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
 import { SMS_BROADCAST_CONSTANTS } from '@/constants/strings';
-import { AttachFileCard } from '@/components/AttachFileCard';
+import { AttachFileCard } from '@/components/Avatars/AttachFileCard';
 
 const TemplateForm = ({ templateType }: any) => {
   const {

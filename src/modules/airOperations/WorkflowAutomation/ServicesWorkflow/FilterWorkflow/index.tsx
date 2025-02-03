@@ -1,8 +1,9 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useFilterWorkflow } from './useFilterWorkflow';
 import { filterWorkflowsDataFields } from './FilterWorkflow.data';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 const FilterWorkflow = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen, onSubmitFilter } = props;
@@ -30,13 +31,9 @@ const FilterWorkflow = (props: any) => {
       >
         <Box mt={1}>
           <FormProvider methods={methods}>
-            <Grid container spacing={3}>
-              {filterWorkflowsDataFields(userDropdown)?.map((item) => (
-                <Grid item xs={12} md={item?.md} key={item?._id}>
-                  <item.component {...item?.componentProps} size={'small'} />
-                </Grid>
-              ))}
-            </Grid>
+            <FormGrid
+              formFieldsList={filterWorkflowsDataFields(userDropdown)}
+            />
           </FormProvider>
         </Box>
       </CommonDrawer>

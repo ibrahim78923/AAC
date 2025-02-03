@@ -2,18 +2,15 @@ import React from 'react';
 import { Box, IconButton } from '@mui/material';
 import { styles } from './TemplateCard.style';
 import { IconDocumentsText, IconTemplateView } from '@/assets/icons';
-import { useRouter } from 'next/navigation';
-import { AIR_SOCIAL_CONTRACTS } from '@/constants/routes';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 
 interface TemplateCardProps {
   data: any;
+  onClick?: (templateId: string) => void;
 }
 
-export default function TemplateCard({ data }: TemplateCardProps) {
-  const router = useRouter();
-
+export default function TemplateCard({ data, onClick }: TemplateCardProps) {
   return (
     <Box sx={styles.card}>
       <Box sx={styles.cardContent}>
@@ -29,13 +26,7 @@ export default function TemplateCard({ data }: TemplateCardProps) {
             {dayjs(data?.updatedAt)?.format(DATE_FORMAT?.UI)}
           </Box>
         </Box>
-        <IconButton
-          onClick={() => {
-            router.push(
-              `${AIR_SOCIAL_CONTRACTS?.CONTRACTS_CREATE}?templateId=${data?._id}`,
-            );
-          }}
-        >
+        <IconButton onClick={() => onClick?.(data?._id)}>
           <IconTemplateView />
         </IconButton>
       </Box>

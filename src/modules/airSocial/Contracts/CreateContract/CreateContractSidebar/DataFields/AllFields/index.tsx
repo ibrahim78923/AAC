@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Divider,
@@ -15,7 +15,6 @@ import DataFieldText from '../../../form-fields/DataFieldText';
 import DataFieldDate from '../../../form-fields/DataFieldDate';
 import DataFieldCheckbox from '../../../form-fields/DataFieldCheckbox';
 import DataFieldNumber from '../../../form-fields/DataFieldNumber';
-import { defaultFieldsData } from '../../../CreateContract.data';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import ModalDuplicateDataField from './ModalDuplicateDataField';
 import useAllFields from './useAllFields';
@@ -42,20 +41,17 @@ const getDataField = (field: any) => {
   }
 };
 
-export default function AllFields({ data, handleAddDynamicField }: any) {
-  const allFields = [...defaultFieldsData, ...data];
-
+export default function AllFields({
+  data,
+  handleAddDynamicField,
+  handleUpdateDynamicField,
+}: any) {
   const {
-    anchorEl,
-    open,
-    handleClick,
-    handleClose,
+    allFields,
     methods,
     openModalCreateDataField,
-    handleOpenModalCreateDataField,
     handleCloseModalCreateDataField,
     handleSubmitCreateDataField,
-    handleOpenPropertiesModal,
     handleCloseModal,
     openModal,
     PropertiesMethods,
@@ -66,7 +62,12 @@ export default function AllFields({ data, handleAddDynamicField }: any) {
     append,
     remove,
     register,
-  } = useAllFields(handleAddDynamicField);
+    setOpenModalCreateDataField,
+    setIndexValue,
+    setOpenModal,
+    setSelectedField,
+    setValue,
+  } = useAllFields(handleAddDynamicField, handleUpdateDynamicField, data);
 
   return (
     <Box sx={styles.allFields}>
@@ -85,44 +86,15 @@ export default function AllFields({ data, handleAddDynamicField }: any) {
               <Box sx={styles?.fieldName}>{field?.label}</Box>
               {getDataField(field)}
             </Box>
-            <IconButton onClick={(event) => handleClick(event, field)}>
-              <MoreHorizIcon />
-            </IconButton>
-            <Menu
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              slotProps={{
-                paper: {
-                  sx: {
-                    padding: '10px',
-                    boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
-                  },
-                },
-              }}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-            >
-              <MenuItem onClick={handleOpenPropertiesModal}>
-                properties
-              </MenuItem>
-              <MenuItem onClick={handleOpenModalCreateDataField}>
-                Duplicate field
-              </MenuItem>
-              <Divider />
-
-              <MenuItem disabled={!selectedField?.id}>Delete field</MenuItem>
-              <Typography variant="body2" color={'#667085'}>
-                connot be removed because <br /> it is part of the default field
-                set
-              </Typography>
-            </Menu>
+            <CustomMenu
+              field={field}
+              index={index}
+              setOpenModalCreateDataField={setOpenModalCreateDataField}
+              setIndexValue={setIndexValue}
+              setOpenModal={setOpenModal}
+              setSelectedField={setSelectedField}
+              selectedField={selectedField}
+            />
           </Box>
         ))}
 
@@ -144,7 +116,81 @@ export default function AllFields({ data, handleAddDynamicField }: any) {
         append={append}
         remove={remove}
         register={register}
+        setValue={setValue}
       />
     </Box>
   );
 }
+
+const CustomMenu = ({
+  field,
+  index,
+  setOpenModalCreateDataField,
+  setIndexValue,
+  setOpenModal,
+  setSelectedField,
+  selectedField,
+}: any) => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>, field: any) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedField(field);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleOpenPropertiesModal = (index: any) => {
+    setIndexValue(index);
+    setOpenModal(true);
+    handleClose();
+  };
+
+  const handleOpenModalCreateDataField = () => {
+    handleClose();
+    setOpenModalCreateDataField(true);
+  };
+
+  return (
+    <>
+      <IconButton onClick={(event) => handleClick(event, field)}>
+        <MoreHorizIcon />
+      </IconButton>
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        slotProps={{
+          paper: {
+            sx: {
+              padding: '10px',
+              boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
+            },
+          },
+        }}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+      >
+        <MenuItem onClick={() => handleOpenPropertiesModal(index)}>
+          properties
+        </MenuItem>
+        <MenuItem onClick={handleOpenModalCreateDataField}>
+          Duplicate field
+        </MenuItem>
+        <Divider />
+
+        <MenuItem disabled={!selectedField?.id}>Delete field</MenuItem>
+        <Typography variant="body2" color={'#667085'}>
+          connot be removed because <br /> it is part of the default field set
+        </Typography>
+      </Menu>
+    </>
+  );
+};

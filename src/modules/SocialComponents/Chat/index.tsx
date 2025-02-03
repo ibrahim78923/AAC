@@ -210,6 +210,20 @@ const Chat = () => {
     };
   }, []);
 
+  // _____FUNC_TO_FETCH_LATEST_CHAT_MESSAGES_____
+  const fetchLatestChatMessages = (array: any) => {
+    if (array?.length > 2) {
+      refetch();
+    }
+  };
+  useEffect(() => {
+    const handleFocus = () => {
+      fetchLatestChatMessages(chatsData?.data?.messages);
+    };
+    window.addEventListener('focus', handleFocus);
+    return () => window.removeEventListener('focus', handleFocus);
+  }, [chatsData?.data?.messages]);
+
   return (
     <Box sx={{ position: 'relative' }}>
       <Grid container spacing={2}>

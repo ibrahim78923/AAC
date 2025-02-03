@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { useTicketsBoardView } from './useTicketsBoardView';
 import CustomPagination from '@/components/CustomPagination';
-import { DataRecordCount } from '@/components/DataRecordCount';
+import { RecordCountChip } from '@/components/Chip/RecordCountChip';
 import { RENDER_COLOR } from './TicketsBoardView.data';
 import { pxToRem } from '@/utils/getFontValue';
 import { TicketInfoCard } from './TicketInfoCard';
@@ -43,7 +43,7 @@ export const TableBoardView = () => {
       skeletonType={SKELETON_TYPES?.BASIC_CARD}
       length={12}
       cardSkeletonType={
-        SKELETON_TYPES?.VERTICAL_TWO_LAYER_DOUBLE_CIRCULAR_LARGE_CARD
+        SKELETON_TYPES?.MEDIUM_HORIZONTAL_TWO_LAYER_ROUNDED_CARD
       }
     >
       <Box>
@@ -62,7 +62,7 @@ export const TableBoardView = () => {
                 key={head?.heading}
               >
                 <Box mb={0.5}>
-                  <DataRecordCount
+                  <RecordCountChip
                     totalCount={ticketLists?.[head?.be]?.length}
                     recordName={head?.heading}
                     color={RENDER_COLOR?.[head?.heading]}
