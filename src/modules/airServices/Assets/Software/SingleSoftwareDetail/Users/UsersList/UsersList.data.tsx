@@ -1,11 +1,11 @@
 import { Checkbox } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { UserTableDataI } from './UsersTable.interface';
+import { UserTableDataI } from './UsersList.interface';
 import { TruncateText } from '@/components/TruncateText';
 import { splitCapitalizedWords } from '@/utils/api';
 import { uiDateFormat } from '@/lib/date-time';
 
-export const usersTableColumns = (
+export const usersListColumnsDynamic = (
   usersData: UserTableDataI[],
   setUsersData: React.Dispatch<React.SetStateAction<UserTableDataI[]>>,
   tableData: UserTableDataI[],

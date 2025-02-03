@@ -1,53 +1,36 @@
-import Button from '@mui/material/Button';
-import { FilterIcon } from '@/assets/icons';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Box } from '@mui/material';
 import { useUsersFilter } from './useUsersFilter';
-import { UsersFilterI } from './UsersFilter.interface';
 import { FormGrid } from '@/components/Grids/FormGrid';
 
-export const UsersFilter: React.FC<UsersFilterI> = (props) => {
+export const UsersFilter = (props: any) => {
+  const { isPortalOpen } = props;
   const {
     userFieldsData,
     methods,
     handleSubmit,
     submitFilter,
-    openFilterDrawer,
-    closeFilterDrawer,
-    isFilterOpen,
     resetFormAndCloseDrawer,
+    closeDrawer,
   } = useUsersFilter(props);
 
   return (
     <Box>
-      <Button
-        variant="outlined"
-        id="demo-positioned-button"
-        onClick={openFilterDrawer}
-        startIcon={<FilterIcon />}
-        color="secondary"
-        className="small"
-      >
-        Filter
-      </Button>
-
       <CommonDrawer
-        isDrawerOpen={isFilterOpen}
-        onClose={closeFilterDrawer}
+        isDrawerOpen={isPortalOpen?.isOpen}
+        onClose={closeDrawer}
         title={'Filters'}
         okText={'Apply'}
         cancelText={'Reset'}
-        footer={true}
-        isOk={true}
+        footer
+        isOk
         submitHandler={handleSubmit(submitFilter)}
         cancelBtnHandler={handleSubmit(resetFormAndCloseDrawer)}
       >
-        <Box mt={1}>
-          <FormProvider methods={methods} onSubmit={handleSubmit(submitFilter)}>
-            <FormGrid formFieldsList={userFieldsData} />
-          </FormProvider>
-        </Box>
+        <FormProvider methods={methods} onSubmit={handleSubmit(submitFilter)}>
+          <FormGrid formFieldsList={userFieldsData} />
+        </FormProvider>
       </CommonDrawer>
     </Box>
   );
