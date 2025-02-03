@@ -6,7 +6,7 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 import CustomLabel from '../CustomLabel';
 import { indexNumbers } from '@/constants';
 import { FILE_MAX_SIZE, FILE_SIZE_MESSAGES } from '@/config';
-import { AttachFileCard } from '../AttachFileCard';
+import { AttachFileCard } from '../Avatars/AttachFileCard';
 import { TruncateText } from '../TruncateText';
 import { uploadFileMaxSize } from '@/utils/avatarUtils';
 

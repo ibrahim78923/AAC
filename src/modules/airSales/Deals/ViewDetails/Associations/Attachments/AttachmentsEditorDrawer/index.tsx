@@ -8,7 +8,7 @@ import {
   drawerTitle,
 } from './AttachmentsEditorDrawer.data';
 import useAttachmentsEditorDrawer from './useAttachmentEditorDrawer';
-import { AttachFileCard } from '@/components/AttachFileCard';
+import { AttachFileCard } from '@/components/Avatars/AttachFileCard';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
 const AttachmentsEditorDrawer = (props: any) => {

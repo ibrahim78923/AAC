@@ -6,7 +6,7 @@ import { dataArray } from './SalesEditorDrawer.data';
 import useSalesEditorDrawer from './useSalesEditorDrawer';
 import { SalesEditorDrawerProps } from '../Salesproduct.interface';
 import { componentMap } from '@/utils/dynamic-forms';
-import { AttachFileCard } from '@/components/AttachFileCard';
+import { AttachFileCard } from '@/components/Avatars/AttachFileCard';
 
 const SalesEditorDrawer = ({
   isDraweropen,
