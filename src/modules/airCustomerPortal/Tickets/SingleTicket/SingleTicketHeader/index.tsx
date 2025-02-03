@@ -1,11 +1,12 @@
-import { Box, Button, Theme, Typography } from '@mui/material';
-import { ArrowBack } from '@mui/icons-material';
+import { Button, Theme } from '@mui/material';
 import { useSingleTicketHeader } from './useSingleTicketHeader';
 import { LoadingButton } from '@mui/lab';
 import { TICKET_STATUS } from '@/constants/strings';
 import { SingleTicketHeaderPropsI } from './SingleTicketHeader.interface';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
 import { ShareTicket } from './ShareTicket';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { SingleBreadcrumb } from '@/components/Breadcrumbs/SingleBreadcrumb';
 
 export const SingleTicketHeader = (props: SingleTicketHeaderPropsI) => {
   const { ticketNumber, singleTicketData } = props;
@@ -19,26 +20,18 @@ export const SingleTicketHeader = (props: SingleTicketHeaderPropsI) => {
   } = useSingleTicketHeader(props);
 
   return (
-    <Box
-      display={'flex'}
-      justifyContent={'space-between'}
-      flexWrap={'wrap'}
-      alignItems={'center'}
-    >
-      <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
-        <ArrowBack
-          onClick={handleBack}
-          color="action"
-          sx={{ cursor: 'pointer' }}
-        />
-        <Typography variant="h6" color="primary">
-          Tickets
-        </Typography>
-        <Typography variant="h6" color="slateBlue.main">
-          {'>'} &ensp; {ticketNumber}
-        </Typography>
-      </Box>
-      <Box display={'flex'} alignItems={'center'} gap={2} flexWrap={'wrap'}>
+    <>
+      <PageTitledHeader
+        title={
+          <SingleBreadcrumb
+            previousPathname="Tickets"
+            activePathname={ticketNumber}
+            previousPathnameVariant="h5"
+          />
+        }
+        canMovedBack
+        moveBack={handleBack}
+      >
         <Button
           variant="outlined"
           color="secondary"
@@ -74,13 +67,13 @@ export const SingleTicketHeader = (props: SingleTicketHeaderPropsI) => {
             Mark ticket as closed
           </LoadingButton>
         )}
-      </Box>
+      </PageTitledHeader>
       {shareModalOpen && (
         <ShareTicket
           open={shareModalOpen}
           handleClose={() => setShareModalOpen?.(false)}
         />
       )}
-    </Box>
+    </>
   );
 };

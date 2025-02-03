@@ -3,7 +3,7 @@ import { useDetailCard } from './useDetailCard';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { UserInfo } from '@/components/UserInfo';
-import { AttachFileCard } from '@/components/AttachFileCard';
+import { AttachFileCard } from '@/components/Avatars/AttachFileCard';
 import { localeDateTime, otherDateFormat, uiDateFormat } from '@/lib/date-time';
 import { DATE_TIME_FORMAT } from '@/constants';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';

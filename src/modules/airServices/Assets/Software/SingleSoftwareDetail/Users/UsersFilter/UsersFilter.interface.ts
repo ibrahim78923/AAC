@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react';
+
 export interface UsersFilterDataI {
   name?: string;
   department?: string;
@@ -6,6 +8,8 @@ export interface UsersFilterDataI {
   lastSeen?: string;
 }
 export interface UsersFilterI {
+  isPortalOpen: any;
+  setIsPortalOpen: Dispatch<SetStateAction<any>>;
   filterValues: UsersFilterDataI;
-  setFilterValues: React.Dispatch<React.SetStateAction<UsersFilterDataI>>;
+  setFilterValues: Dispatch<SetStateAction<UsersFilterDataI>>;
 }

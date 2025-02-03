@@ -3,7 +3,7 @@ import ApprovalCard from './ApprovalCard';
 import CustomPagination from '@/components/CustomPagination';
 import { fullName } from '@/utils/avatarUtils';
 import { Fragment } from 'react';
-import { DataRecordCount } from '@/components/DataRecordCount';
+import { RecordCountChip } from '@/components/Chip/RecordCountChip';
 import { useApprovals } from './useApprovals';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
@@ -24,7 +24,7 @@ export const Approvals = () => {
 
   return (
     <Box sx={{ mt: 2 }}>
-      <DataRecordCount
+      <RecordCountChip
         isCountLoading={showLoader}
         totalCount={hasData}
         recordName=" Approvals"

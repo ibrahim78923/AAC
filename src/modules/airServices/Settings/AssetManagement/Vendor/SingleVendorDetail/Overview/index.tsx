@@ -1,11 +1,8 @@
-import { Avatar, Box, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useOverview } from './useOverview';
-import { isValidElement } from 'react';
-import { DYNAMIC_FORM_FIELDS_TYPES, isValidDate } from '@/utils/dynamic-forms';
-import { getImageByType } from '@/utils/avatarUtils';
-import { uiDateFormat } from '@/lib/date-time';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
+import { DynamicFormDataDisplay } from '@/components/DynamicForm/DynamicFormDataDisplay';
 
 export const Overview = () => {
   const { isLoading, overviewData, isFetching, isError, refetch } =
@@ -38,26 +35,7 @@ export const Overview = () => {
               fontWeight={500}
               textTransform={'capitalize'}
             >
-              {isValidElement(value) ? (
-                value
-              ) : typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
-                value !== null &&
-                DYNAMIC_FORM_FIELDS_TYPES?.LABEL in value ? (
-                value?.label
-              ) : typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
-                value !== null &&
-                DYNAMIC_FORM_FIELDS_TYPES?.FILE_URL in value ? (
-                <Avatar
-                  src={getImageByType(value?.fileType, value?.fileUrl)}
-                  alt="file-preview"
-                  sx={{ width: 45, height: 45 }}
-                  variant={'rounded'}
-                />
-              ) : isValidDate(value) ? (
-                uiDateFormat(value)
-              ) : (
-                value?.toString()
-              )}
+              <DynamicFormDataDisplay value={value} />
             </Typography>
           </Box>
         ))}

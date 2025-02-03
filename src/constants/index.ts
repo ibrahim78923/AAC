@@ -25,6 +25,10 @@ export const CALENDAR_FORMAT = {
   YMD: 'YYYY-MM-DD',
 };
 
+export const CONTRACT_FORMAT = {
+  DMMMMYYYY: 'D MMMM YYYY',
+};
+
 export const DATE_TIME_FORMAT = {
   UI: 'dddd, MMMM D, YYYY - HH:mm',
   DMYhmma: 'D MMMM, YYYY - h:mm A',

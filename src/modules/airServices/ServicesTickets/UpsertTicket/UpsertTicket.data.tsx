@@ -28,6 +28,7 @@ import { localeDateTime } from '@/lib/date-time';
 import { formatDurationHourMinute } from '@/utils/dateTime';
 import { uploadFileMaxSize } from '@/utils/avatarUtils';
 import { ACCEPT_FILE_EXTENSIONS } from '@/constants/file';
+import { TICKET_STATUS } from '@/constants/strings';
 
 const { SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS } = CHARACTERS_LIMIT ?? {};
 
@@ -91,7 +92,9 @@ export const upsertTicketDefaultValuesFunction = (data?: any, form?: any) => {
     subject: data?.subject ?? '',
     description: data?.description ?? '',
     category: data?.categoryDetails ?? null,
-    status: data?.status ? { _id: data?.status, label: data?.status } : null,
+    status: data?.status
+      ? { _id: data?.status, label: data?.status }
+      : { _id: TICKET_STATUS?.OPEN, label: TICKET_STATUS?.OPEN },
     priority: data?.pirority
       ? { _id: data?.pirority, label: data?.pirority }
       : null,

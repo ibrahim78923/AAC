@@ -12,6 +12,7 @@ export const specificUsersAccessColumns = [
 export const specificUsersAccessFormFieldsDynamic = (
   name: string,
   index: number,
+  disabled: boolean,
 ) => [
   {
     id: 1,
@@ -22,6 +23,7 @@ export const specificUsersAccessFormFieldsDynamic = (
     align: 'center',
     data: (
       <RHFRadioGroup
+        disabled={disabled}
         name={`${name}.${index}.permission`}
         size="small"
         options={[
@@ -37,6 +39,7 @@ export const specificUsersAccessFormFieldsDynamic = (
     align: 'center',
     data: (
       <RHFRadioGroup
+        disabled={disabled}
         name={`${name}.${index}.permission`}
         size="small"
         options={[

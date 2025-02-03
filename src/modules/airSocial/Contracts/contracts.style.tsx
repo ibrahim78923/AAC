@@ -37,4 +37,21 @@ export const styles = {
       '& .menu-toggle': { opacity: '1 !important', transition: '0.3s' },
     },
   }),
+  exposeFolderMenuOnHover: (folderToMove: any, item: any, theme: any, isSelected:any) => ({
+    alignItems: 'center',
+    gap: '10px',
+    background: isSelected ? theme?.palette?.grey[400] : 'inherit',
+    cursor: isSelected ? 'not-allowed !important' : 'pointer',
+    justifyContent: 'space-between',
+    ...(folderToMove?._id === item?._id && {
+      background: theme?.palette?.custom?.light_lavender_gray,
+    }),
+    height: '40px',
+    '&:hover': {
+      '& .menu-toggle': { opacity: '1 !important', transition: '0.3s' },
+    },
+    '&:focus': {
+      '& .menu-toggle': { opacity: '1 !important', transition: '0.3s' },
+    },
+  }),
 };

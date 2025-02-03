@@ -39,15 +39,6 @@ export const commonContractsAPI = baseAPI.injectEndpoints({
       providesTags: ['COMMON_CONTRACTS'],
     }),
 
-    getCommonContractTemplatesByFolder: builder.query({
-      query: (params) => ({
-        url: COMMON_CONTRACTS?.GET_TEMPLATE_BY_FOLDER,
-        method: 'GET',
-        params: params,
-      }),
-      providesTags: ['COMMON_CONTRACTS'],
-    }),
-
     getCommonContractTemplateById: builder.query({
       query: (id: any) => ({
         url: `${COMMON_CONTRACTS?.TEMPLATE}/${id}`,
@@ -109,7 +100,6 @@ export const commonContractsAPI = baseAPI.injectEndpoints({
 export const {
   useCreateCommonContractTemplateMutation,
   useGetCommonContractTemplatesQuery,
-  useGetCommonContractTemplatesByFolderQuery,
   useGetCommonContractTemplateByIdQuery,
   useGetCommonContractTemplateRecentlyUsedQuery,
   useUpdateCommonContractTemplateMutation,

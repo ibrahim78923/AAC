@@ -9,13 +9,14 @@ import { formatTimeDifference } from '@/lib/date-time';
 export const InteractiveUserFeedCard = (props: any) => {
   const {
     dropdownAnnouncementsOptions,
-    feedTitle,
+    title,
     hasBorderBottom,
     firstName,
     lastName,
     userAvatarSrc,
     hasAction,
     dateFrom,
+    description,
   } = props;
 
   return (
@@ -36,7 +37,7 @@ export const InteractiveUserFeedCard = (props: any) => {
           component={'div'}
           color={'blue.main'}
         >
-          <TruncateText text={feedTitle} />
+          <TruncateText text={title} isCapital={false} />
         </Typography>
         <Box display={'flex'} flexWrap={'wrap'} gap={1}>
           <UserInfo
@@ -57,6 +58,21 @@ export const InteractiveUserFeedCard = (props: any) => {
           )}
         </Box>
       </Box>
+      {!!description && (
+        <Box
+          sx={{
+            color: 'custom.mulled_wine',
+            overflow: 'auto',
+            maxHeight: '10vh',
+            my: 1,
+            '&::-webkit-scrollbar': {
+              width: 1,
+              height: 1,
+            },
+          }}
+          dangerouslySetInnerHTML={{ __html: description }}
+        />
+      )}
       <Typography color={'grey.900'} component={'p'} variant="body3">
         {formatTimeDifference(dateFrom)}
       </Typography>

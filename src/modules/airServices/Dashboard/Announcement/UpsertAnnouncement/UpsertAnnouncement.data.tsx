@@ -15,10 +15,8 @@ import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.i
 import { CHARACTERS_LIMIT } from '@/constants/validation';
 import { DashboardOwnersFieldDropdown } from '../../DashboardFormFields/DashboardOwnersFieldDropdown';
 
-const {
-  SERVICES_DASHBOARD_ANNOUNCEMENT_TITLE_MAX_CHARACTERS,
-  SERVICES_DASHBOARD_ANNOUNCEMENT_DESCRIPTION_MAX_CHARACTERS,
-} = CHARACTERS_LIMIT ?? {};
+const { SERVICES_DASHBOARD_ANNOUNCEMENT_TITLE_MAX_CHARACTERS } =
+  CHARACTERS_LIMIT ?? {};
 
 const { EVERYONE, ALL_AGENT, SPECIFIC_USERS } = ANNOUNCEMENTS_VISIBILITY ?? {};
 
@@ -45,12 +43,7 @@ export const upsertAnnouncementValidationSchema: any = Yup?.object()?.shape({
       SERVICES_DASHBOARD_ANNOUNCEMENT_TITLE_MAX_CHARACTERS,
       `Maximum characters limit is ${SERVICES_DASHBOARD_ANNOUNCEMENT_TITLE_MAX_CHARACTERS}`,
     ),
-  description: Yup?.string()
-    ?.trim()
-    ?.max(
-      SERVICES_DASHBOARD_ANNOUNCEMENT_DESCRIPTION_MAX_CHARACTERS,
-      `Maximum characters limit is ${SERVICES_DASHBOARD_ANNOUNCEMENT_DESCRIPTION_MAX_CHARACTERS}`,
-    ),
+  description: Yup?.string()?.trim(),
   notifyMembers: Yup?.boolean(),
   visibility: Yup?.mixed()?.nullable()?.required('Visibility is required'),
   additionalEmail: Yup?.array()

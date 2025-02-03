@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -10,21 +10,19 @@ import {
   PropertiesNumberValidationSchema,
   // PropertiesDefaultValues,
   PropertiesSelectValidationSchema,
+  PropertiesTextValidationSchema,
   PropertiesValidationSchema,
 } from './ModalPropertiesField/AddPropertiesFields.data';
+import { defaultFieldsData } from '../../../CreateContract.data';
+import dayjs from 'dayjs';
+import { CONTRACT_FORMAT } from '@/constants';
 
-export default function useAllFields(handleAddDynamicField: any) {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+export default function useAllFields(
+  handleAddDynamicField: any,
+  handleUpdateDynamicField: any,
+  data: any,
+) {
   const [selectedField, setSelectedField] = useState<any>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLElement>, field: any) => {
-    setAnchorEl(event.currentTarget);
-    setSelectedField(field);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   // Modal CreateDataField
   const methods: any = useForm({
@@ -56,14 +54,17 @@ export default function useAllFields(handleAddDynamicField: any) {
   const [openModalCreateDataField, setOpenModalCreateDataField] =
     useState<boolean>(false);
 
-  const handleOpenModalCreateDataField = () => {
-    handleClose();
-    setOpenModalCreateDataField(true);
-  };
   const handleCloseModalCreateDataField = () => {
     setOpenModalCreateDataField(false);
     reset();
   };
+
+  const [indexValue, setIndexValue] = useState(null);
+  const [allFields, setAllFields] = useState([...defaultFieldsData, ...data]);
+
+  useEffect(() => {
+    setAllFields([...defaultFieldsData, ...data]);
+  }, [data]);
 
   const [openModal, setOpenModal] = useState(false);
   const handleSubmitCreateDataField = handleSubmit(onSubmit);
@@ -73,7 +74,7 @@ export default function useAllFields(handleAddDynamicField: any) {
       case 'date':
         return PropertiesValidationSchema;
       case 'text':
-        return PropertiesValidationSchema; // to be changed
+        return PropertiesTextValidationSchema;
       case 'checkbox':
         return PropertiesCheckboxValidationSchema;
       case 'select':
@@ -91,29 +92,51 @@ export default function useAllFields(handleAddDynamicField: any) {
     defaultValues: {},
   });
 
-  const onSubmitProperties = () => {};
+  const onSubmitProperties = (values: any) => {
+    let dateValue;
+    if (selectedField?.type === 'date') {
+      dateValue = {
+        value: dayjs(values?.value).format(CONTRACT_FORMAT?.DMMMMYYYY),
+      };
+      delete values?.value;
+    }
+
+    handleUpdateDynamicField(indexValue, {
+      required: values?.settings,
+      description: descriptionValue,
+      value: selectedField?.type === 'date' ? dateValue?.value : values?.value,
+    });
+
+    if (indexValue !== null) {
+      const updatedFields = [...allFields];
+      updatedFields[indexValue] = {
+        ...updatedFields[indexValue],
+        ...values,
+        ...dateValue,
+      };
+      setAllFields(updatedFields);
+    }
+    handleCloseModal();
+  };
+
   const {
     handleSubmit: PropertiesHandleSubmit,
     reset: propertiesReset,
     watch,
     control,
     register,
+    setValue,
   } = PropertiesMethods;
   const AddDescription = watch('AddDescription');
-  // const isRequired = watch('settings');
+  const descriptionValue = watch('description');
 
   const handleSubmitPropertiesField =
     PropertiesHandleSubmit(onSubmitProperties);
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'option',
+    name: 'options',
   });
-
-  const handleOpenPropertiesModal = () => {
-    setOpenModal(true);
-    handleClose();
-  };
 
   const handleCloseModal = () => {
     setOpenModal(false);
@@ -124,16 +147,11 @@ export default function useAllFields(handleAddDynamicField: any) {
   };
 
   return {
-    anchorEl,
-    open,
-    handleClick,
-    handleClose,
+    allFields,
     methods,
     openModalCreateDataField,
-    handleOpenModalCreateDataField,
     handleCloseModalCreateDataField,
     handleSubmitCreateDataField,
-    handleOpenPropertiesModal,
     handleCloseModal,
     openModal,
     PropertiesMethods,
@@ -144,5 +162,10 @@ export default function useAllFields(handleAddDynamicField: any) {
     append,
     remove,
     register,
+    setOpenModalCreateDataField,
+    setIndexValue,
+    setOpenModal,
+    setSelectedField,
+    setValue,
   };
 }

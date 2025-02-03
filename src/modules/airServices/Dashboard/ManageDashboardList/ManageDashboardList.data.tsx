@@ -67,7 +67,10 @@ export const manageDashboardsListColumnsDynamic = (
       <UpdateDefaultDashboard
         currentId={info?.row?.original?._id}
         currentStatus={info?.getValue()}
-        hasPermission={canChangeDefaultDashboard}
+        hasPermission={
+          info?.row?.original?.ownerDetails?._id === authUserId &&
+          canChangeDefaultDashboard
+        }
       />
     ),
   },

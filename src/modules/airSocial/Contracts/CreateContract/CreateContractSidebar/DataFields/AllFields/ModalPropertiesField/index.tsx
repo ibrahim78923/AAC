@@ -9,12 +9,13 @@ import {
   Typography,
 } from '@mui/material';
 import CommonDialog from '@/components/CommonDialog';
-import { FormProvider } from '@/components/ReactHookForm';
+import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import {
   PropertiesCheckboxFields,
   PropertiesDateFields,
   PropertiesNumberFields,
   PropertiesSelectFields,
+  PropertiesTextFields,
 } from './AddPropertiesFields.data';
 import ControlPointOutlinedIcon from '@mui/icons-material/ControlPointOutlined';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -30,6 +31,7 @@ interface ModalProps {
   append: any;
   remove: any;
   register: any;
+  setValue: any;
 }
 
 export default function ModalPropertiesField({
@@ -43,6 +45,7 @@ export default function ModalPropertiesField({
   append,
   remove,
   register,
+  setValue,
 }: ModalProps) {
   const renderModalContent = () => {
     switch (selectedField?.type) {
@@ -66,7 +69,7 @@ export default function ModalPropertiesField({
       case 'date':
         return PropertiesDateFields;
       case 'text':
-        return PropertiesDateFields; // to be changed
+        return PropertiesTextFields;
       case 'checkbox':
         return PropertiesCheckboxFields;
       case 'select':
@@ -80,7 +83,7 @@ export default function ModalPropertiesField({
 
   useEffect(() => {
     selectedField?.options?.forEach((opt: any) => {
-      append({ name: opt?.label });
+      append({ label: opt?.label, value: opt?.label });
     });
   }, [selectedField]);
 
@@ -105,7 +108,7 @@ export default function ModalPropertiesField({
               sx={{ paddingTop: '10px !important' }}
             >
               {index === 2 && AddDescription && (
-                <TextField
+                <RHFTextField
                   type="text"
                   name="description"
                   label=""
@@ -120,7 +123,7 @@ export default function ModalPropertiesField({
               {index === 1 &&
                 AddDescription &&
                 selectedField?.type === 'checkbox' && (
-                  <TextField
+                  <RHFTextField
                     type="text"
                     name="description"
                     label=""
@@ -148,7 +151,12 @@ export default function ModalPropertiesField({
                           size="small"
                           placeholder="option"
                           fullWidth
-                          {...register(`option.${index}.name`)}
+                          {...register(`options.${index}.label`)}
+                          onChange={(e) => {
+                            const newValue = e.target.value;
+                            setValue(`options.${index}.label`, newValue);
+                            setValue(`options.${index}.value`, newValue);
+                          }}
                         />
                       </Grid>
                       <Grid item xs={1}>
@@ -160,7 +168,7 @@ export default function ModalPropertiesField({
                   ))}
 
                   <Button
-                    onClick={() => append({ name: '' })}
+                    onClick={() => append({ label: '', value: '' })}
                     sx={() => ({
                       color: '#667085',
                       marginBottom: '15px',

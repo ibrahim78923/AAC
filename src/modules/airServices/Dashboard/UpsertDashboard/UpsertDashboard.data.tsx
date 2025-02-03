@@ -125,7 +125,7 @@ export const createDashboardDefaultValue = (
   };
 };
 
-export const accessDashboardOptions = [
+export const accessDashboardOptions = (disabledEditDashboard: boolean) => [
   {
     value: PRIVATE_TO_OWNER,
     label: 'Private to owner',
@@ -136,6 +136,7 @@ export const accessDashboardOptions = [
     filter: (
       <Box px={3}>
         <RHFRadioGroup
+          disabled={disabledEditDashboard}
           name="permissions"
           row={false}
           options={[
@@ -155,11 +156,15 @@ export const accessDashboardOptions = [
   {
     value: SPECIFIC_USER_AND_TEAMS,
     label: 'Only Specific users',
-    filter: <SpecificUsers name="permissionsUsers" />,
+    filter: (
+      <SpecificUsers name="permissionsUsers" disabled={disabledEditDashboard} />
+    ),
   },
 ];
 
-export const upsertServiceDashboardFormFieldsDynamic = () => [
+export const upsertServiceDashboardFormFieldsDynamic = (
+  disabledEditDashboard: boolean,
+) => [
   {
     _id: 1,
     componentProps: {
@@ -194,7 +199,11 @@ export const upsertServiceDashboardFormFieldsDynamic = () => [
           </Typography>
         </Typography>
         <PermissionsGuard permissions={[SET_DEFAULT_DASHBOARD]}>
-          <RHFSwitch name="isDefault" label="Set as default" />
+          <RHFSwitch
+            disabled={disabledEditDashboard}
+            name="isDefault"
+            label="Set as default"
+          />
         </PermissionsGuard>
       </>
     ),
@@ -206,7 +215,8 @@ export const upsertServiceDashboardFormFieldsDynamic = () => [
     componentProps: {
       name: 'access',
       row: false,
-      options: accessDashboardOptions,
+      options: accessDashboardOptions?.(disabledEditDashboard),
+      disabled: disabledEditDashboard,
     },
     component: RHFRadioGroup,
   },

@@ -3,6 +3,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import CommonDialog from '@/components/CommonDialog';
 import { MenuItem } from '@mui/material';
 import CustomLabel from '@/components/CustomLabel';
+import { ENUM_TEMPLATE_CATEGORIES } from '@/utils/contracts';
 
 interface ModalProps {
   open: boolean;
@@ -11,6 +12,7 @@ interface ModalProps {
   setValue: any;
   value: string;
   okDisabled?: boolean;
+  isLoading?: boolean;
 }
 
 export default function ModalTemplateCategories({
@@ -20,10 +22,22 @@ export default function ModalTemplateCategories({
   okDisabled,
   setValue,
   value,
+  isLoading,
 }: ModalProps) {
   const handleChange = (event: SelectChangeEvent) => {
     setValue(event.target.value);
   };
+
+  const TEMP_CATEGORIES = [
+    // { value: ENUM_TEMPLATE_CATEGORIES?.MY_TEMPLATES, label: 'My Templates' },
+    { value: ENUM_TEMPLATE_CATEGORIES?.AAC_TEMPLATES, label: 'AAC Templates' },
+    { value: ENUM_TEMPLATE_CATEGORIES?.HR, label: 'HR' },
+    { value: ENUM_TEMPLATE_CATEGORIES?.CORPORATE, label: 'Corporate' },
+    { value: ENUM_TEMPLATE_CATEGORIES?.PRIVATE, label: 'Private' },
+    { value: ENUM_TEMPLATE_CATEGORIES?.RENTAL, label: 'Rental' },
+    { value: ENUM_TEMPLATE_CATEGORIES?.STARTUP, label: 'Startup' },
+    { value: ENUM_TEMPLATE_CATEGORIES?.SALES, label: 'Sales' },
+  ];
 
   return (
     <CommonDialog
@@ -35,6 +49,7 @@ export default function ModalTemplateCategories({
       okDisabled={okDisabled}
       cancelText="Cancel"
       width="420px"
+      isLoading={isLoading}
     >
       <CustomLabel label="Template Categories" />
       <Select
@@ -48,14 +63,11 @@ export default function ModalTemplateCategories({
         <MenuItem disabled value={''}>
           Select Template category
         </MenuItem>
-        <MenuItem value={'MY_TEMPLATES'}>My Templates</MenuItem>
-        <MenuItem value={'AACC_TEMPLATES'}>AAC Templates</MenuItem>
-        <MenuItem value={'HR'}>HR</MenuItem>
-        <MenuItem value={'CAPROATE'}>Caproate</MenuItem>
-        <MenuItem value={'PRIVATE'}>Private</MenuItem>
-        <MenuItem value={'RENTAL'}>Rental</MenuItem>
-        <MenuItem value={'STARTUP'}>Startup</MenuItem>
-        <MenuItem value={'SALES'}>Sales</MenuItem>
+        {TEMP_CATEGORIES?.map((category) => (
+          <MenuItem key={category?.value} value={category?.value}>
+            {category?.label}
+          </MenuItem>
+        ))}
       </Select>
     </CommonDialog>
   );

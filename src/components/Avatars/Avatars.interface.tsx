@@ -43,3 +43,23 @@ export interface CustomAvatarGroupPropsI {
   customStyles?: any;
   selectedUsers?: any;
 }
+
+export interface ViewAvatarPropsI {
+  isPortalOpen: boolean;
+  setIsPortalOpen: any;
+  avatarSrc: string;
+  title: string;
+  fileType: string;
+}
+
+export interface AttachFileCardPropsI {
+  data: any;
+  onDelete?: () => any;
+  permissionKey?: string[];
+  size?: AvatarSizeI;
+  hasStyling?: boolean;
+  canDelete?: boolean;
+  flexDirection?: any;
+  hasNoDeletePermission?: boolean;
+  canPreviewImage?: boolean;
+}

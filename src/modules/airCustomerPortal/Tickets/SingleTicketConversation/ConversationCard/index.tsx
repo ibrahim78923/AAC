@@ -8,7 +8,7 @@ import { CustomTooltip } from '@/components/CustomTooltip';
 import { ConversationCardPropsI } from '../useSingleTicketConversation.interface';
 import { CUSTOMER_PORTAL_TICKET_CONVERSATION_ACTIONS } from './ConversationCard.data';
 import { otherDateFormat } from '@/lib/date-time';
-import { AttachFileCard } from '@/components/AttachFileCard';
+import { AttachFileCard } from '@/components/Avatars/AttachFileCard';
 import { LogInfo } from '@/components/LogInfo';
 import { UserInfo } from '@/components/UserInfo';
 

@@ -10,7 +10,7 @@ import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import useContacts from './useContacts';
 import ViewContact from './ViewContact';
-import { DataRecordCount } from '@/components/DataRecordCount';
+import { RecordCountChip } from '@/components/Chip/RecordCountChip';
 
 export default function Contacts({ isDrawerOpen, setIsDrawerOpen }: any) {
   const {
@@ -97,7 +97,7 @@ export default function Contacts({ isDrawerOpen, setIsDrawerOpen }: any) {
       <PermissionsGuard
         permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.CONTACT_LIST_VIEW]}
       >
-        <DataRecordCount
+        <RecordCountChip
           recordName="Contacts"
           isCountLoading={isLoading || isFetching}
           totalCount={data?.length}

@@ -4,7 +4,8 @@ import { useLazyGetServicesDashboardUsersListDropdownForAccessQuery } from '@/se
 import { getActiveProductSession } from '@/utils';
 import { useMemo } from 'react';
 
-export const UsersFieldDropdown = () => {
+export const UsersFieldDropdown = (props: any) => {
+  const { disabled } = props;
   const apiQueryUsers =
     useLazyGetServicesDashboardUsersListDropdownForAccessQuery?.();
 
@@ -22,6 +23,7 @@ export const UsersFieldDropdown = () => {
       required
       apiQuery={apiQueryUsers}
       multiple
+      disabled={disabled}
       size="small"
       externalParams={{ productId }}
       getOptionLabel={(option: AutocompleteAsyncOptionsI) =>

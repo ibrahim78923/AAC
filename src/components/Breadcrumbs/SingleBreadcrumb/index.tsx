@@ -6,7 +6,9 @@ export const SingleBreadcrumb = (props: any) => {
     previousPathname,
     activePathname,
     previousPathnameColor = 'primary.main',
-    separator = <ArrowForwardIos fontSize="small" />,
+    Separator = ArrowForwardIos,
+    previousPathnameVariant = 'h3',
+    activePathnameVariant = 'h5',
   } = props;
 
   return (
@@ -18,15 +20,21 @@ export const SingleBreadcrumb = (props: any) => {
         gap: 1,
       }}
     >
-      <Typography variant="h3" sx={{ color: previousPathnameColor }}>
+      <Typography
+        variant={previousPathnameVariant}
+        sx={{ color: previousPathnameColor }}
+      >
         {previousPathname}
       </Typography>
       <Box
         sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
       >
-        {separator}
+        <Separator fontSize="small" />
       </Box>
-      <Typography variant="h5" sx={{ color: 'slateBlue.main' }}>
+      <Typography
+        variant={activePathnameVariant}
+        sx={{ color: 'slateBlue.main' }}
+      >
         {activePathname}
       </Typography>
     </Box>

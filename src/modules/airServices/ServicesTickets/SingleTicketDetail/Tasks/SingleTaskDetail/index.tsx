@@ -1,4 +1,4 @@
-import { Avatar, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import {
   FormProvider,
@@ -8,18 +8,13 @@ import {
 import { styles } from './SingleTaskDetail.styles';
 import { useSingleTaskDetail } from './useSingleTaskDetail';
 import { drawerDetail, statusOptions } from './SingleTaskDetail.data';
-import {
-  generateColorFromName,
-  generateImage,
-  getImageByType,
-} from '@/utils/avatarUtils';
+import { generateColorFromName } from '@/utils/avatarUtils';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
-import { isValidElement } from 'react';
-import { DYNAMIC_FORM_FIELDS_TYPES, isValidDate } from '@/utils/dynamic-forms';
-import { uiDateFormat } from '@/lib/date-time';
-import { CustomGrid } from '@/components/Grids/CustomGrid';
-import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { DynamicFormDataDisplay } from '@/components/DynamicForm/DynamicFormDataDisplay';
+import { CustomAvatar } from '@/components/Avatars/CustomAvatar';
+import { AVATAR_VARIANTS } from '@/constants/mui-constant';
+import { pxToRem } from '@/utils/getFontValue';
 
 export const SingleTaskDetail = () => {
   const {
@@ -38,7 +33,54 @@ export const SingleTaskDetail = () => {
       <CommonDrawer
         isDrawerOpen={isPortalOpen?.isOpen as boolean}
         onClose={() => handleCloseDrawer()}
-        title={`#TSK-${isPortalOpen?.data?._id?.slice(-3)?.toUpperCase()}`}
+        titleSx={{ width: '100%' }}
+        titleBoxSx={{ flex: 1, marginBottom: 0.2 }}
+        title={
+          <Box
+            sx={{
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: 2,
+              mb: 0,
+              flexWrap: 'wrap',
+              paddingRight: 1,
+            }}
+          >
+            <Typography variant="body2" sx={{ flex: 1 }}>
+              {`#TSK-${isPortalOpen?.data?._id?.slice(-3)?.toUpperCase()}`}
+            </Typography>
+            <Box sx={{ flex: 1 }}>
+              <FormProvider
+                onSubmit={handleSubmit(onSubmitDrawer)}
+                methods={methods}
+              >
+                <RHFAutocomplete
+                  name="status"
+                  fullWidth
+                  sx={{
+                    minWidth: { xs: 'inherit', sm: pxToRem(200) },
+                    '.MuiInputBase-input': {
+                      padding: `${pxToRem(5)} !important`,
+                    },
+                    '.MuiFormHelperText-root': {
+                      display: 'none',
+                    },
+                    '& .MuiOutlinedInput-root ': {
+                      height: pxToRem(36),
+                    },
+                  }}
+                  options={statusOptions}
+                  size="small"
+                  isOptionEqualToValue={(option: any, newValue: any) =>
+                    option === newValue
+                  }
+                />
+              </FormProvider>
+            </Box>
+          </Box>
+        }
         submitHandler={handleSubmit(onSubmitDrawer)}
         footer
         isOk
@@ -55,139 +97,94 @@ export const SingleTaskDetail = () => {
             onSubmit={handleSubmit(onSubmitDrawer)}
             methods={methods}
           >
-            <Typography variant="body2" mb={-2}>
+            <br />
+            <Typography variant="body2" sx={{ wordBreak: 'break-word' }}>
               {isPortalOpen?.data?.assignedUser?.email ?? '---'}
             </Typography>
-            <CustomGrid xs={10}>
-              <RHFAutocomplete
-                name="status"
-                sx={styles?.statusFieldStyle}
-                options={statusOptions}
-                size="small"
-                isOptionEqualToValue={(option: any, newValue: any) =>
-                  option === newValue
-                }
-              />
-            </CustomGrid>
-            <ContainerGrid
-              spacing={2.5}
-              customStyles={{ mt: 2, flexDirection: 'column' }}
-            >
-              {drawerDetail(isPortalOpen?.data, theme)?.map((item: any) => (
-                <CustomGrid
-                  key={item?.id}
-                  customStyles={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <CustomGrid
-                    xs={6}
-                    customStyles={styles?.detailDrawerCustomGridCenter}
-                  >
-                    <Typography
-                      variant="body2"
-                      sx={styles?.detailDrawerTitle(theme)}
-                    >
-                      {item?.title}
-                    </Typography>
-                  </CustomGrid>
-                  <CustomGrid
-                    xs={6}
-                    customStyles={styles?.detailDrawerCustomGridCenter}
-                  >
-                    {item?.profile && (
-                      <Avatar
-                        style={styles?.detailDrawerImg}
-                        src={generateImage(item?.profile)}
-                        alt=""
-                      />
-                    )}
-                    {item?.workspace && (
-                      <Avatar
-                        sx={{
-                          bgcolor: generateColorFromName(item?.workspace),
-                          width: 25,
-                          height: 25,
-                          fontSize: 14,
-                          mr: 0.5,
-                        }}
-                        variant="rounded"
-                      >
-                        {item?.workspace?.slice?.(0, 2)?.toUpperCase()}
-                      </Avatar>
-                    )}
-                    <Typography
-                      variant="body2"
-                      fontWeight={400}
-                      color={'slateBlue.main'}
-                    >
-                      {item?.details ? item?.details : '....'}
-                    </Typography>
-                  </CustomGrid>
-                </CustomGrid>
-              ))}
 
-              {Object?.entries(overviewData)?.map(([key, value]: any) => (
-                <CustomGrid
-                  key={key}
-                  customStyles={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <CustomGrid
-                    xs={6}
-                    customStyles={styles?.detailDrawerCustomGridCenter}
+            <br />
+            {drawerDetail(isPortalOpen?.data, theme)?.map((item: any) => (
+              <Box
+                key={item?.id}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  flexWrap: 'wrap',
+                  my: 2,
+                  gap: 2,
+                }}
+              >
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Typography
+                    variant="body2"
+                    sx={styles?.detailDrawerTitle(theme)}
                   >
-                    <Typography
-                      variant={'body2'}
-                      sx={styles?.detailDrawerTitle(theme)}
-                    >
-                      {key}:
-                    </Typography>
-                  </CustomGrid>
-                  <CustomGrid xs={6}>
-                    <Typography
-                      variant={'body2'}
-                      fontWeight={400}
-                      color={'slateBlue.main'}
-                    >
-                      {isValidElement(value) ? (
-                        value
-                      ) : typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
-                        value !== null &&
-                        DYNAMIC_FORM_FIELDS_TYPES?.LABEL in value ? (
-                        value?.label
-                      ) : typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
-                        value !== null &&
-                        DYNAMIC_FORM_FIELDS_TYPES?.FILE_URL in value ? (
-                        <Avatar
-                          src={getImageByType(value?.fileType, value?.fileUrl)}
-                          alt="file-preview"
-                          sx={{ width: 45, height: 45 }}
-                          variant={'rounded'}
-                        />
-                      ) : isValidDate(value) ? (
-                        uiDateFormat(value)
-                      ) : (
-                        value?.toString()
-                      )}
-                    </Typography>
-                  </CustomGrid>
-                </CustomGrid>
-              ))}
-              <CustomGrid>
-                <RHFTextField
-                  name="comments"
-                  label="Add Comment"
-                  multiline={true}
-                  rows={5}
-                  fullWidth
-                  placeholder="Type here"
-                />
-              </CustomGrid>
-            </ContainerGrid>
+                    {item?.title}
+                  </Typography>
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  {item?.profile && <CustomAvatar avatarSrc={item?.profile} />}
+                  {item?.workspace && (
+                    <CustomAvatar
+                      backgroundColor={generateColorFromName(item?.workspace)}
+                      avatarSize={{
+                        variant: AVATAR_VARIANTS?.ROUNDED,
+                      }}
+                      avatarSrc=""
+                      nameInitial={item?.workspace?.slice?.(0, 2)}
+                    />
+                  )}
+                  <Typography
+                    variant="body2"
+                    fontWeight={400}
+                    color={'slateBlue.main'}
+                  >
+                    {item?.details ? item?.details : '....'}
+                  </Typography>
+                </Box>
+              </Box>
+            ))}
+
+            {Object?.entries(overviewData)?.map(([key, value]: any) => (
+              <Box
+                key={key}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  my: 2,
+                  gap: 2,
+                  alignItems: 'center',
+                  flexWrap: 'wrap',
+                }}
+              >
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Typography
+                    variant={'body2'}
+                    sx={styles?.detailDrawerTitle(theme)}
+                  >
+                    {key}:
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography
+                    variant={'body2'}
+                    fontWeight={400}
+                    color={'slateBlue.main'}
+                  >
+                    <DynamicFormDataDisplay value={value} />
+                  </Typography>
+                </Box>
+              </Box>
+            ))}
+            <RHFTextField
+              name="comments"
+              label="Add Comment"
+              multiline
+              rows={5}
+              fullWidth
+              placeholder="Type here"
+            />
           </FormProvider>
         </PermissionsGuard>
       </CommonDrawer>

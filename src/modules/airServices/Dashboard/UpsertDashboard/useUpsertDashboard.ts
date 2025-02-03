@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { useWatch } from 'react-hook-form';
+import { useEffect, useMemo } from 'react';
 import { UpsertServicesDashboardDefaultValueI } from './UpsertDashboard.interface';
 import {
   createDashboardDefaultValue,
@@ -12,7 +11,6 @@ import { REPORT_TYPES } from '@/constants/strings';
 import {
   MANAGE_DASHBOARD_ACCESS_TYPES,
   SERVICES_DASHBOARD_PORTAL_ACTIONS_CONSTANT,
-  dashboardWidgetsData,
 } from '../Dashboard.data';
 import {
   useAddServicesDashboardSingleDashboardMutation,
@@ -25,6 +23,7 @@ import { useAppDispatch } from '@/redux/store';
 import { AIR_SERVICES } from '@/constants/routes';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useFormLib } from '@/hooks/useFormLib';
+import { getSession } from '@/utils';
 
 const { PRIVATE_TO_OWNER, EVERYONE_EDIT_AND_VIEW, SPECIFIC_USER_AND_TEAMS } =
   MANAGE_DASHBOARD_ACCESS_TYPES ?? {};
@@ -35,12 +34,17 @@ export const useUpsertDashboard = () => {
   const action = router?.query?.action;
   const dispatch = useAppDispatch();
 
+  const authUserId = useMemo(() => {
+    const userId = getSession() as any;
+    return userId?.user?._id;
+  }, []);
+
   const formLibProps = {
     validationSchema: createDashboardValidationSchema?.(),
     defaultValues: createDashboardDefaultValue?.(),
   };
 
-  const { handleSubmit, reset, setValue, control, getValues, methods } =
+  const { handleSubmit, reset, setValue, getValues, methods, watch } =
     useFormLib(formLibProps);
 
   const getSingleTicketParameter = {
@@ -61,6 +65,10 @@ export const useUpsertDashboard = () => {
       },
     );
 
+  const singleDashboardData = data?.data?.dashboard;
+  const disabledEditDashboard =
+    !!dashboardId && singleDashboardData?.createdBy !== authUserId;
+
   const [addSingleServicesDashboardTrigger, addSingleServicesDashboardStatus] =
     useAddServicesDashboardSingleDashboardMutation();
 
@@ -69,23 +77,11 @@ export const useUpsertDashboard = () => {
     updateSingleServicesDashboardStatus,
   ] = useUpdateServicesDashboardSingleDashboardMutation();
 
-  const specificUserWatch = useWatch({
-    control,
-    name: 'specialUsers',
-    defaultValue: [],
-  });
+  const specificUserWatch = watch('specialUsers');
 
-  const dashboardWidgetsWatch = useWatch({
-    control,
-    name: 'dashboardWidgets',
-    defaultValue: dashboardWidgetsData,
-  });
+  const dashboardWidgetsWatch = watch('dashboardWidgets');
 
-  const reportsWatch = useWatch({
-    control,
-    name: 'reports',
-    defaultValue: [],
-  });
+  const reportsWatch = watch('reports');
 
   const setPermissions = () => {
     const permissionUser = getValues('permissionsUsers');
@@ -157,7 +153,7 @@ export const useUpsertDashboard = () => {
               userId: user?.userId,
               permission: user?.permission,
             }))
-          : [{}],
+          : [],
     };
 
     const filterFormData = filteredEmptyValues(body);
@@ -202,10 +198,10 @@ export const useUpsertDashboard = () => {
   };
 
   const upsertServiceDashboardFormFields =
-    upsertServiceDashboardFormFieldsDynamic?.();
+    upsertServiceDashboardFormFieldsDynamic?.(disabledEditDashboard);
 
   useEffect(() => {
-    reset(() => createDashboardDefaultValue(data?.data?.dashboard));
+    reset(() => createDashboardDefaultValue(singleDashboardData));
   }, [data, reset]);
 
   const apiCallInProgress =

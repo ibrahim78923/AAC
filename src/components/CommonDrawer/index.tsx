@@ -38,6 +38,8 @@ const CommonDrawer = ({
   disabledCancelBtn,
   isFooterFeatureDisabled,
   zIndex,
+  titleSx,
+  titleBoxSx,
 }: CommonDrawerPropsI) => {
   const theme = useTheme();
 
@@ -81,10 +83,15 @@ const CommonDrawer = ({
                 display: 'flex',
                 gap: 1,
                 alignItems: 'center',
+                ...titleBoxSx,
               }}
             >
               {headerIcon}
-              <Typography variant="subtitle1" textTransform="capitalize">
+              <Typography
+                variant="subtitle1"
+                textTransform="capitalize"
+                sx={titleSx}
+              >
                 {title}
               </Typography>
             </Box>

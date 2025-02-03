@@ -67,6 +67,23 @@ export const SingleDashboard = (props: any) => {
           <Box ref={downloadRef}>
             <TicketStatusCount />
             <br />
+
+            <Box sx={{ textAlign: 'right', mb: 0.5 }}>
+              {hasError ? (
+                <></>
+              ) : (
+                <ApiPollingButton
+                  showLoader={apiSuspenseState}
+                  onClick={refetchApi}
+                  variant="text"
+                  intervalTime={AUTO_REFRESH_API_TIME_INTERVAL?.DASHBOARD}
+                  isFetching={lazyGetSingleServicesDashboardStatus?.isFetching}
+                  fulfilledTimeStamp={
+                    lazyGetSingleServicesDashboardStatus?.fulfilledTimeStamp
+                  }
+                />
+              )}
+            </Box>
             <ApiRequestFlow
               hasNoData={!reportsList?.length}
               hasError={hasError}
@@ -96,18 +113,6 @@ export const SingleDashboard = (props: any) => {
                 )
               }
             >
-              <Box sx={{ textAlign: 'right', mb: 0.5 }}>
-                <ApiPollingButton
-                  showLoader={apiSuspenseState}
-                  onClick={refetchApi}
-                  variant="text"
-                  intervalTime={AUTO_REFRESH_API_TIME_INTERVAL?.DASHBOARD}
-                  isFetching={lazyGetSingleServicesDashboardStatus?.isFetching}
-                  fulfilledTimeStamp={
-                    lazyGetSingleServicesDashboardStatus?.fulfilledTimeStamp
-                  }
-                />
-              </Box>
               <DashboardWidgets
                 reportsList={reportsList}
                 apiData={lazyGetSingleServicesDashboardStatus?.data?.data}

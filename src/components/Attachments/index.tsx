@@ -1,5 +1,5 @@
 import { Box, Button, Grid } from '@mui/material';
-import { AttachFileCard } from '@/components/AttachFileCard';
+import { AttachFileCard } from '@/components/Avatars/AttachFileCard';
 import { AlertModals } from '@/components/AlertModals';
 import { useAttachments } from './useAttachments';
 import SkeletonForm from '../Skeletons/SkeletonForm';

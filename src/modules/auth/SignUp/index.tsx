@@ -183,6 +183,7 @@ const SignUp = () => {
                             label=" Delegate Reference Number (DRN) if applied"
                             size="small"
                             placeholder="Enter DRN"
+                            autoComplete="off"
                           />
                         </Grid>
 

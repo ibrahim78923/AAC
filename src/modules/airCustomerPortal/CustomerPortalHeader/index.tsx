@@ -1,12 +1,11 @@
 import { CompanyLogoIcon } from '@/assets/icons';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import Link from 'next/link';
-import { useRouter, NextRouter } from 'next/router';
 import { CustomerPortalHeaderI } from './CustomerPortalHeader.interface';
+import { LinkButton } from '@/components/Buttons/LinkButton';
 
 export const CustomerPortalHeader = (props: CustomerPortalHeaderI) => {
   const { buttonText, pathname } = props;
-  const router: NextRouter = useRouter();
 
   return (
     <Box
@@ -18,16 +17,7 @@ export const CustomerPortalHeader = (props: CustomerPortalHeaderI) => {
       <Link href={'/'}>
         <CompanyLogoIcon />
       </Link>
-      <Button
-        variant="contained"
-        onClick={() =>
-          router?.push({
-            pathname,
-          })
-        }
-      >
-        {buttonText}
-      </Button>
+      <LinkButton name={buttonText} link={pathname} />
     </Box>
   );
 };
