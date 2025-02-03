@@ -219,6 +219,26 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
     refetch();
   }, [chatMode, query]);
 
+  // _____FUNC_TO_FETCH_LATEST_CHAT_CONTACTS_____
+  const [fetchOnTabChange, setFetchOnTabChange] = useState(false);
+
+  const fetchLatestChatContacts = (array: any) => {
+    if (array?.length) {
+      setFetchOnTabChange(true);
+      refetch();
+    }
+  };
+  useEffect(() => {
+    const handleFocus = () => {
+      fetchLatestChatContacts(chatsTypeToShow);
+    };
+    window.addEventListener('focus', handleFocus);
+    setFetchOnTabChange(false);
+    return () => window.removeEventListener('focus', handleFocus);
+  }, [chatsTypeToShow]);
+
+  const customLoading = fetchOnTabChange ? false : isChatContactsLoading;
+
   return (
     <>
       <Box sx={styles?.wrapperContactList}>
@@ -306,7 +326,7 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
           </Button>
         )}
         <Box mt={2} sx={{ overflow: 'scroll', maxHeight: '56vh' }}>
-          {isChatContactsLoading ? (
+          {customLoading ? (
             <>{[1, 2, 3]?.map((index) => <SkeletonBox key={index} />)}</>
           ) : (
             <>
