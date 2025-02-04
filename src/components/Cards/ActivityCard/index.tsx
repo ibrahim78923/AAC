@@ -3,8 +3,9 @@ import { fullName } from '@/utils/avatarUtils';
 import { TruncateText } from '@/components/TruncateText';
 import { LogInfo } from '@/components/LogInfo';
 import { otherDateFormat } from '@/lib/date-time';
+import { ActivityCardPropsI } from '../Cards.interface';
 
-export const ActivityCard = (props: any) => {
+export const ActivityCard = (props: ActivityCardPropsI) => {
   const {
     Icon = null,
     firstName,

@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { useReports } from './useReports';
-import { ItemLinkCard } from '@/components/Cards/ItemLinkCard/ItemLinkCard';
+import { ItemLinkCard } from '@/components/Cards/ItemLinkCard';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';

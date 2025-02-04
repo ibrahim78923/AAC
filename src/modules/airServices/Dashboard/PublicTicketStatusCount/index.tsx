@@ -1,7 +1,7 @@
 import { usePublicTicketStatusCount } from './usePublicTicketStatusCount';
 import { TicketStatusCountImage } from '@/assets/images';
 import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
-import { AvatarItemCountCard } from '@/components/Cards/AvatarItemCountCard/AvatarItemCountCard';
+import { AvatarItemCountCard } from '@/components/Cards/AvatarItemCountCard';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { ListGrid } from '@/components/Grids/ListGrid';
 import { SKELETON_TYPES } from '@/constants/mui-constant';

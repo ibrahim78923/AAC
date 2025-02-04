@@ -65,6 +65,7 @@ export default function CreateContract() {
     setSelectedSigneeId,
 
     // dataTemplateById,
+    loadingGetContractById,
     loadingGetTemplateById,
     loadingUpdateTemplate,
     handleSubmitUpdateTemplate,
@@ -79,6 +80,7 @@ export default function CreateContract() {
     setOpenModalTemplateCategories,
     templateCatgValue,
     setTemplateCatgValue,
+    handleRemoveDynamicField,
   } = useCreateContract();
 
   return (
@@ -98,6 +100,7 @@ export default function CreateContract() {
           loadingCreateTemplate ||
           loadingCreateDraft ||
           loadingGetTemplateById ||
+          loadingGetContractById ||
           loadingUpdateTemplate
         }
         sx={{
@@ -245,6 +248,7 @@ export default function CreateContract() {
               <CreateContractSidebar
                 allDataFields={dynamicFields}
                 handleAddDynamicField={handleAddDynamicField}
+                handleRemoveDynamicField={handleRemoveDynamicField}
                 handleUpdateDynamicField={handleUpdateDynamicField}
                 signeeFields={signeeValues}
                 handleAddSigneeCard={handleAddSigneeCard}

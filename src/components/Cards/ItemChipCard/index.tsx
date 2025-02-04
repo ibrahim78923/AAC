@@ -1,8 +1,9 @@
 import { CustomChip } from '@/components/Chip/CustomChip';
 import { pxToRem } from '@/utils/getFontValue';
 import { Box, Typography } from '@mui/material';
+import { ItemChipCardPropsI } from '../Cards.interface';
 
-export const ItemChipCard = (props: any) => {
+export const ItemChipCard = (props: ItemChipCardPropsI) => {
   const { itemName, chipLabel } = props;
   return (
     <Box

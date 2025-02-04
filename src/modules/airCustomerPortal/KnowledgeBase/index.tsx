@@ -3,7 +3,7 @@ import { useKnowledgeBase } from './useKnowledgeBase';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import Search from '@/components/Search';
 import { fullName } from '@/utils/avatarUtils';
-import { IconInfoCard } from '@/components/Cards/IconInfoCard/IconInfoCard';
+import { IconInfoCard } from '@/components/Cards/IconInfoCard';
 import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';

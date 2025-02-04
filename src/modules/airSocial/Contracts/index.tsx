@@ -60,15 +60,15 @@ import {
 } from '@/services/commonFeatures/contracts/contracts-dashboard';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { v4 as uuidv4 } from 'uuid';
-
 const Contracts = () => {
   const theme = useTheme();
-  const { handleClickCreateDraft, handleClickSignPdf } = useContracts();
-
   const [selectedRecords, setSelectedRecords] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [activeMenu, setActiveMenu] = useState<any>({});
   const [activeFolder, setActiveFolder] = useState<any>({});
+  const [filterParams, setFilterParams] = useState<any>({});
+  const { handleClickCreateDraft, handleClickSignPdf } =
+    useContracts(activeFolder);
 
   const { data, isLoading } = useGetCommonContractsSharedFoldersListQuery({
     page: 1,
@@ -143,7 +143,14 @@ const Contracts = () => {
     defaultValues: contractsFiltersDefaultValues,
   });
   const { handleSubmit: handleSubmitFilter } = methodsFilter;
-  const onSubmitFilter = () => {};
+  const onSubmitFilter = (values: any) => {
+    setFilterParams({
+      type: values?.type,
+      sortBy: values?.sortBy,
+      dateStart: values?.date?.startDate,
+      dateEnd: values?.date?.endDate,
+    });
+  };
 
   useEffect(() => {
     if (personalConData?.data?.commoncontractfolder) {
@@ -271,14 +278,7 @@ const Contracts = () => {
                               justifyContent: 'space-between',
                             }}
                           >
-                            <Box
-                              sx={{ ml: 1 }}
-                              onClick={() =>
-                                setActiveFolder({ key: 'personal' })
-                              }
-                            >
-                              My Contracts
-                            </Box>
+                            <Box sx={{ ml: 1 }}>My Contracts</Box>
                             <Box onClick={(e) => e.stopPropagation()}>
                               <IconButton
                                 onClick={() => setIsAddFolderDrawerOpen(true)}
@@ -386,12 +386,7 @@ const Contracts = () => {
                               justifyContent: 'space-between',
                             }}
                           >
-                            <Box
-                              sx={{ ml: 1 }}
-                              onClick={() => setActiveFolder({ key: 'shared' })}
-                            >
-                              Shared Folder
-                            </Box>
+                            <Box sx={{ ml: 1 }}>Shared Folder</Box>
                             <Box>
                               <IconButton
                                 onClick={() => setIsAddFolderDrawerOpen(true)}
@@ -470,6 +465,7 @@ const Contracts = () => {
                 onClick={handleClick}
                 variant="contained"
                 endIcon={<ArrowDownBold />}
+                disabled={!activeFolder?._id}
               >
                 New Contract
               </Button>
@@ -567,6 +563,7 @@ const Contracts = () => {
                   sx={{
                     width: { xs: '100%', sm: 'auto', md: 'auto', lg: 'auto' },
                   }}
+                  onClick={() => setFilterParams({})}
                 >
                   <RefreshTasksIcon />
                 </Button>
@@ -592,6 +589,7 @@ const Contracts = () => {
             selectedRecords={selectedRecords}
             setSelectedRecords={setSelectedRecords}
             tabValue={tabValue}
+            filterParams={filterParams}
           />
         </Grid>
       </Grid>
@@ -1005,15 +1003,17 @@ const MenuDropdown = ({
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem
-          onClick={() => {
-            handleClose();
-            setIsAddFolderDrawerOpen(true);
-            setActiveMenu(item);
-          }}
-        >
-          New Subfolder
-        </MenuItem>
+        {item?.level !== 1 && (
+          <MenuItem
+            onClick={() => {
+              handleClose();
+              setIsAddFolderDrawerOpen(true);
+              setActiveMenu(item);
+            }}
+          >
+            New Subfolder
+          </MenuItem>
+        )}
         <MenuItem
           onClick={() => {
             setIsMoveToFolderDrawerOpen(true);

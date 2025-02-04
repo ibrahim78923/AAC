@@ -13,7 +13,6 @@ export const Announcements = () => {
     isError,
     openDrawer,
     setDrawerOpen,
-    onClose,
     refetch,
     showLoader,
   } = useAnnouncements();
@@ -37,7 +36,7 @@ export const Announcements = () => {
           noDataMessage={'No announcement found'}
           errorHeight="100%"
         >
-          {data?.data?.map((announcement: any, index: number) => (
+          {data?.data?.map((announcement: any) => (
             <InteractiveUserFeedCard
               key={announcement?._id}
               firstName={announcement?.createdBy?.firstName}
@@ -45,7 +44,8 @@ export const Announcements = () => {
               userAvatarSrc={announcement?.createdBy?.avatar?.url}
               title={announcement?.title}
               dateFrom={announcement?.createdAt}
-              hasBorderBottom={index !== data?.data?.length - 1}
+              hasBorderBottom
+              hasDescription={false}
             />
           ))}
         </ApiRequestFlow>
@@ -54,7 +54,7 @@ export const Announcements = () => {
       {openDrawer && (
         <AnnouncementList
           isDrawerOpen={openDrawer}
-          onClose={() => onClose?.()}
+          setDrawerOpen={setDrawerOpen}
           data={data}
           isLoading={isLoading}
           isFetching={isFetching}

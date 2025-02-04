@@ -8,6 +8,7 @@ import {
 import { useFormContext } from 'react-hook-form';
 import { Box, IconButton } from '@mui/material';
 import { styles } from './DefaultAttachment.style';
+import { getFileName, generateSrc } from '@/utils/contracts';
 
 export default function DefaultAttachment() {
   const { watch, setValue } = useFormContext();
@@ -41,7 +42,9 @@ export default function DefaultAttachment() {
                 <IconDefaultAttachment />
               </Box>
               <Box>
-                <Box className="previewFileName">{defaultAttachment?.name}</Box>
+                <Box className="previewFileName">
+                  {getFileName(defaultAttachment)}
+                </Box>
                 <Box className="previewFileSize">
                   {Math.floor(defaultAttachment?.size / 1024)} MB
                 </Box>
@@ -57,9 +60,7 @@ export default function DefaultAttachment() {
 
           <Box sx={styles?.embedPdf}>
             <embed
-              src={`${URL.createObjectURL(
-                new Blob([defaultAttachment], { type: 'application/pdf' }),
-              )}`}
+              src={generateSrc(defaultAttachment)}
               type="application/pdf"
             />
           </Box>

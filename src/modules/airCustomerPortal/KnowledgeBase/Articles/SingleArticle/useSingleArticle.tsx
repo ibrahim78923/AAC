@@ -30,7 +30,7 @@ export const useSingleArticle = () => {
       : companyId;
     if (!id) return null;
     try {
-      atob(id);
+      return atob(id);
     } catch (error) {
       return null;
     }

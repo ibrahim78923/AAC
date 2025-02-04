@@ -1,4 +1,5 @@
 import { CustomAvatar } from '@/components/Avatars/CustomAvatar';
+import { HtmlRenderer } from '@/components/DataDisplay/HtmlRenderer';
 import { AVATAR_VARIANTS } from '@/constants/mui-constant';
 import { uiDateFormat } from '@/lib/date-time';
 import { fullName, fullNameInitial, truncateText } from '@/utils/avatarUtils';
@@ -193,7 +194,7 @@ export const DetailCard = (props: any) => {
       </Typography>
       {showInfo &&
         (!!data?.description ? (
-          <Box mt={3} dangerouslySetInnerHTML={{ __html: data?.description }} />
+          <HtmlRenderer description={data?.description} maxHeight="none" />
         ) : (
           '---'
         ))}

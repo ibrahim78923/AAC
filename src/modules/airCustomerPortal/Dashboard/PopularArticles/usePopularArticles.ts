@@ -19,11 +19,17 @@ export const usePopularArticles = () => {
     : MODULE_TYPE?.NON_REGISTER_DASHBOARD;
 
   const { companyId } = router?.query;
+
   const decryptedId = useMemo(() => {
     const id = Array.isArray(companyId)
-      ? companyId[ARRAY_INDEX?.ZERO]
+      ? companyId?.[ARRAY_INDEX?.ZERO]
       : companyId;
-    return atob(id ?? '');
+    if (!id) return null;
+    try {
+      return atob(id);
+    } catch (error) {
+      return null;
+    }
   }, [companyId]);
 
   const getCustomerPortalDashboardPopularArticlesParameter = {

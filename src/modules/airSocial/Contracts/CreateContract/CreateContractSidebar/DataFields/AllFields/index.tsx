@@ -23,13 +23,13 @@ import ModalPropertiesField from './ModalPropertiesField';
 const getDataField = (field: any) => {
   switch (field?.type) {
     case FIELD_TYPES?.TEXT:
-      return <DataFieldText data={field} />;
+      return <DataFieldText data={field} value={field?.value} />;
 
     case FIELD_TYPES?.DATE:
-      return <DataFieldDate data={field} />;
+      return <DataFieldDate data={field} value={field?.value} />;
 
     case FIELD_TYPES?.NUMBER:
-      return <DataFieldNumber data={field} />;
+      return <DataFieldNumber data={field} value={field?.value} />;
 
     case FIELD_TYPES?.CHECKBOX:
       return <DataFieldCheckbox data={field} />;
@@ -37,7 +37,7 @@ const getDataField = (field: any) => {
     case FIELD_TYPES?.SELECT:
       return <DataFieldCheckbox data={field} />;
     default:
-      return <DataFieldText />;
+      return <DataFieldText data={field} value={field?.value} />;
   }
 };
 
@@ -45,6 +45,7 @@ export default function AllFields({
   data,
   handleAddDynamicField,
   handleUpdateDynamicField,
+  handleRemoveDynamicField,
 }: any) {
   const {
     allFields,
@@ -94,6 +95,7 @@ export default function AllFields({
               setOpenModal={setOpenModal}
               setSelectedField={setSelectedField}
               selectedField={selectedField}
+              handleRemoveDynamicField={handleRemoveDynamicField}
             />
           </Box>
         ))}
@@ -130,6 +132,7 @@ const CustomMenu = ({
   setOpenModal,
   setSelectedField,
   selectedField,
+  handleRemoveDynamicField,
 }: any) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -186,7 +189,12 @@ const CustomMenu = ({
         </MenuItem>
         <Divider />
 
-        <MenuItem disabled={!selectedField?.id}>Delete field</MenuItem>
+        <MenuItem
+          disabled={!selectedField?.id}
+          onClick={() => handleRemoveDynamicField(index - 5)}
+        >
+          Delete field
+        </MenuItem>
         <Typography variant="body2" color={'#667085'}>
           connot be removed because <br /> it is part of the default field set
         </Typography>

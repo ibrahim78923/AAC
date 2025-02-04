@@ -6,6 +6,7 @@ import { usePrintTicket } from './usePrintTicket';
 import { otherDateFormat } from '@/lib/date-time';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { HtmlRenderer } from '@/components/DataDisplay/HtmlRenderer';
 
 export const PrintTicket = () => {
   const {
@@ -99,14 +100,12 @@ export const PrintTicket = () => {
         <Divider sx={{ marginTop: '2rem' }} />
         <Typography variant="h4"> DESCRIPTION</Typography>
         {!!singleTicketDetail?.description ? (
-          <Typography
-            variant="h6"
-            dangerouslySetInnerHTML={{
-              __html: singleTicketDetail?.description,
-            }}
+          <HtmlRenderer
+            maxHeight="none"
+            description={singleTicketDetail?.description}
           />
         ) : (
-          '---'
+          <Typography>No description available</Typography>
         )}
         <Divider sx={{ marginTop: '2rem' }} />
       </Box>

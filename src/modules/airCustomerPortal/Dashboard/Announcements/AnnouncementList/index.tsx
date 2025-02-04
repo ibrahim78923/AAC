@@ -5,13 +5,18 @@ import { SKELETON_TYPES } from '@/constants/mui-constant';
 import { InteractiveUserFeedCard } from '@/components/Cards/InteractiveUserFeedCard';
 
 export const AnnouncementList = (props: AnnouncementsListPropsI) => {
-  const { isError, data, isDrawerOpen, onClose, refetch, showLoader } = props;
+  const { isError, data, isDrawerOpen, setDrawerOpen, refetch, showLoader } =
+    props;
+
+  const onClose = () => {
+    setDrawerOpen(false);
+  };
 
   return (
     <CommonDrawer
       title="Announcements"
       isDrawerOpen={isDrawerOpen}
-      onClose={() => onClose?.()}
+      onClose={onClose}
       isOk
       okText=""
     >

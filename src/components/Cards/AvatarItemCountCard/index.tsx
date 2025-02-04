@@ -1,7 +1,9 @@
 import { generateImage } from '@/utils/avatarUtils';
 import { Avatar, Box, Typography } from '@mui/material';
+import { AvatarItemCountCardPropsI } from '../Cards.interface';
+import { AVATAR_VARIANTS } from '@/constants/mui-constant';
 
-export const AvatarItemCountCard = (props: any) => {
+export const AvatarItemCountCard = (props: AvatarItemCountCardPropsI) => {
   const {
     avatarBgColor,
     name,
@@ -37,7 +39,7 @@ export const AvatarItemCountCard = (props: any) => {
             backgroundColor: avatarBgColor,
             padding: avatarPadding,
           }}
-          variant={avatarSize?.variant ?? 'circular'}
+          variant={avatarSize?.variant ?? AVATAR_VARIANTS?.CIRCULAR}
         />
       </Box>
       <Box sx={{ flex: 1 }}>

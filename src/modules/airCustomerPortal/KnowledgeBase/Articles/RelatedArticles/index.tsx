@@ -38,7 +38,7 @@ export const RelatedArticles = () => {
           noDataMessage="No related articles found"
         >
           {relatedArticlesData?.map((article: any) => (
-            <Box key={article?._id}>
+            <Box key={article?._id} sx={{ my: 1 }}>
               <ItemSummaryCard
                 onClick={() => handleRelatedArticles(article?._id)}
                 Icon={<DocumentTextIcon />}
