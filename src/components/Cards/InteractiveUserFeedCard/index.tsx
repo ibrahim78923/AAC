@@ -21,6 +21,7 @@ export const InteractiveUserFeedCard = (
     hasAction,
     dateFrom,
     description,
+    hasDescription = true,
   } = props;
 
   return (
@@ -41,7 +42,7 @@ export const InteractiveUserFeedCard = (
           component={'div'}
           color={'blue.main'}
         >
-          <TruncateText text={title} isCapital={false} />
+          <TruncateText text={title} isCapital={false} size={30} />
         </Typography>
         <Box display={'flex'} flexWrap={'wrap'} gap={1}>
           <UserInfo
@@ -62,7 +63,13 @@ export const InteractiveUserFeedCard = (
           )}
         </Box>
       </Box>
-      {!!description ? <HtmlRenderer description={description} /> : '---'}
+      {!hasDescription ? (
+        ''
+      ) : !!description ? (
+        <HtmlRenderer description={description} />
+      ) : (
+        '---'
+      )}
       <Typography color={'grey.900'} component={'p'} variant="body3">
         {formatTimeDifference(dateFrom)}
       </Typography>

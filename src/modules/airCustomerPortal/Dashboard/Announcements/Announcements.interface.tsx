@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react';
+
 export interface AnnouncementDataI {
   _id?: string;
   title?: string;
@@ -23,7 +25,7 @@ export interface AnnouncementDataI {
 
 export interface AnnouncementsListPropsI {
   isDrawerOpen: boolean;
-  onClose: () => void;
+  setDrawerOpen: Dispatch<SetStateAction<boolean>>;
   data: AnnouncementDataI;
   isLoading?: boolean;
   isFetching?: boolean;

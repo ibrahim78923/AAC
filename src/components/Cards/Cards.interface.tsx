@@ -101,6 +101,7 @@ export interface InteractiveUserFeedCardPropsI {
   hasAction?: boolean;
   dateFrom?: Date | string;
   description?: string | TrustedHTML;
+  hasDescription?: boolean;
 }
 
 export interface InventoryCardPropsI {

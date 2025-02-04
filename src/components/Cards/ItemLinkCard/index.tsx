@@ -1,7 +1,8 @@
 import { Avatar, Box, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
+import { ItemLinkCardPropsI } from '../Cards.interface';
 
-export const ItemLinkCard = (props: any) => {
+export const ItemLinkCard = (props: ItemLinkCardPropsI) => {
   const {
     Icon = null,
     itemType,

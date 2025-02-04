@@ -19,37 +19,43 @@ export const TicketStatusCount = () => {
   } = useTicketStatusCount();
 
   return (
-    <ApiRequestFlow
-      showSkeleton={showLoader}
-      hasError={isError}
-      refreshApi={refetch}
-      skeletonType={SKELETON_TYPES?.BASIC_CARD}
-      cardSkeletonType={SKELETON_TYPES?.TWO_LAYER_CARD}
-    >
+    <>
       <Box sx={{ textAlign: 'right', mb: 0.5 }}>
-        <ApiPollingButton
-          showLoader={showLoader}
-          onClick={refetch}
-          variant="text"
-          intervalTime={AUTO_REFRESH_API_TIME_INTERVAL?.DASHBOARD}
-          isFetching={isFetching}
-          fulfilledTimeStamp={fulfilledTimeStamp}
-        />
-      </Box>
-      <ListGrid
-        list={ticketDashboardCards}
-        md={4}
-        lg={3}
-        render={(item: any) => (
-          <AvatarItemCountCard
-            avatarBgColor={item?.color}
-            name={item?.label}
-            count={item?.count}
-            avatarUrl={TicketStatusCountImage}
-            isDynamic={false}
+        {isError ? (
+          <></>
+        ) : (
+          <ApiPollingButton
+            showLoader={showLoader}
+            onClick={refetch}
+            variant="text"
+            intervalTime={AUTO_REFRESH_API_TIME_INTERVAL?.DASHBOARD}
+            isFetching={isFetching}
+            fulfilledTimeStamp={fulfilledTimeStamp}
           />
         )}
-      />
-    </ApiRequestFlow>
+      </Box>
+      <ApiRequestFlow
+        showSkeleton={showLoader}
+        hasError={isError}
+        refreshApi={refetch}
+        skeletonType={SKELETON_TYPES?.BASIC_CARD}
+        cardSkeletonType={SKELETON_TYPES?.TWO_LAYER_CARD}
+      >
+        <ListGrid
+          list={ticketDashboardCards}
+          md={4}
+          lg={3}
+          render={(item: any) => (
+            <AvatarItemCountCard
+              avatarBgColor={item?.color}
+              name={item?.label}
+              count={item?.count}
+              avatarUrl={TicketStatusCountImage}
+              isDynamic={false}
+            />
+          )}
+        />
+      </ApiRequestFlow>
+    </>
   );
 };

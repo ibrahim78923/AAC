@@ -39,7 +39,7 @@ export const usePostArticleFeedback = (props: any) => {
       : companyId;
     if (!id) return null;
     try {
-      atob(id);
+      return atob(id);
     } catch (error) {
       return null;
     }
