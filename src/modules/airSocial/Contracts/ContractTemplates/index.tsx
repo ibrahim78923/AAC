@@ -1,5 +1,5 @@
 import React from 'react';
-import Link from 'next/link';
+// import Link from 'next/link';
 import PlainHeader from '@/components/PlainHeader';
 import Search from '@/components/Search';
 import TemplateCard from './TemplateCard';
@@ -49,7 +49,7 @@ export default function ContractTemplates() {
           <Box sx={styles.search}>
             <Search
               setSearchBy={setSearchBy}
-              placeholder="Search for templates"
+              placeholder="Search by template name"
               backgroundColor="#fff"
               size="small"
               fullWidth
@@ -57,7 +57,7 @@ export default function ContractTemplates() {
           </Box>
         </Box>
 
-        <Box sx={styles.recentlyUsedItems}>
+        {/* <Box sx={styles.recentlyUsedItems}>
           <Box sx={styles.recentlyUsedHighlight}>Recently Used</Box>
           {recentlyUsedTemplatesData?.data.map((item: any) => (
             <Box
@@ -69,9 +69,9 @@ export default function ContractTemplates() {
               {item?.name}
             </Box>
           ))}
-        </Box>
+        </Box> */}
 
-        <Box component={'section'} sx={styles.section}>
+        <Box component={'section'} sx={styles.section} mt="30px">
           <Typography sx={styles.sectionHeading} variant="h3">
             Recently Used
           </Typography>
@@ -111,7 +111,12 @@ export default function ContractTemplates() {
         {(loadingMyTemplates || fetchingMyTemplates) && (
           <Box component={'section'} sx={styles.section}>
             <Box sx={{ mb: '18px' }}>
-              <Skeleton animation="wave" variant="text" sx={styles?.skeleton} />
+              <Skeleton
+                height={54}
+                animation="wave"
+                variant="text"
+                sx={styles?.skeleton}
+              />
             </Box>
             <Grid container spacing={'12px'}>
               {Array(6)

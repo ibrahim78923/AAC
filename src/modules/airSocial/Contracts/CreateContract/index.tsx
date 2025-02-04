@@ -65,6 +65,7 @@ export default function CreateContract() {
     setSelectedSigneeId,
 
     // dataTemplateById,
+    loadingGetContractById,
     loadingGetTemplateById,
     loadingUpdateTemplate,
     handleSubmitUpdateTemplate,
@@ -98,6 +99,7 @@ export default function CreateContract() {
           loadingCreateTemplate ||
           loadingCreateDraft ||
           loadingGetTemplateById ||
+          loadingGetContractById ||
           loadingUpdateTemplate
         }
         sx={{

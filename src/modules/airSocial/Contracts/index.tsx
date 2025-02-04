@@ -63,12 +63,12 @@ import { v4 as uuidv4 } from 'uuid';
 
 const Contracts = () => {
   const theme = useTheme();
-  const { handleClickCreateDraft, handleClickSignPdf } = useContracts();
-
   const [selectedRecords, setSelectedRecords] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [activeMenu, setActiveMenu] = useState<any>({});
   const [activeFolder, setActiveFolder] = useState<any>({});
+  const { handleClickCreateDraft, handleClickSignPdf } =
+    useContracts(activeFolder);
 
   const { data, isLoading } = useGetCommonContractsSharedFoldersListQuery({
     page: 1,

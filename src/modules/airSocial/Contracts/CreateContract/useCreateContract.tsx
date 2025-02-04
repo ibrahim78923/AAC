@@ -10,6 +10,7 @@ import {
   useCreateCommonContractAsDraftMutation,
   useGetCommonContractTemplateByIdQuery,
   useUpdateCommonContractTemplateMutation,
+  useGetCommonContractByIdQuery,
   // usePostSignAndSendMutation,
 } from '@/services/commonFeatures/contracts';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
@@ -24,7 +25,7 @@ export default function useCreateContract() {
   /* VARIABLE DECLERATION
   -------------------------------------------------------------------------------------*/
   const router = useRouter();
-  const { templateId, folderId } = router?.query;
+  const { templateId, folderId, contractId } = router?.query;
 
   const [activeView, setActiveView] = useState<string>('create');
   const [openModalManageSignature, setOpenModalManageSignature] =
@@ -32,12 +33,22 @@ export default function useCreateContract() {
   const [templateCatgValue, setTemplateCatgValue] = useState<string>('');
   const [openModalTemplateCategories, setOpenModalTemplateCategories] =
     useState<boolean>(false);
+
   const { data: dataTemplateById, isLoading: loadingGetTemplateById } =
     useGetCommonContractTemplateByIdQuery(templateId, { skip: !templateId });
 
+  const { data: dataContractById, isLoading: loadingGetContractById } =
+    useGetCommonContractByIdQuery(contractId, { skip: !contractId });
+
+  const contractDetailsData = templateId
+    ? dataTemplateById?.data
+    : contractId
+      ? dataContractById?.data
+      : undefined;
+
   const methods: any = useForm<any>({
     resolver: yupResolver(validationSchema()),
-    defaultValues: defaultValues(dataTemplateById?.data ?? {}),
+    defaultValues: defaultValues(contractDetailsData),
   });
   const { control, handleSubmit, reset, setValue } = methods;
 
@@ -99,8 +110,8 @@ export default function useCreateContract() {
   }, [signeeValues]);
 
   useEffect(() => {
-    reset(defaultValues(dataTemplateById?.data ?? {}));
-  }, [dataTemplateById, methods, reset]);
+    reset(defaultValues(contractDetailsData ?? {}));
+  }, [contractDetailsData, contractId, methods, reset]);
 
   useEffect(() => {
     partyValues?.forEach((party: any, index: number) => {
@@ -165,18 +176,18 @@ export default function useCreateContract() {
   const handleSubmitCreateTemplate = (saveAs: string) =>
     handleSubmit((values: any) => onSubmit(values, saveAs));
 
-  // Template Save Changes
+  // Template Update/Save Changes
   const [updateCommonContractTemplate, { isLoading: loadingUpdateTemplate }] =
     useUpdateCommonContractTemplateMutation();
 
   const onSubmitUpdateTemplate = async (values: any) => {
     const formData = new FormData();
     formData.append('name', values?.name);
-    formData.append('folderId', values?.folderId);
+    // formData.append('folderId', values?.folderId);
     // formData.append('status', values?.status ?? 'PENDING');
     formData.append('attachment', values?.attachment);
     formData.append('message', values?.message);
-    formData.append('visibleTo', values?.visibleTo);
+    // formData.append('visibleTo', values?.visibleTo);
     formData.append('logo', values?.logo);
     formData.append('parties', getPartiesFormData(values?.parties));
     formData.append('signees', getSigneesFormData(values?.signees));
@@ -394,5 +405,8 @@ export default function useCreateContract() {
     setOpenModalTemplateCategories,
     templateCatgValue,
     setTemplateCatgValue,
+
+    loadingGetContractById,
+    dataContractById,
   };
 }

@@ -37,7 +37,12 @@ export const styles = {
       '& .menu-toggle': { opacity: '1 !important', transition: '0.3s' },
     },
   }),
-  exposeFolderMenuOnHover: (folderToMove: any, item: any, theme: any, isSelected:any) => ({
+  exposeFolderMenuOnHover: (
+    folderToMove: any,
+    item: any,
+    theme: any,
+    isSelected: any,
+  ) => ({
     alignItems: 'center',
     gap: '10px',
     background: isSelected ? theme?.palette?.grey[400] : 'inherit',
