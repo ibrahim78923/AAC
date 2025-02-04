@@ -12,6 +12,7 @@ import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { HtmlRenderer } from '@/components/DataDisplay/HtmlRenderer';
 
 export const DetailCard = () => {
   const { attachFile, data, router, isLoading, isFetching, isError, refetch } =
@@ -134,18 +135,11 @@ export const DetailCard = () => {
                 >
                   Description:
                 </Typography>
-                <Box maxHeight={'10vh'} overflow="auto" component={'span'}>
-                  <Typography
-                    variant="body2"
-                    color="slateBlue.main"
-                    sx={{ wordBreak: 'break-all' }}
-                    dangerouslySetInnerHTML={{
-                      __html: !!ticketDetail?.description
-                        ? ticketDetail?.description
-                        : '---',
-                    }}
-                  />
-                </Box>
+                {!!ticketDetail?.description ? (
+                  <HtmlRenderer description={ticketDetail?.description} />
+                ) : (
+                  '---'
+                )}
               </Box>
               <Box display={'flex'} flexWrap={'wrap'} gap={2} marginBottom={1}>
                 <Typography

@@ -18,6 +18,7 @@ import { UserInfo } from '@/components/UserInfo';
 import { LogInfo } from '@/components/LogInfo';
 import { AttachFileCard } from '@/components/Avatars/AttachFileCard';
 import { otherDateFormat } from '@/lib/date-time';
+import { HtmlRenderer } from '@/components/DataDisplay/HtmlRenderer';
 
 export const ConversationCard = (props: any) => {
   const { data, setAction } = props;
@@ -154,14 +155,7 @@ export const ConversationCard = (props: any) => {
           </PermissionsGuard>
         </Box>
       </Box>
-      <Box
-        mt={1.5}
-        fontWeight={'fontWeightSmall'}
-        maxHeight={'15vh'}
-        overflow={'auto'}
-      >
-        <Box dangerouslySetInnerHTML={{ __html: data?.html }}></Box>
-      </Box>
+      {!!data?.html ? <HtmlRenderer description={data?.html} /> : '---'}
     </Box>
   );
 };

@@ -4,6 +4,7 @@ import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProg
 import { Box, Typography } from '@mui/material';
 import { useSingleArticle } from './useSingleArticle';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { HtmlRenderer } from '@/components/DataDisplay/HtmlRenderer';
 
 export const SingleArticle = () => {
   const { singleArticlesData, handlePageBack, showLoader, isError, refetch } =
@@ -23,12 +24,14 @@ export const SingleArticle = () => {
         hasError={isError}
         refreshApi={refetch}
       >
-        <Box
-          sx={{ wordBreak: 'break-all', overflow: 'auto' }}
-          dangerouslySetInnerHTML={{
-            __html: singleArticlesData?.details,
-          }}
-        />
+        {!!singleArticlesData?.details ? (
+          <HtmlRenderer
+            maxHeight="none"
+            description={singleArticlesData?.details}
+          />
+        ) : (
+          <Typography>No description available</Typography>
+        )}
         {!!singleArticlesData?._id && (
           <>
             <Typography

@@ -4,6 +4,7 @@ import { useOverview } from './useOverview';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
+import { HtmlRenderer } from '@/components/DataDisplay/HtmlRenderer';
 
 export const Overview = () => {
   const { isLoading, dataArray, isFetching, isError, refetch } = useOverview();
@@ -31,13 +32,12 @@ export const Overview = () => {
               {Object?.keys?.(item)?.[ARRAY_INDEX?.ZERO]}:
             </Typography>
             {item?.Description ? (
-              <Typography
-                variant={'body2'}
-                p={2}
-                color={'grey.900'}
-                fontWeight={500}
-                dangerouslySetInnerHTML={{ __html: item?.Description }}
-              />
+              <Box px={2} py={0.5}>
+                <HtmlRenderer
+                  maxHeight="none"
+                  description={item?.Description}
+                />
+              </Box>
             ) : (
               <Typography
                 variant={'body2'}

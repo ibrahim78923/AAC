@@ -46,6 +46,7 @@ export const Announcements = () => {
               title={announcement?.title}
               dateFrom={announcement?.createdAt}
               hasBorderBottom={index !== data?.data?.length - 1}
+              description={announcement?.description}
             />
           ))}
         </ApiRequestFlow>

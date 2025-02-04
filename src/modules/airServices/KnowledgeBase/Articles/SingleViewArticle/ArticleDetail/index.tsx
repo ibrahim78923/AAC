@@ -12,6 +12,7 @@ import { Fragment } from 'react';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { HtmlRenderer } from '@/components/DataDisplay/HtmlRenderer';
 
 export const ArticleDetail = () => {
   const {
@@ -47,10 +48,11 @@ export const ArticleDetail = () => {
               isCapital={false}
             />
           </Typography>
-          <Box
-            sx={{ wordBreak: 'break-all', overflow: 'auto' }}
-            dangerouslySetInnerHTML={{ __html: data?.data?.details }}
-          />
+          {!!data?.data?.details ? (
+            <HtmlRenderer maxHeight="none" description={data?.data?.details} />
+          ) : (
+            <Typography>No description available</Typography>
+          )}
           {!!articleId && (
             <>
               <Typography

@@ -11,6 +11,7 @@ import { otherDateFormat } from '@/lib/date-time';
 import { AttachFileCard } from '@/components/Avatars/AttachFileCard';
 import { LogInfo } from '@/components/LogInfo';
 import { UserInfo } from '@/components/UserInfo';
+import { HtmlRenderer } from '@/components/DataDisplay/HtmlRenderer';
 
 export const ConversationCard = (props: ConversationCardPropsI) => {
   const { data, isReplyOpen, setIsReplyOpen, singleTicketData } = props;
@@ -89,9 +90,7 @@ export const ConversationCard = (props: ConversationCardPropsI) => {
           </CustomTooltip>
         </Box>
       </Box>
-      <Box my={1.5} fontWeight={600} maxHeight={'15vh'} overflow={'auto'}>
-        <Box dangerouslySetInnerHTML={{ __html: data?.html }}></Box>
-      </Box>
+      {!!data?.html ? <HtmlRenderer description={data?.html} /> : '---'}
       {isReplyOpen?.isOpen && isReplyOpen?.data?._id === data?._id && (
         <ReplySingleTicketConversation
           isReplyOpen={isReplyOpen}

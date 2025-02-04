@@ -53,6 +53,7 @@ export const Announcement = (props: SingleDashboardComponentPropsI) => {
                     title={announcement?.title}
                     dateFrom={announcement?.createdAt}
                     hasBorderBottom
+                    description={announcement?.description}
                   />
                 ))}
             </>

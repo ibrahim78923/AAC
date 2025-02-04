@@ -13,6 +13,7 @@ import { capitalizeFirstLetter } from '@/utils/api';
 import { CustomChip } from '@/components/Chip/CustomChip';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { Attachments } from '@/components/Attachments';
+import { HtmlRenderer } from '@/components/DataDisplay/HtmlRenderer';
 
 export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
   const {
@@ -64,12 +65,9 @@ export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
             Description:
           </Typography>
           {!!singleTicketData?.description ? (
-            <Box
-              height={'20rem'}
-              overflow={'scroll'}
-              dangerouslySetInnerHTML={{
-                __html: singleTicketData?.description,
-              }}
+            <HtmlRenderer
+              maxHeight="none"
+              description={singleTicketData?.description}
             />
           ) : (
             <Typography>No description available</Typography>

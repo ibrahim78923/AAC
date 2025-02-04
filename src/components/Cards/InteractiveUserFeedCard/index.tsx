@@ -5,8 +5,12 @@ import { TruncateText } from '@/components/TruncateText';
 import { UserInfo } from '@/components/UserInfo';
 import { PublicSingleDropdownButton } from '@/components/Buttons/PublicSingleDropdownButton';
 import { formatTimeDifference } from '@/lib/date-time';
+import { InteractiveUserFeedCardPropsI } from '../Cards.interface';
+import { HtmlRenderer } from '@/components/DataDisplay/HtmlRenderer';
 
-export const InteractiveUserFeedCard = (props: any) => {
+export const InteractiveUserFeedCard = (
+  props: InteractiveUserFeedCardPropsI,
+) => {
   const {
     dropdownAnnouncementsOptions,
     title,
@@ -58,21 +62,7 @@ export const InteractiveUserFeedCard = (props: any) => {
           )}
         </Box>
       </Box>
-      {!!description && (
-        <Box
-          sx={{
-            color: 'custom.mulled_wine',
-            overflow: 'auto',
-            maxHeight: '10vh',
-            my: 1,
-            '&::-webkit-scrollbar': {
-              width: 1,
-              height: 1,
-            },
-          }}
-          dangerouslySetInnerHTML={{ __html: description }}
-        />
-      )}
+      {!!description ? <HtmlRenderer description={description} /> : '---'}
       <Typography color={'grey.900'} component={'p'} variant="body3">
         {formatTimeDifference(dateFrom)}
       </Typography>
