@@ -3,14 +3,11 @@ import { Close } from '@mui/icons-material';
 import { useAttachFileCard } from './useAttachFileCard';
 import {
   formatFileSize,
-  generateImage,
   getImageByType,
   truncateText,
 } from '@/utils/avatarUtils';
 import { ConditionalPermissionGuard } from '@/GuardsAndPermissions/ConditionalPermissionGuard';
 import { ViewAvatar } from '../ViewAvatar';
-import { makeDownloadLink } from '@/utils/file';
-import { EXCLUDE_FILE_PREVIEW } from '@/constants/file';
 import { AttachFileCardPropsI } from '../Avatars.interface';
 import { AVATAR_VARIANTS } from '@/constants/mui-constant';
 
@@ -27,8 +24,8 @@ export const AttachFileCard = (props: AttachFileCardPropsI) => {
     canPreviewImage = true,
   } = props;
 
-  const { cross, setCross, isPortalOpen, setIsPortalOpen } =
-    useAttachFileCard();
+  const { cross, setCross, isPortalOpen, setIsPortalOpen, onClick } =
+    useAttachFileCard(props);
 
   return (
     <>
@@ -60,18 +57,10 @@ export const AttachFileCard = (props: AttachFileCardPropsI) => {
           sx={{
             width: size?.width ?? 35,
             height: size?.height ?? 35,
-            cursor: canPreviewImage ? 'pointer' : 'default',
+            cursor: canPreviewImage && data?.fileUrl ? 'pointer' : 'default',
           }}
           variant={size?.variant ?? AVATAR_VARIANTS?.ROUNDED}
-          onClick={() => {
-            if (!canPreviewImage) return;
-            if (EXCLUDE_FILE_PREVIEW?.[data?.fileType])
-              return makeDownloadLink(
-                data?.orignalName,
-                generateImage(data?.fileUrl),
-              );
-            setIsPortalOpen(true);
-          }}
+          onClick={onClick}
         />
         <Box
           display={'flex'}

@@ -45,7 +45,7 @@ export const Overview = () => {
                 color={'grey.900'}
                 fontWeight={500}
               >
-                {item?.[Object?.keys?.(item)?.[0]]}
+                {item?.[Object?.keys?.(item)?.[ARRAY_INDEX?.ZERO]]}
               </Typography>
             )}
           </Box>

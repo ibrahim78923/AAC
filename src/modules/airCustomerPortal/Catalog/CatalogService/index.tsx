@@ -11,6 +11,7 @@ import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 import { SingleBreadcrumb } from '@/components/Breadcrumbs/SingleBreadcrumb';
+import { HtmlRenderer } from '@/components/DataDisplay/HtmlRenderer';
 
 const CatalogService = () => {
   const {
@@ -46,6 +47,7 @@ const CatalogService = () => {
           />
         }
       />
+
       <ContainerGrid>
         <CustomGrid md={6} lg={4}>
           <AvatarInfoCard
@@ -56,32 +58,30 @@ const CatalogService = () => {
           />
         </CustomGrid>
       </ContainerGrid>
-
-      <Box my={1}>
+      <Box mt={1} mb={2}>
         <Typography variant="h5">{servicesDetails?.data?.itemName}</Typography>
         <Typography variant="body1" my={1} color="blue.lighter">
           Description:
         </Typography>
         {!!servicesDetails?.data?.description ? (
-          <Typography
-            color="blue.lighter"
-            variant="body4"
-            dangerouslySetInnerHTML={{
-              __html: servicesDetails?.data?.description,
-            }}
+          <HtmlRenderer
+            maxHeight="none"
+            description={servicesDetails?.data?.description}
           />
         ) : (
-          '---'
+          <Typography>No description available</Typography>
         )}
       </Box>
+      <br />
+      <br />
       <Box
         display={'flex'}
         alignItems={'center'}
-        justifyContent={'end'}
+        justifyContent={'flex-end'}
+        gap={2}
         position={'absolute'}
         bottom={'1rem'}
-        right={'2rem'}
-        gap={2}
+        right={'1rem'}
       >
         <LoadingButton
           className="small"
@@ -111,6 +111,7 @@ const CatalogService = () => {
           Place Request
         </LoadingButton>
       </Box>
+
       {open && (
         <CatalogRequest
           open={open}
