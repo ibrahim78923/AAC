@@ -85,7 +85,7 @@ export default function useCreateContract() {
   const {
     fields: dynamicFields,
     append: appendDynamicField,
-    // remove: removeDynamicField,
+    remove: removeDynamicField,
     update: updateDynamicField,
   } = useFieldArray({
     control,
@@ -259,16 +259,30 @@ export default function useCreateContract() {
 
   const handleAddDynamicField = useCallback(
     (data: any) => {
-      appendDynamicField({
+      const newField = {
         label: data?.name,
         name: `dynamicFields.${dynamicFields?.length}.${data?.name}`,
         type: data?.type,
         required: false,
         description: '',
         value: '',
-      });
+      };
+      if (data?.type === 'checkbox') {
+        newField.options = [
+          { value: 'yes', label: 'Yes' },
+          { value: 'no', label: 'No' },
+        ];
+      }
+      appendDynamicField(newField);
     },
     [appendDynamicField],
+  );
+
+  const handleRemoveDynamicField = useCallback(
+    (index: number) => {
+      removeDynamicField(index);
+    },
+    [removeDynamicField],
   );
 
   const handleUpdateDynamicField = useCallback(
@@ -395,6 +409,7 @@ export default function useCreateContract() {
     loadingUpdateTemplate,
     handleSubmitUpdateTemplate,
     handleAddDynamicField,
+    handleRemoveDynamicField,
     handleUpdateDynamicField,
     isConfirmSigning,
     handleChangeConfirmSigning,

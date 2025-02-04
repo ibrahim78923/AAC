@@ -56,6 +56,7 @@ export default function DataFields({
   handleAddDynamicField,
   allDataFields,
   handleUpdateDynamicField,
+  handleRemoveDynamicField,
 }: any) {
   return (
     <Box sx={styles?.dataFields}>
@@ -68,6 +69,7 @@ export default function DataFields({
         data={allDataFields}
         handleAddDynamicField={handleAddDynamicField}
         handleUpdateDynamicField={handleUpdateDynamicField}
+        handleRemoveDynamicField={handleRemoveDynamicField}
       />
     </Box>
   );

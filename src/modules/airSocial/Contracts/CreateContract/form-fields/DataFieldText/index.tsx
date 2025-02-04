@@ -31,6 +31,7 @@ export default function DataFieldText({ data }: any) {
       size="small"
       fullWidth
       sx={styles}
+      value={data?.value}
     />
   );
 }

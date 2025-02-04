@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { RHFDatePicker } from '@/components/ReactHookForm';
 import { Theme } from '@mui/material';
 
@@ -45,6 +45,13 @@ const styles = (theme: Theme) => ({
 });
 
 export default function DataFieldDate({ data }: any) {
+  const [selectedDate, setSelectedDate] = useState(
+    data?.value ? new Date(data?.value) : null,
+  );
+  const handleDateChange = (date: any) => {
+    setSelectedDate(date);
+  };
+
   return (
     <RHFDatePicker
       name={data?.name}
@@ -52,6 +59,8 @@ export default function DataFieldDate({ data }: any) {
       size="small"
       fullWidth
       sx={styles}
+      value={selectedDate}
+      onChange={handleDateChange}
     />
   );
 }
