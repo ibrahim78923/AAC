@@ -49,7 +49,7 @@ export const contractsFiltersValidationSchema = Yup.object().shape({
   date: Yup?.mixed()?.nullable()?.required('dateRange is required'),
 });
 export const contractsFiltersDefaultValues = {
-  name: '',
+  type: '',
   sortBy: '',
   date: {
     startDate: new Date(),

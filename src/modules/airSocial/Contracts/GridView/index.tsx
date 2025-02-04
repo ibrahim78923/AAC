@@ -15,6 +15,7 @@ const ContractsGrid = ({
   selectedRecords,
   setSelectedRecords,
   tabValue,
+  filterParams,
 }: any) => {
   const {
     isViewAllActivityDrawerOpen,
@@ -27,7 +28,7 @@ const ContractsGrid = ({
     setPage,
     setPageLimit,
     theme,
-  } = useGridView({ tabValue, activeFolder });
+  } = useGridView({ tabValue, activeFolder, filterParams });
 
   return (
     <div>
