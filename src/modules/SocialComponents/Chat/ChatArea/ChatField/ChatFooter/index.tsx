@@ -97,18 +97,19 @@ const ChatFooter = ({ handleScrollToBottom }: any) => {
       content: messageText,
     };
     const addMessagePayload = {
-      ...(chatMode === CHAT_TYPES?.PERSONAL_CHAT && {
+      ...(chatMode !== CHAT_TYPES?.GROUP_CHAT && {
         receiverId: activeReceiverId && activeReceiverId[0],
       }),
       chatId: activeChatId && activeChatId,
-      ...(chatMode === 'groupChat' && {
-        ownerDetails: {
-          firstName: user?.firstName,
-          lastName: user?.lastName,
-          avatar: user?.avatar,
-          _id: user?._id,
-        },
-      }),
+      // For Future use if we want to add owner details in group chat CC-OPT-1
+      // ...(chatMode === 'groupChat' && {
+      ownerDetails: {
+        firstName: user?.firstName,
+        lastName: user?.lastName,
+        avatar: user?.avatar,
+        _id: user?._id,
+      },
+      // }),
       content: messageText,
       media: imageToUpload,
       ...(imageToUpload?.length > 0 && { type: attachmentType }),
@@ -117,7 +118,7 @@ const ChatFooter = ({ handleScrollToBottom }: any) => {
       }),
     };
     const addMessageReplyPayload = {
-      ...(chatMode === CHAT_TYPES?.PERSONAL_CHAT && {
+      ...(chatMode !== CHAT_TYPES?.GROUP_CHAT && {
         receiverId: activeReceiverId && activeReceiverId[0],
       }),
       chatId: activeChatId && activeChatId,
@@ -165,7 +166,7 @@ const ChatFooter = ({ handleScrollToBottom }: any) => {
       user?.firstName.toLowerCase() + ' ' + user?.lastName.toLowerCase()
     }`,
     isGroup: chatMode === CHAT_TYPES?.GROUP_CHAT ? true : false,
-    ...(chatMode === CHAT_TYPES?.PERSONAL_CHAT && {
+    ...(chatMode !== CHAT_TYPES?.GROUP_CHAT && {
       receiverId: activeReceiverId && activeReceiverId[0],
     }),
     ...(chatMode === CHAT_TYPES?.PERSONAL_CHAT && { chatId: activeChatId }),

@@ -1,0 +1,71 @@
+import { LogoImage, PageNotFoundImage } from '@/assets/images';
+import { AUTH } from '@/constants';
+import useAuth from '@/hooks/useAuth';
+import { Grid, Typography, Box, useTheme } from '@mui/material';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+
+const PageNotAccess = ({ image = PageNotFoundImage, height = '70vh' }: any) => {
+  const router = useRouter();
+  const theme = useTheme();
+
+  const { logout } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();
+    router.push(AUTH?.LOGIN);
+  };
+
+  return (
+    <Grid
+      container
+      justifyContent={'center'}
+      alignItems={'center'}
+      height={height}
+    >
+      <Grid item textAlign={'center'}>
+        <Box sx={{ gap: '10px', display: 'flex', justifyContent: 'center' }}>
+          <Image src={LogoImage} width={0} height={0} alt="Not Found" />
+          <Typography variant="h3" mb={2}>
+            Air Apple Cart
+          </Typography>
+        </Box>
+        <Typography variant="h3" mt={4} mb={4}>
+          You don't have access to this page. Please contact with your
+          administrator to resolve this issue
+        </Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Image src={image} width={0} height={0} alt="Not Found" />
+        </Box>
+        <Typography variant="h6" mt={4}>
+          <span
+            style={{
+              color: theme?.palette?.error?.dark,
+              fontWeight: 800,
+              fontSize: '1.4rem',
+              cursor: 'pointer',
+            }}
+            onClick={() => router.push(router.query?.redirect || '/')}
+          >
+            Back
+          </span>
+        </Typography>
+        <Typography variant="h6" mt={4}>
+          <span
+            style={{
+              color: theme?.palette?.error?.dark,
+              fontWeight: 800,
+              fontSize: '1.4rem',
+              cursor: 'pointer',
+            }}
+            onClick={handleLogout}
+          >
+            Logout
+          </span>
+        </Typography>
+      </Grid>
+    </Grid>
+  );
+};
+
+export default PageNotAccess;
