@@ -7,8 +7,11 @@ import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton'
 import { ConditionalPermissionGuard } from '@/GuardsAndPermissions/ConditionalPermissionGuard';
 import { MoreHoriz } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
+import { SemiInteractiveInfoCardPropsI } from '../Cards.interface';
 
-export const SemiInteractiveInfoCard = (props: any) => {
+export const SemiInteractiveInfoCard = (
+  props: SemiInteractiveInfoCardPropsI,
+) => {
   const {
     outerPaddingY = 2,
     isLocked = true,

@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import { useTicketStatusCount } from './useTicketStatusCount';
 import { TicketStatusCountImage } from '@/assets/images';
 import { ApiPollingButton } from '@/components/Buttons/ApiPollingButton';
-import { AvatarItemCountCard } from '@/components/Cards/AvatarItemCountCard/AvatarItemCountCard';
+import { AvatarItemCountCard } from '@/components/Cards/AvatarItemCountCard';
 import { AUTO_REFRESH_API_TIME_INTERVAL } from '@/config';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';

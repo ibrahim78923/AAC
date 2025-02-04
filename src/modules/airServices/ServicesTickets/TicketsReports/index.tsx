@@ -8,7 +8,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_REPORTS_TICKETS_PERMISSIONS } from '@/constants/permission-keys';
 import { pxToRem } from '@/utils/getFontValue';
 import { AIR_SERVICES } from '@/constants/routes';
-import { ItemChipCard } from '@/components/Cards/ItemChipCard/ItemChipCard';
+import { ItemChipCard } from '@/components/Cards/ItemChipCard';
 import { DownloadButton } from '@/components/Buttons/DownloadButton';
 import { ApiPollingButton } from '@/components/Buttons/ApiPollingButton';
 import { AUTO_REFRESH_API_TIME_INTERVAL } from '@/config';

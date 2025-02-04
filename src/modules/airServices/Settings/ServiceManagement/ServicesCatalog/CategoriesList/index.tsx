@@ -2,7 +2,7 @@ import { AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS } from '@/constant
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES } from '@/constants/routes';
 import CustomPagination from '@/components/CustomPagination';
-import { IconInfoCard } from '@/components/Cards/IconInfoCard/IconInfoCard';
+import { IconInfoCard } from '@/components/Cards/IconInfoCard';
 import { DATA_TYPES } from '@/constants/strings';
 import { AddNewCard } from '@/components/Cards/AddNewCard';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';

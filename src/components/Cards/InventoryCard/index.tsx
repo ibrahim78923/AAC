@@ -4,20 +4,23 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { AlertModals } from '../../AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { splitCapitalizedWords } from '@/utils/api';
+import { InventoryCardPropsI } from '../Cards.interface';
 
-export const InventoryCard = ({
-  heading,
-  status,
-  children,
-  showChild,
-  openDeleteModal,
-  setOpenDeleteModal,
-  handleDelete,
-  setDelateRecord,
-  deletedRecordId,
-  deleteIsLoading,
-  hasDeleteIcon = true,
-}: any) => {
+export const InventoryCard = (props: InventoryCardPropsI) => {
+  const {
+    heading,
+    status,
+    children,
+    showChild,
+    openDeleteModal,
+    setOpenDeleteModal,
+    handleDelete,
+    setDelateRecord,
+    deletedRecordId,
+    deleteIsLoading,
+    hasDeleteIcon = true,
+  } = props;
+
   const theme: any = useTheme();
 
   const [showIcon, setShowIcon] = useState(false);
