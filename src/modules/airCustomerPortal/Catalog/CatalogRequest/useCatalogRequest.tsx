@@ -87,7 +87,7 @@ const useCatalogRequest = (props: CatalogRequestI) => {
 
     try {
       await postTicketTrigger(postTicketParameter)?.unwrap();
-      successSnackbar('Ticket Created Successfully');
+      successSnackbar('Ticket created successfully');
       handleClose?.();
       router?.push({
         pathname: AIR_CUSTOMER_PORTAL?.TICKETS,

@@ -2,7 +2,7 @@ import { Typography } from '@mui/material';
 import { agentPerformanceManagement } from './AgentPerformanceManagement';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ISettingsCards } from '../Settings.interface';
-import { ItemLinkCard } from '@/components/Cards/ItemLinkCard/ItemLinkCard';
+import { ItemLinkCard } from '@/components/Cards/ItemLinkCard';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 

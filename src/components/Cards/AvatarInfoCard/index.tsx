@@ -3,8 +3,9 @@ import { TruncateText } from '@/components/TruncateText';
 import { fullNameInitial } from '@/utils/avatarUtils';
 import { pxToRem } from '@/utils/getFontValue';
 import { Box, Checkbox, Typography } from '@mui/material';
+import { AvatarInfoCardPropsI } from '../Cards.interface';
 
-export const AvatarInfoCard = (props: any) => {
+export const AvatarInfoCard = (props: AvatarInfoCardPropsI) => {
   const {
     name,
     description,
@@ -80,7 +81,11 @@ export const AvatarInfoCard = (props: any) => {
               retainTextLeft={descriptionType}
               size={100}
               boxProps={{
-                sx: { fontSize: pxToRem(14), color: 'custom.main' },
+                sx: {
+                  wordBreak: 'break-word',
+                  fontSize: pxToRem(14),
+                  color: 'custom.main',
+                },
               }}
             />
             {!!info && (

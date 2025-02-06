@@ -34,7 +34,10 @@ export const defaultValues = (data: any) => {
     logo: data?.logo ?? null,
     signees: data?.signees ?? [],
     parties: data?.parties ?? [],
-    dynamicFields: data?.dynamicFields ?? [],
+    dynamicFields: [
+      ...defaultFieldsData,
+      ...(Array.isArray(data?.dynamicFields) ? data.dynamicFields : []),
+    ],
   };
 };
 

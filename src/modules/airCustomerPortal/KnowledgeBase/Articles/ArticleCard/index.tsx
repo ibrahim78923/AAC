@@ -6,6 +6,7 @@ import { KnowledgeBaseArticlesI } from './KnowledgeBaseArticles.interface';
 import { TruncateText } from '@/components/TruncateText';
 import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import { CustomIconButton } from '@/components/Buttons/CustomIconButton';
+import { HtmlRenderer } from '@/components/DataDisplay/HtmlRenderer';
 
 export const ArticleCard = (props: KnowledgeBaseArticlesI) => {
   const { modifiedDate, purposeDescription, articleId, articlesTitle } = props;
@@ -29,6 +30,7 @@ export const ArticleCard = (props: KnowledgeBaseArticlesI) => {
         flexDirection={{ xs: 'column', lg: 'row' }}
         gap={2}
         flex={1}
+        flexWrap={'wrap'}
       >
         <DocumentTextIcon />
         <Box
@@ -36,52 +38,44 @@ export const ArticleCard = (props: KnowledgeBaseArticlesI) => {
           justifyContent={'center'}
           alignItems={{ xs: 'center', lg: 'flex-start' }}
           flexDirection={'column'}
+          flex={0.35}
         >
           <Typography variant="h6">
-            {<TruncateText text={articlesTitle?.toLowerCase()} />}
+            <TruncateText text={articlesTitle?.toLowerCase()} />
           </Typography>
           <Typography color="secondary">Modified on: {modifiedDate}</Typography>
         </Box>
-        <Box
-          flex={0.8}
-          display={'flex'}
-          justifyContent={'center'}
-          alignItems={{ xs: 'center', lg: 'flex-start' }}
-          flexDirection={'column'}
-        >
-          <Typography variant="h6">Purpose:</Typography>
+        {!!purposeDescription && (
           <Box
-            sx={{
-              color: 'custom.mulled_wine',
-              overflow: 'auto',
-              maxHeight: '10vh',
-              '&::-webkit-scrollbar': {
-                width: 2,
-                height: 2,
-              },
-            }}
-            dangerouslySetInnerHTML={{
-              __html: purposeDescription,
-            }}
-          />
-        </Box>
+            flex={0.7}
+            display={'flex'}
+            justifyContent={'center'}
+            alignItems={{ xs: 'center', lg: 'flex-start' }}
+            flexDirection={'column'}
+          >
+            <Typography variant="h6">Purpose:</Typography>
+            <HtmlRenderer description={purposeDescription} />
+          </Box>
+        )}
       </Box>
-      <CustomIconButton
-        onClick={() =>
-          router?.push({
-            pathname: AIR_CUSTOMER_PORTAL?.KNOWLEDGE_BASE_TICKET_DETAIL,
-            query: {
-              articleId,
-              folderId: router?.query?.folderId,
-              ...(router?.query?.companyId && {
-                companyId: router?.query?.companyId,
-              }),
-            },
-          })
-        }
-      >
-        <VisibilityIcon sx={{ color: 'blue.main' }} />
-      </CustomIconButton>
+      <Box sx={{ flex: 0.1, textAlign: 'end' }}>
+        <CustomIconButton
+          onClick={() =>
+            router?.push({
+              pathname: AIR_CUSTOMER_PORTAL?.KNOWLEDGE_BASE_TICKET_DETAIL,
+              query: {
+                articleId,
+                folderId: router?.query?.folderId,
+                ...(router?.query?.companyId && {
+                  companyId: router?.query?.companyId,
+                }),
+              },
+            })
+          }
+        >
+          <VisibilityIcon sx={{ color: 'blue.main' }} />
+        </CustomIconButton>
+      </Box>
     </Box>
   );
 };

@@ -2,7 +2,7 @@ import { reportsTypes } from './Reports.data';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ServicesReportsTypesI } from './Reports.interface';
-import { ItemLinkCard } from '@/components/Cards/ItemLinkCard/ItemLinkCard';
+import { ItemLinkCard } from '@/components/Cards/ItemLinkCard';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 

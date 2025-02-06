@@ -11,12 +11,19 @@ export const useAssociateAssetsDropdown = () => {
   const session: any = useMemo(() => getSession(), []);
   const sessionId = session?.user?.companyId;
   const companyIdStorage = product?.company?._id;
+
   const decryptedId = useMemo(() => {
     const id = Array.isArray(companyId)
-      ? companyId[ARRAY_INDEX?.ZERO]
+      ? companyId?.[ARRAY_INDEX?.ZERO]
       : companyId;
-    return atob(id ?? '');
+    if (!id) return null;
+    try {
+      return atob(id);
+    } catch (error) {
+      return null;
+    }
   }, [companyId]);
+
   const getCompanyId = decryptedId || companyIdStorage || sessionId;
   const apiQueryAssociateAsset =
     useLazyGetAssociateAssetsDropdownByCompanyIdQuery();

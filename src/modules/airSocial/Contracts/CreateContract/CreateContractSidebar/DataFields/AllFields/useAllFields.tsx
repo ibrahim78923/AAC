@@ -13,7 +13,6 @@ import {
   PropertiesTextValidationSchema,
   PropertiesValidationSchema,
 } from './ModalPropertiesField/AddPropertiesFields.data';
-import { defaultFieldsData } from '../../../CreateContract.data';
 import dayjs from 'dayjs';
 import { CONTRACT_FORMAT } from '@/constants';
 
@@ -60,10 +59,10 @@ export default function useAllFields(
   };
 
   const [indexValue, setIndexValue] = useState(null);
-  const [allFields, setAllFields] = useState([...defaultFieldsData, ...data]);
+  const [allFields, setAllFields] = useState();
 
   useEffect(() => {
-    setAllFields([...defaultFieldsData, ...data]);
+    setAllFields(data);
   }, [data]);
 
   const [openModal, setOpenModal] = useState(false);
@@ -102,7 +101,7 @@ export default function useAllFields(
     }
 
     handleUpdateDynamicField(indexValue, {
-      required: values?.settings,
+      required: values?.required,
       description: descriptionValue,
       value: selectedField?.type === 'date' ? dateValue?.value : values?.value,
     });
@@ -167,5 +166,6 @@ export default function useAllFields(
     setOpenModal,
     setSelectedField,
     setValue,
+    setAllFields,
   };
 }

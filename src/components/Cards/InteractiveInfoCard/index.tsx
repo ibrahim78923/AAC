@@ -6,8 +6,10 @@ import { ConditionalPermissionGuard } from '@/GuardsAndPermissions/ConditionalPe
 import { CustomAvatar } from '@/components/Avatars/CustomAvatar';
 import { generateColorFromName } from '@/utils/avatarUtils';
 import { CustomAvatarGroup } from '@/components/Avatars/CustomAvatarGroup';
+import { InteractiveInfoCardPropsI } from '../Cards.interface';
+import { HtmlRenderer } from '@/components/DataDisplay/HtmlRenderer';
 
-export const InteractiveInfoCard = (props: any) => {
+export const InteractiveInfoCard = (props: InteractiveInfoCardPropsI) => {
   const {
     name,
     dropdownOptions,
@@ -75,23 +77,9 @@ export const InteractiveInfoCard = (props: any) => {
           />
         </ConditionalPermissionGuard>
       </Box>
-      <Box
-        dangerouslySetInnerHTML={{
-          __html: description,
-        }}
-        sx={{
-          color: 'custom.mulled_wine',
-          overflow: 'auto',
-          maxHeight: '10vh',
-          flex: 1,
-          my: 2,
-          '&::-webkit-scrollbar': {
-            width: 2,
-            height: 2,
-          },
-        }}
-      />
-
+      <Box sx={{ flexGrow: 1 }}>
+        {!!description ? <HtmlRenderer description={description} /> : '---'}
+      </Box>
       <Divider sx={{ my: 2 }} />
 
       <Box display={'flex'} alignItems={'center'} gap={1}>

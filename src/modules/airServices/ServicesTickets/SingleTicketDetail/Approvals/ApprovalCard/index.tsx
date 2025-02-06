@@ -11,6 +11,7 @@ import { TICKET_APPROVALS } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
 import { TICKET_APPROVALS_ACTIONS_CONSTANT } from '@/constants/portal-actions';
 import { uiDateFormat } from '@/lib/date-time';
+import { HtmlRenderer } from '@/components/DataDisplay/HtmlRenderer';
 
 const { REJECT_TICKET_APPROVAL, APPROVE_TICKET_APPROVAL } =
   TICKET_APPROVALS_ACTIONS_CONSTANT ?? {};
@@ -147,9 +148,11 @@ export const ApprovalCard = (props: any) => {
           )}
         </Box>
       </Box>
-      <Box fontWeight={'fontWeightSmall'} maxHeight={'15vh'} overflow={'auto'}>
-        <Box dangerouslySetInnerHTML={{ __html: data?.description }}></Box>
-      </Box>
+      {!!data?.description ? (
+        <HtmlRenderer description={data?.description} />
+      ) : (
+        '---'
+      )}
     </Box>
   );
 };

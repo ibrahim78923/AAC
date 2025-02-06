@@ -1,6 +1,6 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { TruncateText } from '@/components/TruncateText';
-import { Box } from '@mui/material';
+import { HtmlRenderer } from '@/components/DataDisplay/HtmlRenderer';
 
 export const Text = (props: any) => {
   const { title, description } = props;
@@ -10,12 +10,7 @@ export const Text = (props: any) => {
         title={<TruncateText text={title} />}
         titleVariant="h5"
       />
-      <Box maxHeight={'20vh'} overflow={'auto'}>
-        <Box
-          sx={{ wordBreak: 'break-all' }}
-          dangerouslySetInnerHTML={{ __html: description }}
-        />
-      </Box>
+      {!!description ? <HtmlRenderer description={description} /> : '---'}
     </>
   );
 };

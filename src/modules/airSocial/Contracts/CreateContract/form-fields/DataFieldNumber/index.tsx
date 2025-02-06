@@ -39,6 +39,7 @@ export default function DataFieldNumber({ data }: any) {
       size="small"
       fullWidth
       type="number"
+      value={data?.value}
       sx={styles}
       inputProps={{
         inputMode: 'numeric',

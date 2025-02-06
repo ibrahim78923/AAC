@@ -1,3 +1,4 @@
+import { generateImage } from '@/utils/avatarUtils';
 import {
   IconFieldCheckbox,
   IconFieldDate,
@@ -81,14 +82,19 @@ export const getFieldIcon = (type: string) => {
 export const getPartiesFormData = (parties: any) => {
   const formData = parties.map((party: any) => {
     if (party?._id) {
-      const { _id, ...rest } = party;
       return {
-        ...rest,
-        id: _id,
+        // name: party?.name,
+        // address: party?.address,
+        // idNumber: party?.idNumber,
+        // email: party?.email,
+        // referredAs: party?.referredAs,
+        // moduleType: party.moduleType,
+        // moduleId: party?.moduleId,
+        id: party?._id,
       };
     }
     return {
-      name: party?.name,
+      // name: party?.name,
       address: party?.address,
       idNumber: party?.idNumber,
       email: party?.email,
@@ -152,4 +158,24 @@ export const getTemplateSectionTitle = (category: string) => {
     default:
       return 'My Templates';
   }
+};
+
+type ServerAttachment = {
+  url: string;
+};
+
+export const getFileName = (attachment: File | ServerAttachment) => {
+  if (attachment instanceof File) return attachment.name;
+  if (attachment?.url) {
+    const safeUrl = attachment.url.toString();
+    const parts = safeUrl.split('/');
+    return parts[parts.length - 1] || 'Unnamed';
+  }
+  return 'Unnamed';
+};
+
+export const generateSrc = (attachment: File | ServerAttachment) => {
+  if (attachment instanceof File) return URL.createObjectURL(attachment);
+  if (attachment?.url) return generateImage(attachment?.url);
+  return '';
 };

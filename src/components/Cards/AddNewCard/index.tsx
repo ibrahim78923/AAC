@@ -1,7 +1,8 @@
 import { Box, Typography } from '@mui/material';
 import { Add } from '@mui/icons-material';
+import { AddNewCardPropsI } from '../Cards.interface';
 
-export const AddNewCard = (props: any) => {
+export const AddNewCard = (props: AddNewCardPropsI) => {
   const {
     onClick,
     title,
@@ -16,18 +17,20 @@ export const AddNewCard = (props: any) => {
 
   return (
     <Box
-      padding={2}
-      paddingY={outerPaddingY}
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      flexDirection={flexDirection}
-      gap={1}
-      height="100%"
-      border="1px solid"
-      borderColor={cardBorderColor}
-      borderRadius={2}
-      sx={{ cursor: 'pointer' }}
+      sx={{
+        cursor: 'pointer',
+        padding: 2,
+        paddingY: outerPaddingY,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: flexDirection,
+        gap: 1,
+        height: '100%',
+        border: '1px solid',
+        borderColor: cardBorderColor,
+        borderRadius: 2,
+      }}
       onClick={onClick}
     >
       <Box

@@ -2,7 +2,7 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { scheduleCards } from './ScheduleMeetings.data';
 import { SOCIAL_COMPONENTS } from '@/constants/routes';
 import { useScheduleMeetings } from './useScheduleMeetings';
-import { ItemLinkCard } from '@/components/Cards/ItemLinkCard/ItemLinkCard';
+import { ItemLinkCard } from '@/components/Cards/ItemLinkCard';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { Theme } from '@mui/material';

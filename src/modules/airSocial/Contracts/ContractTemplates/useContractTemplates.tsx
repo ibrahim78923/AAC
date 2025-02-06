@@ -9,11 +9,16 @@ export default function useContractTemplates() {
   const { folderId } = router?.query;
   const [searchBy, setSearchBy] = useState();
 
+  let searchParams;
+  if (searchBy) {
+    searchParams = { search: searchBy };
+  }
+
   const {
     data: contractTemplatesData,
     isLoading: loadingGetTemplates,
     isFetching: fetchingGetTemplates,
-  } = useGetCommonContractTemplatesQuery({ meta: false });
+  } = useGetCommonContractTemplatesQuery({ meta: false, ...searchParams });
 
   const {
     data: myTemplatesData,
@@ -22,6 +27,7 @@ export default function useContractTemplates() {
   } = useGetCommonContractTemplatesQuery({
     meta: false,
     category: ENUM_TEMPLATE_CATEGORIES?.MY_TEMPLATES,
+    ...searchParams,
   });
 
   const {
@@ -32,6 +38,7 @@ export default function useContractTemplates() {
     meta: false,
     category: ENUM_TEMPLATE_CATEGORIES?.RECENTLY_USED,
     limit: 5,
+    ...searchParams,
   });
 
   const handleClickTemplateView = (templateId: string) => {

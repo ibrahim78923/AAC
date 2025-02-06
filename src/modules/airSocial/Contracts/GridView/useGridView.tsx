@@ -4,7 +4,11 @@ import { useGetCommonContractsListQuery } from '@/services/commonFeatures/contra
 import { useTheme } from '@mui/material';
 import { useState } from 'react';
 
-export default function useGridView({ tabValue, activeFolder }: any) {
+export default function useGridView({
+  tabValue,
+  activeFolder,
+  filterParams,
+}: any) {
   const theme = useTheme();
 
   const [isViewAllActivityDrawerOpen, setIsViewAllActivityDrawerOpen] =
@@ -14,14 +18,16 @@ export default function useGridView({ tabValue, activeFolder }: any) {
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
   const { data, isLoading, isFetching, isError, isSuccess } =
-    useGetCommonContractsListQuery({
-      page,
-      limit: pageLimit,
-      folderId: activeFolder?._id,
-      ...(tabValue !== CONTRACTS_STATUS?.ALL && { status: tabValue }),
-    });
-
-  // '676a8264884c3ce8851b91f9'
+    useGetCommonContractsListQuery(
+      {
+        page,
+        limit: pageLimit,
+        folderId: activeFolder?._id,
+        ...(tabValue !== CONTRACTS_STATUS?.ALL && { status: tabValue }),
+        ...filterParams,
+      },
+      { skip: !activeFolder?._id },
+    );
 
   return {
     isViewAllActivityDrawerOpen,

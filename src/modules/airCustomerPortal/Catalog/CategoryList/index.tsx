@@ -1,5 +1,5 @@
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
-import { IconInfoCard } from '@/components/Cards/IconInfoCard/IconInfoCard';
+import { IconInfoCard } from '@/components/Cards/IconInfoCard';
 import CustomPagination from '@/components/CustomPagination';
 import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import { DATA_TYPES } from '@/constants/strings';

@@ -17,7 +17,7 @@ import { AIR_SERVICES_REPORTS_CONTRACT_PERMISSIONS } from '@/constants/permissio
 import { pxToRem } from '@/utils/getFontValue';
 import NoData from '@/components/NoData';
 import { AIR_SERVICES } from '@/constants/routes';
-import { ItemChipCard } from '@/components/Cards/ItemChipCard/ItemChipCard';
+import { ItemChipCard } from '@/components/Cards/ItemChipCard';
 import { ApiPollingButton } from '@/components/Buttons/ApiPollingButton';
 import { DownloadButton } from '@/components/Buttons/DownloadButton';
 import { AUTO_REFRESH_API_TIME_INTERVAL } from '@/config';

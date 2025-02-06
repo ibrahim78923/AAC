@@ -100,7 +100,7 @@ const AddGroupModal = ({
       setImageToUpload(null);
       reset();
     } catch (error: any) {
-      enqueueSnackbar('An error occurred', {
+      enqueueSnackbar(error?.message ?? 'An error occurred', {
         variant: 'error',
       });
     }

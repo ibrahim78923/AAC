@@ -3,12 +3,13 @@ import { uiDateFormat } from '@/lib/date-time';
 import { pxToRem } from '@/utils/getFontValue';
 import { Avatar, Box, Typography } from '@mui/material';
 import FolderIcon from '@mui/icons-material/Folder';
+import { IconInfoCardPropsI } from '../Cards.interface';
 
 const iconTypesMap: any = {
   folder: <FolderIcon color={'primary'} fontSize={'large'} />,
 };
 
-export const IconInfoCard = (props: any) => {
+export const IconInfoCard = (props: IconInfoCardPropsI) => {
   const {
     onClick,
     name,

@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { fieldManager } from './FieldManager.data';
 import { AIR_SERVICES } from '@/constants/routes';
-import { ItemLinkCard } from '@/components/Cards/ItemLinkCard/ItemLinkCard';
+import { ItemLinkCard } from '@/components/Cards/ItemLinkCard';
 import { AVATAR_VARIANTS } from '@/constants/mui-constant';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';

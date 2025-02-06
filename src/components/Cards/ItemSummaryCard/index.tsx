@@ -1,7 +1,8 @@
 import { TruncateText } from '@/components/TruncateText';
 import { Box } from '@mui/material';
+import { ItemSummaryCardPropsI } from '../Cards.interface';
 
-export const ItemSummaryCard = (props: any) => {
+export const ItemSummaryCard = (props: ItemSummaryCardPropsI) => {
   const { onClick, name, Icon = null } = props;
   return (
     <Box
@@ -15,7 +16,7 @@ export const ItemSummaryCard = (props: any) => {
       borderRadius={2}
       onClick={onClick}
     >
-      {Icon !== null && Icon}
+      <Box>{Icon !== null && Icon}</Box>
       <TruncateText text={name?.toLowerCase()} />
     </Box>
   );

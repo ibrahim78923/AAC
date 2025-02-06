@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 
 export interface AvatarSizeI {
-  width?: number;
-  height?: number | undefined;
+  width?: number | string;
+  height?: number | undefined | string;
   variant?: string;
 }
 

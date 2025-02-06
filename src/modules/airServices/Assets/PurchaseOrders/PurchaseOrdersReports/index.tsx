@@ -18,7 +18,7 @@ import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.i
 import NoData from '@/components/NoData';
 import { AIR_SERVICES_REPORTS_PURCHASE_ORDER_PERMISSIONS } from '@/constants/permission-keys';
 import { AIR_SERVICES } from '@/constants/routes';
-import { ItemChipCard } from '@/components/Cards/ItemChipCard/ItemChipCard';
+import { ItemChipCard } from '@/components/Cards/ItemChipCard';
 import { ApiPollingButton } from '@/components/Buttons/ApiPollingButton';
 import { DownloadButton } from '@/components/Buttons/DownloadButton';
 import { AUTO_REFRESH_API_TIME_INTERVAL } from '@/config';
