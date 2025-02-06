@@ -1,7 +1,8 @@
 import { ArrowForwardIos } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
+import { SingleBreadcrumbPropsI } from '../Breadcrumbs.interface';
 
-export const SingleBreadcrumb = (props: any) => {
+export const SingleBreadcrumb = (props: SingleBreadcrumbPropsI) => {
   const {
     previousPathname,
     activePathname,

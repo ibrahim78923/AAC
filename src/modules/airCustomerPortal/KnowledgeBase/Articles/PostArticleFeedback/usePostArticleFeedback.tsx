@@ -80,7 +80,8 @@ export const usePostArticleFeedback = (props: any) => {
     }
   };
 
-  const articleFeedbackFormFields = articleFeedbackFormFieldsDynamic();
+  const articleFeedbackFormFields =
+    articleFeedbackFormFieldsDynamic(sessionEmail);
 
   return {
     methods,

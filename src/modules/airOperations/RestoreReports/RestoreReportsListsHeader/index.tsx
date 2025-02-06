@@ -1,9 +1,9 @@
 import Search from '@/components/Search';
-import { Box, Button } from '@mui/material';
-import { FilterIcon } from '@/assets/icons';
+import { Box } from '@mui/material';
 import { useRestoreReportsListsHeader } from './useRestoreReportsListsHeader';
 import { PublicSingleDropdownButton } from '@/components/Buttons/PublicSingleDropdownButton';
 import { restoreReportListsActionComponent } from './RestoreReportsListsHeader.data';
+import { CustomButton } from '@/components/Buttons/CustomButton';
 
 export const RestoreReportsListsHeader = () => {
   const {
@@ -26,20 +26,14 @@ export const RestoreReportsListsHeader = () => {
         <Box>
           <Search label="Search Here" setSearchBy={handleSetSearch} />
         </Box>
-        <Box display={'flex'} gap={2} flexWrap={'wrap'}>
+        <Box display={'flex'} gap={2} alignItems={'center'} flexWrap={'wrap'}>
           <PublicSingleDropdownButton
             dropdownOptions={actionsDropdownForRestoreReportLists}
             disabled={!!!selectedRestoreReportsList?.length}
           />
-          <Button
-            className="small"
-            variant="outlined"
-            color="inherit"
-            startIcon={<FilterIcon />}
-            onClick={openFilterRestoreReportsPortal}
-          >
+          <CustomButton onClick={openFilterRestoreReportsPortal}>
             Filter
-          </Button>
+          </CustomButton>
         </Box>
       </Box>
       {isPortalOpen?.isOpen &&
