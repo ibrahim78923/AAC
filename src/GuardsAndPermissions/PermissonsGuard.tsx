@@ -3,29 +3,23 @@ import PermissionDenied from '@/components/PermisisonDenied';
 import useAuth from '@/hooks/useAuth';
 import { bypassPermissionsDictionary } from '@/constants';
 
-function checkPermissions(permissions: any, modulePermissions: any) {
-  const componentPermissionsDictionary: any = {};
-
-  let bypass = false;
-
-  modulePermissions?.forEach((value: any) => {
-    if (bypassPermissionsDictionary[value]) bypass = true;
-    componentPermissionsDictionary[value] = true;
-  });
-
-  if (bypass) return true;
-
-  if (permissions?.length > 0) {
-    for (const permission of permissions) {
-      if (
-        componentPermissionsDictionary[permission] ||
-        bypassPermissionsDictionary[permission]
-      ) {
-        return true; // At least one permission is available
-      }
-    }
+function checkPermissions(userPermissions: any, modulePermissions: any) {
+  if (!modulePermissions?.length) return false;
+  if (
+    modulePermissions?.some(
+      (permission: string) => bypassPermissionsDictionary?.[permission],
+    )
+  ) {
+    return true;
   }
-  return false; // None of the permissions are available
+
+  if (!userPermissions?.length) return false;
+
+  const modulePermissionsSet = new Set(modulePermissions);
+
+  return userPermissions?.some(
+    (permission: string) => modulePermissionsSet?.has(permission),
+  );
 }
 
 export default function PermissionsGuard({
