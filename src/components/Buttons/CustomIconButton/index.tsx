@@ -11,7 +11,6 @@ export const CustomIconButton = (props: CustomIconButtonPropsI) => {
     customStyles,
     color,
   } = props;
-
   return (
     <IconButton
       disabled={disabled}
