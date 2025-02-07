@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { RHFRadioGroup } from '@/components/ReactHookForm';
 import { Box, Menu, Theme } from '@mui/material';
 
@@ -23,7 +23,10 @@ const styles = {
   },
 };
 
-export default function DataFieldCheckbox({ data }: any) {
+export default function DataFieldCheckbox({
+  data,
+  handleUpdateDynamicField,
+}: any) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -31,6 +34,14 @@ export default function DataFieldCheckbox({ data }: any) {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const [selectedDate, setSelectedDate] = useState(data?.value);
+  const handleDateChange = (e: any) => {
+    setSelectedDate(e?.target?.value);
+    handleUpdateDynamicField(data?.index, {
+      value: e?.target?.value,
+    });
   };
 
   return (
@@ -45,7 +56,13 @@ export default function DataFieldCheckbox({ data }: any) {
         component={'nav'}
         sx={styles.menu}
       >
-        <RHFRadioGroup name={data?.name} row={false} options={data?.options} />
+        <RHFRadioGroup
+          name={data?.name}
+          row={false}
+          options={data?.options}
+          value={selectedDate}
+          onChange={handleDateChange}
+        />
       </Menu>
     </Box>
   );

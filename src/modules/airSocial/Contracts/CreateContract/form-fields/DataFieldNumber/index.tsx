@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { RHFTextField } from '@/components/ReactHookForm';
 import { Theme } from '@mui/material';
 
@@ -31,7 +31,17 @@ const styles = (theme: Theme) => ({
     },
 });
 
-export default function DataFieldNumber({ data }: any) {
+export default function DataFieldNumber({
+  data,
+  handleUpdateDynamicField,
+}: any) {
+  const [selectedDate, setSelectedDate] = useState(data?.value);
+  const handleDateChange = (e: any) => {
+    setSelectedDate(e?.target?.value);
+    handleUpdateDynamicField(data?.index, {
+      value: e?.target?.value,
+    });
+  };
   return (
     <RHFTextField
       name={data?.name}
@@ -39,12 +49,13 @@ export default function DataFieldNumber({ data }: any) {
       size="small"
       fullWidth
       type="number"
-      value={data?.value}
       sx={styles}
       inputProps={{
         inputMode: 'numeric',
         min: 0,
       }}
+      value={selectedDate}
+      onChange={handleDateChange}
     />
   );
 }
