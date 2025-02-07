@@ -1,11 +1,16 @@
 import { Button } from '@mui/material';
-import { FilterSharedIcon, RestoreIcon } from '@/assets/icons';
+import {
+  CustomizeSharedIcon,
+  FilterSharedIcon,
+  RestoreIcon,
+} from '@/assets/icons';
 import { CUSTOM_BUTTON_TYPES } from '@/constants/mui-constant';
 import { CustomButtonPropsI } from '../Buttons.interface';
 
 const mappedIcon: any = {
   filter: <FilterSharedIcon />,
   restore: <RestoreIcon />,
+  customize: <CustomizeSharedIcon />,
 };
 
 export const CustomButton = (props: CustomButtonPropsI) => {
@@ -18,6 +23,7 @@ export const CustomButton = (props: CustomButtonPropsI) => {
     hasIcon = true,
     disabled = false,
     className = 'small',
+    fullWidth = false,
   } = props;
 
   const MapIcon = hasIcon && mappedIcon?.[iconType];
@@ -30,6 +36,7 @@ export const CustomButton = (props: CustomButtonPropsI) => {
       onClick={onClick}
       disabled={disabled}
       className={className}
+      fullWidth={fullWidth}
     >
       {children}
     </Button>

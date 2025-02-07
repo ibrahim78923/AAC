@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Typography } from '@mui/material';
+import { Box, Divider, Typography } from '@mui/material';
 import { AIR_SERVICES } from '@/constants/routes';
 import { FormProvider } from '@/components/ReactHookForm';
 import { upsertRolesFormData } from './UpsertRoles.data';
@@ -57,16 +57,20 @@ const UpsertRoles = () => {
           </FormGrid>
           <br />
           <Box textAlign={'end'}>
-            <Button
+            <LoadingButton
               type={'button'}
               variant={'outlined'}
               color={'inherit'}
               sx={{ mr: 2 }}
               onClick={() => router?.push(AIR_SERVICES?.USER_ROLES_SETTINGS)}
               className="small"
+              disabled={
+                postPermissionsStatus?.isLoading ||
+                patchPermissionsStatus?.isLoading
+              }
             >
               Cancel
-            </Button>
+            </LoadingButton>
             <LoadingButton
               type={'submit'}
               variant={'contained'}

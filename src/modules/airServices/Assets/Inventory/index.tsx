@@ -1,14 +1,14 @@
 import { Box } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
-import { Button } from '@mui/material';
-import { FilterSharedIcon, CustomizeSharedIcon } from '@/assets/icons';
 import { useInventory } from './useInventory';
 import { INVENTORY_LIST_ACTIONS } from './Inventory.data';
 import { EXPORT_TYPE } from '@/constants/strings';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { CustomButton } from '@/components/Buttons/CustomButton';
+import { CUSTOM_BUTTON_TYPES } from '@/constants/mui-constant';
 
 const Inventory = () => {
   const {
@@ -85,51 +85,42 @@ const Inventory = () => {
                 AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.DELETE_ASSETS,
               ]}
             >
-              <Button
-                color={'secondary'}
-                variant={'outlined'}
-                className={'small'}
+              <CustomButton
+                hasIcon={false}
                 disabled={!!!selectedInventoryLists?.length}
                 onClick={() => {
                   setInventoryAction(INVENTORY_LIST_ACTIONS?.DELETE);
                 }}
               >
                 Delete
-              </Button>
+              </CustomButton>
             </PermissionsGuard>
             <PermissionsGuard
               permissions={[
                 AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.CUSTOMIZED_COLUMN,
               ]}
             >
-              <Button
-                color={'secondary'}
-                variant={'outlined'}
-                className={'small'}
-                startIcon={<CustomizeSharedIcon />}
+              <CustomButton
+                iconType={CUSTOM_BUTTON_TYPES?.CUSTOMIZE}
                 onClick={() =>
                   setInventoryAction(INVENTORY_LIST_ACTIONS?.CUSTOMIZE_COLUMN)
                 }
               >
                 Customize
-              </Button>
+              </CustomButton>
             </PermissionsGuard>
             <PermissionsGuard
               permissions={[
                 AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.SEARCH_AND_FILTER,
               ]}
             >
-              <Button
-                color={'secondary'}
-                variant={'outlined'}
-                className={'small'}
-                startIcon={<FilterSharedIcon />}
+              <CustomButton
                 onClick={() =>
                   setInventoryAction(INVENTORY_LIST_ACTIONS?.FILTER)
                 }
               >
                 Filter
-              </Button>
+              </CustomButton>
             </PermissionsGuard>
           </Box>
         </Box>

@@ -51,6 +51,7 @@ export interface CustomButtonPropsI {
   hasIcon?: boolean;
   disabled?: boolean;
   className?: string;
+  fullWidth?: boolean;
 }
 
 export interface CustomIconButtonPropsI {
