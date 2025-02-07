@@ -5,7 +5,7 @@ const GetSoftwareDevicesDropdown = ({ devicesQuery }: any) => {
     <>
       <RHFAutocompleteAsync
         name="device"
-        placeholder="Search or add category"
+        placeholder="Search or add device"
         size="small"
         label="Device"
         required

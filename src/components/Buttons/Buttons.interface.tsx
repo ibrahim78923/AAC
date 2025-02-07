@@ -52,6 +52,7 @@ export interface CustomButtonPropsI {
   disabled?: boolean;
   className?: string;
   fullWidth?: boolean;
+  customStyles?: SxProps<Theme>;
 }
 
 export interface CustomIconButtonPropsI {

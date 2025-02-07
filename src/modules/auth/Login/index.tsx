@@ -9,7 +9,6 @@ import { FormProvider } from '@/components/ReactHookForm';
 
 import useAuth from '@/hooks/useAuth';
 
-import { CompanyLogoIcon } from '@/assets/icons';
 import { LoginDashboardImage } from '@/assets/images';
 
 import { styles } from './Login.style';
@@ -27,6 +26,8 @@ import {
 import { useRouter } from 'next/router';
 import { AUTH } from '@/constants';
 import { errorSnackbar } from '@/lib/snackbar';
+import { LogoAvatar } from '@/components/Avatars/LogoAvatar';
+import { PROJECT_NAME } from '@/config';
 
 const Login = () => {
   const theme = useTheme();
@@ -76,7 +77,7 @@ const Login = () => {
           }}
           onClick={() => push(AUTH?.SALE_SITE)}
         >
-          <CompanyLogoIcon />
+          <LogoAvatar />
         </Box>
         <Box>
           <Link href="/sign-up">Sign Up</Link>
@@ -117,7 +118,7 @@ const Login = () => {
               variant="h3"
               sx={{ color: theme?.palette?.grey[500_8], marginBottom: '10px' }}
             >
-              Sign In to Air Applecart
+              Sign In to {PROJECT_NAME}
             </Typography>
             <Typography variant="h6" sx={{ color: theme?.palette?.grey[900] }}>
               Let’s Get Started

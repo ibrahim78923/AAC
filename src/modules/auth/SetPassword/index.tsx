@@ -15,7 +15,6 @@ import {
   resetPasswordValidationSchema,
 } from './SetPassword.data';
 import resetPasswordSuccess from '@/assets/icons/shared/onSuccess.gif';
-import { CompanyLogoIcon } from '@/assets/icons';
 import { LoginDashboardImage } from '@/assets/images';
 import { styles } from './SetPassword.style';
 import { useSetPasswordMutation } from '@/services/auth';
@@ -24,6 +23,7 @@ import { LoadingButton } from '@mui/lab';
 import { getSession } from '@/utils';
 import useAuth from '@/hooks/useAuth';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { LogoAvatar } from '@/components/Avatars/LogoAvatar';
 
 const SetPassword = () => {
   const [isMatchPassword, setIsMatchPassword] = useState<boolean>(false);
@@ -103,7 +103,7 @@ const SetPassword = () => {
     <Box sx={{ height: '100vh' }}>
       <Box sx={styles.AuthHeader}>
         <Box>
-          <CompanyLogoIcon />
+          <LogoAvatar />
         </Box>
         <Box>
           <Link href="/login" variant="contained">

@@ -24,12 +24,14 @@ export const CustomButton = (props: CustomButtonPropsI) => {
     disabled = false,
     className = 'small',
     fullWidth = false,
+    customStyles,
   } = props;
 
   const MapIcon = hasIcon && mappedIcon?.[iconType];
 
   return (
     <Button
+      disableElevation
       variant={variant}
       color={color}
       startIcon={MapIcon}
@@ -37,6 +39,7 @@ export const CustomButton = (props: CustomButtonPropsI) => {
       disabled={disabled}
       className={className}
       fullWidth={fullWidth}
+      sx={customStyles}
     >
       {children}
     </Button>

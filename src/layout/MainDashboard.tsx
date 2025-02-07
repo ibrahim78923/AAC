@@ -39,12 +39,7 @@ import { getActiveProductSession, getSession, isNullOrEmpty } from '@/utils';
 
 import { getLowerRoutes, getRoutes, zeroPaddingRoutes } from './Layout.data';
 
-import {
-  ArrowDownImage,
-  ArrowUpImage,
-  LogoImage,
-  LogoutImage,
-} from '@/assets/images';
+import { ArrowDownImage, ArrowUpImage, LogoutImage } from '@/assets/images';
 
 import { v4 as uuidv4 } from 'uuid';
 import useAuth from '@/hooks/useAuth';
@@ -58,6 +53,7 @@ import { BASE_PATHS, indexNumbers, PRODUCT_LABELS } from '@/constants';
 import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import { SOCKETS_EVENTS } from '@/constants/strings';
 import { setNotifications } from '@/redux/slices/notifications/notifications';
+import { LogoAvatar } from '@/components/Avatars/LogoAvatar';
 
 const drawerWidth = 230;
 const DashboardLayout = ({ children, window }: any) => {
@@ -147,22 +143,7 @@ const DashboardLayout = ({ children, window }: any) => {
       ) : (
         <>
           <Box sx={{ padding: '0px 0px 20px 10px' }}>
-            <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
-              <Image src={LogoImage} alt="logo" />
-              <Box>
-                <Typography variant="h5">Air Applecart</Typography>
-                <Typography
-                  sx={{
-                    fontSize: '11px',
-                    fontWeight: 800,
-                    color: theme?.palette?.primary?.main,
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  {productName}
-                </Typography>
-              </Box>
-            </Box>
+            <LogoAvatar productName={productName} />
           </Box>
           <Box
             sx={{

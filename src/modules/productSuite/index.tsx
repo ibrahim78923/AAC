@@ -13,7 +13,6 @@ import {
 
 import { useTheme } from '@mui/material';
 
-import { CompanyLogoIcon } from '@/assets/icons';
 // import { AvatarImage } from '@/assets/images';
 
 import { v4 as uuidv4 } from 'uuid';
@@ -38,6 +37,7 @@ import { generateImage } from '@/utils/avatarUtils';
 import { AUTH, ERROR_PAGES, ORG_ADMIN } from '@/constants';
 import { useGetActiveProductsQuery } from '@/services/common-APIs';
 import { LogoutImage } from '@/assets/images';
+import { LogoAvatar } from '@/components/Avatars/LogoAvatar';
 // import { generateImage } from '@/utils/avatarUtils';
 
 const ProductSuite = () => {
@@ -180,7 +180,7 @@ const ProductSuite = () => {
         }}
       >
         <Box>
-          <CompanyLogoIcon />
+          <LogoAvatar />
         </Box>
 
         <Box

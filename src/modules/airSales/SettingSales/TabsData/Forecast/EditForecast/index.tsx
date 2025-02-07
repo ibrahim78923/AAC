@@ -14,6 +14,7 @@ import { CodeTagIcon } from '@/assets/icons';
 import FieldType from './FieldType';
 import ConditionalOptions from './ConditionalOptions';
 import Used from './Used';
+import { PROJECT_NAME } from '@/config';
 
 const EditForecast = ({ isOpenDrawer, onClose }: any) => {
   const theme: any = useTheme();
@@ -35,8 +36,8 @@ const EditForecast = ({ isOpenDrawer, onClose }: any) => {
         p={1}
         borderRadius={'8px'}
       >
-        This property is provided by Air Apple Cart, and only some of the
-        options can be modified.
+        {`This property is provided by ${PROJECT_NAME}, and only some of the
+        options can be modified.`}
       </Typography>
 
       <Box display={'flex'} alignItems={'end'} justifyContent={'space-between'}>

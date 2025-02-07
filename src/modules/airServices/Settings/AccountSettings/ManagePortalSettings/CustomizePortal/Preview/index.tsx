@@ -1,6 +1,5 @@
 import {
   AirCustomerPortalDashboard,
-  AirCustomerPortalLogo,
   AirCustomerPortalProfile,
 } from '@/assets/images';
 import { Box, Button, IconButton, Typography } from '@mui/material';
@@ -19,6 +18,8 @@ import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { CustomAvatar } from '@/components/Avatars/CustomAvatar';
 import { StaticAvatar } from '@/components/Avatars/StaticAvatar';
+import { LogoAvatar } from '@/components/Avatars/LogoAvatar';
+import { PROJECT_NAME } from '@/config';
 
 const Preview = (props: IPreviewProps) => {
   const {
@@ -55,7 +56,7 @@ const Preview = (props: IPreviewProps) => {
               {isFileInstance(image) ? (
                 <StaticAvatar
                   avatarSrc={URL?.createObjectURL(image)}
-                  alt={'Air Apple Cart'}
+                  alt={PROJECT_NAME}
                   avatarSize={{
                     width: '100%',
                     height: 38,
@@ -65,7 +66,6 @@ const Preview = (props: IPreviewProps) => {
               ) : isStringUrl(image?.url) ? (
                 <CustomAvatar
                   avatarSrc={image?.url}
-                  alt={'Air Apple Cart'}
                   avatarSize={{
                     width: '100%',
                     height: 38,
@@ -74,15 +74,7 @@ const Preview = (props: IPreviewProps) => {
                   backgroundColor="transparent"
                 />
               ) : (
-                <StaticAvatar
-                  avatarSrc={AirCustomerPortalLogo?.src}
-                  alt={'Air Apple Cart'}
-                  avatarSize={{
-                    width: '100%',
-                    height: 38,
-                    variant: 'square',
-                  }}
-                />
+                <LogoAvatar productName="Customer Portal" />
               )}
             </Box>
 

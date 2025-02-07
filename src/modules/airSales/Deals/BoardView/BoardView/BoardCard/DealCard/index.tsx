@@ -1,4 +1,5 @@
 'use client';
+import { PROJECT_NAME } from '@/config';
 import { DATE_FORMAT, indexNumbers } from '@/constants';
 import { useGetDealsGridViewQuery } from '@/services/airSales/deals';
 import {
@@ -143,7 +144,7 @@ const TaskViewCard = () => {
                                             {col?.dealOwner?.name}
                                           </Typography>
                                           <Typography fontSize="12px">
-                                            Air Apple Cart
+                                            {PROJECT_NAME}
                                           </Typography>
                                         </Box>
                                       </Box>

@@ -1,5 +1,6 @@
 import { AIR_SERVICES } from '@/constants/routes';
 import { TimeEntryFieldsIcon, TicketFieldsIcon } from '@/assets/icons';
+import { PROJECT_NAME } from '@/config';
 
 export const fieldManager = [
   {
@@ -20,7 +21,7 @@ export const fieldManager = [
     id: 3,
     avatar: TimeEntryFieldsIcon,
     type: 'Time Entry Fields',
-    purpose: `Time Entries let Air Applecart Agents track the time spent on different Tickets, Problems, Changes, and Releases.`,
+    purpose: `Time Entries let ${PROJECT_NAME} Agents track the time spent on different Tickets, Problems, Changes, and Releases.`,
     link: AIR_SERVICES?.TIME_ENTRY_FIELDS,
   },
 ];

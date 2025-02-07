@@ -10,6 +10,7 @@ import { signUpFormFields } from './SignUp.data';
 import NoData from '@/components/NoData';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { PROJECT_NAME } from '@/config';
 
 export const SignUp = () => {
   const {
@@ -40,7 +41,7 @@ export const SignUp = () => {
       >
         <CustomGrid md={6}>
           <Box maxWidth={{ xs: '100%', md: '70%' }} margin="auto">
-            <Typography variant="h2">Welcome to Air Applecart</Typography>
+            <Typography variant="h2">Welcome to {PROJECT_NAME}</Typography>
             <Typography sx={{ py: 1 }} variant="h6" color="grey.900" mb={4}>
               Let&rsquo;s Get Started!
             </Typography>

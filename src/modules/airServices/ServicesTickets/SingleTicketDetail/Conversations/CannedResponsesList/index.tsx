@@ -1,6 +1,5 @@
 import Search from '@/components/Search';
 import { Box, Button, Typography } from '@mui/material';
-import { AddCircle } from '@mui/icons-material';
 import { useCannedResponsesList } from './useCannedResponsesList';
 import CustomPagination from '@/components/CustomPagination';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
@@ -8,6 +7,7 @@ import Link from 'next/link';
 import { AIR_SERVICES } from '@/constants/routes';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
+import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
 
 export const CannedResponsesList = (props: any) => {
   const { setCannedResponse } = props;
@@ -35,16 +35,11 @@ export const CannedResponsesList = (props: any) => {
         <Search label="Search Here" setSearchBy={handleSearch} width={'100%'} />
       </Box>
       <Link href={AIR_SERVICES?.CANNED_RESPONSE_SETTINGS}>
-        <Button
-          disableElevation
+        <AddNewItemButton
           variant="text"
           color="inherit"
-          startIcon={<AddCircle color="primary" />}
-          size="small"
-          className="small"
-        >
-          Add Canned Response
-        </Button>
+          name="Add Canned Response"
+        />
       </Link>
       <ApiRequestFlow
         showSkeleton={isLoading || isFetching}
