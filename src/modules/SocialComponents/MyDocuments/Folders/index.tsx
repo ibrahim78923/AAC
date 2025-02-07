@@ -232,6 +232,7 @@ const Folders = () => {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
+                flexWrap: 'wrap',
               }}
             >
               <Typography
@@ -428,112 +429,108 @@ const Folders = () => {
                   </Button>
                 </PermissionsGuard>
               </Grid>
-              <Grid
-                item
-                lg={6}
-                md={6}
-                sm={6}
-                xs={12}
-                sx={styles?.documentTitle(theme)}
-              >
-                <Search
-                  label="Search here"
-                  width="260px"
-                  size="small"
-                  setSearchBy={(e: string) => {
-                    setSearchValue(e);
-                  }}
-                />
-              </Grid>
-              <Grid item lg={6} md={6} sm={6} xs={12}>
-                <Box sx={styles?.actionFilterBox}>
-                  <Button
-                    sx={styles?.actionButton(theme)}
-                    aria-controls={open ? 'basic-menu' : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? 'true' : undefined}
-                    onClick={handleClick}
-                    className="small"
-                    disabled={selectedRow?.length === 0}
-                  >
-                    Actions
-                    <ArrowDropDownIcon
-                      sx={{ color: `${theme?.palette?.custom?.main}` }}
+              <Grid item xs={12}>
+                <Box sx={styles?.filterBar}>
+                  <Box sx={styles?.searchBar}>
+                    <Search
+                      label="Search here"
+                      width="100%"
+                      size="small"
+                      setSearchBy={(e: string) => {
+                        setSearchValue(e);
+                      }}
                     />
-                  </Button>
-                  <Menu
-                    id="basic-menu"
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                    MenuListProps={{
-                      'aria-labelledby': 'basic-button',
-                    }}
-                  >
-                    <MenuItem
-                      onClick={() => {
-                        handleClose();
-                        handleOpenCreateLinkModal();
-                      }}
-                      disabled={selectedRow?.length > 1}
-                    >
-                      Create Link
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => {
-                        handleClose();
-                        handleOpenPreviewModal();
-                      }}
-                      disabled={selectedRow?.length > 1}
-                    >
-                      Preview
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => {
-                        handleClose();
-                        downloadFiles(selectedFilesUrl);
-                      }}
-                    >
-                      Download
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => {
-                        handleClose();
-                        handleOpenMoveDocumentDrawer(DOCUMENTS_TYPE?.FILE);
-                      }}
-                      disabled={selectedRow?.length > 1}
-                    >
-                      Move to Folder
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => {
-                        handleClose();
-                        setIsOpenDeleteFileModal(true);
-                      }}
-                    >
-                      Delete
-                    </MenuItem>
-                  </Menu>
-                  <Box>
-                    <Tooltip title={'Refresh Filter'}>
-                      <Button
-                        variant="outlined"
-                        color="inherit"
-                        className="small"
-                        onClick={handleRefresh}
-                      >
-                        <RefreshTasksIcon />
-                      </Button>
-                    </Tooltip>
                   </Box>
-                  <Button
-                    onClick={handleOpenFilters}
-                    variant="outlined"
-                    sx={styles?.fiterButton(theme)}
-                    className="small"
-                  >
-                    <FilterrIcon /> Filters
-                  </Button>
+
+                  <Box sx={styles?.actionFilterBox}>
+                    <Button
+                      sx={styles?.actionButton(theme)}
+                      aria-controls={open ? 'basic-menu' : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={open ? 'true' : undefined}
+                      onClick={handleClick}
+                      className="small"
+                      disabled={selectedRow?.length === 0}
+                    >
+                      Actions
+                      <ArrowDropDownIcon
+                        sx={{ color: `${theme?.palette?.custom?.main}` }}
+                      />
+                    </Button>
+                    <Menu
+                      id="basic-menu"
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleClose}
+                      MenuListProps={{
+                        'aria-labelledby': 'basic-button',
+                      }}
+                    >
+                      <MenuItem
+                        onClick={() => {
+                          handleClose();
+                          handleOpenCreateLinkModal();
+                        }}
+                        disabled={selectedRow?.length > 1}
+                      >
+                        Create Link
+                      </MenuItem>
+                      <MenuItem
+                        onClick={() => {
+                          handleClose();
+                          handleOpenPreviewModal();
+                        }}
+                        disabled={selectedRow?.length > 1}
+                      >
+                        Preview
+                      </MenuItem>
+                      <MenuItem
+                        onClick={() => {
+                          handleClose();
+                          downloadFiles(selectedFilesUrl);
+                        }}
+                      >
+                        Download
+                      </MenuItem>
+                      <MenuItem
+                        onClick={() => {
+                          handleClose();
+                          handleOpenMoveDocumentDrawer(DOCUMENTS_TYPE?.FILE);
+                        }}
+                        disabled={selectedRow?.length > 1}
+                      >
+                        Move to Folder
+                      </MenuItem>
+                      <MenuItem
+                        onClick={() => {
+                          handleClose();
+                          setIsOpenDeleteFileModal(true);
+                        }}
+                      >
+                        Delete
+                      </MenuItem>
+                    </Menu>
+                    <Box>
+                      <Tooltip title={'Refresh Filter'}>
+                        <Button
+                          variant="outlined"
+                          color="inherit"
+                          className="small"
+                          onClick={handleRefresh}
+                        >
+                          <RefreshTasksIcon />
+                        </Button>
+                      </Tooltip>
+                    </Box>
+                    <Button
+                      onClick={handleOpenFilters}
+                      variant="outlined"
+                      sx={styles?.fiterButton(theme)}
+                      className="small"
+                    >
+                      <FilterrIcon /> Filters
+                    </Button>
+                  </Box>
                 </Box>
               </Grid>
               <Grid item lg={12} md={12} sm={12} xs={12}>

@@ -3,8 +3,9 @@ import { useApiPolling } from '@/hooks/useApiPolling';
 import { pxToRem } from '@/utils/getFontValue';
 import { Autorenew } from '@mui/icons-material';
 import { Box, Button } from '@mui/material';
+import { ApiPollingButtonPropsI } from '../Buttons.interface';
 
-export const ApiPollingButton = (props: any) => {
+export const ApiPollingButton = (props: ApiPollingButtonPropsI) => {
   const {
     onClick,
     showLoader,

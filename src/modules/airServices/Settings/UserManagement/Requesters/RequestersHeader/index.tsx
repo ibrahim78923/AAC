@@ -1,11 +1,11 @@
 import Search from '@/components/Search';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
-import { CirclePlusIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { Permissions } from '@/constants/permissions';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { IRequestersProps } from '../Requesters.interface';
+import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
 
 export const RequestersHeader = (props: IRequestersProps) => {
   const {
@@ -46,14 +46,10 @@ export const RequestersHeader = (props: IRequestersProps) => {
               AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.ADD_REQUESTER,
             ]}
           >
-            <Button
-              startIcon={<CirclePlusIcon />}
-              variant="contained"
+            <AddNewItemButton
+              name="Add Requestors"
               onClick={() => setIsDrawerOpen(true)}
-              className="small"
-            >
-              Add Requestors
-            </Button>
+            />
           </PermissionsGuard>
         </Box>
       </Box>

@@ -17,7 +17,10 @@ export const ItemSummaryCard = (props: ItemSummaryCardPropsI) => {
       onClick={onClick}
     >
       <Box>{Icon !== null && Icon}</Box>
-      <TruncateText text={name?.toLowerCase()} />
+      <TruncateText
+        text={name?.toLowerCase()}
+        boxProps={{ sx: { wordBreak: 'break-word' } }}
+      />
     </Box>
   );
 };

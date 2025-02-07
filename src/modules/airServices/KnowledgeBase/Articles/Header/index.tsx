@@ -1,15 +1,11 @@
-import { Box, Button } from '@mui/material';
-import { FilterIcon } from '@/assets/icons';
+import { Box } from '@mui/material';
 import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { Permissions } from '@/constants/permissions';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS } from '@/constants/permission-keys';
 import { useHeader } from './useHeader';
-
-const { SEARCH_AND_FILTER } =
-  AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS ?? {};
-const { AIR_SERVICES_KNOWLEDGE_BASE_LIST_VIEW_ACTIONS } = Permissions ?? {};
+import { CustomButton } from '@/components/Buttons/CustomButton';
 
 export const Header = () => {
   const {
@@ -27,29 +23,30 @@ export const Header = () => {
       flexWrap={'wrap'}
       alignItems={'center'}
     >
-      <PermissionsGuard permissions={[SEARCH_AND_FILTER]}>
+      <PermissionsGuard
+        permissions={[
+          AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.SEARCH_AND_FILTER,
+        ]}
+      >
         <Search label="Search Here" setSearchBy={setArticleSearch} />
       </PermissionsGuard>
       <Box display={'flex'} gap={1} flexWrap={'wrap'} alignItems={'center'}>
         <PermissionsGuard
-          permissions={AIR_SERVICES_KNOWLEDGE_BASE_LIST_VIEW_ACTIONS}
+          permissions={
+            Permissions?.AIR_SERVICES_KNOWLEDGE_BASE_LIST_VIEW_ACTIONS
+          }
         >
           <SingleDropdownButton
             disabled={!!!selectedArticlesList?.length}
             dropdownOptions={articlesActionDropdown}
           />
         </PermissionsGuard>
-        <PermissionsGuard permissions={[SEARCH_AND_FILTER]}>
-          <Button
-            className="small"
-            variant="outlined"
-            size="large"
-            startIcon={<FilterIcon />}
-            color="secondary"
-            onClick={openArticleFilterPortal}
-          >
-            Filter
-          </Button>
+        <PermissionsGuard
+          permissions={[
+            AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.SEARCH_AND_FILTER,
+          ]}
+        >
+          <CustomButton onClick={openArticleFilterPortal}>Filter</CustomButton>
         </PermissionsGuard>
       </Box>
     </Box>

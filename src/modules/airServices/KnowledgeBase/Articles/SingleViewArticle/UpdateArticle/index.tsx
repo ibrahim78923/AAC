@@ -7,14 +7,8 @@ import {
 import { LoadingButton } from '@mui/lab';
 import { useAppDispatch } from '@/redux/store';
 import { useRouter } from 'next/router';
-import { Box } from '@mui/material';
 import { KNOWLEDGE_BASE_ACTIONS_CONSTANT } from '@/constants/portal-actions';
 import { AIR_SERVICES } from '@/constants/routes';
-
-const { DELETE_ARTICLES } = KNOWLEDGE_BASE_ACTIONS_CONSTANT ?? {};
-const { UPSERT_ARTICLE } = AIR_SERVICES ?? {};
-const { EDIT_ARTICLE, DELETE } =
-  AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS ?? {};
 
 export const UpdateArticle = () => {
   const dispatch = useAppDispatch();
@@ -23,7 +17,7 @@ export const UpdateArticle = () => {
 
   const handleEditSubmit = () => {
     router?.push({
-      pathname: UPSERT_ARTICLE,
+      pathname: AIR_SERVICES?.UPSERT_ARTICLE,
       query: {
         articleId,
       },
@@ -31,8 +25,12 @@ export const UpdateArticle = () => {
   };
 
   return (
-    <Box display={'flex'} flexDirection={'column'} gap={1}>
-      <PermissionsGuard permissions={[EDIT_ARTICLE]}>
+    <>
+      <PermissionsGuard
+        permissions={[
+          AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.EDIT_ARTICLE,
+        ]}
+      >
         <LoadingButton
           className="small"
           variant="contained"
@@ -43,17 +41,22 @@ export const UpdateArticle = () => {
           Edit
         </LoadingButton>
       </PermissionsGuard>
-
-      <PermissionsGuard permissions={[DELETE]}>
+      <br />
+      <PermissionsGuard
+        permissions={[
+          AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.DELETE,
+        ]}
+      >
         <LoadingButton
           className="small"
           variant="text"
           color="error"
+          sx={{ my: 1 }}
           onClick={() => {
             dispatch(
               setIsPortalOpen<any>({
                 isOpen: true,
-                action: DELETE_ARTICLES,
+                action: KNOWLEDGE_BASE_ACTIONS_CONSTANT?.DELETE_ARTICLES,
               }),
             );
             dispatch(setSelectedArticlesList<any>([{ _id: articleId }]));
@@ -63,6 +66,6 @@ export const UpdateArticle = () => {
           Delete
         </LoadingButton>
       </PermissionsGuard>
-    </Box>
+    </>
   );
 };

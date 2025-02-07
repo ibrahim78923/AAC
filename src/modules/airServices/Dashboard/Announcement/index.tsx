@@ -1,9 +1,11 @@
 import { ViewDetailSharedIcon } from '@/assets/icons';
-import { Box, Typography, IconButton, Button } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useAnnouncement } from './useAnnouncement';
 import NoData from '@/components/NoData';
 import { SingleDashboardComponentPropsI } from '../SingleDashboard/SingleDashboard.interface';
 import { InteractiveUserFeedCard } from '@/components/Cards/InteractiveUserFeedCard';
+import { CustomButton } from '@/components/Buttons/CustomButton';
+import { CustomIconButton } from '@/components/Buttons/CustomIconButton';
 
 export const Announcement = (props: SingleDashboardComponentPropsI) => {
   const { data, isPreviewMode } = props;
@@ -33,12 +35,12 @@ export const Announcement = (props: SingleDashboardComponentPropsI) => {
           <Typography variant="h5" color="slateBlue.main">
             Announcements
           </Typography>
-          <IconButton
+          <CustomIconButton
             disabled={isPreviewMode}
             onClick={() => setIsPortalOpen({ isOpen: true, isUpsert: true })}
           >
             <ViewDetailSharedIcon />
-          </IconButton>
+          </CustomIconButton>
         </Box>
         <Box flex={1}>
           {!!data?.announcements?.annoucements?.length ? (
@@ -62,15 +64,16 @@ export const Announcement = (props: SingleDashboardComponentPropsI) => {
           )}
         </Box>
         <Box textAlign={'center'}>
-          <Button
-            className="small"
+          <CustomButton
+            hasIcon={false}
+            color="primary"
             variant="text"
             disabled={isPreviewMode}
             fullWidth
             onClick={() => setIsPortalOpen({ isOpen: true, isView: true })}
           >
             View All
-          </Button>
+          </CustomButton>
         </Box>
       </Box>
       {isPortalOpen?.isOpen && renderPortalComponent?.()}

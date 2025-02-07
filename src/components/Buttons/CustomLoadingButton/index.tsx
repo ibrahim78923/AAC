@@ -1,6 +1,7 @@
 import { LoadingButton } from '@mui/lab';
+import { CustomLoadingButtonPropsI } from '../Buttons.interface';
 
-export const CustomLoadingButton = (props: any) => {
+export const CustomLoadingButton = (props: CustomLoadingButtonPropsI) => {
   const {
     variant = 'contained',
     type = 'submit',
@@ -9,11 +10,12 @@ export const CustomLoadingButton = (props: any) => {
     onClick,
     name,
     customStyles,
+    className = 'small',
   } = props;
 
   return (
     <LoadingButton
-      className="small"
+      className={className}
       variant={variant}
       type={type}
       loading={loading}

@@ -41,47 +41,58 @@ export const ArticleDetail = () => {
     >
       <ContainerGrid>
         <CustomGrid lg={8.9}>
-          <Typography variant="h3" color="slateBlue.main" my={2}>
-            <TruncateText
-              text={data?.data?.title?.toLowerCase()}
-              size={50}
-              isCapital={false}
-            />
-          </Typography>
-          {!!data?.data?.details ? (
-            <HtmlRenderer maxHeight="none" description={data?.data?.details} />
-          ) : (
-            <Typography>No description available</Typography>
-          )}
-          {!!articleId && (
-            <>
-              <Typography
-                variant="body1"
-                fontWeight="fontWeightMedium"
-                color="slateBlue.main"
-                my={2}
-              >
-                Attachments
-              </Typography>
-              <Box>
-                <Attachments
-                  recordId={articleId as string}
-                  size={{ width: '100%', height: '100%' }}
-                  hasNoDeletePermission
-                  hasStyling={false}
-                  canDelete={false}
-                />
-              </Box>
-            </>
-          )}
+          <Box sx={{ height: '100%' }}>
+            <Typography variant="h3" color="slateBlue.main" my={2}>
+              <TruncateText
+                text={data?.data?.title?.toLowerCase()}
+                size={50}
+                isCapital={false}
+              />
+            </Typography>
+            {!!data?.data?.details ? (
+              <HtmlRenderer
+                hasEditor
+                maxHeight="none"
+                description={data?.data?.details}
+              />
+            ) : (
+              <Typography>No description available</Typography>
+            )}
+            {!!articleId && (
+              <>
+                <Typography
+                  variant="body1"
+                  fontWeight="fontWeightMedium"
+                  color="slateBlue.main"
+                  my={2}
+                >
+                  Attachments
+                </Typography>
+                <Box>
+                  <Attachments
+                    recordId={articleId as string}
+                    size={{ width: '100%', height: '100%' }}
+                    hasNoDeletePermission
+                    hasStyling={false}
+                    canDelete={false}
+                  />
+                </Box>
+              </>
+            )}
+          </Box>
         </CustomGrid>
+
         <CustomGrid lg={3}>
           <Box
-            borderLeft={{
-              lg: `1px solid ${theme?.palette?.custom?.off_white_three}`,
-              xs: ' none',
+            sx={{
+              height: '100%',
+              px: { xs: 1, md: 2 },
+              borderLeft: {
+                lg: `1px solid ${theme?.palette?.custom?.off_white_three}`,
+                xs: ' none',
+              },
+              borderTop: `1px solid ${theme?.palette?.custom?.off_white_three}`,
             }}
-            borderTop={`1px solid ${theme?.palette?.custom?.off_white_three}`}
           >
             {articleDetails?.map((item: SingleViewArticleSideDataI) => {
               return (
@@ -91,11 +102,10 @@ export const ArticleDetail = () => {
                     fontWeight={'fontWeightSmall'}
                     color="slateBlue.main"
                     my={2}
-                    sx={{ px: { xs: 1, md: 2 } }}
                   >
                     {item?.heading}
                   </Typography>
-                  <Box sx={{ px: { xs: 1, md: 2 } }}>
+                  <Box>
                     {item?.details?.map(
                       (ele: SingleViewArticleDetailArrayI) => (
                         <Box
@@ -123,8 +133,9 @@ export const ArticleDetail = () => {
                 </Fragment>
               );
             })}
+            <br />
+            <UpdateArticle />
           </Box>
-          <UpdateArticle />
         </CustomGrid>
       </ContainerGrid>
     </ApiRequestFlow>

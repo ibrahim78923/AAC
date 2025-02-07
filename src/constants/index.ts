@@ -510,6 +510,18 @@ export const PRODUCT_LABELS = {
   COMMON_FEATURES: 'Common Features',
 };
 
+export const BASE_PATHS = {
+  AIR_SALES: 'air-sales',
+  AIR_SERVICES: 'air-services',
+  AIR_MARKETER: 'air-marketer',
+  AIR_OPERATIONS: 'air-operations',
+  LOYALTY_PROGRAM: 'air-loyalty-program',
+  CALL_CENTER: 'air-call-center',
+  CUSTOMER_PORTAL: 'air-customer-portal',
+  ORG_ADMIN: 'org-admin',
+  COMMON_FEATURES: 'social-components',
+};
+
 export const AIR_SALES_GOAL_NOTIFICATION = {
   STARTED: 'goalStarted',
   EXCEEDED: 'goalExceeded',

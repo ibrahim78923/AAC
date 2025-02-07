@@ -2,8 +2,9 @@ import { FLEX_DIRECTION } from '@/constants/style';
 import { Box, Grid, Skeleton } from '@mui/material';
 import { CARD_SKELETON_TYPES } from './SkeletonCard.data';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
+import { SkeletonCardPropsI } from '../Skeletons.interface';
 
-export const SkeletonCard = (props: any) => {
+export const SkeletonCard = (props: SkeletonCardPropsI) => {
   const { length = 4, cardType = SKELETON_TYPES?.BASIC_CARD } = props;
 
   const mapSkeletonCard = CARD_SKELETON_TYPES?.[cardType];

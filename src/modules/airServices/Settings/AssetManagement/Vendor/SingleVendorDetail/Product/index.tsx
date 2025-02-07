@@ -1,10 +1,10 @@
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { UpsertProduct } from './UpsertProduct';
-import { PlusSharedColorIcon } from '@/assets/icons';
 import { useProduct } from './useProduct';
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
 
 export const Product = () => {
   const {
@@ -34,17 +34,12 @@ export const Product = () => {
         justifyContent={'end'}
         flexWrap={'wrap'}
       >
-        <Button
-          color="primary"
-          variant="contained"
-          className="small"
+        <AddNewItemButton
+          name=" Add Product"
           onClick={() => {
             setUpsertProductModal(true);
           }}
-          startIcon={<PlusSharedColorIcon />}
-        >
-          Add Product
-        </Button>
+        />
       </Box>
 
       <br />

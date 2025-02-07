@@ -1,6 +1,5 @@
-import { FilterSharedIcon, PlusSharedColorIcon } from '@/assets/icons';
 import Search from '@/components/Search';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import TanstackTable from '@/components/Table/TanstackTable';
 import AgentFilter from '../FilterAgent';
@@ -10,6 +9,8 @@ import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/p
 import { Permissions } from '@/constants/permissions';
 import { DeleteAgent } from '../DeleteAgent';
 import { UpsertAgent } from '../UpsertAgent';
+import { CustomButton } from '@/components/Buttons/CustomButton';
+import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
 
 const Agent = () => {
   const {
@@ -61,15 +62,9 @@ const Agent = () => {
               AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.FILTERS_SEARCH,
             ]}
           >
-            <Button
-              color="secondary"
-              variant="outlined"
-              className="small"
-              startIcon={<FilterSharedIcon />}
-              onClick={() => setAgentFilterDrawerOpen(true)}
-            >
+            <CustomButton onClick={() => setAgentFilterDrawerOpen(true)}>
               Filter
-            </Button>
+            </CustomButton>
           </PermissionsGuard>
           <PermissionsGuard
             permissions={
@@ -87,17 +82,13 @@ const Agent = () => {
               AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.ADD_NEW_AGENT,
             ]}
           >
-            <Button
-              variant="contained"
-              startIcon={<PlusSharedColorIcon />}
-              className="small"
+            <AddNewItemButton
+              name="Invite Agents"
               onClick={() => {
                 setIsAgentModalOpen?.(true);
                 setSelectedAgentList([]);
               }}
-            >
-              Invite Agents
-            </Button>
+            />
           </PermissionsGuard>
         </Box>
       </Box>

@@ -1,6 +1,7 @@
 import { Button } from '@mui/material';
+import { InteractiveButtonPropsI } from '../Buttons.interface';
 
-export const InteractiveButton = (props: any) => {
+export const InteractiveButton = (props: InteractiveButtonPropsI) => {
   const {
     onClick,
     customStyles,

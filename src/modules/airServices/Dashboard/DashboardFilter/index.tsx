@@ -1,6 +1,6 @@
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
-import { Box, Button, Skeleton, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { Permissions } from '@/constants/permissions';
 import EmailThisDashboard from '../EmailThisDashboard';
@@ -9,6 +9,8 @@ import { DashboardListFieldDropdown } from '../DashboardFormFields/DashboardsLis
 import { TruncateText } from '@/components/TruncateText';
 import { DownloadDashboards } from '../DownloadDashboards';
 import { DASHBOARD_FILTER_PORTAL_ACTION } from './DashboardFilter.data';
+import { CustomButton } from '@/components/Buttons/CustomButton';
+import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
 
 export const DashboardFilter = (props: any) => {
   const { apiLoader, hasDefaultDashboard, hasError, showLoader, downloadRef } =
@@ -26,10 +28,10 @@ export const DashboardFilter = (props: any) => {
   return (
     <>
       {showLoader ? (
-        <Skeleton />
+        <CustomLinearProgress />
       ) : (
         <Typography variant="h3" color="primary.main">
-          <TruncateText text={dashboardName} size={35} />
+          <TruncateText text={dashboardName} size={35} isCapital={false} />
         </Typography>
       )}
       <Box
@@ -87,15 +89,14 @@ export const DashboardFilter = (props: any) => {
           <PermissionsGuard
             permissions={Permissions?.AIR_SERVICES_MANAGE_DASHBOARD}
           >
-            <Button
-              className="small"
+            <CustomButton
+              hasIcon={false}
               color="inherit"
-              variant="outlined"
               onClick={moveToManageDashboard}
               disabled={showLoader}
             >
               Manage Dashboards
-            </Button>
+            </CustomButton>
           </PermissionsGuard>
         </Box>
       </Box>

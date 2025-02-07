@@ -1,7 +1,8 @@
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { Box, Skeleton } from '@mui/material';
+import { ItemSkeletonPropsI } from '../Skeletons.interface';
 
-export const ItemSkeleton = (props: any) => {
+export const ItemSkeleton = (props: ItemSkeletonPropsI) => {
   const { length = 4, sm = 6, md = 6, lg = 4, xl = 3 } = props;
   return (
     <>

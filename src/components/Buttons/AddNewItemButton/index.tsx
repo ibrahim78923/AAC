@@ -1,12 +1,13 @@
 import { AddBox, AddCircle } from '@mui/icons-material';
 import { Button } from '@mui/material';
+import { AddNewItemButtonPropsI } from '../Buttons.interface';
 
 const mappedIcon: any = {
   circle: AddCircle,
   square: AddBox,
 };
 
-export const AddNewItemButton = (props: any) => {
+export const AddNewItemButton = (props: AddNewItemButtonPropsI) => {
   const {
     disabled = false,
     variant = 'contained',

@@ -1,6 +1,7 @@
 import { Box, Grid, Skeleton } from '@mui/material';
+import { SkeletonFormPropsI } from '../Skeletons.interface';
 
-const SkeletonForm = (props: any) => {
+const SkeletonForm = (props: SkeletonFormPropsI) => {
   const { length = 4, gridSize, flexDirection = 'column' } = props;
   return (
     <Grid container spacing={2}>

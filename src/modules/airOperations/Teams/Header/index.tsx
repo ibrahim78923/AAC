@@ -1,10 +1,10 @@
 import Search from '@/components/Search';
-import { Box, Button } from '@mui/material';
-import { AddWhiteBgIcon } from '@/assets/icons';
+import { Box } from '@mui/material';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS } from '@/constants/permission-keys';
 import { useHeader } from './useHeader';
 import { operationsTeamActionComponent } from './Header.data';
+import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
 
 export const Header = () => {
   const { openAddTeamPortal, handleSetSearch, isPortalOpen } = useHeader();
@@ -32,14 +32,7 @@ export const Header = () => {
             AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS?.CREATE_TEAM,
           ]}
         >
-          <Button
-            className="small"
-            variant="contained"
-            startIcon={<AddWhiteBgIcon />}
-            onClick={openAddTeamPortal}
-          >
-            Create Team
-          </Button>
+          <AddNewItemButton onClick={openAddTeamPortal} name="Create Team" />
         </PermissionsGuard>
       </Box>
       {isPortalOpen?.isOpen &&

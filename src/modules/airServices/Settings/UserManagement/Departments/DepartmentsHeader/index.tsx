@@ -1,5 +1,4 @@
-import { Box, Button } from '@mui/material';
-import { PlusSharedColorIcon } from '@/assets/icons';
+import { Box } from '@mui/material';
 import Search from '@/components/Search';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
@@ -7,6 +6,7 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants/routes';
 import { IDepartmentsProps } from '../Departments.interface';
+import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
 
 export const DepartmentsHeader = (props: IDepartmentsProps) => {
   const { handleSearch, setOpenUpsertModal, setSelectedDepartment } = props;
@@ -49,17 +49,13 @@ export const DepartmentsHeader = (props: IDepartmentsProps) => {
             AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.ADD_DEPARTMENTS,
           ]}
         >
-          <Button
-            startIcon={<PlusSharedColorIcon />}
-            variant="contained"
-            className="small"
+          <AddNewItemButton
+            name=" Add New Department"
             onClick={() => {
               setOpenUpsertModal?.(true);
               setSelectedDepartment?.('');
             }}
-          >
-            Add New Department
-          </Button>
+          />
         </PermissionsGuard>
       </Box>
     </Box>

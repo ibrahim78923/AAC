@@ -54,7 +54,7 @@ import { styles } from './Layout.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { enqueueSnackbar } from 'notistack';
 import { CHAT_SOCKETS, ORG_ADMIN } from '@/routesConstants/paths';
-import { indexNumbers, PRODUCT_LABELS } from '@/constants';
+import { BASE_PATHS, indexNumbers, PRODUCT_LABELS } from '@/constants';
 import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import { SOCKETS_EVENTS } from '@/constants/strings';
 import { setNotifications } from '@/redux/slices/notifications/notifications';
@@ -77,6 +77,35 @@ const DashboardLayout = ({ children, window }: any) => {
     productName = PRODUCT_LABELS?.ORG_ADMIN;
   } else {
     productName = getActiveProductSession()?.name;
+  }
+
+  const getProductBasePath = (label: any) => {
+    switch (label) {
+      case PRODUCT_LABELS.AIR_SALES:
+        return BASE_PATHS.AIR_SALES;
+      case PRODUCT_LABELS.AIR_SERVICES:
+        return BASE_PATHS.AIR_SERVICES;
+      case PRODUCT_LABELS.AIR_MARKETER:
+        return BASE_PATHS.AIR_MARKETER;
+      case PRODUCT_LABELS.AIR_OPERATIONS:
+        return BASE_PATHS.AIR_OPERATIONS;
+      case PRODUCT_LABELS.LOYALTY_PROGRAM:
+        return BASE_PATHS.LOYALTY_PROGRAM;
+      case PRODUCT_LABELS.CALL_CENTER:
+        return BASE_PATHS.CALL_CENTER;
+      case PRODUCT_LABELS.CUSTOMER_PORTAL:
+        return BASE_PATHS.CUSTOMER_PORTAL;
+      case PRODUCT_LABELS.ORG_ADMIN:
+        return BASE_PATHS.ORG_ADMIN;
+      case PRODUCT_LABELS.COMMON_FEATURES:
+        return BASE_PATHS.COMMON_FEATURES;
+      default:
+        return null;
+    }
+  };
+
+  if (basePath !== getProductBasePath(productName)) {
+    router.push('/');
   }
 
   const routes = getRoutes(productName);

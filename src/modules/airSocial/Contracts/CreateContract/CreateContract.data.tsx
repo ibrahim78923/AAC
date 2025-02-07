@@ -43,6 +43,7 @@ export const defaultValues = (data: any) => {
 
 export const defaultFieldsData = [
   {
+    index: 0,
     name: 'startDate',
     label: 'Start Date',
     type: FIELD_TYPES.DATE,
@@ -52,6 +53,7 @@ export const defaultFieldsData = [
     value: '',
   },
   {
+    index: 1,
     name: 'renewalTerms',
     label: 'Renewal terms',
     type: FIELD_TYPES.TEXT,
@@ -61,6 +63,7 @@ export const defaultFieldsData = [
     value: '',
   },
   {
+    index: 2,
     name: 'contractCurrency',
     label: 'Contract currency',
     type: FIELD_TYPES.CHECKBOX,
@@ -75,6 +78,7 @@ export const defaultFieldsData = [
     ],
   },
   {
+    index: 3,
     name: 'contractValue',
     label: 'Total yearly Contract Value',
     type: FIELD_TYPES.SELECT,
@@ -88,6 +92,7 @@ export const defaultFieldsData = [
     ],
   },
   {
+    index: 4,
     name: 'amount',
     label: 'Amount',
     type: FIELD_TYPES.NUMBER,

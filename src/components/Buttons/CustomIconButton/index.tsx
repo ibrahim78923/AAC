@@ -1,6 +1,7 @@
 import { IconButton } from '@mui/material';
+import { CustomIconButtonPropsI } from '../Buttons.interface';
 
-export const CustomIconButton = (props: any) => {
+export const CustomIconButton = (props: CustomIconButtonPropsI) => {
   const {
     onClick,
     children,
@@ -10,6 +11,7 @@ export const CustomIconButton = (props: any) => {
     customStyles,
     color,
   } = props;
+
   return (
     <IconButton
       disabled={disabled}

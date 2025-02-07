@@ -1,11 +1,11 @@
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import { Fragment } from 'react';
 import { useVendors } from './useVendors';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { UpsertAsset } from './UpsertVendor';
-import { PlusSharedColorIcon } from '@/assets/icons';
+import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
 
 export const Vendors = () => {
   const {
@@ -24,15 +24,10 @@ export const Vendors = () => {
   return (
     <Fragment>
       <Box textAlign={'end'} mb={2}>
-        <Button
-          startIcon={<PlusSharedColorIcon />}
-          variant={'contained'}
-          color={'primary'}
-          className="small"
+        <AddNewItemButton
+          name="Add Vendor"
           onClick={() => setIsUpsertModalOpen?.({ open: true, id: '' })}
-        >
-          Add Vendor
-        </Button>
+        />
       </Box>
 
       <Box

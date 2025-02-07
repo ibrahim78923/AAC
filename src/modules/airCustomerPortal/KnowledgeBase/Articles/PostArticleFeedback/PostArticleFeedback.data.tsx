@@ -22,7 +22,7 @@ export const articleFeedbackFormDefaultValues = (
   };
 };
 
-export const articleFeedbackFormFieldsDynamic = () => [
+export const articleFeedbackFormFieldsDynamic = (email?: string) => [
   {
     _id: 1,
     componentProps: {
@@ -30,6 +30,7 @@ export const articleFeedbackFormFieldsDynamic = () => [
       label: 'Email',
       placeholder: 'User Email',
       required: true,
+      disabled: !!email,
     },
     component: RHFTextField,
   },
