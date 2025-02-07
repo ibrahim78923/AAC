@@ -99,22 +99,20 @@ const useFolder: any = () => {
   const singleFolderData = getFolderByIdData?.data[0];
 
   function findFolderById(data: any, selectedFolderId: string | null) {
-    if (data && selectedFolderId) {
-      if (data._id === selectedFolderId) {
-        return data;
-      }
+    if (data?._id === selectedFolderId) {
+      return data;
+    }
 
-      if (data.nestedFolders && data.nestedFolders.length > 0) {
-        for (const folder of data.nestedFolders) {
-          const foundFolder: any = findFolderById(folder, selectedFolderId);
-          if (foundFolder) {
-            return foundFolder;
-          }
+    if (data?.nestedFolders && data?.nestedFolders?.length > 0) {
+      for (const folder of data?.nestedFolders) {
+        const result: any = findFolderById(folder, selectedFolderId);
+
+        if (result) {
+          return result;
         }
       }
-      return {};
     }
-    return {};
+    return null;
   }
 
   // Create/Update Folder
@@ -176,7 +174,7 @@ const useFolder: any = () => {
   const watchCreateVisibleTo = watchCreateFolder('visibleTo');
   useEffect(() => {
     resetFolderForm(() => defaultValuesFolder(selectedFolderData, form));
-  }, [selectedFolderId, resetFolderForm, form]);
+  }, [selectedFolderId, resetFolderForm, form, isOpenCreateFolderModal]);
 
   const onSubmit = async (values: any) => {
     const filteredEmptyData = filteredEmptyValues(values);

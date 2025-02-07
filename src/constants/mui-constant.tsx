@@ -67,3 +67,9 @@ export const SKELETON_VARIANTS: any = {
 export const PROGRESS_VALUE = {
   ZERO: 0,
 };
+
+export const CUSTOM_BUTTON_TYPES: any = {
+  FILTER: 'filter',
+  RESTORE: 'restore',
+  CUSTOMIZE: 'customize',
+};

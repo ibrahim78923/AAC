@@ -124,13 +124,7 @@ export const closeIncidentDataArray = (isRadioGroupDisable: any) => [
       sx: { ml: 2 },
       row: false,
       disabled: isRadioGroupDisable ? false : true,
-      options: [
-        { value: 'IncidentCloseClosed', label: 'Closed' },
-        {
-          value: 'IncidentCloseEither',
-          label: 'Either closed or resolved',
-        },
-      ],
+      options: [{ value: 'IncidentCloseClosed', label: 'Closed' }],
     },
     component: RHFRadioGroup,
   },
@@ -173,13 +167,7 @@ export const resolveIncidentDataArray = (isRadioGroupDisable: any) => [
       sx: { ml: 2 },
       row: false,
       disabled: isRadioGroupDisable ? false : true,
-      options: [
-        { value: 'IncidentResolveClosed', label: 'Closed' },
-        {
-          value: 'IncidentResolveEither',
-          label: 'Either closed or resolved',
-        },
-      ],
+      options: [{ value: 'IncidentResolveEither', label: 'Resolved' }],
     },
     component: RHFRadioGroup,
   },
@@ -222,13 +210,7 @@ export const serviceResolveDataArray = (isRadioGroupDisable: any) => [
       label: '',
       row: false,
       disabled: isRadioGroupDisable ? false : true,
-      options: [
-        { value: 'ServiceCloseClosed', label: 'Closed' },
-        {
-          value: 'ServiceCloseEither',
-          label: 'Either closed or resolved',
-        },
-      ],
+      options: [{ value: 'ServiceCloseEither', label: 'Resolved' }],
     },
     component: RHFRadioGroup,
   },
@@ -271,13 +253,7 @@ export const serviceCloseDataArray = (isRadioGroupDisable: any) => [
       sx: { ml: 2 },
       row: false,
       disabled: isRadioGroupDisable ? false : true,
-      options: [
-        { value: 'ServiceResolveClosed', label: 'Closed' },
-        {
-          value: 'ServiceResolveEither',
-          label: 'Either closed or resolved',
-        },
-      ],
+      options: [{ value: 'ServiceResolveClosed', label: 'Closed' }],
     },
     component: RHFRadioGroup,
   },

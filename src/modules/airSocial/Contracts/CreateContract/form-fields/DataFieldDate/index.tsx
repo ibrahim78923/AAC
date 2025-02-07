@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { RHFDatePicker } from '@/components/ReactHookForm';
 import { Theme } from '@mui/material';
+import { CONTRACT_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 
 const styles = (theme: Theme) => ({
   '& .MuiOutlinedInput-input': {
@@ -44,12 +46,15 @@ const styles = (theme: Theme) => ({
   },
 });
 
-export default function DataFieldDate({ data }: any) {
+export default function DataFieldDate({ data, handleUpdateDynamicField }: any) {
   const [selectedDate, setSelectedDate] = useState(
     data?.value ? new Date(data?.value) : null,
   );
-  const handleDateChange = (date: any) => {
-    setSelectedDate(date);
+  const handleDateChange = (e: any) => {
+    setSelectedDate(e?.target?.value);
+    handleUpdateDynamicField(data?.index, {
+      value: dayjs(e?.target?.value).format(CONTRACT_FORMAT?.DMMMMYYYY),
+    });
   };
 
   return (

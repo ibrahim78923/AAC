@@ -1,11 +1,11 @@
-import { Box, Button } from '@mui/material';
-import { FilterSharedIcon } from '@/assets/icons';
+import { Box } from '@mui/material';
 import Search from '@/components/Search';
 import { Filter } from '../Filter';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_DATA_MANAGEMENT_EXPORT_LIST_PERMISSIONS } from '@/constants/permission-keys';
 import { ExportButton } from '@/components/Buttons/ExportButton';
 import { HeaderI } from './Header.interface';
+import { CustomButton } from '@/components/Buttons/CustomButton';
 
 export const Header = (props: HeaderI) => {
   const {
@@ -55,15 +55,9 @@ export const Header = (props: HeaderI) => {
             AIR_OPERATIONS_DATA_MANAGEMENT_EXPORT_LIST_PERMISSIONS?.FILTER_RECORD,
           ]}
         >
-          <Button
-            variant="outlined"
-            startIcon={<FilterSharedIcon />}
-            color="secondary"
-            onClick={() => setIsOpenFilterDrawer(true)}
-            className="small"
-          >
+          <CustomButton onClick={() => setIsOpenFilterDrawer(true)}>
             Filter
-          </Button>
+          </CustomButton>
         </PermissionsGuard>
       </Box>
       {isOpenFilterDrawer && (

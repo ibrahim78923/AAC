@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import NoData from '@/components/NoData';
 import RecentActivitiesList from './RecentActivitiesList';
 import { useState } from 'react';
@@ -6,6 +6,7 @@ import { SingleDashboardComponentPropsI } from '../SingleDashboard/SingleDashboa
 import { ActivityCard } from '@/components/Cards/ActivityCard';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { RecentActivitiesIcon } from '@/assets/icons';
+import { CustomButton } from '@/components/Buttons/CustomButton';
 
 export const RecentActivities = (props: SingleDashboardComponentPropsI) => {
   const { data, isPreviewMode } = props;
@@ -53,15 +54,16 @@ export const RecentActivities = (props: SingleDashboardComponentPropsI) => {
         )}
       </Box>
       <Box textAlign={'center'}>
-        <Button
-          className="small"
+        <CustomButton
+          hasIcon={false}
+          color="primary"
           variant="text"
           disabled={isPreviewMode}
           fullWidth
           onClick={() => setIsDrawerOpen(true)}
         >
           View All
-        </Button>
+        </CustomButton>
       </Box>
       {isDrawerOpen && (
         <RecentActivitiesList

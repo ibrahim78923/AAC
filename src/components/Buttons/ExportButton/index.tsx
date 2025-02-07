@@ -1,7 +1,7 @@
 import { Typography, Button, Menu, MenuItem } from '@mui/material';
 import { ExportIcon } from '@/assets/icons';
 import { useExportButton } from './useExportButton';
-import { ExportButtonPropsI } from './ExportButton.interface';
+import { ExportButtonPropsI } from '../Buttons.interface';
 
 export const ExportButton = (props: ExportButtonPropsI) => {
   const {

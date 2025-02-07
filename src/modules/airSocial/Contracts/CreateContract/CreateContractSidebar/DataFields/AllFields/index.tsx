@@ -20,24 +20,61 @@ import ModalDuplicateDataField from './ModalDuplicateDataField';
 import useAllFields from './useAllFields';
 import ModalPropertiesField from './ModalPropertiesField';
 
-const getDataField = (field: any) => {
+const getDataField = (field: any, handleUpdateDynamicField: any) => {
   switch (field?.type) {
     case FIELD_TYPES?.TEXT:
-      return <DataFieldText data={field} value={field?.value} />;
+      return (
+        <DataFieldText
+          data={field}
+          value={field?.value}
+          handleUpdateDynamicField={handleUpdateDynamicField}
+        />
+      );
 
     case FIELD_TYPES?.DATE:
-      return <DataFieldDate data={field} value={field?.value} />;
+      return (
+        <DataFieldDate
+          data={field}
+          value={field?.value}
+          handleUpdateDynamicField={handleUpdateDynamicField}
+        />
+      );
 
     case FIELD_TYPES?.NUMBER:
-      return <DataFieldNumber data={field} value={field?.value} />;
+      return (
+        <DataFieldNumber
+          data={field}
+          value={field?.value}
+          handleUpdateDynamicField={handleUpdateDynamicField}
+        />
+      );
 
     case FIELD_TYPES?.CHECKBOX:
-      return <DataFieldCheckbox data={field} />;
+      return (
+        <DataFieldCheckbox
+          data={field}
+          value={field?.value}
+          handleUpdateDynamicField={handleUpdateDynamicField}
+        />
+      );
 
     case FIELD_TYPES?.SELECT:
-      return <DataFieldCheckbox data={field} />;
+      return (
+        <DataFieldCheckbox
+          data={field}
+          value={field?.value}
+          handleUpdateDynamicField={handleUpdateDynamicField}
+        />
+      );
+
     default:
-      return <DataFieldText data={field} value={field?.value} />;
+      return (
+        <DataFieldText
+          data={field}
+          value={field?.value}
+          handleUpdateDynamicField={handleUpdateDynamicField}
+        />
+      );
   }
 };
 
@@ -85,7 +122,7 @@ export default function AllFields({
             <FieldIcon size={30}>{getFieldIcon(field?.type)}</FieldIcon>
             <Box sx={styles?.fieldInfo}>
               <Box sx={styles?.fieldName}>{field?.label}</Box>
-              {getDataField(field)}
+              {getDataField(field, handleUpdateDynamicField)}
             </Box>
             <CustomMenu
               field={field}

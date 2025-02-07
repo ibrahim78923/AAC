@@ -10,7 +10,7 @@ import { useListHeader } from './useListHeader';
 import { WorkflowListHeaderI } from '@/types/modules/AirOperations/WorkflowAutomation';
 import { AIR_OPERATIONS } from '@/constants/routes';
 import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
-import { FilterButton } from '@/components/Buttons/FilterButton';
+import { CustomButton } from '@/components/Buttons/CustomButton';
 
 const ListViewHeader: React.FC<WorkflowListHeaderI> = (props) => {
   const {
@@ -76,9 +76,9 @@ const ListViewHeader: React.FC<WorkflowListHeaderI> = (props) => {
               AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.FILTER_RECORD,
             ]}
           >
-            <FilterButton onClick={() => setIsDrawerOpen?.(true)}>
+            <CustomButton onClick={() => setIsDrawerOpen?.(true)}>
               Filter
-            </FilterButton>
+            </CustomButton>
           </PermissionsGuard>
           <PermissionsGuard
             permissions={[

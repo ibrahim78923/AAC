@@ -1,11 +1,11 @@
 import Search from '@/components/Search';
-import { Box, Button } from '@mui/material';
-import { AddWhiteBgIcon } from '@/assets/icons';
+import { Box } from '@mui/material';
 import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS } from '@/constants/permission-keys';
 import { useHeader } from './useHeader';
 import { operationsUsersActionComponent } from './Header.data';
+import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
 
 export const Header = () => {
   const {
@@ -47,14 +47,7 @@ export const Header = () => {
               disabled={!!!selectedUsersLists?.length}
             />
           </PermissionsGuard>
-          <Button
-            className="small"
-            variant="contained"
-            startIcon={<AddWhiteBgIcon />}
-            onClick={openAddUserPortal}
-          >
-            Add User
-          </Button>
+          <AddNewItemButton onClick={openAddUserPortal} name="Add User" />
         </Box>
       </Box>
       {isPortalOpen?.isOpen &&

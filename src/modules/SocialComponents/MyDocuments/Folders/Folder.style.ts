@@ -115,6 +115,30 @@ export const styles = {
       },
     };
   },
+  skeleton: (theme: any) => ({
+    bgcolor: theme?.palette?.grey?.[300],
+    borderRadius: '6px',
+  }),
+  filterBar: () => ({
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+    '@media (min-width: 900px) and (max-width: 1200px)': {
+      display: 'block',
+    },
+    '@media (max-width: 680px)': {
+      display: 'block',
+    },
+  }),
+  searchBar: () => ({
+    maxWidth: '260px',
+    '@media (min-width: 900px) and (max-width: 1200px)': {
+      maxWidth: '100%',
+    },
+    '@media (max-width: 680px)': {
+      maxWidth: '100%',
+    },
+  }),
   actionFilterBox: () => {
     return {
       display: 'flex',
@@ -126,10 +150,14 @@ export const styles = {
       },
       flexWrap: 'wrap',
       gap: '10px',
+      ml: 'auto',
+
+      '@media (min-width: 900px) and (max-width: 1200px)': {
+        mt: '1rem',
+      },
+      '@media (max-width: 680px)': {
+        mt: '1rem',
+      },
     };
   },
-  skeleton: (theme: any) => ({
-    bgcolor: theme?.palette?.grey?.[300],
-    borderRadius: '6px',
-  }),
 };

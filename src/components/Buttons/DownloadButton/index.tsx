@@ -2,8 +2,9 @@ import { DownloadLargeIcon } from '@/assets/icons';
 import { pxToRem } from '@/utils/getFontValue';
 import { LoadingButton } from '@mui/lab';
 import { useDownloadButton } from './useDownloadButton';
+import { DownloadButtonPropsI } from '../Buttons.interface';
 
-export const DownloadButton = (props: any) => {
+export const DownloadButton = (props: DownloadButtonPropsI) => {
   const {
     disabled = false,
     children = <DownloadLargeIcon />,

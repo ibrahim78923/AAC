@@ -1,8 +1,6 @@
 import { Box } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
-import { Button } from '@mui/material';
-import { FilterSharedIcon } from '@/assets/icons';
 import ContractsDrawerForm from './FilterContractsForm';
 import { useContracts } from './useContracts';
 import { ExportButton } from '@/components/Buttons/ExportButton';
@@ -11,6 +9,7 @@ import { EXPORT_TYPE } from '@/constants/strings';
 import { DeleteContract } from './DeleteContract';
 import { AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { CustomButton } from '@/components/Buttons/CustomButton';
 
 const Contracts = () => {
   const {
@@ -71,15 +70,13 @@ const Contracts = () => {
                 AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.DELETE_CONTRACTS,
               ]}
             >
-              <Button
-                variant="outlined"
-                color="secondary"
+              <CustomButton
                 disabled={!!!selectedContractList?.length}
                 onClick={() => setIsDeleteModalOpen(true)}
-                className="small"
+                hasIcon={false}
               >
                 Delete
-              </Button>
+              </CustomButton>
             </PermissionsGuard>
             <PermissionsGuard
               permissions={[
@@ -100,15 +97,9 @@ const Contracts = () => {
                 AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.SEARCH_AND_FILTER,
               ]}
             >
-              <Button
-                variant="outlined"
-                color="secondary"
-                startIcon={<FilterSharedIcon />}
-                onClick={() => setIsDrawerOpen(true)}
-                className="small"
-              >
+              <CustomButton onClick={() => setIsDrawerOpen(true)}>
                 Filter
-              </Button>
+              </CustomButton>
             </PermissionsGuard>
           </Box>
         </Box>

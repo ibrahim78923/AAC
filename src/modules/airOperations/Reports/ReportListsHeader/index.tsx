@@ -1,10 +1,11 @@
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { FilterIcon, RestoreIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import { useReportListsHeader } from './useReportListsHeader';
 import { reportListsActionComponent } from './ReportListsHeader.data';
+import { CustomButton } from '@/components/Buttons/CustomButton';
+import { CUSTOM_BUTTON_TYPES } from '@/constants/mui-constant';
 
 export const ReportListsHeader = () => {
   const {
@@ -52,26 +53,15 @@ export const ReportListsHeader = () => {
             />
           </PermissionsGuard>
           <PermissionsGuard permissions={[permission?.RESTORE_RECORD]}>
-            <Button
-              className="small"
-              variant="outlined"
-              color="inherit"
-              startIcon={<RestoreIcon />}
+            <CustomButton
+              iconType={CUSTOM_BUTTON_TYPES?.RESTORE}
               onClick={onRestoreClick}
             >
               Restore
-            </Button>
+            </CustomButton>
           </PermissionsGuard>
           <PermissionsGuard permissions={[permission?.FILTER_RECORD]}>
-            <Button
-              className="small"
-              variant="outlined"
-              color="inherit"
-              startIcon={<FilterIcon />}
-              onClick={openFilterPortal}
-            >
-              Filter
-            </Button>
+            <CustomButton onClick={openFilterPortal}>Filter</CustomButton>
           </PermissionsGuard>
         </Box>
       </Box>

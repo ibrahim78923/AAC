@@ -266,6 +266,7 @@ export default function useCreateContract() {
         required: false,
         description: '',
         value: '',
+        index: dynamicFields?.length + 1,
       };
       if (data?.type === 'checkbox') {
         newField.options = [
