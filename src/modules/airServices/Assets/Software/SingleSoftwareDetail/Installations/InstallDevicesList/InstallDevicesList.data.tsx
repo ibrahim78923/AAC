@@ -4,7 +4,7 @@ import { TruncateText } from '@/components/TruncateText';
 import { fullName } from '@/utils/avatarUtils';
 import { uiDateFormat } from '@/lib/date-time';
 
-export const installationTableColumns = (
+export const installDevicesListColumnDynamic = (
   installationData: any,
   activeCheck: any,
   setActiveCheck: any,

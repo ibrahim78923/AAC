@@ -1,6 +1,9 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
+import { useLazyGetAssetsDropdownQuery } from '@/services/airServices/assets/software/single-software-detail/installations';
 
-const GetSoftwareDevicesDropdown = ({ devicesQuery }: any) => {
+const GetSoftwareDevicesDropdown = () => {
+  const devicesQuery = useLazyGetAssetsDropdownQuery();
+
   return (
     <>
       <RHFAutocompleteAsync
