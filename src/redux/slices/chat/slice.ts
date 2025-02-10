@@ -70,7 +70,16 @@ const chatSlice = createSlice({
         if (existingMessageIndex === -1) {
           state.chatMessages?.unshift(action?.payload);
         } else {
-          state.chatMessages[existingMessageIndex] = action?.payload;
+          // If updateTrack is true, preserve the ownerDetail of the existing message.
+          if (action.payload?.updateTrack) {
+            const existingMessage = state.chatMessages[existingMessageIndex];
+            state.chatMessages[existingMessageIndex] = {
+              ...action.payload,
+              ownerDetail: existingMessage?.ownerDetail,
+            };
+          } else {
+            state.chatMessages[existingMessageIndex] = action?.payload;
+          }
         }
       }
     },

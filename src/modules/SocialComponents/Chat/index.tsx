@@ -246,7 +246,9 @@ const Chat = () => {
                   borderRadius: '20px',
                 }}
               >
-                Select Contacts..
+                {chatModeState === 'groupChat'
+                  ? 'Select Groups..'
+                  : 'Select Contacts..'}
               </Box>
             )}
           </Box>

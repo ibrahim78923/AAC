@@ -524,7 +524,12 @@ const DashboardLayout = ({ children, window }: any) => {
     socket.on(CHAT_SOCKETS?.SOCKET_ERROR_OCCURED, () => {});
     socket.on(CHAT_SOCKETS?.UPDATE_MESSAGE, () => {});
     socket.on('on-message-update', (payload: any) => {
-      dispatch(setChatMessages(payload?.data));
+      dispatch(
+        setChatMessages({
+          ...payload?.data,
+          updateTrack: true,
+        }),
+      );
     });
   }
 

@@ -67,7 +67,7 @@ export const styles = {
       background: '#F9FAFB',
       width: '100%',
       borderRadius: '16px 16px 0px 0px',
-      padding: '20px',
+      padding: '4px 20px',
     };
   },
 
