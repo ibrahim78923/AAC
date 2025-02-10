@@ -13,7 +13,6 @@ import {
 
 import { useTheme } from '@mui/material';
 
-import { CompanyLogoIcon } from '@/assets/icons';
 // import { AvatarImage } from '@/assets/images';
 
 import { v4 as uuidv4 } from 'uuid';
@@ -38,6 +37,7 @@ import { generateImage } from '@/utils/avatarUtils';
 import { AUTH, ERROR_PAGES, ORG_ADMIN } from '@/constants';
 import { useGetActiveProductsQuery } from '@/services/common-APIs';
 import { LogoutImage } from '@/assets/images';
+import { LogoAvatar } from '@/components/Avatars/LogoAvatar';
 // import { generateImage } from '@/utils/avatarUtils';
 
 const ProductSuite = () => {
@@ -46,8 +46,9 @@ const ProductSuite = () => {
     setActiveProduct,
     setPermissions,
     isPermissions,
-    authMeLoadingState,
     user,
+    setProductSwitcherLoading,
+    productSwitcherLoading,
   } = useAuth();
   const router = useRouter();
   const {
@@ -55,17 +56,15 @@ const ProductSuite = () => {
     refetch,
     isFetching: postAuthAccountSelectFetching,
   } = useGetAuthAccountsQuery({});
-  const [PostAuthAccountSelect, { isLoading }] =
-    usePostAuthAccountSelectMutation();
+  const [PostAuthAccountSelect] = usePostAuthAccountSelectMutation();
   const [selectedProduct, setSelectedProduct] = useState<any>([]);
 
-  const [loading, setLoading] = useState(false);
   const session: any = getSession();
 
   const findModulePermissionKey = async (product: any, id: string) => {
     const payload = { account: id };
     try {
-      setLoading(true);
+      setProductSwitcherLoading(true);
       const response = await PostAuthAccountSelect(payload)?.unwrap();
       const routes = getRoutes(product);
       if (response?.data && routes) {
@@ -82,8 +81,7 @@ const ProductSuite = () => {
       enqueueSnackbar(errMessage ?? 'Error occurred', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
-    } finally {
-      setLoading(false);
+      setProductSwitcherLoading(false);
     }
     return false;
   };
@@ -100,7 +98,6 @@ const ProductSuite = () => {
           });
           for (const permission of permissions) {
             if (componentPermissionsDictionary[permission]) {
-              setLoading(false);
               return router?.push(modulePermission?.key);
             }
           }
@@ -180,7 +177,7 @@ const ProductSuite = () => {
         }}
       >
         <Box>
-          <CompanyLogoIcon />
+          <LogoAvatar />
         </Box>
 
         <Box
@@ -248,10 +245,7 @@ const ProductSuite = () => {
           },
         }}
       >
-        {loading ||
-        authMeLoadingState ||
-        isLoading ||
-        postAuthAccountSelectFetching ? (
+        {postAuthAccountSelectFetching || productSwitcherLoading ? (
           <Box
             sx={{ marginTop: '200px', width: '100%' }}
             display={'flex'}

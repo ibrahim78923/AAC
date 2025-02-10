@@ -522,6 +522,12 @@ export const BASE_PATHS = {
   COMMON_FEATURES: 'social-components',
 };
 
+export const BYPASS_ROUTES: any = {
+  'social-components': true,
+  'air-social': true,
+  'edit-profile': true,
+};
+
 export const AIR_SALES_GOAL_NOTIFICATION = {
   STARTED: 'goalStarted',
   EXCEEDED: 'goalExceeded',

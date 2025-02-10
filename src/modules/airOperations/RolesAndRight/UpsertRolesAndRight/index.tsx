@@ -1,7 +1,5 @@
 import { Box, Divider, Typography } from '@mui/material';
-import { AIR_OPERATIONS } from '@/constants/routes';
 import { FormProvider } from '@/components/ReactHookForm';
-import { LoadingButton } from '@mui/lab';
 import { useUpsertRolesAndRight } from './useUpsertRolesAndRight';
 import {
   BUTTON_TITLE_FORM_USER,
@@ -12,23 +10,23 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { PermissionsAccordion } from '../PermissionsAccordion';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { FormGrid } from '@/components/Grids/FormGrid';
+import { ActionsLoadingButton } from '@/components/Buttons/ActionsLoadingButton';
 
 export const UpsertRolesAndRight = () => {
   const {
-    router,
     methods,
     handleSubmit,
     submitUpsertRoles,
     upsertRolesAndRightFormFields,
     action,
-    postPermissionsStatus,
     getRolesIsLoading,
     getRolesIsFetching,
-    patchPermissionsStatus,
     getRolesIsError,
-    submitButtonHandler,
     permissionAccordionsProps,
     refetch,
+    apiCallInProgress,
+    moveBack,
+    submitButtonHandler,
   } = useUpsertRolesAndRight();
 
   return (
@@ -36,11 +34,7 @@ export const UpsertRolesAndRight = () => {
       <PageTitledHeader
         title={TITLE_FORM_USER?.[action as string]}
         canMovedBack
-        moveBack={() => {
-          router?.push({
-            pathname: AIR_OPERATIONS?.ROLES_AND_RIGHTS,
-          });
-        }}
+        moveBack={moveBack}
       />
       <ApiRequestFlow
         showSkeleton={getRolesIsLoading || getRolesIsFetching}
@@ -63,39 +57,12 @@ export const UpsertRolesAndRight = () => {
               {...permissionAccordionsProps}
             />
           </Box>
-
-          <Box textAlign={'end'}>
-            <LoadingButton
-              type={'button'}
-              variant={'outlined'}
-              color={'inherit'}
-              className="small"
-              sx={{ mr: 2 }}
-              disabled={
-                postPermissionsStatus?.isLoading ||
-                patchPermissionsStatus?.isLoading
-              }
-              onClick={() => router?.push(AIR_OPERATIONS?.ROLES_AND_RIGHTS)}
-            >
-              Cancel
-            </LoadingButton>
-            <LoadingButton
-              type={'button'}
-              variant={'contained'}
-              className="small"
-              onClick={() => submitButtonHandler?.()}
-              disabled={
-                postPermissionsStatus?.isLoading ||
-                patchPermissionsStatus?.isLoading
-              }
-              loading={
-                postPermissionsStatus?.isLoading ||
-                patchPermissionsStatus?.isLoading
-              }
-            >
-              {BUTTON_TITLE_FORM_USER?.[action as string]}
-            </LoadingButton>
-          </Box>
+          <ActionsLoadingButton
+            submitButtonText={BUTTON_TITLE_FORM_USER?.[action as string]}
+            showSubmitLoader={apiCallInProgress}
+            handleCancelButton={moveBack}
+            handleSubmitButton={submitButtonHandler}
+          />
         </FormProvider>
       </ApiRequestFlow>
     </>

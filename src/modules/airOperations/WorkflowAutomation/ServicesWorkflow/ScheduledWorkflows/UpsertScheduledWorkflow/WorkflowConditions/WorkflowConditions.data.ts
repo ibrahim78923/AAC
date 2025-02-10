@@ -4,7 +4,7 @@ import { conditionTypeOptions } from '../UpsertScheduledWorkflow.data';
 export const workflowConditionsGroupDataArray = (index: any) => [
   {
     _id: 9080,
-    gridLength: 6,
+    md: 6,
     componentProps: {
       name: `groups.${index}.name`,
       label: 'Add group name',
@@ -16,7 +16,7 @@ export const workflowConditionsGroupDataArray = (index: any) => [
   },
   {
     _id: 7865,
-    gridLength: 6,
+    md: 6,
     componentProps: {
       name: `groups.${index}.conditionType`,
       label: 'Condition Type',

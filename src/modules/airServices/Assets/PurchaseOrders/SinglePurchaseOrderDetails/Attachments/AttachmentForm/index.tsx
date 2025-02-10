@@ -1,8 +1,8 @@
 import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 import { useAttachmentForm } from './useAttachmentForm';
-import { LoadingButton } from '@mui/lab';
 import { uploadFileMaxSize } from '@/utils/avatarUtils';
 import { ACCEPT_FILE_EXTENSIONS } from '@/constants/file';
+import { CustomLoadingButton } from '@/components/Buttons/CustomLoadingButton';
 
 export const AttachmentForm = (props: any) => {
   const { methods, onSubmit, postAttachmentsStatus, handleSubmit } =
@@ -19,17 +19,15 @@ export const AttachmentForm = (props: any) => {
           'application/pdf': ACCEPT_FILE_EXTENSIONS?.PDF,
         }}
       />
-      <LoadingButton
+      <br />
+      <CustomLoadingButton
         type="submit"
         fullWidth
-        className="small"
-        variant="contained"
-        sx={{ mt: 2 }}
         loading={postAttachmentsStatus?.isLoading}
         disabled={postAttachmentsStatus?.isLoading}
       >
         Submit
-      </LoadingButton>
+      </CustomLoadingButton>
     </FormProvider>
   );
 };

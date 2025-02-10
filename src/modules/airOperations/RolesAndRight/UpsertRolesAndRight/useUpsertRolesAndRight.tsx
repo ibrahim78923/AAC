@@ -140,23 +140,24 @@ export const useUpsertRolesAndRight = () => {
     getValues,
     watch,
   };
+  const moveBack = () => router?.push(AIR_OPERATIONS?.ROLES_AND_RIGHTS);
+
+  const apiCallInProgress =
+    postPermissionsStatus?.isLoading || patchPermissionsStatus?.isLoading;
 
   return {
-    router,
-    roleId,
     methods,
     handleSubmit,
-    reset,
     submitUpsertRoles,
     upsertRolesAndRightFormFields,
     action,
-    postPermissionsStatus,
     getRolesIsLoading,
     getRolesIsFetching,
-    patchPermissionsStatus,
     getRolesIsError,
-    submitButtonHandler,
     permissionAccordionsProps,
     refetch,
+    apiCallInProgress,
+    moveBack,
+    submitButtonHandler,
   };
 };

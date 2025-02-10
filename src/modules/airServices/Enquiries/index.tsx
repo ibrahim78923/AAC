@@ -2,8 +2,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import Search from '@/components/Search';
 import { AIR_SERVICES_ENQUIRIES_PERMISSION } from '@/constants/permission-keys';
-import { FilterIcon } from '@/assets/icons';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Filters from './Filters';
@@ -12,6 +11,7 @@ import ViewEnquiry from './ViewEnquiry';
 import { DeleteEnquiry } from './DeleteEnquiry';
 import ConvertTicket from './ConvertTicket';
 import { Permissions } from '@/constants/permissions';
+import { CustomButton } from '@/components/Buttons/CustomButton';
 
 const Enquiries = () => {
   const {
@@ -72,17 +72,7 @@ const Enquiries = () => {
           <PermissionsGuard
             permissions={[AIR_SERVICES_ENQUIRIES_PERMISSION?.SEARCH_AND_FILTER]}
           >
-            <Button
-              variant="outlined"
-              className="small"
-              startIcon={<FilterIcon />}
-              color="secondary"
-              onClick={() => {
-                openFilterModal();
-              }}
-            >
-              Filter
-            </Button>
+            <CustomButton onClick={openFilterModal}>Filter</CustomButton>
           </PermissionsGuard>
         </Box>
       </Box>

@@ -1,20 +1,18 @@
-import { LoadingButton } from '@mui/lab';
 import { useCancelRequest } from './useCancelRequest';
+import { CustomLoadingButton } from '@/components/Buttons/CustomLoadingButton';
 
 export const CancelRequest = ({ approvalId }: any) => {
   const { onCancel, patchRequestApprovalStatus } = useCancelRequest();
 
   return (
     <>
-      <LoadingButton
-        variant="outlined"
-        color="secondary"
-        className={'small'}
+      <CustomLoadingButton
+        primary={false}
         loading={patchRequestApprovalStatus?.isLoading}
         onClick={() => onCancel(approvalId)}
       >
         Cancel
-      </LoadingButton>
+      </CustomLoadingButton>
     </>
   );
 };

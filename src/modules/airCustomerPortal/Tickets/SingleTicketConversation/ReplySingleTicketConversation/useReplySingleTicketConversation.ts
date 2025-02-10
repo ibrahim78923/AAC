@@ -5,11 +5,15 @@ import { ARRAY_INDEX, TICKET_CONVERSATIONS_TYPE } from '@/constants/strings';
 import { ReplySingleTicketConversationPropsI } from '../useSingleTicketConversation.interface';
 import { REGEX } from '@/constants/validation';
 import { useFormLib } from '@/hooks/useFormLib';
+import { useMemo } from 'react';
+import { getCustomerPortalStyling } from '@/utils';
 
 export const useReplySingleTicketConversation = (
   props: ReplySingleTicketConversationPropsI,
 ) => {
   const { singleTicketData, setIsReplyOpen, isReplyOpen } = props;
+
+  const portalStyles = useMemo(() => getCustomerPortalStyling(), []);
 
   const { methods, handleSubmit, reset } = useFormLib({
     defaultValues: { yourReply: '', attachFile: null },
@@ -71,5 +75,6 @@ export const useReplySingleTicketConversation = (
     onSubmit,
     postReplyForCustomerTicketConversationStatus,
     closeReply,
+    portalStyles,
   };
 };

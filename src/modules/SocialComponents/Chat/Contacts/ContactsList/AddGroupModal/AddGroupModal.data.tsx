@@ -1,5 +1,5 @@
 import { RHFTextField } from '@/components/ReactHookForm';
-import { Box, Checkbox, Typography, useTheme } from '@mui/material';
+import { Checkbox, Typography } from '@mui/material';
 
 import * as Yup from 'yup';
 export const addGroupValidationSchema = Yup?.object()?.shape({
@@ -34,13 +34,7 @@ export const participantsData = [
   },
 ];
 
-export const columns = (
-  handleRemoveParticipant: any,
-  groupAdmins: any,
-  setGroupAdmins: any,
-) => {
-  const theme = useTheme();
-
+export const columns = (groupAdmins: any, setGroupAdmins: any) => {
   const handleCheckboxChange = (value: any) => {
     const index = groupAdmins?.indexOf(value);
 
@@ -78,27 +72,27 @@ export const columns = (
         </Typography>
       ),
     },
-    {
-      id: 'Remove Participant',
-      isSortable: false,
-      header: (
-        <Box sx={{ textAlign: 'right', width: '100%' }}>Remove Participant</Box>
-      ),
-      cell: (info: any) => (
-        <Box
-          sx={{ textAlign: 'right' }}
-          onClick={() =>
-            handleRemoveParticipant(info?.cell?.row?.original?._id)
-          }
-        >
-          <Typography
-            variant="body3"
-            sx={{ color: theme.palette.error.main, cursor: 'pointer' }}
-          >
-            Remove
-          </Typography>
-        </Box>
-      ),
-    },
+    // {
+    //   id: 'Remove Participant',
+    //   isSortable: false,
+    //   header: (
+    //     <Box sx={{ textAlign: 'right', width: '100%' }}>Remove Participant</Box>
+    //   ),
+    //   cell: (info: any) => (
+    //     <Box
+    //       sx={{ textAlign: 'right' }}
+    //       onClick={() =>
+    //         handleRemoveParticipant(info?.cell?.row?.original?._id)
+    //       }
+    //     >
+    //       <Typography
+    //         variant="body3"
+    //         sx={{ color: theme.palette.error.main, cursor: 'pointer' }}
+    //       >
+    //         Remove
+    //       </Typography>
+    //     </Box>
+    //   ),
+    // },
   ];
 };

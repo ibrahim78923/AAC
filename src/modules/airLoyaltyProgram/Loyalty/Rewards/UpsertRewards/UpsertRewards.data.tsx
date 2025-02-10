@@ -74,7 +74,7 @@ export const addRewardsDefaultValues = (data: any) => {
 
 export const upsertRewardsData = (watch: any) => [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'title',
       label: 'Title',
@@ -87,7 +87,7 @@ export const upsertRewardsData = (watch: any) => [
     md: 12,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       name: 'requiredPoints',
       label: 'Required Points',
@@ -100,7 +100,7 @@ export const upsertRewardsData = (watch: any) => [
     md: 12,
   },
   {
-    id: 3,
+    _id: 3,
     componentProps: {
       name: 'fileUrl',
       label: 'Add Image',
@@ -111,11 +111,11 @@ export const upsertRewardsData = (watch: any) => [
     md: 12,
   },
   {
-    id: 4,
+    _id: 4,
     component: AppliedToDropdown,
   },
   {
-    id: 5,
+    _id: 5,
     componentProps: {
       name: 'costPrice',
       label: 'Cost Price',
@@ -127,7 +127,7 @@ export const upsertRewardsData = (watch: any) => [
     md: 12,
   },
   {
-    id: 6,
+    _id: 6,
     componentProps: {
       name: 'quantity',
       label: 'Quantity',
@@ -139,7 +139,7 @@ export const upsertRewardsData = (watch: any) => [
     md: 12,
   },
   {
-    id: 7,
+    _id: 7,
     componentProps: {
       name: 'activeFrom',
       label: 'Active from',
@@ -151,7 +151,7 @@ export const upsertRewardsData = (watch: any) => [
     md: 12,
   },
   {
-    id: 8,
+    _id: 8,
     componentProps: {
       name: 'activeTo',
       label: 'Active to',

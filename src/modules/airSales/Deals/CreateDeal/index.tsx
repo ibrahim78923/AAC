@@ -16,7 +16,7 @@ const CreateDeal = ({ open, onClose }: CreateDealProps) => {
     onSubmit,
     isCreateDealLodaing,
     createAssociationDealsLoading,
-  } = useCreateDeal();
+  }: any = useCreateDeal();
 
   return (
     <CommonDrawer

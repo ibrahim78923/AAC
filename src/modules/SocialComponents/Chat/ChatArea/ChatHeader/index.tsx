@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react';
 
-import { Box, Button, Typography, useTheme } from '@mui/material';
+import {
+  Box,
+  Button,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
 
 import { AlertModals } from '@/components/AlertModals';
 
@@ -189,14 +195,22 @@ const ChatHeader = ({ chatMode }: any) => {
     }
   };
 
+  const media = useMediaQuery('(max-width: 550px)');
+
   return (
     <>
       <Box sx={styles?.headerChat(theme)}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+          }}
+        >
           {activeParticipant?.avatar ? (
             <Image
-              width={50}
-              height={50}
+              width={media ? 30 : 50}
+              height={media ? 30 : 50}
               src={`${IMG_URL}${activeParticipant?.avatar}`}
               style={{ borderRadius: '50%' }}
               alt="avatar"
@@ -207,10 +221,9 @@ const ChatHeader = ({ chatMode }: any) => {
               firstName={activeParticipant?.firstName}
             />
           )}
-
           <Box>
             <Typography
-              variant="h4"
+              variant={media ? 'h6' : 'h4'}
               sx={{
                 fontWeight: '500',
                 color: theme?.palette?.common?.white,
@@ -253,6 +266,7 @@ const ChatHeader = ({ chatMode }: any) => {
             )}
           </Box>
         </Box>
+
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Button sx={styles?.unStyledButton}>
             <PhoneWhiteIcon />

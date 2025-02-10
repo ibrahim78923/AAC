@@ -21,12 +21,7 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 
-import {
-  EyeIcon,
-  EyeSlashIcon,
-  CompanyLogoIcon,
-  VerifiedIcon,
-} from '@/assets/icons';
+import { EyeIcon, EyeSlashIcon, VerifiedIcon } from '@/assets/icons';
 
 import { LoginDashboardImage } from '@/assets/images';
 
@@ -34,6 +29,8 @@ import { styles } from './SignUp.style';
 
 import { LoadingButton } from '@mui/lab';
 import StepOne from './StepOne';
+import { LogoAvatar } from '@/components/Avatars/LogoAvatar';
+import { PROJECT_NAME } from '@/config';
 
 const SignUp = () => {
   const {
@@ -80,7 +77,7 @@ const SignUp = () => {
     <Box sx={{ height: '100vh' }}>
       <Box sx={styles?.AuthHeader}>
         <Box>
-          <CompanyLogoIcon />
+          <LogoAvatar />
         </Box>
         <Box>
           <Link href="/login" variant="contained">
@@ -134,7 +131,7 @@ const SignUp = () => {
                   variant="h3"
                   sx={{ color: theme?.palette?.grey[500_8] }}
                 >
-                  Welcome to Air Applecart
+                  Welcome to {PROJECT_NAME}
                 </Typography>
                 <Typography
                   variant="h6"

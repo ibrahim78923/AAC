@@ -21,6 +21,8 @@ import { StrictModeDroppable } from '@/components/DynamicFormModals/StrictModeDr
 import { LoadingButton } from '@mui/lab';
 import { ImportQuestions } from './ImportQuestions';
 import { QuestionsI } from './Questions.interface';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const Questions: React.FC<QuestionsI> = (props) => {
   const {
@@ -101,23 +103,21 @@ export const Questions: React.FC<QuestionsI> = (props) => {
                             setQuestionIndex(index);
                           }}
                         >
-                          <Grid container spacing={2}>
-                            <Grid item xs={12} textAlign="center">
+                          <ContainerGrid>
+                            <CustomGrid customStyles={{ textAlign: 'center' }}>
                               <DragIndicator
                                 sx={{
                                   color: 'grey.900',
                                   transform: 'rotate(90deg)',
                                 }}
                               />
-                            </Grid>
-                            <Grid
-                              item
+                            </CustomGrid>
+                            <CustomGrid
                               md={
                                 watchType?.value !== questionTypeData?.text
                                   ? 8
                                   : 12
                               }
-                              xs={12}
                             >
                               <RHFTextField
                                 name={`sections.${sectionIndex}.questions.${index}.questionTitle`}
@@ -137,9 +137,9 @@ export const Questions: React.FC<QuestionsI> = (props) => {
                                 disabled={sectionCondition}
                                 required
                               />
-                            </Grid>
+                            </CustomGrid>
                             {watchType?.value !== questionTypeData?.text && (
-                              <Grid item md={4} xs={12}>
+                              <CustomGrid md={4}>
                                 <RHFAutocomplete
                                   name={`sections.${sectionIndex}.questions.${index}.questionType`}
                                   label={'\u00a0'}
@@ -167,10 +167,10 @@ export const Questions: React.FC<QuestionsI> = (props) => {
                                     option?.label
                                   }
                                 />
-                              </Grid>
+                              </CustomGrid>
                             )}
                             {watchType?.value !== questionTypeData?.text && (
-                              <Grid item xs={12}>
+                              <CustomGrid>
                                 {
                                   surveyQuestionComponent(
                                     sectionIndex,
@@ -180,10 +180,10 @@ export const Questions: React.FC<QuestionsI> = (props) => {
                                     sectionCondition,
                                   )[watchType?.value]
                                 }
-                              </Grid>
+                              </CustomGrid>
                             )}
                             {watchType?.value === questionTypeData?.text && (
-                              <Grid item xs={12}>
+                              <CustomGrid>
                                 <RHFTextField
                                   name={`sections.${sectionIndex}.questions.${index}.description`}
                                   label="Description"
@@ -193,9 +193,9 @@ export const Questions: React.FC<QuestionsI> = (props) => {
                                   size="small"
                                   disabled={sectionCondition}
                                 />
-                              </Grid>
+                              </CustomGrid>
                             )}
-                          </Grid>
+                          </ContainerGrid>
                           <Box
                             display="flex"
                             justifyContent="flex-end"
@@ -302,16 +302,16 @@ export const Questions: React.FC<QuestionsI> = (props) => {
                       )}
                     </Draggable>
                     {sectionIndex === isSection && questionIndex === index && (
-                      <Grid
-                        item
+                      <CustomGrid
                         xl={0.7}
                         lg={0.9}
                         md={1.4}
-                        xs={12}
-                        display="flex"
-                        alignItems="center"
-                        justifyContent={{ md: 'unset', xs: 'center' }}
-                        mt={2}
+                        customStyles={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: { md: 'unset', xs: 'center' },
+                          mt: 2,
+                        }}
                       >
                         <AnimatedBox
                           boxShadow={2}
@@ -344,7 +344,7 @@ export const Questions: React.FC<QuestionsI> = (props) => {
                             </CustomTooltip>
                           ))}
                         </AnimatedBox>
-                      </Grid>
+                      </CustomGrid>
                     )}
                   </React.Fragment>
                 );

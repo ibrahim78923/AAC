@@ -1,3 +1,4 @@
+import { PROJECT_NAME } from '@/config';
 import { BACKEND_COLLECTION_NAME } from '@/constants/api';
 import {
   AIR_OPERATION_REPORTS_MARKETING_CREATE_REPORTS_PERMISSIONS,
@@ -735,9 +736,9 @@ export const templateList = [
     ticketCount: '6',
     match: 'counter',
     templateType: REPORT_TYPE?.LEADS,
-    description: 'Air apple cart page URL redirect type lead CTA count',
+    description: `${PROJECT_NAME} page URL redirect type lead CTA count`,
     fieldName: 'urlRedirectType',
-    fieldValue: 'air apple cart page',
+    fieldValue: `${PROJECT_NAME} page`,
   },
   {
     id: '53',
@@ -746,10 +747,9 @@ export const templateList = [
     ticketCount: '8',
     match: 'counter',
     templateType: REPORT_TYPE?.LEADS,
-    description:
-      'Air apple cart blog post page URL redirect type lead CTA count',
+    description: `${PROJECT_NAME} blog post page URL redirect type lead CTA count`,
     fieldName: 'urlRedirectType',
-    fieldValue: 'air apple blog post',
+    fieldValue: `${PROJECT_NAME} blog post`,
   },
   {
     id: '54',

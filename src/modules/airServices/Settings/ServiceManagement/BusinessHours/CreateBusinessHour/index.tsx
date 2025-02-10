@@ -1,5 +1,5 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import {
   FormProvider,
   RHFAutocomplete,
@@ -12,7 +12,6 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { weekDays } from './CreateBusinessHour.data';
 import { DateFilter } from './DateFilter';
 import Search from '@/components/Search';
-import { LoadingButton } from '@mui/lab';
 import { AddHoliday } from './AddHoliday';
 import { useCreateBusinessHour } from './useCreateBusinessHour';
 import { TIME_FORMAT } from '@/constants';
@@ -23,6 +22,9 @@ import { Fragment } from 'react';
 import { otherDateFormat } from '@/lib/date-time';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ActionsLoadingButton } from '@/components/Buttons/ActionsLoadingButton';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
 
 export const CreateBusinessHour = () => {
   const {
@@ -232,14 +234,10 @@ export const CreateBusinessHour = () => {
               }
             />
 
-            <Button
-              variant={'contained'}
-              disableElevation
+            <AddNewItemButton
+              name="Add"
               onClick={() => setOpenAddHolidayModal(true)}
-              className={'small'}
-            >
-              Add
-            </Button>
+            />
           </Box>
         </Box>
 
@@ -250,28 +248,17 @@ export const CreateBusinessHour = () => {
           isFetching={loadingStatus}
           isError={getHolidaysStatus?.isError}
         />
-
-        <Box display="flex" gap={2} justifyContent={'flex-end'} mt={3}>
-          <LoadingButton
-            variant={'outlined'}
-            color={'inherit'}
-            onClick={() => {
-              router?.push(AIR_SERVICES?.BUSINESS_HOURS_SETTINGS);
-            }}
-            className={'small'}
-            disabled={loadingStatus}
-          >
-            Cancel
-          </LoadingButton>
-          <LoadingButton
-            variant={'contained'}
-            type={'submit'}
-            className={'small'}
-            loading={loadingStatus}
-          >
-            {businessHourId ? 'Update' : 'Save'}
-          </LoadingButton>
-        </Box>
+        <ActionsLoadingButton
+          submitButtonText={
+            businessHourId
+              ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
+              : GENERIC_UPSERT_FORM_CONSTANT?.SAVE
+          }
+          showSubmitLoader={loadingStatus}
+          handleCancelButton={() => {
+            router?.push(AIR_SERVICES?.BUSINESS_HOURS_SETTINGS);
+          }}
+        />
       </FormProvider>
 
       {openAddHolidayModal && (

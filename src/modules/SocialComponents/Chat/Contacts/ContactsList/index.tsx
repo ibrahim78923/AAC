@@ -219,6 +219,10 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
     refetch();
   }, [chatMode, query]);
 
+  useEffect(() => {
+    setSelectedValues([]);
+  }, [chatMode]);
+
   // _____FUNC_TO_FETCH_LATEST_CHAT_CONTACTS_____
   const [fetchOnTabChange, setFetchOnTabChange] = useState(false);
 

@@ -9,7 +9,7 @@ export const filtersFormFieldsDefaultValues = (filterValues: any) => {
 };
 export const filtersFormFieldsDataFunction = [
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       fullWidth: true,
       name: 'dateStart',
@@ -19,7 +19,7 @@ export const filtersFormFieldsDataFunction = [
     component: RHFDatePicker,
   },
   {
-    id: 920,
+    _id: 920,
     componentProps: {
       fullWidth: true,
       name: 'status',

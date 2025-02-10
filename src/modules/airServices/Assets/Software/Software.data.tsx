@@ -1,5 +1,4 @@
-import { Checkbox, Typography } from '@mui/material';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { Typography } from '@mui/material';
 import { fullName } from '@/utils/avatarUtils';
 import {
   SOFTWARE_STATUS,
@@ -10,6 +9,7 @@ import { SoftwareDataI } from './Software.interface';
 import { NextRouter } from 'next/router';
 import { TruncateText } from '@/components/TruncateText';
 import { AIR_SERVICES } from '@/constants/routes';
+import { CheckboxField } from '@/components/InputFields/CheckboxField';
 
 export const softwareStatusOptions = [
   SOFTWARE_STATUS?.RESTRICTED,
@@ -44,9 +44,7 @@ export const columns = (
     accessorFn: (row: any) => row?._id,
     id: '_id',
     cell: (info: any) => (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
+      <CheckboxField
         checked={!!softwareData?.find((item) => item === info?.getValue())}
         onChange={(e) => {
           e?.target?.checked
@@ -55,21 +53,17 @@ export const columns = (
                 softwareData?.filter((item) => item !== info?.getValue()),
               );
         }}
-        color="primary"
         name={info?.getValue()}
       />
     ),
     header: (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
+      <CheckboxField
         checked={data?.length ? softwareData?.length === data?.length : false}
         onChange={(e) => {
           e?.target?.checked
             ? setSoftwareData(data?.map((list) => list?._id))
             : setSoftwareData([]);
         }}
-        color="primary"
         name="id"
       />
     ),

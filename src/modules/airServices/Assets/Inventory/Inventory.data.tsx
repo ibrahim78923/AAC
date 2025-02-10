@@ -1,10 +1,10 @@
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { TruncateText } from '@/components/TruncateText';
 import { AIR_SERVICES } from '@/constants/routes';
 import { ASSET_IMPACT, ASSET_TYPE, TIME_PERIODS } from '@/constants/strings';
 import { fullName } from '@/utils/avatarUtils';
 import { uiDateFormat } from '@/lib/date-time';
-import { Checkbox, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
+import { CheckboxField } from '@/components/InputFields/CheckboxField';
 
 export const assetTypeOptions = [
   ASSET_TYPE?.SERVICES,
@@ -139,9 +139,7 @@ export const inventoryListsColumnsFunction: any = (
     accessorFn: (row: any) => row?._id,
     id: '_id',
     cell: (info: any) => (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
+      <CheckboxField
         checked={
           !!selectedInventoryLists?.find(
             (item: any) => item === info?.getValue(),
@@ -159,14 +157,11 @@ export const inventoryListsColumnsFunction: any = (
                 ),
               );
         }}
-        color="primary"
         name={info?.getValue()}
       />
     ),
     header: (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
+      <CheckboxField
         checked={
           inventoryLists?.length
             ? selectedInventoryLists?.length === inventoryLists?.length
@@ -179,7 +174,6 @@ export const inventoryListsColumnsFunction: any = (
               )
             : setSelectedInventoryLists([]);
         }}
-        color="primary"
         name="id"
       />
     ),

@@ -139,27 +139,31 @@ export const agentResolveTicketData = [
 
 export const receivingAwardData = [
   {
+    _id: 1,
     title: 'Most Valuable Player',
     text: 'Agent with the most overall points this month                         ',
     icon: MostValuableBadgeImage,
-    borderColor: 'main.primary',
+    borderColor: 'info.main',
   },
   {
+    _id: 2,
     title: 'Customer Wow Champion',
     text: 'Agent with the maximum Customer satisfaction points this month',
     icon: ChampionBadgeImage,
-    borderColor: 'main.primary',
+    borderColor: 'error.darker',
   },
   {
+    _id: 3,
     title: 'Wizard',
     text: ' Agent with the highest First Call Resolution points this month',
     icon: WizardBadgeImage,
-    borderColor: 'main.primary',
+    borderColor: 'success.main',
   },
   {
+    _id: 4,
     title: 'Speed Racer',
     text: 'Agent with the maximum points for fast resolution this month',
     icon: SpeedRacerBadgeImage,
-    borderColor: 'main.primary',
+    borderColor: 'warning.main',
   },
 ];

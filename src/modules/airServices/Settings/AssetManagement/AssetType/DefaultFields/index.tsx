@@ -1,12 +1,15 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 import { AIR_SERVICES } from '@/constants/routes';
-import { Box, Grid, useTheme } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { predefinedAssetTypeDataArray } from './DefaultFields.data';
 import { LoadingButton } from '@mui/lab';
 import { useFormLib } from '@/hooks/useFormLib';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { HeadingFormGrid } from '@/components/Grids/HeadingFormGrid';
 
 export default function DefaultFields() {
   const theme: any = useTheme();
@@ -28,26 +31,19 @@ export default function DefaultFields() {
       />
 
       <FormProvider methods={methods}>
-        <Grid container rowSpacing={1.8} columnSpacing={2}>
-          <Grid item xs={12} lg={9}>
+        <ContainerGrid rowSpacing={1.8} columnSpacing={2}>
+          <CustomGrid lg={9}>
             <Box
               p={2}
               borderRadius={3}
               border={`2px solid ${theme?.palette?.custom?.off_white_three}`}
             >
-              <Grid container rowSpacing={1.8} columnSpacing={3}>
-                {predefinedAssetTypeDataArray?.map((form: any) => (
-                  <Grid item xs={12} md={form?.md} key={form.id}>
-                    <form.component
-                      {...form?.componentProps}
-                      size={'small'}
-                      disabled
-                    >
-                      {form?.heading ? form?.heading : null}
-                    </form.component>
-                  </Grid>
-                ))}
-              </Grid>
+              <HeadingFormGrid
+                formFieldsList={predefinedAssetTypeDataArray}
+                rowSpacing={1.8}
+                columnSpacing={3}
+                disabled
+              />
               <Box sx={{ display: { lg: 'none', xs: 'block' } }}>
                 <RHFDropZone name={'fileUrl'} disabled />
               </Box>
@@ -63,16 +59,14 @@ export default function DefaultFields() {
                 Back
               </LoadingButton>
             </Box>
-          </Grid>
-          <Grid
-            item
-            xs={12}
+          </CustomGrid>
+          <CustomGrid
             lg={3}
-            sx={{ display: { xs: 'none', lg: 'block' } }}
+            customStyles={{ display: { xs: 'none', lg: 'block' } }}
           >
             <RHFDropZone name={'fileUrl'} disabled />
-          </Grid>
-        </Grid>
+          </CustomGrid>
+        </ContainerGrid>
       </FormProvider>
     </>
   );

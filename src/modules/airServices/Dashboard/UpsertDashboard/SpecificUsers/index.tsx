@@ -1,20 +1,12 @@
 import { pxToRem } from '@/utils/getFontValue';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from '@mui/material';
-import { SpecificUsersAccessFormFieldsDynamicI } from '../UpsertDashboard.interface';
-import {
   specificUsersAccessColumns,
   specificUsersAccessFormFieldsDynamic,
 } from './SpecificUsers.data';
 import { UsersFieldDropdown } from '../../DashboardFormFields/UsersFieldDropdown';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
+import { FieldArrayTable } from '@/components/Table/FieldArrayTable';
+import { useCallback } from 'react';
 
 export const SpecificUsers = (props: any) => {
   const { name, disabled } = props;
@@ -27,51 +19,28 @@ export const SpecificUsers = (props: any) => {
   return (
     <>
       <UsersFieldDropdown disabled={disabled} />
-      <TableContainer
-        sx={{
+      <FieldArrayTable
+        tableContainerCustomStyles={{
           maxHeight: pxToRem(400),
           border: '1px solid',
           borderColor: 'custom.off_white_three',
           borderRadius: 2,
         }}
-      >
-        <Table stickyHeader sx={{ minWidth: pxToRem(400) }}>
-          <TableHead>
-            <TableRow>
-              {specificUsersAccessColumns?.map(
-                (column: AutocompleteOptionsI) => (
-                  <TableCell key={column?._id}>{column?.label}</TableCell>
-                ),
-              )}
-            </TableRow>
-          </TableHead>
-
-          <TableBody>
-            {fields?.map((item: any, index: number) => {
-              return (
-                <TableRow key={item?.id}>
-                  {specificUsersAccessFormFieldsDynamic?.(
-                    'permissionsUsers',
-                    index,
-                    disabled,
-                  )?.map(
-                    (
-                      singleField: SpecificUsersAccessFormFieldsDynamicI | any,
-                    ) => (
-                      <TableCell
-                        key={singleField?.id}
-                        align={singleField?.align}
-                      >
-                        {singleField?.data}
-                      </TableCell>
-                    ),
-                  )}
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
+        stickyHeader={true}
+        canAddItem={false}
+        columns={specificUsersAccessColumns}
+        fields={fields}
+        minWidth={pxToRem(400)}
+        getRowData={useCallback(
+          (index: any) =>
+            specificUsersAccessFormFieldsDynamic?.(
+              'permissionsUsers',
+              index,
+              disabled,
+            ),
+          [disabled],
+        )}
+      />
     </>
   );
 };

@@ -2,7 +2,7 @@ import { AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMIS
 import AwardPoints from './AwardPoints';
 import AgentLevels from './AgentLevels';
 
-export const LeaderBoardTabs = [
+export const leaderBoardTabs = [
   {
     _id: 1,
     name: 'Award Points',

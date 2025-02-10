@@ -1,16 +1,19 @@
 import { useUpsertInventory } from './useUpsertInventory';
 import { Box, CircularProgress, Grid, Typography } from '@mui/material';
 import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
-import { LoadingButton } from '@mui/lab';
 import { Attachments } from '@/components/Attachments';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
-import { INVENTORY_TITLE } from '@/constants/strings';
+import {
+  GENERIC_UPSERT_FORM_CONSTANT,
+  INVENTORY_TITLE,
+} from '@/constants/strings';
 import { uploadFileMaxSize } from '@/utils/avatarUtils';
 import { ACCEPT_FILE_EXTENSIONS } from '@/constants/file';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { ActionsLoadingButton } from '@/components/Buttons/ActionsLoadingButton';
 
 export const UpsertInventory = () => {
   const {
@@ -139,31 +142,15 @@ export const UpsertInventory = () => {
                   )}
                 </Box>
               </Box>
-              <Box
-                display={'flex'}
-                alignItems={'center'}
-                justifyContent={'flex-end'}
-                gap={2}
-                mt={2}
-              >
-                <LoadingButton
-                  variant="outlined"
-                  color="secondary"
-                  onClick={() => moveBack?.()}
-                  className="small"
-                  disabled={apiCallInProgress}
-                >
-                  Cancel
-                </LoadingButton>
-                <LoadingButton
-                  variant="contained"
-                  type="submit"
-                  className="small"
-                  loading={apiCallInProgress}
-                >
-                  {!!inventoryId ? 'update' : 'save'}
-                </LoadingButton>
-              </Box>
+              <ActionsLoadingButton
+                submitButtonText={
+                  !!inventoryId
+                    ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
+                    : GENERIC_UPSERT_FORM_CONSTANT?.SAVE
+                }
+                showSubmitLoader={apiCallInProgress}
+                handleCancelButton={moveBack}
+              />
             </Grid>
             <Grid item lg={3} sx={{ display: { xs: 'none', lg: 'block' } }}>
               <RHFDropZone

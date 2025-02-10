@@ -15,9 +15,9 @@ import {
   resetPasswordValidationSchema,
 } from './ResetPassword.data';
 import resetPasswordSuccess from '@/assets/icons/shared/onSuccess.gif';
-import { CompanyLogoIcon } from '@/assets/icons';
 import { LoginDashboardImage } from '@/assets/images';
 import { styles } from './ResetPassword.style';
+import { LogoAvatar } from '@/components/Avatars/LogoAvatar';
 
 const ResetPassword = () => {
   const [isMatchPassword, setIsMatchPassword] = useState<boolean>(false);
@@ -51,7 +51,7 @@ const ResetPassword = () => {
     <Box sx={{ height: '100vh' }}>
       <Box sx={styles.AuthHeader}>
         <Box>
-          <CompanyLogoIcon />
+          <LogoAvatar />
         </Box>
         <Box>
           <Link href="/login" variant="contained">

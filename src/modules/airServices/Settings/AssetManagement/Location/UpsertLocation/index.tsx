@@ -1,15 +1,16 @@
 import { FormProvider } from '@/components/ReactHookForm';
-import { Box, Divider } from '@mui/material';
+import { Divider } from '@mui/material';
 import {
   LOCATION_TYPE,
   UPSERT_LOCATION_TITLE,
   addNewLocationDataFields,
 } from './UpsertLocation.data';
 import { useUpsertLocation } from './useUpsertLocation';
-import { LoadingButton } from '@mui/lab';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { HeadingFormGrid } from '@/components/Grids/HeadingFormGrid';
+import { ActionsLoadingButton } from '@/components/Buttons/ActionsLoadingButton';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
 const UpsertLocation = () => {
   const {
@@ -37,32 +38,17 @@ const UpsertLocation = () => {
               : `Add new ${type} location`
         }
         canMovedBack
-        moveBack={() => moveToLocationPage?.()}
+        moveBack={moveToLocationPage}
       />
       <ApiRequestFlow showSkeleton={isLoading || isFetching}>
         <FormProvider methods={methods} onSubmit={handleSubmit(upsertLocation)}>
           <HeadingFormGrid formFieldsList={addNewLocationDataFields(type)} />
           <Divider sx={{ py: '0.5rem', mt: '2rem' }} />
-          <Box display={'flex'} justifyContent={'flex-end'} pt={2} gap={1}>
-            <LoadingButton
-              variant="outlined"
-              color="secondary"
-              className="small"
-              onClick={handleCancel}
-              disabled={apiCallInProgress}
-            >
-              Cancel
-            </LoadingButton>
-            <LoadingButton
-              disabled={apiCallInProgress}
-              loading={apiCallInProgress}
-              variant="contained"
-              type="submit"
-              className="small"
-            >
-              Save
-            </LoadingButton>
-          </Box>
+          <ActionsLoadingButton
+            submitButtonText={GENERIC_UPSERT_FORM_CONSTANT?.SAVE}
+            showSubmitLoader={apiCallInProgress}
+            handleCancelButton={handleCancel}
+          />
         </FormProvider>
       </ApiRequestFlow>
     </>

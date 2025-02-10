@@ -2,10 +2,10 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Box } from '@mui/material';
 import { useChangePassword } from './useChangePassword';
 import { FormProvider } from '@/components/ReactHookForm';
-import { LoadingButton } from '@mui/lab';
 import { ACCORDION_VARIANTS } from '@/constants/mui-constant';
 import { FormGrid } from '@/components/Grids/FormGrid';
 import { UncontrolledAccordion } from '@/components/Accordions/UncontrolledAccordion';
+import { ActionsLoadingButton } from '@/components/Buttons/ActionsLoadingButton';
 
 export const ChangePassword = () => {
   const {
@@ -30,31 +30,10 @@ export const ChangePassword = () => {
       >
         <FormProvider methods={methods} onSubmit={handleSubmitChangePassword}>
           <FormGrid spacing={1} formFieldsList={changePasswordFields} />
-          <Box
-            sx={{
-              display: 'flex',
-              gap: 2,
-              justifyContent: 'end',
-              my: 2,
-            }}
-          >
-            <LoadingButton
-              loading={postChangePasswordProgress?.isLoading}
-              variant="contained"
-              className="small"
-              type="submit"
-            >
-              Save
-            </LoadingButton>
-            <LoadingButton
-              disabled={postChangePasswordProgress?.isLoading}
-              variant="outlined"
-              className="small"
-              onClick={() => reset()}
-            >
-              cancel
-            </LoadingButton>
-          </Box>
+          <ActionsLoadingButton
+            showSubmitLoader={postChangePasswordProgress?.isLoading}
+            handleCancelButton={reset}
+          />
         </FormProvider>
       </UncontrolledAccordion>
     </Box>

@@ -36,6 +36,8 @@ import { useChatAttachmentUploadMutation } from '@/services/chat';
 import { generateImage } from '@/utils/avatarUtils';
 import { v4 as uuidv4 } from 'uuid';
 import { CHAT_TYPES } from '@/constants';
+import { IMG_URL } from '@/config';
+import { enqueueSnackbar } from 'notistack';
 
 const ChatFooter = ({ handleScrollToBottom }: any) => {
   const theme = useTheme();
@@ -92,10 +94,10 @@ const ChatFooter = ({ handleScrollToBottom }: any) => {
 
   const setAddMessageHandler = () => {
     setIsMessageLoading(true);
-    const addMessagePayloadFrGroup = {
-      chatId: activeChatId && activeChatId,
-      content: messageText,
-    };
+    // const addMessagePayloadFrGroup = {
+    //   chatId: activeChatId && activeChatId,
+    //   content: messageText,
+    // };
     const addMessagePayload = {
       ...(chatMode !== CHAT_TYPES?.GROUP_CHAT && {
         receiverId: activeReceiverId && activeReceiverId[0],
@@ -144,7 +146,7 @@ const ChatFooter = ({ handleScrollToBottom }: any) => {
       'add-message',
       activeReply?.content
         ? chatMode === 'groupChat'
-          ? addMessagePayloadFrGroup
+          ? addMessageReplyPayload
           : addMessageReplyPayload
         : addMessagePayload,
       () => {
@@ -195,7 +197,9 @@ const ChatFooter = ({ handleScrollToBottom }: any) => {
         media: formData,
       })?.unwrap();
       setImageToUpload(response?.data);
-    } catch (error: any) {}
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong', { variant: 'error' });
+    }
   };
 
   const typingUserData = useAppSelector((state) => state?.chat?.typingUserData);
@@ -284,6 +288,20 @@ const ChatFooter = ({ handleScrollToBottom }: any) => {
                 <Typography variant="body3" fontWeight={600}>
                   You
                 </Typography>
+                {activeReply?.media?.length > 0 && (
+                  <Box sx={{ display: 'flex', gap: '8px', mb: 1 }}>
+                    {activeReply?.media?.map((item: any) => (
+                      <Image
+                        key={uuidv4()}
+                        src={`${IMG_URL}${item?.url}`}
+                        width={50}
+                        height={50}
+                        alt="attachments"
+                        style={{ borderRadius: '8px' }}
+                      />
+                    ))}
+                  </Box>
+                )}
                 <Typography variant="body2">{activeReply?.content}</Typography>
                 <Box
                   sx={{

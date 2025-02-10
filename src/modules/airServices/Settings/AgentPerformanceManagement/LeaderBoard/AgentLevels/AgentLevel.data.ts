@@ -1,10 +1,3 @@
-import {
-  BeginnerAwardImage,
-  ExpertAwardImage,
-  IntermediateAwardImage,
-  MasterAwardImage,
-  ProfessionalAwardImage,
-} from '@/assets/images';
 import * as yup from 'yup';
 
 export const agentLevelsPointsSchema = yup?.object()?.shape({
@@ -50,27 +43,27 @@ export const agentLevelsFormDefaultValue = (data?: any) => ({
 
 export const agentLevelCardData = [
   {
-    icon: BeginnerAwardImage,
+    _id: 1,
     title: 'beginner',
     points: 10,
   },
   {
-    icon: IntermediateAwardImage,
+    _id: 2,
     title: 'intermediate',
     points: 20,
   },
   {
-    icon: ProfessionalAwardImage,
+    _id: 3,
     title: 'professional',
     points: 50,
   },
   {
-    icon: MasterAwardImage,
+    _id: 4,
     title: 'master',
     points: 100,
   },
   {
-    icon: ExpertAwardImage,
+    _id: 5,
     title: 'expert',
     points: 1000,
   },

@@ -2,8 +2,8 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useEmailReport } from './useEmailReport';
 import { emailReportFormFields } from './EmailReport.data';
-import { LoadingButton } from '@mui/lab';
 import { FormGrid } from '@/components/Grids/FormGrid';
+import { CustomLoadingButton } from '@/components/Buttons/CustomLoadingButton';
 
 export const EmailReport = () => {
   const {
@@ -32,9 +32,10 @@ export const EmailReport = () => {
       <FormProvider methods={methods}>
         <FormGrid formFieldsList={emailReportFormFields} />
       </FormProvider>
-      <LoadingButton className="small" sx={{ my: 1 }} onClick={downloadPath}>
+      <br />
+      <CustomLoadingButton onClick={downloadPath}>
         Click here to download Report
-      </LoadingButton>
+      </CustomLoadingButton>
       <br />
       <br />
     </CommonDrawer>

@@ -33,6 +33,7 @@ export const upsertTicketValidationSchema = (childTicketId: string) => {
     subject: Yup?.string()
       ?.trim()
       ?.required('Subject is required')
+      ?.matches(REGEX?.ALPHABETS, 'Must be a string')
       ?.max(
         SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS,
         `Maximum characters limit is ${SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS}`,

@@ -1,9 +1,9 @@
-import { Checkbox, Typography } from '@mui/material';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { Typography } from '@mui/material';
 import { EXPENSE_TYPE } from '@/constants/strings';
 import { ExpenseI } from './Expense.interface';
 import { otherDateFormat } from '@/lib/date-time';
 import { CALENDAR_FORMAT } from '@/constants';
+import { CheckboxField } from '@/components/InputFields/CheckboxField';
 
 export const EXPENSE_PORTAL_ACTIONS = {
   ADD_EXPENSE: 'Add New Expense',
@@ -25,9 +25,7 @@ export const addExpenseColumnsFunction = (
     accessorFn: (row: any) => row?._id,
     id: '_id',
     cell: (info: any) => (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
+      <CheckboxField
         checked={
           !!selectedExpenseList?.find(
             (item: any) => item?._id === info?.getValue(),
@@ -45,14 +43,11 @@ export const addExpenseColumnsFunction = (
                 ),
               );
         }}
-        color="primary"
         name={info?.getValue()}
       />
     ),
     header: (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
+      <CheckboxField
         checked={
           !!expenseData?.length
             ? selectedExpenseList?.length === expenseData?.length
@@ -63,7 +58,6 @@ export const addExpenseColumnsFunction = (
             ? setSelectedExpenseList(expenseData)
             : setSelectedExpenseList([]);
         }}
-        color="primary"
         name="id"
       />
     ),

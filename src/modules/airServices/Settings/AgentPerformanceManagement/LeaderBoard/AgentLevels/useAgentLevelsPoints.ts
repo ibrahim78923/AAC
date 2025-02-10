@@ -12,14 +12,20 @@ import { useRouter } from 'next/router';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { useFormLib } from '@/hooks/useFormLib';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const useAgentLevelsPoints = () => {
   const router = useRouter();
   const [addAgentLevelsPointsTrigger, addAgentLevelsPointsStatus] =
     useAddAirServicesSettingsLeaderBoardAgentLevelsMutation();
 
-  const { data, isLoading, isFetching } =
-    useGetAirServicesSettingsLeaderBoardAgentLevelsQuery({});
+  const { data, isLoading, isFetching, isError, refetch } =
+    useGetAirServicesSettingsLeaderBoardAgentLevelsQuery(
+      {},
+      {
+        refetchOnMountOrArgChange: true,
+      },
+    );
 
   const formLibProps = {
     validationSchema: agentLevelsPointsSchema,
@@ -42,6 +48,11 @@ export const useAgentLevelsPoints = () => {
     reset(() => agentLevelsFormDefaultValue(data?.data?.[ARRAY_INDEX?.ZERO]));
   }, [data, reset]);
 
+  const handleCancelBtn = () =>
+    router?.push({
+      pathname: AIR_SERVICES?.AGENT_PERFORMANCE_MANAGEMENT_SETTINGS,
+    });
+
   return {
     methods,
     onSubmit,
@@ -51,5 +62,8 @@ export const useAgentLevelsPoints = () => {
     isFetching,
     addAgentLevelsPointsStatus,
     router,
+    isError,
+    refetch,
+    handleCancelBtn,
   };
 };

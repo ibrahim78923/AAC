@@ -200,7 +200,6 @@ const useCreateBroadcast = () => {
 
     const payloadData: any = {
       ...data,
-      // senderId: user?._id,
       campaignId: data?.campaignId?._id,
       templateId: data?.templateId?._id,
       templateSid: templateData?.sid,
@@ -217,7 +216,10 @@ const useCreateBroadcast = () => {
     }
 
     if (isSchedule) {
+      payloadData.status = STATUS_CONTANTS?.SCHEDULED;
       payloadData.schedualDate = data?.schedualDate;
+    } else {
+      payloadData.schedualDate = null;
     }
 
     const filteredEmptyData = filteredEmptyValues(payloadData);
@@ -273,11 +275,9 @@ const useCreateBroadcast = () => {
       Object?.keys(body)?.forEach((key) => {
         formData?.append(key, body[key]);
       });
-      // if () {
       await postWhatsappBroadcast({ body: formData })?.unwrap();
       successSnackbar(`Broadcast ${createStatus} Successfully`);
       router?.back();
-      // }
     } catch (e: any) {
       errorSnackbar(e?.data?.message);
     }

@@ -12,9 +12,9 @@ export const commonContractsAPI = baseAPI.injectEndpoints({
       invalidatesTags: ['COMMON_CONTRACTS'],
     }),
 
-    createCommonContractAsDraft: builder.mutation({
+    createCommonContract: builder.mutation({
       query: (body) => ({
-        url: COMMON_CONTRACTS?.SAVE_AS_DRAFT,
+        url: COMMON_CONTRACTS?.POST_COMMOM_CONTRACT,
         method: 'POST',
         body: body,
       }),
@@ -23,7 +23,7 @@ export const commonContractsAPI = baseAPI.injectEndpoints({
 
     postSignAndSend: builder.mutation({
       query: (body) => ({
-        url: COMMON_CONTRACTS?.POST_SIGN_ADN_SEND,
+        url: COMMON_CONTRACTS?.POST_COMMOM_CONTRACT,
         method: 'POST',
         body: body,
       }),
@@ -112,6 +112,6 @@ export const {
   useGetCommonContractByIdQuery,
   useGetCommonContractTemplateRecentlyUsedQuery,
   useUpdateCommonContractTemplateMutation,
-  useCreateCommonContractAsDraftMutation,
+  useCreateCommonContractMutation,
   usePostSignAndSendMutation,
 } = commonContractsAPI;

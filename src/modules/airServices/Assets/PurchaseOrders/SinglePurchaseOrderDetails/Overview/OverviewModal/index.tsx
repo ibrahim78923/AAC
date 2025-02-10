@@ -1,4 +1,3 @@
-import { LogoImage } from '@/assets/images';
 import {
   Box,
   Dialog,
@@ -7,12 +6,12 @@ import {
   Typography,
 } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
-import Image from 'next/image';
 import { overviewTablePdfColumns } from './OverviewModal.data';
 import OverviewBilling from '../OverviewBilling';
 import { DownloadFileIcon, PrinterIcon } from '@/assets/icons';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { styles } from './OverviewModal.style';
+import { LogoAvatar } from '@/components/Avatars/LogoAvatar';
 
 const OverviewModal = ({
   openOverviewModal,
@@ -34,15 +33,7 @@ const OverviewModal = ({
       >
         <DialogContent id="invoice">
           <Box sx={styles?.logoBox} mt={'-1.5rem'}>
-            <Box display={'flex'} gap={1}>
-              <Image src={LogoImage} alt="logo" style={styles?.logoImage} />
-              <Box>
-                <Typography variant="h2">Air Applecart</Typography>
-                <Typography variant="h5" sx={styles?.logoHeading}>
-                  Air Services
-                </Typography>
-              </Box>
-            </Box>
+            <LogoAvatar productName="Services" />
             <IconButton sx={{ mr: '-1.5rem', mb: '2rem' }}>
               <CancelIcon
                 fontSize="large"

@@ -23,7 +23,7 @@ export const quoteStatus = ['DRAFT', 'PUBLISHED'];
 export const workflowConditionsGroupDataArray = (index: number) => [
   {
     _id: 9080,
-    gridLength: 6,
+    md: 6,
     componentProps: {
       name: `groups.${index}.name`,
       label: 'Add group name',
@@ -35,7 +35,7 @@ export const workflowConditionsGroupDataArray = (index: number) => [
   },
   {
     _id: 7865,
-    gridLength: 6,
+    md: 6,
     componentProps: {
       name: `groups.${index}.conditionType`,
       label: 'Condition Type',

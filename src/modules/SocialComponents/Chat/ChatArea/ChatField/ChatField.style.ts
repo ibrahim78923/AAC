@@ -31,6 +31,11 @@ export const styles = {
       padding: '10px 14px',
       minWidth: '10vw',
       maxWidth: '46vw',
+      '@media (max-width:581px)': {
+        minWidth: '30vw',
+        maxWidth: '66vw',
+      },
+
       borderRadius: `${
         role === 'sender' ? '12px 12px 0px 12px' : '12px 12px 12px 0px'
       }`,
@@ -67,7 +72,7 @@ export const styles = {
       background: '#F9FAFB',
       width: '100%',
       borderRadius: '16px 16px 0px 0px',
-      padding: '20px',
+      padding: '4px 20px',
     };
   },
 

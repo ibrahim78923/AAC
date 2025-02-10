@@ -1,11 +1,10 @@
-import Image from 'next/image';
 import { RHFTextField } from '@/components/ReactHookForm';
-import { Box, Typography, useTheme } from '@mui/material';
-import { ARRAY_INDEX } from '@/constants/strings';
+import { Box, Typography } from '@mui/material';
+import { StaticAvatar } from '@/components/Avatars/StaticAvatar';
+import { AGENT_LEVELS_IMAGES } from '@/constants/images';
 
 const AgentLevelCard = (props: any) => {
-  const { palette }: any = useTheme();
-
+  const { title } = props;
   return (
     <Box
       sx={{
@@ -13,7 +12,8 @@ const AgentLevelCard = (props: any) => {
         py: 1.2,
         borderRadius: 2,
         boxShadow: 1,
-        border: `1px solid ${palette?.grey?.[ARRAY_INDEX?.ZERO]}`,
+        border: `1px solid `,
+        borderColor: 'grey.0',
       }}
     >
       <Box
@@ -34,25 +34,27 @@ const AgentLevelCard = (props: any) => {
             gap: 2,
           }}
         >
-          <Image src={props?.icon} alt={props?.title} width={40} height={36} />
+          <StaticAvatar
+            avatarSrc={AGENT_LEVELS_IMAGES?.[title]?.src}
+            avatarSize={{ width: 40, height: 40 }}
+            alt={title}
+          />
           <Typography
             variant="h4"
             color={'slateBlue.main'}
             textTransform={'capitalize'}
           >
-            {props?.title}
+            {title}
           </Typography>
         </Box>
         <Box>
           <RHFTextField
-            name={props?.title}
+            name={title}
             label="After collecting"
             required
             size="small"
             sx={{ maxWidth: 204 }}
-          >
-            {props?.points}
-          </RHFTextField>
+          />
         </Box>
       </Box>
     </Box>

@@ -1,32 +1,39 @@
 import { Typography, Box } from '@mui/material';
 import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 import { useUpdateContract } from './useUpdateContract';
-import { LoadingButton } from '@mui/lab';
 import { Attachments } from '@/components/Attachments';
 import { AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS } from '@/constants/permission-keys';
-import { AIR_SERVICES } from '@/constants/routes';
 import { uploadFileMaxSize } from '@/utils/avatarUtils';
 import { ACCEPT_FILE_EXTENSIONS } from '@/constants/file';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { HeadingFormGrid } from '@/components/Grids/HeadingFormGrid';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { ActionsLoadingButton } from '@/components/Buttons/ActionsLoadingButton';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
 export const UpdateContract = () => {
   const {
     methods,
     handleSubmit,
     submitUpdateContractForm,
-    router,
     theme,
     handleCancelBtn,
     updateContractFormFields,
     contractId,
-    patchAddToContractStatus,
+    showLoader,
+    apiCallInProgress,
+    isError,
+    refetch,
+    actionRenewExtend,
   } = useUpdateContract();
 
   return (
-    <>
+    <ApiRequestFlow
+      showSkeleton={showLoader}
+      hasError={isError}
+      refreshApi={refetch}
+    >
       <FormProvider
         methods={methods}
         onSubmit={handleSubmit?.(submitUpdateContractForm)}
@@ -55,10 +62,10 @@ export const UpdateContract = () => {
                 }}
               >
                 <PageTitledHeader
-                  title={`${router?.query?.action} Contract`}
+                  title={`${actionRenewExtend} Contract`}
                   canMovedBack
                   isTitleCapital
-                  moveBack={() => router?.push(AIR_SERVICES?.ASSETS_CONTRACTS)}
+                  moveBack={handleCancelBtn}
                 />
                 <HeadingFormGrid formFieldsList={updateContractFormFields} />
               </Box>
@@ -103,34 +110,14 @@ export const UpdateContract = () => {
         <br />
         <ContainerGrid>
           <CustomGrid md={8}>
-            <Box
-              display={'flex'}
-              gap={2}
-              alignItems={'center'}
-              justifyContent={'flex-end'}
-            >
-              <LoadingButton
-                className="small"
-                variant="outlined"
-                type="button"
-                color="secondary"
-                onClick={() => handleCancelBtn?.()}
-                disabled={patchAddToContractStatus?.isLoading}
-              >
-                Cancel
-              </LoadingButton>
-              <LoadingButton
-                className="small"
-                variant="contained"
-                type="submit"
-                loading={patchAddToContractStatus?.isLoading}
-              >
-                {`${router?.query?.action}`}
-              </LoadingButton>
-            </Box>
+            <ActionsLoadingButton
+              submitButtonText={actionRenewExtend}
+              showSubmitLoader={apiCallInProgress}
+              handleCancelButton={handleCancelBtn}
+            />
           </CustomGrid>
         </ContainerGrid>
       </FormProvider>
-    </>
+    </ApiRequestFlow>
   );
 };

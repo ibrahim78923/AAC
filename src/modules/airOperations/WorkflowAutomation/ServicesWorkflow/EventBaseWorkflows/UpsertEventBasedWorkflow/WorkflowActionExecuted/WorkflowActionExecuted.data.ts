@@ -105,7 +105,7 @@ export const actionsData = ({
   ) {
     valueComponent = {
       _id: 5,
-      gridLength: 3,
+      md: 3,
       componentProps: {
         name: `actions.${index}.fieldValue`,
         size: 'small',
@@ -124,7 +124,7 @@ export const actionsData = ({
   ) {
     valueComponent = {
       _id: 6,
-      gridLength: 3,
+      md: 3,
       componentProps: {
         name: `actions.${index}.fieldValue`,
         size: 'small',
@@ -151,7 +151,7 @@ export const actionsData = ({
   } else if (selectedLabel === optionsConstant?.department) {
     valueComponent = {
       _id: 6,
-      gridLength: 3,
+      md: 3,
       componentProps: {
         name: `actions.${index}.fieldValue`,
         size: 'small',
@@ -173,13 +173,13 @@ export const actionsData = ({
         name: `actions.${index}.fieldValue`,
         size: 'small',
       },
-      gridLength: 3,
+      md: 3,
       component: RHFDatePicker,
     };
   } else {
     valueComponent = {
       _id: 9,
-      gridLength: 3,
+      md: 3,
       componentProps: {
         name: `actions.${index}.fieldValue`,
         size: 'small',
@@ -192,7 +192,7 @@ export const actionsData = ({
   return [
     {
       _id: 565,
-      gridLength: 3,
+      md: 3,
       componentProps: {
         name: `actions.${index}.fieldName`,
         size: 'small',

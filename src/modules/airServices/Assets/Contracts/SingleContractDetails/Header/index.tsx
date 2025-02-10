@@ -4,8 +4,8 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useHeader } from './useHeader';
 import { CONTRACT_STATUS } from '@/constants/strings';
 import { RejectStatus } from './RejectStatus';
-import { LoadingButton } from '@mui/lab';
 import { AIR_SERVICES } from '@/constants/routes';
+import { CustomLoadingButton } from '@/components/Buttons/CustomLoadingButton';
 
 export const Header = (props: any) => {
   const { dropdownOptions } = props;
@@ -23,7 +23,9 @@ export const Header = (props: any) => {
     patchContractSubmitApprovalProcess,
     patchContractApproveProcess,
   } = useHeader();
+
   if (isLoading || isFetching) return <Skeleton />;
+
   return (
     <>
       <Box
@@ -44,38 +46,32 @@ export const Header = (props: any) => {
         />
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
           {data?.data?.status === CONTRACT_STATUS?.DRAFT && (
-            <LoadingButton
-              variant="outlined"
-              color="secondary"
+            <CustomLoadingButton
+              primary={false}
               onClick={handleSubmitForApproval}
               type="submit"
-              className="small"
               loading={patchContractSubmitApprovalProcess?.isLoading}
             >
               Submit For Approval
-            </LoadingButton>
+            </CustomLoadingButton>
           )}
           {data?.data?.status === CONTRACT_STATUS?.PENDING_APPROVAL &&
             data?.data?.approver?._id === user?._id && (
               <>
-                <LoadingButton
-                  variant="outlined"
-                  color="secondary"
+                <CustomLoadingButton
+                  primary={false}
                   onClick={handleSubmitForApprove}
-                  className="small"
                   loading={patchContractApproveProcess?.isLoading}
                 >
                   approve
-                </LoadingButton>
-                <LoadingButton
-                  variant="outlined"
-                  color="secondary"
+                </CustomLoadingButton>
+                <CustomLoadingButton
+                  primary={false}
                   onClick={handleClickOpen}
-                  className="small"
                   disabled={patchContractApproveProcess?.isLoading}
                 >
                   Reject
-                </LoadingButton>
+                </CustomLoadingButton>
               </>
             )}
 

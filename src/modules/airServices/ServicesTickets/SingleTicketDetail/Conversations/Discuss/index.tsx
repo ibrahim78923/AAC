@@ -1,4 +1,3 @@
-import { LogoImage } from '@/assets/images';
 import { Box, Drawer, Typography } from '@mui/material';
 import { MessageBox } from './MessageBox';
 import { ChatEditor } from './ChatEditor';
@@ -7,7 +6,7 @@ import { DeleteMessage } from './DeleteMessage';
 import { Close } from '@mui/icons-material';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setIsPortalClose } from '@/redux/slices/airServices/ticket-conversation/slice';
-import { StaticAvatar } from '@/components/Avatars/StaticAvatar';
+import { LogoAvatar } from '@/components/Avatars/LogoAvatar';
 
 export const Discuss = () => {
   const [selectedMessage, setSelectedMessage] = useState<any>({});
@@ -57,22 +56,9 @@ export const Discuss = () => {
             justifyContent={'space-between'}
           >
             <Box display={'flex'} alignItems={'center'} gap={1}>
-              <StaticAvatar
-                avatarSrc={LogoImage?.src}
-                avatarSize={{
-                  width: 30,
-                  height: 30,
-                }}
-              />
+              <LogoAvatar isWhite />
               <Typography
-                variant="body1"
-                color="slateBlue.main"
-                fontWeight={'600'}
-              >
-                Air Apple Cart
-              </Typography>
-              <Typography
-                variant="body3"
+                variant="body2"
                 fontWeight={'600'}
                 color="slateBlue.main"
               >

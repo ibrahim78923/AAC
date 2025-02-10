@@ -15,7 +15,6 @@ import {
   forgetPasswordDefaultValues,
   forgetPasswordValidationSchema,
 } from './ForgetPassword.data';
-import { CompanyLogoIcon } from '@/assets/icons';
 import { LoginDashboardImage } from '@/assets/images';
 import { styles } from './ForgetPassword.style';
 import {
@@ -25,6 +24,7 @@ import {
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { LoadingButton } from '@mui/lab';
 import { useRouter } from 'next/router';
+import { LogoAvatar } from '@/components/Avatars/LogoAvatar';
 
 const ForgetPassword = () => {
   const [isEmailSuccess, setIsEmailSuccess] = useState<boolean>(false);
@@ -78,7 +78,7 @@ const ForgetPassword = () => {
     <Box sx={{ height: '100vh' }}>
       <Box sx={styles.AuthHeader}>
         <Box>
-          <CompanyLogoIcon />
+          <LogoAvatar />
         </Box>
         <Box>
           <Link href="/login" variant="contained">

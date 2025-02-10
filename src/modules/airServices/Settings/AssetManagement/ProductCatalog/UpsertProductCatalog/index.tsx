@@ -1,10 +1,11 @@
 import { Box } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertProductCatalog } from './useUpsertProductCatalog';
-import { LoadingButton } from '@mui/lab';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { FormGrid } from '@/components/Grids/FormGrid';
+import { ActionsLoadingButton } from '@/components/Buttons/ActionsLoadingButton';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
 export const UpsertProductCatalog = () => {
   const {
@@ -16,8 +17,7 @@ export const UpsertProductCatalog = () => {
     moveBack,
     isLoading,
     isFetching,
-    patchProductCatalogStatus,
-    postProductCatalogStatus,
+    apiCallInProgress,
   } = useUpsertProductCatalog();
 
   return (
@@ -33,44 +33,15 @@ export const UpsertProductCatalog = () => {
           onSubmit={handleSubmit(submitUpsertProductCatalog)}
         >
           <FormGrid formFieldsList={upsertProductCatalogFormFields} />
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-              gap: 2,
-              mt: 4,
-            }}
-          >
-            <LoadingButton
-              variant="outlined"
-              type="button"
-              className="small"
-              onClick={() => moveBack?.()}
-              color="secondary"
-              disabled={
-                patchProductCatalogStatus?.isLoading ||
-                postProductCatalogStatus?.isLoading
-              }
-            >
-              Cancel
-            </LoadingButton>
-            <LoadingButton
-              variant="contained"
-              type="submit"
-              className="small"
-              disabled={
-                patchProductCatalogStatus?.isLoading ||
-                postProductCatalogStatus?.isLoading
-              }
-              loading={
-                patchProductCatalogStatus?.isLoading ||
-                postProductCatalogStatus?.isLoading
-              }
-            >
-              {!!productCatalogId ? 'Update' : 'Save'}
-            </LoadingButton>
-          </Box>
+          <ActionsLoadingButton
+            submitButtonText={
+              productCatalogId
+                ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
+                : GENERIC_UPSERT_FORM_CONSTANT?.SAVE
+            }
+            showSubmitLoader={apiCallInProgress}
+            handleCancelButton={moveBack}
+          />
         </FormProvider>
       </Box>
     </ApiRequestFlow>

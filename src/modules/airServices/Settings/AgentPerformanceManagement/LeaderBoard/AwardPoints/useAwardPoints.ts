@@ -1,5 +1,4 @@
 import { awardFormDefaultValue, awardPointsSchema } from './AwardPoints.data';
-import { useTheme } from '@mui/material';
 import {
   useAddAirServicesSettingsLeaderBoardAwardPointsMutation,
   useGetAirServicesSettingsLeaderBoardAwardPointsQuery,
@@ -10,23 +9,21 @@ import { useRouter } from 'next/router';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { useFormLib } from '@/hooks/useFormLib';
+import { AIR_SERVICES } from '@/constants/routes';
 
 export const useAwardPoints = () => {
   const router = useRouter();
-  const { palette }: any = useTheme();
 
   const [addAwardPointsTrigger, addAwardPointsStatus] =
     useAddAirServicesSettingsLeaderBoardAwardPointsMutation();
 
-  const { data, isLoading, isFetching } =
-    useGetAirServicesSettingsLeaderBoardAwardPointsQuery({});
-
-  const awardCardBorderColors = [
-    palette?.info?.main,
-    palette?.error?.darker,
-    palette?.success?.main,
-    palette?.warning?.main,
-  ];
+  const { data, isLoading, isFetching, isError, refetch } =
+    useGetAirServicesSettingsLeaderBoardAwardPointsQuery(
+      {},
+      {
+        refetchOnMountOrArgChange: true,
+      },
+    );
 
   const formLibProps = {
     validationSchema: awardPointsSchema,
@@ -49,14 +46,21 @@ export const useAwardPoints = () => {
     reset(() => awardFormDefaultValue(data?.data?.[ARRAY_INDEX?.ZERO]));
   }, [data, reset]);
 
+  const handleCancelBtn = () =>
+    router?.push({
+      pathname: AIR_SERVICES?.AGENT_PERFORMANCE_MANAGEMENT_SETTINGS,
+    });
+
   return {
     methods,
     handleSubmit,
-    awardCardBorderColors,
     isLoading,
     isFetching,
     addAwardPointsStatus,
     router,
     submitAwardForm,
+    isError,
+    refetch,
+    handleCancelBtn,
   };
 };

@@ -1,9 +1,10 @@
 import { CustomTooltip } from '@/components/CustomTooltip';
-import { Box, IconButton } from '@mui/material';
+import { Box } from '@mui/material';
 import { ArticleModalIcon, CannedResponseModalIcon } from '@/assets/icons';
 import { useAppDispatch } from '@/redux/store';
 import { setIsResponsePortalOpen } from '@/redux/slices/airServices/ticket-conversation/slice';
 import { TICKET_CONVERSATION_RESPONSE_PORTAL_ACTIONS_CONSTANT } from '../Conversations.data';
+import { CustomIconButton } from '@/components/Buttons/CustomIconButton';
 
 export const ConversationResponseType = () => {
   const dispatch = useAppDispatch();
@@ -26,28 +27,28 @@ export const ConversationResponseType = () => {
       justifyContent={'flex-end'}
     >
       <CustomTooltip title="add canned response">
-        <IconButton
+        <CustomIconButton
           onClick={() =>
             setAction?.(
               TICKET_CONVERSATION_RESPONSE_PORTAL_ACTIONS_CONSTANT?.CANNED_RESPONSE,
             )
           }
-          sx={{ cursor: 'pointer' }}
+          customStyles={{ cursor: 'pointer' }}
         >
           <CannedResponseModalIcon />
-        </IconButton>
+        </CustomIconButton>
       </CustomTooltip>
       <CustomTooltip title="add article">
-        <IconButton
+        <CustomIconButton
           onClick={() =>
             setAction?.(
               TICKET_CONVERSATION_RESPONSE_PORTAL_ACTIONS_CONSTANT?.ARTICLE_REPONSE,
             )
           }
-          sx={{ cursor: 'pointer' }}
+          customStyles={{ cursor: 'pointer' }}
         >
           <ArticleModalIcon />
-        </IconButton>
+        </CustomIconButton>
       </CustomTooltip>
     </Box>
   );

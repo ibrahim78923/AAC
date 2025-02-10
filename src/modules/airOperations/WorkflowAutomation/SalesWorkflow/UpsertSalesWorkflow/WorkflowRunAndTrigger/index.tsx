@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { RHFAutocomplete, RHFRadioGroup } from '@/components/ReactHookForm';
 import {
   andRunOptions,
@@ -10,18 +10,20 @@ import {
   WorkflowDropdownI,
   WorkflowRunAndTriggerI,
 } from './WorkflowRunAndTrigger.interface';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const WorkflowRunAndTrigger = (props: WorkflowRunAndTriggerI) => {
   const { palette, watch } = props;
   const watchType = watch('type');
   return (
     <>
-      <Grid
-        item
-        xs={12}
-        mt={1}
-        border={`1px solid ${palette?.custom?.off_white_three}`}
-        borderRadius={2}
+      <CustomGrid
+        customStyles={{
+          mt: 1,
+          border: `1px solid ${palette?.custom?.off_white_three}`,
+          borderRadius: 2,
+        }}
       >
         <Typography
           variant="h4"
@@ -30,7 +32,7 @@ export const WorkflowRunAndTrigger = (props: WorkflowRunAndTriggerI) => {
         >
           Run this workflow for
         </Typography>
-        <Grid item lg={8} p={1.5}>
+        <CustomGrid lg={8} customStyles={{ p: 1.5 }}>
           <RHFRadioGroup
             label={<Typography variant="formTopHeading">Module</Typography>}
             sx={{
@@ -40,14 +42,14 @@ export const WorkflowRunAndTrigger = (props: WorkflowRunAndTriggerI) => {
             name="module"
             options={moduleOptions}
           />
-        </Grid>
-      </Grid>
-      <Grid
-        item
-        xs={12}
-        border={`1px solid ${palette?.custom?.off_white_three}`}
-        borderRadius={2}
-        my={2}
+        </CustomGrid>
+      </CustomGrid>
+      <CustomGrid
+        customStyles={{
+          border: `1px solid ${palette?.custom?.off_white_three}`,
+          borderRadius: 2,
+          my: 2,
+        }}
       >
         <Typography
           variant="h4"
@@ -56,9 +58,9 @@ export const WorkflowRunAndTrigger = (props: WorkflowRunAndTriggerI) => {
         >
           When to Trigger this workflow?
         </Typography>
-        <Grid container p={1.5} spacing={2}>
+        <ContainerGrid customStyles={{ p: 1.5 }}>
           {watchType === workflowType?.EVENT_BASE && (
-            <Grid item md={6} xs={12}>
+            <CustomGrid md={6}>
               <RHFAutocomplete
                 name="events"
                 size="small"
@@ -68,9 +70,9 @@ export const WorkflowRunAndTrigger = (props: WorkflowRunAndTriggerI) => {
                 placeholder="Select Trigger"
                 getOptionLabel={(option: WorkflowDropdownI) => option?.label}
               />
-            </Grid>
+            </CustomGrid>
           )}
-          <Grid item md={6} xs={12}>
+          <CustomGrid md={6}>
             <RHFAutocomplete
               name="runType"
               size="small"
@@ -80,9 +82,9 @@ export const WorkflowRunAndTrigger = (props: WorkflowRunAndTriggerI) => {
               options={andRunOptions}
               getOptionLabel={(option: WorkflowDropdownI) => option?.label}
             />
-          </Grid>
-        </Grid>
-      </Grid>
+          </CustomGrid>
+        </ContainerGrid>
+      </CustomGrid>
     </>
   );
 };

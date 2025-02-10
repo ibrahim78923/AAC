@@ -1,4 +1,5 @@
-import { LogoImage, PageNotFoundImage } from '@/assets/images';
+import { PageNotFoundImage } from '@/assets/images';
+import { LogoAvatar } from '@/components/Avatars/LogoAvatar';
 import { AUTH } from '@/constants';
 import useAuth from '@/hooks/useAuth';
 import { Grid, Typography, Box, useTheme } from '@mui/material';
@@ -30,10 +31,7 @@ const PageNotAccess = ({
     >
       <Grid item textAlign={'center'}>
         <Box sx={{ gap: '10px', display: 'flex', justifyContent: 'center' }}>
-          <Image src={LogoImage} width={0} height={0} alt="Not Found" />
-          <Typography variant="h3" mb={2}>
-            Air Apple Cart
-          </Typography>
+          <LogoAvatar />
         </Box>
         <Typography variant="h3" mt={4} mb={4}>
           You don't have access to any{' '}

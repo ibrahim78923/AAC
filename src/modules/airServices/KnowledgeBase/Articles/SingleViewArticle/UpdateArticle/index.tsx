@@ -4,11 +4,11 @@ import {
   setIsPortalOpen,
   setSelectedArticlesList,
 } from '@/redux/slices/airServices/knowledge-base/slice';
-import { LoadingButton } from '@mui/lab';
 import { useAppDispatch } from '@/redux/store';
 import { useRouter } from 'next/router';
 import { KNOWLEDGE_BASE_ACTIONS_CONSTANT } from '@/constants/portal-actions';
 import { AIR_SERVICES } from '@/constants/routes';
+import { CustomLoadingButton } from '@/components/Buttons/CustomLoadingButton';
 
 export const UpdateArticle = () => {
   const dispatch = useAppDispatch();
@@ -31,15 +31,9 @@ export const UpdateArticle = () => {
           AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.EDIT_ARTICLE,
         ]}
       >
-        <LoadingButton
-          className="small"
-          variant="contained"
-          color="primary"
-          onClick={handleEditSubmit}
-          fullWidth
-        >
+        <CustomLoadingButton onClick={handleEditSubmit} fullWidth>
           Edit
-        </LoadingButton>
+        </CustomLoadingButton>
       </PermissionsGuard>
       <br />
       <PermissionsGuard
@@ -47,8 +41,7 @@ export const UpdateArticle = () => {
           AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.DELETE,
         ]}
       >
-        <LoadingButton
-          className="small"
+        <CustomLoadingButton
           variant="text"
           color="error"
           sx={{ my: 1 }}
@@ -64,7 +57,7 @@ export const UpdateArticle = () => {
           fullWidth
         >
           Delete
-        </LoadingButton>
+        </CustomLoadingButton>
       </PermissionsGuard>
     </>
   );

@@ -237,3 +237,6 @@ export { default as SignDrawImg } from './modules/socialComponents/contracts/sig
 export { default as SignOtherImg } from './modules/socialComponents/contracts/sign-other-method.svg';
 export { default as TwilioImg } from './shared/twilio.png';
 export { default as BrandImg } from './shared/brand.png';
+export { default as AgenticCreedLogo } from './shared/logo/agentic-creed-new.svg';
+export { default as AgenticCreedWhiteLogo } from './shared/logo/agentic-creed-white.svg';
+export { default as AgenticCreedSmallLogo } from './shared/logo/agentic-creed-small-logo.png';

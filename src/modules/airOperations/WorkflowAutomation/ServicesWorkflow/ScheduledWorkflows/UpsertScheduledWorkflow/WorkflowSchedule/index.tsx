@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import {
   RHFAutocomplete,
   RHFDatePicker,
@@ -12,6 +12,7 @@ import {
   scheduleTypes,
   weekOptions,
 } from './WorkflowSchedule.data';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const WorkflowSchedule = (props: any) => {
   const { selectedSchedule, selectedScheduleWeek, theme } =
@@ -19,12 +20,12 @@ export const WorkflowSchedule = (props: any) => {
 
   return (
     <>
-      <Grid
-        item
-        xs={12}
-        mt={1}
-        border={`1px solid ${theme?.palette?.custom?.off_white_three}`}
-        borderRadius={2}
+      <CustomGrid
+        customStyles={{
+          border: `1px solid ${theme?.palette?.custom?.off_white_three}`,
+          borderRadius: 2,
+          mt: 1,
+        }}
       >
         <Box
           sx={{
@@ -42,7 +43,7 @@ export const WorkflowSchedule = (props: any) => {
           </Typography>
         </Box>
         <Box p={1}>
-          <Grid item xs={12} md={6.5} mt={1}>
+          <CustomGrid md={6.5} customStyles={{ mt: 1 }}>
             <RHFAutocomplete
               name="schedule"
               label="Schedule"
@@ -51,8 +52,8 @@ export const WorkflowSchedule = (props: any) => {
               options={scheduleOptions}
               fullWidth
             />
-          </Grid>
-          <Grid item xs={12} md={6.5}>
+          </CustomGrid>
+          <CustomGrid md={6.5}>
             {selectedSchedule === scheduleTypes?.annually && (
               <RHFDatePicker
                 name="scheduleMonth"
@@ -62,8 +63,8 @@ export const WorkflowSchedule = (props: any) => {
                 views={['month']}
               />
             )}
-          </Grid>
-          <Grid item xs={12} md={6.5}>
+          </CustomGrid>
+          <CustomGrid md={6.5}>
             {selectedSchedule === scheduleTypes?.monthly && (
               <RHFAutocomplete
                 name="scheduleDate"
@@ -74,8 +75,8 @@ export const WorkflowSchedule = (props: any) => {
                 fullWidth
               />
             )}
-          </Grid>
-          <Grid item xs={12} md={6.5}>
+          </CustomGrid>
+          <CustomGrid md={6.5}>
             {selectedSchedule === scheduleTypes?.weekly && (
               <RHFAutocomplete
                 name="scheduleDay"
@@ -85,8 +86,8 @@ export const WorkflowSchedule = (props: any) => {
                 fullWidth
               />
             )}
-          </Grid>
-          <Grid item xs={12} md={6.5}>
+          </CustomGrid>
+          <CustomGrid md={6.5}>
             {selectedSchedule === scheduleTypes?.customRange && (
               <RHFDateRangePicker
                 name="custom"
@@ -94,8 +95,8 @@ export const WorkflowSchedule = (props: any) => {
                 label="Custom Range"
               />
             )}
-          </Grid>
-          <Grid item xs={12} md={6.5}>
+          </CustomGrid>
+          <CustomGrid md={6.5}>
             {(selectedSchedule === scheduleTypes?.daily ||
               selectedSchedule === scheduleTypes?.schedule ||
               selectedScheduleWeek ||
@@ -104,9 +105,9 @@ export const WorkflowSchedule = (props: any) => {
               selectedSchedule === scheduleTypes?.monthly) && (
               <RHFTimePicker name="time" label="Time" size="small" fullWidth />
             )}
-          </Grid>
+          </CustomGrid>
         </Box>
-      </Grid>
+      </CustomGrid>
     </>
   );
 };

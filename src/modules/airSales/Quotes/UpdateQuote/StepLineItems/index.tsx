@@ -67,6 +67,8 @@ const StepLineItems = (props: any) => {
     exchangeRateLoading,
     consumerDetailLoading,
     VoucherData,
+    createConsumerFunction,
+    isConsumerDetailsDataAvailable,
   }: any = useStepLineItems(openCreateProduct, calculations);
 
   useEffect(() => {
@@ -88,6 +90,10 @@ const StepLineItems = (props: any) => {
       updateSubTotal,
     );
   }, [totalSumDiscount]);
+
+  useEffect(() => {
+    createConsumerFunction();
+  }, [isConsumerDetailsDataAvailable]);
 
   return (
     <>

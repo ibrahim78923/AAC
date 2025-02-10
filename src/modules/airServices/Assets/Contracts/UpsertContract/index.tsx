@@ -1,7 +1,6 @@
 import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 import { useUpsertContract } from './useUpsertContract';
 import { Box, Typography } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
 import { Attachments } from '@/components/Attachments';
 import { AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS } from '@/constants/permission-keys';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
@@ -14,6 +13,7 @@ import { HeadingFormGrid } from '@/components/Grids/HeadingFormGrid';
 import { DynamicForm } from '@/components/DynamicForm';
 import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import { ActionsLoadingButton } from '@/components/Buttons/ActionsLoadingButton';
 
 export const UpsertContract = () => {
   const {
@@ -147,35 +147,15 @@ export const UpsertContract = () => {
           <br />
           <ContainerGrid>
             <CustomGrid md={8}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'flex-end',
-                  gap: 2,
-                }}
-              >
-                <LoadingButton
-                  className="small"
-                  variant="outlined"
-                  type="button"
-                  color="secondary"
-                  onClick={() => handleCancelBtn?.()}
-                  disabled={apiCallInProgress}
-                >
-                  Cancel
-                </LoadingButton>
-                <LoadingButton
-                  className="small"
-                  loading={apiCallInProgress}
-                  variant="contained"
-                  type="submit"
-                >
-                  {!!contractId
+              <ActionsLoadingButton
+                submitButtonText={
+                  !!contractId
                     ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
-                    : GENERIC_UPSERT_FORM_CONSTANT?.SAVE}
-                </LoadingButton>
-              </Box>
+                    : GENERIC_UPSERT_FORM_CONSTANT?.SAVE
+                }
+                showSubmitLoader={apiCallInProgress}
+                handleCancelButton={handleCancelBtn}
+              />
             </CustomGrid>
           </ContainerGrid>
         </FormProvider>

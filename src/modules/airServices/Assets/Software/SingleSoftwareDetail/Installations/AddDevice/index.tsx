@@ -1,49 +1,34 @@
 import { FormProvider } from '@/components/ReactHookForm';
-import { Button } from '@mui/material';
-import { PlusSharedColorIcon } from '@/assets/icons';
 import { useAddDevice } from './useAddDevice';
 import GetSoftwareDevicesDropdown from '../../../SoftwareFormFieldsDropdowns/GetSoftwareDevicesDropdown';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
+import { AddDevicesPropsI } from '../Installations.interface';
 
-const AddDevice = () => {
+const AddDevice = (props: AddDevicesPropsI) => {
+  const { isPortalOpen } = props;
   const {
-    handleAddDevice,
     methods,
-    isAddDeviceModalOpen,
     handleCloseModal,
     onAddDeviceSubmit,
-    devicesQuery,
     isLoading,
     handleSubmit,
-  } = useAddDevice();
+  } = useAddDevice(props);
 
   return (
     <>
-      <Button
-        color="primary"
-        variant="contained"
-        onClick={handleAddDevice}
-        sx={{ px: 2 }}
-        startIcon={<PlusSharedColorIcon />}
-        className="small"
+      <CustomCommonDialog
+        isPortalOpen={isPortalOpen?.isOpen}
+        closePortal={handleCloseModal}
+        dialogTitle="Add Device"
+        submitButtonText="Add"
+        showSubmitLoader={isLoading}
+        disabledCancelButton={isLoading}
+        handleSubmitButton={handleSubmit(onAddDeviceSubmit)}
       >
-        Add Device
-      </Button>
-      {isAddDeviceModalOpen && (
-        <CustomCommonDialog
-          isPortalOpen={isAddDeviceModalOpen}
-          closePortal={handleCloseModal}
-          dialogTitle="Add Device"
-          submitButtonText="Add"
-          showSubmitLoader={isLoading}
-          disabledCancelButton={isLoading}
-          handleSubmitButton={handleSubmit(onAddDeviceSubmit)}
-        >
-          <FormProvider methods={methods}>
-            <GetSoftwareDevicesDropdown devicesQuery={devicesQuery} />
-          </FormProvider>
-        </CustomCommonDialog>
-      )}
+        <FormProvider methods={methods}>
+          <GetSoftwareDevicesDropdown />
+        </FormProvider>
+      </CustomCommonDialog>
     </>
   );
 };

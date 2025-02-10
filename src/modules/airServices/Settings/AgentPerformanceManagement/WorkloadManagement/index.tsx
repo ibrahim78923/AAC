@@ -2,7 +2,7 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants/routes';
 import { useRouter } from 'next/router';
 import { PermissionsTabs } from '@/components/Tabs/PermissionsTabs';
-import { WorkloadManagementTabs } from './WorkloadManagement.data';
+import { workloadManagementTabs } from './WorkloadManagement.data';
 
 export const WorkloadManagement = () => {
   const router = useRouter();
@@ -17,7 +17,7 @@ export const WorkloadManagement = () => {
         }}
       />
 
-      <PermissionsTabs tabsDataArray={WorkloadManagementTabs} />
+      <PermissionsTabs tabsDataArray={workloadManagementTabs} />
     </>
   );
 };

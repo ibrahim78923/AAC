@@ -1,20 +1,10 @@
-import {
-  Box,
-  Button,
-  Checkbox,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Divider,
-  Typography,
-} from '@mui/material';
 import { useCustomizeInventoryColumn } from './useCustomizeInventoryColumn';
 import { inventoryListsInitialColumns } from '../Inventory.data';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { CustomizeInventoryColumnI } from './CustomizeInventoryColumn.interface';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { CustomCommonDialog } from '@/components/CustomCommonDialog';
+import { CheckboxField } from '@/components/InputFields/CheckboxField';
 
 export const CustomizeInventoryColumn: React.FC<CustomizeInventoryColumnI> = (
   props,
@@ -27,99 +17,37 @@ export const CustomizeInventoryColumn: React.FC<CustomizeInventoryColumnI> = (
     customizeColumn,
     applyAllCheckboxHandler,
   } = useCustomizeInventoryColumn(props);
+
   return (
-    <Dialog
-      open={isCustomizeModalOpen}
-      onClose={() => onClose?.()}
-      fullWidth
-      maxWidth={'sm'}
+    <CustomCommonDialog
+      isPortalOpen={isCustomizeModalOpen}
+      closePortal={onClose}
+      dialogTitle="Select Fields"
+      submitButtonText="Apply"
+      handleSubmitButton={submit}
+      canClose={false}
+      extraTitle={
+        <CheckboxField
+          label={'Apply All'}
+          checked={
+            inventoryListsInitialColumns?.length === customizeColumn?.length
+          }
+          onChange={(e: any): any => applyAllCheckboxHandler?.(e)}
+        />
+      }
     >
-      <DialogTitle>
-        <Box
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'space-between'}
-          gap={1}
-          flexWrap={'wrap'}
-        >
-          <Typography
-            variant={'formTopHeading'}
-            color={'grey.800'}
-            component={'p'}
-            fontWeight={400}
-          >
-            Select Fields
-          </Typography>
-          <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
-            <Checkbox
-              icon={<CheckboxIcon />}
-              checkedIcon={<CheckboxCheckedIcon />}
-              color={'primary'}
-              name={'apply all'}
-              checked={
-                inventoryListsInitialColumns?.length === customizeColumn?.length
-              }
-              onChange={(e: any): any => applyAllCheckboxHandler?.(e)}
-            ></Checkbox>
-            <Typography
-              variant={'caption'}
-              fontWeight={400}
-              color={'slateBlue.main'}
-            >
-              Apply All
-            </Typography>
-          </Box>
-        </Box>
-      </DialogTitle>
-      <Divider sx={{ marginY: 1 }}></Divider>
-      <DialogContent>
-        <ContainerGrid>
-          {inventoryListsColumnsPersist?.slice?.(3)?.map((column: any) => (
-            <CustomGrid sm={6} key={column?.id}>
-              <Box
-                display={'flex'}
-                alignItems={'center'}
-                gap={1}
-                flexWrap={'wrap'}
-              >
-                <Checkbox
-                  icon={<CheckboxIcon />}
-                  checkedIcon={<CheckboxCheckedIcon />}
-                  color={'primary'}
-                  name={column?.id}
-                  checked={customizeColumn?.includes(column?.id)}
-                  onChange={(e: any): any => checkboxHandler?.(e, column)}
-                />
-                <Typography
-                  variant={'caption'}
-                  fontWeight={400}
-                  color={'slateBlue.main'}
-                >
-                  {column?.header}
-                </Typography>
-              </Box>
-            </CustomGrid>
-          ))}
-        </ContainerGrid>
-      </DialogContent>
-      <Divider sx={{ marginY: 1 }}></Divider>
-      <DialogActions>
-        <Button
-          variant={'outlined'}
-          color={'secondary'}
-          onClick={() => onClose?.()}
-          className={'small'}
-        >
-          Cancel
-        </Button>
-        <Button
-          variant={'contained'}
-          onClick={() => submit?.()}
-          className={'small'}
-        >
-          Apply
-        </Button>
-      </DialogActions>
-    </Dialog>
+      <ContainerGrid>
+        {inventoryListsColumnsPersist?.slice?.(3)?.map((column: any) => (
+          <CustomGrid sm={6} key={column?.id}>
+            <CheckboxField
+              name={column?.id}
+              label={column?.header}
+              checked={customizeColumn?.includes(column?.id)}
+              onChange={(e: any): any => checkboxHandler?.(e, column)}
+            />
+          </CustomGrid>
+        ))}
+      </ContainerGrid>
+    </CustomCommonDialog>
   );
 };

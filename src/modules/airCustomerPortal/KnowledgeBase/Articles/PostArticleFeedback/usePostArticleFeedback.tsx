@@ -7,7 +7,11 @@ import {
   articleFeedbackFormValidationSchema,
 } from './PostArticleFeedback.data';
 import { useMemo, useState } from 'react';
-import { getActiveAccountSession, getSession } from '@/utils';
+import {
+  getActiveAccountSession,
+  getCustomerPortalStyling,
+  getSession,
+} from '@/utils';
 import { useRouter } from 'next/router';
 import { ARRAY_INDEX } from '@/constants/strings';
 
@@ -21,6 +25,7 @@ export const usePostArticleFeedback = (props: any) => {
     return product?.company?._id;
   }, []);
 
+  const portalStyles = useMemo(() => getCustomerPortalStyling(), []);
   const { sessionCompanyId, sessionUserId, sessionEmail } = useMemo(() => {
     const session: any = getSession();
     const sessionData = {
@@ -91,5 +96,6 @@ export const usePostArticleFeedback = (props: any) => {
     articleFeedbackFormFields,
     isHelpful,
     setIsHelpful,
+    portalStyles,
   };
 };
