@@ -26,6 +26,7 @@ export const SingleArticle = () => {
       >
         {!!singleArticlesData?.details ? (
           <HtmlRenderer
+            hasEditor
             maxHeight="none"
             description={singleArticlesData?.details}
           />

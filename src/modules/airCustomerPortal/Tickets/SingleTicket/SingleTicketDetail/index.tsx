@@ -66,6 +66,7 @@ export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
           </Typography>
           {!!singleTicketData?.description ? (
             <HtmlRenderer
+              hasEditor
               maxHeight="none"
               description={singleTicketData?.description}
             />

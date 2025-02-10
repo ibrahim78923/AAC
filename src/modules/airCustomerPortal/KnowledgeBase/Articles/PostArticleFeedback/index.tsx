@@ -1,8 +1,9 @@
 import { FormProvider } from '@/components/ReactHookForm';
-import { LoadingButton } from '@mui/lab';
-import { Box, Typography } from '@mui/material';
+import { Box, Theme, Typography } from '@mui/material';
 import { usePostArticleFeedback } from './usePostArticleFeedback';
 import { FormGrid } from '@/components/Grids/FormGrid';
+import { CustomLoadingButton } from '@/components/Buttons/CustomLoadingButton';
+import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
 
 export const PostArticleFeedback = (props: any) => {
   const {
@@ -13,6 +14,7 @@ export const PostArticleFeedback = (props: any) => {
     articleFeedbackFormFields,
     isHelpful,
     setIsHelpful,
+    portalStyles,
   } = usePostArticleFeedback(props);
 
   if (!isHelpful)
@@ -34,23 +36,47 @@ export const PostArticleFeedback = (props: any) => {
               pt: 2,
             }}
           >
-            <LoadingButton
-              variant="outlined"
-              color="secondary"
+            <CustomLoadingButton
+              primary={false}
               disabled={isLoading}
               onClick={() => setIsHelpful(true)}
-              className="small"
+              customStyles={(theme: Theme) => ({
+                borderColor:
+                  portalStyles?.btnSecondary ||
+                  customizePortalDefaultValues(theme)?.btnSecondary,
+                color:
+                  portalStyles?.btnSecondary ||
+                  customizePortalDefaultValues(theme)?.btnSecondary,
+                '&:hover': {
+                  borderColor:
+                    portalStyles?.btnSecondary ||
+                    customizePortalDefaultValues(theme)?.btnSecondary,
+                  color:
+                    portalStyles?.btnSecondary ||
+                    customizePortalDefaultValues(theme)?.btnSecondary,
+                },
+              })}
             >
               Cancel
-            </LoadingButton>
-            <LoadingButton
+            </CustomLoadingButton>
+            <CustomLoadingButton
               loading={isLoading}
-              variant="contained"
               type="submit"
-              className="small"
+              customStyles={(theme: Theme) => ({
+                bgcolor:
+                  portalStyles?.btnPrimary ||
+                  customizePortalDefaultValues(theme)?.btnPrimary,
+                color: 'common.white',
+                '&:hover': {
+                  bgcolor:
+                    portalStyles?.btnPrimary ||
+                    customizePortalDefaultValues(theme)?.btnPrimary,
+                  color: 'common.white',
+                },
+              })}
             >
               Submit
-            </LoadingButton>
+            </CustomLoadingButton>
           </Box>
         </FormProvider>
       </>
@@ -78,23 +104,47 @@ export const PostArticleFeedback = (props: any) => {
           pt: 2,
         }}
       >
-        <LoadingButton
-          variant="outlined"
-          color="secondary"
-          className="small"
+        <CustomLoadingButton
+          primary={false}
           disabled={isLoading}
           onClick={() => setIsHelpful(false)}
+          customStyles={(theme: Theme) => ({
+            borderColor:
+              portalStyles?.btnSecondary ||
+              customizePortalDefaultValues(theme)?.btnSecondary,
+            color:
+              portalStyles?.btnSecondary ||
+              customizePortalDefaultValues(theme)?.btnSecondary,
+            '&:hover': {
+              borderColor:
+                portalStyles?.btnSecondary ||
+                customizePortalDefaultValues(theme)?.btnSecondary,
+              color:
+                portalStyles?.btnSecondary ||
+                customizePortalDefaultValues(theme)?.btnSecondary,
+            },
+          })}
         >
           No
-        </LoadingButton>
-        <LoadingButton
-          variant="contained"
-          className="small"
+        </CustomLoadingButton>
+        <CustomLoadingButton
           loading={isLoading}
           onClick={onSubmit}
+          customStyles={(theme: Theme) => ({
+            bgcolor:
+              portalStyles?.btnPrimary ||
+              customizePortalDefaultValues(theme)?.btnPrimary,
+            color: 'common.white',
+            '&:hover': {
+              bgcolor:
+                portalStyles?.btnPrimary ||
+                customizePortalDefaultValues(theme)?.btnPrimary,
+              color: 'common.white',
+            },
+          })}
         >
           Yes
-        </LoadingButton>
+        </CustomLoadingButton>
       </Box>
     </>
   );
