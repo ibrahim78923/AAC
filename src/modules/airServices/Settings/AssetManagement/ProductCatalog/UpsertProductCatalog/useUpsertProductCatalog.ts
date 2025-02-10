@@ -108,6 +108,10 @@ export const useUpsertProductCatalog = () => {
       pathname: AIR_SERVICES?.PRODUCT_CATALOG,
     });
   };
+
+  const apiCallInProgress =
+    patchProductCatalogStatus?.isLoading || postProductCatalogStatus?.isLoading;
+
   return {
     router,
     theme,
@@ -121,5 +125,6 @@ export const useUpsertProductCatalog = () => {
     patchProductCatalogStatus,
     isLoading,
     isFetching,
+    apiCallInProgress,
   };
 };

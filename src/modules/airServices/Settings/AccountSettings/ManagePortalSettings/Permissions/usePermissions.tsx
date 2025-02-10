@@ -10,8 +10,11 @@ import { useEffect, useMemo } from 'react';
 import { getActiveAccountSession } from '@/utils';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useFormLib } from '@/hooks/useFormLib';
+import { AIR_SERVICES } from '@/constants/routes';
+import { useRouter } from 'next/router';
 
 export const usePermissions = () => {
+  const router = useRouter();
   const [
     patchCustomerPortalPermissionsTrigger,
     patchCustomerPortalPermissionsStatus,
@@ -70,6 +73,7 @@ export const usePermissions = () => {
   };
 
   const showLoader = isLoading || isFetching;
+  const handleCancelButton = () => router?.push(AIR_SERVICES?.ACCOUNT_SETTINGS);
 
   return {
     methods,
@@ -79,5 +83,6 @@ export const usePermissions = () => {
     showLoader,
     isError,
     refetch,
+    handleCancelButton,
   };
 };

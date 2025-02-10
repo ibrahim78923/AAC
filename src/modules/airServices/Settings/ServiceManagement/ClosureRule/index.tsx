@@ -1,10 +1,10 @@
-import { Box } from '@mui/material';
 import { Header } from './Header';
 import { useClosureRule } from './useClosureRule';
 import { FormProvider } from '@/components/ReactHookForm';
 import { IncidentServicesClosureRule } from './IncidentServicesClosureRule';
-import { LoadingButton } from '@mui/lab';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import { ActionsLoadingButton } from '@/components/Buttons/ActionsLoadingButton';
 
 export const ClosureRule = () => {
   const {
@@ -38,28 +38,11 @@ export const ClosureRule = () => {
           serviceCloseData={serviceCloseData}
           serviceResolveData={serviceResolveData}
         />
-
-        <Box display={'flex'} justifyContent={'end'} gap={1} mt={1}>
-          <LoadingButton
-            variant="outlined"
-            className="small"
-            onClick={handleCancel}
-            color="secondary"
-            disableElevation
-            disabled={postClosureRuleProgress?.isLoading}
-          >
-            Cancel
-          </LoadingButton>
-          <LoadingButton
-            loading={postClosureRuleProgress?.isLoading}
-            variant="contained"
-            type="submit"
-            className="small"
-            disableElevation
-          >
-            Save
-          </LoadingButton>
-        </Box>
+        <ActionsLoadingButton
+          submitButtonText={GENERIC_UPSERT_FORM_CONSTANT?.SAVE}
+          showSubmitLoader={postClosureRuleProgress?.isLoading}
+          handleCancelButton={handleCancel}
+        />
       </ApiRequestFlow>
     </FormProvider>
   );

@@ -121,6 +121,11 @@ export default function useUpsertRoles() {
     watch,
   };
 
+  const apiCallInProgress =
+    postPermissionsStatus?.isLoading || patchPermissionsStatus?.isLoading;
+
+  const moveBack = () => router?.push(AIR_SERVICES?.USER_ROLES_SETTINGS);
+
   return {
     router,
     roleId,
@@ -136,5 +141,7 @@ export default function useUpsertRoles() {
     reset,
     permissionAccordionsProps,
     refetch,
+    apiCallInProgress,
+    moveBack,
   };
 }

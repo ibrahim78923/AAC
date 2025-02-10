@@ -2,12 +2,12 @@ import { Box, Grid, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import useNewPurchaseOrder from './useNewPurchaseOrder';
 import ItemsDetails from './ItemsDetails';
-import { LoadingButton } from '@mui/lab';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { componentMap } from '@/utils/dynamic-forms';
 import { createElement } from 'react';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { ActionsLoadingButton } from '@/components/Buttons/ActionsLoadingButton';
 
 const NewPurchaseOrder = () => {
   const {
@@ -86,27 +86,15 @@ const NewPurchaseOrder = () => {
               </Grid>
             )}
           </Grid>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
-            <LoadingButton
-              onClick={handlePageBack}
-              variant="outlined"
-              color="secondary"
-              className="small"
-              disabled={loadingStatus}
-            >
-              Cancel
-            </LoadingButton>
-            <LoadingButton
-              loading={loadingStatus}
-              type="submit"
-              variant="contained"
-              className="small"
-            >
-              {router?.query?.purchaseOrderId
+          <ActionsLoadingButton
+            submitButtonText={
+              !!router?.query?.purchaseOrderId
                 ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
-                : GENERIC_UPSERT_FORM_CONSTANT?.SAVE}
-            </LoadingButton>
-          </Box>
+                : GENERIC_UPSERT_FORM_CONSTANT?.SAVE
+            }
+            showSubmitLoader={loadingStatus}
+            handleCancelButton={handlePageBack}
+          />
         </FormProvider>
       </ApiRequestFlow>
     </>

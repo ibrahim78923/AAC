@@ -7,10 +7,8 @@ import { useRouter } from 'next/router';
 import { useTheme } from '@mui/material';
 import {
   useGetSingleContractByIdQuery,
-  useLazyGetAgentsDropdownQuery,
   usePatchContractRenewExtendMutation,
 } from '@/services/airServices/assets/contracts';
-import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { MODULE_TYPE } from '@/constants/strings';
 import { usePostAttachmentsMutation } from '@/services/airServices/tickets/attachments';
@@ -32,15 +30,13 @@ export const useUpdateContract = () => {
     },
   };
 
-  const actionRenewExtend = useSearchParams()?.get('action');
+  const actionRenewExtend = router?.query?.action as string;
 
-  const { data }: any = useGetSingleContractByIdQuery(
-    getSingleContractParameter,
-    {
+  const { data, isLoading, isFetching, isError, refetch }: any =
+    useGetSingleContractByIdQuery(getSingleContractParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!contractId,
-    },
-  );
+    });
 
   const formLibProps = {
     validationSchema: updateContractFormValidationSchema,
@@ -55,12 +51,12 @@ export const useUpdateContract = () => {
 
   const submitUpdateContractForm = async (data: any) => {
     if (data?.attachment) {
-      const ContractAttachment = new FormData();
-      ContractAttachment?.append('fileUrl', data?.attachment);
-      ContractAttachment?.append('recordId', contractId as string);
-      ContractAttachment?.append('module', MODULE_TYPE?.CONTRACTS);
+      const contractAttachment = new FormData();
+      contractAttachment?.append('fileUrl', data?.attachment);
+      contractAttachment?.append('recordId', contractId as string);
+      contractAttachment?.append('module', MODULE_TYPE?.CONTRACTS);
       const postContractAttachmentParameter = {
-        body: ContractAttachment,
+        body: contractAttachment,
       };
       try {
         await postAttachmentsTrigger(postContractAttachmentParameter)?.unwrap();
@@ -101,11 +97,13 @@ export const useUpdateContract = () => {
     reset(() => updateContractFormDefaultValuesFunction(data));
   }, [data, reset]);
 
-  const apiQueryApprover = useLazyGetAgentsDropdownQuery();
-  const updateContractFormFields = updateContractFormFieldsFunction(
-    apiQueryApprover,
-    actionRenewExtend,
-  );
+  const updateContractFormFields =
+    updateContractFormFieldsFunction(actionRenewExtend);
+
+  const showLoader = isLoading || isFetching;
+
+  const apiCallInProgress =
+    patchAddToContractStatus?.isLoading || postAttachmentsStatus?.isLoading;
 
   return {
     methods,
@@ -118,5 +116,10 @@ export const useUpdateContract = () => {
     contractId,
     postAttachmentsStatus,
     patchAddToContractStatus,
+    showLoader,
+    apiCallInProgress,
+    isError,
+    refetch,
+    actionRenewExtend,
   };
 };
