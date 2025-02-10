@@ -235,7 +235,9 @@ const ChatBoxComponent = ({
                     )}
                   </Typography>
                   {item?.parentMessage?.media?.length > 0 && (
-                    <Box sx={{ marginLeft: '15px' }}>
+                    <Box
+                      sx={{ marginLeft: '15px', display: 'flex', gap: '5px' }}
+                    >
                       {item?.parentMessage?.media?.map((item: any) => (
                         <Image
                           key={uuidv4()}
@@ -312,7 +314,7 @@ const ChatBoxComponent = ({
                               alt="media"
                               style={{
                                 width: 'auto',
-                                height: '150px',
+                                maxHeight: '150px',
                                 borderRadius: '8px',
                               }}
                             />

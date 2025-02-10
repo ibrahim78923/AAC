@@ -244,11 +244,15 @@ const Chat = () => {
                   height: '85vh',
                   p: 2,
                   borderRadius: '20px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontWeight: '500',
                 }}
               >
                 {chatModeState === 'groupChat'
-                  ? 'Select Groups..'
-                  : 'Select Contacts..'}
+                  ? 'Select Groups to start conversation'
+                  : 'Select Contacts to start conversation'}
               </Box>
             )}
           </Box>

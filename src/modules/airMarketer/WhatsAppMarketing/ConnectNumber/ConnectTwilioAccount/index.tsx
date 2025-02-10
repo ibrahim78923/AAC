@@ -1,4 +1,4 @@
-import { BrandImg, TwilioImg, UserAvatarImage } from '@/assets/images';
+import { TwilioImg, UserAvatarImage } from '@/assets/images';
 import {
   Box,
   Button,
@@ -16,6 +16,7 @@ import { ArrowBackIcon, IconArrowSwitch } from '@/assets/icons';
 import Link from 'next/link';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import ConfigurationForm from './ConfigurationForm';
+import { LogoAvatar } from '@/components/Avatars/LogoAvatar';
 
 const ConnectTwilioAccount = () => {
   const theme = useTheme();
@@ -54,11 +55,7 @@ const ConnectTwilioAccount = () => {
             </Box>
             <IconArrowSwitch />
             <Box sx={styles?.connectivityBox}>
-              <Image
-                src={BrandImg}
-                style={{ width: '150px', height: 'auto' }}
-                alt="Air Applecart"
-              />
+              <LogoAvatar />
             </Box>
           </Box>
         </Box>

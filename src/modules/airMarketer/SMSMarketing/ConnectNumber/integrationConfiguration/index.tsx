@@ -15,7 +15,6 @@ import {
 import React, { useState } from 'react';
 import {
   ArrowBackIcon,
-  IconAirFP,
   IconArrowRounded,
   IconConnect,
   IconTwilio,
@@ -35,6 +34,7 @@ import { AlertModals } from '@/components/AlertModals';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { getActiveAccountSession, setActiveAccountSession } from '@/utils';
+import { SmallLogoAvatar } from '@/components/Avatars/SmallLogoAvatar';
 
 const IntegrationConfiguration = () => {
   const theme = useTheme();
@@ -217,8 +217,10 @@ const IntegrationConfiguration = () => {
                             gap: '15px',
                           }}
                         >
-                          <Box sx={styles?.glowIcons(theme)}>
-                            <IconAirFP />
+                          <Box
+                            sx={{ ...styles?.glowIcons(theme), width: 'auto' }}
+                          >
+                            <SmallLogoAvatar />
                           </Box>
                           <Typography variant="body2">
                             {item?.userDetails?.email}

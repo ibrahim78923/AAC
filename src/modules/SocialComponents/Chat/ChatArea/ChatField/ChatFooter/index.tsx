@@ -94,10 +94,10 @@ const ChatFooter = ({ handleScrollToBottom }: any) => {
 
   const setAddMessageHandler = () => {
     setIsMessageLoading(true);
-    const addMessagePayloadFrGroup = {
-      chatId: activeChatId && activeChatId,
-      content: messageText,
-    };
+    // const addMessagePayloadFrGroup = {
+    //   chatId: activeChatId && activeChatId,
+    //   content: messageText,
+    // };
     const addMessagePayload = {
       ...(chatMode !== CHAT_TYPES?.GROUP_CHAT && {
         receiverId: activeReceiverId && activeReceiverId[0],
@@ -132,7 +132,6 @@ const ChatFooter = ({ handleScrollToBottom }: any) => {
           _id: user?._id,
         },
       }),
-
       content: messageText,
       parentMessage: activeReply?.chatId,
       media: imageToUpload,
@@ -147,7 +146,7 @@ const ChatFooter = ({ handleScrollToBottom }: any) => {
       'add-message',
       activeReply?.content
         ? chatMode === 'groupChat'
-          ? addMessagePayloadFrGroup
+          ? addMessageReplyPayload
           : addMessageReplyPayload
         : addMessagePayload,
       () => {

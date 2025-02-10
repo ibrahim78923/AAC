@@ -128,10 +128,9 @@ const AccountMenu = () => {
     const filtered = permissionsFromLocalStorage.filter((permission: any) =>
       permission.includes('org'),
     );
-
     setActivePermissionsSession(filtered);
     router.push(ORG_ADMIN?.DASHBOARD);
-    setActiveProduct({});
+    setActiveProduct({ name: PRODUCT_LABELS?.ORG_ADMIN });
   };
 
   const handleNavigation = (ele: any) => {
