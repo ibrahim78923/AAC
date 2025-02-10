@@ -1,7 +1,8 @@
-import { Box, Button, Divider, Grid, Typography } from '@mui/material';
+import { Box, Button, Divider, Typography } from '@mui/material';
 import { AddCircle, Delete } from '@mui/icons-material';
 import { actionsExecutedFields } from './WorkflowActionExecuted.data';
 import { useWorkflowActionExecuted } from './useWorkflowActionExecuted';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const WorkflowActionExecuted = (props: any) => {
   const { watch } = props;
@@ -39,20 +40,16 @@ export const WorkflowActionExecuted = (props: any) => {
               />
             )}
             <Box display={'flex'} alignItems={'center'} gap={1} pt={1.5}>
-              <Grid container spacing={2}>
-                {actionsExecutedFields(
+              <FormGrid
+                formFieldsList={actionsExecutedFields(
                   index,
                   watch,
                   dealsDropdown,
                   adminUserDropdown,
                   setFieldNameOnChange,
                   watchFieldName,
-                )?.map((item) => (
-                  <Grid item xs={12} lg={item?.gridLength} key={item?._id}>
-                    <item.component {...item?.componentProps} size="small" />
-                  </Grid>
-                ))}
-              </Grid>
+                )}
+              />
               <Delete
                 sx={{ color: palette?.error?.main, cursor: 'pointer', mb: 1 }}
                 onClick={() => handleDeleteClick?.(index)}

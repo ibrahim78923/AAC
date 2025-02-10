@@ -64,7 +64,7 @@ export const reportIssueFormValidationSchema = (checkPermission: any) =>
 export const reportIssueFormDefaultValues = (userData: any) => {
   return {
     requesterEmail: userData?.email || '',
-    name: `${userData?.firstName} ${userData?.lastName}` || '',
+    name: !!userData ? `${userData?.firstName} ${userData?.lastName}` : '',
     requester: userData || null,
     subject: '',
     description: '',

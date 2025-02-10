@@ -5,7 +5,6 @@ import {
   Chip,
   Divider,
   Drawer,
-  Grid,
   IconButton,
   Popover,
   Typography,
@@ -271,7 +270,7 @@ const WorkloadDrawer = ({
                     gap={2}
                   >
                     <Box>
-                      <Grid container gap={1} alignItems={'center'}>
+                      <Box display="flex" gap={1} alignItems={'center'}>
                         <TicketBannerIcon />
                         <Typography
                           variant={'h6'}
@@ -295,8 +294,8 @@ const WorkloadDrawer = ({
                               item?.extendedProps?.title,
                           )}
                         </Typography>
-                      </Grid>
-                      <Grid container alignItems={'center'} ml={3} mt={1}>
+                      </Box>
+                      <Box display="flex" alignItems={'center'} ml={3} mt={1}>
                         <Typography variant="body2" color={'custom.main'}>
                           {item?.start
                             ? otherDateFormat(
@@ -322,7 +321,7 @@ const WorkloadDrawer = ({
                             ? item?.extendedProps?.plannedEffort
                             : 'Effort Not Set'}
                         </Typography>
-                      </Grid>
+                      </Box>
                     </Box>
                     <Box>
                       <IconButton

@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { WorkflowHeader } from './WorkflowHeader';
 import { scheduledWorkflowDataArray } from './UpsertScheduledWorkflow.data';
@@ -8,6 +8,8 @@ import { WorkflowRunAndTrigger } from './WorkflowRunAndTrigger';
 import { WorkflowConditions } from './WorkflowConditions';
 import { WorkflowActionExecuted } from './WorkflowActionExecuted';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const UpsertScheduledWorkflow = () => {
   const {
@@ -47,19 +49,13 @@ export const UpsertScheduledWorkflow = () => {
             movePage={movePage}
           />
         </Box>
-        <Grid container spacing={2}>
-          {scheduledWorkflowDataArray?.map((item: any) => (
-            <Grid item xs={12} md={item?.md} key={item?.id}>
-              <item.component {...item?.componentProps} size={'small'} />
-            </Grid>
-          ))}
-        </Grid>
-        <Grid container>
+        <FormGrid formFieldsList={scheduledWorkflowDataArray} spacing={1} />
+        <ContainerGrid spacing={0}>
           <WorkflowSchedule watch={watch} setValue={setValue} />
-        </Grid>
-        <Grid container>
+        </ContainerGrid>
+        <ContainerGrid spacing={0}>
           <WorkflowRunAndTrigger palette={palette} />
-        </Grid>
+        </ContainerGrid>
         <WorkflowConditions
           control={control}
           moduleType={moduleType}

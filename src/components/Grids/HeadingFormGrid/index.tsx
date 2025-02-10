@@ -7,13 +7,19 @@ export const HeadingFormGrid = (props: HeadingFormGridPropsI) => {
   const {
     formFieldsList = [],
     spacing = 2,
+    rowSpacing = spacing,
+    columnSpacing = spacing,
     disabled,
     children,
     md = 12,
   } = props;
 
   return (
-    <ContainerGrid spacing={spacing}>
+    <ContainerGrid
+      spacing={spacing}
+      rowSpacing={rowSpacing}
+      columnSpacing={columnSpacing}
+    >
       {formFieldsList?.map((form: ReactHookFormFieldsI) => (
         <CustomGrid
           xs={12}

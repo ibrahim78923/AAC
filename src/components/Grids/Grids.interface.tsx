@@ -11,7 +11,7 @@ export interface CustomGridPropsI {
 }
 
 export interface ContainerGridPropsI {
-  spacing?: number;
+  spacing?: any;
   rowSpacing?: number;
   columnSpacing?: number;
   customStyles?: any;
@@ -20,7 +20,7 @@ export interface ContainerGridPropsI {
 
 export interface FormGridPropsI {
   formFieldsList: any[];
-  spacing?: number;
+  spacing?: any;
   disabled?: boolean;
   md?: number;
   children?: ReactNode;
@@ -29,6 +29,8 @@ export interface FormGridPropsI {
 export interface HeadingFormGridPropsI {
   formFieldsList: any[];
   spacing?: number;
+  rowSpacing?: number;
+  columnSpacing?: number;
   disabled?: boolean;
   md?: number;
   children?: ReactNode;

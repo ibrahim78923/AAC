@@ -1,20 +1,22 @@
-import { Box, Grid, Palette, Typography } from '@mui/material';
+import { Box, Palette, Typography } from '@mui/material';
 import { RHFAutocomplete, RHFRadioGroup } from '@/components/ReactHookForm';
 import {
   andRunOptions,
   eventOptions,
   moduleOptions,
 } from '../UpsertEventBasedWorkflow.data';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const WorkflowRunAndTrigger = ({ palette }: { palette: Palette }) => {
   return (
     <>
-      <Grid
-        item
-        xs={12}
-        mt={1}
-        border={`1px solid ${palette?.custom?.off_white_three}`}
-        borderRadius={2}
+      <CustomGrid
+        customStyles={{
+          mt: 1,
+          border: `1px solid ${palette?.custom?.off_white_three}`,
+          borderRadius: 2,
+        }}
       >
         <Box
           sx={{
@@ -32,7 +34,7 @@ export const WorkflowRunAndTrigger = ({ palette }: { palette: Palette }) => {
           </Typography>
         </Box>
         <Box>
-          <Grid item lg={8} p={1.5}>
+          <CustomGrid lg={8} customStyles={{ p: 1.5 }}>
             <RHFRadioGroup
               sx={{
                 display: 'flex',
@@ -41,15 +43,15 @@ export const WorkflowRunAndTrigger = ({ palette }: { palette: Palette }) => {
               name="module"
               options={moduleOptions}
             />
-          </Grid>
+          </CustomGrid>
         </Box>
-      </Grid>
-      <Grid
-        item
-        xs={12}
-        border={`1px solid ${palette?.custom?.off_white_three}`}
-        borderRadius={2}
-        my={2}
+      </CustomGrid>
+      <CustomGrid
+        customStyles={{
+          border: `1px solid ${palette?.custom?.off_white_three}`,
+          borderRadius: 2,
+          my: 2,
+        }}
       >
         <Box
           sx={{
@@ -66,8 +68,12 @@ export const WorkflowRunAndTrigger = ({ palette }: { palette: Palette }) => {
             When to Trigger this workflow?
           </Typography>
         </Box>
-        <Grid container p={1.5} spacing={2}>
-          <Grid item md={6} xs={10}>
+        <ContainerGrid
+          customStyles={{
+            p: 1.5,
+          }}
+        >
+          <CustomGrid md={6} xs={10}>
             <RHFAutocomplete
               name="events"
               size="small"
@@ -77,8 +83,8 @@ export const WorkflowRunAndTrigger = ({ palette }: { palette: Palette }) => {
               options={eventOptions}
               getOptionLabel={({ label }: { label: string }) => label}
             />
-          </Grid>
-          <Grid item md={6} xs={12} p={1.5}>
+          </CustomGrid>
+          <CustomGrid md={6} customStyles={{ p: 1.5 }}>
             <RHFAutocomplete
               name="runType"
               size="small"
@@ -88,9 +94,9 @@ export const WorkflowRunAndTrigger = ({ palette }: { palette: Palette }) => {
               options={andRunOptions}
               getOptionLabel={({ label }: { label: string }) => label}
             />
-          </Grid>
-        </Grid>
-      </Grid>
+          </CustomGrid>
+        </ContainerGrid>
+      </CustomGrid>
     </>
   );
 };

@@ -10,7 +10,7 @@ import { Typography } from '@mui/material';
 
 export const predefinedAssetTypeDataArray = [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'displayName',
       label: 'Display name',
@@ -20,7 +20,7 @@ export const predefinedAssetTypeDataArray = [
     md: 6,
   },
   {
-    id: 2,
+    _id: 2,
     componentProps: {
       name: 'assetType',
       label: 'Asset Type',
@@ -31,7 +31,7 @@ export const predefinedAssetTypeDataArray = [
     md: 6,
   },
   {
-    id: 3,
+    _id: 3,
     componentProps: {
       name: 'impact',
       label: 'Impact',
@@ -41,7 +41,7 @@ export const predefinedAssetTypeDataArray = [
     md: 6,
   },
   {
-    id: 4,
+    _id: 4,
     componentProps: {
       name: 'description',
       label: 'Description',
@@ -51,7 +51,7 @@ export const predefinedAssetTypeDataArray = [
     md: 12,
   },
   {
-    id: 5,
+    _id: 5,
     componentProps: {
       name: 'assetLifeExpiry',
       label: 'Expiry date',
@@ -61,7 +61,7 @@ export const predefinedAssetTypeDataArray = [
     md: 6,
   },
   {
-    id: 6,
+    _id: 6,
     componentProps: {
       variant: 'h4',
     },
@@ -69,7 +69,7 @@ export const predefinedAssetTypeDataArray = [
     component: Typography,
   },
   {
-    id: 7,
+    _id: 7,
     componentProps: {
       name: 'location',
       label: 'Location',
@@ -78,7 +78,7 @@ export const predefinedAssetTypeDataArray = [
     md: 6,
   },
   {
-    id: 8,
+    _id: 8,
     componentProps: {
       name: 'department',
       label: 'Department',
@@ -87,7 +87,7 @@ export const predefinedAssetTypeDataArray = [
     md: 6,
   },
   {
-    id: 9,
+    _id: 9,
     componentProps: {
       name: 'assignedOn',
       label: 'Assigned on',
@@ -97,7 +97,7 @@ export const predefinedAssetTypeDataArray = [
     md: 6,
   },
   {
-    id: 10,
+    _id: 10,
     componentProps: {
       name: 'usedBy',
       label: 'Used By',

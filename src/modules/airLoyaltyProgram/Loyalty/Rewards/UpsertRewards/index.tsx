@@ -1,6 +1,6 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { useUpsertRewards } from './useUpsertRewards';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import {
   rewardsRadioButtonsFormFields,
@@ -9,6 +9,9 @@ import {
 import { Attachments } from '@/components/Attachments';
 import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { FormGrid } from '@/components/Grids/FormGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 export const UpsertRewards = (props: any) => {
   const { isRewardDrawerOpen, setIsRewardDrawerOpen } = props;
@@ -49,28 +52,26 @@ export const UpsertRewards = (props: any) => {
         >
           <Box mt={1}>
             <FormProvider methods={methods}>
-              <Grid container spacing={2}>
-                {upsertRewardsData(watch)?.map((item: any) => (
-                  <Grid item xs={12} md={item?.md} key={item?.id}>
-                    <item.component {...item?.componentProps} size={'small'} />
-                  </Grid>
-                ))}
-              </Grid>
+              <FormGrid formFieldsList={upsertRewardsData(watch)} />
               <Box mt={2}>
                 {rewardsRadioButtonsFormFields?.map((form: any) => {
                   return (
                     <>
-                      <Grid item xs={12} md={form?.gridLength} key={form?.id}>
+                      <CustomGrid md={form?.gridLength} key={form?.id}>
                         <form.component
                           {...form?.componentProps}
                           size="small"
                         />
-                      </Grid>
+                      </CustomGrid>
                       {watch(form?.componentProps?.name) ===
-                        form?.componentProps?.options?.[1]?.value && (
-                        <Grid item xs={12} md={form?.gridLength} mt={2}>
+                        form?.componentProps?.options?.[ARRAY_INDEX?.ONE]
+                          ?.value && (
+                        <CustomGrid
+                          md={form?.gridLength}
+                          customStyles={{ mt: 2 }}
+                        >
                           {form?.conditionalComponentOne}
-                        </Grid>
+                        </CustomGrid>
                       )}
                     </>
                   );

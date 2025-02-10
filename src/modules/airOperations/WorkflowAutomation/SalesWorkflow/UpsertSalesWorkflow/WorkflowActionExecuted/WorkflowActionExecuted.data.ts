@@ -154,7 +154,7 @@ export const actionsExecutedFields = (
   return [
     {
       _id: 456,
-      gridLength: 6,
+      md: 6,
       componentProps: {
         name: `actions.${index}.fieldName`,
         placeholder: 'Select Action',
@@ -168,7 +168,7 @@ export const actionsExecutedFields = (
     },
     {
       _id: 565,
-      gridLength: 6,
+      md: 6,
       componentProps: {
         name: `actions.${index}.fieldValue`,
         disabled: !watchFieldName(index),

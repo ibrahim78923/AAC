@@ -249,7 +249,7 @@ export const subWorkflowData = ({
   ) {
     valueComponent = {
       _id: 5,
-      gridLength: 3,
+      md: 3,
       componentProps: {
         name: `groups.${index}.conditions.${subIndex}.fieldValue`,
         size: 'small',
@@ -270,7 +270,7 @@ export const subWorkflowData = ({
   ) {
     valueComponent = {
       _id: 6,
-      gridLength: 3,
+      md: 3,
       componentProps: {
         name: `groups.${index}.conditions.${subIndex}.fieldValue`,
         size: 'small',
@@ -287,7 +287,7 @@ export const subWorkflowData = ({
   } else if (selectedOperatorsOptions === constantApiOptions?.department) {
     valueComponent = {
       _id: 10,
-      gridLength: 3,
+      md: 3,
       componentProps: {
         name: `groups.${index}.conditions.${subIndex}.fieldValue`,
         size: 'small',
@@ -300,7 +300,7 @@ export const subWorkflowData = ({
   } else if (selectedOperatorsOptions === constantApiOptions?.assetType) {
     valueComponent = {
       _id: 7,
-      gridLength: 3,
+      md: 3,
       componentProps: {
         name: `groups.${index}.conditions.${subIndex}.fieldValue`,
         size: 'small',
@@ -314,7 +314,7 @@ export const subWorkflowData = ({
   } else if (selectedOperatorsOptions === constantApiOptions?.requester) {
     valueComponent = {
       _id: 8,
-      gridLength: 3,
+      md: 3,
       componentProps: {
         name: `groups.${index}.conditions.${subIndex}.fieldValue`,
         size: 'small',
@@ -343,13 +343,13 @@ export const subWorkflowData = ({
         disabled: disableField,
         size: 'small',
       },
-      gridLength: 3,
+      md: 3,
       component: RHFDatePicker,
     };
   } else {
     valueComponent = {
       _id: 9,
-      gridLength: 3,
+      md: 3,
       componentProps: {
         name: `groups.${index}.conditions.${subIndex}.fieldValue`,
         size: 'small',
@@ -367,7 +367,7 @@ export const subWorkflowData = ({
   return [
     {
       _id: 1,
-      gridLength: 3,
+      md: 3,
       componentProps: {
         name: `groups.${index}.conditions.${subIndex}.options`,
         size: 'small',
@@ -378,7 +378,7 @@ export const subWorkflowData = ({
     },
     {
       _id: 2,
-      gridLength: 3,
+      md: 3,
       componentProps: {
         name: `groups.${index}.conditions.${subIndex}.fieldName`,
         size: 'small',
@@ -390,7 +390,7 @@ export const subWorkflowData = ({
     },
     {
       _id: 3,
-      gridLength: 3,
+      md: 3,
       componentProps: {
         name: `groups.${index}.conditions.${subIndex}.condition`,
         size: 'small',

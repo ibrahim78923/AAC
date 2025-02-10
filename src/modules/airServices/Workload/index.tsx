@@ -1,7 +1,7 @@
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { Box, Button, Divider, Grid, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Divider, Tooltip, Typography } from '@mui/material';
 import { DateFilter } from './DateFilter';
 import { ManageWorkload } from './ManageWorkload';
 import { UnassignedWork } from './UnassignedWork';
@@ -25,6 +25,8 @@ import { UpdateWorkloadTicket } from './UpdateWorkloadTicket';
 import { SkeletonWorkload } from './SkeletonWorkload';
 import { otherDateFormat } from '@/lib/date-time';
 import { CustomAvatar } from '@/components/Avatars/CustomAvatar';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const Workload = () => {
   const {
@@ -82,25 +84,28 @@ export const Workload = () => {
           Workload
         </Typography>
 
-        <Grid container spacing={4} mb={4}>
-          <Grid item xs={12} lg={3}>
+        <ContainerGrid spacing={4} customStyles={{ mb: 4 }}>
+          <CustomGrid lg={3}>
             <DateFilter
               setDateCalendar={dateChangeHandler}
               dateCalendar={dateCalendar}
             />
-          </Grid>
-          <Grid item xs={12} lg={4} display={'flex'} justifyContent={'center'}>
+          </CustomGrid>
+          <CustomGrid
+            lg={4}
+            customStyles={{ display: 'flex', justifyContent: 'center' }}
+          >
             <Profile selected={selected} setSelected={setSelected} />
-          </Grid>
-          <Grid
-            item
-            xs={12}
+          </CustomGrid>
+          <CustomGrid
             lg={5}
-            display={'flex'}
-            alignItems={'center'}
-            justifyContent={'flex-end'}
-            flexWrap={'wrap'}
-            gap={2}
+            customStyles={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              gap: 2,
+              flexWrap: 'wrap',
+              alignItems: 'center',
+            }}
           >
             <PermissionsGuard
               permissions={[
@@ -129,8 +134,8 @@ export const Workload = () => {
                 setFilterByTypeState={setFilterByTypeState}
               />
             </PermissionsGuard>
-          </Grid>
-        </Grid>
+          </CustomGrid>
+        </ContainerGrid>
 
         <FullCalendar
           ref={calendarRef}

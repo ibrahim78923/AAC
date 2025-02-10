@@ -1,4 +1,3 @@
-import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertEventBasedWorkflow } from './useUpsertEventBasedWorkflow';
 import { WorkflowConditions } from './WorkflowConditions';
@@ -7,6 +6,8 @@ import { WorkflowRunAndTrigger } from './WorkflowRunAndTrigger';
 import { WorkflowActionExecuted } from './WorkflowActionExecuted';
 import { EventBasedWorkflowDataArray } from './UpsertEventBasedWorkflow.data';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const UpsertEventBasedWorkflow = () => {
   const {
@@ -43,16 +44,10 @@ export const UpsertEventBasedWorkflow = () => {
           watch={watch}
           movePage={movePage}
         />
-        <Grid container spacing={2}>
-          {EventBasedWorkflowDataArray?.map((item: any) => (
-            <Grid item xs={12} md={item?.md} key={item?.id}>
-              <item.component {...item?.componentProps} size={'small'} />
-            </Grid>
-          ))}
-        </Grid>
-        <Grid container>
+        <FormGrid formFieldsList={EventBasedWorkflowDataArray} spacing={1} />
+        <ContainerGrid spacing={0}>
           <WorkflowRunAndTrigger palette={palette} />
-        </Grid>
+        </ContainerGrid>
         <WorkflowConditions
           control={control}
           moduleType={moduleType}
