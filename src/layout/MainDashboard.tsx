@@ -49,7 +49,12 @@ import { styles } from './Layout.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { enqueueSnackbar } from 'notistack';
 import { CHAT_SOCKETS, ORG_ADMIN } from '@/routesConstants/paths';
-import { BASE_PATHS, indexNumbers, PRODUCT_LABELS } from '@/constants';
+import {
+  BASE_PATHS,
+  BYPASS_ROUTES,
+  indexNumbers,
+  PRODUCT_LABELS,
+} from '@/constants';
 import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import { SOCKETS_EVENTS } from '@/constants/strings';
 import { setNotifications } from '@/redux/slices/notifications/notifications';
@@ -58,7 +63,11 @@ import { LogoAvatar } from '@/components/Avatars/LogoAvatar';
 const drawerWidth = 230;
 const DashboardLayout = ({ children, window }: any) => {
   const theme = useTheme();
-  const { authMeLoadingState } = useAuth();
+  const {
+    authMeLoadingState,
+    setProductSwitcherLoading,
+    productSwitcherLoadingState,
+  } = useAuth();
 
   const router = useRouter();
   const currentPath = router.pathname;
@@ -100,10 +109,6 @@ const DashboardLayout = ({ children, window }: any) => {
     }
   };
 
-  if (basePath !== getProductBasePath(productName)) {
-    router.push('/');
-  }
-
   const routes = getRoutes(productName);
   const lowerRoutes = getLowerRoutes(productName);
   const pathname = usePathname();
@@ -125,6 +130,18 @@ const DashboardLayout = ({ children, window }: any) => {
 
   const isZeroPaddingRoutes = zeroPaddingRoutes?.includes(router?.pathname);
   const { logout } = useAuth();
+
+  useEffect(() => {
+    if (productSwitcherLoadingState) {
+      setProductSwitcherLoading(false);
+    }
+    if (
+      basePath !== getProductBasePath(productName) &&
+      !BYPASS_ROUTES[basePath]
+    ) {
+      router.push('/');
+    }
+  }, [basePath]);
 
   const drawer = (
     <>

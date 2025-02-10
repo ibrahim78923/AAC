@@ -46,8 +46,9 @@ const ProductSuite = () => {
     setActiveProduct,
     setPermissions,
     isPermissions,
-    authMeLoadingState,
     user,
+    setProductSwitcherLoading,
+    productSwitcherLoading,
   } = useAuth();
   const router = useRouter();
   const {
@@ -55,17 +56,15 @@ const ProductSuite = () => {
     refetch,
     isFetching: postAuthAccountSelectFetching,
   } = useGetAuthAccountsQuery({});
-  const [PostAuthAccountSelect, { isLoading }] =
-    usePostAuthAccountSelectMutation();
+  const [PostAuthAccountSelect] = usePostAuthAccountSelectMutation();
   const [selectedProduct, setSelectedProduct] = useState<any>([]);
 
-  const [loading, setLoading] = useState(false);
   const session: any = getSession();
 
   const findModulePermissionKey = async (product: any, id: string) => {
     const payload = { account: id };
     try {
-      setLoading(true);
+      setProductSwitcherLoading(true);
       const response = await PostAuthAccountSelect(payload)?.unwrap();
       const routes = getRoutes(product);
       if (response?.data && routes) {
@@ -82,8 +81,7 @@ const ProductSuite = () => {
       enqueueSnackbar(errMessage ?? 'Error occurred', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
-    } finally {
-      setLoading(false);
+      setProductSwitcherLoading(false);
     }
     return false;
   };
@@ -100,7 +98,6 @@ const ProductSuite = () => {
           });
           for (const permission of permissions) {
             if (componentPermissionsDictionary[permission]) {
-              setLoading(false);
               return router?.push(modulePermission?.key);
             }
           }
@@ -248,10 +245,7 @@ const ProductSuite = () => {
           },
         }}
       >
-        {loading ||
-        authMeLoadingState ||
-        isLoading ||
-        postAuthAccountSelectFetching ? (
+        {postAuthAccountSelectFetching || productSwitcherLoading ? (
           <Box
             sx={{ marginTop: '200px', width: '100%' }}
             display={'flex'}
