@@ -2,7 +2,7 @@ import { AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMIS
 import { RolesAndPermissions } from './RolesAndPermissions';
 import { WorkloadSchedule } from './WorkloadSchedule';
 
-export const WorkloadManagementTabs = [
+export const workloadManagementTabs = [
   {
     _id: 1,
     name: 'Roles and Permissions',

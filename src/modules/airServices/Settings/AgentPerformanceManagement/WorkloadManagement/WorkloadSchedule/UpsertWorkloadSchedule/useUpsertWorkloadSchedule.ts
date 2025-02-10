@@ -32,7 +32,7 @@ export const useUpsertWorkloadSchedule = () => {
     },
   };
 
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetAirServicesSettingsWorkloadScheduleByIdQuery(
       getSingleWorkloadScheduleParameter,
       {
@@ -108,18 +108,22 @@ export const useUpsertWorkloadSchedule = () => {
   const upsertWorkloadScheduleFormFields =
     upsertWorkloadScheduleFormFieldsDynamic(getValues, router);
 
+  const apiCallInProgress =
+    patchWorkloadScheduleStatus?.isLoading ||
+    postWorkloadScheduleStatus?.isLoading;
+
+  const showLoader = isLoading || isFetching;
+
   return {
     handleSubmit,
     method,
     submitWorkloadSchedule,
-    router,
     workloadScheduleId,
     upsertWorkloadScheduleFormFields,
-    isLoading,
-    isFetching,
-    isError,
-    patchWorkloadScheduleStatus,
-    postWorkloadScheduleStatus,
+    apiCallInProgress,
+    showLoader,
     moveBack,
+    isError,
+    refetch,
   };
 };

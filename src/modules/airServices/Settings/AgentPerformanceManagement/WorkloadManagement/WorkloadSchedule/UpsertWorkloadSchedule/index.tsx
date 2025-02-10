@@ -1,10 +1,10 @@
-import { Box } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertWorkloadSchedule } from './useUpsertWorkloadSchedule';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { LoadingButton } from '@mui/lab';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { HeadingFormGrid } from '@/components/Grids/HeadingFormGrid';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import { ActionsLoadingButton } from '@/components/Buttons/ActionsLoadingButton';
 
 export const UpsertWorkloadSchedule = () => {
   const {
@@ -13,64 +13,45 @@ export const UpsertWorkloadSchedule = () => {
     submitWorkloadSchedule,
     workloadScheduleId,
     upsertWorkloadScheduleFormFields,
-    isLoading,
-    isFetching,
-    patchWorkloadScheduleStatus,
-    postWorkloadScheduleStatus,
+    apiCallInProgress,
+    showLoader,
     moveBack,
+    isError,
+    refetch,
   } = useUpsertWorkloadSchedule();
-
-  if (isLoading || isFetching) return <SkeletonForm />;
 
   return (
     <>
       <PageTitledHeader
-        title={
-          !!workloadScheduleId ? 'Edit Scheduled Form' : 'Add Scheduled Form'
-        }
+        title={`${
+          !!workloadScheduleId
+            ? GENERIC_UPSERT_FORM_CONSTANT?.EDIT
+            : GENERIC_UPSERT_FORM_CONSTANT?.ADD
+        } Scheduled Form`}
         canMovedBack
-        moveBack={() => moveBack?.()}
+        moveBack={moveBack}
       />
-
-      <FormProvider
-        methods={method}
-        onSubmit={handleSubmit(submitWorkloadSchedule)}
+      <ApiRequestFlow
+        showSkeleton={showLoader}
+        hasError={isError}
+        refreshApi={refetch}
       >
-        <HeadingFormGrid formFieldsList={upsertWorkloadScheduleFormFields} />
-        <Box
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'flex-end'}
-          flexWrap={'wrap'}
-          gap={2}
-          mt={4}
+        <FormProvider
+          methods={method}
+          onSubmit={handleSubmit(submitWorkloadSchedule)}
         >
-          <LoadingButton
-            type="button"
-            variant="outlined"
-            color="secondary"
-            className={'small'}
-            disabled={
-              patchWorkloadScheduleStatus?.isLoading ||
-              postWorkloadScheduleStatus?.isLoading
+          <HeadingFormGrid formFieldsList={upsertWorkloadScheduleFormFields} />
+          <ActionsLoadingButton
+            submitButtonText={
+              !!workloadScheduleId
+                ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
+                : GENERIC_UPSERT_FORM_CONSTANT?.SAVE
             }
-            onClick={() => moveBack?.()}
-          >
-            Cancel
-          </LoadingButton>
-          <LoadingButton
-            type="submit"
-            variant="contained"
-            className={'small'}
-            loading={
-              patchWorkloadScheduleStatus?.isLoading ||
-              postWorkloadScheduleStatus?.isLoading
-            }
-          >
-            {!!workloadScheduleId ? 'Update' : 'Save'}
-          </LoadingButton>
-        </Box>
-      </FormProvider>
+            showSubmitLoader={apiCallInProgress}
+            handleCancelButton={moveBack}
+          />
+        </FormProvider>
+      </ApiRequestFlow>
     </>
   );
 };

@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants/routes';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { PermissionsTabs } from '@/components/Tabs/PermissionsTabs';
-import { LeaderBoardTabs } from './LeaderBoard.data';
+import { leaderBoardTabs } from './LeaderBoard.data';
 
 export const LeaderBoard = () => {
   const router = useRouter();
@@ -19,7 +19,7 @@ export const LeaderBoard = () => {
         title={'Leader Board'}
       />
 
-      <PermissionsTabs tabsDataArray={LeaderBoardTabs} />
+      <PermissionsTabs tabsDataArray={leaderBoardTabs} />
     </>
   );
 };

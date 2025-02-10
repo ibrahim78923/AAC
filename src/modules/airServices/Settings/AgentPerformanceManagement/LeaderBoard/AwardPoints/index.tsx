@@ -1,116 +1,107 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { agentResolveTicketData, receivingAwardData } from './AwardPoints.data';
 import { useAwardPoints } from './useAwardPoints';
 import AwardCard from './AwardCard';
-import { LoadingButton } from '@mui/lab';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { ActionsLoadingButton } from '@/components/Buttons/ActionsLoadingButton';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
 const AwardPoints = () => {
   const {
     methods,
-    awardCardBorderColors,
     handleSubmit,
     isLoading,
     isFetching,
     addAwardPointsStatus,
-    router,
     submitAwardForm,
+    isError,
+    refetch,
+    handleCancelBtn,
   } = useAwardPoints();
 
-  if (isLoading || isFetching) return <SkeletonForm />;
-
   return (
-    <FormProvider methods={methods} onSubmit={handleSubmit?.(submitAwardForm)}>
-      <Box
-        sx={{
-          display: 'flex',
-          gap: 2,
-          flexDirection: 'column',
-        }}
-      >
-        <Box>
-          <Typography fontWeight={600} pb={1.2}>
-            Award points
-          </Typography>
-          <Typography variant="subtitle2" fontWeight={500} color="custom.main">
-            Set award points based on different factors for agents
-          </Typography>
-        </Box>
-
-        <Grid container spacing={2.3}>
-          {agentResolveTicketData?.map((item: any) => (
-            <Grid
-              item
-              xs={12}
-              display={'flex'}
-              alignItems={'flex-end'}
-              gap={1}
-              lg={item?.md}
-              key={item?.id}
-            >
-              <Box>
-                <item.component {...item?.componentProps} size={'small'} />
-              </Box>
-              {item?.component?.name === 'RHFTextField' && (
-                <Typography component="span" pb={1}>
-                  Points
-                </Typography>
-              )}
-            </Grid>
-          ))}
-        </Grid>
-
-        <Box>
-          <Typography fontWeight={600} pb={1.2}>
-            Criteria For Receiving Award
-          </Typography>
-          <Typography variant="subtitle2" fontWeight={500} color="custom.main">
-            The agent will receive 4 Awards based on different criteria.
-          </Typography>
-        </Box>
-
-        <Grid item container xs={12} xl={9} gap={2}>
-          {receivingAwardData?.map?.((card, index) => (
-            <Grid key={card?.title} xs={12} lg={5} item>
-              <AwardCard
-                {...card}
-                borderColor={awardCardBorderColors?.[index]}
-              />
-            </Grid>
-          ))}
-        </Grid>
+    <>
+      <Box>
+        <Typography fontWeight={600} pb={1.2}>
+          Award points
+        </Typography>
+        <Typography variant="subtitle2" fontWeight={500} color="custom.main">
+          Set award points based on different factors for agents
+        </Typography>
       </Box>
-
-      <Grid
-        container
-        item
-        xs={12}
-        sx={{ justifyContent: { sm: 'flex-end' }, mt: 2 }}
+      <br />
+      <ApiRequestFlow
+        showSkeleton={isLoading || isFetching}
+        hasError={isError}
+        refreshApi={refetch}
       >
-        <Box display={'flex'} gap={2} alignItems={'center'} flexWrap={'wrap'}>
-          <LoadingButton
-            type="button"
-            variant="outlined"
-            color="inherit"
-            className={'small'}
-            disabled={addAwardPointsStatus?.isLoading}
-            onClick={() => router?.back()}
-          >
-            Cancel
-          </LoadingButton>
-          <LoadingButton
-            disableElevation
-            type="submit"
-            variant="contained"
-            className={'small'}
-            loading={addAwardPointsStatus?.isLoading}
-          >
-            Save
-          </LoadingButton>
-        </Box>
-      </Grid>
-    </FormProvider>
+        <FormProvider
+          methods={methods}
+          onSubmit={handleSubmit?.(submitAwardForm)}
+        >
+          <ContainerGrid>
+            {agentResolveTicketData?.map((item: any) => (
+              <CustomGrid lg={item?.md} key={item?.id}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'flex-end',
+                    gap: 1,
+                  }}
+                >
+                  <Box>
+                    <item.component {...item?.componentProps} size={'small'} />
+                  </Box>
+                  {item?.component?.name === 'RHFTextField' && (
+                    <Typography component="span" pb={1}>
+                      Points
+                    </Typography>
+                  )}
+                </Box>
+              </CustomGrid>
+            ))}
+          </ContainerGrid>
+          <br />
+          <Box>
+            <Typography fontWeight={600} pb={1.2}>
+              Criteria For Receiving Award
+            </Typography>
+            <Typography
+              variant="subtitle2"
+              fontWeight={500}
+              color="custom.main"
+            >
+              The agent will receive 4 Awards based on different criteria.
+            </Typography>
+          </Box>
+          <br />
+          <ContainerGrid>
+            <CustomGrid xl={12}>
+              <ContainerGrid>
+                {receivingAwardData?.map?.((card: any) => (
+                  <CustomGrid key={card?._id} lg={5}>
+                    <AwardCard
+                      icon={card?.icon}
+                      title={card?.title}
+                      text={card?.text}
+                      borderColor={card?.borderColor}
+                    />
+                  </CustomGrid>
+                ))}
+              </ContainerGrid>
+            </CustomGrid>
+          </ContainerGrid>
+          <ActionsLoadingButton
+            submitButtonText={GENERIC_UPSERT_FORM_CONSTANT?.SAVE}
+            showSubmitLoader={addAwardPointsStatus?.isLoading}
+            handleCancelButton={handleCancelBtn}
+          />
+        </FormProvider>
+      </ApiRequestFlow>
+    </>
   );
 };
 
