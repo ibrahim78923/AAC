@@ -98,7 +98,7 @@ const useStepLineItems = (openCreateProduct: any, calculations: any) => {
   );
 
   const isConsumerDetailsDataAvailable =
-    consumerDetails?.data && Object.keys(consumerDetails.data).length === 0;
+    consumerDetails?.data && Object?.keys(consumerDetails?.data)?.length === 0;
 
   const createConsumerFunction = async () => {
     if (isConsumerDetailsDataAvailable) {
@@ -120,10 +120,6 @@ const useStepLineItems = (openCreateProduct: any, calculations: any) => {
       refetch();
     }
   };
-
-  useEffect(() => {
-    createConsumerFunction();
-  }, [isConsumerDetailsDataAvailable]);
 
   const consumerTotalPoints = consumerDetails?.data?.totalPointsEarned;
 
@@ -237,7 +233,7 @@ const useStepLineItems = (openCreateProduct: any, calculations: any) => {
     );
   }, [consumerDetails?.data]);
 
-  const [RedeemRewardData, setRedeemRewardData] = useState([]);
+  const [RedeemRewardData, setRedeemRewardData] = useState<any[]>([]);
 
   const handleCheckboxChange = async (item: any) => {
     const isChecked = !checkedItems[item?._id];
@@ -283,7 +279,7 @@ const useStepLineItems = (openCreateProduct: any, calculations: any) => {
     });
 
     // Update redeemReward array
-    setRedeemRewardData((prevRewards: any[] = []) => {
+    setRedeemRewardData((prevRewards: any[]) => {
       let updatedRewards;
       if (isChecked) {
         updatedRewards = [
@@ -594,6 +590,8 @@ const useStepLineItems = (openCreateProduct: any, calculations: any) => {
     loyaltyRewards,
     consumerDetailLoading,
     VoucherData,
+    createConsumerFunction,
+    isConsumerDetailsDataAvailable,
   };
 };
 
