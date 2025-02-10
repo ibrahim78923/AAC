@@ -3,7 +3,6 @@ import { CustomerPortalHeader } from '../CustomerPortalHeader';
 import { FormProvider } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import { SignUpImage } from '@/assets/images';
-import Image from 'next/image';
 import { AUTH } from '@/constants';
 import useSignUp from './useSignUp';
 import { signUpFormFields } from './SignUp.data';
@@ -11,6 +10,8 @@ import NoData from '@/components/NoData';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { PROJECT_NAME } from '@/config';
+import { StaticAvatar } from '@/components/Avatars/StaticAvatar';
+import { AVATAR_VARIANTS } from '@/constants/mui-constant';
 
 export const SignUp = () => {
   const {
@@ -111,12 +112,14 @@ export const SignUp = () => {
           </Box>
         </CustomGrid>
         <CustomGrid md={6}>
-          <Image
-            src={SignUpImage}
-            alt={'dashboard'}
-            width={668}
-            height={513}
-            style={{ width: '100%', height: 'auto' }}
+          <StaticAvatar
+            avatarSrc={SignUpImage?.src}
+            padding={1}
+            avatarSize={{
+              width: '90%',
+              height: '90%',
+              variant: AVATAR_VARIANTS?.SQUARE,
+            }}
           />
         </CustomGrid>
       </ContainerGrid>
