@@ -1,9 +1,9 @@
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { TruncateText } from '@/components/TruncateText';
-import { Checkbox, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { splitCapitalizedWords } from '@/utils/api';
 import { AIR_SERVICES } from '@/constants/routes';
 import { uiDateFormat } from '@/lib/date-time';
+import { CheckboxField } from '@/components/InputFields/CheckboxField';
 
 export const contractsListsColumnsFunction = (
   selectedContractList: any,
@@ -15,9 +15,7 @@ export const contractsListsColumnsFunction = (
     accessorFn: (row: any) => row?._id,
     id: '_id',
     cell: (info: any) => (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
+      <CheckboxField
         checked={
           !!selectedContractList?.find((item: any) => item === info?.getValue())
         }
@@ -33,14 +31,11 @@ export const contractsListsColumnsFunction = (
                 ),
               );
         }}
-        color="primary"
         name={info?.getValue()}
       />
     ),
     header: (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
+      <CheckboxField
         checked={
           mainContractsData?.length
             ? selectedContractList?.length === mainContractsData?.length
@@ -53,7 +48,6 @@ export const contractsListsColumnsFunction = (
               )
             : setSelectedContractList([]);
         }}
-        color="primary"
         name="id"
       />
     ),

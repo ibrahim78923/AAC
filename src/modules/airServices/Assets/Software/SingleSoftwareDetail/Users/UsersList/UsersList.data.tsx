@@ -1,9 +1,8 @@
-import { Checkbox } from '@mui/material';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { UserTableDataI } from './UsersList.interface';
 import { TruncateText } from '@/components/TruncateText';
 import { splitCapitalizedWords } from '@/utils/api';
 import { uiDateFormat } from '@/lib/date-time';
+import { CheckboxField } from '@/components/InputFields/CheckboxField';
 
 export const usersListColumnsDynamic = (
   usersData: UserTableDataI[],
@@ -14,9 +13,7 @@ export const usersListColumnsDynamic = (
     accessorFn: (row: any) => row?._id,
     id: '_id',
     cell: (info: any) => (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
+      <CheckboxField
         checked={
           !!usersData?.find((item: any) => item?._id === info?.getValue())
         }
@@ -34,21 +31,17 @@ export const usersListColumnsDynamic = (
             );
           }
         }}
-        color="primary"
         name={info?.getValue()}
       />
     ),
     header: (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
+      <CheckboxField
         checked={
           tableData?.length ? usersData?.length === tableData?.length : false
         }
         onChange={(e: any) => {
           e?.target?.checked ? setUsersData([...tableData]) : setUsersData([]);
         }}
-        color="primary"
         name="_id"
       />
     ),
