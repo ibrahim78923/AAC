@@ -137,19 +137,10 @@ function AuthProvider({ children }: { children: ReactNode }) {
 
   const [permissionsArray, setPermissionsArray] = useState([]);
 
-  const {
-    data: permissionsData,
-    refetch,
-    isFetching: authFetching,
-    isLoading: authLoading,
-  } = useGetAuthMyAccountQuery({}, { skip: !state?.isAuthenticated });
-  useEffect(() => {
-    if (authFetching || authLoading) {
-      setAuthLoading(true);
-    } else {
-      setAuthLoading(false);
-    }
-  }, [authLoading, authFetching]);
+  const { data: permissionsData, refetch } = useGetAuthMyAccountQuery(
+    {},
+    { skip: !state?.isAuthenticated },
+  );
 
   useEffect(() => {
     if (
