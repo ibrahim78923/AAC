@@ -9,7 +9,7 @@ export const validationSchema = () => {
       Yup.object().shape({
         signingOrder: Yup?.string()?.trim()?.required('Field is Required'),
         // onBehalfOf: Yup?.object()?.required('Field is Required'),
-        name: Yup?.string()?.trim()?.required('Field is Required'),
+        // name: Yup?.string()?.trim()?.required('Field is Required'),
         email: Yup.string()?.trim()?.email('Invalid email'),
       }),
     ),

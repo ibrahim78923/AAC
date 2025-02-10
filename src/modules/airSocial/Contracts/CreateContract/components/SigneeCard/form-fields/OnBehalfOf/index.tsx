@@ -14,6 +14,7 @@ export default function OnBehalfOf({
       label="On Behalf Of"
       fullWidth
       size="small"
+      required={true}
       placeholder="Select party"
       sx={{
         '& > .MuiTypography-root.MuiTypography-body2': {

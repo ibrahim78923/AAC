@@ -80,24 +80,21 @@ export const getFieldIcon = (type: string) => {
 };
 
 export const getPartiesFormData = (parties: any) => {
+  if (!Array.isArray(parties) || parties.length === 0) return null;
   const formData = parties.map((party: any) => {
     if (party?._id) {
       return {
-        // name: party?.name,
-        // address: party?.address,
-        // idNumber: party?.idNumber,
-        // email: party?.email,
-        // referredAs: party?.referredAs,
-        // moduleType: party.moduleType,
-        // moduleId: party?.moduleId,
         id: party?._id,
+        address: party?.address,
+        idNumber: party?.idNumber,
+        referredAs: party?.referredAs,
+        moduleType: party.moduleType,
+        moduleId: party?.moduleId,
       };
     }
     return {
-      // name: party?.name,
       address: party?.address,
       idNumber: party?.idNumber,
-      email: party?.email,
       referredAs: party?.referredAs,
       moduleType: party.moduleType,
       moduleId: party?.moduleId,
@@ -107,22 +104,29 @@ export const getPartiesFormData = (parties: any) => {
 };
 
 export const getSigneesFormData = (signees: any) => {
+  if (!Array.isArray(signees) || signees.length === 0) return null;
+
   const formData = signees.map((signee: any) => {
     if (signee?._id) {
-      const { _id, ...rest } = signee;
       return {
-        ...rest,
-        id: _id,
+        id: signee?._id,
+        signingOrder: signee?.signingOrder,
+        personalTitle: signee?.personalTitle,
+        name: signee?.name,
+        email: signee?.email,
+        signatureStatus: signee?.signatureStatus,
+        signatureType: signee?.signatureType,
+        moduleId: signee?.onBehalfOf?._id,
       };
     }
     return {
       signingOrder: signee?.signingOrder,
-      onBehalfOf: signee?.onBehalfOf,
       personalTitle: signee?.personalTitle,
       name: signee?.name,
       email: signee?.email,
       signatureStatus: signee?.signatureStatus,
       signatureType: signee?.signatureType,
+      moduleId: signee?.onBehalfOf?._id,
     };
   });
   return JSON.stringify(formData);

@@ -9,6 +9,7 @@ export default function SigneeEmail({ name }: { name: string }) {
       size="small"
       fullWidth
       placeholder="Enter email"
+      required={true}
     />
   );
 }

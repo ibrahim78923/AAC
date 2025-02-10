@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 // import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useCreateCommonContractTemplateMutation,
-  useCreateCommonContractAsDraftMutation,
+  useCreateCommonContractMutation,
   useGetCommonContractTemplateByIdQuery,
   useUpdateCommonContractTemplateMutation,
   useGetCommonContractByIdQuery,
@@ -129,20 +129,34 @@ export default function useCreateContract() {
     useCreateCommonContractTemplateMutation();
 
   const [createCommonContractAsDraft, { isLoading: loadingCreateDraft }] =
-    useCreateCommonContractAsDraftMutation();
+    useCreateCommonContractMutation();
 
   const onSubmit = async (values: any, saveAs: string) => {
     const formData = new FormData();
-    formData.append('name', values?.name);
-    formData.append('attachment', values?.attachment);
-    formData.append('message', values?.message);
-    formData.append('logo', values?.logo);
-    formData.append('parties', getPartiesFormData(values?.parties));
-    formData.append('signees', getSigneesFormData(values?.signees));
-    formData.append('dynamicFields', JSON.stringify(values?.dynamicFields));
+    const createFormData = (key: string, value: any) => {
+      if (
+        value !== null &&
+        value !== undefined &&
+        !(typeof value === 'string' && value.trim() === '')
+      ) {
+        formData.append(key, value);
+      }
+    };
+    createFormData('name', values?.name);
+    createFormData('attachment', values?.attachment);
+    createFormData('message', values?.message);
+    createFormData('logo', values?.logo);
+    createFormData('parties', getPartiesFormData(values?.parties));
+    createFormData('signees', getSigneesFormData(values?.signees));
+    createFormData(
+      'dynamicFields',
+      values?.dynamicFields?.length === 0
+        ? null
+        : JSON.stringify(values?.dynamicFields),
+    );
 
     if (saveAs === 'template') {
-      formData.append('category', templateCatgValue);
+      createFormData('category', templateCatgValue);
       try {
         await createCommonContractTemplate(formData)?.unwrap();
         setOpenModalTemplateCategories(false);
@@ -155,11 +169,12 @@ export default function useCreateContract() {
     }
     if (saveAs === 'draft') {
       // formData.append('visibleTo', values?.visibleTo);
-      formData.append('status', 'DRAFT');
-      formData.append('folderId', values?.folderId ?? folderId);
+      createFormData('status', 'DRAFT');
+      createFormData('folderId', values?.folderId ?? folderId);
+      // formData.append('templateId', '67a48a240e53143fd26211a9');
       if (templateId) {
         if (typeof templateId === 'string') {
-          formData.append('templateId', templateId);
+          createFormData('templateId', templateId);
         }
       }
       try {
@@ -182,16 +197,30 @@ export default function useCreateContract() {
 
   const onSubmitUpdateTemplate = async (values: any) => {
     const formData = new FormData();
-    formData.append('name', values?.name);
+    const createFormData = (key: string, value: any) => {
+      if (
+        value !== null &&
+        value !== undefined &&
+        !(typeof value === 'string' && value.trim() === '')
+      ) {
+        formData.append(key, value);
+      }
+    };
+    createFormData('name', values?.name);
     // formData.append('folderId', values?.folderId);
     // formData.append('status', values?.status ?? 'PENDING');
-    formData.append('attachment', values?.attachment);
-    formData.append('message', values?.message);
+    createFormData('attachment', values?.attachment);
+    createFormData('message', values?.message);
     // formData.append('visibleTo', values?.visibleTo);
-    formData.append('logo', values?.logo);
-    formData.append('parties', getPartiesFormData(values?.parties));
-    formData.append('signees', getSigneesFormData(values?.signees));
-    // formData.append('dynamicFields', JSON.stringify(values?.dynamicFields));
+    createFormData('logo', values?.logo);
+    createFormData('parties', getPartiesFormData(values?.parties));
+    createFormData('signees', getSigneesFormData(values?.signees));
+    createFormData(
+      'dynamicFields',
+      values?.dynamicFields?.length === 0
+        ? null
+        : JSON.stringify(values?.dynamicFields),
+    );
 
     try {
       await updateCommonContractTemplate({
@@ -250,10 +279,8 @@ export default function useCreateContract() {
       name: null,
       address: '',
       idNumber: '',
-      email: '',
       referredAs: '',
       moduleType: 'COMPANIES',
-      moduleId: '',
     });
   }, [appendParty]);
 

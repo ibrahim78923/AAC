@@ -3,13 +3,21 @@ import { Theme } from '@mui/material';
 export const styles = {
   container: {
     p: '30px 60px',
+    '@media (max-width: 1199px)': {
+      p: '30px',
+    },
+    '@media (max-width: 767px)': {
+      p: '24px 16px',
+    },
   },
 
   contentRow: {
+    '@media (min-width: 768px)': {
+      height: 'calc(100vh - 120px)',
+    },
     display: 'flex',
     flexWrap: 'wrap',
     gap: '24px',
-    height: 'calc(100vh - 120px)',
   },
 
   content: (theme: Theme) => ({
@@ -20,6 +28,12 @@ export const styles = {
     height: '100%',
     overflowY: 'auto',
     p: '24px 45px',
+    '@media (max-width: 1199px)': {
+      p: '24px',
+    },
+    '@media (max-width: 767px)': {
+      width: '100%',
+    },
   }),
 
   sidebar: (theme: Theme) => ({
@@ -30,6 +44,9 @@ export const styles = {
     borderRadius: '8px',
     overflowY: 'auto',
     p: '18px',
+    '@media (max-width: 767px)': {
+      width: '100%',
+    },
   }),
 
   contentTopbar: () => ({

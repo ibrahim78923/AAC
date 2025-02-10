@@ -126,11 +126,11 @@ export default function CreateContract() {
                 (router?.query?.contractType === ENUM_CONTRACT_TYPE?.PDF ? (
                   <PDFCreateContract />
                 ) : (
-                  <Grid container spacing={'30px'}>
-                    <Grid item xs={12} md={8}>
+                  <Grid container spacing={{ xs: '20px', lg: '30px' }}>
+                    <Grid item xs={12} md={6} lg={8}>
                       <ContractTitle />
                     </Grid>
-                    <Grid item xs={12} md={4}>
+                    <Grid item xs={12} md={6} lg={4}>
                       <ContractLogo />
                     </Grid>
                     {/* Parties Card */}
@@ -271,11 +271,13 @@ export default function CreateContract() {
         value={
           isIndividualSignature
             ? selectedSigneeId
-              ? signeeFields.find(
-                  (signee: any) => signee._id === selectedSigneeId,
+              ? (
+                  signeeFields?.find(
+                    (signee: any) => signee?._id === selectedSigneeId,
+                  ) as any
                 )?.signatureType || ''
               : ''
-            : signeeFields[0]?.signatureType || ''
+            : (signeeFields[0] as any)?.signatureType || ''
         }
         handleChange={(event) => {
           handleChangeSignatureMethod(
