@@ -1,8 +1,8 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 
 import { styled } from '@mui/material/styles';
 
-import { LogoIcon } from '@/assets/icons';
+import { LogoAvatar } from '../Avatars/LogoAvatar';
 
 const RootStyle = styled('div')(({ theme }) => ({
   right: 0,
@@ -21,10 +21,7 @@ const LoadingScreen = () => {
   return (
     <RootStyle>
       <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
-        <LogoIcon />
-        <Box>
-          <Typography variant="h4">Air Applecart</Typography>
-        </Box>
+        <LogoAvatar />
       </Box>
     </RootStyle>
   );

@@ -1,10 +1,10 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertServices } from './useUpsertServices';
-import { Box } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { FormGrid } from '@/components/Grids/FormGrid';
+import { ActionsLoadingButton } from '@/components/Buttons/ActionsLoadingButton';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
 export default function UpsertServices() {
   const {
@@ -26,7 +26,7 @@ export default function UpsertServices() {
       <PageTitledHeader
         title={`General Details`}
         canMovedBack
-        moveBack={() => handleCancelBtn()}
+        moveBack={handleCancelBtn}
       />
       <ApiRequestFlow
         showSkeleton={isLoading || isFetching}
@@ -35,28 +35,12 @@ export default function UpsertServices() {
       >
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
           <FormGrid formFieldsList={upsertServiceData} disabled={!!serviceId} />
-
-          <Box display={'flex'} justifyContent={'flex-end'} gap={2} mt={1}>
-            <LoadingButton
-              color={'inherit'}
-              variant={'outlined'}
-              className={'small'}
-              onClick={() => handleCancelBtn()}
-              disabled={postAddServiceCatalogStatus?.isLoading}
-            >
-              Cancel
-            </LoadingButton>
-            {!!!serviceId && (
-              <LoadingButton
-                variant={'contained'}
-                type={'submit'}
-                className={'small'}
-                loading={postAddServiceCatalogStatus?.isLoading}
-              >
-                Save
-              </LoadingButton>
-            )}
-          </Box>
+          <ActionsLoadingButton
+            submitButtonText={GENERIC_UPSERT_FORM_CONSTANT?.SAVE}
+            showSubmitLoader={postAddServiceCatalogStatus?.isLoading}
+            handleCancelButton={handleCancelBtn}
+            disabledSubmitButton={!!serviceId}
+          />
         </FormProvider>
       </ApiRequestFlow>
     </>

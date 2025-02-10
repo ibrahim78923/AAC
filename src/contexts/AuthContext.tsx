@@ -33,6 +33,8 @@ const initialState = {
   isPermissions: false,
   user: null,
   product: {},
+  authMeLoadingState: false,
+  productSwitcherLoadingState: false,
 };
 
 //TODO:first step context Creation
@@ -46,9 +48,11 @@ const AuthContext = createContext({
   setActiveProduct: (res: any) => Promise.resolve(),
 
   setAuthLoading: () => Promise.resolve(),
+  setProductSwitcherLoading: () => Promise.resolve(),
 
   setPermissions: () => Promise.resolve(),
   authMeLoadingState: false,
+  productSwitcherLoading: false,
   currentPermissions: [],
 });
 
@@ -113,6 +117,12 @@ const handlers = {
       authMeLoadingState: action.payload,
     };
   },
+  productSwitcherLoadingState: (state: any, action: any) => {
+    return {
+      ...state,
+      productSwitcherLoadingState: action.payload,
+    };
+  },
 };
 
 //TODO:reducers check our handler type and call method according to that for global state recognitions
@@ -127,19 +137,10 @@ function AuthProvider({ children }: { children: ReactNode }) {
 
   const [permissionsArray, setPermissionsArray] = useState([]);
 
-  const {
-    data: permissionsData,
-    refetch,
-    isFetching: authFetching,
-    isLoading: authLoading,
-  } = useGetAuthMyAccountQuery({}, { skip: !state?.isAuthenticated });
-  useEffect(() => {
-    if (authFetching || authLoading) {
-      setAuthLoading(true);
-    } else {
-      setAuthLoading(false);
-    }
-  }, [authLoading, authFetching]);
+  const { data: permissionsData, refetch } = useGetAuthMyAccountQuery(
+    {},
+    { skip: !state?.isAuthenticated },
+  );
 
   useEffect(() => {
     if (
@@ -168,6 +169,13 @@ function AuthProvider({ children }: { children: ReactNode }) {
   const setAuthLoading = (res: boolean) => {
     dispatch({
       type: 'authMeLoadingState',
+      payload: res,
+    });
+  };
+
+  const setProductSwitcherLoading = (res: boolean) => {
+    dispatch({
+      type: 'productSwitcherLoadingState',
       payload: res,
     });
   };
@@ -299,7 +307,10 @@ function AuthProvider({ children }: { children: ReactNode }) {
         setPermissions,
         currentPermissions,
         setAuthLoading,
+        setProductSwitcherLoading,
+        productSwitcherLoading: state.productSwitcherLoadingState,
         permissionsData,
+        authMeLoadingState: state.authMeLoadingState,
       }}
     >
       {children}

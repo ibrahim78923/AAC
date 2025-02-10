@@ -1,14 +1,16 @@
+import { CustomButton } from '@/components/Buttons/CustomButton';
 import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
-import { Button } from '@mui/material';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 export const itemDetailColumns = [
-  'Service Name *',
-  'Price Model *',
-  'Cost *',
-  'Count *',
-  'Comments',
-  'Action',
+  { _id: 'Service Name *', label: 'Service Name *' },
+  { _id: 'Price Model *', label: 'Price Model *' },
+  { _id: 'Cost *', label: 'Cost *' },
+  { _id: 'Count *', label: 'Count *' },
+  { _id: 'Comments', label: 'Comments' },
+  { _id: 'Action', label: 'Action' },
 ];
+
 export const priceModelOptions = ['ONE_TIME', 'FIXED', 'PER_UNIT'];
 export const itemDetailFormFieldsFunction = (
   name: any,
@@ -23,7 +25,7 @@ export const itemDetailFormFieldsFunction = (
         size="small"
         placeholder="Enter Service Name"
       />
-    ), //TODO: exceptional case for RHF FieldArray
+    ),
   },
   {
     id: 2,
@@ -74,9 +76,15 @@ export const itemDetailFormFieldsFunction = (
   {
     id: 6,
     data: (
-      <Button type="button" onClick={() => remove(index)}>
+      <CustomButton
+        variant="text"
+        hasIcon={false}
+        type="button"
+        disabled={index === ARRAY_INDEX?.ZERO}
+        onClick={() => remove(index)}
+      >
         Delete
-      </Button>
+      </CustomButton>
     ),
   },
 ];

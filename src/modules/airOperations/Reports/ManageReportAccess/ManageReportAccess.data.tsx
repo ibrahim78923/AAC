@@ -1,17 +1,11 @@
 import { RHFRadioGroup, RHFTextField } from '@/components/ReactHookForm';
 import { MANAGE_ACCESS_TYPES } from '@/constants/strings';
 import { pxToRem } from '@/utils/getFontValue';
-import {
-  Box,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from '@mui/material';
+import { Box } from '@mui/material';
 import * as Yup from 'yup';
 import { UsersFieldDropdown } from '../ReportFormFields/UsersFieldDropdown';
+import { FieldArrayTable } from '@/components/Table/FieldArrayTable';
+import { useCallback } from 'react';
 
 export const MANAGE_ACCESS_REPORT_TYPES = {
   PRIVATE_TO_OWNER: 'Private to owner',
@@ -165,44 +159,27 @@ export const manageReportAccessFromFieldsDynamic = (fields: any) => [
           filter: (
             <>
               <UsersFieldDropdown />
-              <TableContainer
-                sx={{
+              <FieldArrayTable
+                tableContainerCustomStyles={{
                   maxHeight: pxToRem(400),
                   border: '1px solid',
                   borderColor: 'custom.off_white_three',
                   borderRadius: 2,
                 }}
-              >
-                <Table stickyHeader sx={{ minWidth: pxToRem(400) }}>
-                  <TableHead>
-                    <TableRow>
-                      {specificUsersAccessColumns?.map((column: any) => (
-                        <TableCell key={column?._id}>{column?.label}</TableCell>
-                      ))}
-                    </TableRow>
-                  </TableHead>
-
-                  <TableBody>
-                    {fields?.map((item: any, index: number) => {
-                      return (
-                        <TableRow key={item?.id}>
-                          {specificUsersAccessFormFieldsDynamic?.(
-                            'permissionsUsers',
-                            index,
-                          )?.map((singleField: any) => (
-                            <TableCell
-                              key={singleField?.id}
-                              align={singleField?.align}
-                            >
-                              {singleField?.data}
-                            </TableCell>
-                          ))}
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+                stickyHeader={true}
+                canAddItem={false}
+                columns={specificUsersAccessColumns}
+                fields={fields}
+                minWidth={pxToRem(400)}
+                getRowData={useCallback(
+                  (index: any) =>
+                    specificUsersAccessFormFieldsDynamic?.(
+                      'permissionsUsers',
+                      index,
+                    ),
+                  [],
+                )}
+              />
             </>
           ),
         },

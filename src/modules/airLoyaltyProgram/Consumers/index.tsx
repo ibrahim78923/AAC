@@ -1,13 +1,14 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import { useConsumer } from './useConsumer';
-import { ConsumersCustomizeIcon } from '@/assets/icons';
 import { ConsumerCustomizeColumns } from './consumerCustomizeColumns';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_LOYALTY_PROGRAM_CONSUMERS_PERMISSIONS } from '@/constants/permission-keys';
 import { PublicSingleDropdownButton } from '@/components/Buttons/PublicSingleDropdownButton';
+import { CustomButton } from '@/components/Buttons/CustomButton';
+import { CUSTOM_BUTTON_TYPES } from '@/constants/mui-constant';
 
 export const Consumers = () => {
   const {
@@ -72,15 +73,12 @@ export const Consumers = () => {
           <PermissionsGuard
             permissions={[AIR_LOYALTY_PROGRAM_CONSUMERS_PERMISSIONS?.CUSTOMIZE]}
           >
-            <Button
-              className="small"
-              variant="outlined"
-              color="inherit"
-              startIcon={<ConsumersCustomizeIcon />}
+            <CustomButton
+              iconType={CUSTOM_BUTTON_TYPES?.CUSTOMIZE}
               onClick={openDrawer}
             >
               Customize
-            </Button>
+            </CustomButton>
           </PermissionsGuard>
         </Box>
         <PermissionsGuard

@@ -17,7 +17,7 @@ import { DefaultSurveyStatus } from './DefaultSurveyStatus';
 import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
 import { CustomChip } from '@/components/Chip/CustomChip';
 
-const statusColor = (status: string) => {
+const statusColor: any = (status: string) => {
   switch (status) {
     case FEEDBACK_STATUS?.PUBLISHED:
       return 'secondary';

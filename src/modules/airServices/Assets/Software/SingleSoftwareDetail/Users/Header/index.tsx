@@ -1,14 +1,14 @@
-import { FilterIcon } from '@/assets/icons';
 import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
 import { ExportButton } from '@/components/Buttons/ExportButton';
 import { PublicSingleDropdownButton } from '@/components/Buttons/PublicSingleDropdownButton';
 import Search from '@/components/Search';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import { UsersAdd } from '../UsersAdd';
 import { SOFTWARE_USER_PORTAL_ACTIONS_TYPES } from '../Users.data';
 import { AllocateContract } from '../AllocateContract';
 import { DeallocateContract } from '../DeallocateContract';
 import { useHeader } from './useHeader';
+import { CustomButton } from '@/components/Buttons/CustomButton';
 
 export const Header = (props: any) => {
   const { isPortalOpen, setIsPortalOpen, usersData, setUsersData } = props;
@@ -46,15 +46,7 @@ export const Header = (props: any) => {
             handleCsvExport={exportAsCsv}
             handleExcelExport={exportAsXls}
           />
-          <Button
-            className="small"
-            variant="outlined"
-            onClick={openFilterPortal}
-            startIcon={<FilterIcon />}
-            color="secondary"
-          >
-            Filter
-          </Button>
+          <CustomButton onClick={openFilterPortal}>Filter</CustomButton>
         </Box>
       </Box>
       {isPortalOpen?.isOpen &&

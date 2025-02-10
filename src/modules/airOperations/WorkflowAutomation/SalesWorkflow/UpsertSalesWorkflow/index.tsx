@@ -1,4 +1,3 @@
-import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertSalesWorkflow } from './useUpsertSalesWorkflow';
 import { WorkflowConditions } from './WorkflowConditions';
@@ -7,6 +6,7 @@ import { WorkflowHeader } from './WorkflowHeader';
 import { WorkflowRunAndTrigger } from './WorkflowRunAndTrigger';
 import { WorkflowActionExecuted } from './WorkflowActionExecuted';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const UpsertSalesWorkflow = () => {
   const {
@@ -37,10 +37,10 @@ export const UpsertSalesWorkflow = () => {
           isWorkflowDrawer={isWorkflowDrawer}
           setIsWorkflowDrawer={setIsWorkflowDrawer}
         />
-        <Grid container>
+        <ContainerGrid spacing={0}>
           <WorkflowSchedule watch={watch} setValue={setValue} />
           <WorkflowRunAndTrigger palette={palette} watch={watch} />
-        </Grid>
+        </ContainerGrid>
         <WorkflowConditions
           control={control}
           setValue={setValue}

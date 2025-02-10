@@ -1,3 +1,4 @@
+import { PROJECT_NAME } from '@/config';
 import EventBaseWorkflows from './EventBaseWorkflows';
 import ScheduledWorkflows from './ScheduledWorkflows';
 import SupervisorRules from './SupervisorRules';
@@ -11,8 +12,7 @@ export const serviceWorkflowsCardData = [
   {
     id: 1,
     title: 'Event Base Workflows',
-    description:
-      'An Event-Based Workflow is triggered when a record is added, changed, or removed in an Air Applecart services module like Tickets, Tasks, and Assets',
+    description: `An Event-Based Workflow is triggered when a record is added, changed, or removed in an ${PROJECT_NAME} services module like Tickets, Tasks, and Assets`,
     buttonTitle: 'Total work Flows: 3',
   },
   {

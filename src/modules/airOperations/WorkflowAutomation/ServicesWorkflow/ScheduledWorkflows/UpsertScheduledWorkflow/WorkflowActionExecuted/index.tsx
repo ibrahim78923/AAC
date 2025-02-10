@@ -1,7 +1,8 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { AddCircle, Delete as DeleteIcon } from '@mui/icons-material';
 import { actionsData } from './WorkflowActionExecuted.data';
 import { useWorkflowActionExecuted } from './useWorkflowActionExecuted';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const WorkflowActionExecuted = (props: any) => {
   const { watch, setValue } = props;
@@ -41,8 +42,8 @@ export const WorkflowActionExecuted = (props: any) => {
       </Box>
       {fields?.map((item: any, index: number) => (
         <Box key={item?.id} display={'flex'} p={2}>
-          <Grid container spacing={1}>
-            {actionsData({
+          <FormGrid
+            formFieldsList={actionsData({
               index,
               watch,
               setValue,
@@ -53,17 +54,9 @@ export const WorkflowActionExecuted = (props: any) => {
               apiUsersListDropdown,
               productId,
               apiAssetType,
-            })?.map((actionItem: any) => (
-              <Grid
-                item
-                xs={12}
-                md={actionItem?.gridLength}
-                key={actionItem?._id}
-              >
-                <actionItem.component {...actionItem?.componentProps} />
-              </Grid>
-            ))}
-          </Grid>
+            })}
+            spacing={1}
+          />
           <DeleteIcon
             sx={{ color: 'error.main', cursor: 'pointer' }}
             onClick={() => handleDelete(index)}

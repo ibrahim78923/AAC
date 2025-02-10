@@ -11,9 +11,7 @@ import {
   Drawer,
   Skeleton,
   Button,
-  Avatar,
 } from '@mui/material';
-import { AirCustomerPortalLogo } from '@/assets/images';
 import Link from 'next/link';
 import {
   customizePortalDefaultValues,
@@ -24,12 +22,14 @@ import Header from '../Header';
 import useCustomerPortal from './useCustomerPortal';
 import { AUTH } from '@/constants';
 import { AIR_CUSTOMER_PORTAL, AIR_SERVICES } from '@/constants/routes';
-import { generateImage } from '@/utils/avatarUtils';
 import { customerPortalStyles } from './CustomerPortal.styles';
 import { CustomerLogoutIcon } from '@/assets/icons';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { pxToRem } from '@/utils/getFontValue';
 import { ROLES } from '@/constants/strings';
+import { LogoAvatar } from '@/components/Avatars/LogoAvatar';
+import { PROJECT_NAME } from '@/config';
+import { CustomAvatar } from '@/components/Avatars/CustomAvatar';
 
 const CustomerPortalLayout = ({
   children,
@@ -72,46 +72,21 @@ const CustomerPortalLayout = ({
           </Box>
         ) : (
           <>
-            {/* TODO: check if works then remove it otherwise will do another hit n trial */}
-            {/* <Box p={'0px 0px 20px 10px'}>
-              <Box display={'flex'} flexDirection={'row'} gap={1}>
-                {customerPortalStyling?.logo ? (
-                  <Image
-                    src={generateImage(customerPortalStyling?.logo?.url)}
-                    alt={'Air Apple Cart'}
-                    width={153}
-                    height={38}
-                    style={{ objectFit: 'cover' }}
-                  />
-                ) : (
-                  <Image
-                    src={AirCustomerPortalLogo}
-                    alt={'Air Apple Cart'}
-                    width={153}
-                    height={38}
-                    style={{ objectFit: 'cover' }}
-                  />
-                )}
-              </Box>
-            </Box> */}
             <Box p={'0px 0px 20px 10px'}>
-              <Box display={'flex'} flexDirection={'row'} gap={1}>
-                {customerPortalStyling?.logo ? (
-                  <Avatar
-                    src={generateImage(customerPortalStyling?.logo?.url)}
-                    alt={'Air Apple Cart'}
-                    sx={{ width: '100%', height: 38, objectFit: 'cover' }}
-                    variant="square"
-                  />
-                ) : (
-                  <Avatar
-                    src={AirCustomerPortalLogo?.src}
-                    alt={'Air Apple Cart'}
-                    sx={{ width: '100%', height: 38, objectFit: 'cover' }}
-                    variant="square"
-                  />
-                )}
-              </Box>
+              {customerPortalStyling?.logo ? (
+                <CustomAvatar
+                  avatarSrc={customerPortalStyling?.logo?.url}
+                  avatarSize={{
+                    width: '100%',
+                    height: 38,
+                    variant: 'square',
+                  }}
+                  backgroundColor="transparent"
+                  nameInitial={PROJECT_NAME}
+                />
+              ) : (
+                <LogoAvatar productName="Customer Portal" />
+              )}
             </Box>
             <Box
               display={'flex'}

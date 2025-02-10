@@ -1,9 +1,9 @@
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { FilterIcon } from '@/assets/icons';
+import { CustomButton } from '@/components/Buttons/CustomButton';
 import { ExportButton } from '@/components/Buttons/ExportButton';
 import Search from '@/components/Search';
 import { AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS } from '@/constants/permission-keys';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 
 export const PurchaseOrderHeader = (props: any) => {
   const {
@@ -32,15 +32,13 @@ export const PurchaseOrderHeader = (props: any) => {
         <Search label="Search Here" setSearchBy={setSearchValue} />
       </PermissionsGuard>
       <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
-        <Button
-          variant="outlined"
-          color="secondary"
+        <CustomButton
+          hasIcon={false}
           disabled={deleteButtonDisabled}
           onClick={() => onDeleteClick?.()}
-          className={'small'}
         >
           Delete
-        </Button>
+        </CustomButton>
         <PermissionsGuard
           permissions={[
             AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS?.EXPORT_PURCAHSE_ORDER,
@@ -60,16 +58,7 @@ export const PurchaseOrderHeader = (props: any) => {
             AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS?.SEARCH_AND_FILTER,
           ]}
         >
-          <Button
-            variant="outlined"
-            onClick={() => onFilterClick?.()}
-            size="large"
-            startIcon={<FilterIcon />}
-            color="secondary"
-            className={'small'}
-          >
-            Filter
-          </Button>
+          <CustomButton onClick={onFilterClick}>Filter</CustomButton>
         </PermissionsGuard>
       </Box>
     </Box>

@@ -1,4 +1,3 @@
-import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useRulesWorkflow } from './useRulesWorkflow';
 import { WorkflowConditions } from './WorkflowConditions';
@@ -7,6 +6,8 @@ import { WorkflowRunAndTrigger } from './WorkflowRunAndTrigger';
 import { WorkflowActionExecuted } from './WorkflowActionExecuted';
 import { rulesWorkflowDataArray } from './UpsertRulesWorkflow.data';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { FormGrid } from '@/components/Grids/FormGrid';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
 export const UpsertSupervisorRules = () => {
   const {
@@ -43,16 +44,10 @@ export const UpsertSupervisorRules = () => {
           watch={watch}
           movePage={movePage}
         />
-        <Grid container spacing={2}>
-          {rulesWorkflowDataArray?.map((item) => (
-            <Grid item xs={12} md={item?.md} key={item?.id}>
-              <item.component {...item?.componentProps} size={'small'} />
-            </Grid>
-          ))}
-        </Grid>
-        <Grid container>
+        <FormGrid formFieldsList={rulesWorkflowDataArray} />
+        <ContainerGrid spacing={0}>
           <WorkflowRunAndTrigger palette={palette} />
-        </Grid>
+        </ContainerGrid>
         <WorkflowConditions
           control={control}
           moduleType={moduleType}

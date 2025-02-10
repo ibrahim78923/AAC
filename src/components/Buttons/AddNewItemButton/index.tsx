@@ -17,7 +17,7 @@ export const AddNewItemButton = (props: AddNewItemButtonPropsI) => {
     hasStartIcon = true,
     hasEndIcon = false,
     iconType = 'circle',
-    size = 'small',
+    size = 'medium',
     customStyles = {},
   } = props;
 

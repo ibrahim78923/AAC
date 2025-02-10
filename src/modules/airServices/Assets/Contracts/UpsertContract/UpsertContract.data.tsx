@@ -181,6 +181,7 @@ export const upsertContractFormSchemaFunction: any = (form?: any) => {
   return Yup?.object()?.shape({
     contractName: Yup?.string()
       ?.required('Required')
+      ?.matches(REGEX?.ALPHABETS, 'Must be a string')
       ?.max(
         CHARACTERS_LIMIT?.SERVER_ASSETS_CONTRACTS_NAME_MAX_CHARACTERS,
         `Max ${CHARACTERS_LIMIT?.SERVER_ASSETS_CONTRACTS_NAME_MAX_CHARACTERS} characters`,

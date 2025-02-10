@@ -139,9 +139,11 @@ const useCreateSMSBroadcast = () => {
       status: createStatus,
       detail: cleanedDetailsText,
     };
-    if (isSchedule) {
+    if (isSchedule && values?.schedualDate) {
       payloadData.status = STATUS_CONTANTS?.SCHEDULED;
       payloadData.schedualDate = values?.schedualDate;
+    } else {
+      payloadData.schedualDate = null;
     }
 
     if (recipientType === SMS_MARKETING_CONSTANTS?.ALL) {

@@ -21,8 +21,8 @@ export const dataArray = () => {
     {
       componentProps: {
         name: 'owner',
-        label: 'Owner',
-        placeholder: 'Select owner',
+        label: 'User',
+        placeholder: 'Select User',
         apiQuery: UserListData,
         getOptionLabel: (option: any) =>
           `${option?.firstName} ${option?.lastName}`,

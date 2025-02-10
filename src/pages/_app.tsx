@@ -14,6 +14,7 @@ import { AuthProvider } from '@/contexts/AuthContext';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { formatPathname } from '@/utils/app-title';
+import { PROJECT_DESCRIPTION, PROJECT_NAME } from '@/config';
 
 export default function App(props: any) {
   const { Component, pageProps } = props;
@@ -31,8 +32,8 @@ export default function App(props: any) {
       <Head>
         <title>
           {formattedPathname
-            ? `${formattedPathname} - Air Apple Cart`
-            : 'Air Apple Cart'}
+            ? `${formattedPathname} - ${PROJECT_NAME}`
+            : PROJECT_NAME}
         </title>
 
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -70,24 +71,15 @@ export default function App(props: any) {
 
         <link rel="manifest" href="/site.webmanifest" />
 
-        <meta
-          name="description"
-          content="Air Applecart is a robust and adaptable CRM platform that adopts a customer-centric approach, enables businesses to attract and nurture customers through valuable content. It provides tools and resources for implementing inbound marketing strategies effectively. The platform caters to businesses of all sizes and industries, helping them centralize customer data, automate marketing and sales processes, and deliver exceptional customer experiences."
-        />
+        <meta name="description" content={PROJECT_DESCRIPTION} />
 
-        <meta property="og:title" content="Air Apple Cart" />
-        <meta
-          property="og:description"
-          content="Air Applecart is a robust and adaptable CRM platform that adopts a customer-centric approach, enables businesses to attract and nurture customers through valuable content. It provides tools and resources for implementing inbound marketing strategies effectively. The platform caters to businesses of all sizes and industries, helping them centralize customer data, automate marketing and sales processes, and deliver exceptional customer experiences."
-        />
+        <meta property="og:title" content={PROJECT_NAME} />
+        <meta property="og:description" content={PROJECT_DESCRIPTION} />
         <meta property="og:image" content="/og-logo.png" />
         <meta property="og:type" content="website" />
 
-        <meta name="twitter:title" content="Air Apple Cart" />
-        <meta
-          name="twitter:description"
-          content="Air Applecart is a robust and adaptable CRM platform that adopts a customer-centric approach, enables businesses to attract and nurture customers through valuable content. It provides tools and resources for implementing inbound marketing strategies effectively. The platform caters to businesses of all sizes and industries, helping them centralize customer data, automate marketing and sales processes, and deliver exceptional customer experiences."
-        />
+        <meta name="twitter:title" content={PROJECT_NAME} />
+        <meta name="twitter:description" content={PROJECT_DESCRIPTION} />
         <meta name="twitter:image" content="/og-logo.png" />
       </Head>
       <LocalizationProvider dateAdapter={AdapterDateFns}>

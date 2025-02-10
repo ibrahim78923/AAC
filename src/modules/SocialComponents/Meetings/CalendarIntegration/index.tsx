@@ -12,6 +12,7 @@ import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { Fragment } from 'react';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { PROJECT_NAME } from '@/config';
 
 export const CalendarIntegration = () => {
   const {
@@ -30,11 +31,11 @@ export const CalendarIntegration = () => {
     <>
       <Box mb={1}>
         <Typography variant="formTopHeading" color="secondary.main">
-          Connect Video Calendar To Air Applecart
+          Connect Video Calendar To {PROJECT_NAME}
         </Typography>
       </Box>
       <Typography variant="body3" color="custom.main">
-        Take advantage of the integration between Air Applecart and Video
+        Take advantage of the integration between {PROJECT_NAME} and Video
         conferencing tool to boost your productivity right away.
       </Typography>
       <>

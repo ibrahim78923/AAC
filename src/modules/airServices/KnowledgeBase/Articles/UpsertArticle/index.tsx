@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
 import {
   FormProvider,
   RHFDropZone,
@@ -24,20 +23,12 @@ import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { ACCEPT_FILE_EXTENSIONS } from '@/constants/file';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomLoadingButton } from '@/components/Buttons/CustomLoadingButton';
 
-const { ATTACHMENT, CREATE_ARTICLE, SAVE_AS_DRAFT, PUBLISH_NOW } =
+const { CREATE_ARTICLE, SAVE_AS_DRAFT, PUBLISH_NOW } =
   AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS ?? {};
 const { EDIT_ARTICLE } =
   AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS ?? {};
-const {
-  EDIT,
-  WRITE,
-  CANCEL,
-  SAVE,
-  SAVE_AS_DRAFT: DRAFT_SAVE,
-  SEND_FOR_APPROVAL,
-  PUBLISH_NOW: PUBLISH_NOW_DRAWER,
-} = GENERIC_UPSERT_FORM_CONSTANT ?? {};
 const { PUBLISHED, DRAFT } = ARTICLE_STATUS ?? {};
 
 export const UpsertArticle = () => {
@@ -68,7 +59,11 @@ export const UpsertArticle = () => {
           <CustomGrid lg={9}>
             <Box sx={{ pr: { lg: 2.4 } }}>
               <PageTitledHeader
-                title={`${articleId ? EDIT : WRITE}
+                title={`${
+                  articleId
+                    ? GENERIC_UPSERT_FORM_CONSTANT?.EDIT
+                    : GENERIC_UPSERT_FORM_CONSTANT?.WRITE
+                }
               an article`}
                 canMovedBack
                 moveBack={moveToHome}
@@ -90,7 +85,11 @@ export const UpsertArticle = () => {
                   required
                 />
               </Box>
-              <PermissionsGuard permissions={[ATTACHMENT]}>
+              <PermissionsGuard
+                permissions={[
+                  AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS?.ATTACHMENT,
+                ]}
+              >
                 <RHFDropZone
                   name="attachments"
                   fullWidth
@@ -145,37 +144,38 @@ export const UpsertArticle = () => {
                           : [SAVE_AS_DRAFT]
                     }
                   >
-                    <LoadingButton
-                      className="small"
+                    <CustomLoadingButton
                       variant="outlined"
-                      type="button"
                       disabled={apiCallInProgress}
                       fullWidth
                       onClick={() =>
                         cancelBtnHandler(needApprovals ? '' : DRAFT)
                       }
                     >
-                      {needApprovals ? CANCEL : articleId ? SAVE : DRAFT_SAVE}
-                    </LoadingButton>
+                      {needApprovals
+                        ? GENERIC_UPSERT_FORM_CONSTANT?.CANCEL
+                        : articleId
+                          ? GENERIC_UPSERT_FORM_CONSTANT?.SAVE
+                          : GENERIC_UPSERT_FORM_CONSTANT?.DRAFT}
+                    </CustomLoadingButton>
                   </PermissionsGuard>
                   <PermissionsGuard
                     permissions={
                       needApprovals ? [CREATE_ARTICLE] : [PUBLISH_NOW]
                     }
                   >
-                    <LoadingButton
-                      className="small"
-                      type="button"
+                    <CustomLoadingButton
                       onClick={() =>
                         handleSubmit?.(upsertArticleSubmit)(PUBLISHED)
                       }
                       fullWidth
                       loading={apiCallInProgress}
                       disabled={showLoader}
-                      variant="contained"
                     >
-                      {needApprovals ? SEND_FOR_APPROVAL : PUBLISH_NOW_DRAWER}
-                    </LoadingButton>
+                      {needApprovals
+                        ? GENERIC_UPSERT_FORM_CONSTANT?.SEND_FOR_APPROVAL
+                        : GENERIC_UPSERT_FORM_CONSTANT?.PUBLISH_NOW}
+                    </CustomLoadingButton>
                   </PermissionsGuard>
                 </Box>
               </Box>

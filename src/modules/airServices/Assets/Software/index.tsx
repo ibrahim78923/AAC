@@ -1,8 +1,7 @@
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import { columns } from './Software.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
-import { FilterSharedIcon } from '@/assets/icons';
 import { PageTitledHeader } from '@/components/PageTitledHeader/index';
 import SoftwareFilter from './SoftwareFilter';
 import { SoftwareAssignCategory } from './SoftwareAssignCategory';
@@ -10,6 +9,7 @@ import { UpsertSoftware } from './UpsertSoftware';
 import { useSoftware } from './useSoftware';
 import { AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { CustomButton } from '@/components/Buttons/CustomButton';
 
 const Software = () => {
   const {
@@ -77,29 +77,21 @@ const Software = () => {
             flexWrap={'wrap'}
             gap={1.5}
           >
-            <Button
-              color="secondary"
-              variant="outlined"
+            <CustomButton
+              hasIcon={false}
               disabled={!!!softwareData?.length}
               onClick={() => setOpenAssignModal?.(true)}
-              className="small"
             >
               Assign Category
-            </Button>
+            </CustomButton>
             <PermissionsGuard
               permissions={[
                 AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS?.SEARCH_AND_FILTER,
               ]}
             >
-              <Button
-                color="secondary"
-                variant="outlined"
-                startIcon={<FilterSharedIcon />}
-                onClick={() => setIsOpenFilterDrawer(true)}
-                className="small"
-              >
+              <CustomButton onClick={() => setIsOpenFilterDrawer(true)}>
                 Filter
-              </Button>
+              </CustomButton>
             </PermissionsGuard>
           </Box>
         </Box>

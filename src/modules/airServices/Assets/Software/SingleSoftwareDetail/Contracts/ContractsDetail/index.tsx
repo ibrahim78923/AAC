@@ -1,12 +1,12 @@
 import TanstackTable from '@/components/Table/TanstackTable';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import Search from '@/components/Search';
-import { PlusSharedColorIcon } from '@/assets/icons';
 import { contractsTableColumns } from './ContractsDetail.data';
 import { useContractDetail } from './useContractDetail';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS } from '@/constants/permission-keys';
 import { AIR_SERVICES } from '@/constants/routes';
+import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
 
 export const ContractsDetails = () => {
   const {
@@ -37,12 +37,8 @@ export const ContractsDetails = () => {
         ml={0.5}
       >
         <Search label="Search Here" setSearchBy={handleSearch} />
-        <Button
-          startIcon={<PlusSharedColorIcon />}
-          color="primary"
-          variant="contained"
-          size="large"
-          className="small"
+        <AddNewItemButton
+          name="Create New Contract"
           onClick={() =>
             router?.push({
               pathname: AIR_SERVICES?.UPSERT_SOFTWARE_CONTRACT,
@@ -51,9 +47,7 @@ export const ContractsDetails = () => {
               },
             })
           }
-        >
-          Create New Contract
-        </Button>
+        />
       </Box>
       <br />
       <TanstackTable

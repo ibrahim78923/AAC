@@ -5,7 +5,7 @@ import { APPROVAL_CARD_STATUS } from './ApprovalCard.data';
 import { ApprovalCardPropsI } from '../AllApprovals/AllApprovals.interface';
 import { formatTimeDifference } from '@/lib/date-time';
 import { UserInfo } from '@/components/UserInfo';
-import { InteractiveButton } from '@/components/Buttons/InteractiveButton';
+import { CustomButton } from '@/components/Buttons/CustomButton';
 
 export const ApprovalCard = (props: ApprovalCardPropsI) => {
   const {
@@ -107,7 +107,9 @@ export const ApprovalCard = (props: ApprovalCardPropsI) => {
           gap={1}
           flexWrap={'wrap'}
         >
-          <InteractiveButton
+          <CustomButton
+            hasIcon={false}
+            variant="contained"
             color="success"
             onClick={(e: any) => {
               e?.stopPropagation();
@@ -115,8 +117,10 @@ export const ApprovalCard = (props: ApprovalCardPropsI) => {
             }}
           >
             Approve
-          </InteractiveButton>
-          <InteractiveButton
+          </CustomButton>
+          <CustomButton
+            hasIcon={false}
+            variant="contained"
             color="error"
             onClick={(e: any) => {
               e?.stopPropagation();
@@ -124,7 +128,7 @@ export const ApprovalCard = (props: ApprovalCardPropsI) => {
             }}
           >
             Reject
-          </InteractiveButton>
+          </CustomButton>
         </Box>
       )}
     </Box>

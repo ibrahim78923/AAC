@@ -5,9 +5,10 @@ import {
 } from '@/components/ReactHookForm';
 import { useReplySingleTicketConversation } from './useReplySingleTicketConversation';
 import { Box } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
 import { ReplySingleTicketConversationPropsI } from '../useSingleTicketConversation.interface';
 import { pxToRem } from '@/utils/getFontValue';
+import { CustomLoadingButton } from '@/components/Buttons/CustomLoadingButton';
+import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
 
 export const ReplySingleTicketConversation = (
   props: ReplySingleTicketConversationPropsI,
@@ -18,6 +19,7 @@ export const ReplySingleTicketConversation = (
     onSubmit,
     postReplyForCustomerTicketConversationStatus,
     closeReply,
+    portalStyles,
   } = useReplySingleTicketConversation(props);
 
   return (
@@ -33,22 +35,47 @@ export const ReplySingleTicketConversation = (
         <RHFDropZone name="attachFile" fullWidth />
         <br />
         <Box justifyContent={'flex-end'} display={'flex'} gap={2}>
-          <LoadingButton
-            variant="outlined"
-            color="inherit"
-            type="button"
+          <CustomLoadingButton
+            primary={false}
             disabled={postReplyForCustomerTicketConversationStatus?.isLoading}
-            onClick={() => closeReply?.()}
+            onClick={closeReply}
+            customStyles={(theme: Theme) => ({
+              borderColor:
+                portalStyles?.btnSecondary ||
+                customizePortalDefaultValues(theme)?.btnSecondary,
+              color:
+                portalStyles?.btnSecondary ||
+                customizePortalDefaultValues(theme)?.btnSecondary,
+              '&:hover': {
+                borderColor:
+                  portalStyles?.btnSecondary ||
+                  customizePortalDefaultValues(theme)?.btnSecondary,
+                color:
+                  portalStyles?.btnSecondary ||
+                  customizePortalDefaultValues(theme)?.btnSecondary,
+              },
+            })}
           >
             Cancel
-          </LoadingButton>
-          <LoadingButton
-            variant="contained"
+          </CustomLoadingButton>
+          <CustomLoadingButton
             type="submit"
             loading={postReplyForCustomerTicketConversationStatus?.isLoading}
+            customStyles={(theme: Theme) => ({
+              bgcolor:
+                portalStyles?.btnPrimary ||
+                customizePortalDefaultValues(theme)?.btnPrimary,
+              color: 'common.white',
+              '&:hover': {
+                bgcolor:
+                  portalStyles?.btnPrimary ||
+                  customizePortalDefaultValues(theme)?.btnPrimary,
+                color: 'common.white',
+              },
+            })}
           >
             Send
-          </LoadingButton>
+          </CustomLoadingButton>
         </Box>
       </FormProvider>
     </>

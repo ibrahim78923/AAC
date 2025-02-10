@@ -1,9 +1,7 @@
 import { NoDashboardWidgetImage } from '@/assets/images';
 import { FormProvider } from '@/components/ReactHookForm';
-import { Box, Button, Typography } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import { Box, Typography } from '@mui/material';
 import { DASHBOARD, GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
-import { Visibility } from '@mui/icons-material';
 import { useUpsertDashboard } from './useUpsertDashboard';
 import { pxToRem } from '@/utils/getFontValue';
 import { AddWidgets } from './AddWidgets';
@@ -13,6 +11,9 @@ import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { HeadingFormGrid } from '@/components/Grids/HeadingFormGrid';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { ActionsLoadingButton } from '@/components/Buttons/ActionsLoadingButton';
+import { CustomButton } from '@/components/Buttons/CustomButton';
+import { CUSTOM_BUTTON_TYPES } from '@/constants/mui-constant';
 
 export const UpsertDashboard = () => {
   const {
@@ -62,14 +63,14 @@ export const UpsertDashboard = () => {
                 </FormProvider>
               </Box>
               <Box sx={{ textAlign: 'right' }}>
-                <Button
-                  className="small"
+                <CustomButton
                   variant="text"
+                  color="primary"
+                  iconType={CUSTOM_BUTTON_TYPES?.PREVIEW}
                   onClick={openPreviewDashboard}
-                  startIcon={<Visibility />}
                 >
                   Preview Dashboard
-                </Button>
+                </CustomButton>
               </Box>
             </Box>
           </CustomGrid>
@@ -110,39 +111,16 @@ export const UpsertDashboard = () => {
             </Box>
           </CustomGrid>
         </ContainerGrid>
-        <Box
-          sx={{
-            display: 'flex',
-            gap: 1,
-            py: 2,
-            mt: 2,
-            justifyContent: 'flex-end',
-            borderTop: '1px solid',
-            borderColor: 'custom.off_white_three',
-          }}
-        >
-          <LoadingButton
-            className="small"
-            variant="outlined"
-            color="secondary"
-            onClick={goToManageDashboard}
-            disabled={apiCallInProgress}
-          >
-            Cancel
-          </LoadingButton>
-          <LoadingButton
-            className="small"
-            variant="contained"
-            type="submit"
-            loading={apiCallInProgress}
-            disabled={showLoader}
-            onClick={handleSubmit(submitCreateDashboardFilterForm)}
-          >
-            {action === DASHBOARD?.EDIT
+        <ActionsLoadingButton
+          submitButtonText={
+            action === DASHBOARD?.EDIT
               ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
-              : GENERIC_UPSERT_FORM_CONSTANT?.CREATE}
-          </LoadingButton>
-        </Box>
+              : GENERIC_UPSERT_FORM_CONSTANT?.CREATE
+          }
+          showSubmitLoader={apiCallInProgress}
+          handleCancelButton={goToManageDashboard}
+          handleSubmitButton={handleSubmit(submitCreateDashboardFilterForm)}
+        />
       </ApiRequestFlow>
     </>
   );

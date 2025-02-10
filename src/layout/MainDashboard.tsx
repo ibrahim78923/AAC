@@ -39,12 +39,7 @@ import { getActiveProductSession, getSession, isNullOrEmpty } from '@/utils';
 
 import { getLowerRoutes, getRoutes, zeroPaddingRoutes } from './Layout.data';
 
-import {
-  ArrowDownImage,
-  ArrowUpImage,
-  LogoImage,
-  LogoutImage,
-} from '@/assets/images';
+import { ArrowDownImage, ArrowUpImage, LogoutImage } from '@/assets/images';
 
 import { v4 as uuidv4 } from 'uuid';
 import useAuth from '@/hooks/useAuth';
@@ -54,15 +49,25 @@ import { styles } from './Layout.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { enqueueSnackbar } from 'notistack';
 import { CHAT_SOCKETS, ORG_ADMIN } from '@/routesConstants/paths';
-import { BASE_PATHS, indexNumbers, PRODUCT_LABELS } from '@/constants';
+import {
+  BASE_PATHS,
+  BYPASS_ROUTES,
+  indexNumbers,
+  PRODUCT_LABELS,
+} from '@/constants';
 import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import { SOCKETS_EVENTS } from '@/constants/strings';
 import { setNotifications } from '@/redux/slices/notifications/notifications';
+import { LogoAvatar } from '@/components/Avatars/LogoAvatar';
 
 const drawerWidth = 230;
 const DashboardLayout = ({ children, window }: any) => {
   const theme = useTheme();
-  const { authMeLoadingState } = useAuth();
+  const {
+    authMeLoadingState,
+    setProductSwitcherLoading,
+    productSwitcherLoadingState,
+  } = useAuth();
 
   const router = useRouter();
   const currentPath = router.pathname;
@@ -104,10 +109,6 @@ const DashboardLayout = ({ children, window }: any) => {
     }
   };
 
-  if (basePath !== getProductBasePath(productName)) {
-    router.push('/');
-  }
-
   const routes = getRoutes(productName);
   const lowerRoutes = getLowerRoutes(productName);
   const pathname = usePathname();
@@ -130,6 +131,18 @@ const DashboardLayout = ({ children, window }: any) => {
   const isZeroPaddingRoutes = zeroPaddingRoutes?.includes(router?.pathname);
   const { logout } = useAuth();
 
+  useEffect(() => {
+    if (productSwitcherLoadingState) {
+      setProductSwitcherLoading(false);
+    }
+    if (
+      basePath !== getProductBasePath(productName) &&
+      !BYPASS_ROUTES[basePath]
+    ) {
+      router.push('/');
+    }
+  }, [basePath]);
+
   const drawer = (
     <>
       {authMeLoadingState ? (
@@ -147,22 +160,7 @@ const DashboardLayout = ({ children, window }: any) => {
       ) : (
         <>
           <Box sx={{ padding: '0px 0px 20px 10px' }}>
-            <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
-              <Image src={LogoImage} alt="logo" />
-              <Box>
-                <Typography variant="h5">Air Applecart</Typography>
-                <Typography
-                  sx={{
-                    fontSize: '11px',
-                    fontWeight: 800,
-                    color: theme?.palette?.primary?.main,
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  {productName}
-                </Typography>
-              </Box>
-            </Box>
+            <LogoAvatar productName={productName} />
           </Box>
           <Box
             sx={{
@@ -543,7 +541,12 @@ const DashboardLayout = ({ children, window }: any) => {
     socket.on(CHAT_SOCKETS?.SOCKET_ERROR_OCCURED, () => {});
     socket.on(CHAT_SOCKETS?.UPDATE_MESSAGE, () => {});
     socket.on('on-message-update', (payload: any) => {
-      dispatch(setChatMessages(payload?.data));
+      dispatch(
+        setChatMessages({
+          ...payload?.data,
+          updateTrack: true,
+        }),
+      );
     });
   }
 

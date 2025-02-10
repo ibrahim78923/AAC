@@ -61,18 +61,14 @@ const AddGroupModal = ({
 
   const [createNewGroup, { isLoading }] = useCreateNewGroupMutation();
 
-  const handleRemoveParticipant = (_id: any) => {
-    const updatedParticipantsIds = participants?.filter(
-      (participantId: any) => participantId?._id !== _id,
-    );
-    setParticipants(updatedParticipantsIds);
-  };
+  // const handleRemoveParticipant = (_id: any) => {
+  //   const updatedParticipantsIds = participants?.filter(
+  //     (participantId: any) => participantId?._id !== _id,
+  //   );
+  //   setParticipants(updatedParticipantsIds);
+  // };
 
-  const getColumns: any = columns(
-    handleRemoveParticipant,
-    groupAdmins,
-    setGroupAdmins,
-  );
+  const getColumns: any = columns(groupAdmins, setGroupAdmins);
 
   useEffect(() => {
     setValue('image', imagePreview);

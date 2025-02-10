@@ -5,19 +5,12 @@ import {
   itemDetailColumns,
   itemDetailFormFieldsFunction,
 } from './ReceivedItems.data';
-
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { pxToRem } from '@/utils/getFontValue';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
+import { FieldArrayTable } from '@/components/Table/FieldArrayTable';
+import { useCallback } from 'react';
 
 export const ReceivedItems = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
@@ -70,33 +63,22 @@ export const ReceivedItems = (props: any) => {
           skeletonType={SKELETON_TYPES?.TABLE}
         >
           <FormProvider methods={method}>
-            <TableContainer>
-              <Table sx={{ minWidth: pxToRem(100) }}>
-                <TableHead>
-                  <TableRow>
-                    {itemDetailColumns?.map((column: string) => (
-                      <TableCell key={column}>{column}</TableCell>
-                    ))}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {fields?.map((item: any, index: number) => (
-                    <TableRow key={item?.id}>
-                      {itemDetailFormFieldsFunction?.(
-                        control,
-                        'receivedItem',
-                        fields,
-                        index,
-                      )?.map((singleField: any) => (
-                        <TableCell key={singleField?.id}>
-                          {singleField?.data}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+            <FieldArrayTable
+              canAddItem={false}
+              columns={itemDetailColumns}
+              fields={fields}
+              minWidth={pxToRem(400)}
+              getRowData={useCallback(
+                (index: any) =>
+                  itemDetailFormFieldsFunction?.(
+                    control,
+                    'receivedItem',
+                    fields,
+                    index,
+                  ),
+                [control, fields],
+              )}
+            />
           </FormProvider>
         </ApiRequestFlow>
       </>

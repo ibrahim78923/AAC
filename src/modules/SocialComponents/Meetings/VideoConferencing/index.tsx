@@ -12,6 +12,7 @@ import { SKELETON_TYPES } from '@/constants/mui-constant';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { Fragment } from 'react';
+import { PROJECT_NAME } from '@/config';
 
 export const VideoConferencing = () => {
   const {
@@ -38,11 +39,11 @@ export const VideoConferencing = () => {
     <>
       <Box mb={1}>
         <Typography variant="formTopHeading" color="secondary.main">
-          Connect Video Conferencing Tool to Air Applecart
+          Connect Video Conferencing Tool to {PROJECT_NAME}
         </Typography>
       </Box>
       <Typography variant="body3" color="custom.main">
-        Take advantage of the integration between Air Applecart and Video
+        Take advantage of the integration between {PROJECT_NAME} and Video
         conferencing tool to boost your productivity right away.
       </Typography>
       <Box mt={1}>

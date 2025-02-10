@@ -99,7 +99,7 @@ const UsersSidebar = (props: UsersSidebarProps) => {
           sx={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}
         >
           <Search
-            placeholder="Search by Company Name"
+            placeholder="Search by Name"
             size="small"
             onChange={(val: any) => setSearchEmployee(val?.target?.value)}
           />

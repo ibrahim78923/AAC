@@ -4,7 +4,6 @@ import useCatalogService from './useCatalogService';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
 import { Theme } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
 import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
 import { AvatarInfoCard } from '@/components/Cards/AvatarInfoCard';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
@@ -12,6 +11,7 @@ import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 import { SingleBreadcrumb } from '@/components/Breadcrumbs/SingleBreadcrumb';
 import { HtmlRenderer } from '@/components/DataDisplay/HtmlRenderer';
+import { CustomLoadingButton } from '@/components/Buttons/CustomLoadingButton';
 
 const CatalogService = () => {
   const {
@@ -65,6 +65,7 @@ const CatalogService = () => {
         </Typography>
         {!!servicesDetails?.data?.description ? (
           <HtmlRenderer
+            hasEditor
             maxHeight="none"
             description={servicesDetails?.data?.description}
           />
@@ -83,19 +84,31 @@ const CatalogService = () => {
         bottom={'1rem'}
         right={'1rem'}
       >
-        <LoadingButton
-          className="small"
-          variant="outlined"
-          color="secondary"
+        <CustomLoadingButton
+          primary={false}
           onClick={() => router?.push(AIR_CUSTOMER_PORTAL?.CATALOG_SERVICES)}
+          customStyles={(theme: Theme) => ({
+            borderColor:
+              portalStyles?.btnSecondary ||
+              customizePortalDefaultValues(theme)?.btnSecondary,
+            color:
+              portalStyles?.btnSecondary ||
+              customizePortalDefaultValues(theme)?.btnSecondary,
+            '&:hover': {
+              borderColor:
+                portalStyles?.btnSecondary ||
+                customizePortalDefaultValues(theme)?.btnSecondary,
+              color:
+                portalStyles?.btnSecondary ||
+                customizePortalDefaultValues(theme)?.btnSecondary,
+            },
+          })}
         >
           Cancel
-        </LoadingButton>
-        <LoadingButton
-          className="small"
-          variant="contained"
+        </CustomLoadingButton>
+        <CustomLoadingButton
           onClick={() => setOpen?.(true)}
-          sx={(theme: Theme) => ({
+          customStyles={(theme: Theme) => ({
             bgcolor:
               portalStyles?.btnPrimary ||
               customizePortalDefaultValues(theme)?.btnPrimary,
@@ -109,7 +122,7 @@ const CatalogService = () => {
           })}
         >
           Place Request
-        </LoadingButton>
+        </CustomLoadingButton>
       </Box>
 
       {open && (

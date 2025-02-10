@@ -2,6 +2,7 @@ import { Box, Typography } from '@mui/material';
 import { styles } from './WelcomeCard.style';
 import { WelcomeCardImage } from '@/assets/images';
 import { TicketStatusCount } from '../TicketStatusCount';
+import { PROJECT_NAME } from '@/config';
 
 export const WelcomeCard = (props: any) => {
   const { isRegister = true } = props;
@@ -17,7 +18,7 @@ export const WelcomeCard = (props: any) => {
       >
         <Box flexBasis={{ xs: '100%', xl: '50%' }} py={isRegister ? 1 : 4}>
           <Typography variant="h4" fontWeight={700} color={'white'}>
-            Welcome to AirApple Cart - Services
+            Welcome to {PROJECT_NAME} - Services
           </Typography>
           <Typography variant="body2" color={'white'}>
             We are here to help you, Please let us know what you need.

@@ -16,6 +16,7 @@ export default function FullName({ index }: { index: number }) {
       label="Full name"
       fullWidth
       size="small"
+      required={true}
       apiQuery={apiQueryCompanies}
       externalParams={{ meta: false }}
       getOptionLabel={(option: any) => {
@@ -36,6 +37,7 @@ export default function FullName({ index }: { index: number }) {
       label="Full name"
       fullWidth
       size="small"
+      required={true}
       apiQuery={apiQueryContacts}
       externalParams={{ meta: false }}
       getOptionLabel={(option: any) => {

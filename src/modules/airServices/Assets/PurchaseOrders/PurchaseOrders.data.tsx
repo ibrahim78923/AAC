@@ -1,8 +1,7 @@
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { CheckboxField } from '@/components/InputFields/CheckboxField';
 import { TruncateText } from '@/components/TruncateText';
 import { AIR_SERVICES } from '@/constants/routes';
 import { uiDateFormat } from '@/lib/date-time';
-import { Checkbox } from '@mui/material';
 
 export const purchaseOrderColumnsFunction = (
   purchaseOrderData: any,
@@ -15,9 +14,7 @@ export const purchaseOrderColumnsFunction = (
       accessorFn: (row: any) => row?._id,
       id: '_id',
       cell: (info: any) => (
-        <Checkbox
-          icon={<CheckboxIcon />}
-          checkedIcon={<CheckboxCheckedIcon />}
+        <CheckboxField
           checked={
             !!purchaseOrderData?.find(
               (item: any) => item?._id === info?.getValue(),
@@ -37,14 +34,11 @@ export const purchaseOrderColumnsFunction = (
                   }),
                 );
           }}
-          color="primary"
           name={info?.getValue()}
         />
       ),
       header: (
-        <Checkbox
-          icon={<CheckboxIcon />}
-          checkedIcon={<CheckboxCheckedIcon />}
+        <CheckboxField
           checked={
             purchaseData?.length
               ? purchaseOrderData?.length === purchaseData?.length
@@ -55,7 +49,6 @@ export const purchaseOrderColumnsFunction = (
               ? setPurchaseOrderData([...purchaseData])
               : setPurchaseOrderData([]);
           }}
-          color="primary"
           name="_id"
         />
       ),

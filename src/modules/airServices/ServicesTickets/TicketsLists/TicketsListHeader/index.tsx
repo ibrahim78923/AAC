@@ -1,6 +1,6 @@
 import Search from '@/components/Search';
 import { Box, Button, ButtonGroup } from '@mui/material';
-import { EditGreyIcon, FilterIcon, ListIcon, SubTabIcon } from '@/assets/icons';
+import { ListIcon, SubTabIcon } from '@/assets/icons';
 import { Autorenew } from '@mui/icons-material';
 import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { VIEW_TYPES } from '@/constants/strings';
@@ -11,6 +11,7 @@ import {
 } from '@/constants/permission-keys';
 import { useTicketsListHeader } from './useTicketsListHeader';
 import { TICKETS_ACTION_CONSTANTS } from './TicketListHeader.data';
+import { CustomButton } from '@/components/Buttons/CustomButton';
 
 const {
   SEARCH_AND_FILTER,
@@ -71,39 +72,22 @@ export const TicketsListHeader = () => {
           </PermissionsGuard>
           <PermissionsGuard permissions={[RESET]}>
             {router?.query?.viewType !== BOARD && (
-              <Button
-                className="small"
-                variant="outlined"
-                onClick={setInitialColumns}
-                color="secondary"
-              >
+              <CustomButton hasIcon={false} onClick={setInitialColumns}>
                 <Autorenew />
-              </Button>
+              </CustomButton>
             )}
           </PermissionsGuard>
           <PermissionsGuard permissions={[COLUMN_CUSTOMIZATION]}>
             {router?.query?.viewType !== BOARD && (
-              <Button
-                className="small"
-                variant="outlined"
-                onClick={() => setTicketAction?.(CUSTOMIZE_COLUMN)}
-                startIcon={<EditGreyIcon />}
-                color="secondary"
-              >
+              <CustomButton onClick={() => setTicketAction?.(CUSTOMIZE_COLUMN)}>
                 Customize
-              </Button>
+              </CustomButton>
             )}
           </PermissionsGuard>
           <PermissionsGuard permissions={[SEARCH_AND_FILTER]}>
-            <Button
-              className="small"
-              variant="outlined"
-              onClick={() => setTicketAction?.(FILTER_DATA)}
-              startIcon={<FilterIcon />}
-              color="secondary"
-            >
+            <CustomButton onClick={() => setTicketAction?.(FILTER_DATA)}>
               Filter
-            </Button>
+            </CustomButton>
           </PermissionsGuard>
           <ButtonGroup size="small" aria-label="small button group">
             {[

@@ -1,6 +1,6 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { Button, Grid } from '@mui/material';
+import { Button } from '@mui/material';
 import {
   addVouchersFormFieldsDataFunction,
   addVouchersRadioButtonsFormFields,
@@ -9,6 +9,8 @@ import { useAddVouchers } from './useAddVouchers';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { Fragment } from 'react';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const AddVouchers = (props: any) => {
   const {
@@ -57,7 +59,7 @@ export const AddVouchers = (props: any) => {
             methods={methods}
             onSubmit={handleSubmit(submitAddVouchersForm)}
           >
-            <Grid container spacing={2}>
+            <ContainerGrid>
               {addVouchersFormFieldsDataFunction?.(
                 apiQueryVoucherTiers,
                 activeFromValue,
@@ -65,17 +67,17 @@ export const AddVouchers = (props: any) => {
                 if (index === ARRAY_INDEX?.THREE) {
                   return (
                     <Fragment key={form?.id}>
-                      <Grid item xs={12} md={form?.gridLength}>
+                      <CustomGrid md={form?.gridLength}>
                         <form.component
                           {...form?.componentProps}
                           size="small"
                           disabled={!!addVouchersOpen?.voucherCode}
                         />
-                      </Grid>
-                      <Grid item xs={12} textAlign="center">
+                      </CustomGrid>
+                      <CustomGrid customStyles={{ textAlign: 'center' }}>
                         OR
-                      </Grid>
-                      <Grid item xs={12}>
+                      </CustomGrid>
+                      <CustomGrid>
                         <Button
                           variant="contained"
                           color="primary"
@@ -86,42 +88,42 @@ export const AddVouchers = (props: any) => {
                         >
                           Generate Code
                         </Button>
-                      </Grid>
+                      </CustomGrid>
                     </Fragment>
                   );
                 }
                 return (
-                  <Grid item xs={12} md={form?.gridLength} key={form?.id}>
+                  <CustomGrid md={form?.gridLength} key={form?.id}>
                     <form.component {...form?.componentProps} size="small" />
-                  </Grid>
+                  </CustomGrid>
                 );
               })}
 
               {addVouchersRadioButtonsFormFields?.map((form: any, index) => {
                 return (
                   <Fragment key={form?.id}>
-                    <Grid item xs={12} md={form?.gridLength}>
+                    <CustomGrid md={form?.gridLength}>
                       <form.component {...form?.componentProps} size="small" />
-                    </Grid>
+                    </CustomGrid>
                     {watch(form?.componentProps?.name) ===
                       form?.componentProps?.options?.[ARRAY_INDEX?.ONE]
                         ?.value && (
-                      <Grid item xs={12} md={form?.gridLength} key={form?.id}>
+                      <CustomGrid md={form?.gridLength} key={form?.id}>
                         {form?.conditionalComponentOne}
-                      </Grid>
+                      </CustomGrid>
                     )}
                     {watch(form?.componentProps?.name) ===
                       form?.componentProps?.options?.[ARRAY_INDEX?.ZERO]
                         ?.value &&
                       index === ARRAY_INDEX?.THREE && (
-                        <Grid item xs={12} md={form?.gridLength} key={form?.id}>
+                        <CustomGrid md={form?.gridLength} key={form?.id}>
                           {form?.conditionalComponentTwo}
-                        </Grid>
+                        </CustomGrid>
                       )}
                   </Fragment>
                 );
               })}
-            </Grid>
+            </ContainerGrid>
           </FormProvider>
         </ApiRequestFlow>
       </CommonDrawer>

@@ -1,9 +1,11 @@
 import { ReactNode } from 'react';
 
+export type AvatarVariantI = 'circular' | 'rounded' | 'square';
+
 export interface AvatarSizeI {
   width?: number | string;
   height?: number | undefined | string;
-  variant?: string;
+  variant?: AvatarVariantI;
 }
 
 export interface CustomAvatarPropsI {
@@ -16,6 +18,7 @@ export interface CustomAvatarPropsI {
   customStyles?: any;
   padding?: number;
   initialColor?: string;
+  nameInitialsSize?: number;
 }
 
 export interface IconAvatarPropsI {
@@ -62,4 +65,18 @@ export interface AttachFileCardPropsI {
   flexDirection?: any;
   hasNoDeletePermission?: boolean;
   canPreviewImage?: boolean;
+}
+
+export interface LogoAvatarPropsI {
+  productName?: string;
+  isWhite?: boolean;
+  width?: number | string;
+  height?: number | undefined | string;
+  variant?: AvatarVariantI;
+}
+
+export interface SmallLogoAvatarPropsI {
+  width?: number | string;
+  height?: number | undefined | string;
+  variant?: AvatarVariantI;
 }

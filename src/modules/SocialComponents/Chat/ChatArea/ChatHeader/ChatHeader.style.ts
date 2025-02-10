@@ -5,10 +5,11 @@ export const styles = {
     return {
       background: theme?.palette?.primary.main,
       padding: '0px 20px',
-      height: '74px',
+      minHeight: '74px',
       borderRadius: '16px 16px 0px 0px',
       display: 'flex',
       justifyContent: 'space-between',
+      flexWrap: 'wrap',
       borderBottom: `1px solid ${theme?.palette?.common?.white}`,
     };
   },

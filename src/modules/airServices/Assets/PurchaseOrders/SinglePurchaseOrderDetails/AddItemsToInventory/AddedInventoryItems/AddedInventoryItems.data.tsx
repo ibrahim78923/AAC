@@ -4,10 +4,10 @@ import GetDynamicPurchaseOrderDepartmentDropdown from '../../../PurchaseOrderFor
 import GetDynamicPurchaseOrderLocationDropdown from '../../../PurchaseOrderFormFieldsDropdowns/GetDynamicPurchaseOrderLocationDropdown';
 
 export const addedInventoryItemsColumns = [
-  'Item Name',
-  'Impact',
-  'Location',
-  'Department',
+  { _id: 'Item Name', label: 'Item Name' },
+  { _id: 'Impact', label: 'Impact' },
+  { _id: 'Location', label: 'Location' },
+  { _id: 'Department', label: 'Department' },
 ];
 
 export const addedInventoryItemsFormFieldsFunction = (

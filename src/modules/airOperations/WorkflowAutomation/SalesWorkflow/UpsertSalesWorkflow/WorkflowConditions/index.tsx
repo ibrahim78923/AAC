@@ -1,11 +1,12 @@
 import { workflowConditionsGroupDataArray } from './WorkflowConditions.data';
-import { Box, Button, Grid, ToggleButton, Typography } from '@mui/material';
+import { Box, Button, ToggleButton, Typography } from '@mui/material';
 import { SubWorkflowConditions } from './SubWorkflowConditions';
 import { AddCircle } from '@mui/icons-material';
 import { RHFButtonGroup } from '@/components/ReactHookForm';
 import { styles } from './WorkflowConditions.style';
 import { useWorkflowConditions } from './useWorkflowConditions';
 import { WorkflowConditionsI } from './WorkflowConditions.interface';
+import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const WorkflowConditions = (props: WorkflowConditionsI) => {
   const { setValue, control, watch } = props;
@@ -47,13 +48,10 @@ export const WorkflowConditions = (props: WorkflowConditionsI) => {
             )}
             <Box display={{ sm: 'flex' }} alignItems={'center'} gap={1} mt={2}>
               <Box sx={styles?.groupNumber(palette)}>0{index + 1}</Box>
-              <Grid container spacing={{ md: 2, xs: 0 }}>
-                {workflowConditionsGroupDataArray(index)?.map((item) => (
-                  <Grid item xs={12} md={item?.gridLength} key={item?._id}>
-                    <item.component {...item?.componentProps} />
-                  </Grid>
-                ))}
-              </Grid>
+              <FormGrid
+                formFieldsList={workflowConditionsGroupDataArray(index)}
+                spacing={{ md: 2, xs: 0 }}
+              />
             </Box>
             <SubWorkflowConditions
               setValue={setValue}

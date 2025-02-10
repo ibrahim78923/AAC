@@ -1,7 +1,6 @@
 import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 import { useUpsertContract } from './useUpsertContract';
 import { Box } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { uploadFileMaxSize } from '@/utils/avatarUtils';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
@@ -9,6 +8,8 @@ import { ACCEPT_FILE_EXTENSIONS } from '@/constants/file';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { HeadingFormGrid } from '@/components/Grids/HeadingFormGrid';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import { ActionsLoadingButton } from '@/components/Buttons/ActionsLoadingButton';
 
 export const UpsertContract = () => {
   const {
@@ -27,7 +28,7 @@ export const UpsertContract = () => {
   return (
     <>
       <PageTitledHeader
-        moveBack={() => handleCancelBtn?.()}
+        moveBack={handleCancelBtn}
         canMovedBack
         title={'Add Contract'}
       />
@@ -94,31 +95,11 @@ export const UpsertContract = () => {
           <br />
           <ContainerGrid>
             <CustomGrid md={8}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'flex-end',
-                  gap: 2,
-                }}
-              >
-                <LoadingButton
-                  variant="outlined"
-                  type="button"
-                  color="secondary"
-                  onClick={() => handleCancelBtn?.()}
-                  disabled={postContractStatus?.isLoading}
-                >
-                  Cancel
-                </LoadingButton>
-                <LoadingButton
-                  loading={postContractStatus?.isLoading}
-                  variant="contained"
-                  type="submit"
-                >
-                  Save
-                </LoadingButton>
-              </Box>
+              <ActionsLoadingButton
+                submitButtonText={GENERIC_UPSERT_FORM_CONSTANT?.SAVE}
+                showSubmitLoader={postContractStatus?.isLoading}
+                handleCancelButton={handleCancelBtn}
+              />
             </CustomGrid>
           </ContainerGrid>
         </FormProvider>

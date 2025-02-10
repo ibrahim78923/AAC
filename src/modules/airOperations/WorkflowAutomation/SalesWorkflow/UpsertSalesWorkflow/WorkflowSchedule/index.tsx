@@ -1,4 +1,3 @@
-import { Grid } from '@mui/material';
 import {
   RHFAutocomplete,
   RHFDatePicker,
@@ -17,13 +16,14 @@ import {
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import { WorkflowScheduleI } from './WorkflowSchedule.interface';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
 
 export const WorkflowSchedule = (props: WorkflowScheduleI) => {
   const { selectedSchedule, selectedScheduleRadio, selectedScheduleWeek } =
     useWorkflowSchedule(props);
   return (
     <>
-      <Grid item lg={5.6} sm={8.6}>
+      <CustomGrid lg={5.6} sm={8.6}>
         <RHFRadioGroup
           name="type"
           options={radioOptions}
@@ -32,14 +32,14 @@ export const WorkflowSchedule = (props: WorkflowScheduleI) => {
             justifyContent: 'space-between',
           }}
         />
-      </Grid>
+      </CustomGrid>
       {selectedScheduleRadio === scheduleTypes?.schedule && (
         <PermissionsGuard
           permissions={[
             AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.SCHEDULE,
           ]}
         >
-          <Grid item xs={12} md={6.5} mt={1}>
+          <CustomGrid md={6.5} customStyles={{ mt: 1 }}>
             <RHFAutocomplete
               name="schedule"
               label="Schedule"
@@ -49,8 +49,8 @@ export const WorkflowSchedule = (props: WorkflowScheduleI) => {
               options={scheduleOptions}
               fullWidth
             />
-          </Grid>
-          <Grid item xs={12} md={6.5}>
+          </CustomGrid>
+          <CustomGrid md={6.5}>
             {selectedSchedule === scheduleTypes?.annually && (
               <RHFDatePicker
                 name="scheduleMonth"
@@ -61,8 +61,8 @@ export const WorkflowSchedule = (props: WorkflowScheduleI) => {
                 format="MMMM"
               />
             )}
-          </Grid>
-          <Grid item xs={12} md={6.5}>
+          </CustomGrid>
+          <CustomGrid md={6.5}>
             {selectedSchedule === scheduleTypes?.monthly && (
               <RHFAutocomplete
                 name="scheduleDate"
@@ -74,8 +74,8 @@ export const WorkflowSchedule = (props: WorkflowScheduleI) => {
                 fullWidth
               />
             )}
-          </Grid>
-          <Grid item xs={12} md={6.5}>
+          </CustomGrid>
+          <CustomGrid md={6.5}>
             {selectedSchedule === scheduleTypes?.weekly && (
               <RHFAutocomplete
                 name="scheduleDay"
@@ -86,8 +86,8 @@ export const WorkflowSchedule = (props: WorkflowScheduleI) => {
                 fullWidth
               />
             )}
-          </Grid>
-          <Grid item xs={12} md={6.5}>
+          </CustomGrid>
+          <CustomGrid md={6.5}>
             {selectedSchedule === scheduleTypes?.customRange && (
               <RHFDateRangePicker
                 name="custom"
@@ -95,8 +95,8 @@ export const WorkflowSchedule = (props: WorkflowScheduleI) => {
                 label="Custom Range"
               />
             )}
-          </Grid>
-          <Grid item xs={12} md={6.5}>
+          </CustomGrid>
+          <CustomGrid md={6.5}>
             {(selectedSchedule === scheduleTypes?.daily ||
               selectedSchedule === scheduleTypes?.schedule ||
               selectedScheduleWeek ||
@@ -105,7 +105,7 @@ export const WorkflowSchedule = (props: WorkflowScheduleI) => {
               selectedSchedule === scheduleTypes?.monthly) && (
               <RHFTimePicker name="time" label="Time" size="small" fullWidth />
             )}
-          </Grid>
+          </CustomGrid>
         </PermissionsGuard>
       )}
     </>

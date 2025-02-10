@@ -1,28 +1,13 @@
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import {
-  RHFCheckbox,
-  RHFRadioGroup,
-  RHFTextField,
-} from '@/components/ReactHookForm';
+import { RHFRadioGroup, RHFTextField } from '@/components/ReactHookForm';
 import { BACKEND_REPORT_ACCESS } from '@/constants/api';
 import * as Yup from 'yup';
-import {
-  SpecialUsersFieldsI,
-  SpecificUsersAccessColumnsI,
-  SpecificUsersAccessFormFieldsDynamicI,
-} from './SaveReportDrawer.interface';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from '@mui/material';
+import { SpecialUsersFieldsI } from './SaveReportDrawer.interface';
 import { pxToRem } from '@/utils/getFontValue';
 import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
 import { UsersListDropdown } from './ReportFormFields/UsersListDropdown';
 import { ExistingDashboardListDropdown } from './ReportFormFields/ExistingDashboardListDropdown';
+import { FieldArrayTable } from '@/components/Table/FieldArrayTable';
+import { useCallback } from 'react';
 
 const sharedWithOptionsArray = [
   { value: BACKEND_REPORT_ACCESS?.VIEW_AND_EDIT, label: 'View and Edit' },
@@ -201,52 +186,27 @@ export const reportsDataArray = (
     conditionalComponentTwo: (
       <>
         <UsersListDropdown name={'specificUsersConditionOne'} />
-        <TableContainer
-          sx={{
+        <FieldArrayTable
+          tableContainerCustomStyles={{
             maxHeight: pxToRem(400),
             border: '1px solid',
             borderColor: 'custom.off_white_three',
             borderRadius: 2,
           }}
-        >
-          <Table stickyHeader sx={{ minWidth: pxToRem(400) }}>
-            <TableHead>
-              <TableRow>
-                {specificUsersAccessColumns?.map(
-                  (column: SpecificUsersAccessColumnsI) => (
-                    <TableCell key={column?._id}>{column?.label}</TableCell>
-                  ),
-                )}
-              </TableRow>
-            </TableHead>
-
-            <TableBody>
-              {sharedWithFields?.map((item: any, index: number) => {
-                return (
-                  <TableRow key={item?.id}>
-                    {specificUsersAccessFormFieldsDynamic?.(
-                      'sharedWithPermissions',
-                      index,
-                    )?.map(
-                      (
-                        singleField:
-                          | SpecificUsersAccessFormFieldsDynamicI
-                          | any,
-                      ) => (
-                        <TableCell
-                          key={singleField?.id}
-                          align={singleField?.align}
-                        >
-                          {singleField?.data}
-                        </TableCell>
-                      ),
-                    )}
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
+          stickyHeader={true}
+          canAddItem={false}
+          columns={specificUsersAccessColumns}
+          fields={sharedWithFields}
+          minWidth={pxToRem(400)}
+          getRowData={useCallback(
+            (index: any) =>
+              specificUsersAccessFormFieldsDynamic?.(
+                'sharedWithPermissions',
+                index,
+              ),
+            [],
+          )}
+        />
       </>
     ),
   },
@@ -288,65 +248,41 @@ export const reportsDataArray = (
     conditionalComponentSix: (
       <>
         <UsersListDropdown name={'newDashboardSpecificUsersConditionOne'} />
-        <TableContainer
-          sx={{
+        <FieldArrayTable
+          tableContainerCustomStyles={{
             maxHeight: pxToRem(400),
             border: '1px solid',
             borderColor: 'custom.off_white_three',
             borderRadius: 2,
           }}
-        >
-          <Table stickyHeader sx={{ minWidth: pxToRem(400) }}>
-            <TableHead>
-              <TableRow>
-                {specificUsersAccessColumns?.map(
-                  (column: SpecificUsersAccessColumnsI) => (
-                    <TableCell key={column?._id}>{column?.label}</TableCell>
-                  ),
-                )}
-              </TableRow>
-            </TableHead>
-
-            <TableBody>
-              {newDashboardFields?.map((item: any, index: number) => {
-                return (
-                  <TableRow key={item?.id}>
-                    {specificUsersAccessFormFieldsDynamic?.(
-                      'newDashboardPermissions',
-                      index,
-                    )?.map(
-                      (
-                        singleField:
-                          | SpecificUsersAccessFormFieldsDynamicI
-                          | any,
-                      ) => (
-                        <TableCell
-                          key={singleField?.id}
-                          align={singleField?.align}
-                        >
-                          {singleField?.data}
-                        </TableCell>
-                      ),
-                    )}
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
+          stickyHeader={true}
+          canAddItem={false}
+          columns={specificUsersAccessColumns}
+          fields={newDashboardFields}
+          minWidth={pxToRem(400)}
+          getRowData={useCallback(
+            (index: any) =>
+              specificUsersAccessFormFieldsDynamic?.(
+                'newDashboardPermissions',
+                index,
+              ),
+            [],
+          )}
+        />
       </>
     ),
   },
-  {
-    id: 4785,
-    componentProps: {
-      name: 'addFilter',
-      label: 'Add Date Range Filter in Complete Report',
-      icon: <CheckboxIcon />,
-      checkedIcon: <CheckboxCheckedIcon />,
-    },
-    component: RHFCheckbox,
-  },
+  //TODO : will be added in future
+  // {
+  //   id: 4785,
+  //   componentProps: {
+  //     name: 'addFilter',
+  //     label: 'Add Date Range Filter in Complete Report',
+  //     icon: <CheckboxIcon />,
+  //     checkedIcon: <CheckboxCheckedIcon />,
+  //   },
+  //   component: RHFCheckbox,
+  // },
 ];
 
 export const specificUsersAccessColumns = [

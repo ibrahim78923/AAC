@@ -34,3 +34,6 @@ export const AUTO_REFRESH_API_TIME_INTERVAL = {
   DASHBOARD: 60000,
   REPORTS: 60000,
 };
+
+export const PROJECT_NAME = 'Agentic Creed';
+export const PROJECT_DESCRIPTION = `${PROJECT_NAME} is a robust and adaptable CRM platform that adopts a customer-centric approach, enables businesses to attract and nurture customers through valuable content. It provides tools and resources for implementing inbound marketing strategies effectively. The platform caters to businesses of all sizes and industries, helping them centralize customer data, automate marketing and sales processes, and deliver exceptional customer experiences`;

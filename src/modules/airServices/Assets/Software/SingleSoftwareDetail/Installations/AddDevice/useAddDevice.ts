@@ -1,63 +1,54 @@
-import { useState } from 'react';
 import { useRouter } from 'next/router';
 import * as Yup from 'yup';
-import {
-  usePostInstallationMutation,
-  useLazyGetAssetsDropdownQuery,
-} from '@/services/airServices/assets/software/single-software-detail/installations';
+import { usePostInstallationMutation } from '@/services/airServices/assets/software/single-software-detail/installations';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useFormLib } from '@/hooks/useFormLib';
+import { AddDevicesPropsI } from '../Installations.interface';
 
-export const useAddDevice = () => {
-  const [isAddDeviceModalOpen, setIsAddDeviceModalOpen] =
-    useState<boolean>(false);
+export const useAddDevice = (props: AddDevicesPropsI) => {
+  const { setIsPortalOpen } = props;
+  const router = useRouter();
+  const softwareId = router?.query?.softwareId;
 
   const useFormValues = {
     validationSchema: Yup?.object()?.shape({
-      device: Yup?.mixed()?.required('Required'),
+      device: Yup?.mixed()?.required('Device is required'),
     }),
     defaultValues: { device: null },
   };
 
   const { reset, methods, handleSubmit } = useFormLib(useFormValues);
 
-  const searchParams = useRouter();
-  const softwareId = searchParams?.query?.softwareId;
   const [postDeviceTrigger, { isLoading }] = usePostInstallationMutation();
+
+  const handleCloseModal = () => {
+    reset();
+    setIsPortalOpen({ isOpen: false, action: '' });
+  };
+
   const onAddDeviceSubmit = async (data: {
     device: {
       _id: string;
       displayName: string;
     };
   }) => {
-    const formData = {
+    const apiDataParameter = {
       body: { id: data?.device?._id, softwareId: [softwareId] },
       id: data?.device?._id,
     };
     try {
-      const response: any = await postDeviceTrigger(formData);
-      successSnackbar(response?.data?.message && 'Device Added Successfully');
-      reset();
-      setIsAddDeviceModalOpen(false);
+      await postDeviceTrigger(apiDataParameter)?.unwrap();
+      successSnackbar('Device added successfully');
+      handleCloseModal?.();
     } catch (error: any) {
-      errorSnackbar(error?.data?.message ?? 'An error occurred');
+      errorSnackbar(error?.data?.message);
     }
   };
-  const handleAddDevice = () => {
-    setIsAddDeviceModalOpen(true);
-  };
-  const handleCloseModal = () => {
-    setIsAddDeviceModalOpen(false);
-    reset();
-  };
-  const devicesQuery = useLazyGetAssetsDropdownQuery();
+
   return {
-    handleAddDevice,
     methods,
-    isAddDeviceModalOpen,
     handleCloseModal,
     onAddDeviceSubmit,
-    devicesQuery,
     isLoading,
     handleSubmit,
   };

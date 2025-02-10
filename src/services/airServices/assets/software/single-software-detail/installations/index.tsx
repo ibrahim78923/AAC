@@ -46,7 +46,6 @@ export const installationAPI = baseAPI?.injectEndpoints({
         method: 'PATCH',
         body,
       }),
-      invalidatesTags: [TAG],
     }),
   }),
 });

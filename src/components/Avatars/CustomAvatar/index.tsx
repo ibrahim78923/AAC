@@ -4,6 +4,7 @@ import { CustomTooltip } from '../../CustomTooltip';
 import { pxToRem } from '@/utils/getFontValue';
 import { AVATAR_VARIANTS } from '@/constants/mui-constant';
 import { CustomAvatarPropsI } from '../Avatars.interface';
+import { DATA_TYPES } from '@/constants/strings';
 
 export const CustomAvatar = (props: CustomAvatarPropsI) => {
   const {
@@ -16,9 +17,13 @@ export const CustomAvatar = (props: CustomAvatarPropsI) => {
     customStyles,
     padding,
     initialColor = 'grey.200',
+    nameInitialsSize = 14,
   } = props;
 
-  const nameInitialSize = (avatarSize?.height ?? 28) / 3;
+  const nameInitialSize: any =
+    typeof avatarSize?.height === DATA_TYPES?.STRING
+      ? nameInitialsSize
+      : (avatarSize?.height ?? 28) / 3;
 
   return (
     <CustomTooltip title={tooltipTitle} isCapital {...customTooltipProps}>

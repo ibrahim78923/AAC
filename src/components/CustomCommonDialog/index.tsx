@@ -28,6 +28,9 @@ export const CustomCommonDialog = (props: any) => {
     showCancelButton = true,
     submitButtonStyles,
     cancelButtonStyles,
+    isCapital = true,
+    canClose = true,
+    extraTitle,
   } = props;
 
   return (
@@ -67,15 +70,21 @@ export const CustomCommonDialog = (props: any) => {
             <Typography
               variant="h4"
               color="slateBlue.main"
-              textTransform={'capitalize'}
+              sx={{
+                wordBreak: 'break-word',
+                textTransform: isCapital ? 'capitalize' : 'none',
+              }}
             >
               {dialogTitle}
             </Typography>
           </Box>
-          <Close
-            sx={{ color: 'custom.darker', cursor: 'pointer' }}
-            onClick={closePortal}
-          />
+          {!!extraTitle && extraTitle}
+          {canClose && (
+            <Close
+              sx={{ color: 'custom.darker', cursor: 'pointer' }}
+              onClick={closePortal}
+            />
+          )}
         </Box>
       </DialogTitle>
       <DialogContent>{children}</DialogContent>

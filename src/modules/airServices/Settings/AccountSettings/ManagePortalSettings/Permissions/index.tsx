@@ -6,12 +6,13 @@ import {
   RHFRadioGroup,
 } from '@/components/ReactHookForm';
 import { permissionData } from './Permissions.data';
-import { LoadingButton } from '@mui/lab';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { usePermissions } from './usePermissions';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { ActionsLoadingButton } from '@/components/Buttons/ActionsLoadingButton';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
 export const Permissions = () => {
   const {
@@ -22,10 +23,11 @@ export const Permissions = () => {
     isError,
     refetch,
     patchCustomerPortalPermissionsStatus,
+    handleCancelButton,
   } = usePermissions();
 
   return (
-    <Box border={'.1rem solid'} borderColor={'grey.700'} p={2} borderRadius={4}>
+    <Box border={'1px solid'} borderColor={'grey.700'} p={2} borderRadius={4}>
       <PageTitledHeader title="Permissions" />
       <ApiRequestFlow
         showSkeleton={showLoader}
@@ -61,24 +63,13 @@ export const Permissions = () => {
             ))}
 
             <CustomGrid>
-              <Box display={'flex'} justifyContent={'flex-end'} gap={2}>
-                <LoadingButton
-                  variant={'outlined'}
-                  color={'secondary'}
-                  className="small"
-                  disabled={patchCustomerPortalPermissionsStatus?.isLoading}
-                >
-                  Cancel
-                </LoadingButton>
-                <LoadingButton
-                  type={'submit'}
-                  variant={'contained'}
-                  className="small"
-                  loading={patchCustomerPortalPermissionsStatus?.isLoading}
-                >
-                  Save
-                </LoadingButton>
-              </Box>
+              <ActionsLoadingButton
+                submitButtonText={GENERIC_UPSERT_FORM_CONSTANT?.SAVE}
+                showSubmitLoader={
+                  patchCustomerPortalPermissionsStatus?.isLoading
+                }
+                handleCancelButton={handleCancelButton}
+              />
             </CustomGrid>
           </ContainerGrid>
         </FormProvider>
