@@ -1,5 +1,5 @@
 import Search from '@/components/Search';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useArticlesList } from './useArticlesList';
 import CustomPagination from '@/components/CustomPagination';
 import { TICKET_CONVERSATIONS_CONTENT_TYPE } from '@/constants/strings';
@@ -9,6 +9,7 @@ import { AIR_SERVICES } from '@/constants/routes';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
 import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
+import { CustomButton } from '@/components/Buttons/CustomButton';
 
 export const ArticlesList = (props: any) => {
   const { setArticleResponse } = props;
@@ -77,35 +78,29 @@ export const ArticlesList = (props: any) => {
                 gap={2}
                 flexWrap={'wrap'}
               >
-                <Button
-                  disableElevation
+                <CustomButton
+                  hasIcon={false}
                   variant="text"
-                  color="inherit"
                   onClick={() =>
                     setArticleResponse?.(
                       article,
                       TICKET_CONVERSATIONS_CONTENT_TYPE?.LINK,
                     )
                   }
-                  size="small"
-                  className="small"
                 >
                   Add Link
-                </Button>
-                <Button
-                  disableElevation
-                  variant="outlined"
+                </CustomButton>
+                <CustomButton
+                  hasIcon={false}
                   onClick={() =>
                     setArticleResponse?.(
                       article,
                       TICKET_CONVERSATIONS_CONTENT_TYPE?.CONTENT,
                     )
                   }
-                  size="small"
-                  className="small"
                 >
                   Add Content
-                </Button>
+                </CustomButton>
               </Box>
             </Box>
           ))}

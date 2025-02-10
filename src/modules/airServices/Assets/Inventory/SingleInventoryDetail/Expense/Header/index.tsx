@@ -1,11 +1,11 @@
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { Permissions } from '@/constants/permissions';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
-import { PlusSharedColorIcon } from '@/assets/icons';
 import { useHeader } from './useHeader';
 import { EXPENSE_PORTAL_ACTIONS } from '../Expense.data';
+import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
 
 export const Header = (props: any) => {
   const { selectedExpenseList } = props;
@@ -41,16 +41,12 @@ export const Header = (props: any) => {
             AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_NEW_EXPENSE,
           ]}
         >
-          <Button
-            variant="contained"
-            className={'small'}
-            startIcon={<PlusSharedColorIcon />}
+          <AddNewItemButton
+            name="Add New Expense"
             onClick={() =>
               setPortalAction?.(EXPENSE_PORTAL_ACTIONS?.ADD_EXPENSE)
             }
-          >
-            Add New Expense
-          </Button>
+          />
         </PermissionsGuard>
       </Box>
       {isPortalOpen?.isOpen && openPortalComponent?.[isPortalOpen?.action]}

@@ -18,6 +18,7 @@ export interface CustomAvatarPropsI {
   customStyles?: any;
   padding?: number;
   initialColor?: string;
+  nameInitialsSize?: number;
 }
 
 export interface IconAvatarPropsI {

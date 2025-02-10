@@ -1,5 +1,5 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import {
   FormProvider,
   RHFAutocomplete,
@@ -23,6 +23,7 @@ import { Fragment } from 'react';
 import { otherDateFormat } from '@/lib/date-time';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
 
 export const CreateBusinessHour = () => {
   const {
@@ -232,14 +233,10 @@ export const CreateBusinessHour = () => {
               }
             />
 
-            <Button
-              variant={'contained'}
-              disableElevation
+            <AddNewItemButton
+              name="Add"
               onClick={() => setOpenAddHolidayModal(true)}
-              className={'small'}
-            >
-              Add
-            </Button>
+            />
           </Box>
         </Box>
 

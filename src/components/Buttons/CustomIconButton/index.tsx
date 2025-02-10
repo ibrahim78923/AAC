@@ -6,7 +6,7 @@ export const CustomIconButton = (props: CustomIconButtonPropsI) => {
     onClick,
     children,
     disabled,
-    type = 'submit',
+    type = 'button',
     size = 'small',
     customStyles,
     color,

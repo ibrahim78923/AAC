@@ -72,4 +72,7 @@ export const CUSTOM_BUTTON_TYPES: any = {
   FILTER: 'filter',
   RESTORE: 'restore',
   CUSTOMIZE: 'customize',
+  SUCCESS: 'success',
+  REJECT: 'reject',
+  PREVIEW: 'preview',
 };

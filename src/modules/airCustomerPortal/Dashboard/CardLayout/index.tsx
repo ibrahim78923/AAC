@@ -1,16 +1,11 @@
 import { Box } from '@mui/material';
 import { CardLayoutI } from './CardLayout.interface';
 import { TruncateText } from '@/components/TruncateText';
-import { InteractiveButton } from '@/components/Buttons/InteractiveButton';
+import { CustomButton } from '@/components/Buttons/CustomButton';
 
-export const CardLayout = ({
-  title,
-  btnClick,
-  btnPosition,
-  buttonText,
-  maxHeight,
-  children,
-}: CardLayoutI) => {
+export const CardLayout = (props: CardLayoutI) => {
+  const { title, btnClick, btnPosition, buttonText, maxHeight, children } =
+    props;
   return (
     <Box bgcolor={'common.white'} p={2} borderRadius={4} height="100%">
       <Box
@@ -23,17 +18,27 @@ export const CardLayout = ({
       >
         <TruncateText text={title?.toLowerCase()} />
         {btnPosition !== 'center' && (
-          <InteractiveButton onClick={() => btnClick(title)} variant="text">
+          <CustomButton
+            hasIcon={false}
+            onClick={() => btnClick(title)}
+            variant="text"
+            color="primary"
+          >
             {buttonText}
-          </InteractiveButton>
+          </CustomButton>
         )}
       </Box>
       <Box sx={{ height: maxHeight, overflowY: 'scroll' }}>{children}</Box>
       {btnPosition === 'center' && (
         <Box textAlign={'center'}>
-          <InteractiveButton onClick={() => btnClick(title)} variant="text">
+          <CustomButton
+            hasIcon={false}
+            onClick={() => btnClick(title)}
+            variant="text"
+            color="primary"
+          >
             {buttonText}
-          </InteractiveButton>
+          </CustomButton>
         </Box>
       )}
     </Box>

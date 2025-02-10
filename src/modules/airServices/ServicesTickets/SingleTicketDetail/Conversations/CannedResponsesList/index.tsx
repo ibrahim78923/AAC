@@ -1,5 +1,5 @@
 import Search from '@/components/Search';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useCannedResponsesList } from './useCannedResponsesList';
 import CustomPagination from '@/components/CustomPagination';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
@@ -8,6 +8,7 @@ import { AIR_SERVICES } from '@/constants/routes';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
 import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
+import { CustomButton } from '@/components/Buttons/CustomButton';
 
 export const CannedResponsesList = (props: any) => {
   const { setCannedResponse } = props;
@@ -64,15 +65,12 @@ export const CannedResponsesList = (props: any) => {
               {response?.title ?? '---'}
             </Typography>
             <Box mt={1}>
-              <Button
-                disableElevation
-                variant="outlined"
+              <CustomButton
+                hasIcon={false}
                 onClick={() => setCannedResponse(response)}
-                size="small"
-                className="small"
               >
                 Add
-              </Button>
+              </CustomButton>
             </Box>
           </Box>
         ))}

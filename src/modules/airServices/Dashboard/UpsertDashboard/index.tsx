@@ -1,9 +1,8 @@
 import { NoDashboardWidgetImage } from '@/assets/images';
 import { FormProvider } from '@/components/ReactHookForm';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { DASHBOARD, GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
-import { Visibility } from '@mui/icons-material';
 import { useUpsertDashboard } from './useUpsertDashboard';
 import { pxToRem } from '@/utils/getFontValue';
 import { AddWidgets } from './AddWidgets';
@@ -13,6 +12,8 @@ import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { HeadingFormGrid } from '@/components/Grids/HeadingFormGrid';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomButton } from '@/components/Buttons/CustomButton';
+import { CUSTOM_BUTTON_TYPES } from '@/constants/mui-constant';
 
 export const UpsertDashboard = () => {
   const {
@@ -62,14 +63,14 @@ export const UpsertDashboard = () => {
                 </FormProvider>
               </Box>
               <Box sx={{ textAlign: 'right' }}>
-                <Button
-                  className="small"
+                <CustomButton
                   variant="text"
+                  color="primary"
+                  iconType={CUSTOM_BUTTON_TYPES?.PREVIEW}
                   onClick={openPreviewDashboard}
-                  startIcon={<Visibility />}
                 >
                   Preview Dashboard
-                </Button>
+                </CustomButton>
               </Box>
             </Box>
           </CustomGrid>

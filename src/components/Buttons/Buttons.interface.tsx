@@ -16,7 +16,14 @@ export type ButtonSizeI = 'small' | 'medium' | 'large';
 
 export type ButtonTypeI = 'submit' | 'button' | 'reset';
 
-export type ButtonIconTypeI = 'circle' | 'square' | 'filter' | 'restore';
+export type ButtonIconTypeI =
+  | 'circle'
+  | 'square'
+  | 'filter'
+  | 'restore'
+  | 'restore'
+  | 'success'
+  | 'reject';
 
 export interface AddNewItemButtonPropsI {
   disabled?: boolean;
@@ -44,7 +51,7 @@ export interface ApiPollingButtonPropsI {
 
 export interface CustomButtonPropsI {
   children: ReactNode;
-  onClick: () => void;
+  onClick?: () => void;
   variant?: ButtonVariantI;
   color?: ButtonColorI;
   iconType?: ButtonIconTypeI;
@@ -52,7 +59,9 @@ export interface CustomButtonPropsI {
   disabled?: boolean;
   className?: string;
   fullWidth?: boolean;
-  customStyles?: SxProps<Theme>;
+  customStyles?: any | SxProps<Theme>;
+  type?: ButtonTypeI;
+  primary?: boolean;
 }
 
 export interface CustomIconButtonPropsI {
@@ -68,16 +77,19 @@ export interface CustomIconButtonPropsI {
 }
 
 export interface CustomLoadingButtonPropsI {
-  onClick: () => void;
-  name: string;
+  onClick: (...arg: any) => void;
+  children: ReactNode;
   color?: ButtonColorI;
-  customStyles?: SxProps<Theme>;
+  customStyles?: any | SxProps<Theme>;
   disabled?: boolean;
   loading?: boolean;
   size?: ButtonSizeI;
   type?: ButtonTypeI;
   variant?: ButtonVariantI;
   className?: string;
+  primary?: boolean;
+  fullWidth?: boolean;
+  startIcon?: null | ReactNode;
 }
 
 export interface DownloadButtonPropsI {
@@ -110,4 +122,17 @@ export interface ExportButtonPropsI {
   handleExcelExport: () => void;
   btnVariant?: ButtonVariantI;
   btnText?: string;
+}
+
+export interface ActionsLoadingButtonPropsI {
+  handleSubmitButton?: any;
+  handleCancelButton?: any;
+  cancelButtonText?: string;
+  submitButtonText?: string;
+  showSubmitLoader?: boolean;
+  disabledSubmitButton?: boolean;
+  disabledCancelButton?: boolean;
+  hasBorder?: boolean;
+  justifyContent?: string;
+  primary?: boolean;
 }

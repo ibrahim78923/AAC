@@ -1,20 +1,12 @@
-import {
-  Box,
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from '@mui/material';
+import { Typography } from '@mui/material';
 import { useFormContext, useFieldArray } from 'react-hook-form';
 import {
   itemDetailColumns,
   itemDetailFormFieldsFunction,
 } from './ItemDetail.data';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { FieldArrayTable } from '@/components/Table/FieldArrayTable';
+import { useCallback } from 'react';
+import { pxToRem } from '@/utils/getFontValue';
 
 export const ItemDetail: any = (props: any) => {
   const { name } = props;
@@ -24,53 +16,28 @@ export const ItemDetail: any = (props: any) => {
     name,
   });
 
+  const handleAddItem = () => {
+    append({
+      serviceName: '',
+      priceModel: null,
+      cost: 0,
+      count: 0,
+      comments: '',
+    });
+  };
+
   return (
     <>
-      <Box boxShadow={1}>
-        <TableContainer>
-          <Table sx={{ minWidth: '1400px' }}>
-            <TableHead>
-              <TableRow>
-                {itemDetailColumns?.map((column: any) => (
-                  <TableCell key={column}>{column}</TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {fields?.map((item: any, index: any) => {
-                return (
-                  <TableRow key={item?.id}>
-                    {itemDetailFormFieldsFunction?.(name, index, remove)?.map(
-                      (singleField: any) => (
-                        <TableCell key={singleField?.id}>
-                          {singleField?.data}
-                        </TableCell>
-                      ),
-                    )}
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <Button
-          type="button"
-          color="secondary"
-          onClick={() => {
-            append({
-              serviceName: '',
-              priceModel: null,
-              cost: 0,
-              count: 0,
-              comments: '',
-            });
-          }}
-          startIcon={<AddCircleIcon />}
-          sx={{ marginY: 2, marginLeft: 2 }}
-        >
-          Add Additional Items
-        </Button>
-      </Box>
+      <FieldArrayTable
+        handleAddItem={handleAddItem}
+        columns={itemDetailColumns}
+        fields={fields}
+        minWidth={pxToRem(1800)}
+        getRowData={useCallback(
+          (index: any) => itemDetailFormFieldsFunction?.(name, index, remove),
+          [name, remove],
+        )}
+      />
       <Typography variant="body1" color="error">
         {control?.getFieldState?.(name)?.error?.root?.message}
       </Typography>

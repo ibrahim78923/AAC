@@ -4,7 +4,7 @@ import {
   approvalStatus,
   approvalsStatusObj,
 } from './Approvals.data';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { RequestApprovalForm } from './RequestApprovalForm';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { ApproveForm } from './ApproveForm';
@@ -20,8 +20,8 @@ import { CustomAvatar } from '@/components/Avatars/CustomAvatar';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CancelIcon from '@mui/icons-material/Cancel';
+import { CustomButton } from '@/components/Buttons/CustomButton';
+import { CUSTOM_BUTTON_TYPES } from '@/constants/mui-constant';
 
 export const Approvals = () => {
   const {
@@ -56,7 +56,6 @@ export const Approvals = () => {
               }
             >
               <AddNewItemButton
-                size="medium"
                 name="Request Approval"
                 onClick={() => setOpenDialog(true)}
               />
@@ -65,7 +64,6 @@ export const Approvals = () => {
             <>
               <Box textAlign={'end'}>
                 <AddNewItemButton
-                  size="medium"
                   name="Request Approval"
                   onClick={() => setOpenDialog(true)}
                 />
@@ -155,9 +153,7 @@ export const Approvals = () => {
                               justifyContent={'flex-end'}
                               flexWrap={'wrap'}
                             >
-                              <Button
-                                variant="outlined"
-                                className={'small'}
+                              <CustomButton
                                 color="success"
                                 onClick={() =>
                                   setAction?.(
@@ -165,24 +161,22 @@ export const Approvals = () => {
                                     item?._id,
                                   )
                                 }
-                                startIcon={<CheckCircleIcon />}
+                                iconType={CUSTOM_BUTTON_TYPES?.SUCCESS}
                               >
                                 Approve
-                              </Button>
-                              <Button
-                                variant="outlined"
+                              </CustomButton>
+                              <CustomButton
                                 color="error"
-                                className={'small'}
                                 onClick={() =>
                                   setAction?.(
                                     APPROVALS_STATUS?.REJECTED,
                                     item?._id,
                                   )
                                 }
-                                startIcon={<CancelIcon />}
+                                iconType={CUSTOM_BUTTON_TYPES?.REJECT}
                               >
                                 Reject
-                              </Button>
+                              </CustomButton>
                             </Box>
                           )}
                         {user?._id !== item?.approverId &&

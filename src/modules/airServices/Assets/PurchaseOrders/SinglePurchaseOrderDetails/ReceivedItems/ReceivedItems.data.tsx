@@ -41,10 +41,10 @@ export const addItemDefaultValuesFunction = (data: any) => {
 };
 
 export const itemDetailColumns = [
-  'Item Name',
-  'Received',
-  'Quantity',
-  'Pending',
+  { _id: 'Item Name', label: 'Item Name' },
+  { _id: 'Received', label: 'Received' },
+  { _id: 'Quantity', label: 'Quantity' },
+  { _id: 'Pending', label: 'Pending' },
 ];
 
 export const itemDetailFormFieldsFunction = (

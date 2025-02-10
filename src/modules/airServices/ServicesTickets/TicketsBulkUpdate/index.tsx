@@ -1,9 +1,10 @@
 import { FormProvider } from '@/components/ReactHookForm';
-import { Button, Box } from '@mui/material';
+import { Box } from '@mui/material';
 import { useTicketBulkUpdate } from './useTicketsBulkUpdate';
-import { AddCircle, Close } from '@mui/icons-material';
+import { Close } from '@mui/icons-material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormGrid } from '@/components/Grids/FormGrid';
+import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
 
 export const TicketsBulkUpdate = () => {
   const {
@@ -35,15 +36,13 @@ export const TicketsBulkUpdate = () => {
         disabledCancelBtn={apiCallInProgress}
       >
         {!isReplyAdded && (
-          <Button
+          <AddNewItemButton
+            name="Add Reply"
             variant="text"
-            sx={{ backgroundColor: 'primary.lighter' }}
+            color="primary"
+            customStyles={{ backgroundColor: 'primary.lighter' }}
             onClick={() => setIsReplyAdded(true)}
-            startIcon={<AddCircle />}
-            className="small"
-          >
-            Add Reply
-          </Button>
+          />
         )}
         <br />
         <FormProvider methods={methods}>

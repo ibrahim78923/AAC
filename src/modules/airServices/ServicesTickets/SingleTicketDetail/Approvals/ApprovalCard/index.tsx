@@ -1,17 +1,18 @@
-import { Avatar, Box, Button, Typography } from '@mui/material';
+import { Avatar, Box, Typography } from '@mui/material';
 import {
-  APPROVAL_CARD_INFO,
   setStatus,
   setUserDetails,
   ticketsApprovalDropdownFunction,
 } from './ApprovalCard.data';
-import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { MoreVert } from '@mui/icons-material';
 import { TICKET_APPROVALS } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
 import { TICKET_APPROVALS_ACTIONS_CONSTANT } from '@/constants/portal-actions';
 import { uiDateFormat } from '@/lib/date-time';
 import { HtmlRenderer } from '@/components/DataDisplay/HtmlRenderer';
+import { CustomButton } from '@/components/Buttons/CustomButton';
+import { CUSTOM_BUTTON_TYPES } from '@/constants/mui-constant';
+import { PublicSingleDropdownButton } from '@/components/Buttons/PublicSingleDropdownButton';
 
 const { REJECT_TICKET_APPROVAL, APPROVE_TICKET_APPROVAL } =
   TICKET_APPROVALS_ACTIONS_CONSTANT ?? {};
@@ -95,7 +96,7 @@ export const ApprovalCard = (props: any) => {
         <Box textAlign={'end'}>
           {data?.approvalStatus === TICKET_APPROVALS?.PENDING ? (
             data?.createdBy === user?._id ? (
-              <SingleDropdownButton
+              <PublicSingleDropdownButton
                 dropdownOptions={ticketsApprovalDropdown}
                 dropdownName={<MoreVert />}
                 hasEndIcon={false}
@@ -104,14 +105,9 @@ export const ApprovalCard = (props: any) => {
             ) : (
               data?.recieverId === user?._id && (
                 <Box display={'flex'} gap={1} flexWrap={'wrap'}>
-                  <Button
-                    className="small"
-                    size="small"
-                    variant="outlined"
+                  <CustomButton
+                    iconType={CUSTOM_BUTTON_TYPES?.SUCCESS}
                     color="success"
-                    startIcon={
-                      APPROVAL_CARD_INFO?.[TICKET_APPROVALS?.APPROVE]?.icon
-                    }
                     onClick={() =>
                       setApproval?.({
                         ...data,
@@ -121,12 +117,10 @@ export const ApprovalCard = (props: any) => {
                     }
                   >
                     Approve
-                  </Button>
-                  <Button
-                    className="small"
-                    variant="outlined"
+                  </CustomButton>
+                  <CustomButton
                     color="error"
-                    size="small"
+                    iconType={CUSTOM_BUTTON_TYPES?.REJECT}
                     onClick={() =>
                       setApproval?.({
                         ...data,
@@ -134,12 +128,9 @@ export const ApprovalCard = (props: any) => {
                         action: REJECT_TICKET_APPROVAL,
                       })
                     }
-                    startIcon={
-                      APPROVAL_CARD_INFO?.[TICKET_APPROVALS?.REJECT]?.icon
-                    }
                   >
                     Reject
-                  </Button>
+                  </CustomButton>
                 </Box>
               )
             )

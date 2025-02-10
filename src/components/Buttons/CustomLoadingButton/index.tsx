@@ -3,14 +3,18 @@ import { CustomLoadingButtonPropsI } from '../Buttons.interface';
 
 export const CustomLoadingButton = (props: CustomLoadingButtonPropsI) => {
   const {
-    variant = 'contained',
-    type = 'submit',
+    primary = true,
+    variant = primary ? 'contained' : 'outlined',
+    color = primary ? 'primary' : 'secondary',
+    type = 'button',
+    className = 'small',
     loading = false,
     disabled = false,
     onClick,
-    name,
     customStyles,
-    className = 'small',
+    children,
+    startIcon = null,
+    fullWidth = false,
   } = props;
 
   return (
@@ -20,10 +24,13 @@ export const CustomLoadingButton = (props: CustomLoadingButtonPropsI) => {
       type={type}
       loading={loading}
       disabled={disabled}
+      color={color}
       onClick={onClick}
-      sx={{ ...customStyles }}
+      sx={customStyles}
+      startIcon={!!startIcon && startIcon}
+      fullWidth={fullWidth}
     >
-      {name}
+      {children}
     </LoadingButton>
   );
 };

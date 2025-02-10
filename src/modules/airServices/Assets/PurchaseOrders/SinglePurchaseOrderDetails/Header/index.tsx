@@ -1,10 +1,11 @@
-import { Box, Button, Skeleton } from '@mui/material';
+import { Box, Skeleton } from '@mui/material';
 import { AIR_SERVICES } from '@/constants/routes';
 import { useHeader } from './useHeader';
 import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { truncateText } from '@/utils/avatarUtils';
 import { PublicSingleDropdownButton } from '@/components/Buttons/PublicSingleDropdownButton';
+import { CustomButton } from '@/components/Buttons/CustomButton';
 
 export const Header = (props: any) => {
   const {
@@ -36,10 +37,8 @@ export const Header = (props: any) => {
           {data?.data?.status !== PURCHASE_ORDER_STATUS?.OPEN &&
             data?.data?.status !== PURCHASE_ORDER_STATUS?.CANCELLED && (
               <>
-                <Button
-                  color="secondary"
-                  variant="outlined"
-                  className="small"
+                <CustomButton
+                  hasIcon={false}
                   onClick={() => {
                     handleReceived?.();
                   }}
@@ -48,11 +47,9 @@ export const Header = (props: any) => {
                   }
                 >
                   Received item
-                </Button>
-                <Button
-                  color="secondary"
-                  variant="outlined"
-                  className="small"
+                </CustomButton>
+                <CustomButton
+                  hasIcon={false}
                   onClick={() => handleAddToInventory?.()}
                   disabled={
                     data?.data?.status === PURCHASE_ORDER_STATUS?.CLOSED ||
@@ -60,15 +57,15 @@ export const Header = (props: any) => {
                   }
                 >
                   Add to Inventory
-                </Button>
+                </CustomButton>
               </>
             )}
 
           {data?.data?.status !== PURCHASE_ORDER_STATUS?.OPEN && (
-            <Button color="secondary" variant="outlined" className="small">
+            <CustomButton hasIcon={false}>
               {data?.data?.status?.toLowerCase()?.split('_')?.join(' ') ??
                 '----'}
-            </Button>
+            </CustomButton>
           )}
 
           {data?.data?.status === PURCHASE_ORDER_STATUS?.OPEN && (

@@ -1,87 +1,132 @@
 import { RHFTextField } from '@/components/ReactHookForm';
 import { ARRAY_INDEX } from '@/constants/strings';
-import { Button } from '@mui/material';
 import GetPurchaseOrderVendorProductDropdown from '../../PurchaseOrderFormFieldsDropdowns/GetDynamicPurchaseOrderVendorProductDropdown';
+import { CustomButton } from '@/components/Buttons/CustomButton';
+import { ItemDetail } from './ItemDetail';
 
 export const upsertPurchaseOrderItemDetailsDynamic = (
   index: number,
   vendorId: any,
   remove: any,
+  watch?: any,
 ) => {
   return [
     {
       id: 1,
       data: (
-        <GetPurchaseOrderVendorProductDropdown
+        <ItemDetail
           index={index}
-          vendorId={vendorId}
+          watch={watch}
+          data={
+            <GetPurchaseOrderVendorProductDropdown
+              index={index}
+              vendorId={vendorId}
+            />
+          }
         />
       ),
     },
     {
       id: 2,
       data: (
-        <RHFTextField
-          name={`purchaseDetails.${index}.description`}
-          size="small"
-          placeholder="Enter Description"
-          sx={{ minWidth: '12rem' }}
+        <ItemDetail
+          index={index}
+          watch={watch}
+          data={
+            <RHFTextField
+              name={`purchaseDetails.${index}.description`}
+              size="small"
+              placeholder="Enter Description"
+              sx={{ minWidth: '12rem' }}
+            />
+          }
         />
       ),
     },
     {
       id: 3,
       data: (
-        <RHFTextField
-          name={`purchaseDetails.${index}.costPerItem`}
-          size="small"
-          sx={{ minWidth: '5rem' }}
+        <ItemDetail
+          index={index}
+          watch={watch}
+          data={
+            <RHFTextField
+              name={`purchaseDetails.${index}.costPerItem`}
+              size="small"
+              sx={{ minWidth: '5rem' }}
+            />
+          }
         />
       ),
     },
     {
       id: 4,
       data: (
-        <RHFTextField
-          name={`purchaseDetails.${index}.quantity`}
-          size="small"
-          sx={{ minWidth: '12rem' }}
+        <ItemDetail
+          index={index}
+          watch={watch}
+          data={
+            <RHFTextField
+              name={`purchaseDetails.${index}.quantity`}
+              size="small"
+              sx={{ minWidth: '12rem' }}
+            />
+          }
         />
       ),
     },
     {
       id: 5,
       data: (
-        <RHFTextField
-          name={`purchaseDetails.${index}.taxRate`}
-          size="small"
-          sx={{ minWidth: '12rem' }}
+        <ItemDetail
+          index={index}
+          watch={watch}
+          data={
+            <RHFTextField
+              name={`purchaseDetails.${index}.taxRate`}
+              size="small"
+              sx={{ minWidth: '12rem' }}
+            />
+          }
         />
       ),
     },
     {
       id: 50,
       data: (
-        <RHFTextField
-          name={`purchaseDetails.${index}.total`}
-          size="small"
-          sx={{ minWidth: '12rem' }}
-          disabled
+        <ItemDetail
+          index={index}
+          watch={watch}
+          data={
+            <RHFTextField
+              name={`purchaseDetails.${index}.total`}
+              size="small"
+              sx={{ minWidth: '12rem' }}
+              disabled
+            />
+          }
         />
       ),
     },
     {
       id: 6,
-      data:
-        index !== ARRAY_INDEX?.ZERO ? (
-          <Button type={'button'} onClick={() => remove(index)}>
-            Delete
-          </Button>
-        ) : (
-          <Button type={'button'} disabled>
-            Delete
-          </Button>
-        ),
+      data: (
+        <ItemDetail
+          index={index}
+          watch={watch}
+          data={
+            <CustomButton
+              variant="text"
+              hasIcon={false}
+              type="button"
+              disabled={index === ARRAY_INDEX?.ZERO}
+              onClick={() => remove(index)}
+            >
+              Delete
+            </CustomButton>
+          }
+        />
+      ),
     },
   ];
 };
@@ -95,11 +140,11 @@ export const billingData = [
 ];
 
 export const itemsDetailsColumnsList = [
-  { label: 'Item Name *', value: 'itemName' },
-  { label: 'Description *', value: 'description' },
-  { label: 'Cost Per Item *', value: 'costPerItem' },
-  { label: 'Quantity *', value: 'quantity' },
-  { label: 'Tax Rate(%) *', value: 'taxRate' },
-  { label: 'Total(£) *', value: 'total' },
-  { label: 'Action', value: 'action' },
+  { label: 'Item Name *', _id: 'itemName' },
+  { label: 'Description *', _id: 'description' },
+  { label: 'Cost Per Item *', _id: 'costPerItem' },
+  { label: 'Quantity *', _id: 'quantity' },
+  { label: 'Tax Rate(%) *', _id: 'taxRate' },
+  { label: 'Total(£) *', _id: 'total' },
+  { label: 'Action', _id: 'action' },
 ];

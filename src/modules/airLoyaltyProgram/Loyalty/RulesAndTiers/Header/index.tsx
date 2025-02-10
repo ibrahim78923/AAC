@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useHeader } from './useHeader';
 import {
   loyaltyProgramRulesActionComponent,
@@ -6,6 +6,7 @@ import {
 } from './Header.data';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS } from '@/constants/permission-keys';
+import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
 
 export const Header = () => {
   const {
@@ -34,26 +35,22 @@ export const Header = () => {
               AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS?.CREATE_RULES,
             ]}
           >
-            <Button
-              className="small"
-              variant="contained"
+            <AddNewItemButton
+              hasStartIcon={false}
+              name="Create Rules"
               onClick={openCreateRulePortal}
-            >
-              Create Rules
-            </Button>
+            />
           </PermissionsGuard>
           <PermissionsGuard
             permissions={[
               AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS?.CREATE_TIERS,
             ]}
           >
-            <Button
-              className="small"
-              variant="contained"
+            <AddNewItemButton
+              hasStartIcon={false}
+              name="Create Tiers"
               onClick={openCreateTiersPortal}
-            >
-              Create Tiers
-            </Button>
+            />
           </PermissionsGuard>
         </Box>
       </Box>
