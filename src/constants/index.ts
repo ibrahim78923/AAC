@@ -526,6 +526,9 @@ export const BYPASS_ROUTES: any = {
   'social-components': true,
   'air-social': true,
   'edit-profile': true,
+  'activity-logs': true,
+  delegates: true,
+
 };
 
 export const AIR_SALES_GOAL_NOTIFICATION = {

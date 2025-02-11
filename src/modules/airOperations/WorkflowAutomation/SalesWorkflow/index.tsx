@@ -1,13 +1,10 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useSalesWorkflow } from './useSalesWorkflow';
 import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
-import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
-import { Deal } from './SalesListView/Deal';
-import { Quote } from './SalesListView/Quote';
-import { Task } from './SalesListView/Task';
 import { tabsData } from './SalesWorkflow.data';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { Permissions } from '@/constants/permissions';
+import { PermissionsTabs } from '@/components/Tabs/PermissionsTabs';
 
 export const SalesWorkflow = () => {
   const { handleBack, handleCreateWorkflow } = useSalesWorkflow();
@@ -29,11 +26,7 @@ export const SalesWorkflow = () => {
           Permissions?.AIR_OPERATIONS_WORKFLOWS_LIST_VIEW_SALES_WORKFLOW
         }
       >
-        <HorizontalTabs tabsDataArray={tabsData}>
-          <Deal />
-          <Quote />
-          <Task />
-        </HorizontalTabs>
+        <PermissionsTabs tabsDataArray={tabsData} />
       </PermissionsGuard>
     </>
   );

@@ -1,8 +1,8 @@
 export interface PermissionTabsArrayI {
   _id: string | number;
-  id: string;
+  id?: string;
   name: string;
-  tabPermissions: string[];
+  tabPermissions?: string[];
   component: any;
   label?: string;
   disabled?: boolean;

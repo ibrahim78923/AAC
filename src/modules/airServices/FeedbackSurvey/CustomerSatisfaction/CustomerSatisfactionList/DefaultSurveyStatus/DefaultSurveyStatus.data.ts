@@ -16,7 +16,7 @@ export const surveyEmailHtml = ({
   <p>To fill out the survey, please visit the following link:<br>
   <a href="${surveyValues?.magicLink}" style="text-decoration: underline; color: ${theme
     ?.palette?.blue?.link_blue}" target="_blank">${
-    surveyValues?.displayName ?? surveyValues?.surveyTitle
+    surveyValues?.displayName || surveyValues?.surveyTitle
   }</a></p><br/>
   <p>Thank you in advance for your valuable feedback.</p><br/>
   <p>Regards,<br/><br><b>${sessionData?.user?.organization?.name}</b></p>
