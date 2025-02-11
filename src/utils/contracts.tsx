@@ -81,55 +81,55 @@ export const getFieldIcon = (type: string) => {
 
 export const getPartiesFormData = (parties: any) => {
   if (!Array.isArray(parties) || parties.length === 0) return null;
-  const formData = parties.map((party: any) => {
-    if (party?._id) {
-      return {
-        id: party?._id,
-        address: party?.address,
-        idNumber: party?.idNumber,
-        referredAs: party?.referredAs,
-        moduleType: party.moduleType,
-        moduleId: party?.moduleId,
-      };
-    }
-    return {
-      address: party?.address,
-      idNumber: party?.idNumber,
-      referredAs: party?.referredAs,
-      moduleType: party.moduleType,
-      moduleId: party?.moduleId,
-    };
-  });
-  return JSON.stringify(formData);
+
+  const formData = parties
+    .map((party: any) => {
+      if (!party || typeof party !== 'object') return null;
+
+      const formattedParty: any = {};
+
+      if (party?._id) formattedParty.id = party?._id;
+      if (party?.address) formattedParty.address = party?.address;
+      if (party?.idNumber) formattedParty.idNumber = party?.idNumber;
+      if (party?.referredAs) formattedParty.referredAs = party?.referredAs;
+      if (party?.moduleType) formattedParty.moduleType = party?.moduleType;
+      if (party?.moduleData?._id)
+        formattedParty.moduleId = party?.moduleData?._id;
+
+      return formattedParty;
+    })
+    .filter(Boolean);
+
+  return formData.length ? JSON.stringify(formData) : null;
 };
 
 export const getSigneesFormData = (signees: any) => {
-  if (!Array.isArray(signees) || signees.length === 0) return null;
+  if (!Array.isArray(signees) || signees?.length === 0) return null;
 
-  const formData = signees.map((signee: any) => {
-    if (signee?._id) {
-      return {
-        id: signee?._id,
-        signingOrder: signee?.signingOrder,
-        personalTitle: signee?.personalTitle,
-        name: signee?.name,
-        email: signee?.email,
-        signatureStatus: signee?.signatureStatus,
-        signatureType: signee?.signatureType,
-        moduleId: signee?.onBehalfOf?._id,
-      };
-    }
-    return {
-      signingOrder: signee?.signingOrder,
-      personalTitle: signee?.personalTitle,
-      name: signee?.name,
-      email: signee?.email,
-      signatureStatus: signee?.signatureStatus,
-      signatureType: signee?.signatureType,
-      moduleId: signee?.onBehalfOf?._id,
-    };
-  });
-  return JSON.stringify(formData);
+  const formData = signees
+    ?.map((signee: any) => {
+      if (!signee || typeof signee !== 'object') return null;
+
+      const formattedSignee: any = {};
+
+      if (signee?._id) formattedSignee.id = signee?._id;
+      if (signee?.signingOrder)
+        formattedSignee.signingOrder = signee?.signingOrder;
+      if (signee?.personalTitle)
+        formattedSignee.personalTitle = signee?.personalTitle;
+      if (signee?.name) formattedSignee.name = signee?.name;
+      if (signee?.email) formattedSignee.email = signee?.email;
+      if (signee?.signatureStatus)
+        formattedSignee.signatureStatus = signee?.signatureStatus;
+      if (signee?.signatureType)
+        formattedSignee.signatureType = signee?.signatureType;
+      if (signee?.onBehalfOf) formattedSignee.moduleId = signee?.onBehalfOf;
+
+      return formattedSignee;
+    })
+    .filter(Boolean);
+
+  return formData.length ? JSON.stringify(formData) : null;
 };
 
 export const getPartyName = (data: any) => {

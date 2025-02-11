@@ -15,7 +15,7 @@ export const validationSchema = () => {
     ),
     parties: Yup.array().of(
       Yup.object().shape({
-        name: Yup?.object()?.required('Field is Required'),
+        moduleData: Yup?.object()?.required('Field is Required'),
         // address: Yup?.string()?.trim()?.required('Field is Required'),
         // idNumber: Yup?.string()?.trim()?.required('Field is Required'),
         // referredAs: Yup?.string()?.trim()?.required('Field is Required'),
@@ -25,6 +25,22 @@ export const validationSchema = () => {
 };
 
 export const defaultValues = (data: any) => {
+  const partyMap = new Map(
+    (data?.parties || []).map((party: any) => [
+      party._id,
+      party.moduleData?._id || '',
+    ]),
+  );
+
+  const updatedSignees = (data?.signees || []).map((signee: any) => {
+    const onBehalfOf = partyMap.get(signee.partyId) || '';
+
+    return {
+      ...signee,
+      onBehalfOf,
+    };
+  });
+
   return {
     name: data?.name ?? '',
     folderId: data?.folderId ?? null,
@@ -32,7 +48,7 @@ export const defaultValues = (data: any) => {
     message: data?.message ?? '',
     visibleTo: data?.visibleTo ?? 'EVERYONE',
     logo: data?.logo ?? null,
-    signees: data?.signees ?? [],
+    signees: updatedSignees ?? [],
     parties: data?.parties ?? [],
     dynamicFields: [
       ...defaultFieldsData,

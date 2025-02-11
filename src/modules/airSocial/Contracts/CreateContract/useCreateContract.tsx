@@ -148,12 +148,12 @@ export default function useCreateContract() {
     createFormData('logo', values?.logo);
     createFormData('parties', getPartiesFormData(values?.parties));
     createFormData('signees', getSigneesFormData(values?.signees));
-    createFormData(
-      'dynamicFields',
-      values?.dynamicFields?.length === 0
-        ? null
-        : JSON.stringify(values?.dynamicFields),
-    );
+    // createFormData(
+    //   'dynamicFields',
+    //   values?.dynamicFields?.length === 0
+    //     ? null
+    //     : JSON.stringify(values?.dynamicFields),
+    // );
 
     if (saveAs === 'template') {
       createFormData('category', templateCatgValue);

@@ -31,10 +31,12 @@ export default function SigneeCard({
 
   const onBehalfOfData = partyValues?.map((party: any) => {
     return {
-      value: party?.name?._id,
-      label:
-        party?.name?.name ||
-        `${party?.name?.firstName || ''} ${party?.name?.lastName || ''}`.trim(),
+      _id: party?.moduleData?._id,
+      name:
+        party?.moduleData?.name ||
+        `${party?.moduleData?.firstName || ''} ${
+          party?.moduleData?.lastName || ''
+        }`.trim(),
     };
   });
 
