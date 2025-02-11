@@ -155,6 +155,7 @@ export default function useCreateContract() {
     //     : JSON.stringify(values?.dynamicFields),
     // );
 
+
     if (saveAs === 'template') {
       createFormData('category', templateCatgValue);
       try {

@@ -130,6 +130,7 @@ export const getSigneesFormData = (signees: any) => {
     .filter(Boolean);
 
   return formData.length ? JSON.stringify(formData) : null;
+
 };
 
 export const getPartyName = (data: any) => {
