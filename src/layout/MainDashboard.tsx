@@ -56,7 +56,7 @@ import {
   PRODUCT_LABELS,
 } from '@/constants';
 import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
-import { SOCKETS_EVENTS } from '@/constants/strings';
+import { ROLES, SOCKETS_EVENTS } from '@/constants/strings';
 import { setNotifications } from '@/redux/slices/notifications/notifications';
 import { LogoAvatar } from '@/components/Avatars/LogoAvatar';
 
@@ -135,11 +135,14 @@ const DashboardLayout = ({ children, window }: any) => {
     if (productSwitcherLoadingState) {
       setProductSwitcherLoading(false);
     }
-    if (
-      basePath !== getProductBasePath(productName) &&
-      !BYPASS_ROUTES[basePath]
-    ) {
-      router.push('/');
+
+    if (user?.role !== ROLES?.SUPER_ADMIN) {
+      if (
+        basePath !== getProductBasePath(productName) &&
+        !BYPASS_ROUTES[basePath]
+      ) {
+        router.push('/');
+      }
     }
   }, [basePath]);
 
