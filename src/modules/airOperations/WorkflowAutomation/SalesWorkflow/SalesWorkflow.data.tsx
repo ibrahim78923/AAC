@@ -8,6 +8,9 @@ import { WorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
 import { TruncateText } from '@/components/TruncateText';
 import { WorkflowStatus } from './WorkflowStatus';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
+import { Deal } from './SalesListView/Deal';
+import { Quote } from './SalesListView/Quote';
+import { Task } from './SalesListView/Task';
 
 export const salesWorkflowActionDropdownDynamic = (
   selectedSalesWorkflowLists: WorkflowI[],
@@ -161,4 +164,23 @@ export const salesWorkflowListsColumnDynamic = (
   ];
 };
 
-export const tabsData = ['Deals', 'Quotes', 'Tasks'];
+export const tabsData = [
+  {
+    _id: 1,
+    name: 'Deals',
+    component: Deal,
+    hasNoPermissions: true,
+  },
+  {
+    _id: 2,
+    name: 'Quotes',
+    component: Quote,
+    hasNoPermissions: true,
+  },
+  {
+    _id: 3,
+    name: 'Tasks',
+    component: Task,
+    hasNoPermissions: true,
+  },
+];

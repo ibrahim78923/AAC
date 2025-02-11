@@ -1,10 +1,11 @@
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useLazyGetCustomerPortalTicketsQuery } from '@/services/airCustomerPortal/Tickets';
 import { PAGINATION } from '@/config';
 import { allTicketsDropdownFunction, ticketStatuses } from './Tickets.data';
 import { newTicketsDropdownDynamic } from './ReportIssue/ReportIssue.data';
-import { getCustomerPortalStyling } from '@/utils';
+import { getCustomerPortalStyling, getSession } from '@/utils';
+import { AUTH } from '@/constants';
 
 export const useTickets = () => {
   const router = useRouter();
@@ -35,7 +36,16 @@ export const useTickets = () => {
       await lazyGetCustomerPortalTicketsTrigger(getTicketsParam)?.unwrap();
     } catch (error) {}
   };
+  const authUserId = useMemo(() => {
+    const userId = getSession() as any;
+    return userId?.user?._id;
+  }, [router]);
 
+  useEffect(() => {
+    if (!authUserId) {
+      router?.push(AUTH?.LOGIN);
+    }
+  }, [router]);
   useEffect(() => {
     getTicketsData?.();
   }, [page, pageLimit, ticketStatus]);
