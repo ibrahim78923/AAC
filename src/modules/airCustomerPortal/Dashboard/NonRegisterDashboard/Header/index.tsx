@@ -1,7 +1,8 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { ReportIssue } from '@/modules/airCustomerPortal/Tickets/ReportIssue';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
 import { useHeader } from './useHeader';
+import { CustomButton } from '@/components/Buttons/CustomButton';
 
 export const Header = () => {
   const {
@@ -25,11 +26,11 @@ export const Header = () => {
 
         <Box>
           {reportAnIssuePermission && (
-            <Button
+            <CustomButton
+              hasIcon={false}
+              primary
               onClick={handleOpenModal}
-              className="small"
-              variant="contained"
-              sx={(theme: any) => ({
+              customStyles={(theme: any) => ({
                 bgcolor:
                   customerPortalStyling?.btnPrimary ||
                   customizePortalDefaultValues(theme)?.btnPrimary,
@@ -43,7 +44,7 @@ export const Header = () => {
               })}
             >
               Report an Issue
-            </Button>
+            </CustomButton>
           )}
           {openReportAnIssueModal && (
             <ReportIssue

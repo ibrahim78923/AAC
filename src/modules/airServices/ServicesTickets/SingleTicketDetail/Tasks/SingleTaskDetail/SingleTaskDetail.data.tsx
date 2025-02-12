@@ -1,16 +1,17 @@
-import { Theme, Typography } from '@mui/material';
 import * as Yup from 'yup';
-import { styles } from './SingleTaskDetail.styles';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { TASK_STATUS } from '@/constants/strings';
 import { DYNAMIC_FORM_FIELDS_TYPES } from '@/utils/dynamic-forms';
 import { otherDateFormat } from '@/lib/date-time';
+import { CustomChip } from '@/components/Chip/CustomChip';
+import { CHIP_SHAPE, CHIP_VARIANTS } from '@/constants/mui-constant';
+import { STATUS_CHIP_STYLE } from '../TasksList/TasksList.data';
 
 const { DONE, IN_PROGRESS, TO_DO } = TASK_STATUS;
 
 export const statusOptions = [TO_DO, IN_PROGRESS, DONE];
 
-export const drawerDetail: any = (taskDetail: any, theme: Theme) => [
+export const singleTaskDetailsDynamic: any = (taskDetail: any) => [
   {
     id: 1,
     title: 'Workspace',
@@ -28,18 +29,19 @@ export const drawerDetail: any = (taskDetail: any, theme: Theme) => [
   {
     id: 3,
     title: 'Status',
-    details: (() => {
-      const statusValue = taskDetail?.status;
-      return (
-        <Typography
-          variant={'body2'}
-          component={'span'}
-          sx={styles?.tableStatusStyle(statusValue, theme)}
-        >
-          {taskDetail?.status}
-        </Typography>
-      );
-    })(),
+    details: (
+      <CustomChip
+        label={taskDetail?.status}
+        shape={CHIP_SHAPE?.SQUARE}
+        variant={CHIP_VARIANTS?.OUTLINED}
+        size="medium"
+        backgroundColor={
+          STATUS_CHIP_STYLE?.[taskDetail?.status]?.backgroundColor
+        }
+        textColor={STATUS_CHIP_STYLE?.[taskDetail?.status]?.color}
+        borderColor={STATUS_CHIP_STYLE?.[taskDetail?.status]?.borderColor}
+      />
+    ),
   },
   {
     id: 4,

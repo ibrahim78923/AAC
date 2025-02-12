@@ -1,6 +1,6 @@
 import { AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { Box, Checkbox, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import ActionButton from '../ActionButton';
 import { AIR_SERVICES } from '@/constants/routes';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
@@ -9,6 +9,7 @@ import { AVATAR_VARIANTS, SKELETON_TYPES } from '@/constants/mui-constant';
 import { useServicesList } from './useServicesList';
 import { ListGrid } from '@/components/Grids/ListGrid';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
+import { CheckboxField } from '@/components/InputFields/CheckboxField';
 
 export const ServicesList = () => {
   const {
@@ -42,33 +43,21 @@ export const ServicesList = () => {
           display={'flex'}
           alignItems={'center'}
           justifyContent={'space-between'}
+          flexWrap={'wrap'}
         >
-          <Box
-            display={'flex'}
-            alignItems={'center'}
-            gap={1}
-            bgcolor={'grey.400'}
-            borderRadius={2}
-            width={300}
-          >
-            <Checkbox
-              checked={
-                selectedCheckboxes?.length !== SELECTED_ARRAY_LENGTH?.ZERO &&
-                services?.length === selectedCheckboxes?.length
-              }
-              onChange={(e: any) => {
-                e?.target?.checked
-                  ? setSelectedCheckboxes(
-                      services?.map((result: any) => result),
-                    )
-                  : setSelectedCheckboxes([]);
-              }}
-              color={'primary'}
-              name={'_id'}
-            />
-
-            <Typography variant={'h6'}> Select All</Typography>
-          </Box>
+          <CheckboxField
+            checked={
+              selectedCheckboxes?.length !== SELECTED_ARRAY_LENGTH?.ZERO &&
+              services?.length === selectedCheckboxes?.length
+            }
+            onChange={(e: any) => {
+              e?.target?.checked
+                ? setSelectedCheckboxes(services?.map((result: any) => result))
+                : setSelectedCheckboxes([]);
+            }}
+            name={'_id'}
+            label="Select All"
+          />
 
           <Box textAlign={'end'}>
             {selectedCheckboxes && (

@@ -1,12 +1,5 @@
 import { AIR_SERVICES_ENQUIRIES_PERMISSION } from '@/constants/permission-keys';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import {
-  Checkbox,
-  CircularProgress,
-  MenuItem,
-  Select,
-  Typography,
-} from '@mui/material';
+import { CircularProgress, MenuItem, Select, Typography } from '@mui/material';
 import { ARRAY_INDEX, DONE } from '@/constants/strings';
 import {
   ICloseMenu,
@@ -18,6 +11,7 @@ import {
 import { ChangeEvent } from 'react';
 import { TruncateText } from '@/components/TruncateText';
 import { errorSnackbar } from '@/lib/snackbar';
+import { CheckboxField } from '@/components/InputFields/CheckboxField';
 
 export const getEnquiriesActionDropdown = ({
   enquiriesSelected,
@@ -92,9 +86,7 @@ export const getEnquiriesColumns = ({
     accessorFn: (row: IEnquiry) => row,
     id: '_id',
     cell: (info) => (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
+      <CheckboxField
         checked={!!enquiriesSelected?.find((item) => item === info?.getValue())}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
           e?.target?.checked
@@ -103,14 +95,11 @@ export const getEnquiriesColumns = ({
                 enquiriesSelected?.filter((item) => item !== info?.getValue()),
               );
         }}
-        color="primary"
         name={info?.getValue()}
       />
     ),
     header: (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
+      <CheckboxField
         checked={
           dataArray?.length
             ? enquiriesSelected?.length === dataArray?.length
@@ -121,7 +110,6 @@ export const getEnquiriesColumns = ({
             ? setEnquiriesSelected(dataArray?.map((enquiry) => enquiry))
             : setEnquiriesSelected([]);
         }}
-        color="primary"
         name="_id"
       />
     ),

@@ -94,7 +94,6 @@ const UpdateQuote = () => {
   );
 
   const rewardId: any = useAppSelector((state) => state?.quotesForm?.rewardId);
-
   return (
     <>
       <AppHorizontalStepper

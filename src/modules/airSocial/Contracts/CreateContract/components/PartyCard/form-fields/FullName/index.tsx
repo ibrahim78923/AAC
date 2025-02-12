@@ -12,7 +12,7 @@ export default function FullName({ index }: { index: number }) {
 
   return parties[index]?.moduleType === 'COMPANIES' ? (
     <RHFAutocompleteAsync
-      name={`parties.${index}.name`}
+      name={`parties.${index}.moduleData`}
       label="Full name"
       fullWidth
       size="small"
@@ -33,7 +33,7 @@ export default function FullName({ index }: { index: number }) {
     />
   ) : (
     <RHFAutocompleteAsync
-      name={`parties.${index}.name`}
+      name={`parties.${index}.moduleData`}
       label="Full name"
       fullWidth
       size="small"

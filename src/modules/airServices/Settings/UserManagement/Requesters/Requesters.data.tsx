@@ -1,12 +1,12 @@
-import { Box, Checkbox, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { REQUESTORS_STATUS } from '@/constants/strings';
 import { AIR_SERVICES } from '@/constants/routes';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { errorSnackbar } from '@/lib/snackbar';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { UserInfo } from '@/components/UserInfo';
 import { TruncateText } from '@/components/TruncateText';
+import { CheckboxField } from '@/components/InputFields/CheckboxField';
 
 export const requestersDropdown: any = (
   setDeleteModalOpen: any,
@@ -49,9 +49,7 @@ export const requestersList: any = (
     accessorFn: (row: any) => row?._id,
     id: '_id',
     cell: (info: any) => (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
+      <CheckboxField
         checked={
           !!selectedRequestersList?.find(
             (item: any) => item?._id === info?.getValue(),
@@ -71,14 +69,11 @@ export const requestersList: any = (
                 }),
               );
         }}
-        color="primary"
         name={info?.getValue()}
       />
     ),
     header: (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
+      <CheckboxField
         checked={
           !!tableListData?.length
             ? selectedRequestersList?.length === tableListData?.length
@@ -89,7 +84,6 @@ export const requestersList: any = (
             ? setSelectedRequestersList(tableListData?.map((item: any) => item))
             : setSelectedRequestersList([]);
         }}
-        color="primary"
         name="_id"
       />
     ),

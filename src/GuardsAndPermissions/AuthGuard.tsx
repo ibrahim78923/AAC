@@ -8,6 +8,8 @@ import Login from '@/modules/auth/Login';
 
 import LoadingScreen from '@/components/LoadingScreen';
 import { getSession } from '@/utils';
+import { BYPASS_ROUTES } from '@/constants';
+import { ROLES } from '@/constants/strings';
 
 export default function AuthGuard({ children }: any) {
   const { isAuthenticated, isInitialized } = useAuth();
@@ -17,6 +19,10 @@ export default function AuthGuard({ children }: any) {
 
   const { user }: { accessToken: string; refreshToken: string; user: any } =
     getSession();
+
+  const pathSegments = pathname.slice(1).split('/');
+
+  const basePath = pathSegments[0];
 
   useEffect(() => {
     if (requestedLocation && pathname !== requestedLocation) {
@@ -38,6 +44,13 @@ export default function AuthGuard({ children }: any) {
   }
 
   if (pathname.includes('org-admin') && user?.role !== 'ORG_ADMIN') {
+    push({ pathname: '/405' });
+  }
+  if (
+    user?.role === ROLES.SUPER_ADMIN &&
+    basePath !== 'super-admin' &&
+    !BYPASS_ROUTES[basePath]
+  ) {
     push({ pathname: '/405' });
   }
   if (

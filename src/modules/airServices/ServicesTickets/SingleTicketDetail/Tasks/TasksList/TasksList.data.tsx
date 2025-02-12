@@ -1,29 +1,46 @@
 import { TicketTasksTableRowI } from '../Tasks.interface';
-import { Checkbox, Theme, Typography } from '@mui/material';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { Typography } from '@mui/material';
 import { fullName } from '@/utils/avatarUtils';
-import { styles } from '../Tasks.styles';
 import { TICKET_TASKS_ACTIONS_CONSTANT } from '../Tasks.data';
 import { TruncateText } from '@/components/TruncateText';
 import { uiDateFormat } from '@/lib/date-time';
+import { CheckboxField } from '@/components/InputFields/CheckboxField';
+import { CustomChip } from '@/components/Chip/CustomChip';
+import { CHIP_SHAPE, CHIP_VARIANTS } from '@/constants/mui-constant';
+import { TASK_STATUS } from '@/constants/strings';
 
 const { TICKET_TASKS_DETAIL } = TICKET_TASKS_ACTIONS_CONSTANT;
+
+export const STATUS_CHIP_STYLE = {
+  [TASK_STATUS?.TO_DO]: {
+    borderColor: `primary.main`,
+    backgroundColor: 'primary.lighter',
+    color: 'primary.main ',
+  },
+  [TASK_STATUS?.IN_PROGRESS]: {
+    borderColor: `custom.bright`,
+    backgroundColor: 'custom.aqua_breeze',
+    color: 'custom.bright',
+  },
+  [TASK_STATUS.DONE]: {
+    borderColor: 'custom.custom_red',
+    backgroundColor: 'custom.light_error',
+    color: 'error.dark',
+  },
+};
 
 export const ticketsTasksListsColumnsDynamic: any = (
   totalTasks = [],
   selectedTasksList: any,
   setSelectedTasksLists: any,
   setTicketTasksAction: (param: string, action?: string) => void,
-  theme: Theme,
 ) => {
   return [
     {
       accessorFn: (row: TicketTasksTableRowI) => row?._id,
       id: '_id',
       cell: (info: any) => (
-        <Checkbox
-          icon={<CheckboxIcon />}
-          checkedIcon={<CheckboxCheckedIcon />}
+        <CheckboxField
           checked={
             !!selectedTasksList?.find(
               (item: any) => item?._id === info?.getValue(),
@@ -41,14 +58,11 @@ export const ticketsTasksListsColumnsDynamic: any = (
                   ),
                 );
           }}
-          color="primary"
           name={info?.getValue()}
         />
       ),
       header: (
-        <Checkbox
-          icon={<CheckboxIcon />}
-          checkedIcon={<CheckboxCheckedIcon />}
+        <CheckboxField
           checked={
             totalTasks?.length
               ? selectedTasksList?.length === totalTasks?.length
@@ -59,7 +73,6 @@ export const ticketsTasksListsColumnsDynamic: any = (
               ? setSelectedTasksLists(totalTasks?.map((item: any) => item))
               : setSelectedTasksLists([]);
           }}
-          color="primary"
           name="id"
         />
       ),
@@ -114,12 +127,15 @@ export const ticketsTasksListsColumnsDynamic: any = (
       cell: (info: any) => {
         const statusValue = info?.getValue();
         return (
-          <Typography
-            variant="body2"
-            sx={styles?.tableStatusStyle(statusValue, theme)}
-          >
-            {info?.getValue()}
-          </Typography>
+          <CustomChip
+            label={info?.getValue()}
+            shape={CHIP_SHAPE?.SQUARE}
+            variant={CHIP_VARIANTS?.OUTLINED}
+            size="medium"
+            backgroundColor={STATUS_CHIP_STYLE?.[statusValue]?.backgroundColor}
+            textColor={STATUS_CHIP_STYLE?.[statusValue]?.color}
+            borderColor={STATUS_CHIP_STYLE?.[statusValue]?.borderColor}
+          />
         );
       },
     },

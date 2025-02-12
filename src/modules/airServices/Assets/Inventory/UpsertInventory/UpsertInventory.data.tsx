@@ -87,7 +87,7 @@ export const editInventoryDefaultValues = {
 
 export const upsertInventoryFormFieldsFirst = () => [
   {
-    id: 1,
+    _id: 1,
     componentProps: {
       name: 'displayName',
       label: 'Display name',
@@ -98,13 +98,13 @@ export const upsertInventoryFormFieldsFirst = () => [
     md: 6,
   },
   {
-    id: 2,
+    _id: 2,
     component: GetInventoryAssetsDropdown,
     componentProps: { required: true },
     md: 6,
   },
   {
-    id: 3,
+    _id: 3,
     componentProps: {
       name: 'impact',
       label: 'Impact',
@@ -116,7 +116,7 @@ export const upsertInventoryFormFieldsFirst = () => [
     md: 6,
   },
   {
-    id: 4,
+    _id: 4,
     componentProps: {
       name: 'description',
       label: 'Description',
@@ -126,7 +126,7 @@ export const upsertInventoryFormFieldsFirst = () => [
     component: RHFEditor,
   },
   {
-    id: 5,
+    _id: 5,
     componentProps: {
       name: 'assetLifeExpiry',
       label: 'Expiry date',
@@ -141,7 +141,7 @@ export const upsertInventoryFormFieldsFirst = () => [
 
 export const upsertInventoryFormFieldsSecond = () => [
   {
-    id: 6,
+    _id: 6,
     componentProps: {
       variant: 'h4',
     },
@@ -149,19 +149,19 @@ export const upsertInventoryFormFieldsSecond = () => [
     component: Typography,
   },
   {
-    id: 7,
+    _id: 7,
     component: GetInventoryLocationDropdown,
     componentProps: { name: 'location' },
     md: 6,
   },
   {
-    id: 8,
+    _id: 8,
     component: GetInventoryDepartmentDropdown,
     componentProps: { name: 'department' },
     md: 6,
   },
   {
-    id: 9,
+    _id: 9,
     component: RHFDesktopDateTimePicker,
     componentProps: {
       name: 'assignedOn',
@@ -174,7 +174,7 @@ export const upsertInventoryFormFieldsSecond = () => [
     md: 6,
   },
   {
-    id: 10,
+    _id: 10,
     component: GetInventoryAllUsersDropdown,
     md: 6,
   },

@@ -1,11 +1,9 @@
 import { useUpsertInventory } from './useUpsertInventory';
-import { Box, CircularProgress, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 import { Attachments } from '@/components/Attachments';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { componentMap } from '@/utils/dynamic-forms';
-import { createElement } from 'react';
 import {
   GENERIC_UPSERT_FORM_CONSTANT,
   INVENTORY_TITLE,
@@ -14,12 +12,16 @@ import { uploadFileMaxSize } from '@/utils/avatarUtils';
 import { ACCEPT_FILE_EXTENSIONS } from '@/constants/file';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { ActionsLoadingButton } from '@/components/Buttons/ActionsLoadingButton';
+import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CustomGrid } from '@/components/Grids/CustomGrid';
+import { FormGrid } from '@/components/Grids/FormGrid';
+import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
+import { DynamicForm } from '@/components/DynamicForm';
 
 export const UpsertInventory = () => {
   const {
     methods,
     handleSubmit,
-    theme,
     submitUpsertInventory,
     inventoryId,
     isLoading,
@@ -55,93 +57,104 @@ export const UpsertInventory = () => {
           methods={methods}
           onSubmit={handleSubmit(submitUpsertInventory)}
         >
-          <Grid container rowSpacing={1.8} columnSpacing={2}>
-            <Grid item lg={9}>
-              <Box
-                p={2}
-                borderRadius={3}
-                border={`2px solid ${theme?.palette?.custom?.off_white_three}`}
-              >
-                <Grid item container xs={12} overflow="scroll">
-                  <Grid container rowSpacing={1.8} columnSpacing={3}>
-                    {upsertInventoryFormFieldsOne?.map((item: any) => (
-                      <Grid item xs={12} md={item?.md} key={item?.id}>
-                        <item.component
-                          {...item?.componentProps}
-                          size="small"
-                        />
-                      </Grid>
-                    ))}
+          <Box
+            sx={{
+              border: {
+                xs: `2px solid `,
+                md: 'none',
+              },
+              borderColor: {
+                xs: `custom.off_white_three`,
+                md: 'none',
+              },
+              borderRadius: { xs: 2, md: 0 },
+              padding: { md: 0, xs: 2 },
+            }}
+          >
+            <ContainerGrid>
+              <CustomGrid md={8}>
+                <Box
+                  sx={{
+                    border: {
+                      md: `2px solid `,
+                      xs: 'none',
+                    },
+                    borderColor: {
+                      md: `custom.off_white_three`,
+                      xs: 'none',
+                    },
+                    borderRadius: { md: 2, xs: 0 },
+                    padding: { md: 1.5, xs: 0 },
+                  }}
+                >
+                  <FormGrid formFieldsList={upsertInventoryFormFieldsOne}>
                     {getDynamicFieldsStatus?.isLoading ||
                     getDynamicFieldsStatus?.isFetching ? (
-                      <Grid item xs={12} textAlign={'center'}>
-                        <CircularProgress />
-                      </Grid>
+                      <CustomGrid>
+                        <CustomLinearProgress width="100%" />
+                      </CustomGrid>
                     ) : (
                       <>
                         {!!form?.length && (
-                          <Grid item xs={12}>
+                          <CustomGrid>
                             <Typography variant={'h4'}>
                               {assetTypeWatch?.name} Properties
                             </Typography>
-                          </Grid>
+                          </CustomGrid>
                         )}
-                        {form?.map((item: any) => (
-                          <Grid item xs={12} key={item?.id}>
-                            {componentMap[item?.component] &&
-                              createElement(componentMap[item?.component], {
-                                ...item?.componentProps,
-                                name: item?.componentProps?.label,
-                                size: 'small',
-                              })}
-                          </Grid>
-                        ))}
+                        <DynamicForm dynamicFormFieldsList={form} />
                       </>
                     )}
                     {upsertInventoryFormFieldsTwo?.map((item: any) => (
-                      <Grid item xs={12} md={item?.md} key={item?.id}>
+                      <CustomGrid md={item?.md} key={item?.id}>
                         <item.component {...item?.componentProps} size="small">
                           {item?.heading ? item?.heading : null}
                         </item.component>
-                      </Grid>
+                      </CustomGrid>
                     ))}
-                  </Grid>
-                </Grid>
-                <Box sx={{ display: { lg: 'none', xs: 'block' } }}>
-                  <RHFDropZone
-                    name="fileUrl"
-                    fullWidth={true}
-                    fileType={`PNG, JPG and PDF (max ${uploadFileMaxSize} MB)`}
-                    accept={{
-                      'image/png': ACCEPT_FILE_EXTENSIONS?.PNG,
-                      'image/jpeg': ACCEPT_FILE_EXTENSIONS?.JPEG,
-                      'application/pdf': ACCEPT_FILE_EXTENSIONS?.PDF,
-                    }}
-                  />
-                  <br />
-                  {!!inventoryId && (
-                    <>
-                      <Typography
-                        variant="body1"
-                        fontWeight={500}
-                        color="slateBlue.main"
-                        mb={2}
-                      >
-                        {' '}
-                        Attachments{' '}
-                      </Typography>
-                      <Box maxHeight={'20vh'}>
-                        <Attachments
-                          recordId={inventoryId}
-                          permissionKey={[
-                            AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_ASSETS,
-                          ]}
-                        />
-                      </Box>
-                    </>
-                  )}
+                  </FormGrid>
                 </Box>
-              </Box>
+              </CustomGrid>
+              <CustomGrid md={4}>
+                <RHFDropZone
+                  name="fileUrl"
+                  fullWidth={true}
+                  fileType={`PNG, JPG and PDF (max ${uploadFileMaxSize} MB)`}
+                  accept={{
+                    'image/png': ACCEPT_FILE_EXTENSIONS?.PNG,
+                    'image/jpeg': ACCEPT_FILE_EXTENSIONS?.JPEG,
+                    'application/pdf': ACCEPT_FILE_EXTENSIONS?.PDF,
+                  }}
+                />
+                <br />
+                {!!inventoryId && (
+                  <>
+                    <Typography
+                      variant="body1"
+                      fontWeight={500}
+                      color="slateBlue.main"
+                      mb={2}
+                    >
+                      {' '}
+                      Attachments{' '}
+                    </Typography>
+                    <Box maxHeight={'20vh'}>
+                      <Attachments
+                        recordId={inventoryId}
+                        permissionKey={[
+                          AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_ASSETS,
+                        ]}
+                        colSpan={{ sm: 12, lg: 12 }}
+                      />
+                    </Box>
+                  </>
+                )}
+              </CustomGrid>
+            </ContainerGrid>
+          </Box>
+          <br />
+          <ContainerGrid>
+            <CustomGrid md={8}>
               <ActionsLoadingButton
                 submitButtonText={
                   !!inventoryId
@@ -151,43 +164,8 @@ export const UpsertInventory = () => {
                 showSubmitLoader={apiCallInProgress}
                 handleCancelButton={moveBack}
               />
-            </Grid>
-            <Grid item lg={3} sx={{ display: { xs: 'none', lg: 'block' } }}>
-              <RHFDropZone
-                name="fileUrl"
-                fullWidth={true}
-                fileType={`PNG, JPG and PDF (max ${uploadFileMaxSize} MB)`}
-                accept={{
-                  'image/png': ACCEPT_FILE_EXTENSIONS?.PNG,
-                  'image/jpeg': ACCEPT_FILE_EXTENSIONS?.JPEG,
-                  'application/pdf': ACCEPT_FILE_EXTENSIONS?.PDF,
-                }}
-              />
-              <br />
-              {!!inventoryId && (
-                <>
-                  <Typography
-                    variant="body1"
-                    fontWeight={500}
-                    color="slateBlue.main"
-                    mb={2}
-                  >
-                    {' '}
-                    Attachments{' '}
-                  </Typography>
-                  <Box maxHeight={'20vh'}>
-                    <Attachments
-                      recordId={inventoryId}
-                      permissionKey={[
-                        AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_ASSETS,
-                      ]}
-                      colSpan={{ sm: 12, lg: 12 }}
-                    />
-                  </Box>
-                </>
-              )}
-            </Grid>
-          </Grid>
+            </CustomGrid>
+          </ContainerGrid>
         </FormProvider>
       </ApiRequestFlow>
     </>

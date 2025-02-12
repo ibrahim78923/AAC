@@ -18,6 +18,7 @@ export default function useCustomerPortal() {
 
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [loadChildren, setLoadChildren] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -95,6 +96,8 @@ export default function useCustomerPortal() {
       } catch (error) {
         localStorage?.removeItem('customerPortalPermissions');
         localStorage?.removeItem('customerPortalStyling');
+      } finally {
+        setLoadChildren(true);
       }
     };
 
@@ -174,5 +177,6 @@ export default function useCustomerPortal() {
     reducedOpacityBgColor,
     hasPermissions,
     isFetching,
+    loadChildren,
   };
 }

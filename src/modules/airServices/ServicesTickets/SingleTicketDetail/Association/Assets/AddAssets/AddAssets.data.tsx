@@ -1,6 +1,5 @@
-import { Checkbox } from '@mui/material';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { TruncateText } from '@/components/TruncateText';
+import { CheckboxField } from '@/components/InputFields/CheckboxField';
 
 export const getAddAssetsColumns = ({
   setSelected,
@@ -11,9 +10,7 @@ export const getAddAssetsColumns = ({
     accessorFn: (row: any) => row?._id,
     id: 'id',
     cell: (info: any) => (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
+      <CheckboxField
         checked={!!selected?.find((item: any) => item === info?.getValue())}
         onChange={(e: any) => {
           e?.target?.checked
@@ -22,14 +19,11 @@ export const getAddAssetsColumns = ({
                 selected?.filter((item: any) => item !== info?.getValue()),
               );
         }}
-        color="primary"
         name={info?.getValue()}
       />
     ),
     header: (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
+      <CheckboxField
         checked={
           associatesAssetList?.length
             ? selected?.length === associatesAssetList?.length
@@ -40,8 +34,6 @@ export const getAddAssetsColumns = ({
             ? setSelected(associatesAssetList?.map((asset: any) => asset?._id))
             : setSelected([]);
         }}
-        disabled={!associatesAssetList?.length}
-        color="primary"
         name="id"
       />
     ),

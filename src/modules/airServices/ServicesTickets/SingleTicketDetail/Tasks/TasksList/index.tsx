@@ -39,6 +39,7 @@ export const TasksList = () => {
       }}
       incrementPageClick={increment}
       decrementPageClick={decrement}
+      noDataTableText="No task found"
     />
   );
 };

@@ -1,5 +1,4 @@
-import { Checkbox, Typography } from '@mui/material';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { Typography } from '@mui/material';
 import { TICKET_STATUS, TICKET_TYPE } from '@/constants/strings';
 import { fullName } from '@/utils/avatarUtils';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
@@ -9,6 +8,7 @@ import { TruncateText } from '@/components/TruncateText';
 import { AIR_SERVICES } from '@/constants/routes';
 import { uiDateFormat } from '@/lib/date-time';
 import { CustomChip } from '@/components/Chip/CustomChip';
+import { CheckboxField } from '@/components/InputFields/CheckboxField';
 
 const TICKET_STATUS_COLOR: any = {
   [TICKET_STATUS?.OPEN]: 'info',
@@ -31,9 +31,7 @@ export const relatedTicketsListsColumnDynamic: any = (
         row?.childTicketDetails?._id,
       id: '_id',
       cell: (info: any) => (
-        <Checkbox
-          icon={<CheckboxIcon />}
-          checkedIcon={<CheckboxCheckedIcon />}
+        <CheckboxField
           checked={
             !!selectedChildTickets?.find(
               (item: any) => item === info?.getValue(),
@@ -51,14 +49,11 @@ export const relatedTicketsListsColumnDynamic: any = (
                   ),
                 );
           }}
-          color="primary"
           name={info?.getValue()}
         />
       ),
       header: (
-        <Checkbox
-          icon={<CheckboxIcon />}
-          checkedIcon={<CheckboxCheckedIcon />}
+        <CheckboxField
           checked={
             data?.length ? selectedChildTickets?.length === data?.length : false
           }
@@ -69,7 +64,6 @@ export const relatedTicketsListsColumnDynamic: any = (
                 )
               : setSelectedChildTickets([]);
           }}
-          color="primary"
           name="Id"
         />
       ),

@@ -1,10 +1,9 @@
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { CustomAvatarGroup } from '@/components/Avatars/CustomAvatarGroup';
+import { CheckboxField } from '@/components/InputFields/CheckboxField';
 import { TruncateText } from '@/components/TruncateText';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { CANNED_RESPONSES } from '@/constants/strings';
 import { otherDateFormat } from '@/lib/date-time';
-import { Checkbox } from '@mui/material';
 
 export const responsesListColumnsDynamic = (
   responsesData: any,
@@ -15,9 +14,7 @@ export const responsesListColumnsDynamic = (
     accessorFn: (row: { _id: string }) => row?._id,
     id: '_id',
     cell: (info: any) => (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
+      <CheckboxField
         checked={
           !!responsesData?.find((item: any) => item?._id === info?.getValue())
         }
@@ -35,14 +32,11 @@ export const responsesListColumnsDynamic = (
                 }),
               );
         }}
-        color="primary"
         name={info?.getValue()}
       />
     ),
     header: (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
+      <CheckboxField
         checked={
           !!responsesMainData?.length
             ? responsesData?.length === responsesMainData?.length
@@ -53,7 +47,6 @@ export const responsesListColumnsDynamic = (
             ? setResponsesData([...responsesMainData])
             : setResponsesData([]);
         }}
-        color="primary"
         name="id"
       />
     ),

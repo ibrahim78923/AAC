@@ -12,6 +12,7 @@ import {
 import { useTicketsListHeader } from './useTicketsListHeader';
 import { TICKETS_ACTION_CONSTANTS } from './TicketListHeader.data';
 import { CustomButton } from '@/components/Buttons/CustomButton';
+import { CUSTOM_BUTTON_TYPES } from '@/constants/mui-constant';
 
 const {
   SEARCH_AND_FILTER,
@@ -79,7 +80,10 @@ export const TicketsListHeader = () => {
           </PermissionsGuard>
           <PermissionsGuard permissions={[COLUMN_CUSTOMIZATION]}>
             {router?.query?.viewType !== BOARD && (
-              <CustomButton onClick={() => setTicketAction?.(CUSTOMIZE_COLUMN)}>
+              <CustomButton
+                iconType={CUSTOM_BUTTON_TYPES?.CUSTOMIZE}
+                onClick={() => setTicketAction?.(CUSTOMIZE_COLUMN)}
+              >
                 Customize
               </CustomButton>
             )}

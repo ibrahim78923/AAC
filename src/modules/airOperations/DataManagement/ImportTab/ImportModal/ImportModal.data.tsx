@@ -264,7 +264,11 @@ export const stepsData: any = {
   ],
 };
 
-export const importTableHeader = ['File Column', 'Crm Fields', 'Action'];
+export const importTableHeader = [
+  { _id: 'File Column', label: 'File Column' },
+  { _id: 'Crm Fields', label: 'Crm Fields' },
+  { _id: 'Action', label: 'Action' },
+];
 
 export const productOptionsFunction = (hasAccounts: any) => {
   const options = [];

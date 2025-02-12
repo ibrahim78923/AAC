@@ -9,7 +9,6 @@ import {
   setPageLimit,
   setSelectedTicketTasksLists,
 } from '@/redux/slices/airServices/tickets-tasks/slice';
-import { useTheme } from '@mui/material';
 import { ticketsTasksListsColumnsDynamic } from './TasksList.data';
 
 export const useTasksList = () => {
@@ -62,14 +61,12 @@ export const useTasksList = () => {
       }),
     );
   };
-  const theme = useTheme();
 
   const ticketsTasksListsColumns = ticketsTasksListsColumnsDynamic(
     totalTicketTasks,
     selectedTicketTasksLists,
     setSelectedTicketTaskList,
     setTicketTasksAction,
-    theme,
   );
 
   const isApiCalled =

@@ -82,6 +82,8 @@ const PurchaseOrder = () => {
             onPageChange={(page: any) => setPage(page)}
             currentPage={lazyGetPurchaseOrderListStatus?.data?.data?.meta?.page}
             pageLimit={lazyGetPurchaseOrderListStatus?.data?.data?.meta?.limit}
+            errorProps={{ canRefresh: true, refresh: getPurchaseOrderListData }}
+            noDataTableText="No purchase order found"
           />
         </PermissionsGuard>
       </Box>
