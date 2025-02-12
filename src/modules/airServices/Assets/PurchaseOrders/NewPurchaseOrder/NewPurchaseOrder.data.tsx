@@ -130,9 +130,9 @@ export const defaultValues = (data?: any, form?: any) => {
 
 export const newPurchaseFieldsFunction = () => [
   {
-    id: 1,
+    _id: 1,
     component: RHFTextField,
-    gridLength: 6,
+    md: 6,
     componentProps: {
       fullWidth: true,
       name: 'orderName',
@@ -142,9 +142,9 @@ export const newPurchaseFieldsFunction = () => [
     },
   },
   {
-    id: 2,
+    _id: 2,
     component: RHFTextField,
-    gridLength: 6,
+    md: 6,
     componentProps: {
       fullWidth: true,
       name: 'orderNumber',
@@ -159,19 +159,19 @@ export const newPurchaseFieldsFunction = () => [
     },
   },
   {
-    id: 3,
+    _id: 3,
     component: GetPurchaseOrderVendorDropdown,
-    gridLength: 6,
+    md: 6,
   },
   {
-    id: 5,
-    gridLength: 6,
+    _id: 5,
+    md: 6,
     component: GetPurchaseOrderDepartmentDropdown,
   },
   {
-    id: 6,
+    _id: 6,
     component: RHFDatePicker,
-    gridLength: 6,
+    md: 6,
     componentProps: {
       fullWidth: true,
       required: true,
@@ -181,12 +181,12 @@ export const newPurchaseFieldsFunction = () => [
     },
   },
   {
-    id: 7,
-    gridLength: 6,
+    _id: 7,
+    md: 6,
     component: GetPurchaseOrderLocationDropdown,
   },
   {
-    id: 8,
+    _id: 8,
     componentProps: {
       fullWidth: true,
       name: 'termAndCondition',
@@ -195,7 +195,7 @@ export const newPurchaseFieldsFunction = () => [
       minRows: 3,
       placeholder: 'Enter Description',
     },
-    gridLength: 12,
+    md: 12,
     component: RHFTextField,
   },
 ];

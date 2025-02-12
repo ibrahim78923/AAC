@@ -1,6 +1,5 @@
-import { Checkbox, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { TICKET_TYPE } from '@/constants/strings';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { NextRouter } from 'next/router';
 import { TicketTableRowI } from '../TicketsLists.interface';
@@ -9,6 +8,7 @@ import { UserInfo } from '@/components/UserInfo';
 import { AIR_SERVICES } from '@/constants/routes';
 import { localeDateTime, otherDateFormat, uiDateFormat } from '@/lib/date-time';
 import { DATE_TIME_FORMAT } from '@/constants';
+import { CheckboxField } from '@/components/InputFields/CheckboxField';
 
 export const ticketsListsColumnDynamic: any = (
   router?: NextRouter,
@@ -21,9 +21,7 @@ export const ticketsListsColumnDynamic: any = (
       accessorFn: (row: TicketTableRowI) => row?._id,
       id: '_id',
       cell: (info: any) => (
-        <Checkbox
-          icon={<CheckboxIcon />}
-          checkedIcon={<CheckboxCheckedIcon />}
+        <CheckboxField
           checked={
             !!selectedTicketList?.find(
               (item: any) => item?._id === info?.getValue(),
@@ -41,14 +39,11 @@ export const ticketsListsColumnDynamic: any = (
                   ),
                 );
           }}
-          color="primary"
           name={info?.getValue()}
         />
       ),
       header: (
-        <Checkbox
-          icon={<CheckboxIcon />}
-          checkedIcon={<CheckboxCheckedIcon />}
+        <CheckboxField
           checked={
             ticketList?.length
               ? selectedTicketList?.length === ticketList?.length
@@ -59,7 +54,6 @@ export const ticketsListsColumnDynamic: any = (
               ? setSelectedTicketList(ticketList?.map((ticket: any) => ticket))
               : setSelectedTicketList([]);
           }}
-          color="primary"
           name="_id"
         />
       ),

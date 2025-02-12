@@ -153,6 +153,9 @@ export const useStopWatch = (props: any) => {
     return handleUnmount;
   }, []);
 
+  const apiCallInProgress =
+    postTicketsTimeStatus?.isLoading || putTicketsTimeStatus?.isLoading;
+
   return {
     user,
     isTimerPause,
@@ -161,5 +164,6 @@ export const useStopWatch = (props: any) => {
     putTicketsTimeStatus,
     theme,
     time,
+    apiCallInProgress,
   };
 };

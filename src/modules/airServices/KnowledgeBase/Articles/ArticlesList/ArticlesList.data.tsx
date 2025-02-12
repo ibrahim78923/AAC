@@ -1,10 +1,10 @@
 import { ArticlesTableRowI } from '../Articles.interface';
-import { Checkbox, Typography } from '@mui/material';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { Typography } from '@mui/material';
 import { fullName } from '@/utils/avatarUtils';
 import { TruncateText } from '@/components/TruncateText';
 import { TooltipItemsCountChip } from '@/components/Chip/TooltipItemsCountChip';
 import { CustomChip } from '@/components/Chip/CustomChip';
+import { CheckboxField } from '@/components/InputFields/CheckboxField';
 
 const bgColor: any = {
   published: 'blue.main',
@@ -36,9 +36,7 @@ export const articlesListColumnsDynamic = (
       accessorFn: (row: ArticlesTableRowI) => row?._id,
       id: '_id',
       cell: (info: any) => (
-        <Checkbox
-          icon={<CheckboxIcon />}
-          checkedIcon={<CheckboxCheckedIcon />}
+        <CheckboxField
           checked={
             !!selectedArticlesData?.find(
               (item: any) => item?._id === info?.getValue(),
@@ -56,14 +54,11 @@ export const articlesListColumnsDynamic = (
                   ),
                 );
           }}
-          color="primary"
           name={info?.getValue()}
         />
       ),
       header: (
-        <Checkbox
-          icon={<CheckboxIcon />}
-          checkedIcon={<CheckboxCheckedIcon />}
+        <CheckboxField
           checked={
             articlesList?.length
               ? selectedArticlesData?.length === articlesList?.length
@@ -76,7 +71,6 @@ export const articlesListColumnsDynamic = (
                 )
               : setSelectedArticlesData([]);
           }}
-          color="primary"
           name="id"
         />
       ),

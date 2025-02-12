@@ -1,8 +1,7 @@
-import { Checkbox } from '@mui/material';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { TruncateText } from '@/components/TruncateText';
 import { fullName } from '@/utils/avatarUtils';
 import { uiDateFormat } from '@/lib/date-time';
+import { CheckboxField } from '@/components/InputFields/CheckboxField';
 
 export const installDevicesListColumnDynamic = (
   installationData: any,
@@ -14,9 +13,7 @@ export const installDevicesListColumnDynamic = (
       accessorFn: (row: any) => row?._id,
       id: '_id',
       cell: (info: any) => (
-        <Checkbox
-          icon={<CheckboxIcon />}
-          checkedIcon={<CheckboxCheckedIcon />}
+        <CheckboxField
           checked={
             !!activeCheck?.find((item: any) => item?._id === info?.getValue())
           }
@@ -34,14 +31,11 @@ export const installDevicesListColumnDynamic = (
                   }),
                 );
           }}
-          color="primary"
           name={info?.getValue()}
         />
       ),
       header: (
-        <Checkbox
-          icon={<CheckboxIcon />}
-          checkedIcon={<CheckboxCheckedIcon />}
+        <CheckboxField
           checked={
             !!installationData?.length
               ? activeCheck?.length === installationData?.length
@@ -52,7 +46,6 @@ export const installDevicesListColumnDynamic = (
               ? setActiveCheck([...installationData])
               : setActiveCheck([]);
           }}
-          color="primary"
           name="_id"
         />
       ),

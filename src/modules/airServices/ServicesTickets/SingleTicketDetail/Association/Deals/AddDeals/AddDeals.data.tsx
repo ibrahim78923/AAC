@@ -1,6 +1,6 @@
-import { Checkbox, Typography } from '@mui/material';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { Typography } from '@mui/material';
 import { TruncateText } from '@/components/TruncateText';
+import { CheckboxField } from '@/components/InputFields/CheckboxField';
 
 export const useAddDealsColumns = ({
   setSelected,
@@ -11,9 +11,7 @@ export const useAddDealsColumns = ({
     accessorFn: (row: any) => row?._id,
     id: 'id',
     cell: (info: any) => (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
+      <CheckboxField
         checked={!!selected?.find((item: any) => item === info?.getValue())}
         onChange={(e: any) => {
           e?.target?.checked
@@ -22,14 +20,11 @@ export const useAddDealsColumns = ({
                 selected?.filter((item: any) => item !== info?.getValue()),
               );
         }}
-        color="primary"
         name={info?.getValue()}
       />
     ),
     header: (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
+      <CheckboxField
         checked={
           associatesDealsList?.length
             ? selected?.length === associatesDealsList?.length
@@ -40,8 +35,6 @@ export const useAddDealsColumns = ({
             ? setSelected(associatesDealsList?.map((asset: any) => asset?._id))
             : setSelected([]);
         }}
-        disabled={!associatesDealsList?.length}
-        color="primary"
         name="id"
       />
     ),

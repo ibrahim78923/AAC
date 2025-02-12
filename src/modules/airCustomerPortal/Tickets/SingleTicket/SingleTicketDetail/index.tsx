@@ -1,7 +1,6 @@
 import { InventoryCard } from '@/components/Cards/InventoryCard';
 import { DATE_TIME_FORMAT } from '@/constants';
-import { LoadingButton } from '@mui/lab';
-import { Box, Skeleton, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { Fragment } from 'react';
 import { useSingleTicketDetail } from './useSingleTicketDetail';
 import { TICKET_STATUS } from '@/constants/strings';
@@ -14,6 +13,9 @@ import { CustomChip } from '@/components/Chip/CustomChip';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { Attachments } from '@/components/Attachments';
 import { HtmlRenderer } from '@/components/DataDisplay/HtmlRenderer';
+import { CustomLoadingButton } from '@/components/Buttons/CustomLoadingButton';
+import { SkeletonCard } from '@/components/Skeletons/SkeletonCard';
+import { SKELETON_TYPES } from '@/constants/mui-constant';
 
 export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
   const {
@@ -106,11 +108,11 @@ export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
             ) : null}
           </Box>
           {isLoader ? (
-            <Skeleton
-              variant="rectangular"
-              width={100}
-              height={80}
-              sx={{ my: 2 }}
+            <SkeletonCard
+              length={1}
+              cardType={
+                SKELETON_TYPES?.VERTICAL_TWO_LAYER_DOUBLE_CIRCULAR_LARGE_CARD
+              }
             />
           ) : (
             [TICKET_STATUS?.CLOSED, TICKET_STATUS?.RESOLVED]?.includes(
@@ -148,11 +150,9 @@ export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
                     ?.message === CHECK_SURVEY_SUBMISSION_STATUS?.SUBMITTED &&
                     'Submitted'}
                 </Typography>
-                <LoadingButton
-                  onClick={() => getCustomerSurvey?.()}
-                  variant="contained"
-                  className="small"
-                  sx={{
+                <CustomLoadingButton
+                  onClick={getCustomerSurvey}
+                  customStyles={{
                     bgcolor:
                       portalStyles?.btnPrimary ||
                       customizePortalDefaultValues(theme)?.btnPrimary,
@@ -177,7 +177,7 @@ export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
                 >
                   {lazyGetSingleDefaultSurveyForCustomerTicketsStatus?.data
                     ?.data?.displayName || 'Take a Survey'}
-                </LoadingButton>
+                </CustomLoadingButton>
               </Box>
             )
           )}
@@ -208,7 +208,7 @@ export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
       <br />
       <Typography variant="body2" color="slateBlue.main">
         {' '}
-        {`Assets (${singleTicketData?.associateAssetsDetails?.length})`}
+        {`Assets (${singleTicketData?.associateAssetsDetails?.length ?? 0})`}
       </Typography>
       <Box
         maxHeight={'30vh'}

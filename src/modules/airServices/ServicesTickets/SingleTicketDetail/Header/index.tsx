@@ -10,12 +10,12 @@ import {
   AIR_SERVICES_TICKETS_TICKET_LISTS,
 } from '@/constants/permission-keys';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { LoadingButton } from '@mui/lab';
 import { pxToRem } from '@/utils/getFontValue';
 import { TICKET_TYPE } from '@/constants/strings';
 import { useHeader } from './useHeader';
 import StopWatch from '../Details/TimeEntries/StopWatch';
 import { TruncateText } from '@/components/TruncateText';
+import { CustomLoadingButton } from '@/components/Buttons/CustomLoadingButton';
 
 export const Header = (props: any) => {
   const {
@@ -57,44 +57,41 @@ export const Header = (props: any) => {
         <PermissionsGuard
           permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_MEETING]}
         >
-          <LoadingButton
-            sx={{ cursor: 'pointer', p: 0, minWidth: pxToRem(40) }}
-            variant="outlined"
+          <CustomLoadingButton
             color="inherit"
+            customStyles={{ cursor: 'pointer', p: 0, minWidth: pxToRem(40) }}
+            primary={false}
             size="small"
-            className="small"
             onClick={moveToMeetings}
           >
             <ViewDetailMeetingIcon />
-          </LoadingButton>
+          </CustomLoadingButton>
         </PermissionsGuard>
         <PermissionsGuard
           permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.CALLS]}
         >
-          <LoadingButton
-            sx={{ cursor: 'pointer', p: 0, minWidth: pxToRem(40) }}
-            variant="outlined"
+          <CustomLoadingButton
             color="inherit"
+            customStyles={{ cursor: 'pointer', p: 0, minWidth: pxToRem(40) }}
+            primary={false}
             size="small"
-            className="small"
             onClick={moveToCall}
           >
             <ViewDetailCallIcon />
-          </LoadingButton>
+          </CustomLoadingButton>
         </PermissionsGuard>
         <PermissionsGuard
           permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.SENT_EMAIL]}
         >
-          <LoadingButton
-            sx={{ cursor: 'pointer', p: 0, minWidth: pxToRem(40) }}
-            variant="outlined"
+          <CustomLoadingButton
             color="inherit"
+            customStyles={{ cursor: 'pointer', p: 0, minWidth: pxToRem(40) }}
+            primary={false}
             size="small"
-            className="small"
             onClick={openEmailPortal}
           >
             <Image src={SmsImage} width={24} height={24} alt="Badge" />
-          </LoadingButton>
+          </CustomLoadingButton>
         </PermissionsGuard>
         <PermissionsGuard
           permissions={[

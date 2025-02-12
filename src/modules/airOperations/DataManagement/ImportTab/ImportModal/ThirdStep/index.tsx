@@ -1,51 +1,34 @@
-import {
-  Grid,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from '@mui/material';
+import { Box } from '@mui/material';
 import { importTableFields, importTableHeader } from '../ImportModal.data';
+import { FieldArrayTable } from '@/components/Table/FieldArrayTable';
+import { useCallback } from 'react';
+import { pxToRem } from '@/utils/getFontValue';
+
 const ThirdStep = (props: any) => {
   const { control, importLog, fields, remove, filterMandatoryFields } = props;
 
   return (
-    <Grid display={'flex'} flexDirection={'row'} justifyContent={'center'}>
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              {importTableHeader?.map((column: any) => (
-                <TableCell key={column}>{column}</TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {fields?.map((item: any, index: any) => {
-              return (
-                <TableRow key={item?.id}>
-                  {importTableFields?.(
-                    control,
-                    'importedFields',
-                    index,
-                    importLog,
-                    remove,
-                    filterMandatoryFields,
-                    fields,
-                  )?.map((singleField: any) => (
-                    <TableCell key={singleField?.id}>
-                      {singleField?.data}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Grid>
+    <Box sx={{ my: 2 }}>
+      <FieldArrayTable
+        columns={importTableHeader}
+        fields={fields}
+        canAddItem={false}
+        minWidth={pxToRem(400)}
+        getRowData={useCallback(
+          (index: any) =>
+            importTableFields?.(
+              control,
+              'importedFields',
+              index,
+              importLog,
+              remove,
+              filterMandatoryFields,
+              fields,
+            ),
+          [importLog, remove, filterMandatoryFields, fields],
+        )}
+      />
+    </Box>
   );
 };
 

@@ -1,7 +1,6 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { CustomerPortalHeader } from '../CustomerPortalHeader';
 import { FormProvider } from '@/components/ReactHookForm';
-import { LoadingButton } from '@mui/lab';
 import { SignUpImage } from '@/assets/images';
 import { AUTH } from '@/constants';
 import useSignUp from './useSignUp';
@@ -12,6 +11,7 @@ import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { PROJECT_NAME } from '@/config';
 import { StaticAvatar } from '@/components/Avatars/StaticAvatar';
 import { AVATAR_VARIANTS } from '@/constants/mui-constant';
+import { CustomLoadingButton } from '@/components/Buttons/CustomLoadingButton';
 
 export const SignUp = () => {
   const {
@@ -62,14 +62,13 @@ export const SignUp = () => {
                         key={item?.id}
                       />
                     ))}
-                    <Button
-                      variant="contained"
+                    <CustomLoadingButton
                       fullWidth
-                      sx={{ my: 2 }}
+                      customStyles={{ my: 2 }}
                       onClick={onNext}
                     >
                       Next
-                    </Button>
+                    </CustomLoadingButton>
                   </>
                 ) : (
                   <>
@@ -80,10 +79,10 @@ export const SignUp = () => {
                         key={item?.id}
                       />
                     ))}
-                    <Button
-                      variant="outlined"
+                    <CustomLoadingButton
+                      primary={false}
                       fullWidth
-                      sx={{ my: 2 }}
+                      customStyles={{ my: 2 }}
                       onClick={() => {
                         setStepState(false);
                       }}
@@ -93,9 +92,8 @@ export const SignUp = () => {
                       }
                     >
                       Back
-                    </Button>
-                    <LoadingButton
-                      variant="contained"
+                    </CustomLoadingButton>
+                    <CustomLoadingButton
                       fullWidth
                       type="submit"
                       loading={
@@ -104,7 +102,7 @@ export const SignUp = () => {
                       }
                     >
                       Sign Up
-                    </LoadingButton>
+                    </CustomLoadingButton>
                   </>
                 )}
               </FormProvider>

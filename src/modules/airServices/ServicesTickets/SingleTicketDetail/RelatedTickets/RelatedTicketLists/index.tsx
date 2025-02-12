@@ -48,6 +48,7 @@ export const RelatedTicketsList = () => {
         }}
         incrementPageClick={increment}
         decrementPageClick={decrement}
+        noDataTableText="No ticket found"
       />
     </>
   );

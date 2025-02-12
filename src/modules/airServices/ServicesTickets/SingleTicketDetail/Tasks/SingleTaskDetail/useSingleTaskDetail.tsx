@@ -2,6 +2,7 @@ import { useTheme } from '@mui/material';
 import {
   defaultValues,
   overviewDataArray,
+  singleTaskDetailsDynamic,
   validationSchema,
 } from './SingleTaskDetail.data';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
@@ -13,7 +14,7 @@ import { useFormLib } from '@/hooks/useFormLib';
 export const useSingleTaskDetail = () => {
   const dispatch = useAppDispatch();
 
-  const isPortalOpen = useAppSelector(
+  const isPortalOpen: any = useAppSelector(
     (state) => state?.servicesTicketTasks?.isPortalOpen,
   );
 
@@ -63,6 +64,8 @@ export const useSingleTaskDetail = () => {
 
   const theme = useTheme();
 
+  const singleTaskDetails = singleTaskDetailsDynamic(isPortalOpen?.data);
+
   return {
     methods,
     handleSubmit,
@@ -72,5 +75,6 @@ export const useSingleTaskDetail = () => {
     handleCloseDrawer,
     overviewData,
     isPortalOpen,
+    singleTaskDetails,
   };
 };

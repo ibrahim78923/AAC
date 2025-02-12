@@ -11,9 +11,9 @@ import {
   ICustomizationsDataItem,
   ICustomizationsProps,
 } from '../CustomizePortal.interface';
-import { LoadingButton } from '@mui/lab';
 import { customizePortalDefaultValues } from '../CustomizePortal.data';
 import { useCustomizations } from './useCustomizations';
+import { ActionsLoadingButton } from '@/components/Buttons/ActionsLoadingButton';
 
 export const Customizations = (props: ICustomizationsProps) => {
   const {
@@ -67,26 +67,14 @@ export const Customizations = (props: ICustomizationsProps) => {
           </AccordionDetails>
         </Accordion>
       ))}
-
-      <Box display={'flex'} justifyContent={'flex-end'} gap={2}>
-        <LoadingButton
-          onClick={() => reset(() => customizePortalDefaultValues?.(theme))}
-          variant={'outlined'}
-          color={'secondary'}
-          className="small"
-          disabled={patchCustomerPortalStylingsStatus?.isLoading}
-        >
-          Reset
-        </LoadingButton>
-        <LoadingButton
-          type={'submit'}
-          variant={'contained'}
-          className="small"
-          loading={patchCustomerPortalStylingsStatus?.isLoading}
-        >
-          Apply
-        </LoadingButton>
-      </Box>
+      <ActionsLoadingButton
+        submitButtonText="Apply"
+        cancelButtonText="Reset"
+        showSubmitLoader={patchCustomerPortalStylingsStatus?.isLoading}
+        handleCancelButton={() =>
+          reset(() => customizePortalDefaultValues?.(theme))
+        }
+      />
     </>
   );
 };

@@ -1,12 +1,13 @@
-import { Button, Theme } from '@mui/material';
+import { Theme } from '@mui/material';
 import { useSingleTicketHeader } from './useSingleTicketHeader';
-import { LoadingButton } from '@mui/lab';
 import { TICKET_STATUS } from '@/constants/strings';
 import { SingleTicketHeaderPropsI } from './SingleTicketHeader.interface';
 import { customizePortalDefaultValues } from '@/layout/CustomerPortal/CustomerPortal.data';
 import { ShareTicket } from './ShareTicket';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { SingleBreadcrumb } from '@/components/Breadcrumbs/SingleBreadcrumb';
+import { CustomLoadingButton } from '@/components/Buttons/CustomLoadingButton';
+import { CustomButton } from '@/components/Buttons/CustomButton';
 
 export const SingleTicketHeader = (props: SingleTicketHeaderPropsI) => {
   const { ticketNumber, singleTicketData } = props;
@@ -32,21 +33,14 @@ export const SingleTicketHeader = (props: SingleTicketHeaderPropsI) => {
         canMovedBack
         moveBack={handleBack}
       >
-        <Button
-          variant="outlined"
-          color="secondary"
-          className="small"
-          onClick={() => setShareModalOpen?.(true)}
-        >
+        <CustomButton hasIcon={false} onClick={() => setShareModalOpen?.(true)}>
           share
-        </Button>
+        </CustomButton>
         {singleTicketData?.status !== TICKET_STATUS?.CLOSED && (
-          <LoadingButton
-            variant="contained"
-            className="small"
+          <CustomLoadingButton
             loading={isLoading}
             onClick={updateTicketStatus}
-            sx={(theme: Theme) => ({
+            customStyles={(theme: Theme) => ({
               bgcolor:
                 portalStyles?.btnPrimary ||
                 customizePortalDefaultValues(theme)?.btnPrimary,
@@ -65,7 +59,7 @@ export const SingleTicketHeader = (props: SingleTicketHeaderPropsI) => {
             })}
           >
             Mark ticket as closed
-          </LoadingButton>
+          </CustomLoadingButton>
         )}
       </PageTitledHeader>
       {shareModalOpen && (

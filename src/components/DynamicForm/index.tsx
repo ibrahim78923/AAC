@@ -9,7 +9,7 @@ export const DynamicForm = (props: any) => {
   return (
     <>
       {dynamicFormFieldsList?.map((item: ReactHookFormFieldsI) => (
-        <CustomGrid item xs={12} md={md} key={item?.id}>
+        <CustomGrid xs={12} md={md} key={item?.id}>
           {componentMap[item?.component] &&
             createElement(componentMap[item?.component], {
               ...item?.componentProps,

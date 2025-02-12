@@ -1,15 +1,14 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
-import { Box, Checkbox, Typography, useTheme } from '@mui/material';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { Box } from '@mui/material';
 import { useAssociationsDrawer } from './useAssociationsDrawer';
 import CustomPagination from '@/components/CustomPagination';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import NoData from '@/components/NoData';
 import { CustomChip } from '@/components/Chip/CustomChip';
+import { CheckboxField } from '@/components/InputFields/CheckboxField';
 
 export const AssociationsDrawer = (props: any) => {
-  const theme: any = useTheme();
   const {
     lazyGetTicketsStatus,
     metaData,
@@ -26,6 +25,7 @@ export const AssociationsDrawer = (props: any) => {
     setSelectedTicketList,
     onSubmit,
     postRemoveAssociateTicketsStatus,
+    handleChange,
   } = useAssociationsDrawer(props);
 
   return (
@@ -37,8 +37,8 @@ export const AssociationsDrawer = (props: any) => {
           setSelectedTicketList([]);
         }}
         title="Associate Service Requests"
-        isOk={true}
-        footer={true}
+        isOk
+        footer
         submitHandler={onSubmit}
         isLoading={postRemoveAssociateTicketsStatus?.isLoading}
         okText="Associate"
@@ -60,45 +60,23 @@ export const AssociationsDrawer = (props: any) => {
                 display={'flex'}
                 justifyContent={'space-between'}
                 alignItems={'center'}
-                border={`.1rem solid ${theme?.palette?.grey?.[0]}`}
-                borderRadius={'.5rem'}
-                padding={'.7rem'}
-                marginBottom={'1rem'}
-                mt={'16px'}
+                border={`1px solid `}
+                borderColor="grey.0"
+                borderRadius={2}
+                padding={1}
+                mt={2}
                 key={item?._id}
               >
-                <Box
-                  display={'flex'}
-                  justifyContent={'center'}
-                  alignItems={'center'}
-                  gap={'1rem'}
-                >
-                  <Checkbox
-                    icon={<CheckboxIcon />}
-                    checkedIcon={<CheckboxCheckedIcon />}
-                    color="primary"
-                    checked={
-                      !!selectedTicketList?.find(
-                        (ticket: any) => ticket?._id === item?._id,
-                      )
-                    }
-                    onChange={(e: any) => {
-                      e?.target?.checked
-                        ? setSelectedTicketList([
-                            ...selectedTicketList,
-                            tickets?.find(
-                              (ticket: any) => ticket?._id === item?._id,
-                            ),
-                          ])
-                        : setSelectedTicketList(
-                            selectedTicketList?.filter((ticket: any) => {
-                              return ticket?._id !== item?._id;
-                            }),
-                          );
-                    }}
-                  />
-                  <Typography>{item?.subject}</Typography>
-                </Box>
+                <CheckboxField
+                  label={item?.subject}
+                  checked={
+                    !!selectedTicketList?.find(
+                      (ticket: any) => ticket?._id === item?._id,
+                    )
+                  }
+                  onChange={(e: any) => handleChange?.(e, item)}
+                />
+
                 <CustomChip
                   label={item?.status?.toLowerCase()}
                   backgroundColor="primary.light"
