@@ -27,7 +27,7 @@ import {
 } from '@/redux/slices/airSales/Quotes/quotesSlice';
 import { indexNumbers } from '@/constants';
 
-const useStepLineItems = (openCreateProduct: any, calculations: any) => {
+const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
   const theme = useTheme();
   const router = useRouter();
   const dispatch = useDispatch();

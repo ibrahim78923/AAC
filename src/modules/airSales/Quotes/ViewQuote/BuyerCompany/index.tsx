@@ -2,6 +2,7 @@ import { Avatar, Box, Typography, useTheme } from '@mui/material';
 import { styles } from './BuyerCompany.style';
 import useViewQuotes from '../useViewQuote';
 import { generateImage } from '@/utils/avatarUtils';
+import { capitalizeFirstLetter } from '@/utils/api';
 
 const BuyerCompany = () => {
   const { viewQuotesData } = useViewQuotes();
@@ -29,11 +30,15 @@ const BuyerCompany = () => {
                   color: theme?.palette?.custom?.dim_grey,
                 }}
               >
-                {viewQuotesData?.data?.buyerCompany?.owner?.firstName?.charAt(
-                  1,
+                {capitalizeFirstLetter(
+                  viewQuotesData?.data?.buyerCompany?.owner?.firstName?.charAt(
+                    0,
+                  ),
                 )}
-                {viewQuotesData?.data?.buyerCompany?.owner?.lastName?.charAt(
-                  viewQuotesData?.data?.buyerCompany?.name?.length - 1,
+                {capitalizeFirstLetter(
+                  viewQuotesData?.data?.buyerCompany?.owner?.lastName?.charAt(
+                    0,
+                  ),
                 )}
               </Typography>
             </Avatar>
