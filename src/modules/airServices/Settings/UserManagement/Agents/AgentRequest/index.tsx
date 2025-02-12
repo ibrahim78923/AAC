@@ -5,7 +5,6 @@ import { AGENT_REQUEST_STATUS } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
-import { LoadingButton } from '@mui/lab';
 import { TruncateText } from '@/components/TruncateText';
 import { uiDateFormat } from '@/lib/date-time';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
@@ -13,6 +12,7 @@ import { SKELETON_TYPES } from '@/constants/mui-constant';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 import { CustomAvatar } from '@/components/Avatars/CustomAvatar';
+import { CustomLoadingButton } from '@/components/Buttons/CustomLoadingButton';
 
 const AgentRequest = () => {
   const {
@@ -122,7 +122,7 @@ const AgentRequest = () => {
                       flexGrow={1}
                       alignItems={'self-end'}
                     >
-                      <LoadingButton
+                      <CustomLoadingButton
                         onClick={() => handlerStatusApprove(item?._id)}
                         color={'success'}
                         disabled={patchApprovedRequestStatus?.isLoading}
@@ -130,18 +130,16 @@ const AgentRequest = () => {
                           item?._id === requesterId &&
                           patchApprovedRequestStatus?.isLoading
                         }
-                        className="small"
                       >
                         Approve
-                      </LoadingButton>
-                      <LoadingButton
+                      </CustomLoadingButton>
+                      <CustomLoadingButton
                         onClick={() => handleOpenModal(item?._id)}
                         color={'error'}
                         disabled={patchApprovedRequestStatus?.isLoading}
-                        className="small"
                       >
                         Reject
-                      </LoadingButton>
+                      </CustomLoadingButton>
                     </Box>
                   </PermissionsGuard>
                 )}

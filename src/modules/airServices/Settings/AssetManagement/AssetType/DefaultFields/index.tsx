@@ -5,11 +5,11 @@ import { Box, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { predefinedAssetTypeDataArray } from './DefaultFields.data';
-import { LoadingButton } from '@mui/lab';
 import { useFormLib } from '@/hooks/useFormLib';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { HeadingFormGrid } from '@/components/Grids/HeadingFormGrid';
+import { CustomLoadingButton } from '@/components/Buttons/CustomLoadingButton';
 
 export default function DefaultFields() {
   const theme: any = useTheme();
@@ -50,14 +50,9 @@ export default function DefaultFields() {
             </Box>
 
             <Box display={'flex'} justifyContent={'flex-end'} mt={2}>
-              <LoadingButton
-                variant="outlined"
-                color="secondary"
-                className="small"
-                onClick={() => moveBack?.()}
-              >
+              <CustomLoadingButton primary={false} onClick={moveBack}>
                 Back
-              </LoadingButton>
+              </CustomLoadingButton>
             </Box>
           </CustomGrid>
           <CustomGrid

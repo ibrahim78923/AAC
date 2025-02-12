@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import {
   defaultValues,
   newPurchaseFieldsFunction,
@@ -14,23 +14,15 @@ import {
 import { filteredEmptyValues } from '@/utils/api';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
-import {
-  useLazyGetDynamicFieldsQuery,
-  usePostDynamicFormAttachmentsMutation,
-} from '@/services/dynamic-fields';
-import {
-  DYNAMIC_FIELDS,
-  DYNAMIC_FORM_FIELDS_TYPES,
-  dynamicAttachmentsPost,
-} from '@/utils/dynamic-forms';
+import { DYNAMIC_FIELDS } from '@/utils/dynamic-forms';
 import { isoDateString } from '@/lib/date-time';
 import { useFormLib } from '@/hooks/useFormLib';
+import { useDynamicForm } from '@/components/DynamicForm/useDynamicForm';
 
 const { PURCHASE_ORDER } = AIR_SERVICES;
 
 const useNewPurchaseOrders = () => {
   const router = useRouter();
-  const [form, setForm] = useState<any>([]);
 
   const { purchaseOrderId } = router?.query;
 
@@ -39,27 +31,19 @@ const useNewPurchaseOrders = () => {
   const [patchPurchaseOrderTrigger, patchPurchaseOrderStatus] =
     usePatchAirServicesAssetsPurchaseOrderMutation();
 
-  const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
-    useLazyGetDynamicFieldsQuery();
-  const [postAttachmentTrigger, postAttachmentStatus] =
-    usePostDynamicFormAttachmentsMutation();
-
-  const getDynamicFormData = async () => {
-    const params = {
-      productType: DYNAMIC_FIELDS?.PT_SERVICES,
-      moduleType: DYNAMIC_FIELDS?.MT_PURCHASE_ORDER,
-    };
-    const getDynamicFieldsParameters = { params };
-
-    try {
-      const res: any = await getDynamicFieldsTrigger(
-        getDynamicFieldsParameters,
-      )?.unwrap();
-      setForm(res);
-    } catch (error: any) {
-      setForm([]);
-    }
+  const dynamicFormProps = {
+    productType: DYNAMIC_FIELDS?.PT_SERVICES,
+    moduleType: DYNAMIC_FIELDS?.MT_PURCHASE_ORDER,
   };
+
+  const {
+    form,
+    handleUploadAttachments,
+    isDynamicFormLoading,
+    hasDynamicFormError,
+    attachmentsApiCallInProgress,
+    getDynamicFormData,
+  } = useDynamicForm(dynamicFormProps);
 
   useEffect(() => {
     getDynamicFormData();
@@ -74,7 +58,7 @@ const useNewPurchaseOrders = () => {
   const loadingStatus =
     patchPurchaseOrderStatus?.isLoading ||
     postPurchaseOrderStatus?.isLoading ||
-    postAttachmentStatus?.isLoading;
+    attachmentsApiCallInProgress;
 
   const useFormValues = {
     validationSchema: validationSchema?.(form),
@@ -88,46 +72,11 @@ const useNewPurchaseOrders = () => {
   const submit = async (data: any) => {
     const filteredEmptyData = filteredEmptyValues(data);
 
-    const customFields: any = {};
-    const body: any = {};
-    const attachmentPromises: Promise<any>[] = [];
     try {
-      dynamicAttachmentsPost({
-        form,
+      const { body, customFields }: any = await handleUploadAttachments?.(
         data,
-        attachmentPromises,
-        customFields,
-        postAttachmentTrigger,
-      });
-
-      await Promise?.all(attachmentPromises);
-
-      const customFieldKeys = new Set(
-        form?.map((field: any) => field?.componentProps?.label),
+        filteredEmptyData,
       );
-
-      Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
-        if (customFieldKeys?.has(key)) {
-          if (value instanceof Date) {
-            value = isoDateString(value);
-          }
-          if (
-            typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
-            !Array?.isArray(value) &&
-            value !== null
-          ) {
-            customFields[key] = { ...customFields[key], ...value };
-          } else {
-            customFields[key] = value;
-          }
-        } else {
-          body[key] = value;
-        }
-      });
-
-      if (Object?.keys(customFields)?.length > 0) {
-        body.customFields = customFields;
-      }
 
       const {
         location,
@@ -137,6 +86,7 @@ const useNewPurchaseOrders = () => {
         expectedDeliveryDate,
         ...rest
       } = body;
+
       const taxRate = rest?.taxRatio;
       delete rest?.taxRatio;
 
@@ -200,10 +150,7 @@ const useNewPurchaseOrders = () => {
     }
   }, [singlePurchaseOrder?.data, reset, form]);
 
-  const showLoader =
-    singlePurchaseOrder?.isLoading ||
-    getDynamicFieldsStatus?.isLoading ||
-    getDynamicFieldsStatus?.isFetching;
+  const showLoader = singlePurchaseOrder?.isLoading || isDynamicFormLoading;
 
   const refresh = () => {
     if (!singlePurchaseOrder?.isUninitialized) {
@@ -212,8 +159,7 @@ const useNewPurchaseOrders = () => {
     getDynamicFormData();
   };
 
-  const hasError =
-    singlePurchaseOrder?.isError || getDynamicFieldsStatus?.isError;
+  const hasError = singlePurchaseOrder?.isError || hasDynamicFormError;
 
   return {
     methods,

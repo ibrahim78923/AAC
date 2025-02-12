@@ -30,6 +30,7 @@ import { ROLES } from '@/constants/strings';
 import { LogoAvatar } from '@/components/Avatars/LogoAvatar';
 import { PROJECT_NAME } from '@/config';
 import { CustomAvatar } from '@/components/Avatars/CustomAvatar';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 const CustomerPortalLayout = ({
   children,
@@ -53,6 +54,7 @@ const CustomerPortalLayout = ({
     reducedOpacityBgColor,
     hasPermissions,
     isFetching,
+    loadChildren,
   } = useCustomerPortal();
 
   const drawerContent = useMemo(
@@ -369,7 +371,7 @@ const CustomerPortalLayout = ({
               isZeroPaddingRoutes,
             )}
           >
-            {children}
+            {loadChildren ? children : <SkeletonTable />}
           </Box>
         </Box>
       </Box>
