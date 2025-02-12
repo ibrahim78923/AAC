@@ -25,6 +25,7 @@ export interface CustomChipPropsI extends ChipProps {
   isCapital?: boolean;
   fontWeight?: number;
   hoverBackgroundColor?: string;
+  borderColor?: string;
 }
 
 export interface RecordCountChipPropsI {

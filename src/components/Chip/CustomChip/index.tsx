@@ -26,6 +26,7 @@ export const CustomChip = (props: CustomChipPropsI) => {
     isCapital,
     fontWeight = 400,
     hoverBackgroundColor = backgroundColor,
+    borderColor,
   } = props;
 
   return (
@@ -41,12 +42,15 @@ export const CustomChip = (props: CustomChipPropsI) => {
         borderRadius: mapBorderRadius?.[shape] ?? borderRadius,
         backgroundColor,
         color: textColor,
+        borderColor,
         fontWeight,
         textTransform: isCapital ? 'capitalize' : 'none',
         ...customStyles,
-        '&:hover': {
-          backgroundColor: hoverBackgroundColor,
-          ...hoverStyles,
+        '&.MuiChip-root': {
+          '&:hover': {
+            backgroundColor: hoverBackgroundColor,
+            ...hoverStyles,
+          },
         },
       }}
     />

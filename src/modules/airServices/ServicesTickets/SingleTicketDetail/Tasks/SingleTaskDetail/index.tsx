@@ -7,7 +7,7 @@ import {
 } from '@/components/ReactHookForm';
 import { styles } from './SingleTaskDetail.styles';
 import { useSingleTaskDetail } from './useSingleTaskDetail';
-import { drawerDetail, statusOptions } from './SingleTaskDetail.data';
+import { statusOptions } from './SingleTaskDetail.data';
 import { generateColorFromName } from '@/utils/avatarUtils';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
@@ -26,6 +26,7 @@ export const SingleTaskDetail = () => {
     handleCloseDrawer,
     overviewData,
     isPortalOpen,
+    singleTaskDetails,
   } = useSingleTaskDetail();
 
   return (
@@ -103,7 +104,7 @@ export const SingleTaskDetail = () => {
             </Typography>
 
             <br />
-            {drawerDetail(isPortalOpen?.data, theme)?.map((item: any) => (
+            {singleTaskDetails?.map((item: any) => (
               <Box
                 key={item?.id}
                 sx={{
@@ -146,7 +147,7 @@ export const SingleTaskDetail = () => {
               </Box>
             ))}
 
-            {Object?.entries(overviewData)?.map(([key, value]: any) => (
+            {Object?.entries(overviewData ?? {})?.map(([key, value]: any) => (
               <Box
                 key={key}
                 sx={{

@@ -1,4 +1,3 @@
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { TruncateText } from '@/components/TruncateText';
 import { UserInfo } from '@/components/UserInfo';
 import { AIR_SERVICES } from '@/constants/routes';
@@ -6,7 +5,8 @@ import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/p
 import { REQUESTORS_STATUS } from '@/constants/strings';
 import { errorSnackbar } from '@/lib/snackbar';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
-import { Box, Checkbox } from '@mui/material';
+import { Box } from '@mui/material';
+import { CheckboxField } from '@/components/InputFields/CheckboxField';
 
 export const agentActionsDropdown = (
   setOpenDeleteModal: any,
@@ -48,9 +48,7 @@ export const agentsListsColumnsFunction = (
     accessorFn: (row: { _id: string }) => row?._id,
     id: 'id',
     cell: (info: any) => (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
+      <CheckboxField
         checked={
           !!selectedAgentList?.find(
             (item: any) => item?._id === info?.getValue(),
@@ -70,14 +68,11 @@ export const agentsListsColumnsFunction = (
                 }),
               );
         }}
-        color="primary"
         name={info?.getValue()}
       />
     ),
     header: (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
+      <CheckboxField
         checked={
           !!processedAgentListData?.length
             ? selectedAgentList?.length === processedAgentListData?.length
@@ -88,7 +83,6 @@ export const agentsListsColumnsFunction = (
             ? setSelectedAgentList([...processedAgentListData])
             : setSelectedAgentList([]);
         }}
-        color="primary"
         name="id"
       />
     ),

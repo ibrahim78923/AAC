@@ -86,7 +86,7 @@ export default function ViewWorkloadDrawer({ openDrawer, onClose, data }: any) {
         <Typography variant="body2">
           {data?.extendedProps?.assignedUser?.email ?? 'Email not found'}
         </Typography>
-        {drawerDetail(data?.extendedProps, theme)?.map((item: any) => (
+        {drawerDetail(data?.extendedProps)?.map((item: any) => (
           <Box
             key={item?.id}
             sx={{

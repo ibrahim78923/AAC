@@ -1,16 +1,34 @@
 import { TASK_STATUS } from '@/constants/strings';
-import { Typography } from '@mui/material';
-import { styles } from './ViewWorkloadDrawer.styles';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { DYNAMIC_FORM_FIELDS_TYPES } from '@/utils/dynamic-forms';
 import * as Yup from 'yup';
 import { otherDateFormat } from '@/lib/date-time';
+import { CustomChip } from '@/components/Chip/CustomChip';
+import { CHIP_SHAPE, CHIP_VARIANTS } from '@/constants/mui-constant';
 
 const { DONE, IN_PROGRESS, TO_DO } = TASK_STATUS;
 
 export const statusOptions = [TO_DO, IN_PROGRESS, DONE];
 
-export const drawerDetail: any = (taskDetail: any, theme: any) => [
+const STATUS_CHIP_STYLE = {
+  [TASK_STATUS?.TO_DO]: {
+    borderColor: `primary.main`,
+    backgroundColor: 'primary.lighter',
+    color: 'primary.main ',
+  },
+  [TASK_STATUS?.IN_PROGRESS]: {
+    borderColor: `custom.bright`,
+    backgroundColor: 'custom.aqua_breeze',
+    color: 'custom.bright',
+  },
+  [TASK_STATUS.DONE]: {
+    borderColor: 'custom.custom_red',
+    backgroundColor: 'custom.light_error',
+    color: 'error.dark',
+  },
+};
+
+export const drawerDetail: any = (taskDetail: any) => [
   {
     id: 1,
     title: 'Workspace',
@@ -28,18 +46,19 @@ export const drawerDetail: any = (taskDetail: any, theme: any) => [
   {
     id: 3,
     title: 'Status',
-    details: (() => {
-      const statusValue = taskDetail?.status;
-      return (
-        <Typography
-          variant={'body2'}
-          component={'span'}
-          sx={styles?.tableStatusStyle(statusValue, theme)}
-        >
-          {taskDetail?.status}
-        </Typography>
-      );
-    })(),
+    details: (
+      <CustomChip
+        label={taskDetail?.status}
+        shape={CHIP_SHAPE?.SQUARE}
+        variant={CHIP_VARIANTS?.OUTLINED}
+        size="medium"
+        backgroundColor={
+          STATUS_CHIP_STYLE?.[taskDetail?.status]?.backgroundColor
+        }
+        textColor={STATUS_CHIP_STYLE?.[taskDetail?.status]?.color}
+        borderColor={STATUS_CHIP_STYLE?.[taskDetail?.status]?.borderColor}
+      />
+    ),
   },
   {
     id: 4,

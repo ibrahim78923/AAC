@@ -80,6 +80,19 @@ export const useAssociationsDrawer = (props: any) => {
     setSearch(data);
   };
 
+  const handleChange = (e: any, item: any) => {
+    e?.target?.checked
+      ? setSelectedTicketList([
+          ...selectedTicketList,
+          tickets?.find((ticket: any) => ticket?._id === item?._id),
+        ])
+      : setSelectedTicketList(
+          selectedTicketList?.filter((ticket: any) => {
+            return ticket?._id !== item?._id;
+          }),
+        );
+  };
+
   return {
     lazyGetTicketsStatus,
     search,
@@ -96,5 +109,6 @@ export const useAssociationsDrawer = (props: any) => {
     metaData,
     onSubmit,
     postRemoveAssociateTicketsStatus,
+    handleChange,
   };
 };

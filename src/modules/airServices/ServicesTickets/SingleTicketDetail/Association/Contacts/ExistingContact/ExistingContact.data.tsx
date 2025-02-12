@@ -1,7 +1,7 @@
-import { Checkbox, Typography } from '@mui/material';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { Typography } from '@mui/material';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { UserInfo } from '@/components/UserInfo';
+import { CheckboxField } from '@/components/InputFields/CheckboxField';
 
 export const useAddContactsColumns = ({
   setSelected,
@@ -12,9 +12,7 @@ export const useAddContactsColumns = ({
     accessorFn: (row: any) => row?._id,
     id: '_id',
     cell: (info: any) => (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
+      <CheckboxField
         checked={!!selected?.find((item: any) => item === info?.getValue())}
         onChange={(e: any) => {
           e?.target?.checked
@@ -23,14 +21,11 @@ export const useAddContactsColumns = ({
                 selected?.filter((item: any) => item !== info?.getValue()),
               );
         }}
-        color="primary"
         name={info?.getValue()}
       />
     ),
     header: (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
+      <CheckboxField
         checked={
           associatesContactsList?.length
             ? selected?.length === associatesContactsList?.length
@@ -43,8 +38,6 @@ export const useAddContactsColumns = ({
               )
             : setSelected([]);
         }}
-        disabled={!associatesContactsList?.length}
-        color="primary"
         name="id"
       />
     ),
