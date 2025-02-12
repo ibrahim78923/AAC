@@ -144,6 +144,7 @@ const DashboardLayout = ({ children, window }: any) => {
         router.push('/');
       }
 
+
     }
   }, [basePath]);
 
