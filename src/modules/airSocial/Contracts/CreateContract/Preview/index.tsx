@@ -10,7 +10,11 @@ import useCreateContract from '../useCreateContract';
 import DocumentHistory from '../components/DocumentHistory';
 import { getPartyName } from '@/utils/contracts';
 
-export default function Preview() {
+interface PreviewProps {
+  documentHistoryData: any;
+}
+
+export default function Preview({ documentHistoryData }: PreviewProps) {
   const { watch } = useFormContext();
   const data = watch();
   const defaultAttachment = watch('defaultAttachment');
@@ -49,7 +53,7 @@ export default function Preview() {
               <Box sx={styles?.fieldCardField}>
                 <Box sx={styles?.fieldCardLabel}>{'Full name'}</Box>
                 <Box sx={styles?.fieldCardValue}>
-                  {getPartyName(party?.name)}
+                  {getPartyName(party?.moduleData)}
                 </Box>
               </Box>
               <Box sx={styles?.fieldCardField}>
@@ -204,10 +208,11 @@ export default function Preview() {
           />
         </Grid>
       )}
-
-      <Grid item xs={12}>
-        <DocumentHistory />
-      </Grid>
+      {documentHistoryData && (
+        <Grid item xs={12}>
+          <DocumentHistory data={documentHistoryData || []} />
+        </Grid>
+      )}
     </Grid>
   );
 }
