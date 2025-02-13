@@ -15,7 +15,6 @@ export const Consumers = () => {
     handleSearch,
     consumersListColumn,
     isDrawerOpen,
-    closeDrawer,
     openDrawer,
     setCustomizeColumns,
     customizeColumns,
@@ -33,6 +32,7 @@ export const Consumers = () => {
     pageLimit,
     headerActionButtonDropdown,
     statusQuery,
+    setIsDrawerOpen,
   } = useConsumer();
 
   return (
@@ -102,6 +102,7 @@ export const Consumers = () => {
             setPage={setPage}
             setPageLimit={setPageLimit}
             errorProps={{ canRefresh: true, refresh: refetch }}
+            noDataTableText="No consumer found"
           />
         </PermissionsGuard>
       </Box>
@@ -109,7 +110,7 @@ export const Consumers = () => {
       {isDrawerOpen && (
         <ConsumerCustomizeColumns
           isDrawerOpen={isDrawerOpen}
-          closeDrawer={closeDrawer}
+          setIsDrawerOpen={setIsDrawerOpen}
           setCustomizeColumns={setCustomizeColumns}
           customizeColumns={customizeColumns}
           consumersListColumn={consumersListColumn}

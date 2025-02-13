@@ -174,3 +174,10 @@ export interface ItemLinkCardPropsI {
   hoverStyles?: any;
   borderColor?: string;
 }
+
+export interface CustomizeItemCardPropsI {
+  name: string;
+  onChange: any;
+  checked: boolean;
+  id: string;
+}
