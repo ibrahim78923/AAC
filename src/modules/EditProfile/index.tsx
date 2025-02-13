@@ -8,6 +8,7 @@ import useEditProfile from './useEditProfile';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { generateImage } from '@/utils/avatarUtils';
 import useUsersDetails from '@/modules/orgAdmin/Users/UsersDetails/useUsersDetails';
+import { ROLES } from '@/constants/strings';
 
 const EditProfile = () => {
   const { getUserData, profileDataLoading } = useEditProfile();
@@ -66,6 +67,7 @@ const EditProfile = () => {
             : ''
         }`}
         handleChangeImg={(e: any) => handleChangeImg(e, getUserData?.data?._id)}
+        isBadge={getUserData?.data?.role !== ROLES?.ORG_REQUESTER}
       />
       {profileDataLoading ? (
         <SkeletonTable />

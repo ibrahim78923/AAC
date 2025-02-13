@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import lodash from 'lodash';
+import { isEqual, mapValues } from 'lodash';
 import {
   apiSectionData,
   feedbackSurveyType,
@@ -146,7 +146,7 @@ export const useUpsertFeedbackSurvey = () => {
       },
       params: { id: surveyId },
     };
-    if (!lodash?.isEqual(Object?.values(oldSurvey), newSurvey)) {
+    if (!isEqual(Object?.values(oldSurvey), newSurvey)) {
       try {
         await patchFeedbackSurveyTrigger(modifiedSurvey)?.unwrap();
         setCreateSurvey(feedbackTypes?.feedback);
@@ -163,21 +163,21 @@ export const useUpsertFeedbackSurvey = () => {
     if (Array?.isArray(data)) {
       return data?.map(trimValues);
     } else if (typeof data === DATA_TYPES?.OBJECT && data !== null) {
-      return lodash.mapValues(data, trimValues);
+      return mapValues(data, trimValues);
     } else if (typeof data === DATA_TYPES?.STRING) {
       return data?.trim();
     }
     return data;
   };
 
-  const sectionVerification = lodash.isEqual(
+  const sectionVerification = isEqual(
     trimValues(apiSectionData(data?.data?.sections)),
     trimValues(watchSectionData),
   );
   let unSaveSection: any;
   watchSectionData?.forEach((newSec: any, index: number) => {
     const oldSec = apiSectionData(data?.data?.sections)?.[index];
-    if (!lodash?.isEqual(newSec, oldSec)) {
+    if (!isEqual(newSec, oldSec)) {
       unSaveSection = { section: newSec, index };
     }
   });

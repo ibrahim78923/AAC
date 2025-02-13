@@ -1,4 +1,5 @@
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
+import { ROLES } from '@/constants/strings';
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 
@@ -16,7 +17,7 @@ export const editProfileValidationSchema = Yup.object().shape({
   twitterUrl: Yup.string().url('Please enter a valid URL').optional(),
 });
 
-export const editProfileDataArray = [
+export const editProfileDataArray = (user: any) => [
   {
     componentProps: {
       color: '#7a7a7b',
@@ -75,16 +76,20 @@ export const editProfileDataArray = [
     component: RHFTextField,
     md: 6,
   },
-  {
-    componentProps: {
-      name: 'jobTitle',
-      label: 'Job Title',
-      fullWidth: true,
-      placeholder: 'Enter Job Title',
-    },
-    component: RHFTextField,
-    md: 6,
-  },
+  ...(user?.role !== ROLES?.ORG_REQUESTER
+    ? [
+        {
+          componentProps: {
+            name: 'jobTitle',
+            label: 'Job Title',
+            fullWidth: true,
+            placeholder: 'Enter Job Title',
+          },
+          component: RHFTextField,
+          md: 6,
+        },
+      ]
+    : []),
   {
     componentProps: {
       color: '#7a7a7b',
