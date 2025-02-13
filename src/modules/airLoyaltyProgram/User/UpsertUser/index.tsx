@@ -46,7 +46,7 @@ export const UpsertUser = () => {
         {isPortalOpen?.action ===
           LOYALTY_PROGRAM_USERS_ACTIONS_CONSTANT?.ADD_LOYALTY_PROGRAM_USERS && (
           <Typography color="slateBlue.main">
-            Add a new user to this organization
+            Add a new user to this organisation
           </Typography>
         )}
         <Box mt={1}>

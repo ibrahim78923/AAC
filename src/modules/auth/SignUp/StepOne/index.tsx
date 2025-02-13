@@ -39,8 +39,8 @@ const StepOne = () => {
       <Grid item xs={12}>
         <RHFTextField
           name="crn"
-          label="Organization Number"
-          placeholder="Enter Organization Number"
+          label="Organisation Number"
+          placeholder="Enter Organisation Number"
           size="small"
           required={true}
         />
@@ -49,8 +49,8 @@ const StepOne = () => {
       <Grid item xs={12}>
         <RHFTextField
           name="organizationName"
-          label="Organization Name"
-          placeholder="Enter Organization Name"
+          label="Organisation Name"
+          placeholder="Enter Organisation Name"
           size="small"
           disabled
           required={true}

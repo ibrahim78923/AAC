@@ -452,7 +452,7 @@ const Contracts = () => {
             <Box>
               <Typography variant="h4">My Contracts</Typography>
               <Typography variant="body2">
-                Simplifying document management with smart organization,
+                Simplifying document management with smart organisation,
                 collaboration, and secure storage.
               </Typography>
             </Box>

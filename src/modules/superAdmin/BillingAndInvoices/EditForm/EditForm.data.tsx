@@ -78,9 +78,9 @@ export const assignPlanData = (
     {
       componentProps: {
         name: 'clientName',
-        label: 'Client & Organization',
+        label: 'Client & Organisation',
         fullWidth: true,
-        placeholder: 'Select organization',
+        placeholder: 'Select organisation',
         apiQuery: organizations,
         getOptionLabel: (option: any) => option?.name,
       },

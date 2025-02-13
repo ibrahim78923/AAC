@@ -2,7 +2,7 @@ import Layout from '@/layout';
 import React from 'react';
 
 const OrganizationAdminExamplePage = () => {
-  return <div>Organization Admin Example Page</div>;
+  return <div>Organisation Admin Example Page</div>;
 };
 
 export default OrganizationAdminExamplePage;

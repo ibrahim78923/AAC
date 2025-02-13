@@ -134,7 +134,7 @@ export const OrgAdminRoutes: MenuItemI[] = [
   {
     key: '/org-admin/organization-admin',
     icon: QuotesImage,
-    label: 'Organization',
+    label: 'organisation',
     role: 'org-admin',
     permissions: Permissions?.ORG_ADMIN_ORGANIZATION,
   },

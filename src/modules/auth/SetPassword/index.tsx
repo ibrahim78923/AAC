@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Grid, Typography } from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { FormProvider } from '@/components/ReactHookForm';
@@ -106,9 +105,9 @@ const SetPassword = () => {
           <LogoAvatar />
         </Box>
         <Box>
-          <Link href="/login" variant="contained">
+          <Button variant="contained" onClick={handleLogout}>
             Sign In
-          </Link>
+          </Button>
         </Box>
       </Box>
       <Grid
