@@ -3,7 +3,7 @@ import { useMoveTickets } from './useMoveTickets';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 import { FormGrid } from '@/components/Grids/FormGrid';
 
-export const MoveTickets = () => {
+const MoveTickets = () => {
   const {
     methods,
     closePortal,
@@ -30,3 +30,5 @@ export const MoveTickets = () => {
     </CustomCommonDialog>
   );
 };
+
+export default MoveTickets;

@@ -38,6 +38,6 @@ export const styles = {
     border: '1.5px solid #E5E7EB',
     borderRadius: '8px',
     padding: '30px',
-    marginTop: '30px',
+    marginTop: '10px',
   },
 };

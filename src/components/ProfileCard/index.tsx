@@ -10,6 +10,8 @@ import {
 import { ORG_ADMIN_USERS_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import SkeletonComponent from '@/components/CardSkeletons';
+import { ROLES } from '@/constants/strings';
+import { CustomButton } from '../Buttons/CustomButton';
 
 const ProfileCard = (props: CardPropsI) => {
   const theme = useTheme();
@@ -26,6 +28,7 @@ const ProfileCard = (props: CardPropsI) => {
     isBadge = true,
     handleChangeImg,
     isLoading,
+    handleRequestAgent,
   } = props;
 
   const myRole = role?.split('_');
@@ -141,6 +144,11 @@ const ProfileCard = (props: CardPropsI) => {
             <EditColoredIcon />
           </Button>
         </PermissionsGuard>
+      )}
+      {role === ROLES?.ORG_REQUESTER && (
+        <CustomButton primary hasIcon={false} onClick={handleRequestAgent}>
+          Request for Agent
+        </CustomButton>
       )}
     </Box>
   );

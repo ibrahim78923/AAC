@@ -95,6 +95,10 @@ const OrganizationTable = () => {
     }
   };
 
+  const selectedRecord = tableRow?.filter(
+    (obj: any) => isGetRowValues?.includes(obj._id),
+  );
+
   return (
     <>
       <CommonDrawer
@@ -411,6 +415,9 @@ const OrganizationTable = () => {
                     handleClose();
                     setIsOpenDelete(true);
                   }}
+                  disabled={selectedRecord?.some(
+                    (record: any) => record?.isDefault,
+                  )}
                 >
                   Delete
                 </MenuItem>

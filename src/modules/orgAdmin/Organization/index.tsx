@@ -21,7 +21,7 @@ const Organization = () => {
           }}
         >
           <Typography variant="h3" mb={1}>
-            Organization
+            Organisation
           </Typography>
           <OrganizationCard />
           <PermissionsGuard

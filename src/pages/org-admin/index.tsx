@@ -2,7 +2,7 @@ import Layout from '@/layout';
 import React from 'react';
 
 const OrganizationAdminDashboard = () => {
-  return <div>OrganizationAdmin Dashboard</div>;
+  return <div>OrganisationAdmin Dashboard</div>;
 };
 
 export default OrganizationAdminDashboard;

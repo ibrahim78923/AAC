@@ -64,6 +64,7 @@ export default function DataFieldDate({ data, handleUpdateDynamicField }: any) {
       size="small"
       fullWidth
       sx={styles}
+      format="dd/MM/yyyy"
       value={selectedDate}
       onChange={handleDateChange}
     />

@@ -22,7 +22,7 @@ export const MyAccountData = [
     ],
   },
   {
-    title: 'Organization  Admin Portal',
+    title: 'Organisation  Admin Portal',
     role: 'organization',
     icon: IcLinkImage,
   },

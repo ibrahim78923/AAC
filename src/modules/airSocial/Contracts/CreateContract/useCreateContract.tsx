@@ -11,12 +11,12 @@ import {
   useGetCommonContractTemplateByIdQuery,
   useUpdateCommonContractTemplateMutation,
   useGetCommonContractByIdQuery,
-  // usePostSignAndSendMutation,
+  useUpdateCommonContractMutation,
 } from '@/services/commonFeatures/contracts';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
-  getPartiesFormData,
-  getSigneesFormData,
+  createPartiesFormData,
+  createSigneesFormData,
   ENUM_SIGNATURE_TYPE,
 } from '@/utils/contracts';
 import { AIR_SOCIAL_CONTRACTS } from '@/constants/routes';
@@ -135,10 +135,12 @@ export default function useCreateContract() {
     const formData = new FormData();
     const createFormData = (key: string, value: any) => {
       if (
-        value !== null &&
-        value !== undefined &&
-        !(typeof value === 'string' && value.trim() === '')
+        value === null ||
+        value === undefined ||
+        (typeof value === 'string' && value.trim() === '')
       ) {
+        formData.append(key, 'null');
+      } else {
         formData.append(key, value);
       }
     };
@@ -146,16 +148,14 @@ export default function useCreateContract() {
     createFormData('attachment', values?.attachment);
     createFormData('message', values?.message);
     createFormData('logo', values?.logo);
-    createFormData('parties', getPartiesFormData(values?.parties));
-    createFormData('signees', getSigneesFormData(values?.signees));
+    createFormData('parties', createPartiesFormData(values?.parties, false));
+    createFormData('signees', createSigneesFormData(values?.signees, false));
     // createFormData(
     //   'dynamicFields',
     //   values?.dynamicFields?.length === 0
     //     ? null
     //     : JSON.stringify(values?.dynamicFields),
     // );
-
-
 
     if (saveAs === 'template') {
       createFormData('category', templateCatgValue);
@@ -173,7 +173,6 @@ export default function useCreateContract() {
       // formData.append('visibleTo', values?.visibleTo);
       createFormData('status', 'DRAFT');
       createFormData('folderId', values?.folderId ?? folderId);
-      // formData.append('templateId', '67a48a240e53143fd26211a9');
       if (templateId) {
         if (typeof templateId === 'string') {
           createFormData('templateId', templateId);
@@ -197,47 +196,63 @@ export default function useCreateContract() {
   const [updateCommonContractTemplate, { isLoading: loadingUpdateTemplate }] =
     useUpdateCommonContractTemplateMutation();
 
-  const onSubmitUpdateTemplate = async (values: any) => {
+  const [updateCommonContract, { isLoading: loadingUpdateContract }] =
+    useUpdateCommonContractMutation();
+
+  const onSubmitUpdateContract = async (values: any) => {
     const formData = new FormData();
     const createFormData = (key: string, value: any) => {
       if (
-        value !== null &&
-        value !== undefined &&
-        !(typeof value === 'string' && value.trim() === '')
+        value === null ||
+        value === undefined ||
+        (typeof value === 'string' && value.trim() === '')
       ) {
+        formData.append(key, 'null');
+      } else {
         formData.append(key, value);
       }
     };
     createFormData('name', values?.name);
-    // formData.append('folderId', values?.folderId);
-    // formData.append('status', values?.status ?? 'PENDING');
     createFormData('attachment', values?.attachment);
     createFormData('message', values?.message);
-    // formData.append('visibleTo', values?.visibleTo);
     createFormData('logo', values?.logo);
-    createFormData('parties', getPartiesFormData(values?.parties));
-    createFormData('signees', getSigneesFormData(values?.signees));
-    createFormData(
-      'dynamicFields',
-      values?.dynamicFields?.length === 0
-        ? null
-        : JSON.stringify(values?.dynamicFields),
-    );
+    createFormData('parties', createPartiesFormData(values?.parties, true));
+    createFormData('signees', createSigneesFormData(values?.signees, true));
+    // createFormData(
+    //   'dynamicFields',
+    //   values?.dynamicFields?.length === 0
+    //     ? null
+    //     : JSON.stringify(values?.dynamicFields),
+    // );
 
-    try {
-      await updateCommonContractTemplate({
-        id: templateId,
-        body: formData,
-      })?.unwrap();
-      successSnackbar('Contract template updated successfully');
-    } catch (error: any) {
-      errorSnackbar('An error occured');
+    if (!contractId) {
+      try {
+        await updateCommonContractTemplate({
+          id: templateId,
+          body: formData,
+        })?.unwrap();
+        successSnackbar('Contract template updated successfully');
+        reset();
+      } catch (error: any) {
+        errorSnackbar('An error occured');
+      }
+    }
+    if (contractId) {
+      try {
+        await updateCommonContract({
+          id: contractId,
+          body: formData,
+        })?.unwrap();
+        successSnackbar('Contract updated successfully');
+        router.push(AIR_SOCIAL_CONTRACTS?.CONTRACTS);
+        reset();
+      } catch (error: any) {
+        errorSnackbar('An error occured');
+      }
     }
   };
 
-  const handleSubmitUpdateTemplate = handleSubmit((values: any) => {
-    onSubmitUpdateTemplate(values);
-  });
+  const handleSubmitUpdateContract = handleSubmit(onSubmitUpdateContract);
 
   /* EVENT FUNCTIONS
   -------------------------------------------------------------------------------------*/
@@ -397,6 +412,8 @@ export default function useCreateContract() {
 
   return {
     router,
+    contractId,
+    templateId,
     activeView,
     handlePreviewToggle,
 
@@ -437,7 +454,9 @@ export default function useCreateContract() {
     dataTemplateById,
     loadingGetTemplateById,
     loadingUpdateTemplate,
-    handleSubmitUpdateTemplate,
+    loadingUpdateContract,
+    handleSubmitUpdateContract,
+
     handleAddDynamicField,
     handleRemoveDynamicField,
     handleUpdateDynamicField,
@@ -453,5 +472,7 @@ export default function useCreateContract() {
 
     loadingGetContractById,
     dataContractById,
+
+    contractDetailsData,
   };
 }

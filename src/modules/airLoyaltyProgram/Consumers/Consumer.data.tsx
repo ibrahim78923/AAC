@@ -1,14 +1,14 @@
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { SingleDropdownButtonCloseMenuI } from '@/components/Buttons/SingleDropdownButton/SingleDropdownButton.interface';
 import { TruncateText } from '@/components/TruncateText';
 import { UserInfo } from '@/components/UserInfo';
 import { ACTIVITY_STATUS_MENU, DATE_TIME_FORMAT } from '@/constants';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
-import { Box, Checkbox, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import FiberSmartRecordIcon from '@mui/icons-material/FiberSmartRecord';
 import ListStatusAction from './ListStatusAction';
 import { otherDateFormat } from '@/lib/date-time';
+import { CheckboxField } from '@/components/InputFields/CheckboxField';
 
 export const getHeaderActionButtonDropdown = (
   handleHeaderActionButtonStatusChange: any,
@@ -55,9 +55,7 @@ export const consumersListColumnDynamic = (
     accessorFn: (row: any) => row?._id,
     id: '_id',
     cell: (info: any) => (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
+      <CheckboxField
         checked={
           !!selectedConsumerList?.find(
             (item: any) => item?._id === info?.getValue(),
@@ -75,14 +73,11 @@ export const consumersListColumnDynamic = (
                 ),
               );
         }}
-        color="primary"
         name={info?.getValue()}
       />
     ),
     header: (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
+      <CheckboxField
         checked={
           consumerData?.length
             ? selectedConsumerList?.length === consumerData?.length
@@ -93,7 +88,6 @@ export const consumersListColumnDynamic = (
             ? setSelectedConsumersList(consumerData)
             : setSelectedConsumersList([]);
         }}
-        color="primary"
         name="id"
       />
     ),

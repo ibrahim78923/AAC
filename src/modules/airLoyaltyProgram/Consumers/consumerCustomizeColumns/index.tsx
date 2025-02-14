@@ -1,18 +1,22 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import { Box, Checkbox, Typography } from '@mui/material';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { useConsumerCustomizeColumns } from './useConsumerCustomizeColumns';
+import { CustomizeItemCard } from '@/components/Cards/CustomizeItemCard';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 export const ConsumerCustomizeColumns = (props: any) => {
-  const { isDrawerOpen, closeDrawer, consumersListColumn } = props;
-  const { checkboxHandler, columnDataCustomize, applyAllCheckboxHandler } =
-    useConsumerCustomizeColumns(props);
+  const { isDrawerOpen, consumersListColumn } = props;
+
+  const {
+    checkboxHandler,
+    columnDataCustomize,
+    applyAllCheckboxHandler,
+    closeDrawer,
+  } = useConsumerCustomizeColumns(props);
 
   return (
     <CommonDrawer
       isDrawerOpen={isDrawerOpen}
-      onClose={() => closeDrawer?.(false)}
+      onClose={closeDrawer}
       okText={'Apply'}
       title={'Customize Columns'}
       isOk
@@ -20,32 +24,19 @@ export const ConsumerCustomizeColumns = (props: any) => {
       cancelText={'Cancel'}
       footer
     >
-      {consumersListColumn?.slice(2)?.map((item: any) => (
-        <Box
-          key={item?.id}
-          display={'flex'}
-          justifyContent={'space-between'}
-          border={`1px solid`}
-          borderColor={'grey.700'}
-          borderRadius={1}
-          alignItems={'center'}
-          mt={2}
-        >
-          <Box display="flex" alignItems="center" gap={2} p={1}>
-            <DragIndicatorIcon />
-            <Typography>{item?.header}</Typography>
-          </Box>
-          <Checkbox
+      {consumersListColumn
+        ?.slice(ARRAY_INDEX?.TWO)
+        ?.map((column: any) => (
+          <CustomizeItemCard
+            name={column?.header}
+            key={column?.header}
+            id={column?.id}
             checked={columnDataCustomize
               ?.map((column: any) => column?.id)
-              .includes(item?.id)}
-            icon={<CheckboxIcon />}
-            checkedIcon={<CheckboxCheckedIcon />}
-            onChange={(e) => checkboxHandler?.(e, item)}
-            color="primary"
+              ?.includes(column?.id)}
+            onChange={(e: any): any => checkboxHandler?.(e, column)}
           />
-        </Box>
-      ))}
+        ))}
     </CommonDrawer>
   );
 };

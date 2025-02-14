@@ -3,7 +3,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { useFilterTickets } from './useFilterTickets';
 import { FormGrid } from '@/components/Grids/FormGrid';
 
-export const FilterTickets = () => {
+const FilterTickets = () => {
   const {
     ticketsFilterFormFieldsData,
     methods,
@@ -34,3 +34,5 @@ export const FilterTickets = () => {
     </>
   );
 };
+
+export default FilterTickets;

@@ -57,7 +57,7 @@ export const optionsIndustry = [
   'Media Production',
   'Medical Devices',
   'Mining & Metals',
-  'Nonprofit Organization Management',
+  'Nonprofit Organisation Management',
   'Oil & Energy',
 ];
 

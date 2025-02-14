@@ -6,16 +6,30 @@ import {
   setIsPortalOpen,
   setSelectedTicketLists,
 } from '@/redux/slices/airServices/tickets/slice';
-import { TicketsDelete } from '../../TicketsDelete';
-import { UpdateTicketStatus } from '../../UpdateTicketStatus';
-import { PrintTicket } from '../../PrintTicket';
-import { EmailTicket } from '../../EmailTicket';
+
 import { TICKETS_ACTION_CONSTANTS } from '../../TicketsLists/TicketsListHeader/TicketListHeader.data';
 import {
   AIR_SERVICES,
   QUICK_LINKS,
   SOCIAL_COMPONENTS,
 } from '@/constants/routes';
+import dynamic from 'next/dynamic';
+
+const UpdateTicketStatus = dynamic(() => import('../../UpdateTicketStatus'), {
+  ssr: false,
+});
+
+const PrintTicket = dynamic(() => import('../../PrintTicket'), {
+  ssr: false,
+});
+
+const EmailTicket = dynamic(() => import('../../EmailTicket'), {
+  ssr: false,
+});
+
+const TicketsDelete = dynamic(() => import('../../TicketsDelete'), {
+  ssr: false,
+});
 
 export const useHeader = (props: any) => {
   const { data } = props;

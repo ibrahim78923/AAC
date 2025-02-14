@@ -8,7 +8,7 @@ import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 import { HtmlRenderer } from '@/components/DataDisplay/HtmlRenderer';
 
-export const PrintTicket = () => {
+const PrintTicket = () => {
   const {
     onSubmit,
     onClose,
@@ -112,3 +112,5 @@ export const PrintTicket = () => {
     </CommonDrawer>
   );
 };
+
+export default PrintTicket;

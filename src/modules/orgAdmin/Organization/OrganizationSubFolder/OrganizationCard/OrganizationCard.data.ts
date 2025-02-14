@@ -43,7 +43,7 @@ export const dataArray = [
   {
     componentProps: {
       name: 'name',
-      label: 'Organization Name',
+      label: 'Organisation Name',
       fullWidth: true,
       required: true,
       select: false,

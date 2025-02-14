@@ -260,7 +260,7 @@ const useEditForm = ({
       isSuccessPlan
     ) {
       errorSnackbar(
-        `Plan agaist selected Client Name & Organization already created`,
+        `Plan agaist selected Client Name & Organisation already created`,
       );
       setIsExistingPlan(true);
     } else {
@@ -279,7 +279,7 @@ const useEditForm = ({
       ExistingisSuccessPlan
     ) {
       errorSnackbar(
-        `Plan agaist selected Client Name & Organization already created`,
+        `Plan agaist selected Client Name & Organisation already created`,
       );
       setIsExistingPlan(true);
     } else {

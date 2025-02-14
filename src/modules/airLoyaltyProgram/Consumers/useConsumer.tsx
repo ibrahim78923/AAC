@@ -108,5 +108,6 @@ export const useConsumer = () => {
     pageLimit,
     headerActionButtonDropdown,
     statusQuery,
+    setIsDrawerOpen,
   };
 };

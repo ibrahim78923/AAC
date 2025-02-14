@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Link from 'next/link';
-import Image from 'next/image';
+// import Link from 'next/link';
+// import Image from 'next/image';
 import {
   Grid,
   Button,
@@ -9,9 +9,9 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  FormControlLabel,
-  Switch,
-  TextField,
+  // FormControlLabel,
+  // Switch,
+  // TextField,
   Divider,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
@@ -25,8 +25,8 @@ import {
   profileSecurityValidationSchema,
 } from './Security.data';
 import { v4 as uuidv4 } from 'uuid';
-import { RQCodeImage } from '@/assets/images';
-import { CopyIcon, DownloadIcon } from '@/assets/icons';
+// import { RQCodeImage } from '@/assets/images';
+// import { CopyIcon, DownloadIcon } from '@/assets/icons';
 import { useChangePasswordMutation } from '@/services/auth';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
@@ -37,8 +37,8 @@ import { AUTH } from '@/constants';
 
 const Security = () => {
   const router = useRouter();
-  const [isChecked, setIsChecked] = useState<boolean>(false);
-  const [isVerifyCode, setIsVerifyCode] = useState<boolean>(false);
+  // const [isChecked, setIsChecked] = useState<boolean>(false);
+  // const [isVerifyCode, setIsVerifyCode] = useState<boolean>(false);
   const [isPassword, setIsPassword] = useState<any>({
     currentPassword: false,
     newPassword: false,
@@ -49,9 +49,9 @@ const Security = () => {
 
   const theme = useTheme();
 
-  const SwitchhandleChange = (e: any) => {
-    setIsChecked(e.target.checked);
-  };
+  // const SwitchhandleChange = (e: any) => {
+  //   setIsChecked(e.target.checked);
+  // };
 
   const handleClickShowPassword = (
     field: 'currentPassword' | 'newPassword' | 'confirmPassword',
@@ -105,7 +105,7 @@ const Security = () => {
 
   return (
     <Box>
-      <Accordion sx={{ boxShadow: 'none' }}>
+      <Accordion sx={{ boxShadow: 'none' }} defaultExpanded>
         <AccordionSummary
           expandIcon={<ArrowDropDownIcon sx={{ fontSize: '40px' }} />}
           aria-controls="panel1a-content"
@@ -169,7 +169,8 @@ const Security = () => {
         </AccordionDetails>
       </Accordion>
 
-      <Grid container sx={{ justifyContent: 'space-between', marginY: '20px' }}>
+      {/* TODO: 2FA Will cater in future */}
+      {/* <Grid container sx={{ justifyContent: 'space-between', marginY: '20px' }}>
         <Typography variant="h5" sx={{ color: theme?.palette?.grey[800] }}>
           Two-Factor Authentication
         </Typography>
@@ -178,8 +179,8 @@ const Security = () => {
           control={<Switch onChange={SwitchhandleChange} checked={isChecked} />}
           label={!isChecked ? 'Disabled' : 'Enabled'}
         />
-      </Grid>
-      {isChecked ? (
+      </Grid> */}
+      {/* {isChecked ? (
         <Box
           sx={{
             backgroundColor: '#F9FAFB',
@@ -349,7 +350,7 @@ const Security = () => {
           authetication, you will not be able to login unless you enter the
           correct authentication code
         </Typography>
-      )}
+      )} */}
     </Box>
   );
 };

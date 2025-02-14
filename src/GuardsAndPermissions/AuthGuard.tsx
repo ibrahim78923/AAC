@@ -8,7 +8,7 @@ import Login from '@/modules/auth/Login';
 
 import LoadingScreen from '@/components/LoadingScreen';
 import { getSession } from '@/utils';
-import { BYPASS_ROUTES } from '@/constants';
+import { BASE_PATHS, ERROR_PAGES } from '@/constants';
 import { ROLES } from '@/constants/strings';
 
 export default function AuthGuard({ children }: any) {
@@ -20,9 +20,9 @@ export default function AuthGuard({ children }: any) {
   const { user }: { accessToken: string; refreshToken: string; user: any } =
     getSession();
 
-  const pathSegments = pathname.slice(1).split('/');
+  // const pathSegments = pathname.slice(1).split('/');
 
-  const basePath = pathSegments[0];
+  // const basePath = pathSegments[0];
 
   useEffect(() => {
     if (requestedLocation && pathname !== requestedLocation) {
@@ -43,21 +43,20 @@ export default function AuthGuard({ children }: any) {
     return <Login />;
   }
 
-  if (pathname.includes('org-admin') && user?.role !== 'ORG_ADMIN') {
-    push({ pathname: '/405' });
+  if (
+    pathname.includes(BASE_PATHS?.ORG_ADMIN) &&
+    user?.role !== ROLES?.ORG_ADMIN
+  ) {
+    push({ pathname: ERROR_PAGES?.NOT_ALLOWED });
   }
   if (
-    user?.role === ROLES.SUPER_ADMIN &&
-    basePath !== 'super-admin' &&
-    !BYPASS_ROUTES[basePath]
+    !pathname.includes(BASE_PATHS?.CUSTOMER_PORTAL) &&
+    user?.role === ROLES?.ORG_REQUESTER
   ) {
-    push({ pathname: '/405' });
-  }
-  if (
-    !pathname.includes('air-customer-portal') &&
-    user?.role === 'ORG_REQUESTER'
-  ) {
-    push({ pathname: '/405', query: { redirect: 'air-customer-portal' } });
+    push({
+      pathname: ERROR_PAGES?.NOT_ALLOWED,
+      query: { redirect: BASE_PATHS?.CUSTOMER_PORTAL },
+    });
   }
 
   return <>{children}</>;

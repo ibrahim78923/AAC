@@ -6,7 +6,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { FormGrid } from '@/components/Grids/FormGrid';
 import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
 
-export const TicketsBulkUpdate = () => {
+const TicketsBulkUpdate = () => {
   const {
     ticketsBulkUpdateFormFields,
     theme,
@@ -71,3 +71,5 @@ export const TicketsBulkUpdate = () => {
     </>
   );
 };
+
+export default TicketsBulkUpdate;

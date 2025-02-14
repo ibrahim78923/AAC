@@ -86,7 +86,7 @@ export const contactsDataArray = [
   {
     componentProps: {
       name: 'organizationNumber',
-      label: 'Organization Name',
+      label: 'Organisation Name',
       GridView: 6,
     },
     component: RHFMultiCheckbox,

@@ -10,4 +10,5 @@ export default interface CardPropsI {
   editBtn?: boolean;
   isLoading?: boolean;
   handleChangeImg?: any;
+  handleRequestAgent?: () => void;
 }

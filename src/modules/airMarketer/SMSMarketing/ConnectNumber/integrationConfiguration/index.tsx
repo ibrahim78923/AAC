@@ -12,7 +12,7 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ArrowBackIcon,
   IconArrowRounded,
@@ -46,15 +46,18 @@ const IntegrationConfiguration = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [activeId, setActiveId] = useState('');
 
-  const { data, isLoading: isLoadingGetConfig } =
-    useGetTwilioConfigurationsQuery({
-      params: {
-        page: 1,
-        limit: 10,
-        meta: true,
-        type: 'sms',
-      },
-    });
+  const {
+    data,
+    isLoading: isLoadingGetConfig,
+    refetch,
+  } = useGetTwilioConfigurationsQuery({
+    params: {
+      page: 1,
+      limit: 10,
+      meta: true,
+      type: 'sms',
+    },
+  });
 
   const getRowValues = columns(theme, setIsDeleteModalOpen, setActiveId);
 
@@ -136,6 +139,10 @@ const IntegrationConfiguration = () => {
       configurationId: id,
     });
   };
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   return (
     <Box>

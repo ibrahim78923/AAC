@@ -6,7 +6,7 @@ import { FiberManualRecord } from '@mui/icons-material';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { ActivityCard } from '@/components/Cards/ActivityCard';
 
-export const Activities = () => {
+const Activities = () => {
   const {
     isError,
     setPageLimit,
@@ -60,3 +60,5 @@ export const Activities = () => {
     </>
   );
 };
+
+export default Activities;

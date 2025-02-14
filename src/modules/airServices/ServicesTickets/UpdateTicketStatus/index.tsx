@@ -3,7 +3,7 @@ import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { CloneReportIcon } from '@/assets/icons';
 import { useUpdateTicketStatus } from './useUpdateTicketStatus';
 
-export const UpdateTicketStatus = () => {
+const UpdateTicketStatus = () => {
   const { apiCallInProgress, closeModal, updateTicketStatus, isPortalOpen } =
     useUpdateTicketStatus();
 
@@ -20,3 +20,5 @@ export const UpdateTicketStatus = () => {
     />
   );
 };
+
+export default UpdateTicketStatus;

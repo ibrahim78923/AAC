@@ -129,7 +129,7 @@ const useQuotes = () => {
   };
   const handleDeleteQoute = async () => {
     try {
-      await DeleteQuotes(selectedRow)?.unwrap();
+      await DeleteQuotes({ ids: selectedRow })?.unwrap();
       enqueueSnackbar('Record has been deleted.', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });

@@ -1,10 +1,10 @@
-import { Box, Checkbox, Typography } from '@mui/material';
-import { DragIndicator } from '@mui/icons-material';
+import { Typography } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useCustomizeTicketColumn } from './useCustomizeTicketsColumn';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { CustomizeItemCard } from '@/components/Cards/CustomizeItemCard';
+import { ARRAY_INDEX, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 
-export const CustomizeTicketsColumn = () => {
+const CustomizeTicketsColumn = () => {
   const {
     submit,
     onClose,
@@ -27,51 +27,22 @@ export const CustomizeTicketsColumn = () => {
       >
         <Typography variant="h5" color="slateBlue.main">
           {' '}
-          Selected ({customizeColumn?.length - 2})
+          Selected ({customizeColumn?.length - SELECTED_ARRAY_LENGTH?.TWO})
         </Typography>
-        {ticketsListsColumnPersist?.slice?.(2)?.map((column: any) => (
-          <Box
-            key={column?.header}
-            display={'flex'}
-            alignItems={'center'}
-            flexWrap={'wrap'}
-            border={`1px solid `}
-            borderColor={'primary.main'}
-            borderRadius={2}
-            gap={1}
-            marginTop={1.5}
-            padding={1}
-          >
-            <DragIndicator
-              sx={{ color: 'grey.600', flex: 0.1, textAlign: 'center' }}
+        {ticketsListsColumnPersist
+          ?.slice?.(ARRAY_INDEX?.TWO)
+          ?.map((column: any) => (
+            <CustomizeItemCard
+              name={column?.header}
+              key={column?.header}
+              id={column?.id}
+              checked={customizeColumn?.includes?.(column?.id)}
+              onChange={(e: any): any => checkboxHandler?.(e, column)}
             />
-            <Box
-              display={'flex'}
-              flex={'auto'}
-              alignItems={'center'}
-              justifyContent={'space-between'}
-            >
-              <Typography
-                variant="body1"
-                color="slateBlue.main"
-                whiteSpace={'nowrap'}
-              >
-                {column?.header}
-              </Typography>
-              <Box>
-                <Checkbox
-                  icon={<CheckboxIcon />}
-                  checkedIcon={<CheckboxCheckedIcon />}
-                  color="primary"
-                  name={column?.id}
-                  checked={customizeColumn?.includes?.(column?.id)}
-                  onClick={(e: any): any => checkboxHandler?.(e, column)}
-                />
-              </Box>
-            </Box>
-          </Box>
-        ))}
+          ))}
       </CommonDrawer>
     </>
   );
 };
+
+export default CustomizeTicketsColumn;

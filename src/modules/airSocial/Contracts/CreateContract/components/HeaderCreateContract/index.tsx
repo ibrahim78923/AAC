@@ -11,22 +11,30 @@ import useHeaderCreateContract from './useHeaderCreateContract';
 import ModalShareContract from '../ModalShareContract';
 
 interface HeaderCreateContractProps {
+  documentTitle: string;
+  documentStatus: string;
   onClickSave?: () => void;
   onClickSign?: () => void;
   onClickSaveAsDraft: () => void;
   onClickSaveAsTemplate: () => void;
-  methods?: any;
+  disabledSaveAsDraft?: boolean;
+  disabledSaveAsTemplate?: boolean;
+  disabledSaveChanges?: boolean;
 }
 
 export default function HeaderCreateContract({
+  documentTitle,
+  documentStatus,
   onClickSave,
   onClickSign,
   onClickSaveAsDraft,
   onClickSaveAsTemplate,
-  methods,
+  disabledSaveAsDraft,
+  disabledSaveAsTemplate,
+  disabledSaveChanges = true,
 }: HeaderCreateContractProps) {
   const router = useRouter();
-  const { templateId } = router?.query;
+  // const { templateId } = router?.query;
 
   const {
     anchorElMoreMenu,
@@ -46,9 +54,9 @@ export default function HeaderCreateContract({
             <IconPlainBack />
           </Box>
 
-          <Box sx={styles.headerTitle}>Untitled Draft</Box>
+          <Box sx={styles.headerTitle}>{documentTitle}</Box>
 
-          <Box sx={styles.statusBadge}>Draft</Box>
+          <Box sx={styles.statusBadge}>{documentStatus}</Box>
         </Box>
 
         <Box sx={styles.right}>
@@ -97,6 +105,7 @@ export default function HeaderCreateContract({
                 handleCloseMoreMenu();
                 onClickSaveAsDraft();
               }}
+              disabled={disabledSaveAsDraft}
             >
               Save as a new draft
             </MenuItem>
@@ -105,6 +114,7 @@ export default function HeaderCreateContract({
                 handleCloseMoreMenu();
                 onClickSaveAsTemplate();
               }}
+              disabled={disabledSaveAsTemplate}
             >
               Save as a new template
             </MenuItem>
@@ -117,7 +127,7 @@ export default function HeaderCreateContract({
             variant="outlined"
             color="secondary"
             className="small"
-            disabled={!templateId || !methods?.formState?.isDirty}
+            disabled={disabledSaveChanges}
           >
             Save Changes
           </Button>

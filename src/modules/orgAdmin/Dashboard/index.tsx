@@ -104,7 +104,7 @@ const Dashboard = () => {
               variant="h5"
               sx={{ color: theme?.palette?.grey[600], fontSize: '14px' }}
             >
-              Upload Organization Logo
+              Upload Organisation Logo
             </Typography>
             <Link href={ORG_ADMIN?.ORGANIZATION}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -115,7 +115,7 @@ const Dashboard = () => {
                     textDecoration: 'underline',
                   }}
                 >
-                  Edit Organization Information
+                  Edit Organisation Information
                 </Typography>
                 <EditProfilelLineIcon />
               </Box>
@@ -134,7 +134,7 @@ const Dashboard = () => {
           variant="body2"
           sx={{ color: theme?.palette?.custom?.cadet_color, fontWeight: 400 }}
         >
-          All the accounts in this organization that you have access to. Click
+          All the accounts in this organisation that you have access to. Click
           to open.
         </Typography>
       </Box>

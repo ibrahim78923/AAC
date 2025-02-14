@@ -71,7 +71,7 @@ export const usersColumns: any = (handleUserSwitchChange: any) => {
       accessorFn: (row: any) => row?.organization,
       id: 'organizationName',
       isSortable: true,
-      header: 'Organization Name',
+      header: 'Organisation Name',
       cell: (info: any) => info?.getValue()?.name ?? 'N/A',
     },
     {

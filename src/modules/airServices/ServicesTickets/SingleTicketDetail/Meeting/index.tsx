@@ -13,7 +13,7 @@ import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
 
-export const Meeting = () => {
+const Meeting = () => {
   const {
     meetings,
     setSearch,
@@ -33,6 +33,7 @@ export const Meeting = () => {
     meetingActiveType,
     deleteMeetingsStatus,
   } = useMeeting();
+
   return (
     <Box p={1}>
       <PermissionsGuard
@@ -141,3 +142,5 @@ export const Meeting = () => {
     </Box>
   );
 };
+
+export default Meeting;

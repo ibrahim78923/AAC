@@ -129,6 +129,7 @@ const SignUp = () => {
               >
                 <Typography
                   variant="h3"
+                  mt={2}
                   sx={{ color: theme?.palette?.grey[500_8] }}
                 >
                   Welcome to {PROJECT_NAME}

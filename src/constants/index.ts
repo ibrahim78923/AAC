@@ -70,6 +70,7 @@ export const DATE_TIME_FORMAT = {
 
 export const ERROR_PAGES = {
   NOT_FOUND: '/404',
+  NOT_ALLOWED: '/405',
   NOT_ACCESS: '/403',
   NOT_FOUND_DEFAULT: 404,
 };
@@ -528,7 +529,6 @@ export const BYPASS_ROUTES: any = {
   'edit-profile': true,
   'activity-logs': true,
   delegates: true,
-
 };
 
 export const AIR_SALES_GOAL_NOTIFICATION = {

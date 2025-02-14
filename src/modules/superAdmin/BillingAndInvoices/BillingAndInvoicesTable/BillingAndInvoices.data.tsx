@@ -265,9 +265,9 @@ export const dataArray = () => {
     {
       componentProps: {
         name: 'organizationId',
-        label: 'Client & Organization',
+        label: 'Client & Organisation',
         fullWidth: true,
-        placeholder: 'Select organization',
+        placeholder: 'Select Organisation',
         apiQuery: organizations,
         getOptionLabel: (option: any) => option?.name,
       },

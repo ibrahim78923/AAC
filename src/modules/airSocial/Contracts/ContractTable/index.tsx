@@ -18,7 +18,7 @@ const ContractTable = (props: any) => {
             {contractName}
           </Typography>
           <Typography variant="body2" color={theme?.palette?.custom?.light}>
-            Simplifying document management with smart organization,
+            Simplifying document management with smart organisation,
             collaboration, and secure storage.
           </Typography>
         </Box>

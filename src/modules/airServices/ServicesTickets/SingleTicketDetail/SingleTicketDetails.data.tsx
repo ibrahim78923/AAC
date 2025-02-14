@@ -4,15 +4,34 @@ import {
   AIR_SERVICES_TICKETS_TICKETS_DETAILS,
   AIR_SERVICES_TICKETS_TICKET_LISTS,
 } from '@/constants/permission-keys';
-import { Details } from './Details';
-import { Tasks } from './Tasks';
-import { RelatedTickets } from './RelatedTickets';
-import Association from './Association';
-import { Approvals } from './Approvals';
-import { Meeting } from './Meeting';
-import { Activities } from './Activities';
-import { Conversations } from './Conversations';
+
 import { SingleTicketDetailChildComponentPropsI } from './SingleTicketDetails.interface';
+import dynamic from 'next/dynamic';
+
+const Details = dynamic(() => import('./Details'), {
+  ssr: false,
+});
+const Tasks = dynamic(() => import('./Tasks'), {
+  ssr: false,
+});
+const RelatedTickets = dynamic(() => import('./RelatedTickets'), {
+  ssr: false,
+});
+const Association = dynamic(() => import('./Association'), {
+  ssr: false,
+});
+const Approvals = dynamic(() => import('./Approvals'), {
+  ssr: false,
+});
+const Meeting = dynamic(() => import('./Meeting'), {
+  ssr: false,
+});
+const Activities = dynamic(() => import('./Activities'), {
+  ssr: false,
+});
+const Conversations = dynamic(() => import('./Conversations'), {
+  ssr: false,
+});
 
 export const singleTicketDetailTabsDynamic = (
   props: SingleTicketDetailChildComponentPropsI,
