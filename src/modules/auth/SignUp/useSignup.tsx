@@ -196,7 +196,7 @@ const useSignup = () => {
 
   useEffect(() => {
     if (isError) {
-      errorSnackbar('Please enter correct Organization Number');
+      errorSnackbar('Please enter correct Organisation Number');
     }
   }, [data, isError]);
 

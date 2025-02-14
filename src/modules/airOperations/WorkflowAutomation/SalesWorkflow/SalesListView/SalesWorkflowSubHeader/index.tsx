@@ -2,7 +2,7 @@ import Search from '@/components/Search';
 import { Box, Button } from '@mui/material';
 import { FilterIcon } from '@/assets/icons';
 import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
-import { FilterSalesWorkflow } from '../FilterSalesWorkflow';
+import { FilterSalesWorkflow } from '../../FilterSalesWorkflow';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import { SalesWorkflowSubHeaderI } from './SalesWorkflowSubHeader.interface';

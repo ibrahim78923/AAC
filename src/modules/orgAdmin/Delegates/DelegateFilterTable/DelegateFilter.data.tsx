@@ -83,7 +83,7 @@ export const columns: any = (setIsModalOpen: any, isModalOpen: any) => {
       accessorFn: (row: any) => row?.delegateOrganization?.name,
       id: 'organizationName',
       isSortable: true,
-      header: 'Organization Name',
+      header: 'Organisation Name',
       cell: (info: any) => info.getValue(),
     },
     {

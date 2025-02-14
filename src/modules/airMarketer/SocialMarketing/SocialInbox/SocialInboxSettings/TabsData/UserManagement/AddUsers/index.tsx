@@ -57,7 +57,7 @@ const AddUsers = (props: AddUsersProps) => {
           color: `${theme.palette.custom.main}`,
         }}
       >
-        Add a new user to this organization
+        Add a new user to this organisation
       </Typography>
       <Box sx={{ paddingTop: '1rem' }}>
         <FormProvider methods={methods}>

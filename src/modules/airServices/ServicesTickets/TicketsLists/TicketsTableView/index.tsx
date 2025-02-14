@@ -1,7 +1,7 @@
 import { useTicketTableView } from './useTicketTableView';
 import TanstackTable from '@/components/Table/TanstackTable';
 
-export const TicketsTableView = () => {
+const TicketsTableView = () => {
   const {
     lazyGetTicketsStatus,
     handleSetPageLimit,
@@ -18,8 +18,8 @@ export const TicketsTableView = () => {
     <>
       <TanstackTable
         columns={
-          ticketsListsColumnPersist?.filter(
-            (col: any) => ticketsListsActiveColumn?.includes?.(col?.id),
+          ticketsListsColumnPersist?.filter((col: any) =>
+            ticketsListsActiveColumn?.includes?.(col?.id),
           ) ?? []
         }
         data={lazyGetTicketsStatus?.data?.data?.tickets ?? []}
@@ -46,3 +46,5 @@ export const TicketsTableView = () => {
     </>
   );
 };
+
+export default TicketsTableView;

@@ -13,6 +13,7 @@ import { useUpdateUsersMutation } from '@/services/superAdmin/user-management/us
 import { enqueueSnackbar } from 'notistack';
 import { LoadingButton } from '@mui/lab';
 import { useRouter } from 'next/router';
+import { getSession } from '@/utils';
 
 const Profile = () => {
   const router = useRouter();
@@ -55,7 +56,7 @@ const Profile = () => {
   };
 
   const { handleSubmit } = methodsCreateNewTicketForm;
-
+  const { user }: any = getSession();
   return (
     <Box>
       <FormProvider
@@ -63,7 +64,7 @@ const Profile = () => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <Grid container spacing={2}>
-          {editProfileDataArray?.map((item: any) => (
+          {editProfileDataArray(user)?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={uuidv4()}>
               {item?.componentProps?.heading && (
                 <Typography variant="h5">

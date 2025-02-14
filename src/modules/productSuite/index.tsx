@@ -213,7 +213,7 @@ const ProductSuite = () => {
                     router.push(ORG_ADMIN?.DASHBOARD);
                   }}
                 >
-                  Organization Admin portal
+                  Organisation Admin portal
                 </Button>
               )}
             </>

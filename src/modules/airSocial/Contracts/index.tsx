@@ -324,6 +324,7 @@ const Contracts = () => {
                                   }
                                   personalConStatus={personalConStatus}
                                   activeMenu={activeMenu}
+                                  setSelectedRecords={setSelectedRecords}
                                 />
                               )}
                             </Box>
@@ -427,6 +428,7 @@ const Contracts = () => {
                                 setIsAddFolderDrawerOpen={
                                   setIsAddFolderDrawerOpen
                                 }
+                                setSelectedRecords={setSelectedRecords}
                               />
                             )}
                           </Box>
@@ -452,7 +454,7 @@ const Contracts = () => {
             <Box>
               <Typography variant="h4">My Contracts</Typography>
               <Typography variant="body2">
-                Simplifying document management with smart organization,
+                Simplifying document management with smart organisation,
                 collaboration, and secure storage.
               </Typography>
             </Box>
@@ -553,7 +555,10 @@ const Contracts = () => {
             </Box>
 
             <Box sx={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-              <Actions selectedRecords={selectedRecords} />
+              <Actions
+                selectedRecords={selectedRecords}
+                setSelectedRecords={setSelectedRecords}
+              />
 
               <Tooltip title={'Refresh Filter'}>
                 <Button
@@ -665,6 +670,7 @@ const RecursiveAccordion = ({
   folders,
   setIsAddFolderDrawerOpen,
   personalConStatus,
+  setSelectedRecords,
 }: any) => {
   const theme = useTheme();
   return (
@@ -693,7 +699,10 @@ const RecursiveAccordion = ({
             <Box sx={{ width: '100%' }}>
               <MenuItem
                 sx={styles?.exposeMenuOnHover(activeFolder, item, theme)}
-                onClick={() => setActiveFolder(item)}
+                onClick={() => {
+                  setActiveFolder(item);
+                  setSelectedRecords([]);
+                }}
               >
                 <Box
                   sx={{
@@ -747,6 +756,7 @@ const RecursiveAccordion = ({
                     setIsAddFolderDrawerOpen={setIsAddFolderDrawerOpen}
                     setActiveMenu={setActiveMenu}
                     personalConStatus={personalConStatus}
+                    setSelectedRecords={setSelectedRecords}
                   />
                 </Box>
               )}
@@ -758,7 +768,7 @@ const RecursiveAccordion = ({
   );
 };
 
-const RecursiveFolderAccordion = ({
+export const RecursiveFolderAccordion = ({
   folders,
   setFolderToMove,
   folderToMove,

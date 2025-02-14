@@ -6,7 +6,7 @@ import { useAppDispatch } from '@/redux/store';
 import { resetComponentState } from '@/redux/slices/airServices/tickets-tasks/slice';
 import { useEffect } from 'react';
 
-export const Tasks = () => {
+const Tasks = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -26,3 +26,5 @@ export const Tasks = () => {
     </>
   );
 };
+
+export default Tasks;

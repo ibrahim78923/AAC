@@ -27,6 +27,8 @@ import { ENUM_CONTRACT_TYPE } from '@/utils/contracts';
 export default function CreateContract() {
   const {
     router,
+    contractId,
+    templateId,
     activeView,
     handlePreviewToggle,
 
@@ -68,7 +70,7 @@ export default function CreateContract() {
     loadingGetContractById,
     loadingGetTemplateById,
     loadingUpdateTemplate,
-    handleSubmitUpdateTemplate,
+    handleSubmitUpdateContract,
     handleAddDynamicField,
     handleUpdateDynamicField,
     isConfirmSigning,
@@ -81,17 +83,33 @@ export default function CreateContract() {
     templateCatgValue,
     setTemplateCatgValue,
     handleRemoveDynamicField,
+
+    contractDetailsData,
   } = useCreateContract();
+
+  const disabledSaveChanges = () => {
+    if (templateId) {
+      return !methods?.formState?.isDirty;
+    }
+    if (contractId) {
+      return !methods?.formState?.isDirty;
+    }
+    return true;
+  };
 
   return (
     <>
       <PlainHeader>
         <HeaderCreateContract
-          onClickSave={handleSubmitUpdateTemplate}
+          documentTitle={contractDetailsData?.name || 'Untitled Draft'}
+          documentStatus={contractDetailsData?.status || 'Draft'}
+          onClickSave={handleSubmitUpdateContract}
           onClickSign={handleOpenModalSignAndSend}
           onClickSaveAsTemplate={() => setOpenModalTemplateCategories(true)}
           onClickSaveAsDraft={handleSubmitCreateTemplate('draft')}
-          methods={methods}
+          disabledSaveAsDraft={!!contractId}
+          disabledSaveAsTemplate={!!templateId || !!contractId}
+          disabledSaveChanges={disabledSaveChanges()}
         />
       </PlainHeader>
 
@@ -228,10 +246,14 @@ export default function CreateContract() {
                         Sign & Send
                       </Button>
                     </Grid>
-
-                    <Grid item xs={12}>
-                      <DocumentHistory />
-                    </Grid>
+                    {contractDetailsData &&
+                      contractDetailsData?.activityHistory && (
+                        <Grid item xs={12}>
+                          <DocumentHistory
+                            data={contractDetailsData?.activityHistory || []}
+                          />
+                        </Grid>
+                      )}
                   </Grid>
                 ))}
               {activeView === 'preview' &&
@@ -240,7 +262,9 @@ export default function CreateContract() {
                     <Box sx={styles?.headingBarTitle}>Sign PDF</Box>
                   </Box>
                 ) : (
-                  <Preview />
+                  <Preview
+                    documentHistoryData={contractDetailsData?.activityHistory}
+                  />
                 ))}
             </Box>
 

@@ -208,9 +208,9 @@ export const FilterInvoiceFiltersDataArray = () => {
     {
       componentProps: {
         name: 'organizationId',
-        label: 'Client & Organization',
+        label: 'Client & Organisation',
         fullWidth: true,
-        placeholder: 'Select organization',
+        placeholder: 'Select organisation',
         apiQuery: organizations,
         getOptionLabel: (option: any) => option?.name,
       },

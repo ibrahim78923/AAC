@@ -250,6 +250,7 @@ export default function RHFMultiSearchableSelect({
                             <Image
                               width={24}
                               height={24}
+                              style={{ borderRadius: '50%' }}
                               alt="user"
                               src={option?.image}
                             />

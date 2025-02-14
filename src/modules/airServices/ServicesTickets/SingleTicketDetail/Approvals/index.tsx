@@ -2,7 +2,7 @@ import { Header } from './Header';
 import { PermissionsTabs } from '@/components/Tabs/PermissionsTabs';
 import { useApprovals } from './useApprovals';
 
-export const Approvals = () => {
+const Approvals = () => {
   const { handleTabChange, singleTicketDetailApprovalsTabs } = useApprovals();
 
   return (
@@ -16,3 +16,5 @@ export const Approvals = () => {
     </>
   );
 };
+
+export default Approvals;

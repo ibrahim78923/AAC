@@ -91,8 +91,8 @@ const AddRegNumber: FC<any> = ({
 
   const handleUpdateConfig = async (id: any) => {
     const payload = {
-      status: 'ACTIVE',
       configurationId: id,
+      updateConfiguration: true,
     };
     try {
       await updateAccountConfig({

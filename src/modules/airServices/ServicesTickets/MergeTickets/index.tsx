@@ -4,7 +4,7 @@ import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 import { CrispTicketInfo } from '../CrispTicketInfo';
 import { HeadingFormGrid } from '@/components/Grids/HeadingFormGrid';
 
-export const MergeTickets = () => {
+const MergeTickets = () => {
   const {
     methods,
     closeMergedTicketsModal,
@@ -37,3 +37,5 @@ export const MergeTickets = () => {
     </CustomCommonDialog>
   );
 };
+
+export default MergeTickets;

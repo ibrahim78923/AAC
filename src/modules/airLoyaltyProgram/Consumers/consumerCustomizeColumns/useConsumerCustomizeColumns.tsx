@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { consumersListColumnDynamic } from '../Consumer.data';
 
 export const useConsumerCustomizeColumns = (props: any) => {
-  const { setCustomizeColumns, customizeColumns, closeDrawer } = props;
+  const { setCustomizeColumns, customizeColumns, setIsDrawerOpen } = props;
 
   const consumerColumns = consumersListColumnDynamic();
 
@@ -20,9 +20,13 @@ export const useConsumerCustomizeColumns = (props: any) => {
         );
   };
 
+  const closeDrawer = () => {
+    setIsDrawerOpen(false);
+  };
+
   const applyAllCheckboxHandler = () => {
     setCustomizeColumns?.(columnDataCustomize);
-    closeDrawer?.(false);
+    closeDrawer?.();
   };
 
   return {
@@ -30,5 +34,6 @@ export const useConsumerCustomizeColumns = (props: any) => {
     consumerColumns,
     columnDataCustomize,
     applyAllCheckboxHandler,
+    closeDrawer,
   };
 };

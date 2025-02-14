@@ -4,7 +4,7 @@ import { useEmailTicket } from './useEmailTicket';
 import { sendTicketEmailFormFields } from './EmailTicket.data';
 import { FormGrid } from '@/components/Grids/FormGrid';
 
-export const EmailTicket = () => {
+const EmailTicket = () => {
   const {
     methods,
     handleSubmit,
@@ -33,3 +33,5 @@ export const EmailTicket = () => {
     </CommonDrawer>
   );
 };
+
+export default EmailTicket;

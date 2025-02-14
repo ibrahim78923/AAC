@@ -178,7 +178,7 @@ const useOrganizationCard = () => {
             organiztionDetails({ id: currentOrganizationId });
             reset();
             setIsOpenDrawer({ ...isOpenDrawer, isToggled: false });
-            enqueueSnackbar(`organization updated successfully`, {
+            enqueueSnackbar(`organisation updated successfully`, {
               variant: NOTISTACK_VARIANTS?.SUCCESS,
             });
           }

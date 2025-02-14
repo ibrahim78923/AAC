@@ -8,9 +8,17 @@ import useEditProfile from './useEditProfile';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { generateImage } from '@/utils/avatarUtils';
 import useUsersDetails from '@/modules/orgAdmin/Users/UsersDetails/useUsersDetails';
+import { ROLES } from '@/constants/strings';
+import { RequestForAgent } from './RequestForAgent';
 
 const EditProfile = () => {
-  const { getUserData, profileDataLoading } = useEditProfile();
+  const {
+    getUserData,
+    profileDataLoading,
+    openRequestAgentModal,
+    setOpenRequestAgentModal,
+    handleRequestAgent,
+  } = useEditProfile();
   const { handleChangeImg } = useUsersDetails();
   interface TabPanelProps {
     children?: React.ReactNode;
@@ -66,6 +74,8 @@ const EditProfile = () => {
             : ''
         }`}
         handleChangeImg={(e: any) => handleChangeImg(e, getUserData?.data?._id)}
+        isBadge={getUserData?.data?.role !== ROLES?.ORG_REQUESTER}
+        handleRequestAgent={handleRequestAgent}
       />
       {profileDataLoading ? (
         <SkeletonTable />
@@ -86,6 +96,12 @@ const EditProfile = () => {
             <Security />
           </CustomTabPanel>
         </Box>
+      )}
+      {openRequestAgentModal && (
+        <RequestForAgent
+          openRequestAgentModal={openRequestAgentModal}
+          setOpenRequestAgentModal={setOpenRequestAgentModal}
+        />
       )}
     </Box>
   );

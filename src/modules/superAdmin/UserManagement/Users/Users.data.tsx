@@ -105,7 +105,7 @@ export const columns: any = (columnsProps: ColumnsProps) => {
       accessorFn: (row: RowInterface) => row?.organization,
       id: 'organizationName',
       isSortable: true,
-      header: 'Organization Name',
+      header: 'Organisation Name',
       cell: (info: any) => info?.getValue()?.name ?? 'N/A',
     },
     {
@@ -298,9 +298,9 @@ export const usersFilterArray = () => {
     {
       componentProps: {
         name: 'organization',
-        label: 'Organization Name',
+        label: 'Organisation Name',
         fullWidth: true,
-        placeholder: 'Select organization',
+        placeholder: 'Select organisation',
         apiQuery: organizations,
         getOptionLabel: (option: any) => option?.name,
       },

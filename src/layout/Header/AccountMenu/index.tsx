@@ -221,7 +221,7 @@ const AccountMenu = () => {
                       variant="contained"
                       onClick={handleNavigateToOrgAdmin}
                     >
-                      Organization Admin portal
+                      Organisation Admin portal
                     </Button>
                   </Box>
                 ) : (

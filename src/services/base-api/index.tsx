@@ -249,6 +249,7 @@ export const TAGS = [
   'COMMON_CONTRACTS',
   'TWILIO_CONFIGURATION',
   'SHARED_FOLDERS',
+  'CHAT',
 ];
 
 const BYPASS_AUTH_API_ROUTES = [

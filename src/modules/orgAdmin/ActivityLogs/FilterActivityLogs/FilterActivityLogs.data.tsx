@@ -15,7 +15,7 @@ export const FilterArray = (
 
   const organizationField = {
     componentProps: {
-      label: 'Organization',
+      label: 'Organisation',
       name: 'organization',
       fullWidth: true,
       placeholder: 'Select company',

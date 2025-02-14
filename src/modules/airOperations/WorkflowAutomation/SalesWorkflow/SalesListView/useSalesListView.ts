@@ -2,20 +2,22 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { AIR_OPERATIONS } from '@/constants/routes';
 import {
-  useCloneWorkflowMutation,
-  useDeleteWorkflowMutation,
   useLazyGetWorkflowListQuery,
+  useDeleteWorkflowMutation,
+  useCloneWorkflowMutation,
 } from '@/services/airOperations/workflow-automation/sales-workflow';
 import { PAGINATION } from '@/config';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
-import { SALES_WORKFLOW_TYPES } from '@/constants/strings';
+import { WorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
 import {
   salesWorkflowActionDropdownDynamic,
   salesWorkflowListsColumnDynamic,
-} from '../../SalesWorkflow.data';
-import { WorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
+} from './SalesListView.data';
+import { filteredEmptyValues } from '@/utils/api';
+import { IErrorResponse } from '@/types/shared/ErrorResponse';
+import { ARRAY_INDEX } from '@/constants/strings';
 
-export const useQuote = () => {
+export const useSalesListView = ({ module }: { module: string }) => {
   const [activeCheck, setActiveCheck] = useState<WorkflowI[]>([]);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -23,23 +25,22 @@ export const useQuote = () => {
   const [openDelete, setOpenDelete] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const { push } = useRouter();
-  const workflowId = activeCheck?.find((item) => item);
+  const workflowData = activeCheck?.[ARRAY_INDEX?.ZERO];
   const handleEditWorkflow = () => {
     push({
       pathname: AIR_OPERATIONS?.UPSERT_SALES_WORKFLOW,
-      query: { id: workflowId?._id },
+      query: { id: workflowData?._id },
     });
   };
   const [cloneWorkflowTrigger] = useCloneWorkflowMutation();
   const handleClone = async () => {
-    const response: any = await cloneWorkflowTrigger(workflowId?._id);
     try {
-      successSnackbar(
-        response?.data?.message && `${workflowId?.title} clone successfully`,
-      );
+      await cloneWorkflowTrigger(workflowData?._id)?.unwrap();
+      successSnackbar(`${workflowData?.title} clone successfully`);
       setActiveCheck([]);
     } catch (error) {
-      errorSnackbar(response?.error?.data?.message);
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
   };
   const handleSearch = (searchValue: string) => {
@@ -52,18 +53,18 @@ export const useQuote = () => {
     handleEditWorkflow,
     handleClone,
   );
-  const [
-    getWorkflowListTrigger,
-    { data, isLoading, isFetching, isError, isSuccess },
-  ] = useLazyGetWorkflowListQuery();
+  const [getWorkflowListTrigger, getWorkflowStatus] =
+    useLazyGetWorkflowListQuery();
   const workflowParams = {
     page,
     limit,
     search,
-    module: SALES_WORKFLOW_TYPES?.QUOTES,
+    module,
   };
   const handleWorkflow = async () => {
-    await getWorkflowListTrigger(workflowParams);
+    try {
+      await getWorkflowListTrigger(workflowParams)?.unwrap();
+    } catch (error) {}
   };
   useEffect(() => {
     handleWorkflow();
@@ -73,40 +74,34 @@ export const useQuote = () => {
     createdBy: any;
     type: string;
   }) => {
+    const filteredData = filteredEmptyValues(filterData);
     const filterParams: any = {
       ...workflowParams,
-      createdBy: filterData?.createdBy?._id,
+      ...filteredData,
+      ...(!!filteredData?.createdBy && { createdBy: filterData.createdBy._id }),
     };
-    if (filterData?.status) {
-      filterParams.status = filterData?.status;
-    }
-    if (filterData?.type) {
-      filterParams.type = filterData?.type;
-    }
-    await getWorkflowListTrigger(filterParams);
-    setIsFilterOpen(false);
+    try {
+      setIsFilterOpen(false);
+      await getWorkflowListTrigger(filterParams);
+    } catch (error) {}
   };
-  const tableData = data?.data?.workFlows;
-  const meta = data?.data?.meta;
   const tableColumns = salesWorkflowListsColumnDynamic(
     activeCheck,
     setActiveCheck,
-    tableData,
+    getWorkflowStatus?.data?.data?.workFlows,
   );
   const [deleteTrigger, { isLoading: deleteLoading }] =
     useDeleteWorkflowMutation();
-  const deleteParams = activeCheck
-    ?.map((item) => `ids=${item?._id}`)
-    ?.join('&');
   const handleDelete = async () => {
-    const response: any = await deleteTrigger(deleteParams);
+    const searchParams = new URLSearchParams();
+    activeCheck?.forEach((item) => searchParams.append('ids', item?._id));
     try {
-      successSnackbar(
-        response?.data?.message && 'Workflow Deleted Successfully',
-      );
+      await deleteTrigger(searchParams)?.unwrap();
+      successSnackbar('Workflow Deleted Successfully');
       setActiveCheck([]);
-    } catch (e) {
-      errorSnackbar(response?.error?.data?.message);
+    } catch (error) {
+      const errorResponse = error as IErrorResponse;
+      errorSnackbar(errorResponse?.data?.message);
     }
     setOpenDelete(false);
   };
@@ -118,20 +113,13 @@ export const useQuote = () => {
     setOpenDelete,
     tableColumns,
     actionDropdown,
-    isLoading,
-    isFetching,
-    isError,
-    isSuccess,
-    meta,
-    tableData,
-    limit,
     setLimit,
-    page,
     setPage,
     activeCheck,
     onSubmitFilter,
     handleDelete,
     deleteLoading,
     handleWorkflow,
+    getWorkflowStatus,
   };
 };

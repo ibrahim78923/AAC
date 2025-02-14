@@ -38,6 +38,14 @@ export const commonContractsDashboardAPI = baseAPI.injectEndpoints({
       }),
       providesTags: TAGS,
     }),
+    getCommonContractsPersonalFoldersActionList: builder.query({
+      query: (params) => ({
+        url: COMMON_CONTRACTS?.GET_COMMON_MY_FOLDERS,
+        method: 'GET',
+        params,
+      }),
+      providesTags: TAGS,
+    }),
 
     postCreateContractFolder: builder.mutation({
       query: ({ payload }: any) => ({
@@ -50,6 +58,14 @@ export const commonContractsDashboardAPI = baseAPI.injectEndpoints({
     updateCreateContractFolder: builder.mutation({
       query: ({ payload, id }: any) => ({
         url: `${COMMON_CONTRACTS?.POST_COMMON_CONTRACTS_FOLDERS}/${id}`,
+        method: 'PATCH',
+        body: payload,
+      }),
+      invalidatesTags: TAGS,
+    }),
+    updateListCommonContracts: builder.mutation({
+      query: ({ payload, id }: any) => ({
+        url: `${COMMON_CONTRACTS?.PATCH_LIST_COMMON_CONTRACTS}/${id}`,
         method: 'PATCH',
         body: payload,
       }),
@@ -69,7 +85,9 @@ export const {
   useGetCommonContractsListQuery,
   useGetCommonContractsSharedFoldersListQuery,
   useGetCommonContractsPersonalFoldersListQuery,
+  useGetCommonContractsPersonalFoldersActionListQuery,
   usePostCreateContractFolderMutation,
   useUpdateCreateContractFolderMutation,
   useDeleteContractFolderMutation,
+  useUpdateListCommonContractsMutation,
 } = commonContractsDashboardAPI;

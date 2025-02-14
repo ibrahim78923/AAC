@@ -43,7 +43,7 @@ const AddUser = ({
       isLoading={postUserLoading || authVerificaionLoading}
     >
       <Typography variant="body2">
-        Add a new user to this organization
+        Add a new user to this organisation
       </Typography>
       <FormProvider methods={methods}>
         <Grid container spacing={1} mt={1}>

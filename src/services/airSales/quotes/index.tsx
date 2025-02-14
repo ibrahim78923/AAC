@@ -61,9 +61,10 @@ export const quotesAPI = baseAPI.injectEndpoints({
     }),
 
     deleteQuotes: builder.mutation({
-      query: (id: any) => ({
-        url: `${END_POINTS?.QUOTE}/${id}`,
+      query: (params: any) => ({
+        url: `${END_POINTS?.DELETE_QUOTES}`,
         method: 'DELETE',
+        params: params,
       }),
       invalidatesTags: TAG,
     }),

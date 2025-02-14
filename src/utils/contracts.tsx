@@ -79,7 +79,7 @@ export const getFieldIcon = (type: string) => {
   }
 };
 
-export const getPartiesFormData = (parties: any) => {
+export const createPartiesFormData = (parties: any, update: boolean) => {
   if (!Array.isArray(parties) || parties.length === 0) return null;
 
   const formData = parties
@@ -87,14 +87,22 @@ export const getPartiesFormData = (parties: any) => {
       if (!party || typeof party !== 'object') return null;
 
       const formattedParty: any = {};
+      const setValue = (key: string, value: any) => {
+        formattedParty[key] =
+          value === null ||
+          value === undefined ||
+          (typeof value === 'string' && value.trim() === '')
+            ? null
+            : value;
+      };
 
-      if (party?._id) formattedParty.id = party?._id;
-      if (party?.address) formattedParty.address = party?.address;
-      if (party?.idNumber) formattedParty.idNumber = party?.idNumber;
-      if (party?.referredAs) formattedParty.referredAs = party?.referredAs;
-      if (party?.moduleType) formattedParty.moduleType = party?.moduleType;
-      if (party?.moduleData?._id)
-        formattedParty.moduleId = party?.moduleData?._id;
+      if (update && party?._id) setValue('id', party?._id);
+      if (party?._id) setValue('id', party?._id);
+      setValue('address', party?.address);
+      setValue('idNumber', party?.idNumber);
+      setValue('referredAs', party?.referredAs);
+      setValue('moduleType', party?.moduleType);
+      setValue('moduleId', party?.moduleData?._id);
 
       return formattedParty;
     })
@@ -103,27 +111,31 @@ export const getPartiesFormData = (parties: any) => {
   return formData.length ? JSON.stringify(formData) : null;
 };
 
-export const getSigneesFormData = (signees: any) => {
-  if (!Array.isArray(signees) || signees?.length === 0) return null;
+export const createSigneesFormData = (signees: any, update: boolean) => {
+  if (!Array.isArray(signees) || signees.length === 0) return null;
 
   const formData = signees
-    ?.map((signee: any) => {
+    .map((signee: any) => {
       if (!signee || typeof signee !== 'object') return null;
 
       const formattedSignee: any = {};
+      const setValue = (key: string, value: any) => {
+        formattedSignee[key] =
+          value === null ||
+          value === undefined ||
+          (typeof value === 'string' && value.trim() === '')
+            ? null
+            : value;
+      };
 
-      if (signee?._id) formattedSignee.id = signee?._id;
-      if (signee?.signingOrder)
-        formattedSignee.signingOrder = signee?.signingOrder;
-      if (signee?.personalTitle)
-        formattedSignee.personalTitle = signee?.personalTitle;
-      if (signee?.name) formattedSignee.name = signee?.name;
-      if (signee?.email) formattedSignee.email = signee?.email;
-      if (signee?.signatureStatus)
-        formattedSignee.signatureStatus = signee?.signatureStatus;
-      if (signee?.signatureType)
-        formattedSignee.signatureType = signee?.signatureType;
-      if (signee?.onBehalfOf) formattedSignee.moduleId = signee?.onBehalfOf;
+      if (update && signee?._id) setValue('id', signee?._id);
+      setValue('signingOrder', signee?.signingOrder);
+      setValue('personalTitle', signee?.personalTitle);
+      setValue('name', signee?.name);
+      setValue('email', signee?.email);
+      setValue('signatureStatus', signee?.signatureStatus);
+      setValue('signatureType', signee?.signatureType);
+      setValue('moduleId', signee?.onBehalfOf);
 
       return formattedSignee;
     })

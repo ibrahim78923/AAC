@@ -16,20 +16,26 @@ export const contractsColumns = ({
 }: any) => {
   const theme = useTheme();
   const router = useRouter();
-  const handleClick = (itemId: string) => {
-    if (selectedRecords?.includes(itemId)) {
-      setSelectedRecords(selectedRecords.filter((id: string) => id !== itemId));
+
+  const handleClick = (item: any) => {
+    if (selectedRecords?.some((record: any) => record._id === item._id)) {
+      // If the item is already selected, remove it
+      setSelectedRecords(
+        selectedRecords.filter((record: any) => record._id !== item._id),
+      );
     } else {
-      setSelectedRecords([...(selectedRecords || []), itemId]);
+      // If the item is not selected, add it
+      setSelectedRecords([...(selectedRecords || []), item]);
     }
   };
 
   const handleSelectAll = () => {
     if (selectedRecords?.length === data?.length) {
+      // If all items are already selected, clear the selection
       setSelectedRecords([]);
     } else {
-      const allTaskIds = data?.map((task: { _id: string }) => task?._id) || [];
-      setSelectedRecords(allTaskIds);
+      // Select all items
+      setSelectedRecords(data || []);
     }
   };
 
@@ -119,11 +125,12 @@ export const contractsColumns = ({
       id: '_id',
       cell: (info: any) => (
         <Checkbox
-          // checked={false}
-          checked={selectedRecords?.includes(info?.row?.original?._id)}
+          checked={selectedRecords?.some(
+            (record: any) => record._id === info?.row?.original?._id,
+          )}
           color="primary"
           name={info?.getValue()}
-          onClick={() => handleClick(info?.row?.original?._id)}
+          onClick={() => handleClick(info?.row?.original)}
         />
       ),
       header: (

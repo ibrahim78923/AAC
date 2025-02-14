@@ -1,5 +1,5 @@
 import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
-import { TICKET_STATUS } from '@/constants/strings';
+import { MODULE_TYPE, TICKET_STATUS } from '@/constants/strings';
 import { useEditTicketStatusMutation } from '@/services/airCustomerPortal/Tickets';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
@@ -19,6 +19,7 @@ export const useSingleTicketHeader = (props: SingleTicketHeaderPropsI) => {
     const updateTicketStatusTicketsParameter = {
       queryParams: {
         status: TICKET_STATUS?.CLOSED,
+        moduleType: MODULE_TYPE?.CUSTOMER_PORTAL,
         id: id,
       },
     };

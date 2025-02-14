@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { resetComponentState } from '@/redux/slices/airServices/related-tickets/slice';
 import { useAppDispatch } from '@/redux/store';
 
-export const RelatedTickets = () => {
+const RelatedTickets = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -28,3 +28,5 @@ export const RelatedTickets = () => {
     </>
   );
 };
+
+export default RelatedTickets;

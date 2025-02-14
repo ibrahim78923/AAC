@@ -47,7 +47,7 @@ export const UpsertUser = () => {
         >
           {isPortalOpen?.action === ADD_OPERATIONS_USERS && (
             <Typography color="slateBlue.main">
-              Add a new user to this organization
+              Add a new user to this organisation
             </Typography>
           )}
           <Box mt={1}>

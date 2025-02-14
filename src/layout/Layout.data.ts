@@ -68,6 +68,7 @@ import {
   ORG_ADMIN,
   COMMON_ROUTES,
 } from '@/routesConstants/paths';
+import { ROLES } from '@/constants/strings';
 
 type MenuItemI = {
   key: React.Key;
@@ -133,7 +134,7 @@ export const OrgAdminRoutes: MenuItemI[] = [
   {
     key: '/org-admin/organization-admin',
     icon: QuotesImage,
-    label: 'Organization',
+    label: 'organisation',
     role: 'org-admin',
     permissions: Permissions?.ORG_ADMIN_ORGANIZATION,
   },
@@ -831,16 +832,7 @@ export const ProfileDropDown = (basePath: any, user: any) => {
             ? ORG_ADMIN?.DASHBOARD_EDIT_PROFILE
             : ORG_ADMIN?.EDIT_PROFILE,
     },
-    {
-      label: PROFILE_DROPDOWNS?.DELEGATE,
-      key:
-        basePath === PROFILE_DROPDOWNS?.AIR_CUSTOMER_PORTAL
-          ? AIR_CUSTOMER_PORTAL?.DELEGATES
-          : basePath === 'org-admin'
-            ? ORG_ADMIN?.DASHBOARD_DELEGATE
-            : COMMON_ROUTES?.DELEGATE,
-    },
-    ...(user?.role !== 'ORG_REQUESTER'
+    ...(user?.role !== ROLES?.ORG_REQUESTER
       ? [
           {
             label: PROFILE_DROPDOWNS?.ACTIVITY_LOGS,
@@ -850,6 +842,15 @@ export const ProfileDropDown = (basePath: any, user: any) => {
                 : basePath === 'org-admin'
                   ? ORG_ADMIN?.ORG_ADMIN_ACTIVITY_LOGS
                   : COMMON_ROUTES?.ACTIVITY_LOGS,
+          },
+          {
+            label: PROFILE_DROPDOWNS?.DELEGATE,
+            key:
+              basePath === PROFILE_DROPDOWNS?.AIR_CUSTOMER_PORTAL
+                ? AIR_CUSTOMER_PORTAL?.DELEGATES
+                : basePath === 'org-admin'
+                  ? ORG_ADMIN?.DASHBOARD_DELEGATE
+                  : COMMON_ROUTES?.DELEGATE,
           },
         ]
       : []),

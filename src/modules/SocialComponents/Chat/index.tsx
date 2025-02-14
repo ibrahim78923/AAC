@@ -335,10 +335,9 @@ const Chat = () => {
                             ),
                         );
                         return (
-                          <>
+                          <Box key={uuidv4()}>
                             {user?._id !== item?.id && (
                               <Button
-                                key={uuidv4()}
                                 sx={styles?.userCard}
                                 onClick={() =>
                                   isUserExists
@@ -361,7 +360,7 @@ const Chat = () => {
                                 </Typography>
                               </Button>
                             )}
-                          </>
+                          </Box>
                         );
                       })
                     ) : (

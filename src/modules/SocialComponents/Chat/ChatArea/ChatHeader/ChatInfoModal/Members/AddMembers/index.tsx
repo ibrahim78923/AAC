@@ -21,7 +21,7 @@ import {
   useGetChatUsersByCompanyQuery,
   useUpdateChatMutation,
 } from '@/services/chat';
-import { PAGINATION } from '@/config';
+import { IMG_URL, PAGINATION } from '@/config';
 import { getSession } from '@/utils';
 import { UserDefault } from '@/assets/images';
 import { enqueueSnackbar } from 'notistack';
@@ -67,7 +67,7 @@ const AddMembers = ({
       id: item?._id,
       label: `${item?.firstName} ${item?.lastName}`,
       value: item?._id,
-      image: UserDefault,
+      image: item?.avatar?.url ? `${IMG_URL}${item?.avatar?.url}` : UserDefault,
     }),
   );
 
