@@ -2,7 +2,7 @@ import { AlertModals } from '@/components/AlertModals';
 import { useTicketDelete } from './useTicketsDelete';
 import { AlertModalDeleteIcon } from '@/assets/icons';
 
-export const TicketsDelete = () => {
+const TicketsDelete = () => {
   const {
     deleteTicket,
     closeTicketsDeleteModal,
@@ -23,3 +23,5 @@ export const TicketsDelete = () => {
     />
   );
 };
+
+export default TicketsDelete;

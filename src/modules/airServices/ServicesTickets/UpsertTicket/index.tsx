@@ -7,7 +7,7 @@ import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { FormGrid } from '@/components/Grids/FormGrid';
 import { DynamicForm } from '@/components/DynamicForm';
 
-export const UpsertTicket = () => {
+const UpsertTicket = () => {
   const {
     handleSubmit,
     submitUpsertTicket,
@@ -68,3 +68,5 @@ export const UpsertTicket = () => {
     </CommonDrawer>
   );
 };
+
+export default UpsertTicket;

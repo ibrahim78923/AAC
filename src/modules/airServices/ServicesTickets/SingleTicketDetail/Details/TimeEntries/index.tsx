@@ -1,11 +1,15 @@
 import { Box, Divider } from '@mui/material';
-import { AddTime } from '../AddTime';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 import { useViewTimeEntries } from './useTimeEntries';
 import StopWatch from './StopWatch';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { ViewTimeEntries } from './ViewTimeEntries';
 import { SingleTicketDetailChildComponentPropsI } from '../../SingleTicketDetails.interface';
+import dynamic from 'next/dynamic';
+
+const AddTime = dynamic(() => import('../AddTime'), {
+  ssr: false,
+});
 
 export const TimeEntries = (props: SingleTicketDetailChildComponentPropsI) => {
   const { data } = props;

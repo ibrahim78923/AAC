@@ -4,7 +4,7 @@ import { useCustomizeTicketColumn } from './useCustomizeTicketsColumn';
 import { CustomizeItemCard } from '@/components/Cards/CustomizeItemCard';
 import { ARRAY_INDEX, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 
-export const CustomizeTicketsColumn = () => {
+const CustomizeTicketsColumn = () => {
   const {
     submit,
     onClose,
@@ -44,3 +44,5 @@ export const CustomizeTicketsColumn = () => {
     </>
   );
 };
+
+export default CustomizeTicketsColumn;

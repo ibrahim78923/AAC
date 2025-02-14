@@ -3,7 +3,7 @@ import { useAssignedTickets } from './useAssignedTickets';
 import { AgentFieldDropdown } from '../ServiceTicketFormFields/AgentFieldDropdown';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 
-export const AssignedTickets = () => {
+const AssignedTickets = () => {
   const {
     methods,
     handleSubmit,
@@ -29,3 +29,5 @@ export const AssignedTickets = () => {
     </CustomCommonDialog>
   );
 };
+
+export default AssignedTickets;

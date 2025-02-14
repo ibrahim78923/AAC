@@ -3,13 +3,19 @@ import { AIR_SERVICES_TICKETS_TICKET_LISTS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { Header } from './Header';
 import { TicketsListHeader } from './TicketsLists/TicketsListHeader';
-import { TableBoardView } from './TicketsLists/TicketsBoardView';
-import { TicketsTableView } from './TicketsLists/TicketsTableView';
 import { useServicesTickets } from './useServicesTickets';
 
-const { TICKETS_LIST_VIEW, BOARD_VIEW } =
-  AIR_SERVICES_TICKETS_TICKET_LISTS ?? {};
-const { BOARD } = VIEW_TYPES ?? {};
+import dynamic from 'next/dynamic';
+
+const TableBoardView = dynamic(
+  () => import('./TicketsLists/TicketsBoardView'),
+  { ssr: false },
+);
+
+const TicketsTableView = dynamic(
+  () => import('./TicketsLists/TicketsTableView'),
+  { ssr: false },
+);
 
 const ServicesTickets = () => {
   const { viewType } = useServicesTickets();
@@ -19,15 +25,19 @@ const ServicesTickets = () => {
       <Header />
       <TicketsListHeader />
       <br />
-      {viewType === BOARD ? (
-        <PermissionsGuard permissions={[BOARD_VIEW]}>
+      <PermissionsGuard
+        permissions={[
+          viewType === VIEW_TYPES?.BOARD
+            ? AIR_SERVICES_TICKETS_TICKET_LISTS?.BOARD_VIEW
+            : AIR_SERVICES_TICKETS_TICKET_LISTS?.TICKETS_LIST_VIEW,
+        ]}
+      >
+        {viewType === VIEW_TYPES?.BOARD ? (
           <TableBoardView />
-        </PermissionsGuard>
-      ) : (
-        <PermissionsGuard permissions={[TICKETS_LIST_VIEW]}>
+        ) : (
           <TicketsTableView />
-        </PermissionsGuard>
-      )}
+        )}
+      </PermissionsGuard>
     </>
   );
 };

@@ -6,7 +6,7 @@ import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { FormGrid } from '@/components/Grids/FormGrid';
 import { DynamicForm } from '@/components/DynamicForm';
 
-export const AddTime = (props: any) => {
+const AddTime = (props: any) => {
   const { isDrawerOpen } = props;
   const {
     methods,
@@ -50,3 +50,5 @@ export const AddTime = (props: any) => {
     </CommonDrawer>
   );
 };
+
+export default AddTime;

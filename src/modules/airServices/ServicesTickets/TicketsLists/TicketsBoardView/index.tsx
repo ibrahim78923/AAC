@@ -15,7 +15,7 @@ import { SKELETON_TYPES } from '@/constants/mui-constant';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 
-export const TableBoardView = () => {
+const TableBoardView = () => {
   const {
     HEAD_STATUS,
     lazyGetTicketsStatus,
@@ -109,3 +109,5 @@ export const TableBoardView = () => {
     </ApiRequestFlow>
   );
 };
+
+export default TableBoardView;
