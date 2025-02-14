@@ -169,7 +169,6 @@ const Security = () => {
         </AccordionDetails>
       </Accordion>
 
-
       {/* TODO: 2FA Will cater in future */}
       {/* <Grid container sx={{ justifyContent: 'space-between', marginY: '20px' }}>
         <Typography variant="h5" sx={{ color: theme?.palette?.grey[800] }}>

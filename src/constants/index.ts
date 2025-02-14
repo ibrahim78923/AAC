@@ -70,6 +70,7 @@ export const DATE_TIME_FORMAT = {
 
 export const ERROR_PAGES = {
   NOT_FOUND: '/404',
+  NOT_ALLOWED: '/405',
   NOT_ACCESS: '/403',
   NOT_FOUND_DEFAULT: 404,
 };

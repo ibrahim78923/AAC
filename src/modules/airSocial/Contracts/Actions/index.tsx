@@ -1,8 +1,17 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { ArrowDropDown } from '@mui/icons-material';
-import { Box, Button, Grid, Menu, MenuItem, Typography } from '@mui/material';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Button,
+  Grid,
+  Menu,
+  MenuItem,
+  Skeleton,
+} from '@mui/material';
 import React, { useState } from 'react';
-import { FolderBlackIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { useTheme } from '@emotion/react';
 import CommonModal from '@/components/CommonModal';
@@ -14,9 +23,20 @@ import {
   associationsValidationSchema,
 } from './actions.data';
 import { useLazyGetAllDealsAsyncQuery } from '@/services/commonFeatures/email/outlook';
+import {
+  useGetCommonContractsPersonalFoldersActionListQuery,
+  useUpdateListCommonContractsMutation,
+} from '@/services/commonFeatures/contracts/contracts-dashboard';
 
-const Actions = ({ selectedRecords }: any) => {
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { RecursiveFolderAccordion } from '..';
+import { successSnackbar } from '@/lib/snackbar';
+import { API_STATUS } from '@/constants';
+
+const Actions = ({ selectedRecords, setSelectedRecords }: any) => {
   const theme: any = useTheme();
+
+  const currentFolder = selectedRecords[0];
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -41,6 +61,40 @@ const Actions = ({ selectedRecords }: any) => {
   const onSubmit = () => {};
 
   const apiQueryUsers = useLazyGetAllDealsAsyncQuery?.();
+
+  // const [selectedMenu, setSelectedMenu] = useState<any>({});
+
+  const [folderToMove, setFolderToMove] = useState<any>({});
+
+  const { data: personalConData, status: personalConIsLoading } =
+    useGetCommonContractsPersonalFoldersActionListQuery({
+      page: 1,
+      limit: 10,
+      ...(searchValue.length && { search: searchValue }),
+      meta: true,
+      nested: true,
+    });
+
+  const [
+    updateCreateContractFolder,
+    { isLoading: updateCreateContractFolderLoading },
+  ] = useUpdateListCommonContractsMutation();
+
+  const handelMoveToFolder = async () => {
+    const payload = new FormData();
+    payload.append('folderId', folderToMove?._id);
+    try {
+      await updateCreateContractFolder({
+        payload,
+        id: currentFolder?._id,
+      })?.unwrap();
+      successSnackbar('Moved to Folder Successfully');
+      setSelectedRecords([]);
+      setIsMoveToFolderDrawerOpen(false);
+    } catch (error: any) {
+      // errorSnackbar(error?.data?.message);
+    }
+  };
 
   return (
     <>
@@ -72,6 +126,7 @@ const Actions = ({ selectedRecords }: any) => {
         }}
       >
         <MenuItem
+          disabled={selectedRecords?.length > 1}
           onClick={() => {
             handleClose();
             setIsMoveToFolderDrawerOpen(true);
@@ -98,6 +153,8 @@ const Actions = ({ selectedRecords }: any) => {
         okText="Apply"
         cancelText="cancel"
         isOk
+        submitHandler={handelMoveToFolder}
+        isLoading={updateCreateContractFolderLoading}
       >
         <>
           <Search
@@ -116,25 +173,89 @@ const Actions = ({ selectedRecords }: any) => {
               },
             }}
           />
-          <Typography variant="h6" sx={{ mb: 1, mt: 2 }}>
-            Main Folder
-          </Typography>
-          <Box>
-            <MenuItem sx={{ gap: '10px' }}>
-              <FolderBlackIcon
-                color={theme?.palette?.primary?.main}
-                size={22}
-              />
-              <Typography variant="body1">SubFolder 1</Typography>
-            </MenuItem>
-            <MenuItem sx={{ gap: '10px' }}>
-              <FolderBlackIcon
-                color={theme?.palette?.primary?.main}
-                size={22}
-              />
-              <Typography variant="body1">SubFolder 2</Typography>
-            </MenuItem>
-          </Box>
+
+          {personalConIsLoading === API_STATUS?.PENDING ? (
+            <>
+              <Box>
+                <Skeleton
+                  variant="rounded"
+                  width="100%"
+                  height={35}
+                  sx={{ mt: 1 }}
+                />
+                <Skeleton
+                  variant="rounded"
+                  width="80%"
+                  height={35}
+                  sx={{ mt: 1, ml: 2 }}
+                />
+                <Skeleton
+                  variant="rounded"
+                  width="80%"
+                  height={35}
+                  sx={{ mt: 1, ml: 2 }}
+                />
+              </Box>
+            </>
+          ) : (
+            <>
+              <Accordion sx={{ margin: '0px !important' }} defaultExpanded>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1-content"
+                  id="panel1-header"
+                  sx={{
+                    flexDirection: 'row-reverse',
+                    height: '40px !important',
+                    minHeight: '40px !important',
+                    margin: '0px !important',
+                    marginLeft: '-22px !important',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      width: '100%',
+                      background: 'unset',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    <Box sx={{ ml: 1 }}>My Contracts</Box>
+                  </Box>
+                </AccordionSummary>
+                <AccordionDetails sx={{ padding: '0px 0px 0px !important' }}>
+                  <Box
+                    sx={{
+                      position: 'relative',
+                      padding: '0px 20px 0px !important',
+                      width: '100%',
+                      overflowY: 'auto',
+                      maxHeight: 'auto',
+                      '&::before': {
+                        position: 'absolute',
+                        content: '""',
+                        background: theme?.palette?.custom?.light_lavender_gray,
+                        width: '1px',
+                        height: '100%',
+                        zIndex: 1,
+                        left: '8px',
+                      },
+                    }}
+                  >
+                    {personalConData?.data?.commoncontractfolder && (
+                      <RecursiveFolderAccordion
+                        folders={personalConData?.data?.commoncontractfolder}
+                        setFolderToMove={setFolderToMove}
+                        folderToMove={folderToMove}
+                        selectedMenu={currentFolder?.folders}
+                      />
+                    )}
+                  </Box>
+                </AccordionDetails>
+              </Accordion>
+            </>
+          )}
         </>
       </CommonDrawer>
 
