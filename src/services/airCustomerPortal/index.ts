@@ -64,6 +64,13 @@ export const customerPortalDashboardAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    postCustomerPortalRequestForAgent: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.CONVERT_TO_AGENT,
+        method: 'POST',
+        body: apiDataParameter?.body,
+      }),
+    }),
   }),
 });
 
@@ -76,4 +83,5 @@ export const {
   useGetCustomerPortalCustomerDashboardAnnouncementsQuery,
   useGetCustomerPortalDashboardTicketApprovalDetailsByIdQuery,
   useGetCustomerPortalDashboardTicketDetailsByIdQuery,
+  usePostCustomerPortalRequestForAgentMutation,
 } = customerPortalDashboardAPI;
