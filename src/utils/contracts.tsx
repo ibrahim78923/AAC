@@ -142,6 +142,7 @@ export const createSigneesFormData = (signees: any, update: boolean) => {
     .filter(Boolean);
 
   return formData.length ? JSON.stringify(formData) : null;
+
 };
 
 export const getPartyName = (data: any) => {
