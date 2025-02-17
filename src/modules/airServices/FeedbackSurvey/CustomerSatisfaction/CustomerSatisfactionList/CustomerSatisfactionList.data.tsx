@@ -1,6 +1,5 @@
 import { NextRouter } from 'next/router';
-import { Box, Checkbox } from '@mui/material';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { Box } from '@mui/material';
 import { capitalizeFirstLetter } from '@/utils/api';
 import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
 import { AIR_SERVICES } from '@/constants/routes';
@@ -16,6 +15,7 @@ import { otherDateFormat } from '@/lib/date-time';
 import { DefaultSurveyStatus } from './DefaultSurveyStatus';
 import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
 import { CustomChip } from '@/components/Chip/CustomChip';
+import { tableCheckbox } from '@/utils/table-checkbox';
 
 const statusColor: any = (status: string) => {
   switch (status) {
@@ -49,53 +49,11 @@ export const customerSupportListColumn = (
   handleTitleClick: (data: FeedbackSurveyListI) => void,
 ) => {
   return [
-    {
-      accessorFn: (row: any) => row?._id,
-      id: '_id',
-      cell: (info: any) => (
-        <Checkbox
-          icon={<CheckboxIcon />}
-          checkedIcon={<CheckboxCheckedIcon />}
-          checked={
-            !!activeCheck?.find((item) => item?._id === info?.getValue())
-          }
-          onChange={(e) => {
-            if (e?.target?.checked) {
-              const foundItem = feedbackTableData?.find(
-                (item) => item?._id === info?.getValue(),
-              );
-              if (foundItem) {
-                setActiveCheck([...activeCheck, foundItem]);
-              }
-            } else {
-              setActiveCheck(
-                activeCheck?.filter((item) => item?._id !== info?.getValue()),
-              );
-            }
-          }}
-          color="primary"
-          name={info?.getValue()}
-        />
-      ),
-      header: (
-        <Checkbox
-          icon={<CheckboxIcon />}
-          checkedIcon={<CheckboxCheckedIcon />}
-          checked={
-            feedbackTableData?.length
-              ? activeCheck?.length === feedbackTableData?.length
-              : false
-          }
-          onChange={(e) => {
-            e?.target?.checked
-              ? setActiveCheck([...feedbackTableData])
-              : setActiveCheck([]);
-          }}
-          color="primary"
-          name="_id"
-        />
-      ),
-    },
+    tableCheckbox({
+      selectedList: activeCheck,
+      setSelectedList: setActiveCheck,
+      tableData: feedbackTableData,
+    }),
     {
       accessorFn: (row: any) => row?.surveyTitle,
       id: 'surveyTitle',
