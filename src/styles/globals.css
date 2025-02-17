@@ -52,53 +52,8 @@ body {
   color: rgb(var(--foreground-rgb));
   background: transparent;
 }
-.ant-drawer-header-title {
-  flex-direction: row-reverse !important;
-}
-.ant-drawer-content {
-  border-radius: 12px 0px 0px 12px !important;
-  box-shadow: -2px 0px 4px 4px rgba(55, 58, 60, 0.04) !important;
-}
-@media screen and (min-width: 1000px) {
-  .ant-drawer-content-wrapper {
-    width: 508px !important;
-  }
-}
 
 a {
   color: inherit;
   text-decoration: none;
-}
-
-.fc .fc-toolbar.fc-header-toolbar {
-  margin-top: -42px;
-  /* Add other styles as needed */
-}
-
-.fc-direction-ltr .fc-toolbar > * > :not(:first-child),
-.fc .fc-button:not(:disabled) {
-  background-color: white;
-  border-color: transparent;
-  color: black;
-}
-
-.fc .fc-button-primary:focus {
-  box-shadow: none;
-}
-
-.fc-Prev-button {
-  background-color: #6b7280 !important;
-  color: #ffffff !important;
-  border-radius: 8px !important;
-}
-.fc-Next-button {
-  background-color: #6b7280 !important;
-  color: #ffffff !important;
-  border-radius: 8px !important;
-}
-
-.fc-today-button {
-  font-size: 14px !important;
-  font-weight: 500 !important;
-  color: #6b7280 !important;
 }

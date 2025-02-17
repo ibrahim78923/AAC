@@ -9,7 +9,7 @@ const TemplateFrame = ({ children }: any) => {
     <Box sx={styles?.frame(theme)}>
       <Box sx={styles?.header(theme)}>
         <Box sx={styles?.headerText(theme)}>
-          <Typography>airapplecart.com</Typography>
+          <Typography>agenticcreed.ai</Typography>
           <Box sx={{ display: 'flex', ml: '14px' }}>
             <FrameRefreshIcon />
           </Box>

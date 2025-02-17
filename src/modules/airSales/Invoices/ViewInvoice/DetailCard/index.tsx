@@ -48,6 +48,13 @@ const DetailCard = ({ data }: any) => {
               <Typography variant="body3">
                 {isNullOrEmpty(data)
                   ? '----'
+                  : data?.quote?.buyerContact?.firstName +
+                    ' ' +
+                    data?.quote?.buyerContact?.lastName}
+              </Typography>
+              <Typography variant="body3">
+                {isNullOrEmpty(data)
+                  ? '----'
                   : data?.quote?.buyerContact?.address}
               </Typography>
               <Typography variant="body3">

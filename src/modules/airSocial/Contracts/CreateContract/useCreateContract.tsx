@@ -150,12 +150,12 @@ export default function useCreateContract() {
     createFormData('logo', values?.logo);
     createFormData('parties', createPartiesFormData(values?.parties, false));
     createFormData('signees', createSigneesFormData(values?.signees, false));
-    // createFormData(
-    //   'dynamicFields',
-    //   values?.dynamicFields?.length === 0
-    //     ? null
-    //     : JSON.stringify(values?.dynamicFields),
-    // );
+    createFormData(
+      'dynamicFields',
+      values?.dynamicFields?.length === 0
+        ? null
+        : JSON.stringify(values?.dynamicFields),
+    );
 
     if (saveAs === 'template') {
       createFormData('category', templateCatgValue);
@@ -218,12 +218,12 @@ export default function useCreateContract() {
     createFormData('logo', values?.logo);
     createFormData('parties', createPartiesFormData(values?.parties, true));
     createFormData('signees', createSigneesFormData(values?.signees, true));
-    // createFormData(
-    //   'dynamicFields',
-    //   values?.dynamicFields?.length === 0
-    //     ? null
-    //     : JSON.stringify(values?.dynamicFields),
-    // );
+    createFormData(
+      'dynamicFields',
+      values?.dynamicFields?.length === 0
+        ? null
+        : JSON.stringify(values?.dynamicFields),
+    );
 
     if (!contractId) {
       try {

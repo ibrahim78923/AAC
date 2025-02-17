@@ -51,4 +51,32 @@ export const styles = {
       top: 120,
     },
   },
+  '.fc .fc-toolbar.fc-header-toolbar': {
+    marginTop: '-42px',
+    /* Add other styles as needed */
+  },
+  '.fc-direction-ltr .fc-toolbar > * > :not(:first-child), .fc .fc-button:not(:disabled)':
+    {
+      backgroundColor: 'white',
+      borderColor: 'transparent',
+      color: 'black',
+    },
+  '.fc .fc-button-primary:focus': {
+    boxShadow: 'none',
+  },
+  '.fc-Prev-button': {
+    backgroundColor: '#6b7280 !important',
+    color: '#ffffff !important',
+    borderRadius: '8px !important',
+  },
+  '.fc-Next-button': {
+    backgroundColor: '#6b7280 !important',
+    color: '#ffffff !important',
+    borderRadius: '8px !important',
+  },
+  '.fc-today-button': {
+    fontSize: '14px !important',
+    fontWeight: '500 !important',
+    color: '#6b7280 !important',
+  },
 };

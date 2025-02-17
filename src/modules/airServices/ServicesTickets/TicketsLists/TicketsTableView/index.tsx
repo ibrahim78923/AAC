@@ -18,8 +18,8 @@ const TicketsTableView = () => {
     <>
       <TanstackTable
         columns={
-          ticketsListsColumnPersist?.filter((col: any) =>
-            ticketsListsActiveColumn?.includes?.(col?.id),
+          ticketsListsColumnPersist?.filter(
+            (col: any) => ticketsListsActiveColumn?.includes?.(col?.id),
           ) ?? []
         }
         data={lazyGetTicketsStatus?.data?.data?.tickets ?? []}

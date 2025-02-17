@@ -131,7 +131,6 @@ export default function AllFields({
               setIndexValue={setIndexValue}
               setOpenModal={setOpenModal}
               setSelectedField={setSelectedField}
-              selectedField={selectedField}
               handleRemoveDynamicField={handleRemoveDynamicField}
             />
           </Box>
@@ -168,7 +167,6 @@ const CustomMenu = ({
   setIndexValue,
   setOpenModal,
   setSelectedField,
-  selectedField,
   handleRemoveDynamicField,
 }: any) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -227,8 +225,8 @@ const CustomMenu = ({
         <Divider />
 
         <MenuItem
-          disabled={!selectedField?.id}
-          onClick={() => handleRemoveDynamicField(index - 5)}
+          disabled={[0, 1, 2, 3, 4]?.includes(index)}
+          onClick={() => handleRemoveDynamicField(index)}
         >
           Delete field
         </MenuItem>
