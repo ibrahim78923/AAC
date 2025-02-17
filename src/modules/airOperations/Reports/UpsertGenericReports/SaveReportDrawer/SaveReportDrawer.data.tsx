@@ -247,7 +247,10 @@ export const reportsDataArray = (
     ),
     conditionalComponentSix: (
       <>
-        <UsersListDropdown name={'newDashboardSpecificUsersConditionOne'} />
+        <UsersListDropdown
+          hasCurrentProduct={false}
+          name={'newDashboardSpecificUsersConditionOne'}
+        />
         <FieldArrayTable
           tableContainerCustomStyles={{
             maxHeight: pxToRem(400),
