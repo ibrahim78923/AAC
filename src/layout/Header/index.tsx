@@ -38,7 +38,7 @@ import { styles } from './Header.style';
 
 import { v4 as uuidv4 } from 'uuid';
 import { generateImage } from '@/utils/avatarUtils';
-import { ROLES } from '@/constants/strings';
+import { ARRAY_INDEX, ROLES } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
@@ -393,7 +393,7 @@ const Header = (props: any) => {
                 inputProps={{ 'aria-label': 'search' }}
                 onChange={handleChange}
               />
-              <IconButton onClick={handleExpandClick}>
+              <IconButton aria-label="search" onClick={handleExpandClick}>
                 {/* <Image src={SearchImage} alt="search" /> */}
                 <SearchSharedIcon />
               </IconButton>
@@ -543,7 +543,7 @@ const Header = (props: any) => {
               sx={styles?.searchIcon(theme)}
               onClick={handleClickOpen}
             >
-              <IconButton>
+              <IconButton aria-label="shared-search">
                 <SearchSharedIcon />
               </IconButton>
             </Box>
@@ -617,8 +617,9 @@ const Header = (props: any) => {
               bgcolor: 'primary.main',
               fontSize: 13,
             }}
+            alt="logged-user-avatar"
           >
-            {`${user?.firstName?.charAt(0)}${user?.lastName?.charAt(0)}`}
+            {`${user?.firstName?.charAt(ARRAY_INDEX?.ZERO)}${user?.lastName?.charAt(ARRAY_INDEX?.ZERO)}`}
           </Avatar>
           <ProfilMenu />
         </Box>

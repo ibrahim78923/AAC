@@ -85,10 +85,13 @@ export default function RHFAutocomplete({
             renderInput={(params) => (
               <>
                 {other?.label && (
-                  <CustomLabel label={other?.label} required={required} />
+                  <label htmlFor={name}>
+                    <CustomLabel label={other?.label} required={required} />
+                  </label>
                 )}
                 <TextField
                   {...params}
+                  id={name}
                   label=""
                   error={!!error}
                   placeholder={placeholder}
