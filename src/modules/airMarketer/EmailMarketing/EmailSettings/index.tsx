@@ -297,7 +297,7 @@ const EmailSettings = () => {
             'aria-labelledby': 'basic-button',
           }}
         >
-          {selectedRecords[indexNumbers?.ZERO]?.status === 'PENDING' && (
+          {selectedRecords[indexNumbers?.ZERO]?.status !== 'VERIFIED' && (
             <MenuItem
               onClick={() => {
                 if (!isTimerRunning) {

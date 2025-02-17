@@ -22,9 +22,9 @@ export default function AuthGuard({ children }: any) {
     accessToken,
   }: { accessToken: string; refreshToken: string; user: any } = getSession();
 
-  const pathSegments = pathname.slice(1).split('/');
+  // const pathSegments = pathname.slice(1).split('/');
 
-  const basePath = pathSegments[0];
+  // const basePath = pathSegments[0];
 
   useEffect(() => {
     if (requestedLocation && pathname !== requestedLocation) {

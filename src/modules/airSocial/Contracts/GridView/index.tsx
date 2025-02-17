@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Typography } from '@mui/material';
-import { contractsColumns, viewActivityData } from './GridView.data';
+import { contractsColumns } from './GridView.data';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { CustomTooltip } from '@/components/CustomTooltip';
 import { SentIcon, SignedIcon, ViewedIcon } from '@/assets/icons';
-import { CONTRACTS_STATUS } from '@/constants';
 import { v4 as uuidv4 } from 'uuid';
 import DefaultUserIcon from '@/assets/icons/shared/default-user';
 import useGridView from './useGridView';
@@ -30,6 +29,8 @@ const ContractsGrid = ({
     theme,
   } = useGridView({ tabValue, activeFolder, filterParams });
 
+  const [viewMoreData, setViewMoreData] = useState<any>([]);
+
   return (
     <div>
       <TanstackTable
@@ -38,6 +39,7 @@ const ContractsGrid = ({
           setSelectedRecords,
           selectedRecords,
           data: data?.data?.commoncontract,
+          setViewMoreData,
         })}
         data={data?.data?.commoncontract ?? []}
         isPagination
@@ -64,100 +66,90 @@ const ContractsGrid = ({
         isOk
       >
         <Box>
-          {viewActivityData?.map((item: any) => (
-            <Box key={uuidv4()}>
-              <Typography sx={{ fontSize: '14px', fontWeight: '600', mb: 2 }}>
-                {item?.category}
-              </Typography>
+          <Typography sx={{ fontSize: '14px', fontWeight: '600', mb: 2 }}>
+            --
+          </Typography>
 
-              {item?.activity?.map((ele: any) => (
-                <Box
-                  display="flex"
-                  alignItems="flex-start"
-                  gap="10px"
-                  key={uuidv4()}
-                >
-                  <Box sx={{ display: 'flex', gap: '5px' }}>
-                    {ele?.statuses?.map((status: string) => (
-                      <Box key={uuidv4()}>
-                        {status?.includes(CONTRACTS_STATUS?.SIGNED) && (
-                          <CustomTooltip title="Signed">
-                            <Box>
-                              <SignedIcon />
-                            </Box>
-                          </CustomTooltip>
-                        )}
-                        {status?.includes(CONTRACTS_STATUS?.REJECTED) && (
-                          <CustomTooltip title="Rejected">
-                            <Box>
-                              <SignedIcon color={theme?.palette?.error?.main} />
-                            </Box>
-                          </CustomTooltip>
-                        )}
-                        {status?.includes(CONTRACTS_STATUS?.VIEWED) && (
-                          <CustomTooltip title="Viewed">
-                            <Box>
-                              <ViewedIcon />
-                            </Box>
-                          </CustomTooltip>
-                        )}
-                        {status?.includes(CONTRACTS_STATUS?.SENT) && (
-                          <CustomTooltip title="Sent">
-                            <Box>
-                              <SentIcon />
-                            </Box>
-                          </CustomTooltip>
-                        )}
-                      </Box>
-                    ))}
-                  </Box>
-                  <Box sx={{ mb: 2 }}>
-                    <Box sx={{ fontSize: '14px', fontWeight: '600' }}>
-                      {ele?.company}
+          {viewMoreData?.signees?.map((ele: any) => {
+            const partyInfo = viewMoreData?.parties.find(
+              (item: any) => item?._id === ele?.partyId,
+            );
+            return (
+              <Box
+                display="flex"
+                alignItems="flex-start"
+                gap="10px"
+                key={uuidv4()}
+              >
+                <Box sx={{ display: 'flex', gap: '5px' }}>
+                  <CustomTooltip title="Signed">
+                    <Box>
+                      <SignedIcon />
                     </Box>
+                  </CustomTooltip>
+
+                  <CustomTooltip title="Rejected">
+                    <Box>
+                      <SignedIcon color={theme?.palette?.error?.main} />
+                    </Box>
+                  </CustomTooltip>
+
+                  <CustomTooltip title="Viewed">
+                    <Box>
+                      <ViewedIcon />
+                    </Box>
+                  </CustomTooltip>
+
+                  <CustomTooltip title="Sent">
+                    <Box>
+                      <SentIcon />
+                    </Box>
+                  </CustomTooltip>
+                </Box>
+
+                <Box sx={{ mb: 2 }}>
+                  <Box sx={{ fontSize: '14px', fontWeight: '600' }}>
+                    {partyInfo?.referredAs ?? '--'}
+                  </Box>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '10px',
+                    }}
+                  >
                     <Box
                       sx={{
+                        width: '35px',
+                        height: '35px',
+                        borderRadius: '50%',
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '10px',
+                        justifyContent: 'center',
+                        overflow: 'hidden',
                       }}
                     >
-                      <Box
+                      <DefaultUserIcon />
+                    </Box>
+                    <Box>
+                      <Typography variant="body2" sx={{ fontSize: '13.74px' }}>
+                        {ele?.personalTitle} {ele?.name}
+                      </Typography>
+                      <Typography
+                        variant="body2"
                         sx={{
-                          width: '35px',
-                          height: '35px',
-                          borderRadius: '50%',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          overflow: 'hidden',
+                          fontSize: '13.74px',
+                          color: theme?.palette?.custom?.light,
                         }}
                       >
-                        <DefaultUserIcon />
-                      </Box>
-                      <Box>
-                        <Typography
-                          variant="body2"
-                          sx={{ fontSize: '13.74px' }}
-                        >
-                          Ronald
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          sx={{
-                            fontSize: '13.74px',
-                            color: theme?.palette?.custom?.light,
-                          }}
-                        >
-                          Admin
-                        </Typography>
-                      </Box>
+                        --
+                      </Typography>
                     </Box>
                   </Box>
                 </Box>
-              ))}
-            </Box>
-          ))}
+              </Box>
+            );
+          })}
         </Box>
       </CommonDrawer>
     </div>

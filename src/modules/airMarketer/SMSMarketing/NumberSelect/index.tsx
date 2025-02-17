@@ -42,6 +42,7 @@ const NumberSelect = () => {
   const activeNumber = dataTwilioNumbersConfig?.data?.find(
     (item: any) => item?.phoneNumber === activeAccount?.twilioNumber,
   );
+
   const smallScreen = useMediaQuery('(min-width: 380px)');
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = React.useState(null);
