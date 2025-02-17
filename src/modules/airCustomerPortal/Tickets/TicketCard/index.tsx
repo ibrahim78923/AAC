@@ -43,7 +43,12 @@ export const TicketsCard = (props: TicketCardPropsI) => {
       }}
     >
       <Box>
-        <Typography fontWeight={600} variant="body2" color={'blue.main'}>
+        <Typography
+          fontWeight={600}
+          variant="body2"
+          color={'blue.main'}
+          component="div"
+        >
           <TruncateText
             text={ticket?.subject}
             size={50}
@@ -67,7 +72,7 @@ export const TicketsCard = (props: TicketCardPropsI) => {
           <Typography variant="body2" color={'blue.main'} fontWeight={500}>{` ${
             ticket?.ticketType === TICKET_TYPE?.INC
               ? ''
-              : ticket?.ticketTitle ?? ''
+              : (ticket?.ticketTitle ?? '')
           } ${ticket?.ticketIdNumber}`}</Typography>
         </Box>
         <Typography variant="body2" color={'blue.main'} fontWeight={500}>

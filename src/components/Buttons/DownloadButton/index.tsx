@@ -11,12 +11,15 @@ export const DownloadButton = (props: DownloadButtonPropsI) => {
     hasStyles = true,
     variant = 'outlined',
     color = 'inherit',
+    downloadFileType,
+    buttonLabel = `download ${downloadFileType} type`,
   } = props;
 
   const { isDownloading, handleDownload } = useDownloadButton(props);
 
   return (
     <LoadingButton
+      aria-label={buttonLabel}
       sx={{
         ...(hasStyles
           ? {

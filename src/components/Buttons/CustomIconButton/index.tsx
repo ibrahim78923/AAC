@@ -10,6 +10,7 @@ export const CustomIconButton = (props: CustomIconButtonPropsI) => {
     size = 'small',
     customStyles,
     color,
+    iconName,
   } = props;
 
   return (
@@ -20,6 +21,7 @@ export const CustomIconButton = (props: CustomIconButtonPropsI) => {
       onClick={onClick}
       type={type}
       size={size}
+      aria-label={iconName}
     >
       {children}
     </IconButton>

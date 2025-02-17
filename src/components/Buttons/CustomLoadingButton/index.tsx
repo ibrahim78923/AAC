@@ -15,10 +15,12 @@ export const CustomLoadingButton = (props: CustomLoadingButtonPropsI) => {
     children,
     startIcon = null,
     fullWidth = false,
+    buttonLabel = `loading button ${color}`,
   } = props;
 
   return (
     <LoadingButton
+      aria-label={buttonLabel}
       className={className}
       variant={variant}
       type={type}
