@@ -1,10 +1,23 @@
 import { Typography } from '@mui/material';
-import { Loyalty } from './Loyalty';
-import { GiftCards } from './GiftCards';
-import { RolesAndRight } from '../RoleAndRights';
-import { UserManagement } from '../UserManagement';
 import { Permissions } from '@/constants/permissions';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import dynamic from 'next/dynamic';
+
+const Loyalty = dynamic(() => import('./Loyalty'), {
+  ssr: false,
+});
+
+const GiftCards = dynamic(() => import('./GiftCards'), {
+  ssr: false,
+});
+
+const RolesAndRight = dynamic(() => import('../RoleAndRights'), {
+  ssr: false,
+});
+
+const UserManagement = dynamic(() => import('../UserManagement'), {
+  ssr: false,
+});
 
 export const SETTINGS_MODULES = {
   GIFT_CARDS: 'Gift cards',

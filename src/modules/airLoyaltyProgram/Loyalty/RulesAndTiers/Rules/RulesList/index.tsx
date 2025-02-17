@@ -49,6 +49,7 @@ export const RulesList = () => {
       }}
       incrementPageClick={increment}
       decrementPageClick={decrement}
+      noDataTableText="No rule found"
     />
   );
 };

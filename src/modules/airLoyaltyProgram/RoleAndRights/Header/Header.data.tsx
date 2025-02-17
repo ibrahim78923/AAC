@@ -1,9 +1,15 @@
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
-import { UpsertRolesAndRight } from '../UpsertRolesAndRight';
 import { LOYALTY_PROGRAM_ROLE_AND_RIGHTS_ACTIONS_CONSTANT } from '../RolesAndRight.data';
-import { DeleteRolesAndRight } from '../DeleteRolesAndRight';
 import { AIR_LOYALTY_PROGRAM_SETTINGS_ROLES_AND_RIGHT_PERMISSIONS } from '@/constants/permission-keys';
-import { errorSnackbar } from '@/lib/snackbar';
+import dynamic from 'next/dynamic';
+
+const DeleteRolesAndRight = dynamic(() => import('../DeleteRolesAndRight'), {
+  ssr: false,
+});
+
+const UpsertRolesAndRight = dynamic(() => import('../UpsertRolesAndRight'), {
+  ssr: false,
+});
 
 const {
   ADD_LOYALTY_PROGRAM_ROLE_AND_RIGHTS,
@@ -29,12 +35,8 @@ export const roleAndRightsActionDropdownDynamic = (
     permissionKey: [
       AIR_LOYALTY_PROGRAM_SETTINGS_ROLES_AND_RIGHT_PERMISSIONS?.EDIT_OR_DELETE_ROLE,
     ],
+    disabled: selectedRolesList?.length > SELECTED_ARRAY_LENGTH?.ONE,
     handleClick: (closeMenu: any) => {
-      if (selectedRolesList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
       setAction?.(EDIT_LOYALTY_PROGRAM_ROLE_AND_RIGHTS);
       closeMenu();
     },
@@ -42,15 +44,9 @@ export const roleAndRightsActionDropdownDynamic = (
   {
     id: 2,
     title: 'View',
-    permissionKey: [
-      AIR_LOYALTY_PROGRAM_SETTINGS_ROLES_AND_RIGHT_PERMISSIONS?.ADD_ROLE,
-    ],
+    hasNoPermission: true,
+    disabled: selectedRolesList?.length > SELECTED_ARRAY_LENGTH?.ONE,
     handleClick: (closeMenu: any) => {
-      if (selectedRolesList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
       setAction?.(LOYALTY_PROGRAM_ROLE_AND_RIGHTS_DETAIL);
       closeMenu();
     },
@@ -61,12 +57,8 @@ export const roleAndRightsActionDropdownDynamic = (
     permissionKey: [
       AIR_LOYALTY_PROGRAM_SETTINGS_ROLES_AND_RIGHT_PERMISSIONS?.EDIT_OR_DELETE_ROLE,
     ],
+    disabled: selectedRolesList?.length > SELECTED_ARRAY_LENGTH?.ONE,
     handleClick: (closeMenu: any) => {
-      if (selectedRolesList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
       setAction?.(DELETE_LOYALTY_PROGRAM_ROLE_AND_RIGHTS);
       closeMenu();
     },

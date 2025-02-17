@@ -1,25 +1,24 @@
-import { Rules } from './Rules';
-import { Tiers } from './Tiers';
+import dynamic from 'next/dynamic';
+
+const Rules = dynamic(() => import('./Rules'), {
+  ssr: false,
+});
+
+const Tiers = dynamic(() => import('./Tiers'), {
+  ssr: false,
+});
 
 export const loyaltyRulesAndTiersTabsDynamic = () => {
   return [
     {
       _id: 1,
       name: 'Tiers',
-      id: 'tiers',
-      tabPermissions: [],
       component: Tiers,
-      hasNoPermissions: true,
-      componentProps: {},
     },
     {
       _id: 2,
       name: 'Rules',
-      id: 'rules',
-      tabPermissions: [],
       component: Rules,
-      hasNoPermissions: true,
-      componentProps: {},
     },
   ];
 };

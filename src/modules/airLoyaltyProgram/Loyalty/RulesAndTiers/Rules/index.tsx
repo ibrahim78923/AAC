@@ -2,8 +2,10 @@ import Search from '@/components/Search';
 import { RulesList } from './RulesList';
 import { useRules } from './useRules';
 import { Box } from '@mui/material';
+import { AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
-export const Rules = () => {
+const Rules = () => {
   const { handleSetSearch } = useRules();
   return (
     <Box
@@ -12,10 +14,18 @@ export const Rules = () => {
       borderRadius={2}
       boxShadow={1}
     >
-      <Box p={2}>
-        <Search label="Search here" setSearchBy={handleSetSearch} />
-      </Box>
+      <PermissionsGuard
+        permissions={[
+          AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS?.SEARCH_RULES_AND_TIERS,
+        ]}
+      >
+        <Box p={2}>
+          <Search label="Search here" setSearchBy={handleSetSearch} />
+        </Box>
+      </PermissionsGuard>
       <RulesList />
     </Box>
   );
 };
+
+export default Rules;

@@ -17,7 +17,7 @@ import { FormGrid } from '@/components/Grids/FormGrid';
 const { LOYALTY_PROGRAM_ROLE_AND_RIGHTS_DETAIL } =
   LOYALTY_PROGRAM_ROLE_AND_RIGHTS_ACTIONS_CONSTANT ?? {};
 
-export const UpsertRolesAndRight = () => {
+const UpsertRolesAndRight = () => {
   const {
     methods,
     handleSubmit,
@@ -89,3 +89,5 @@ export const UpsertRolesAndRight = () => {
     </>
   );
 };
+
+export default UpsertRolesAndRight;

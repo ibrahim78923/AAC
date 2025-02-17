@@ -8,9 +8,13 @@ import { CustomTooltip } from '@/components/CustomTooltip';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { otherDateFormat } from '@/lib/date-time';
 import { LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR } from '@/constants/api';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS } from '@/constants/permission-keys';
 
 const { EDIT_TIERS, DELETE_TIERS } =
   RULES_AND_TIERS_PORTAL_ACTION_CONSTANTS ?? {};
+const { EDIT_OR_DELETE_TIERS } =
+  AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS ?? {};
 
 export const tiersListColumnsDynamic = (
   setAction: (action: string, data: any) => void,
@@ -60,27 +64,29 @@ export const tiersListColumnsDynamic = (
     id: 'action',
     header: 'Action',
     cell: (info: any) => (
-      <Box display={'flex'} gap={0.5} alignItems={'center'}>
-        <Box
-          onClick={() => {
-            setAction(EDIT_TIERS, info?.row?.original);
-          }}
-          sx={{ cursor: 'pointer' }}
-        >
-          <EditYellowBgIcon />
-        </Box>
-        {info?.row?.original?.operator !==
-          LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.BASE && (
+      <PermissionsGuard permissions={[EDIT_OR_DELETE_TIERS]}>
+        <Box display={'flex'} gap={0.5} alignItems={'center'}>
           <Box
             onClick={() => {
-              setAction(DELETE_TIERS, info?.row?.original);
+              setAction(EDIT_TIERS, info?.row?.original);
             }}
             sx={{ cursor: 'pointer' }}
           >
-            <TrashIcon />
+            <EditYellowBgIcon />
           </Box>
-        )}
-      </Box>
+          {info?.row?.original?.operator !==
+            LOYALTY_PROGRAM_LOYALTY_TIERS_OPERATOR?.BASE && (
+            <Box
+              onClick={() => {
+                setAction(DELETE_TIERS, info?.row?.original);
+              }}
+              sx={{ cursor: 'pointer' }}
+            >
+              <TrashIcon />
+            </Box>
+          )}
+        </Box>
+      </PermissionsGuard>
     ),
   },
 ];

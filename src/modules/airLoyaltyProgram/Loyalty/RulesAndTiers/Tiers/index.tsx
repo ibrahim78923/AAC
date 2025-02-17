@@ -2,8 +2,10 @@ import Search from '@/components/Search';
 import { useTiers } from './useTiers';
 import { Box } from '@mui/material';
 import { TiersList } from './TiersList';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS } from '@/constants/permission-keys';
 
-export const Tiers = () => {
+const Tiers = () => {
   const { handleSetSearch } = useTiers();
 
   return (
@@ -13,10 +15,18 @@ export const Tiers = () => {
       borderRadius={2}
       boxShadow={1}
     >
-      <Box p={2}>
-        <Search label="Search Here" setSearchBy={handleSetSearch} />
-      </Box>
+      <PermissionsGuard
+        permissions={[
+          AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS?.SEARCH_RULES_AND_TIERS,
+        ]}
+      >
+        <Box p={2}>
+          <Search label="Search Here" setSearchBy={handleSetSearch} />
+        </Box>
+      </PermissionsGuard>
       <TiersList />
     </Box>
   );
 };
+
+export default Tiers;
