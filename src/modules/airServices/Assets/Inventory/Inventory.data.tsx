@@ -4,7 +4,7 @@ import { ASSET_IMPACT, ASSET_TYPE, TIME_PERIODS } from '@/constants/strings';
 import { fullName } from '@/utils/avatarUtils';
 import { uiDateFormat } from '@/lib/date-time';
 import { Typography } from '@mui/material';
-import { CheckboxField } from '@/components/InputFields/CheckboxField';
+import { tableCheckbox } from '@/utils/table-checkbox';
 
 export const assetTypeOptions = [
   ASSET_TYPE?.SERVICES,
@@ -135,50 +135,11 @@ export const inventoryListsColumnsFunction: any = (
   inventoryLists: any = [],
   router: any,
 ): any => [
-  {
-    accessorFn: (row: any) => row?._id,
-    id: '_id',
-    cell: (info: any) => (
-      <CheckboxField
-        checked={
-          !!selectedInventoryLists?.find(
-            (item: any) => item === info?.getValue(),
-          )
-        }
-        onChange={(e: any) => {
-          e?.target?.checked
-            ? setSelectedInventoryLists([
-                ...selectedInventoryLists,
-                info?.getValue(),
-              ])
-            : setSelectedInventoryLists(
-                selectedInventoryLists?.filter(
-                  (item: any) => item !== info?.getValue(),
-                ),
-              );
-        }}
-        name={info?.getValue()}
-      />
-    ),
-    header: (
-      <CheckboxField
-        checked={
-          inventoryLists?.length
-            ? selectedInventoryLists?.length === inventoryLists?.length
-            : false
-        }
-        onChange={(e: any) => {
-          e?.target?.checked
-            ? setSelectedInventoryLists(
-                inventoryLists?.map((list: any) => list?._id),
-              )
-            : setSelectedInventoryLists([]);
-        }}
-        name="id"
-      />
-    ),
-    isSortable: false,
-  },
+  tableCheckbox({
+    selectedList: selectedInventoryLists,
+    setSelectedList: setSelectedInventoryLists,
+    tableData: inventoryLists,
+  }),
   {
     accessorFn: (row: any) => row?.displayName,
     id: 'displayName',

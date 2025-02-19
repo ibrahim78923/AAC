@@ -9,7 +9,7 @@ import { SoftwareDataI } from './Software.interface';
 import { NextRouter } from 'next/router';
 import { TruncateText } from '@/components/TruncateText';
 import { AIR_SERVICES } from '@/constants/routes';
-import { CheckboxField } from '@/components/InputFields/CheckboxField';
+import { tableCheckbox } from '@/utils/table-checkbox';
 
 export const softwareStatusOptions = [
   SOFTWARE_STATUS?.RESTRICTED,
@@ -40,35 +40,11 @@ export const columns = (
   data: SoftwareDataI[] = [],
   router: NextRouter,
 ) => [
-  {
-    accessorFn: (row: any) => row?._id,
-    id: '_id',
-    cell: (info: any) => (
-      <CheckboxField
-        checked={!!softwareData?.find((item) => item === info?.getValue())}
-        onChange={(e) => {
-          e?.target?.checked
-            ? setSoftwareData([...softwareData, info?.getValue()])
-            : setSoftwareData(
-                softwareData?.filter((item) => item !== info?.getValue()),
-              );
-        }}
-        name={info?.getValue()}
-      />
-    ),
-    header: (
-      <CheckboxField
-        checked={data?.length ? softwareData?.length === data?.length : false}
-        onChange={(e) => {
-          e?.target?.checked
-            ? setSoftwareData(data?.map((list) => list?._id))
-            : setSoftwareData([]);
-        }}
-        name="id"
-      />
-    ),
-    isSortable: false,
-  },
+  tableCheckbox({
+    selectedList: softwareData,
+    setSelectedList: setSoftwareData,
+    tableData: data,
+  }),
   {
     accessorFn: (row: any) => row?.name,
     id: 'name',

@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 
 export interface IInfo {
   _id?: string;
@@ -48,13 +48,9 @@ interface IHandleStatusChange {
   (info: IEnquiry, event: ChangeEvent<HTMLSelectElement>): void;
 }
 
-export interface ISetEnquiriesSelected {
-  (selected: IEnquiry[]): void;
-}
-
 export interface IGetEnquiriesColumnsArgs {
   enquiriesSelected: IEnquiry[];
-  setEnquiriesSelected: ISetEnquiriesSelected;
+  setEnquiriesSelected: Dispatch<SetStateAction<IEnquiry[]>>;
   dataArray: IEnquiry[];
   handleStatusChange: IHandleStatusChange;
   patchEnquiriesStatus: IPatchEnquiriesStatus;

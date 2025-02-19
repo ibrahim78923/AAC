@@ -2,9 +2,9 @@ import React, { useMemo, useCallback } from 'react';
 import { CheckboxField } from '@/components/InputFields/CheckboxField';
 
 interface TableCheckboxPropsI<T> {
-  selectedList: T[];
-  setSelectedList: React.Dispatch<React.SetStateAction<T[]>>;
-  tableData: T[];
+  selectedList: any[];
+  setSelectedList: React.Dispatch<React.SetStateAction<any[]>>;
+  tableData: any[];
   idKey?: keyof T;
 }
 

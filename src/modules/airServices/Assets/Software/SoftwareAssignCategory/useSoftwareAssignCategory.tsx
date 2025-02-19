@@ -20,9 +20,10 @@ export const useSoftwareAssignCategory = (params: SoftwareAssignCategoryI) => {
     usePutSoftwareAssignCategoryMutation();
 
   const onSubmit = async (data: { category: string }) => {
+    const softwareIds = selectedSoftware?.map((software: any) => software?._id);
     const putAssignCategoryApiParameter = {
       body: {
-        softwareIds: selectedSoftware,
+        softwareIds,
         category: data?.category,
       },
     };

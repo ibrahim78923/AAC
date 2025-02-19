@@ -11,7 +11,7 @@ import {
 import { ChangeEvent } from 'react';
 import { TruncateText } from '@/components/TruncateText';
 import { errorSnackbar } from '@/lib/snackbar';
-import { CheckboxField } from '@/components/InputFields/CheckboxField';
+import { tableCheckbox } from '@/utils/table-checkbox';
 
 export const getEnquiriesActionDropdown = ({
   enquiriesSelected,
@@ -82,39 +82,11 @@ export const getEnquiriesColumns = ({
   handleStatusChange,
   patchEnquiriesStatus,
 }: IGetEnquiriesColumnsArgs): IGetEnquiriesColumnsReturn => [
-  {
-    accessorFn: (row: IEnquiry) => row,
-    id: '_id',
-    cell: (info) => (
-      <CheckboxField
-        checked={!!enquiriesSelected?.find((item) => item === info?.getValue())}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => {
-          e?.target?.checked
-            ? setEnquiriesSelected([...enquiriesSelected, info?.getValue()])
-            : setEnquiriesSelected(
-                enquiriesSelected?.filter((item) => item !== info?.getValue()),
-              );
-        }}
-        name={info?.getValue()}
-      />
-    ),
-    header: (
-      <CheckboxField
-        checked={
-          dataArray?.length
-            ? enquiriesSelected?.length === dataArray?.length
-            : false
-        }
-        onChange={(e: ChangeEvent<HTMLInputElement>) => {
-          e?.target?.checked
-            ? setEnquiriesSelected(dataArray?.map((enquiry) => enquiry))
-            : setEnquiriesSelected([]);
-        }}
-        name="_id"
-      />
-    ),
-    isSortable: false,
-  },
+  tableCheckbox({
+    selectedList: enquiriesSelected,
+    setSelectedList: setEnquiriesSelected,
+    tableData: dataArray,
+  }),
   {
     accessorFn: (row: IEnquiry) => row?.name ?? '-',
     id: 'name',

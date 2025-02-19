@@ -8,7 +8,7 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import FiberSmartRecordIcon from '@mui/icons-material/FiberSmartRecord';
 import ListStatusAction from './ListStatusAction';
 import { otherDateFormat } from '@/lib/date-time';
-import { CheckboxField } from '@/components/InputFields/CheckboxField';
+import { tableCheckbox } from '@/utils/table-checkbox';
 
 export const getHeaderActionButtonDropdown = (
   handleHeaderActionButtonStatusChange: any,
@@ -51,47 +51,11 @@ export const consumersListColumnDynamic = (
   setSelectedConsumersList?: any,
   consumerData?: any,
 ) => [
-  {
-    accessorFn: (row: any) => row?._id,
-    id: '_id',
-    cell: (info: any) => (
-      <CheckboxField
-        checked={
-          !!selectedConsumerList?.find(
-            (item: any) => item?._id === info?.getValue(),
-          )
-        }
-        onChange={(e: any) => {
-          e?.target?.checked
-            ? setSelectedConsumersList([
-                ...selectedConsumerList,
-                info?.row?.original,
-              ])
-            : setSelectedConsumersList(
-                selectedConsumerList?.filter(
-                  (item: any) => item?._id !== info?.getValue(),
-                ),
-              );
-        }}
-        name={info?.getValue()}
-      />
-    ),
-    header: (
-      <CheckboxField
-        checked={
-          consumerData?.length
-            ? selectedConsumerList?.length === consumerData?.length
-            : false
-        }
-        onChange={(e: any) => {
-          e?.target?.checked
-            ? setSelectedConsumersList(consumerData)
-            : setSelectedConsumersList([]);
-        }}
-        name="id"
-      />
-    ),
-  },
+  tableCheckbox({
+    selectedList: selectedConsumerList,
+    setSelectedList: setSelectedConsumersList,
+    tableData: consumerData,
+  }),
   {
     accessorFn: (row: any) => row,
     id: 'firstName',

@@ -1,6 +1,7 @@
 export interface CheckboxFieldPropsI {
-  checked: boolean;
+  checked?: boolean;
   onChange: (e: any) => void;
   label?: string;
   name?: string;
+  id?: string;
 }

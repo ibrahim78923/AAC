@@ -1,13 +1,12 @@
-import { ChangeEvent, Dispatch, SetStateAction } from 'react';
-import { Checkbox } from '@mui/material';
+import { Dispatch, SetStateAction } from 'react';
 import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import { fullName } from '@/utils/avatarUtils';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { capitalizeFirstLetter } from '@/utils/api';
 import { WorkflowI } from '@/types/modules/AirOperations/WorkflowAutomation';
 import { TruncateText } from '@/components/TruncateText';
 import { WorkflowStatus } from './WorkflowStatus';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
+import { tableCheckbox } from '@/utils/table-checkbox';
 
 export const salesWorkflowActionDropdownDynamic = (
   selectedSalesWorkflowLists: WorkflowI[],
@@ -56,55 +55,11 @@ export const salesWorkflowListsColumnDynamic = (
   tableData: WorkflowI[],
 ) => {
   return [
-    {
-      accessorFn: (row: any) => row?._id,
-      id: '_id',
-      cell: (info: any) => (
-        <Checkbox
-          icon={<CheckboxIcon />}
-          checkedIcon={<CheckboxCheckedIcon />}
-          checked={
-            !!activeCheck?.find(
-              (item: WorkflowI) => item?._id === info?.getValue(),
-            )
-          }
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            e?.target?.checked
-              ? setActiveCheck([
-                  ...activeCheck,
-                  tableData?.find(
-                    (item: WorkflowI) => item?._id === info?.getValue(),
-                  ),
-                ])
-              : setActiveCheck(
-                  activeCheck?.filter((item: WorkflowI) => {
-                    return item?._id !== info?.getValue();
-                  }),
-                );
-          }}
-          color="primary"
-          name={info?.getValue()}
-        />
-      ),
-      header: (
-        <Checkbox
-          icon={<CheckboxIcon />}
-          checkedIcon={<CheckboxCheckedIcon />}
-          checked={
-            tableData?.length
-              ? activeCheck?.length === tableData?.length
-              : false
-          }
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            e?.target?.checked
-              ? setActiveCheck([...tableData])
-              : setActiveCheck([]);
-          }}
-          color="primary"
-          name="_id"
-        />
-      ),
-    },
+    tableCheckbox({
+      selectedList: activeCheck,
+      setSelectedList: setActiveCheck,
+      tableData,
+    }),
     {
       accessorFn: (row: any) => row?.title,
       id: 'title',

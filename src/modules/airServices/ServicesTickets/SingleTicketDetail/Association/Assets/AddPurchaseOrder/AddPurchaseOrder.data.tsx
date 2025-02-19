@@ -1,44 +1,16 @@
 import { TruncateText } from '@/components/TruncateText';
-import { CheckboxField } from '@/components/InputFields/CheckboxField';
+import { tableCheckbox } from '@/utils/table-checkbox';
 
 export const getAddPurchaseOrderColumns = ({
   setSelected,
   selected,
   associatesOrderList,
 }: any) => [
-  {
-    accessorFn: (row: any) => row?._id,
-    id: 'id',
-    cell: (info: any) => (
-      <CheckboxField
-        checked={!!selected?.find((item: any) => item === info?.getValue())}
-        onChange={(e: any) => {
-          e?.target?.checked
-            ? setSelected([...selected, info?.getValue()])
-            : setSelected(
-                selected?.filter((item: any) => item !== info?.getValue()),
-              );
-        }}
-        name={info?.getValue()}
-      />
-    ),
-    header: (
-      <CheckboxField
-        checked={
-          associatesOrderList?.length
-            ? selected?.length === associatesOrderList?.length
-            : false
-        }
-        onChange={(e: any) => {
-          e?.target?.checked
-            ? setSelected(associatesOrderList?.map((asset: any) => asset?._id))
-            : setSelected([]);
-        }}
-        name="id"
-      />
-    ),
-    isSortable: false,
-  },
+  tableCheckbox({
+    selectedList: selected,
+    setSelectedList: setSelected,
+    tableData: associatesOrderList,
+  }),
   {
     accessorFn: (row: any) => row?.orderNumber,
     id: 'orderNumber',

@@ -1,15 +1,15 @@
-import { Box, Checkbox, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useQuestionList } from './useQuestionList';
 import { createElement } from 'react';
 import { FEEDBACK_SURVEY_RESPONSE_QUESTION } from './QuestionList.data';
 import { FEEDBACK_SURVEY_QUESTION_TYPE } from '@/constants/strings';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { QuestionListI } from './QuestionList.interface';
 import { FeedbackSurveySectionI } from '@/types/modules/AirServices/FeedbackSurvey';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { CheckboxField } from '@/components/InputFields/CheckboxField';
 
 export const QuestionList: React.FC<QuestionListI> = (props) => {
   const {
@@ -83,9 +83,7 @@ export const QuestionList: React.FC<QuestionListI> = (props) => {
                   >
                     <CustomGrid md={0.6}>
                       <Box sx={{ textAlign: { xs: ' center', md: 'left' } }}>
-                        <Checkbox
-                          icon={<CheckboxIcon />}
-                          checkedIcon={<CheckboxCheckedIcon />}
+                        <CheckboxField
                           onChange={(e) => handleCheckboxClick(e, question)}
                         />
                       </Box>

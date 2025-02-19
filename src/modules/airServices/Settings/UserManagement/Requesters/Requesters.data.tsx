@@ -6,7 +6,7 @@ import { errorSnackbar } from '@/lib/snackbar';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { UserInfo } from '@/components/UserInfo';
 import { TruncateText } from '@/components/TruncateText';
-import { CheckboxField } from '@/components/InputFields/CheckboxField';
+import { tableCheckbox } from '@/utils/table-checkbox';
 
 export const requestersDropdown: any = (
   setDeleteModalOpen: any,
@@ -45,50 +45,11 @@ export const requestersList: any = (
   router: any,
   tableListData: any = [],
 ) => [
-  {
-    accessorFn: (row: any) => row?._id,
-    id: '_id',
-    cell: (info: any) => (
-      <CheckboxField
-        checked={
-          !!selectedRequestersList?.find(
-            (item: any) => item?._id === info?.getValue(),
-          )
-        }
-        onChange={(e: any) => {
-          e?.target?.checked
-            ? setSelectedRequestersList([
-                ...selectedRequestersList,
-                tableListData?.find(
-                  (item: any) => item?._id === info?.getValue(),
-                ),
-              ])
-            : setSelectedRequestersList(
-                selectedRequestersList?.filter((item: any) => {
-                  return item?._id !== info?.getValue();
-                }),
-              );
-        }}
-        name={info?.getValue()}
-      />
-    ),
-    header: (
-      <CheckboxField
-        checked={
-          !!tableListData?.length
-            ? selectedRequestersList?.length === tableListData?.length
-            : false
-        }
-        onChange={(e: any) => {
-          e?.target?.checked
-            ? setSelectedRequestersList(tableListData?.map((item: any) => item))
-            : setSelectedRequestersList([]);
-        }}
-        name="_id"
-      />
-    ),
-    isSortable: false,
-  },
+  tableCheckbox({
+    selectedList: selectedRequestersList,
+    setSelectedList: setSelectedRequestersList,
+    tableData: tableListData,
+  }),
   {
     accessorFn: (row: any) => row?.firstName,
     id: 'firstName',
