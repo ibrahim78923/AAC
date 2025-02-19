@@ -9,7 +9,7 @@ import { ConversationCardPropsI } from '../useSingleTicketConversation.interface
 import { CUSTOMER_PORTAL_TICKET_CONVERSATION_ACTIONS } from './ConversationCard.data';
 import { otherDateFormat } from '@/lib/date-time';
 import { AttachFileCard } from '@/components/Avatars/AttachFileCard';
-import { LogInfo } from '@/components/LogInfo';
+import { LogInfo } from '@/components/DataDisplay/LogInfo';
 import { UserInfo } from '@/components/UserInfo';
 import { HtmlRenderer } from '@/components/DataDisplay/HtmlRenderer';
 

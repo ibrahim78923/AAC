@@ -111,6 +111,7 @@ export interface LinkButtonPropsI {
   variant?: ButtonVariantI;
   link?: string;
   name: string;
+  customStyles?: any;
 }
 
 export interface ExportButtonPropsI {

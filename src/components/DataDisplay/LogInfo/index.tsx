@@ -1,6 +1,7 @@
 import { Box, Typography } from '@mui/material';
+import { LogInfoPropsI } from '../DataDisplay.interface';
 
-export const LogInfo = (props: any) => {
+export const LogInfo = (props: LogInfoPropsI) => {
   const { performer, logType, log, logProps, logColor = 'primary' } = props;
   return (
     <Box display={'flex'} gap={0.3} alignItems={'center'} flexWrap={'wrap'}>
