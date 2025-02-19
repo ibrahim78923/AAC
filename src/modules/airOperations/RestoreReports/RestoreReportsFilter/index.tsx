@@ -3,7 +3,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { useRestoreReportsFilter } from './useRestoreReportsFilter';
 import { FormGrid } from '@/components/Grids/FormGrid';
 
-export const RestoreReportsFilter = () => {
+const RestoreReportsFilter = () => {
   const {
     methods,
     handleSubmit,
@@ -34,3 +34,5 @@ export const RestoreReportsFilter = () => {
     </>
   );
 };
+
+export default RestoreReportsFilter;

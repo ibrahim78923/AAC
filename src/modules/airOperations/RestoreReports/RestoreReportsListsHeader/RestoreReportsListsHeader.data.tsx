@@ -1,7 +1,42 @@
 import { SingleDropdownButtonCloseMenuI } from '@/components/Buttons/SingleDropdownButton/SingleDropdownButton.interface';
-import { RestoreReport } from '../RestoreReport';
-import { DeleteReportPermanently } from '../DeleteReportPermanently';
-import { RestoreReportsFilter } from '../RestoreReportsFilter';
+import LazyLoadingFlow from '@/components/LazyLoadingFlow';
+import dynamic from 'next/dynamic';
+
+const RestoreReport = dynamic(() => import('../RestoreReport'), {
+  ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="restore report"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
+});
+
+const DeleteReportPermanently = dynamic(
+  () => import('../DeleteReportPermanently'),
+  {
+    ssr: false,
+    loading: (options: any) => (
+      <LazyLoadingFlow
+        name="delete report"
+        isLoading={options?.isLoading}
+        error={options?.error}
+      />
+    ),
+  },
+);
+
+const RestoreReportsFilter = dynamic(() => import('../RestoreReportsFilter'), {
+  ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="filter report"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
+});
 
 export const RESTORE_REPORT_LISTS_ACTION_CONSTANTS = {
   FILTER_RESTORE_REPORT: 'filter-restore-report',

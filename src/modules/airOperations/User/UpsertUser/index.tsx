@@ -11,7 +11,7 @@ import { FormGrid } from '@/components/Grids/FormGrid';
 const { ADD_OPERATIONS_USERS, OPERATIONS_USERS_DETAIL } =
   OPERATIONS_USERS_ACTIONS_CONSTANT;
 
-export const UpsertUser = () => {
+const UpsertUser = () => {
   const {
     upsertUserFormFields,
     methods,
@@ -63,3 +63,5 @@ export const UpsertUser = () => {
     </>
   );
 };
+
+export default UpsertUser;

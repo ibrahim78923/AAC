@@ -3,7 +3,7 @@ import { useAddToDashboardReport } from './useAddToDashboardReport';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 import { DashboardNameFieldDropdown } from '../ReportFormFields/DashboardNameFieldDropdown';
 
-export const AddToDashboardReport = () => {
+const AddToDashboardReport = () => {
   const {
     methods,
     handleSubmit,
@@ -29,3 +29,5 @@ export const AddToDashboardReport = () => {
     </CustomCommonDialog>
   );
 };
+
+export default AddToDashboardReport;
