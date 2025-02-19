@@ -1,13 +1,13 @@
-import BuyerCompany from './BuyerCompany';
 import QuoteInfo from './QuoteInfo';
 import ProductsAndServices from './ProductsAndServices/index';
 import Quotation from './Quotation';
 import { Box } from '@mui/material';
+import DetailCard from './DetailCard';
 
 const ViewQuote = ({ loyalityCalculation }: any) => {
   return (
     <Box id="quote-invoice">
-      <BuyerCompany />
+      <DetailCard />
       <QuoteInfo />
       <ProductsAndServices />
       <Quotation loyalityCalculation={loyalityCalculation} />

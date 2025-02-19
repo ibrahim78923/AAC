@@ -14,6 +14,8 @@ const Accounts = (props: any) => {
     setPageLimit,
     handleStatusUpdate,
     isLoadingStatus,
+    editRoleModal,
+    setEditRoleModal,
   } = useAccounts();
 
   const accountsParams = {
@@ -36,7 +38,12 @@ const Accounts = (props: any) => {
 
   return (
     <TanstackTable
-      columns={companyColumns(handleStatusUpdate, isLoadingStatus)}
+      columns={companyColumns(
+        handleStatusUpdate,
+        isLoadingStatus,
+        editRoleModal,
+        setEditRoleModal,
+      )}
       data={userAccounts?.data?.usercompanyaccounts}
       isPagination
       onPageChange={(page: any) => setPage(page)}

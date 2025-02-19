@@ -482,9 +482,7 @@ const useUpdateQuote = () => {
     selectedBuyerContactIds,
     handleCompanyChange,
     selectedCompanyIds,
-    disabledSaveAndContinueBtn: Boolean(
-      selectedBuyerContactIds && selectedCompanyIds,
-    ),
+    disabledSaveAndContinueBtn: Boolean(selectedBuyerContactIds),
     handleDeleteCompanies,
     handleDeleteModal,
     deleteModalId,

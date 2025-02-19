@@ -40,11 +40,14 @@ const TemplateBasic = ({
                 </Grid>
                 <Grid item xs={5}>
                   <Typography sx={styles?.buyerInfoTitle} variant="body1">
-                    {quotesData?.buyerCompany?.owner?.firstName}{' '}
-                    {quotesData?.buyerCompany?.owner?.lastName}
+                    {quotesData?.buyerContact?.firstName}{' '}
+                    {quotesData?.buyerContact?.lastName}
                   </Typography>
                   <Typography sx={styles?.buyerInfoText} variant="body2">
-                    {quotesData?.buyerCompany?.owner?.email}
+                    {quotesData?.buyerContact?.phoneNumber ?? 'N/A'}
+                  </Typography>
+                  <Typography sx={styles?.buyerInfoText} variant="body2">
+                    {quotesData?.buyerContact?.email}
                   </Typography>
                 </Grid>
               </Grid>

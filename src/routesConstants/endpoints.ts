@@ -28,6 +28,7 @@ export const END_POINTS = {
   ORGANIZATION: '/organization',
   USER_ACCOUNTS_LIST: '/super-admin/accounts-list',
   USER_ACCOUNT: '/account',
+  UPDATE_USER_ROLE: '/users/update-account-role',
   UPDATE_USER_LIST: '/users/edit',
   ADD_ACCOUNTS: '/super-admin/add-accounts',
   COMPANY_CRN: '/auth/search-company',

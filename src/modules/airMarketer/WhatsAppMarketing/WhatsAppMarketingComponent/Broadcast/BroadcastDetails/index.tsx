@@ -1,7 +1,5 @@
 import { Box, Skeleton, Typography } from '@mui/material';
-import CommonTabs from '@/components/Tabs';
 import BroadcastDetailsTab from './BroadcastDetailsTab';
-import AnalyticsTab from './AnalyticsTab';
 import { styles } from './BroadcastDetails.style';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { AIR_MARKETER } from '@/routesConstants/paths';
@@ -49,17 +47,11 @@ const BroadcastDetails = () => {
           </Box>
         )}
       </Box>
-      <CommonTabs tabsArray={['Broadcast Details', 'Analytics']}>
-        <BroadcastDetailsTab
-          broadcastDetails={smsBroadcastDetails}
-          isLoading={smsDetailsLoading}
-          recordStatus={smsBroadcastDetails?.status}
-        />
-        <AnalyticsTab
-          statisticsData={smsBroadcastDetails?.statisticsData}
-          isLoading={smsDetailsLoading}
-        />
-      </CommonTabs>
+      <BroadcastDetailsTab
+        broadcastDetails={smsBroadcastDetails}
+        isLoading={smsDetailsLoading}
+        recordStatus={smsBroadcastDetails?.status}
+      />
     </Box>
   );
 };

@@ -18,7 +18,7 @@ export const smsDetailsColumns: any = (
         const lastName = info?.row?.original?.lastName;
         return firstName || lastName
           ? `${firstName ?? ''} ${lastName ?? ''}`.trim()
-          : 'N/A';
+          : 'Unknown User';
       },
     },
     {

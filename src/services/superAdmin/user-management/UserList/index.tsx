@@ -94,6 +94,17 @@ export const userListApi = baseAPI.injectEndpoints({
       invalidatesTags: ['USERS'],
     }),
 
+    updateAccountRole: builder.mutation({
+      query: ({ id, body }: any) => {
+        return {
+          url: `${END_POINTS?.UPDATE_USER_ROLE}/${id}`,
+          method: 'PATCH',
+          body: body,
+        };
+      },
+      invalidatesTags: ['USERS'],
+    }),
+
     deleteUsers: builder.mutation({
       query: ({ id }: any) => ({
         url: `/${id}`,
@@ -116,4 +127,5 @@ export const {
   usePostUserEmployeeMutation,
   useUpdateUserImgMutation,
   useUpdateAccountStatusMutation,
+  useUpdateAccountRoleMutation,
 } = userListApi;
