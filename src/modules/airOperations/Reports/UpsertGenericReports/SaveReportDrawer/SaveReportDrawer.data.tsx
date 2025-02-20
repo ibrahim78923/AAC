@@ -185,7 +185,10 @@ export const reportsDataArray = (
     ),
     conditionalComponentTwo: (
       <>
-        <UsersListDropdown name={'specificUsersConditionOne'} />
+        <UsersListDropdown
+          hasCurrentProduct={false}
+          name={'specificUsersConditionOne'}
+        />
         <FieldArrayTable
           tableContainerCustomStyles={{
             maxHeight: pxToRem(400),
