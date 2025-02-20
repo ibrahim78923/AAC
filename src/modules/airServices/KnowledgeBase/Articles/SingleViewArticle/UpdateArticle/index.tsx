@@ -44,7 +44,7 @@ export const UpdateArticle = () => {
         <CustomLoadingButton
           variant="text"
           color="error"
-          sx={{ my: 1 }}
+          customStyles={{ my: 1 }}
           onClick={() => {
             dispatch(
               setIsPortalOpen<any>({

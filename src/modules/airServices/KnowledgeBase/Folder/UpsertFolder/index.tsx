@@ -10,7 +10,7 @@ import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 const { EDIT_FOLDER } = KNOWLEDGE_BASE_ACTIONS_CONSTANT ?? {};
 const { UPDATE, CREATE } = GENERIC_UPSERT_FORM_CONSTANT ?? {};
 
-export const UpsertFolder = () => {
+const UpsertFolder = () => {
   const {
     methods,
     handleSubmit,
@@ -53,3 +53,5 @@ export const UpsertFolder = () => {
     </CustomCommonDialog>
   );
 };
+
+export default UpsertFolder;

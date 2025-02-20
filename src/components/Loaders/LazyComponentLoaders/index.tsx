@@ -1,6 +1,5 @@
 import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
-import { useTheme } from '@emotion/react';
-import { Box, Typography, alpha } from '@mui/material';
+import { alpha, Box, Typography, useTheme } from '@mui/material';
 import { LazyComponentLoadersPropsI } from '../Loaders.interface';
 
 const LazyComponentLoaders = (props: LazyComponentLoadersPropsI) => {

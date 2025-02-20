@@ -5,7 +5,7 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
 
-export const KnowledgeInsights = () => {
+const KnowledgeInsights = () => {
   const {
     data,
     isLoading,
@@ -61,3 +61,5 @@ export const KnowledgeInsights = () => {
     </>
   );
 };
+
+export default KnowledgeInsights;

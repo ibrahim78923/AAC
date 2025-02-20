@@ -3,7 +3,7 @@ import { useMoveFolder } from './useMoveFolder';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 import { FormGrid } from '@/components/Grids/FormGrid';
 
-export const MoveFolder = () => {
+const MoveFolder = () => {
   const {
     methods,
     submitMoveFolder,
@@ -30,3 +30,5 @@ export const MoveFolder = () => {
     </CustomCommonDialog>
   );
 };
+
+export default MoveFolder;

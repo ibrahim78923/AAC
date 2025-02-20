@@ -3,7 +3,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { useManageDashboardFilter } from './useManageDashboardFilter';
 import { FormGrid } from '@/components/Grids/FormGrid';
 
-export const ManageDashboardFilter = () => {
+const ManageDashboardFilter = () => {
   const {
     methods,
     handleSubmit,
@@ -34,3 +34,5 @@ export const ManageDashboardFilter = () => {
     </>
   );
 };
+
+export default ManageDashboardFilter;

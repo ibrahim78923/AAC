@@ -1,14 +1,46 @@
 import { useState } from 'react';
-import { UpsertAnnouncement } from './UpsertAnnouncement';
-import { AnnouncementList } from './AnnouncementList';
 import { dropdownAnnouncementsOptionsDynamic } from './Announcement.data';
-import { DeleteAnnouncement } from './DeleteAnnouncement';
 import {
   AnnouncementIsPortalOpenPropsI,
   AnnouncementPortalComponentsPropsI,
 } from './Announcement.interface';
 import { SingleDashboardComponentPropsI } from '../SingleDashboard/SingleDashboard.interface';
 import { useLazyGetServicesDashboardAnnouncementsListQuery } from '@/services/airServices/dashboard';
+import LazyLoadingFlow from '@/components/LazyLoadingFlow';
+import dynamic from 'next/dynamic';
+
+const UpsertAnnouncement = dynamic(() => import('./UpsertAnnouncement'), {
+  ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="upsert announcements"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
+});
+
+const AnnouncementList = dynamic(() => import('./AnnouncementList'), {
+  ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="announcement lists"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
+});
+
+const DeleteAnnouncement = dynamic(() => import('./DeleteAnnouncement'), {
+  ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="delete announcement"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
+});
 
 export const useAnnouncement = (props: SingleDashboardComponentPropsI) => {
   const { data, getSingleDashboardData } = props;
