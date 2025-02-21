@@ -1,7 +1,3 @@
-import {
-  EXPORT_FILE_TYPE,
-  MESSAGE_EXPORT_FILE_TYPE,
-} from '@/constants/strings';
 import { useEffect, useState } from 'react';
 import {
   PRODUCT_LISTS_ACTION_CONSTANTS,
@@ -18,6 +14,7 @@ import {
 import { downloadFile } from '@/utils/file';
 import { useTheme } from '@mui/material';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { EXPORT_FILE_TYPE } from '@/constants/file';
 
 export const useProductCatalog = () => {
   const [search, setSearch] = useState('');
@@ -86,9 +83,7 @@ export const useProductCatalog = () => {
         'productCatalogLists',
         EXPORT_FILE_TYPE?.[exportType],
       );
-      successSnackbar(
-        `Product exported successfully as ${MESSAGE_EXPORT_FILE_TYPE?.[exportType]}`,
-      );
+      successSnackbar(`Product exported successfully `);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

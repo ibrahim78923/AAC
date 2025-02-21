@@ -1,4 +1,4 @@
-import { Avatar, Box, IconButton, Typography } from '@mui/material';
+import { Avatar, Box, Typography } from '@mui/material';
 import { Close } from '@mui/icons-material';
 import { useAttachFileCard } from './useAttachFileCard';
 import {
@@ -7,9 +7,22 @@ import {
   truncateText,
 } from '@/utils/avatarUtils';
 import { ConditionalPermissionGuard } from '@/GuardsAndPermissions/ConditionalPermissionGuard';
-import { ViewAvatar } from '../ViewAvatar';
 import { AttachFileCardPropsI } from '../Avatars.interface';
 import { AVATAR_VARIANTS } from '@/constants/mui-constant';
+import dynamic from 'next/dynamic';
+import LazyLoadingFlow from '@/components/LazyLoadingFlow';
+import { CustomIconButton } from '@/components/Buttons/CustomIconButton';
+
+const ViewAvatar = dynamic(() => import('../ViewAvatar'), {
+  ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="view  avatar"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
+});
 
 export const AttachFileCard = (props: AttachFileCardPropsI) => {
   const {
@@ -95,11 +108,9 @@ export const AttachFileCard = (props: AttachFileCardPropsI) => {
             permissions={permissionKey}
           >
             {cross && (
-              <IconButton
-                disableFocusRipple
-                disableRipple
-                size="small"
-                sx={{
+              <CustomIconButton
+                iconName="delete"
+                customStyles={{
                   backgroundColor: 'custom.dark',
                   ':hover': {
                     backgroundColor: 'custom.dark',
@@ -108,7 +119,7 @@ export const AttachFileCard = (props: AttachFileCardPropsI) => {
                 onClick={onDelete}
               >
                 <Close sx={{ color: 'common.white', fontSize: '14px' }} />
-              </IconButton>
+              </CustomIconButton>
             )}
           </ConditionalPermissionGuard>
         </Box>

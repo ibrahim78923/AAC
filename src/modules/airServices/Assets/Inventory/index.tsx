@@ -3,12 +3,12 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { useInventory } from './useInventory';
 import { INVENTORY_LIST_ACTIONS } from './Inventory.data';
-import { EXPORT_TYPE } from '@/constants/strings';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { CustomButton } from '@/components/Buttons/CustomButton';
 import { CUSTOM_BUTTON_TYPES } from '@/constants/mui-constant';
+import { EXPORT_TYPE } from '@/constants/file';
 
 const Inventory = () => {
   const {

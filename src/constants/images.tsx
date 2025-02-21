@@ -8,7 +8,8 @@ import {
   ProfessionalAwardImage,
   XlsPreviewImage,
 } from '@/assets/images';
-import { AGENT_LEVELS, ATTACHMENT_FILE_TYPE } from './strings';
+import { AGENT_LEVELS } from './strings';
+import { ATTACHMENT_FILE_TYPE } from './file';
 
 export const AGENT_LEVELS_IMAGES = {
   [AGENT_LEVELS?.BEGINNER]: BeginnerAwardImage,

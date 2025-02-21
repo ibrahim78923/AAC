@@ -15,6 +15,8 @@ export const CustomIconButton = (props: CustomIconButtonPropsI) => {
 
   return (
     <IconButton
+      disableFocusRipple
+      disableRipple
       disabled={disabled}
       color={color}
       sx={customStyles}

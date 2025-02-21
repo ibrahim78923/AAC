@@ -1,11 +1,11 @@
 import { useLazyGetExportSoftwareUsersQuery } from '@/services/airServices/assets/software/single-software-detail/users';
 import { useRouter } from 'next/router';
-import { EXPORT_FILE_TYPE, EXPORT_TYPE } from '@/constants/strings';
 import { downloadFile } from '@/utils/file';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { userActionDropdownDynamic } from './Header.data';
 import { SOFTWARE_USER_PORTAL_ACTIONS_TYPES } from '../Users.data';
 import { PAGINATION } from '@/config';
+import { EXPORT_FILE_TYPE, EXPORT_TYPE } from '@/constants/file';
 
 export const useHeader = (props: any) => {
   const { setIsPortalOpen, setPage, setSearch, usersData } = props;

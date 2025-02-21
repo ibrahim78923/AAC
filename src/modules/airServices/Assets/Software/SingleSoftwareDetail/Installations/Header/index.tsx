@@ -1,13 +1,13 @@
 import { Box } from '@mui/material';
 import Search from '@/components/Search';
 import { ExportButton } from '@/components/Buttons/ExportButton';
-import { EXPORT_TYPE } from '@/constants/strings';
 import { HeaderPropsI } from '../Installations.interface';
 import { CustomButton } from '@/components/Buttons/CustomButton';
 import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
 import { useHeader } from './useHeader';
 import { INSTALLATION_PORTAL_ACTION } from '../Installations.data';
 import AddDevice from '../AddDevice';
+import { EXPORT_TYPE } from '@/constants/file';
 
 export const Header = (props: HeaderPropsI) => {
   const { selectedDeviceList, isPortalOpen, setIsPortalOpen } = props;

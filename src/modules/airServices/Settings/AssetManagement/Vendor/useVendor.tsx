@@ -6,12 +6,9 @@ import {
   useLazyGetExportNewVendorQuery,
 } from '@/services/airServices/settings/asset-management/vendor';
 import { PAGINATION } from '@/config';
-import {
-  EXPORT_FILE_TYPE,
-  MESSAGE_EXPORT_FILE_TYPE,
-} from '@/constants/strings';
 import { downloadFile } from '@/utils/file';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { EXPORT_FILE_TYPE } from '@/constants/file';
 
 export const useVendor = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -57,9 +54,7 @@ export const useVendor = () => {
         getNewVendorExportParameter,
       )?.unwrap();
       downloadFile(response, 'NewVendorLists', EXPORT_FILE_TYPE?.[exportType]);
-      successSnackbar(
-        `Vendor exported successfully as ${MESSAGE_EXPORT_FILE_TYPE?.[exportType]}`,
-      );
+      successSnackbar(`Vendor exported successfully`);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

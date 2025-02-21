@@ -29,7 +29,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { SOCIAL_COMPONENTS } from '@/constants';
 import { useRouter } from 'next/router';
 import { generateImage } from '@/utils/avatarUtils';
-import { ATTACHMENT_FILE_TYPE } from '@/constants/strings';
+import { ATTACHMENT_FILE_TYPE } from '@/constants/file';
 
 const PreviewDrawer = ({ isPreview, setIsPreview, checkedRows }: any) => {
   const { theme, companyDetailsArray, companyDetails } =

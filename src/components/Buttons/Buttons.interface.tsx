@@ -66,7 +66,7 @@ export interface CustomButtonPropsI {
 }
 
 export interface CustomIconButtonPropsI {
-  onClick: () => void;
+  onClick: any;
   color?: ButtonColorI;
   customStyles?: SxProps<Theme>;
   children: ReactNode;

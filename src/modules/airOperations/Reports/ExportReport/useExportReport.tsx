@@ -8,8 +8,8 @@ import { TAB_CHANGED_FILTERED } from '../ReportLists/ReportLists.data';
 import { useRouter } from 'next/router';
 import { buildQueryParams } from '@/utils/api';
 import { downloadFile } from '@/utils/file';
-import { EXPORT_FILE_TYPE } from '@/constants/strings';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { EXPORT_FILE_TYPE } from '@/constants/file';
 
 export const useExportReport = () => {
   const [lazyExportReportsListTrigger, lazyExportReportsListStatus]: any =

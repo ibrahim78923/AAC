@@ -9,7 +9,6 @@ import { CustomizeInventoryColumn } from './CustomizeInventoryColumn';
 import { FilterInventory } from './FilterInventory';
 import { AIR_SERVICES } from '@/constants/routes';
 import { PAGINATION } from '@/config';
-import { EXPORT_FILE_TYPE } from '@/constants/strings';
 import {
   useLazyGetAirServicesAssetsInventoryQuery,
   useLazyGetAirServicesAssetsExportInventoryQuery,
@@ -22,6 +21,7 @@ import { useTheme } from '@mui/material';
 import { buildQueryParams } from '@/utils/api';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { getActiveAccountSession } from '@/utils';
+import { EXPORT_FILE_TYPE } from '@/constants/file';
 
 export const useInventory = () => {
   const { makePath } = usePath();

@@ -5,11 +5,11 @@ import ContractsDrawerForm from './FilterContractsForm';
 import { useContracts } from './useContracts';
 import { ExportButton } from '@/components/Buttons/ExportButton';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { EXPORT_TYPE } from '@/constants/strings';
 import { DeleteContract } from './DeleteContract';
 import { AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { CustomButton } from '@/components/Buttons/CustomButton';
+import { EXPORT_TYPE } from '@/constants/file';
 
 const Contracts = () => {
   const {

@@ -2,10 +2,10 @@ import { setIsPortalOpen } from '@/redux/slices/airServices/tickets/slice';
 import { useAppDispatch } from '@/redux/store';
 import { useRouter } from 'next/router';
 import { TICKETS_ACTION_CONSTANTS } from '../TicketsLists/TicketsListHeader/TicketListHeader.data';
-import { EXPORT_FILE_TYPE, EXPORT_TYPE } from '@/constants/strings';
 import { useLazyGetServicesTicketsListAsExportQuery } from '@/services/airServices/tickets';
 import { downloadFile } from '@/utils/file';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { EXPORT_FILE_TYPE, EXPORT_TYPE } from '@/constants/file';
 
 export const useHeader = () => {
   const router = useRouter();

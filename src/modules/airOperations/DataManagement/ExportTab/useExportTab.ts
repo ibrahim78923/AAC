@@ -7,9 +7,9 @@ import {
 } from '@/services/airOperations/data-management/export';
 import { ExportTabI } from './ExportTab.interface';
 import { downloadFile } from '@/utils/file';
-import { EXPORT_FILE_TYPE } from '@/constants/strings';
 import { otherDateFormat } from '@/lib/date-time';
 import { CALENDAR_FORMAT } from '@/constants';
+import { EXPORT_FILE_TYPE } from '@/constants/file';
 
 export const useExportTab: () => ExportTabI = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
