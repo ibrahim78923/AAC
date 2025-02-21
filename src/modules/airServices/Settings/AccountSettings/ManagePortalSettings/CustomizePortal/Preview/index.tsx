@@ -2,7 +2,7 @@ import {
   AirCustomerPortalDashboard,
   AirCustomerPortalProfile,
 } from '@/assets/images';
-import { Box, Button, IconButton, Typography } from '@mui/material';
+import { Avatar, Box, Button, IconButton, Typography } from '@mui/material';
 import Image from 'next/image';
 import usePreview from './usePreview';
 import { NavbarDataArray } from './Preview.data';
@@ -17,7 +17,6 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { CustomAvatar } from '@/components/Avatars/CustomAvatar';
-import { StaticAvatar } from '@/components/Avatars/StaticAvatar';
 import { LogoAvatar } from '@/components/Avatars/LogoAvatar';
 import { PROJECT_NAME } from '@/config';
 
@@ -54,14 +53,14 @@ const Preview = (props: IPreviewProps) => {
           >
             <Box p={2} mb={2}>
               {isFileInstance(image) ? (
-                <StaticAvatar
-                  avatarSrc={URL?.createObjectURL(image)}
+                <Avatar
+                  src={URL?.createObjectURL(image)}
                   alt={PROJECT_NAME}
-                  avatarSize={{
+                  sx={{
                     width: '100%',
                     height: 38,
-                    variant: 'square',
                   }}
+                  variant="square"
                 />
               ) : isStringUrl(image?.url) ? (
                 <CustomAvatar

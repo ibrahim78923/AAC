@@ -86,8 +86,7 @@ export const TopPerformer = (props: any) => {
               badgeContent={
                 <StaticAvatar
                   alt={badges}
-                  avatarSrc={AGENT_LEVELS_IMAGES?.[badges]?.src}
-                  avatarSize={{ width: 20, height: 20 }}
+                  avatarSrc={AGENT_LEVELS_IMAGES?.[badges]}
                 />
               }
             >

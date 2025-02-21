@@ -1,32 +1,50 @@
-import { AVATAR_VARIANTS } from '@/constants/mui-constant';
-import { Avatar } from '@mui/material';
 import { StaticAvatarPropsI } from '../Avatars.interface';
+import Image from 'next/image';
+import { pxToRem } from '@/utils/getFontValue';
+import { AVATAR_VARIANTS } from '@/constants/mui-constant';
+import { STATIC_BLUR_DATA_URL } from '@/constants/images';
+import { AVATAR_VARIANTS_BORDER_RADIUS } from '@/constants/style';
 
 export const StaticAvatar = (props: StaticAvatarPropsI) => {
   const {
-    avatarSize,
-    alt,
-    backgroundColor = 'transparent',
-    customStyles,
-    padding,
-    children,
     avatarSrc,
+    alt = '',
+    backgroundColor = 'transparent',
+    width = pxToRem(25),
+    height = pxToRem(25),
+    variant = AVATAR_VARIANTS?.CIRCULAR,
+    aspectRatio = '1',
+    sizes = '100vw',
   } = props;
 
+  const borderRadius = AVATAR_VARIANTS_BORDER_RADIUS?.[variant];
+
   return (
-    <Avatar
-      sx={{
+    <div
+      style={{
+        position: 'relative',
+        width: width,
+        height: height,
+        aspectRatio,
         backgroundColor,
-        width: avatarSize?.width ?? 25,
-        height: avatarSize?.height ?? 25,
-        padding,
-        ...customStyles,
+        borderRadius,
+        overflow: 'hidden',
       }}
-      variant={avatarSize?.variant ?? AVATAR_VARIANTS?.CIRCULAR}
-      alt={alt}
-      src={avatarSrc}
     >
-      {children}
-    </Avatar>
+      <Image
+        alt={alt}
+        fill
+        src={avatarSrc}
+        priority
+        sizes={sizes}
+        placeholder="blur"
+        blurDataURL={STATIC_BLUR_DATA_URL}
+        style={{
+          objectFit: 'cover',
+          borderRadius,
+          aspectRatio,
+        }}
+      />
+    </div>
   );
 };

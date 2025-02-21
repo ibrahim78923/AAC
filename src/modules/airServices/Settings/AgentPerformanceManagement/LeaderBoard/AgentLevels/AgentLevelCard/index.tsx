@@ -35,8 +35,9 @@ const AgentLevelCard = (props: any) => {
           }}
         >
           <StaticAvatar
-            avatarSrc={AGENT_LEVELS_IMAGES?.[title]?.src}
-            avatarSize={{ width: 40, height: 40 }}
+            avatarSrc={AGENT_LEVELS_IMAGES?.[title]}
+            width={40}
+            height={40}
             alt={title}
           />
           <Typography

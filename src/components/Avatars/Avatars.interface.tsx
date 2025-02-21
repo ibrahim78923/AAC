@@ -38,6 +38,11 @@ export interface StaticAvatarPropsI {
   padding?: number;
   children?: ReactNode;
   avatarSrc: any;
+  aspectRatio?: string;
+  width?: number | string;
+  height?: number | undefined | string;
+  variant?: AvatarVariantI;
+  sizes?: string;
 }
 
 export interface CustomAvatarGroupPropsI {
