@@ -1,15 +1,9 @@
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
-import {
-  Box,
-  IconButton,
-  Pagination,
-  TablePagination,
-  useTheme,
-} from '@mui/material';
-
+import { Box, Pagination, TablePagination, useTheme } from '@mui/material';
 import { styles } from './CustomPagination.style';
 import { PAGINATION } from '@/config';
+import { CustomIconButton } from '../Buttons/CustomIconButton';
 
 const CustomPagination = (props?: any) => {
   const {
@@ -53,16 +47,17 @@ const CustomPagination = (props?: any) => {
           />
         </Box>
         <Box display={'flex'}>
-          <IconButton
+          <CustomIconButton
+            iconName="prev-page"
             disabled={
               currentPage === PAGINATION?.CURRENT_PAGE ||
               currentPage < PAGINATION?.CURRENT_PAGE
             }
-            onClick={() => decrementPageClick?.()}
-            sx={styles?.iconStyleTwo(theme)}
+            onClick={decrementPageClick}
+            customStyles={styles?.iconStyleTwo(theme)}
           >
             <ArrowCircleLeftIcon />
-          </IconButton>
+          </CustomIconButton>
           <Pagination
             count={count}
             page={currentPage}
@@ -75,13 +70,14 @@ const CustomPagination = (props?: any) => {
             hideNextButton
             sx={styles?.paddingStyle(theme)}
           />
-          <IconButton
+          <CustomIconButton
+            iconName="next-page"
             disabled={currentPage === count || currentPage > count}
-            onClick={() => incrementPageClick?.()}
-            sx={styles?.iconStyle(theme)}
+            onClick={incrementPageClick}
+            customStyles={styles?.iconStyle(theme)}
           >
             <ArrowCircleRightIcon />
-          </IconButton>
+          </CustomIconButton>
         </Box>
       </Box>
     </>
