@@ -101,7 +101,7 @@ const Header = (props: any) => {
     ROLES?.SUPER_ADMIN
       ? superAdminTabsData
       : ActiveProduct?.name?.replace(/\s+/g, '_')?.toUpperCase() ===
-            ROLES?.ORG_ADMIN || isNullOrEmpty(ActiveProduct?.name)
+          ROLES?.ORG_ADMIN
         ? orgAdminTabsData
         : ActiveProduct?.name?.replace(/\s+/g, '_')?.toUpperCase() ===
             ROLES?.AIR_SALES
@@ -400,6 +400,8 @@ const Header = (props: any) => {
             </Box>
             {ActiveProduct?.name === PRODUCT_LABELS?.AIR_MARKETER ||
               ActiveProduct?.name === PRODUCT_LABELS?.LOYALTY_PROGRAM ||
+              isNullOrEmpty(ActiveProduct?.name) ||
+              isCustomerPortal ||
               (showTabs && (
                 <Box
                   sx={{
@@ -619,7 +621,9 @@ const Header = (props: any) => {
             }}
             alt="logged-user-avatar"
           >
-            {`${user?.firstName?.charAt(ARRAY_INDEX?.ZERO)}${user?.lastName?.charAt(ARRAY_INDEX?.ZERO)}`}
+            {`${user?.firstName?.charAt(
+              ARRAY_INDEX?.ZERO,
+            )}${user?.lastName?.charAt(ARRAY_INDEX?.ZERO)}`}
           </Avatar>
           <ProfilMenu />
         </Box>

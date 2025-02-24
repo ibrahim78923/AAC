@@ -580,6 +580,7 @@ export const END_POINTS = {
   LOYALTY_REWARDS_DROPDOWN: 'rewards/rewards-list',
   LOYALTY_PROGRAM_DASHBOARD_WIDGETS: '/consumers/get-dashboard-data',
   MEETINGS_SETTINGS_UPDATE_CALENDAR: '/meeting-settings/update-calendar',
+  GET_RULES_FOR_INVOICES: `/rules-and-tiers/get-rules`,
 };
 
 export const LEAD_CAPTURE_FORM = {
