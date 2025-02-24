@@ -14,6 +14,7 @@ import DefaultAttachment from '../form-fields/DefaultAttachmentEdit';
 import usePDFCreateContract from './usePDFCreateContract';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { mockUsers } from './data';
+import ContractTitle from '../form-fields/ContractTitle';
 
 export default function PDFCreateContract() {
   const {
@@ -32,6 +33,9 @@ export default function PDFCreateContract() {
 
   return (
     <Grid container spacing={'24px'}>
+      <Grid item xs={12} sm={8}>
+        <ContractTitle height={56} />
+      </Grid>
       <Grid item xs={12} sm={6}>
         <Box sx={styles?.buttonCard}>
           <Button
@@ -40,6 +44,7 @@ export default function PDFCreateContract() {
             className="small"
             startIcon={<IconAddText />}
             onClick={handleAddText}
+            disabled
           >
             Add text
           </Button>
@@ -54,6 +59,7 @@ export default function PDFCreateContract() {
             startIcon={<IconAddSignature />}
             endIcon={<KeyboardArrowDownIcon />}
             onClick={handleClick}
+            disabled
           >
             Add signature
           </Button>

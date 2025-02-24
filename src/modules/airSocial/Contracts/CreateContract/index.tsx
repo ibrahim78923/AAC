@@ -23,6 +23,7 @@ import PDFCreateContract from './PDFCreateContract';
 import ModalSignAndSend from './components/ModalSignAndSend';
 import ModalTemplateCategories from './components/ModalTemplateCategories';
 import { ENUM_CONTRACT_TYPE } from '@/utils/contracts';
+// import ModalAddSignee from './components/ModalAddSignee';
 
 export default function CreateContract() {
   const {
@@ -53,6 +54,10 @@ export default function CreateContract() {
     loadingCreateDraft,
     dynamicFields,
 
+    // openModalAddSignee,
+    // handleOpenModalAddSignee,
+    // handleCloseModalAddSignee,
+
     openModalSignAndSend,
     handleOpenModalSignAndSend,
     handleCloseModalSignAndSend,
@@ -70,6 +75,7 @@ export default function CreateContract() {
     loadingGetContractById,
     loadingGetTemplateById,
     loadingUpdateTemplate,
+    loadingUpdateContract,
     handleSubmitUpdateContract,
     handleAddDynamicField,
     handleUpdateDynamicField,
@@ -104,12 +110,20 @@ export default function CreateContract() {
           documentTitle={contractDetailsData?.name || 'Untitled Draft'}
           documentStatus={contractDetailsData?.status || 'Draft'}
           onClickSave={handleSubmitUpdateContract}
-          onClickSign={handleOpenModalSignAndSend}
+          // onClickSign={handleOpenModalSignAndSend}
+          onClickSign={
+            contractId
+              ? handleSubmitUpdateContract(true)
+              : handleSubmitCreateTemplate('sign')
+          }
           onClickSaveAsTemplate={() => setOpenModalTemplateCategories(true)}
           onClickSaveAsDraft={handleSubmitCreateTemplate('draft')}
           disabledSaveAsDraft={!!contractId}
           disabledSaveAsTemplate={!!templateId || !!contractId}
           disabledSaveChanges={disabledSaveChanges()}
+          disabledSignAndSend={
+            !(partyFields?.length !== 0 && signeeFields?.length !== 0)
+          }
         />
       </PlainHeader>
 
@@ -119,7 +133,8 @@ export default function CreateContract() {
           loadingCreateDraft ||
           loadingGetTemplateById ||
           loadingGetContractById ||
-          loadingUpdateTemplate
+          loadingUpdateTemplate ||
+          loadingUpdateContract
         }
         sx={{
           background: 'rgba(255, 255, 255, 0.75)',

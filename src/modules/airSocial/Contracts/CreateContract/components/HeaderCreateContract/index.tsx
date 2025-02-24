@@ -20,6 +20,7 @@ interface HeaderCreateContractProps {
   disabledSaveAsDraft?: boolean;
   disabledSaveAsTemplate?: boolean;
   disabledSaveChanges?: boolean;
+  disabledSignAndSend?: boolean;
 }
 
 export default function HeaderCreateContract({
@@ -32,6 +33,7 @@ export default function HeaderCreateContract({
   disabledSaveAsDraft,
   disabledSaveAsTemplate,
   disabledSaveChanges = true,
+  disabledSignAndSend = true,
 }: HeaderCreateContractProps) {
   const router = useRouter();
   // const { templateId } = router?.query;
@@ -137,7 +139,7 @@ export default function HeaderCreateContract({
             variant="contained"
             color="primary"
             className="small"
-            disabled
+            disabled={disabledSignAndSend}
           >
             Sign & Send
           </Button>
