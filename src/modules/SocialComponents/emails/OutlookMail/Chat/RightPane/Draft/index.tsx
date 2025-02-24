@@ -12,7 +12,7 @@ import {
 import {
   FormProvider,
   RHFCheckbox,
-  RHFDropZone,
+  RHFDropZoneMultipleFiles,
   RHFEditor,
   RHFSelect,
   RHFTextField,
@@ -348,7 +348,7 @@ const Draft = ({ messageDetailsData }: any) => {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <RHFDropZone
+                  <RHFDropZoneMultipleFiles
                     name="attachments"
                     label="Attachments"
                     multiple

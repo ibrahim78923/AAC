@@ -9,8 +9,9 @@ import { FILE_MAX_SIZE, FILE_SIZE_MESSAGES } from '@/config';
 import { AttachFileCard } from '../Avatars/AttachFileCard';
 import { TruncateText } from '../TruncateText';
 import { uploadFileMaxSize } from '@/utils/avatarUtils';
+import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 
-export default function RHFDropZone({
+export default function RHFDropZoneMultipleFiles({
   name,
   required,
   fileName = 'Attach a file',
@@ -137,73 +138,76 @@ export default function RHFDropZone({
 
   return (
     <>
+      <input {...getInputProps()} ref={inputRef} id={name} />
       {other?.label && <CustomLabel label={other?.label} required={required} />}
-      <Box
-        {...getRootProps({ onClick: handleClick })}
-        sx={{
-          border: '1px solid',
-          borderRadius: '8px',
-          padding: '20px',
-          textAlign: 'center',
-          cursor: 'pointer',
-          borderColor: 'custom.off_white_three',
-        }}
-      >
-        <input {...getInputProps()} ref={inputRef} />
-        {fileList.length > 0 ? (
-          <Box>
-            {multiple ? (
-              fileList?.map((file: any, index: number) => (
+      <label htmlFor={name}>
+        <Box
+          {...getRootProps({ onClick: handleClick })}
+          onClick={undefined}
+          sx={{
+            border: '1px solid',
+            borderRadius: '8px',
+            padding: '20px',
+            textAlign: 'center',
+            cursor: 'pointer',
+            borderColor: 'custom.off_white_three',
+          }}
+        >
+          {fileList?.length > SELECTED_ARRAY_LENGTH?.ZERO ? (
+            <Box>
+              {multiple ? (
+                fileList?.map((file: any, index: number) => (
+                  <TruncateText
+                    key={index ?? file?.name}
+                    text={file?.orignalName || file?.name}
+                  />
+                ))
+              ) : (
                 <TruncateText
-                  key={index ?? file?.name}
-                  text={file?.orignalName || file?.name}
+                  text={
+                    fileList?.[indexNumbers?.ZERO]?.orignalName ||
+                    fileList?.[indexNumbers?.ZERO]?.name
+                  }
                 />
-              ))
-            ) : (
-              <TruncateText
-                text={
-                  fileList?.[indexNumbers?.ZERO]?.orignalName ||
-                  fileList?.[indexNumbers?.ZERO]?.name
-                }
-              />
-            )}
-          </Box>
-        ) : (
-          <Box>
-            {isPreviewMode ? (
-              <Box>
-                <AttachFileCard
-                  size={{ width: 60, height: 60 }}
-                  hasStyling={false}
-                  canDelete={false}
-                  data={attachmentPreviewDetail}
-                  flexDirection={'column'}
-                />
-              </Box>
-            ) : (
-              <>
-                <AttachFileIcon />
-                <Typography variant="body1" fontWeight={'bold'}>
-                  {fileName}
-                </Typography>
-                <Typography variant="body2">
-                  <Typography
-                    component="span"
-                    fontSize={12}
-                    color={theme?.palette?.primary?.main}
-                  >
-                    Click to upload{' '}
+              )}
+            </Box>
+          ) : (
+            <Box>
+              {isPreviewMode ? (
+                <Box>
+                  <AttachFileCard
+                    size={{ width: 60, height: 60 }}
+                    hasStyling={false}
+                    canDelete={false}
+                    data={attachmentPreviewDetail}
+                    flexDirection={'column'}
+                  />
+                </Box>
+              ) : (
+                <>
+                  <AttachFileIcon />
+                  <Typography variant="body1" fontWeight={'bold'}>
+                    {fileName}
                   </Typography>
-                  or drag and drop
-                </Typography>
-                <Typography component="span" fontSize={12}>
-                  {fileType}
-                </Typography>
-              </>
-            )}
-          </Box>
-        )}
-      </Box>
+                  <Typography variant="body2">
+                    <Typography
+                      component="span"
+                      fontSize={12}
+                      color={theme?.palette?.primary?.main}
+                    >
+                      Click to upload{' '}
+                    </Typography>
+                    or drag and drop
+                  </Typography>
+                  <Typography component="span" fontSize={12}>
+                    {fileType}
+                  </Typography>
+                </>
+              )}
+            </Box>
+          )}
+        </Box>
+      </label>
       {!!errors[name] && (!multiple || !!!getValues(name)?.length) && (
         <Typography color={'error'} sx={{ wordBreak: 'break-all' }}>
           {errors[name]?.message}

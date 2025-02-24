@@ -36,3 +36,7 @@ export const EXPORT_FILE_TYPE: any = {
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   [EXPORT_TYPE?.PDF]: 'application/pdf',
 };
+
+export const IMPORT_FILE_TYPE = {
+  CSV: 'CSV',
+};

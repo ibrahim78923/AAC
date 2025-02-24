@@ -1,25 +1,22 @@
-import { Badge, Box, Typography } from '@mui/material';
-import { fullName, getInitialsSingleName } from '@/utils/avatarUtils';
-import { AGENT_LEVELS_IMAGES } from '@/constants/images';
-import { AGENT_LEVELS } from '@/constants/strings';
+import { Box, Typography } from '@mui/material';
 import NoData from '@/components/NoData';
-import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
-import { CustomAvatar } from '@/components/Avatars/CustomAvatar';
-import { StaticAvatar } from '@/components/Avatars/StaticAvatar';
-import { useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
+import { TopPerformerCard } from './TopPerformerCard';
+
+const TOP_PERFORMERS_LENGTH = 3;
 
 export const TopPerformer = (props: any) => {
   const { data } = props;
 
-  const hasTopPerformer = useMemo(
+  const hasTopPerformers = useMemo(
     () =>
-      data?.topPerformer?.data?.find(
-        (performer: any) => performer?.topPerformer,
-      ),
+      data?.topPerformer?.data
+        ?.filter((performer: any) => performer?.topPerformer)
+        ?.slice(0, TOP_PERFORMERS_LENGTH),
     [data],
   );
 
-  if (!hasTopPerformer) {
+  if (!hasTopPerformers?.length) {
     return (
       <Box
         borderRadius={3}
@@ -44,28 +41,15 @@ export const TopPerformer = (props: any) => {
     );
   }
 
-  const { name, department, badges, totalPoints, masterPoints, agent } =
-    hasTopPerformer ?? {};
-
-  const isMasterLevel = useMemo(
-    () => badges === AGENT_LEVELS?.MASTER,
-    [badges],
-  );
-  const pointsToMasterLevel = useMemo(
-    () => (masterPoints ? masterPoints - totalPoints : 0),
-    [masterPoints, totalPoints],
-  );
-  const progressPercentage = useMemo(
-    () => (masterPoints ? Math.round((totalPoints / masterPoints) * 100) : 0),
-    [masterPoints, totalPoints],
-  );
-
   return (
     <Box
       borderRadius={3}
-      height={'100%'}
       border={`1px solid`}
-      borderColor="custom.off_white_three"
+      borderColor="custom.off_white"
+      maxHeight="100%"
+      height={'100%'}
+      display={'flex'}
+      flexDirection={'column'}
     >
       <Box
         px={2}
@@ -77,58 +61,19 @@ export const TopPerformer = (props: any) => {
           Top Performer
         </Typography>
       </Box>
-      <Box p={2}>
-        <>
-          <Box display={'flex'} gap={2} marginY={2}>
-            <Badge
-              overlap="circular"
-              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-              badgeContent={
-                <StaticAvatar
-                  alt={badges}
-                  avatarSrc={AGENT_LEVELS_IMAGES?.[badges]}
-                />
-              }
-            >
-              <CustomAvatar
-                nameInitial={getInitialsSingleName(name)}
-                avatarSrc={agent?.avatar?.url}
-                avatarSize={{
-                  width: 40,
-                  height: 40,
-                }}
-              />
-            </Badge>
-            <Box>
-              <Typography variant="body2" fontWeight={600} color={'grey.600'}>
-                {fullName(name)}
-              </Typography>
-              <Typography variant="body3" color={'grey.600'}>
-                {department}
-              </Typography>
-            </Box>
-          </Box>
-          <Typography
-            variant="body1"
-            color={'grey.600'}
-            textTransform={'capitalize'}
-          >
-            {badges}
-          </Typography>
-          <Typography variant="body3" color={'slateBlue.main'}>
-            {isMasterLevel
-              ? `${totalPoints} points and has ${badges} level`
-              : `${totalPoints} + ${pointsToMasterLevel} points to ${AGENT_LEVELS?.MASTER} level`}
-          </Typography>
-          <br />
-          <Typography variant="body3" color={'primary.main'}>
-            {isMasterLevel ? 100 : progressPercentage}%
-          </Typography>
-          <CustomLinearProgress
-            value={isMasterLevel ? 100 : progressPercentage}
-            variant="determinate"
-          />
-        </>
+      <Box flex={1}>
+        {hasTopPerformers?.map((topPerformer: any) => (
+          <Fragment key={topPerformer?._id}>
+            <TopPerformerCard
+              name={topPerformer?.name}
+              department={topPerformer?.department}
+              badges={topPerformer?.badges}
+              totalPoints={topPerformer?.totalPoints}
+              masterPoints={topPerformer?.masterPoints}
+              agent={topPerformer?.agent}
+            />
+          </Fragment>
+        ))}
       </Box>
     </Box>
   );

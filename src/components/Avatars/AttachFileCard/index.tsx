@@ -51,12 +51,13 @@ export const AttachFileCard = (props: AttachFileCardPropsI) => {
           ? {
               border: `1px solid`,
               borderColor: 'custom.off_white_three',
-              sx: { ':hover': { cursor: 'pointer', boxShadow: 1 } },
               padding: 1,
+              boxShadow: 1,
             }
           : {})}
         {...(canDelete
           ? {
+              sx: { ':hover': { cursor: 'pointer' } },
               onMouseEnter: () => setCross(true),
               onMouseLeave: () => setCross(false),
             }

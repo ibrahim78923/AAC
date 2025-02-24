@@ -13,7 +13,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import {
   FormProvider,
   RHFCheckbox,
-  RHFDropZone,
+  RHFDropZoneMultipleFiles,
   RHFEditor,
   RHFSelect,
   RHFTextField,
@@ -446,7 +446,7 @@ const EmailEditorDrawer = (props: any) => {
                 </Grid>
               )}
               <Grid item xs={12}>
-                <RHFDropZone
+                <RHFDropZoneMultipleFiles
                   name="attachFile"
                   label="Attachments"
                   multiple
