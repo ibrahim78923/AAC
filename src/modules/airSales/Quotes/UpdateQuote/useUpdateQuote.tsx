@@ -39,10 +39,6 @@ const useUpdateQuote = () => {
 
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [isOpenDiscountModal, setIsOpenDiscountModal] = useState({
-    isToggle: false,
-    isShowDiscountDetails: false,
-  });
   const [createAssociationQuote] = useCreateAssociationQuoteMutation();
   const { data: dataGetDeals } = useGetDealsQuery({
     page: page,
@@ -426,18 +422,7 @@ const useUpdateQuote = () => {
   };
 
   const handleOpenDialog = () => {
-    setIsOpenDiscountModal({ ...isOpenDiscountModal, isToggle: true });
-  };
-
-  const handleContinueDiscount = () => {
     setIsOpenDialog(true);
-  };
-
-  const handleApplyGetDiscount = () => {
-    setIsOpenDiscountModal({
-      ...isOpenDiscountModal,
-      isShowDiscountDetails: true,
-    });
   };
 
   const handleCloseDialog = () => {
@@ -512,10 +497,6 @@ const useUpdateQuote = () => {
     setIsOpenFormCreateProduct,
     handleLoyalityCalulation,
     loyalityCalculation,
-    isOpenDiscountModal,
-    setIsOpenDiscountModal,
-    handleApplyGetDiscount,
-    handleContinueDiscount,
   };
 };
 export default useUpdateQuote;

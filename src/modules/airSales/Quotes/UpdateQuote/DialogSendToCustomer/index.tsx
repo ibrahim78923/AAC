@@ -98,7 +98,7 @@ const DialogSendToCustomer = ({
         loyaltyGiftCards: loyalityCalculation?.giftCardDiscount[0],
         loyaltyVouchers: loyalityCalculation?.vouchersDiscount[0],
         loyaltyRedeemedDiscount: loyalityCalculation?.totalRedeamDiscount,
-        subTotal: Number(calculations?.calculationsArray[4]?.amount),
+        subTotal: Number(calculations?.calculationsArray[6]?.amount),
         total: calculations?.finalTotal,
         invoiceDiscount: Number(calculations?.calculationsArray[2]?.amount),
         tax: Number(updateTaxAmount),

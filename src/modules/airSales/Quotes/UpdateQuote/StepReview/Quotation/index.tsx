@@ -1,28 +1,103 @@
-import { Box, Divider } from '@mui/material';
+import { Box, Button, Divider, LinearProgress } from '@mui/material';
 import { styles } from './Quotation.style';
 import { styles as templateStyles } from '../../TemplateBasic/TemplateBasic.style';
-import { GlobalSearchSuperAdminModules } from '@/constants';
+import useQuotation from './useQuotation';
 
 const Quotation = ({ loyalityCalculation }: any) => {
+  const { getMoreDisocuntLoading, setFetchData, fetchData, moreDiscountValue } =
+    useQuotation(loyalityCalculation);
+
   return (
-    <Box>
-      <Box sx={styles?.box}>
+    <Box height={'100%'}>
+      <Box sx={styles?.box} height={'100%'}>
         <Box sx={templateStyles?.voucher}>
-          {loyalityCalculation?.calculationsArray?.map((item: any) => (
-            <Box sx={templateStyles?.vRow} key={item?.name}>
-              <Box sx={templateStyles?.vCellLef}>{item?.name}</Box>
-              <Box sx={templateStyles?.vCellRight}>
-                {item?.name === GlobalSearchSuperAdminModules?.TAX
-                  ? item?.amount
-                  : `£ ${item?.amount}`}
-              </Box>
+          <Box sx={templateStyles?.vRow}>
+            <Box sx={templateStyles?.vCellLef}>
+              {loyalityCalculation?.calculationsArray[0]?.name}
             </Box>
-          ))}
+            <Box sx={templateStyles?.vCellRight}>
+              {`£ ${loyalityCalculation?.calculationsArray[0]?.amount}`}
+            </Box>
+          </Box>
+          <Box sx={templateStyles?.vRow}>
+            <Box sx={templateStyles?.vCellLef}>
+              {loyalityCalculation?.calculationsArray[1]?.name}
+            </Box>
+            <Box sx={templateStyles?.vCellRight}>
+              {`£ ${loyalityCalculation?.calculationsArray[1]?.amount}`}
+            </Box>
+          </Box>
+          <Box sx={templateStyles?.vRow}>
+            <Box sx={templateStyles?.vCellLef}>
+              {loyalityCalculation?.calculationsArray[2]?.name}
+            </Box>
+            <Box sx={templateStyles?.vCellRight}>
+              {`£ ${loyalityCalculation?.calculationsArray[2]?.amount}`}
+            </Box>
+          </Box>
+          <Box sx={templateStyles?.vRow}>
+            <Box sx={templateStyles?.vCellLef}>
+              {loyalityCalculation?.calculationsArray[3]?.name}
+            </Box>
+            <Box sx={templateStyles?.vCellRight}>
+              {`£ ${loyalityCalculation?.calculationsArray[3]?.amount}`}
+            </Box>
+          </Box>
+          <Box sx={templateStyles?.vRow}>
+            <Box sx={templateStyles?.vCellLef}>
+              {loyalityCalculation?.calculationsArray[4]?.name}
+            </Box>
+            <Box sx={templateStyles?.vCellRight}>
+              {`£ ${loyalityCalculation?.calculationsArray[4]?.amount}`}
+            </Box>
+          </Box>
+          <Box sx={{ mt: 1 }}>
+            {!fetchData ? (
+              <Button
+                fullWidth
+                className="small"
+                variant="contained"
+                onClick={() => setFetchData(true)}
+              >
+                Get Discount
+              </Button>
+            ) : getMoreDisocuntLoading ? (
+              <Box display="flex" flexDirection="column" gap={1}>
+                <LinearProgress color="secondary" />
+                <LinearProgress color="secondary" />
+              </Box>
+            ) : (
+              <Box>
+                <Box sx={templateStyles?.vRow}>
+                  <Box sx={templateStyles?.vCellLef}>Loyalty Discount</Box>
+                  <Box sx={templateStyles?.vCellRight}>
+                    £ {moreDiscountValue}
+                  </Box>
+                </Box>
+                <Box sx={templateStyles?.vRow}>
+                  <Box sx={templateStyles?.vCellLef}>
+                    {loyalityCalculation?.calculationsArray[6]?.name}
+                  </Box>
+                  <Box sx={templateStyles?.vCellRight}>
+                    {`£ ${loyalityCalculation?.calculationsArray[6]?.amount}`}
+                  </Box>
+                </Box>
+              </Box>
+            )}
+          </Box>
+          <Box sx={templateStyles?.vRow}>
+            <Box sx={templateStyles?.vCellLef}>
+              {loyalityCalculation?.calculationsArray[5]?.name}
+            </Box>
+            <Box sx={templateStyles?.vCellRight}>
+              {`${loyalityCalculation?.calculationsArray[5]?.amount}`}
+            </Box>
+          </Box>
           <Divider sx={{ my: '16px', borderColor: '#D2D6DF' }} />
           <Box sx={templateStyles?.vRow}>
             <Box sx={templateStyles?.total}>Total</Box>
             <Box sx={templateStyles?.total}>
-              £ {loyalityCalculation?.finalTotal}
+              {`£ ${loyalityCalculation?.finalTotal}`}
             </Box>
           </Box>
         </Box>

@@ -89,6 +89,7 @@ export const END_POINTS = {
   ASSETS_INVENTORY_Associations: '/assets/inventory-association-list',
   QUOTE: '/quote',
   DELETE_QUOTES: '/quote/delete/quotes',
+  GET_DISCOUNT_RULES: '/rules-and-tiers/get-rules',
   QUOTE_SUBMIT: '/quote/submit',
   QUOTE_SUBMIT_RECORD: '/quote/submit/quote-record',
   GET_COMPANY_ORGANIZATION_DROPDOWN: '/dropdown/organizations',
