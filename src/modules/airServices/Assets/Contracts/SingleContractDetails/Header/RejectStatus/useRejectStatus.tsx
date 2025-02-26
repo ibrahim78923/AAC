@@ -1,10 +1,9 @@
-import { CONTRACT_STATUS } from '@/constants/strings';
 import { usePatchContractRejectMutation } from '@/services/airServices/assets/contracts';
-
 import { useRouter } from 'next/router';
 import { defaultValues, validationSchema } from './RejectStatus.data';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useFormLib } from '@/hooks/useFormLib';
+import { CONTRACT_STATUS } from '@/constants/services';
 
 export const useRejectStatus = (props: any) => {
   const { open, handleClose, data } = props;

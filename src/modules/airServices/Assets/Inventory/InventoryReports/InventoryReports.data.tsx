@@ -1,7 +1,7 @@
-import { INVENTORY_REPORT_STATUS } from '@/constants/strings';
 import { fullName } from '@/utils/avatarUtils';
 import { TruncateText } from '@/components/TruncateText';
 import { uiDateFormat } from '@/lib/date-time';
+import { INVENTORY_REPORT_STATUS } from '@/constants/services';
 
 export const InventoryReportsCountData = (data: any) => {
   return {

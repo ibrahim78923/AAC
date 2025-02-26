@@ -1,7 +1,7 @@
 import { EditYellowBGPenIcon } from '@/assets/icons';
 import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
-import { DASHBOARD } from '@/constants/strings';
+import { ACTIONS_TYPES } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { CancelRounded, VisibilityRounded } from '@mui/icons-material';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
@@ -144,7 +144,7 @@ export const manageDashboardsListColumnsDynamic = (
             loggedInUser: authUserId,
           }) && (
             <Link
-              href={`${AIR_SERVICES?.CREATE_DASHBOARD}?action=${DASHBOARD?.EDIT}&dashboardId=${info?.row?.original?._id}`}
+              href={`${AIR_SERVICES?.CREATE_DASHBOARD}?action=${ACTIONS_TYPES?.EDIT}&dashboardId=${info?.row?.original?._id}`}
             >
               <EditYellowBGPenIcon />
             </Link>

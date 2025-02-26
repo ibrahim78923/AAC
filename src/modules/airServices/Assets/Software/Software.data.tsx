@@ -1,15 +1,15 @@
 import { Typography } from '@mui/material';
 import { fullName } from '@/utils/avatarUtils';
-import {
-  SOFTWARE_STATUS,
-  SOFTWARE_TYPE,
-  TIME_PERIODS,
-} from '@/constants/strings';
 import { SoftwareDataI } from './Software.interface';
 import { NextRouter } from 'next/router';
 import { TruncateText } from '@/components/TruncateText';
 import { AIR_SERVICES } from '@/constants/routes';
 import { tableCheckbox } from '@/utils/table-checkbox';
+import {
+  SOFTWARE_STATUS,
+  SOFTWARE_TYPE,
+  TIME_PERIODS,
+} from '@/constants/services';
 
 export const softwareStatusOptions = [
   SOFTWARE_STATUS?.RESTRICTED,

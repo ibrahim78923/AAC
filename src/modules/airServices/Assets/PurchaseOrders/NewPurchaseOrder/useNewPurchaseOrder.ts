@@ -13,11 +13,11 @@ import {
 } from '@/services/airServices/assets/purchase-orders';
 import { filteredEmptyValues } from '@/utils/api';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
-import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
 import { DYNAMIC_FIELDS } from '@/utils/dynamic-forms';
 import { isoDateString } from '@/lib/date-time';
 import { useFormLib } from '@/hooks/useFormLib';
 import { useDynamicForm } from '@/components/DynamicForm/useDynamicForm';
+import { PURCHASE_ORDER_STATUS } from '@/constants/services';
 
 const { PURCHASE_ORDER } = AIR_SERVICES;
 

@@ -1,11 +1,11 @@
 import { RHFAutocomplete } from '@/components/ReactHookForm';
+import GetContractFilterContractTypeDropdown from '../ContractFormFieldsDropdowns/GetContractFilterContractTypeDropdown';
+import GetContractVendorDropdown from '../ContractFormFieldsDropdowns/GetContractVendorDropdown';
 import {
   CONTRACT_STATUS,
   CONTRACT_TYPES,
   TIME_PERIODS,
-} from '@/constants/strings';
-import GetContractFilterContractTypeDropdown from '../ContractFormFieldsDropdowns/GetContractFilterContractTypeDropdown';
-import GetContractVendorDropdown from '../ContractFormFieldsDropdowns/GetContractVendorDropdown';
+} from '@/constants/services';
 
 export const contractTypeOptions = [
   {

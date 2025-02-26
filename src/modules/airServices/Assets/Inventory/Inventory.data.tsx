@@ -1,10 +1,10 @@
 import { TruncateText } from '@/components/TruncateText';
 import { AIR_SERVICES } from '@/constants/routes';
-import { ASSET_IMPACT, ASSET_TYPE, TIME_PERIODS } from '@/constants/strings';
 import { fullName } from '@/utils/avatarUtils';
 import { uiDateFormat } from '@/lib/date-time';
 import { Typography } from '@mui/material';
 import { tableCheckbox } from '@/utils/table-checkbox';
+import { ASSET_IMPACT, ASSET_TYPE, TIME_PERIODS } from '@/constants/services';
 
 export const assetTypeOptions = [
   ASSET_TYPE?.SERVICES,

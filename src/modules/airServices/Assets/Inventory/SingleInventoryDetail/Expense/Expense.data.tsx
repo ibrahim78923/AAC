@@ -1,9 +1,9 @@
 import { Typography } from '@mui/material';
-import { EXPENSE_TYPE } from '@/constants/strings';
 import { ExpenseI } from './Expense.interface';
 import { otherDateFormat } from '@/lib/date-time';
 import { CALENDAR_FORMAT } from '@/constants';
 import { tableCheckbox } from '@/utils/table-checkbox';
+import { EXPENSE_TYPE } from '@/constants/services';
 
 export const EXPENSE_PORTAL_ACTIONS = {
   ADD_EXPENSE: 'Add New Expense',

@@ -1,5 +1,5 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { DASHBOARD, GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import { useAppSelector } from '@/redux/store';
 import { useRouter } from 'next/router';
 import { SERVICES_DASHBOARD_PORTAL_ACTIONS_CONSTANT } from '../../Dashboard.data';
@@ -22,7 +22,7 @@ const PreviewDashboard = dynamic(() => import('../../PreviewDashboard'), {
 
 export const Header = () => {
   const router = useRouter();
-  const { action } = router?.query;
+  const dashboardId = router?.query?.dashboardId;
 
   const moveBack = () => router?.push(AIR_SERVICES?.MANAGE_DASHBOARD);
   const isPortalOpen = useAppSelector(
@@ -34,7 +34,7 @@ export const Header = () => {
     <>
       <PageTitledHeader
         title={`${
-          action === DASHBOARD?.EDIT
+          !!dashboardId
             ? GENERIC_UPSERT_FORM_CONSTANT?.EDIT
             : GENERIC_UPSERT_FORM_CONSTANT?.CREATE
         } Dashboard`}

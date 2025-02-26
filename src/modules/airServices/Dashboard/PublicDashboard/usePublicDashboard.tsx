@@ -1,4 +1,4 @@
-import { TICKET_GRAPH_TYPES } from '@/constants/strings';
+import { TICKET_GRAPH_TYPES } from '@/constants/services';
 import { useGetServicesDashboardPublicSingleServicesDashboardQuery } from '@/services/airServices/dashboard';
 import { useRouter } from 'next/router';
 

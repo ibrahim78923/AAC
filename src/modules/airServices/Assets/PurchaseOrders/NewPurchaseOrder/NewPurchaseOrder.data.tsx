@@ -1,6 +1,5 @@
 import * as yup from 'yup';
 import { RHFDatePicker, RHFTextField } from '@/components/ReactHookForm';
-import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
 import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
@@ -10,6 +9,7 @@ import { GLOBAL_CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
 import GetPurchaseOrderLocationDropdown from '../PurchaseOrderFormFieldsDropdowns/GetPurchaseOrderLocationDropdown';
 import GetPurchaseOrderDepartmentDropdown from '../PurchaseOrderFormFieldsDropdowns/GetPurchaseOrderDepartmentDropdown';
 import GetPurchaseOrderVendorDropdown from '../PurchaseOrderFormFieldsDropdowns/GetPurchaseOrderVendorDropdown';
+import { PURCHASE_ORDER_STATUS } from '@/constants/services';
 
 const purchaseDetailSchema = yup?.object()?.shape({
   itemName: yup?.mixed()?.nullable()?.required('Item Name is required'),
