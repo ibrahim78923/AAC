@@ -1,5 +1,6 @@
 import { PAGINATION } from '@/config';
-import { ARRAY_INDEX, ARTICLE_STATUS, MODULE_TYPE } from '@/constants/strings';
+import { ARTICLE_STATUS } from '@/constants/services';
+import { ARRAY_INDEX, MODULE_TYPE } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
 import { useGetCustomerPortalDashboardPopularArticlesQuery } from '@/services/airCustomerPortal';
 import { getActiveAccountSession, getSession } from '@/utils';

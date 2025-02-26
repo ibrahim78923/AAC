@@ -1,4 +1,4 @@
-import { TICKET_CONVERSATIONS_TYPE } from '@/constants/strings';
+import { TICKET_CONVERSATIONS_TYPE } from '@/constants/services';
 
 export const CUSTOMER_PORTAL_TICKET_CONVERSATION_ACTIONS = {
   [TICKET_CONVERSATIONS_TYPE?.NOTE]: 'notified to',

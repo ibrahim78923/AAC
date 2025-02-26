@@ -15,7 +15,6 @@ import {
 import {
   FIELD_TYPES,
   IMPORT_ACTION_TYPE,
-  IMPORT_FILE_TYPE,
   IMPORT_OBJECT_TYPE,
   IMPORT_PRODUCTS_NAME,
   OBJECT_URL_IMPORT,
@@ -25,6 +24,7 @@ import {
 import { Theme, useTheme } from '@mui/material';
 import { useGetAuthAccountsForOperationsReportsQuery } from '@/services/airOperations/reports';
 import { useFormLib } from '@/hooks/useFormLib';
+import { IMPORT_FILE_TYPE } from '@/constants/file';
 
 export const useImportModal = () => {
   const [csvFileData, setCsvFileData] = useState<any[]>([]);

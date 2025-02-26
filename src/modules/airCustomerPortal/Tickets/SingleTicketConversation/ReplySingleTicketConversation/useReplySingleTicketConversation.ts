@@ -1,12 +1,13 @@
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import * as Yup from 'yup';
 import { usePostReplyForCustomerTicketConversationMutation } from '@/services/airCustomerPortal/Tickets';
-import { ARRAY_INDEX, TICKET_CONVERSATIONS_TYPE } from '@/constants/strings';
+import { ARRAY_INDEX } from '@/constants/strings';
 import { ReplySingleTicketConversationPropsI } from '../useSingleTicketConversation.interface';
 import { REGEX } from '@/constants/validation';
 import { useFormLib } from '@/hooks/useFormLib';
 import { useMemo } from 'react';
 import { getCustomerPortalStyling } from '@/utils';
+import { TICKET_CONVERSATIONS_TYPE } from '@/constants/services';
 
 export const useReplySingleTicketConversation = (
   props: ReplySingleTicketConversationPropsI,

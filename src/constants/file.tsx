@@ -40,3 +40,10 @@ export const EXPORT_FILE_TYPE: any = {
 export const IMPORT_FILE_TYPE = {
   CSV: 'CSV',
 };
+
+export const FILE_SIZE_UNITS = {
+  B: 1,
+  KB: 1024,
+  MB: 1024 * 1024,
+  GB: 1024 * 1024 * 1024,
+};

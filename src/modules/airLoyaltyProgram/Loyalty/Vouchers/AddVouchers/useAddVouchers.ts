@@ -11,8 +11,9 @@ import {
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useEffect } from 'react';
 import { generateRadomString } from '@/utils/api';
-import { ARRAY_INDEX, VOUCHERS_CONSTANTS } from '@/constants/strings';
+import { ARRAY_INDEX } from '@/constants/strings';
 import { useFormLib } from '@/hooks/useFormLib';
+import { VOUCHERS_CONSTANTS } from '@/constants/loyalty-program';
 
 export const useAddVouchers = (props: any) => {
   const { addVouchersOpen, setAddVouchersOpen } = props;

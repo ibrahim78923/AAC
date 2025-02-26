@@ -1,5 +1,6 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
-import { ROLE } from '@/constants/strings';
+import { PAGINATION } from '@/config';
+import { ROLES } from '@/constants/strings';
 import { useLazyGetAllRequestersDropdownCustomerPortalTicketsQuery } from '@/services/airCustomerPortal/Tickets';
 
 export const RequesterDropdown = (props: any) => {
@@ -11,7 +12,10 @@ export const RequesterDropdown = (props: any) => {
       fullWidth
       required
       apiQuery={apiQueryRequester}
-      externalParams={{ limit: 500, role: ROLE?.ORG_REQUESTER }}
+      externalParams={{
+        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
+        role: ROLES?.ORG_REQUESTER,
+      }}
       getOptionLabel={(option: any) =>
         `${option?.firstName} ${option?.lastName}`
       }
