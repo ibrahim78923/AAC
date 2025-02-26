@@ -1,4 +1,4 @@
-import { ARRAY_INDEX, MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
+import { ARRAY_INDEX, MODULE_TYPE } from '@/constants/strings';
 import {
   usePatchServicesEnquiriesMutation,
   usePostServicesEnquiriesTicketMutation,
@@ -9,6 +9,7 @@ import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { getActiveAccountSession } from '@/utils';
 import { useMemo } from 'react';
 import useAuth from '@/hooks/useAuth';
+import { TICKET_TYPE } from '@/constants/services';
 
 export const useConvertTicket = ({
   isModalOpen,

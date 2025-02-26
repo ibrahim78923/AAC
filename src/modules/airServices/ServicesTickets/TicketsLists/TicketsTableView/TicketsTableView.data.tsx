@@ -1,5 +1,4 @@
 import { Typography } from '@mui/material';
-import { TICKET_TYPE } from '@/constants/strings';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { NextRouter } from 'next/router';
 import { TicketTableRowI } from '../TicketsLists.interface';
@@ -9,6 +8,7 @@ import { AIR_SERVICES } from '@/constants/routes';
 import { localeDateTime, otherDateFormat, uiDateFormat } from '@/lib/date-time';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { CheckboxField } from '@/components/InputFields/CheckboxField';
+import { TICKET_TYPE } from '@/constants/services';
 
 export const ticketsListsColumnDynamic: any = (
   router?: NextRouter,

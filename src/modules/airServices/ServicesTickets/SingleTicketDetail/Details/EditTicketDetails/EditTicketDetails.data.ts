@@ -5,7 +5,6 @@ import {
 } from '@/components/ReactHookForm';
 import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { TICKET_TYPE_MAPPED } from '@/constants/api-mapped';
-import { TICKET_TYPE } from '@/constants/strings';
 import {
   ticketImpactOptions,
   ticketPriorityOptions,
@@ -24,6 +23,7 @@ import { CategoryFieldDropdown } from '../../../ServiceTicketFormFields/Category
 import { ServicesFieldDropdown } from '../../../ServiceTicketFormFields/ServicesFieldDropdown';
 import { localeDateTime } from '@/lib/date-time';
 import { formatDurationHourMinute } from '@/utils/dateTime';
+import { TICKET_TYPE } from '@/constants/services';
 
 const { SR } = TICKET_TYPE ?? {};
 

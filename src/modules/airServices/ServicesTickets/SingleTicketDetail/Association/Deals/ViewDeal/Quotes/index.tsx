@@ -1,10 +1,10 @@
 import { Box, Typography } from '@mui/material';
-import { ARTICLE_STATUS } from '@/constants/strings';
 import { uiDateFormat } from '@/lib/date-time';
 import { UncontrolledAccordion } from '@/components/Accordions/UncontrolledAccordion';
 import { ACCORDION_VARIANTS } from '@/constants/mui-constant';
 import { RecordCountChip } from '@/components/Chip/RecordCountChip';
 import { CustomChip } from '@/components/Chip/CustomChip';
+import { ARTICLE_STATUS } from '@/constants/services';
 
 export default function Quotes({ dealQuotes }: any) {
   return (

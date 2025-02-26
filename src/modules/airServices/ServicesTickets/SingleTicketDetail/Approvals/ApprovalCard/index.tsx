@@ -5,7 +5,6 @@ import {
   ticketsApprovalDropdownFunction,
 } from './ApprovalCard.data';
 import { MoreVert } from '@mui/icons-material';
-import { TICKET_APPROVALS } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
 import { TICKET_APPROVALS_ACTIONS_CONSTANT } from '@/constants/portal-actions';
 import { uiDateFormat } from '@/lib/date-time';
@@ -13,6 +12,7 @@ import { HtmlRenderer } from '@/components/DataDisplay/HtmlRenderer';
 import { CustomButton } from '@/components/Buttons/CustomButton';
 import { CUSTOM_BUTTON_TYPES } from '@/constants/mui-constant';
 import { PublicSingleDropdownButton } from '@/components/Buttons/PublicSingleDropdownButton';
+import { TICKET_APPROVALS } from '@/constants/services';
 
 const { REJECT_TICKET_APPROVAL, APPROVE_TICKET_APPROVAL } =
   TICKET_APPROVALS_ACTIONS_CONSTANT ?? {};

@@ -5,7 +5,7 @@ import {
   mergeTicketsFormValidationSchema,
 } from './MergeTickets.data';
 import { useMergeServicesTicketsMutation } from '@/services/airServices/tickets';
-import { ARRAY_INDEX, TICKET_SELECTION_TYPE } from '@/constants/strings';
+import { ARRAY_INDEX } from '@/constants/strings';
 import { useEffect } from 'react';
 import {
   emptySelectedTicketLists,
@@ -18,6 +18,7 @@ import {
   servicesTicketsSelectedTicketListsSelector,
 } from '@/redux/slices/airServices/tickets/selectors';
 import { useFormLib } from '@/hooks/useFormLib';
+import { TICKET_SELECTION_TYPE } from '@/constants/services';
 
 export const useMergedTickets = () => {
   const dispatch = useAppDispatch();

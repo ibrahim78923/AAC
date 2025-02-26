@@ -1,4 +1,5 @@
-import { ARRAY_INDEX, TIME_ENTRIES_TICKETS_TIMES } from '@/constants/strings';
+import { TIME_ENTRIES_TICKETS_TIMES } from '@/constants/services';
+import { ARRAY_INDEX } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {

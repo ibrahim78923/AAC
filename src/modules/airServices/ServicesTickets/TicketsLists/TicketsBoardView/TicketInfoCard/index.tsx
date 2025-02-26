@@ -13,7 +13,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { UserInfo } from '@/components/UserInfo';
 import { RENDER_COLOR } from '../TicketsBoardView.data';
-import { TICKET_STATUS, TICKET_TYPE } from '@/constants/strings';
+import { TICKET_STATUS, TICKET_TYPE } from '@/constants/services';
 import { TruncateText } from '@/components/TruncateText';
 import { AIR_SERVICES } from '@/constants/routes';
 import { formatTimeDifference } from '@/lib/date-time';

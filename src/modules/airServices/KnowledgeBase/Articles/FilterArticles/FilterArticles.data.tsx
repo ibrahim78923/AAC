@@ -1,8 +1,8 @@
 import { RHFAutocomplete } from '@/components/ReactHookForm';
-import { ARTICLE_STATUS } from '@/constants/strings';
 import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { FilterArticlesFormDefaultValuesI } from './FilterArticles.interface';
 import AuthorsFields from '../../KnowledgeBaseFormFields/AuthorsFields';
+import { ARTICLE_STATUS } from '@/constants/services';
 
 const { DRAFT, PUBLISHED } = ARTICLE_STATUS ?? {};
 

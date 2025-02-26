@@ -3,7 +3,8 @@ import {
   AIR_SERVICES_TICKETS_TICKET_LISTS,
   AIR_SERVICES_TICKETS_TICKETS_DETAILS,
 } from '@/constants/permission-keys';
-import { SELECTED_ARRAY_LENGTH, TICKET_STATUS } from '@/constants/strings';
+import { TICKET_STATUS } from '@/constants/services';
+import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 
 export const TICKETS_ACTION_CONSTANTS = {
   CUSTOMIZE_COLUMN: 'customize-column',

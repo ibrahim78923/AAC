@@ -11,7 +11,6 @@ import {
   TICKET_CONVERSATION_ACTIONS,
   TICKET_CONVERSATION_PORTAL_ACTIONS_CONSTANT,
 } from '../Conversations.data';
-import { TICKET_CONVERSATIONS_TYPE } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 import { UserInfo } from '@/components/UserInfo';
@@ -19,6 +18,7 @@ import { LogInfo } from '@/components/DataDisplay/LogInfo';
 import { AttachFileCard } from '@/components/Avatars/AttachFileCard';
 import { otherDateFormat } from '@/lib/date-time';
 import { HtmlRenderer } from '@/components/DataDisplay/HtmlRenderer';
+import { TICKET_CONVERSATIONS_TYPE } from '@/constants/services';
 
 export const ConversationCard = (props: any) => {
   const { data, setAction } = props;

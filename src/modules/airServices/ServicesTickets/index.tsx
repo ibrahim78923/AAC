@@ -6,15 +6,34 @@ import { TicketsListHeader } from './TicketsLists/TicketsListHeader';
 import { useServicesTickets } from './useServicesTickets';
 
 import dynamic from 'next/dynamic';
+import LazyLoadingFlow from '@/components/LazyLoadingFlow';
 
 const TableBoardView = dynamic(
   () => import('./TicketsLists/TicketsBoardView'),
-  { ssr: false },
+  {
+    ssr: false,
+    loading: (options: any) => (
+      <LazyLoadingFlow
+        name="list view"
+        isLoading={options?.isLoading}
+        error={options?.error}
+      />
+    ),
+  },
 );
 
 const TicketsTableView = dynamic(
   () => import('./TicketsLists/TicketsTableView'),
-  { ssr: false },
+  {
+    ssr: false,
+    loading: (options: any) => (
+      <LazyLoadingFlow
+        name="board view"
+        isLoading={options?.isLoading}
+        error={options?.error}
+      />
+    ),
+  },
 );
 
 const ServicesTickets = () => {

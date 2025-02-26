@@ -6,9 +6,17 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { ViewTimeEntries } from './ViewTimeEntries';
 import { SingleTicketDetailChildComponentPropsI } from '../../SingleTicketDetails.interface';
 import dynamic from 'next/dynamic';
+import LazyLoadingFlow from '@/components/LazyLoadingFlow';
 
 const AddTime = dynamic(() => import('../AddTime'), {
   ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="add time"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
 });
 
 export const TimeEntries = (props: SingleTicketDetailChildComponentPropsI) => {

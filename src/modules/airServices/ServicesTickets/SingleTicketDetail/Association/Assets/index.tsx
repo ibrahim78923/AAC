@@ -4,13 +4,14 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { TYPE_VALUES } from './Assets.data';
-import { ALERT_MODALS_TYPE, TICKET_TYPE } from '@/constants/strings';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { FormProvider, RHFRadioGroup } from '@/components/ReactHookForm';
 import AddAssets from './AddAssets';
 import { AlertModals } from '@/components/AlertModals';
 import AddPurchaseOrder from './AddPurchaseOrder';
 import useAssets from './useAssets';
 import { RecordCountChip } from '@/components/Chip/RecordCountChip';
+import { TICKET_TYPE } from '@/constants/services';
 
 export default function Assets({
   ticketType,

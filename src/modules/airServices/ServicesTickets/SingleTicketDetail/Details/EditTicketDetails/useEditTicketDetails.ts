@@ -7,7 +7,7 @@ import {
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { filteredEmptyValues } from '@/utils/api';
-import { ARRAY_INDEX, TICKET_TYPE } from '@/constants/strings';
+import { ARRAY_INDEX } from '@/constants/strings';
 import {
   editTicketDetailsDefaultValuesDynamic,
   editTicketDetailsFormFieldsDynamic,
@@ -19,6 +19,7 @@ import { AIR_SERVICES } from '@/constants/routes';
 import { isoDateString } from '@/lib/date-time';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useDynamicForm } from '@/components/DynamicForm/useDynamicForm';
+import { TICKET_TYPE } from '@/constants/services';
 
 const { ZERO } = ARRAY_INDEX ?? {};
 const { SR } = TICKET_TYPE ?? {};

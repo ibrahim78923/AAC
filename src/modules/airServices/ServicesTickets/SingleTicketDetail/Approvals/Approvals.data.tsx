@@ -1,4 +1,4 @@
-import { TICKET_APPROVALS } from '@/constants/strings';
+import { TICKET_APPROVALS } from '@/constants/services';
 import { AllApprovals } from './AllApprovals';
 
 const { ALL, REQUESTED, RECEIVED } = TICKET_APPROVALS;

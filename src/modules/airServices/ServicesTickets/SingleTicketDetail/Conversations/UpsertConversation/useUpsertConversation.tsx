@@ -10,10 +10,7 @@ import {
 } from '@/services/airServices/tickets/single-ticket-details/conversation';
 import { useRouter } from 'next/router';
 import useAuth from '@/hooks/useAuth';
-import {
-  MODULE_TYPE,
-  TICKET_CONVERSATIONS_CONTENT_TYPE,
-} from '@/constants/strings';
+import { MODULE_TYPE } from '@/constants/strings';
 import { ArticlesList } from '../ArticlesList';
 import { CannedResponsesList } from '../CannedResponsesList';
 import { useTheme } from '@mui/material';
@@ -32,6 +29,7 @@ import { useGetTicketConversationList } from '../../../TicketsServicesHooks/useG
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { AIR_SERVICES } from '@/constants/routes';
 import { useFormLib } from '@/hooks/useFormLib';
+import { TICKET_CONVERSATIONS_CONTENT_TYPE } from '@/constants/services';
 
 export const useUpsertConversation = () => {
   const { getTicketConversationListData } = useGetTicketConversationList?.();

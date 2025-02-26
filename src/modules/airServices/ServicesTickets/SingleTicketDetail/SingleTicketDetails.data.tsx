@@ -1,4 +1,4 @@
-import { ARRAY_INDEX, TICKET_TYPE } from '@/constants/strings';
+import { ARRAY_INDEX } from '@/constants/strings';
 import { Permissions } from '@/constants/permissions';
 import {
   AIR_SERVICES_TICKETS_TICKETS_DETAILS,
@@ -7,30 +7,88 @@ import {
 
 import { SingleTicketDetailChildComponentPropsI } from './SingleTicketDetails.interface';
 import dynamic from 'next/dynamic';
+import { TICKET_TYPE } from '@/constants/services';
+import LazyLoadingFlow from '@/components/LazyLoadingFlow';
 
 const Details = dynamic(() => import('./Details'), {
   ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="details"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
 });
 const Tasks = dynamic(() => import('./Tasks'), {
   ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="tasks"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
 });
 const RelatedTickets = dynamic(() => import('./RelatedTickets'), {
   ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="related tickets"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
 });
 const Association = dynamic(() => import('./Association'), {
   ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="association"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
 });
 const Approvals = dynamic(() => import('./Approvals'), {
   ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="approvals"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
 });
 const Meeting = dynamic(() => import('./Meeting'), {
   ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="meeting"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
 });
 const Activities = dynamic(() => import('./Activities'), {
   ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="activities"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
 });
 const Conversations = dynamic(() => import('./Conversations'), {
   ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="conversation"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
 });
 
 export const singleTicketDetailTabsDynamic = (

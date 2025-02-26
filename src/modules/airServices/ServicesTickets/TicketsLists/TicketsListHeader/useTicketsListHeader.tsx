@@ -18,44 +18,108 @@ import {
   servicesTicketsIsPortalOpenSelector,
   servicesTicketsSelectedTicketListsSelector,
 } from '@/redux/slices/airServices/tickets/selectors';
+import LazyLoadingFlow from '@/components/LazyLoadingFlow';
 
 const UpsertTicket = dynamic(() => import('../../UpsertTicket'), {
   ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="upsert ticket"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
 });
 
 const TicketsBulkUpdate = dynamic(() => import('../../TicketsBulkUpdate'), {
   ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="bulk update"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
 });
 
 const AssignedTickets = dynamic(() => import('../../AssignedTickets'), {
   ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="assigned tickets"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
 });
 
 const MergeTickets = dynamic(() => import('../../MergeTickets'), {
   ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="merge ticket"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
 });
 
 const MoveTickets = dynamic(() => import('../../MoveTickets'), {
   ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="move ticket"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
 });
 
 const UpdateTicketStatus = dynamic(() => import('../../UpdateTicketStatus'), {
   ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="update ticket"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
 });
 
 const FilterTickets = dynamic(() => import('../../FilterTickets'), {
   ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="filter ticket"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
 });
 
 const CustomizeTicketsColumn = dynamic(
   () => import('../../CustomizeTicketsColumn'),
   {
     ssr: false,
+    loading: (options: any) => (
+      <LazyLoadingFlow
+        name="customize"
+        isLoading={options?.isLoading}
+        error={options?.error}
+      />
+    ),
   },
 );
 
 const TicketsDelete = dynamic(() => import('../../TicketsDelete'), {
   ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="delete ticket"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
 });
 
 export const useTicketsListHeader = () => {
