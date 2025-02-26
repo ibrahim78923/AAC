@@ -154,7 +154,7 @@ const EmailSettings = () => {
   const deleteEmail = async () => {
     try {
       await deleteEmailSettings({
-        id: selectedRecords.map((item: any) => item?._id),
+        id: selectedRecords?.map((item: any) => item?._id),
       })?.unwrap();
       enqueueSnackbar('Request Successful', {
         variant: 'success',

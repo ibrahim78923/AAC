@@ -18,9 +18,9 @@ import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
 
 export const columns = (
-  setIsGetRowValues: any,
+  setSelectedRecords: any,
   setIschecked: any,
-  isGetRowValues: any,
+  selectedRecords: any,
   setEditData: any,
   updateOrganizationStatus: any,
   tableRowData: any,
@@ -30,12 +30,27 @@ export const columns = (
 
   const handleSelectAllRows = () => {
     if (!selectAllRows) {
-      const allIds = tableRowData?.map((row: any) => row?._id);
-      setIsGetRowValues(allIds);
+      // When selecting all, include the entire row object for each record.
+      setSelectedRecords(tableRowData ? [...tableRowData] : []);
     } else {
-      setIsGetRowValues([]);
+      setSelectedRecords([]);
     }
     setSelectAllRows(!selectAllRows);
+  };
+
+  // Function to toggle selection of a single row
+  const handleSelectRow = (row: any) => {
+    const isSelected = selectedRecords.some(
+      (record: any) => record._id === row._id,
+    );
+
+    if (isSelected) {
+      setSelectedRecords(
+        selectedRecords.filter((record: any) => record._id !== row._id),
+      );
+    } else {
+      setSelectedRecords([...selectedRecords, row]);
+    }
   };
 
   return [
@@ -45,30 +60,16 @@ export const columns = (
       cell: (info: any) => (
         <Checkbox
           color="primary"
-          checked={isGetRowValues?.includes(info?.row?.original?._id)}
+          checked={selectedRecords?.some(
+            (record: any) => record._id === info?.row?.original?._id,
+          )}
           name={info?.getValue()}
-          onClick={() => {
-            const isChecked = isGetRowValues?.includes(
-              info?.row?.original?._id,
-            );
-            if (!isChecked) {
-              setIsGetRowValues((prev: any) => [
-                ...prev,
-                info?.row?.original?._id,
-              ]);
-            } else {
-              setIsGetRowValues((prev: any) =>
-                prev.filter((id: any) => id !== info?.row?.original?._id),
-              );
-            }
-            setEditData({ ...info?.row?.original });
-            setIschecked(!isChecked);
-          }}
+          onClick={() => handleSelectRow(info?.row?.original)}
         />
       ),
       header: (
         <Checkbox
-          checked={tableRowData?.length === isGetRowValues?.length}
+          checked={tableRowData?.length === selectedRecords?.length}
           color="primary"
           name="Id"
           onChange={handleSelectAllRows}
@@ -173,25 +174,28 @@ export const columns = (
       isSortable: true,
       header: 'Status',
       cell: (info: any) => (
-        <Switch
-          color="primary"
-          onChange={async () => {
-            try {
-              await updateOrganizationStatus({
-                id: info?.row?.original?._id,
-                isActive: !info?.row?.original?.isActive,
-              }).unwrap();
+        <>
+          <Switch
+            color="primary"
+            onChange={async () => {
+              try {
+                await updateOrganizationStatus({
+                  id: info?.row?.original?._id,
+                  isActive: !info?.row?.original?.isActive,
+                }).unwrap();
 
-              enqueueSnackbar('Status Updated Successfully', {
-                variant: 'success',
-              });
-            } catch (error: any) {
-              enqueueSnackbar('Something went wrong !', { variant: 'error' });
-            }
-          }}
-          checked={info?.row?.original?.isActive}
-          name={info?.getValue()}
-        />
+                enqueueSnackbar('Status Updated Successfully', {
+                  variant: 'success',
+                });
+              } catch (error: any) {
+                enqueueSnackbar('Something went wrong !', { variant: 'error' });
+              }
+            }}
+            checked={info?.row?.original?.isActive}
+            name={info?.getValue()}
+            disabled={info?.row?.original?.isDefault}
+          />
+        </>
       ),
     },
   ];
