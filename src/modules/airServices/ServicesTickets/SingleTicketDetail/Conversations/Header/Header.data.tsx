@@ -45,17 +45,18 @@ export const addConversationDropdownActionsDynamic = (setAction: any) => [
       closeMenu();
     },
   },
-  {
-    id: 3,
-    title: 'Forward',
-    permissionKey: [
-      AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_CONVERSATION_FARWARD,
-    ],
-    handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
-      setAction(TICKET_CONVERSATION_PORTAL_ACTIONS_CONSTANT?.FORWARD);
-      closeMenu();
-    },
-  },
+  //TODO: will comment for now . will be included in future as per BA discussion
+  // {
+  //   id: 3,
+  //   title: 'Forward',
+  //   permissionKey: [
+  //     AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_CONVERSATION_FARWARD,
+  //   ],
+  //   handleClick: (closeMenu: SingleDropdownButtonCloseMenuI) => {
+  //     setAction(TICKET_CONVERSATION_PORTAL_ACTIONS_CONSTANT?.FORWARD);
+  //     closeMenu();
+  //   },
+  // },
   {
     id: 4,
     title: 'Discuss',
