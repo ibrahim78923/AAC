@@ -3,7 +3,6 @@ import {
   RHFRadioGroup,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { ASSET_TYPE } from '@/constants/strings';
 import { GLOBAL_CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
@@ -13,6 +12,7 @@ import { GetProductCatalogListDropdown } from '../ServicesCatalogFormFields/GetP
 import { GetSoftwareListDropdown } from '../ServicesCatalogFormFields/GetSoftwareListDropdown';
 import { GetAgentsListDropdown } from '../ServicesCatalogFormFields/GetAgentsListDropdown';
 import { GetRequestersListDropdown } from '../ServicesCatalogFormFields/GetRequestersListDropdown';
+import { ASSET_TYPE } from '@/constants/services';
 
 export const upsertServiceValidationSchema: any = Yup?.object()?.shape({
   itemName: Yup?.string()

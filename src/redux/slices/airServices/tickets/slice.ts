@@ -1,7 +1,7 @@
 import { PAGINATION } from '@/config';
 import { createSlice } from '@reduxjs/toolkit';
 import { servicesTicketsReducersList } from './reducers';
-import { TIME_ENTRIES_TICKETS_TIMES } from '@/constants/strings';
+import { TIME_ENTRIES_TICKETS_TIMES } from '@/constants/services';
 
 const {
   setPageReducer,
