@@ -145,7 +145,7 @@ const ProfileCard = (props: CardPropsI) => {
           </Button>
         </PermissionsGuard>
       )}
-      {role === ROLES?.ORG_REQUESTER && (
+      {!!handleRequestAgent && role === ROLES?.ORG_REQUESTER && (
         <CustomButton primary hasIcon={false} onClick={handleRequestAgent}>
           Request for Agent
         </CustomButton>

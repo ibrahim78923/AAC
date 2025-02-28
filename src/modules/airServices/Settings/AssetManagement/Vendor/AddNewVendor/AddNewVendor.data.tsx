@@ -125,7 +125,6 @@ export const newVendorDataArray = [
     componentProps: {
       name: 'name',
       label: 'Name',
-      fullWidth: true,
       required: true,
     },
     component: RHFTextField,
@@ -135,7 +134,6 @@ export const newVendorDataArray = [
     componentProps: {
       name: 'contactName',
       label: 'Contact Name',
-      fullWidth: true,
     },
     component: RHFTextField,
   },
@@ -144,7 +142,6 @@ export const newVendorDataArray = [
     componentProps: {
       name: 'phone',
       label: 'Phone',
-      fullWidth: true,
     },
     component: RHFTextField,
   },
@@ -153,7 +150,6 @@ export const newVendorDataArray = [
     componentProps: {
       name: 'mobile',
       label: 'Mobile',
-      fullWidth: true,
     },
     component: RHFTextField,
   },
@@ -162,7 +158,6 @@ export const newVendorDataArray = [
     componentProps: {
       name: 'email',
       label: 'Email',
-      fullWidth: true,
     },
     component: RHFTextField,
   },
@@ -171,7 +166,6 @@ export const newVendorDataArray = [
     componentProps: {
       name: 'description',
       label: 'Description',
-      fullWidth: true,
       placeholder: 'Description',
       multiline: true,
       rows: 3,
@@ -183,7 +177,6 @@ export const newVendorDataArray = [
     componentProps: {
       name: 'address',
       label: 'Address',
-      fullWidth: true,
       placeholder: 'Address',
       multiline: true,
       rows: 3,
@@ -195,7 +188,6 @@ export const newVendorDataArray = [
     componentProps: {
       name: 'country',
       label: 'Country',
-      fullWidth: true,
     },
     component: RHFTextField,
   },
@@ -204,7 +196,6 @@ export const newVendorDataArray = [
     componentProps: {
       name: 'state',
       label: 'State',
-      fullWidth: true,
     },
     component: RHFTextField,
   },
@@ -213,7 +204,6 @@ export const newVendorDataArray = [
     componentProps: {
       name: 'city',
       label: 'City',
-      fullWidth: true,
     },
     component: RHFTextField,
   },
@@ -222,7 +212,6 @@ export const newVendorDataArray = [
     componentProps: {
       name: 'zipCode',
       label: 'ZipCode',
-      fullWidth: true,
     },
     component: RHFTextField,
   },
