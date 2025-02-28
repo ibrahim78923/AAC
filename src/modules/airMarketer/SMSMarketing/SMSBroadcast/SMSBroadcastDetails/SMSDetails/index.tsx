@@ -30,21 +30,44 @@ const SMSDetails = ({
     useSMSBroadcastDetails(detailsData);
 
   const exportToCSV: any = () => {
+    const currentDate = new Date();
+    const formattedDate = `${currentDate.getFullYear()}-${(
+      currentDate.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, '0')}-${currentDate
+      .getDate()
+      .toString()
+      .padStart(2, '0')}_${currentDate
+      .getHours()
+      .toString()
+      .padStart(2, '0')}-${currentDate
+      .getMinutes()
+      .toString()
+      .padStart(2, '0')}`;
+
+    const fileName = `Sms_Marketing_Data_${formattedDate}.csv`;
+
     const csvContent =
       'data:text/csv;charset=utf-8,' +
       [
-        'First Name,Last Name, Phone Number, Status',
+        'First Name,Last Name,Phone Number,Status',
         ...detailsData?.recipients?.map(
           (val: any) =>
-            `${val?.firstName},${val?.lastName},${val?.phoneNumber},${val?.status}`,
+            `${val?.firstName},${val?.lastName},="${val?.phoneNumber}",${
+              val?.status || 'N/A'
+            }`,
         ),
-      ]?.join('\n');
+      ].join('\n');
+
     const encodedUri = encodeURI(csvContent);
-    const link = document?.createElement('a');
-    link?.setAttribute('href', encodedUri);
-    link?.setAttribute('download', 'data.csv');
-    document?.body?.appendChild(link);
-    link?.click();
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', fileName);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
     enqueueSnackbar('File Exported Successfully', { variant: 'success' });
   };
 

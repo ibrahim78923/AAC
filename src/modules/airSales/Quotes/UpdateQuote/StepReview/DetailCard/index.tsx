@@ -2,7 +2,6 @@ import { Box, Stack, Typography } from '@mui/material';
 import { LogoSharedIcon } from '@/assets/icons';
 import { useTheme } from '@mui/material/styles';
 import { style } from './DetailCard.style';
-import { isNullOrEmpty } from '@/utils';
 import useUpdateQuote from '../../useUpdateQuote';
 
 const DetailCard = () => {
@@ -26,13 +25,11 @@ const DetailCard = () => {
             <Stack spacing="5px">
               <Typography variant="h5">{data?.buyerCompany?.name}</Typography>
               <Typography variant="body3">
-                {data?.buyerCompany?.address ?? 'N/A'}
+                {data?.buyerCompany?.phone ??
+                  data?.buyerCompany?.owner?.phoneNumber}
               </Typography>
               <Typography variant="body3">
-                {isNullOrEmpty(data) ? '----' : data?.buyerCompany?.city}
-              </Typography>
-              <Typography variant="body3">
-                {data?.buyerCompany?.linkedInUrl ?? 'N/A'}
+                {data?.buyerCompany?.owner?.email ?? 'N/A'}
               </Typography>
             </Stack>
           </Stack>
