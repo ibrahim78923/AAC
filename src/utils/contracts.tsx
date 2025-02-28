@@ -129,7 +129,7 @@ export const createSigneesFormData = (signees: any, update: boolean) => {
       };
 
       if (update && signee?._id) setValue('id', signee?._id);
-      setValue('signingOrder', signee?.signingOrder);
+      setValue('signingOrder', Number(signee?.signingOrder));
       setValue('personalTitle', signee?.personalTitle);
       setValue('name', signee?.name);
       setValue('email', signee?.email);

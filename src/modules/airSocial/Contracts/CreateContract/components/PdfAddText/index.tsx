@@ -7,17 +7,20 @@ import { TextComponentI } from '@/modules/airSocial/Contracts/CreateContract/Cre
 
 interface PdfAddTextProps {
   data: TextComponentI;
-  onClickDelete: (id: string) => void;
+  handleDeleteText: (id: string) => void;
 }
 
-export default function PdfAddText({ data, onClickDelete }: PdfAddTextProps) {
+export default function PdfAddText({
+  data,
+  handleDeleteText,
+}: PdfAddTextProps) {
   return (
-    <Box key={data?.id} sx={styles?.container}>
+    <Box sx={styles?.container}>
       <Box sx={styles?.addTextControls}>
         <IconButton>
           <IconAddTextCopy />
         </IconButton>
-        <IconButton onClick={() => onClickDelete(data?.id)}>
+        <IconButton onClick={() => handleDeleteText(data?.id)}>
           <IconAddTextDelete />
         </IconButton>
       </Box>

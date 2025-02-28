@@ -109,7 +109,7 @@ export default function CreateContract() {
         <HeaderCreateContract
           documentTitle={contractDetailsData?.name || 'Untitled Draft'}
           documentStatus={contractDetailsData?.status || 'Draft'}
-          onClickSave={handleSubmitUpdateContract}
+          onClickSave={handleSubmitUpdateContract(false)}
           // onClickSign={handleOpenModalSignAndSend}
           onClickSign={
             contractId
@@ -256,7 +256,12 @@ export default function CreateContract() {
                         className={'small'}
                         fullWidth
                         onClick={handleOpenModalSignAndSend}
-                        disabled={true}
+                        disabled={
+                          !(
+                            partyFields?.length !== 0 &&
+                            signeeFields?.length !== 0
+                          )
+                        }
                       >
                         Sign & Send
                       </Button>

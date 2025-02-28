@@ -41,6 +41,23 @@ export const defaultValues = (data: any) => {
     };
   });
 
+  const updatedDynamicFields = (data?.dynamicFields || []).map((field: any) => {
+    const fieldValue = field[field.name];
+    if (
+      field?.type === 'date' &&
+      typeof fieldValue === 'string' &&
+      fieldValue.trim() !== ''
+    ) {
+      const parsedDate = new Date(fieldValue);
+
+      return {
+        ...field,
+        [field.name]: parsedDate,
+      };
+    }
+    return field;
+  });
+
   return {
     name: data?.name ?? '',
     folderId: data?.folderId ?? null,
@@ -50,43 +67,40 @@ export const defaultValues = (data: any) => {
     logo: data?.logo ?? null,
     signees: updatedSignees ?? [],
     parties: data?.parties ?? [],
-    dynamicFields: [
-      ...defaultFieldsData,
-      ...(Array.isArray(data?.dynamicFields) ? data.dynamicFields : []),
-    ],
+    dynamicFields:
+      updatedDynamicFields?.length > 0
+        ? updatedDynamicFields
+        : defaultFieldsData,
   };
 };
 
 export const defaultFieldsData = [
   {
-    index: 0,
-    name: `dynamicFields.0.startDate`,
+    name: `startDate`,
     label: 'Start Date',
     type: FIELD_TYPES.DATE,
     placeholder: 'Set date',
     required: false,
     description: '',
-    value: '',
+    startDate: null,
   },
   {
-    index: 1,
-    name: 'dynamicFields.1.renewalTerms',
+    name: 'renewalTerms',
     label: 'Renewal terms',
     type: FIELD_TYPES.TEXT,
     placeholder: 'Add text',
     required: false,
     description: '',
-    value: '',
+    renewalTerms: '',
   },
   {
-    index: 2,
-    name: 'dynamicFields.2.contractCurrency',
+    name: 'contractCurrency',
     label: 'Contract currency',
     type: FIELD_TYPES.CHECKBOX,
     placeholder: 'Select',
     required: false,
     description: '',
-    value: '',
+    contractCurrency: '',
     options: [
       { value: 'USD', label: 'USD' },
       { value: 'EUR', label: 'EUR' },
@@ -94,27 +108,25 @@ export const defaultFieldsData = [
     ],
   },
   {
-    index: 3,
-    name: 'dynamicFields.3.contractValue',
+    name: 'contractValue',
     label: 'Total yearly Contract Value',
     type: FIELD_TYPES.SELECT,
     placeholder: 'Select',
     required: false,
     description: '',
-    value: '',
+    contractValue: '',
     options: [
       { value: 'yes', label: 'Yes' },
       { value: 'no', label: 'No' },
     ],
   },
   {
-    index: 4,
-    name: 'dynamicFields.4.amount',
+    name: 'amount',
     label: 'Amount',
     type: FIELD_TYPES.NUMBER,
     placeholder: 'Add value',
     required: false,
     description: '',
-    value: '',
+    amount: '',
   },
 ];

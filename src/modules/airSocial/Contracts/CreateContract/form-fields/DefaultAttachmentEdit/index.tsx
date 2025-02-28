@@ -15,25 +15,26 @@ import {
   TextComponentI,
   signatureFieldI,
 } from '@/modules/airSocial/Contracts/CreateContract/CreateContract.interface';
+import { generateSrc, getFileName } from '@/utils/contracts';
 
 interface DefaultAttachmentProps {
   addTextComponent: TextComponentI[];
   addSignatureFields: signatureFieldI[];
-  onClickSignatureDelete?: (id: string) => void;
-  onClickTextDelete?: (id: string) => void;
+  handleDeleteSignature: (id: string) => void;
+  handleDeleteText: (id: string) => void;
 }
 
 export default function DefaultAttachment({
   addTextComponent,
   addSignatureFields,
-  onClickSignatureDelete,
-  onClickTextDelete,
+  handleDeleteSignature,
+  handleDeleteText,
 }: DefaultAttachmentProps) {
   const { watch, setValue } = useFormContext();
-  const defaultAttachment = watch('defaultAttachment');
+  const defaultAttachment = watch('attachment');
 
   const handleReset = useCallback(() => {
-    setValue('defaultAttachment', null);
+    setValue('attachment', null);
   }, [setValue]);
 
   return (
@@ -41,7 +42,7 @@ export default function DefaultAttachment({
       {!defaultAttachment && (
         <RHFDropzonePreviewAllTypes
           label="Default Attachments"
-          name="defaultAttachment"
+          name="attachment"
           fileName=""
           fileType="PDF (max 2.44 MB)"
           accept={{
@@ -59,7 +60,9 @@ export default function DefaultAttachment({
                 <IconDefaultAttachment />
               </Box>
               <Box>
-                <Box className="previewFileName">{defaultAttachment?.name}</Box>
+                <Box className="previewFileName">
+                  {getFileName(defaultAttachment)}
+                </Box>
                 <Box className="previewFileSize">
                   {Math.floor(defaultAttachment?.size / 1024)} MB
                 </Box>
@@ -76,11 +79,11 @@ export default function DefaultAttachment({
           {/* Preview PDF */}
           <Box>
             <PDFViewer
-              pdfFile={defaultAttachment}
+              pdfFile={generateSrc(defaultAttachment)}
               addTextComponent={addTextComponent}
               addSignatureFields={addSignatureFields}
-              onClickTextDelete={onClickTextDelete}
-              onClickSignatureDelete={onClickSignatureDelete}
+              handleDeleteText={handleDeleteText}
+              handleDeleteSignature={handleDeleteSignature}
             />
           </Box>
         </Box>

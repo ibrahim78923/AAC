@@ -25,8 +25,7 @@ export default function useCreateContract() {
   /* VARIABLE DECLERATION
   -------------------------------------------------------------------------------------*/
   const router = useRouter();
-  const { templateId, folderId, contractId } = router?.query;
-
+  const { templateId, folderId, contractId, contractType } = router?.query;
   const [activeView, setActiveView] = useState<string>('create');
   const [openModalAddSignee, setOpenModalAddSignee] = useState<boolean>(false);
   const [openModalManageSignature, setOpenModalManageSignature] =
@@ -151,12 +150,10 @@ export default function useCreateContract() {
     createFormData('logo', values?.logo);
     createFormData('parties', createPartiesFormData(values?.parties, false));
     createFormData('signees', createSigneesFormData(values?.signees, false));
-    // createFormData(
-    //   'dynamicFields',
-    //   values?.dynamicFields?.length === 0
-    //     ? null
-    //     : JSON.stringify(values?.dynamicFields),
-    // );
+    createFormData('dynamicFields', JSON.stringify(values?.dynamicFields));
+    if (contractType && contractType === 'PDF') {
+      createFormData('contractType', 'PDF');
+    }
 
     if (saveAs === 'template') {
       createFormData('category', templateCatgValue);
@@ -173,7 +170,7 @@ export default function useCreateContract() {
     if (saveAs === 'draft') {
       // formData.append('visibleTo', values?.visibleTo);
       createFormData('status', 'DRAFT');
-      createFormData('folderId', values?.folderId ?? folderId);
+      createFormData('folderId', '67ac4ba6aa0d4a7a6de68f6f');
       if (templateId) {
         if (typeof templateId === 'string') {
           createFormData('templateId', templateId);
@@ -239,12 +236,7 @@ export default function useCreateContract() {
     createFormData('logo', values?.logo);
     createFormData('parties', createPartiesFormData(values?.parties, true));
     createFormData('signees', createSigneesFormData(values?.signees, true));
-    // createFormData(
-    //   'dynamicFields',
-    //   values?.dynamicFields?.length === 0
-    //     ? null
-    //     : JSON.stringify(values?.dynamicFields),
-    // );
+    createFormData('dynamicFields', JSON.stringify(values?.dynamicFields));
 
     if (!contractId) {
       try {
@@ -332,30 +324,21 @@ export default function useCreateContract() {
 
   const handleAddDynamicField = useCallback(
     (data: any) => {
-      const newField: {
-        label: any;
-        name: string;
-        type: any;
-        required: boolean;
-        description: string;
-        value: string;
-        index: number;
-        options?: { value: string; label: string }[];
-      } = {
+      const newField = {
         label: data?.name,
-        name: `dynamicFields.${dynamicFields?.length}.${data?.name}`,
+        name: data?.name,
         type: data?.type,
         required: false,
         description: '',
-        value: '',
-        index: dynamicFields?.length + 1,
+        [data.name]: '',
+        options:
+          data?.type === 'checkbox'
+            ? [
+                { value: 'yes', label: 'Yes' },
+                { value: 'no', label: 'No' },
+              ]
+            : undefined,
       };
-      if (data?.type === 'checkbox') {
-        newField.options = [
-          { value: 'yes', label: 'Yes' },
-          { value: 'no', label: 'No' },
-        ];
-      }
       appendDynamicField(newField);
     },
     [appendDynamicField],
