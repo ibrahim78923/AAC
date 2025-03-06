@@ -18,7 +18,7 @@ export const contactsValidationSchema = Yup?.object()?.shape({
     ?.trim()
     ?.matches(/^[a-zA-Z]*$/, 'Alphabets Only'),
   address: Yup?.string()?.trim(),
-  phoneNumber: Yup?.string()?.matches(/^[0-9]*$/, 'must be a number'),
+  // phoneNumber: Yup?.string()?.matches(/^[0-9]*$/, 'must be a number'),
   whatsAppNumber: Yup?.string()?.matches(/^[0-9]*$/, 'must be a number'),
   lifeCycleStageId: Yup?.string()?.trim(),
   contactOwner: Yup?.string(),
@@ -113,7 +113,7 @@ export const contactsDataArray = (
       componentProps: {
         name: 'phoneNumber',
         label: 'Phone Number',
-        type: 'number',
+        type: 'text',
         disabled: openDrawer === 'View',
         placeholder: 'Enter Number',
       },

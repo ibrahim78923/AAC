@@ -5,6 +5,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { statusTag } from '@/utils';
 import useBroadcastDetails from './useBroadcastDetails';
+import dayjs from 'dayjs';
+import { DATE_FORMAT, TIME_FORMAT } from '@/constants';
 
 const BroadcastDetails = () => {
   const { navigate, theme, smsDetailsLoading, smsBroadcastDetails } =
@@ -43,7 +45,18 @@ const BroadcastDetails = () => {
                 borderRadius: '50%',
               }}
             />
-            <Typography>{smsBroadcastDetails?.status}</Typography>
+            <Box>
+              <Typography>{smsBroadcastDetails?.status}</Typography>
+              <Typography variant="body2">
+                {dayjs(smsBroadcastDetails?.schedualDate)?.format(
+                  DATE_FORMAT?.API,
+                )}
+                &nbsp;&nbsp;
+                {dayjs(smsBroadcastDetails?.schedualDate)?.format(
+                  TIME_FORMAT?.API,
+                )}
+              </Typography>
+            </Box>
           </Box>
         )}
       </Box>

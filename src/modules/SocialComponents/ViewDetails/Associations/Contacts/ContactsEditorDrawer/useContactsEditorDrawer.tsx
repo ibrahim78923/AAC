@@ -118,6 +118,7 @@ const useContactsEditorDrawer = ({
   if (watchContactStatus[0] === associationCompanies?.existingContacts) {
     setOpenDrawer(DRAWER_TYPES?.EDIT);
   }
+
   const onSubmit = async (values: any) => {
     if (
       watchContactStatus[0] === associationCompanies?.newContacts &&
@@ -166,7 +167,6 @@ const useContactsEditorDrawer = ({
         }
       });
       formData.append('profilePicture', imageToUpload);
-
       formData.append('recordType', 'companies');
       formData.append('recordId', companyId);
 
@@ -178,6 +178,7 @@ const useContactsEditorDrawer = ({
               id: existingContactId[0],
             }).unwrap())
           : (response = await postContacts({ body: formData }).unwrap());
+
         const payload = {
           recordId: companyId,
           recordType: ASSOCIATIONS_API_PARAMS_FOR?.COMPANIES,
@@ -201,7 +202,6 @@ const useContactsEditorDrawer = ({
             } Successfully`,
           );
         }
-
         setOpenDrawer('');
         reset();
       } catch (error: any) {
