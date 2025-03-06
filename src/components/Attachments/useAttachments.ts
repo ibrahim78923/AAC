@@ -5,7 +5,6 @@ import { AttachmentsPropsI } from './Attachments.interface';
 export const useAttachments = (props: AttachmentsPropsI) => {
   const { recordId, hasAttachments } = props;
   const [deleteModal, setDeleteModal] = useState({ open: false, id: '' });
-
   const [
     getSingleAttachmentTrigger,
     { data, isFetching, isLoading, isError },
