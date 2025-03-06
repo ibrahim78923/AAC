@@ -95,9 +95,9 @@ const OrganizationTable = () => {
     }
   };
 
-  const selectedRecord = tableRow?.filter(
-    (obj: any) => selectedRecords?.includes(obj._id),
-  );
+  // const selectedRecord = tableRow?.filter(
+  //   (obj: any) => selectedRecords?.includes(obj._id),
+  // );
 
   return (
     <>
@@ -415,7 +415,7 @@ const OrganizationTable = () => {
                     handleClose();
                     setIsOpenDelete(true);
                   }}
-                  disabled={selectedRecord?.some(
+                  disabled={selectedRecords?.some(
                     (record: any) => record?.isDefault,
                   )}
                 >

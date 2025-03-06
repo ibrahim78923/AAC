@@ -89,8 +89,8 @@ export const quotesColumns = (
         </Box>
       );
     } else if (attribute === DEAL_ATTRIBUTES?.DEAL_AMOUNT) {
-      return info?.row?.original?.deal?.amount
-        ? `£${info?.row?.original?.deal?.amount}`
+      return info?.row?.original?.total
+        ? `£${info?.row?.original?.total}`
         : 'N/A';
     } else if (attribute === DEAL_ATTRIBUTES?.DEAL_STATUS) {
       return (

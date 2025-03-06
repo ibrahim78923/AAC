@@ -147,23 +147,29 @@ export const columns = (
       header: 'Address',
       cell: (info: any) => {
         let parsedAddress;
-        try {
-          parsedAddress = JSON.parse(info?.row?.original?.address);
-        } catch (_: any) {
-          parsedAddress = null;
+        if (typeof info?.row?.original?.address === 'string') {
+          try {
+            parsedAddress = JSON.parse(info?.row?.original?.address);
+          } catch (error) {
+            parsedAddress = null;
+          }
+        } else {
+          parsedAddress = info?.row?.original?.address;
         }
+
         return (
           <>
-            {info?.row?.original?.address?.city ? (
+            {/* {info?.row?.original?.address?.city ? (
               info?.row?.original?.address?.city
             ) : (
               <>
                 {parsedAddress === null
                   ? info?.row?.original?.address?.composite ??
-                    info?.row?.original?.address
+                  info?.row?.original?.address
                   : parsedAddress?.composite ?? parsedAddress}
               </>
-            )}
+            )} */}
+            {parsedAddress?.composite ?? '-'}
           </>
         );
       },
