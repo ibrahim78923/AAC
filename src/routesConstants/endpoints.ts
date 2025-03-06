@@ -807,6 +807,7 @@ export const COMMON_CONTRACTS = {
   POST_COMMOM_CONTRACT: '/common-contract/add-common-contract',
   GET_CONTRACTS: '/common-contract/get-common-contracts',
   GET_CONTRACT_BY_ID: '/common-contract',
+  GET_PUBLIC_CONTRACT_BY_ID: '/common-contract/public',
   SAVE_AS_DRAFT: '/common-contract/save-as-draft',
   GET_TEMPLATE_BY_FOLDER: '/common-contract-template/by-folder',
   GET_RECENTLY_USED_TEMPLATES: '/common-contract-template/get-recent/templates',

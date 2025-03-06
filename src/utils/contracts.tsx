@@ -5,6 +5,7 @@ import {
   IconFieldNumber,
   IconFieldText,
 } from '@/assets/icons';
+import { errorSnackbar } from '@/lib/snackbar';
 
 export const ENUM_CONTRACT_TYPE = {
   BASIC: 'BASIC',
@@ -194,4 +195,25 @@ export const generateSrc = (attachment: File | ServerAttachment) => {
   if (attachment instanceof File) return URL.createObjectURL(attachment);
   if (attachment?.url) return generateImage(attachment?.url);
   return '';
+};
+
+export const base64ToFile = (
+  base64String: string | null,
+  fileName: string,
+): File | null => {
+  if (!base64String || !base64String.includes(',')) return null;
+
+  try {
+    const [header, base64Data] = base64String.split(',');
+    const mimeMatch = header.match(/:(.*?);/);
+    const mimeType = mimeMatch ? mimeMatch[1] : 'image/png'; // Default to PNG
+
+    const byteString = atob(base64Data); // Decode Base64
+    const byteArray = Uint8Array.from(byteString, (char) => char.charCodeAt(0));
+
+    return new File([byteArray], fileName, { type: mimeType });
+  } catch (error: any) {
+    errorSnackbar(`Error converting base64 to File: ${error}`);
+    return null;
+  }
 };

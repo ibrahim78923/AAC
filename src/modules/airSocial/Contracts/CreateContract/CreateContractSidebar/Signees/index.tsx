@@ -14,16 +14,12 @@ import NoData from '@/components/NoData';
 // import Search from '@/components/Search';
 import UserProfileIcon from '@/assets/icons/modules/SocialComponents/Contacts/user-profile-icon';
 import AddSignee from './AddSignee';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { defaultValues, validationSchema } from './AddSignee/AddSignee.data';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Search from '@/components/Search';
 
 export default function Signees({
   signeeFields,
-  handleAddSigneeCard,
-  partyFields,
+  partyValues,
   handleDeleteSigneeCard,
   appendSignee,
   removeSignee,
@@ -61,18 +57,6 @@ export default function Signees({
     setAnchorElOption(null);
   };
 
-  // Modal CreateDataField
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues: defaultValues,
-  });
-  const { handleSubmit, reset } = methods;
-
-  const onSubmit = () => {
-    handleAddSigneeCard();
-    handleCloseModalCreateDataField();
-  };
-
   const [openModalCreateDataField, setOpenModalCreateDataField] =
     useState<boolean>(false);
 
@@ -83,9 +67,8 @@ export default function Signees({
 
   const handleCloseModalCreateDataField = () => {
     setOpenModalCreateDataField(false);
-    reset();
   };
-  const handleSubmitCreateDataField = handleSubmit(onSubmit);
+  // const handleSubmitCreateDataField = handleSubmit(onSubmit);
 
   const handleMoveDown = (index: any) => {
     if (index < signeeFields.length - 1) {
@@ -260,11 +243,8 @@ export default function Signees({
       <AddSignee
         open={openModalCreateDataField}
         onClose={handleCloseModalCreateDataField}
-        methods={methods}
-        onSubmit={handleSubmitCreateDataField}
-        partyFields={partyFields}
+        partyValues={partyValues}
         signeeFields={signeeFields}
-        index={signeeFields?.length}
       />
     </Box>
   );

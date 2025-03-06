@@ -2,9 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useForm, useFieldArray, useWatch } from 'react-hook-form';
 import { defaultValues, validationSchema } from './CreateContract.data';
 import { yupResolver } from '@hookform/resolvers/yup';
-// import { generateUniqueId } from '@/utils/dynamic-forms';
 import { useRouter } from 'next/router';
-// import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useCreateCommonContractTemplateMutation,
   useCreateCommonContractMutation,

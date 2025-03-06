@@ -4,9 +4,11 @@ import { RHFSelect } from '@/components/ReactHookForm';
 export default function OnBehalfOf({
   name,
   data,
+  required = true,
 }: {
   name: string;
   data: any;
+  required?: boolean;
 }) {
   return (
     <RHFSelect
@@ -14,7 +16,7 @@ export default function OnBehalfOf({
       label="On Behalf Of"
       fullWidth
       size="small"
-      required={true}
+      required={required}
       placeholder="Select party"
       sx={{
         '& > .MuiTypography-root.MuiTypography-body2': {

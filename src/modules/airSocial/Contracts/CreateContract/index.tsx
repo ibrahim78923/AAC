@@ -300,6 +300,7 @@ export default function CreateContract() {
                 handleDeleteSigneeCard={handleDeleteSigneeCard}
                 appendSignee={appendSignee}
                 removeSignee={removeSignee}
+                partyValues={partyValues}
               />
             </Box>
           </Box>

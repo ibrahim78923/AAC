@@ -26,7 +26,7 @@ export default function SigneeCard({
     .fill(null)
     .map((_, index) => ({
       label: `${index + 1}`,
-      value: `${index + 1}`,
+      value: index + 1,
     }));
 
   const onBehalfOfData = partyValues?.map((party: any) => {
