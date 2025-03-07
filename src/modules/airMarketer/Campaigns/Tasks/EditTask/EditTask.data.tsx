@@ -123,7 +123,7 @@ export const dataArray = () => {
       componentProps: {
         name: 'dueDate',
         label: 'Due Date',
-        minDate: new Date(),
+        // minDate: new Date(),
         fullWidth: true,
         required: true,
       },

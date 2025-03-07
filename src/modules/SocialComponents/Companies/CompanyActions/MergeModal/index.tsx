@@ -46,7 +46,20 @@ const MergeModal = ({
           }}
         >
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Image src={CompanyLogoImage} alt="logo" width={40} height={40} />
+            {companyDetails?.logo ? (
+              <Image src={CompanyLogoImage} alt="logo" width={40} height={40} />
+            ) : (
+              <>
+                <Box
+                  sx={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '50%',
+                    backgroundColor: theme?.palette?.grey?.[400],
+                  }}
+                ></Box>
+              </>
+            )}
             <Box>
               <Typography
                 variant="subtitle2"
@@ -73,7 +86,11 @@ const MergeModal = ({
             <FormProvider methods={methods}>
               <RHFSelect name="mergeCompanies" select={true} size="small">
                 {companiesDropdown?.map((item: CompaniesDropdownI) => (
-                  <option key={uuidv4()} value={item?._id}>
+                  <option
+                    key={uuidv4()}
+                    value={item?._id}
+                    disabled={companyDetails?.name === item?.name}
+                  >
                     {item?.name ?? item?.domain}
                   </option>
                 ))}
