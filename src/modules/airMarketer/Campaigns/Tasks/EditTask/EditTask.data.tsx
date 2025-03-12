@@ -19,6 +19,8 @@ import {
 } from '@/utils/dynamic-forms';
 import { indexNumbers } from '@/constants';
 
+import dayjs from 'dayjs';
+
 const today = new Date();
 today.setHours(0, 0, 0, 0);
 
@@ -50,7 +52,7 @@ export const defaultValues = (data?: any, form?: any) => {
     campaignId: data?.campaignDetails[0] ?? null,
     assignedTo: data?.assignedTo[0] ?? null,
     dueDate: data?.dueDate ? new Date(data?.dueDate) : null,
-    time: data?.time ? new Date(data?.time) : null,
+    time: data?.time ? dayjs.utc(data?.time) : null,
     note: data?.note ?? '',
     ...initialValues,
   };
