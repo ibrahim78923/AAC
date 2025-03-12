@@ -2,7 +2,7 @@ import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { useDeleteTiers } from './useDeleteTiers';
 
-export const DeleteTiers = () => {
+const DeleteTiers = () => {
   const { deleteLoyaltyTier, closePortal, apiCallInProgress, isPortalOpen } =
     useDeleteTiers();
 
@@ -20,3 +20,5 @@ export const DeleteTiers = () => {
     </>
   );
 };
+
+export default DeleteTiers;

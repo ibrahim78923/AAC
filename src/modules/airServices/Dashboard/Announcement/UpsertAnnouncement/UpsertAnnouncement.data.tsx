@@ -6,7 +6,6 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { ANNOUNCEMENTS_VISIBILITY_MAPPED } from '@/constants/api-mapped';
-import { ANNOUNCEMENTS_VISIBILITY } from '@/constants/strings';
 import { pxToRem } from '@/utils/getFontValue';
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
@@ -14,6 +13,7 @@ import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { CHARACTERS_LIMIT } from '@/constants/validation';
 import { DashboardOwnersFieldDropdown } from '../../DashboardFormFields/DashboardOwnersFieldDropdown';
+import { ANNOUNCEMENTS_VISIBILITY } from '@/constants/services';
 
 const { SERVICES_DASHBOARD_ANNOUNCEMENT_TITLE_MAX_CHARACTERS } =
   CHARACTERS_LIMIT ?? {};

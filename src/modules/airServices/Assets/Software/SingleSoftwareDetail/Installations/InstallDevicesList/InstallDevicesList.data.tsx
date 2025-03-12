@@ -1,7 +1,7 @@
 import { TruncateText } from '@/components/TruncateText';
 import { fullName } from '@/utils/avatarUtils';
 import { uiDateFormat } from '@/lib/date-time';
-import { CheckboxField } from '@/components/InputFields/CheckboxField';
+import { tableCheckbox } from '@/utils/table-checkbox';
 
 export const installDevicesListColumnDynamic = (
   installationData: any,
@@ -9,47 +9,11 @@ export const installDevicesListColumnDynamic = (
   setActiveCheck: any,
 ) => {
   return [
-    {
-      accessorFn: (row: any) => row?._id,
-      id: '_id',
-      cell: (info: any) => (
-        <CheckboxField
-          checked={
-            !!activeCheck?.find((item: any) => item?._id === info?.getValue())
-          }
-          onChange={(e: any) => {
-            e?.target?.checked
-              ? setActiveCheck([
-                  ...activeCheck,
-                  installationData?.find(
-                    (item: any) => item?._id === info?.getValue(),
-                  ),
-                ])
-              : setActiveCheck(
-                  activeCheck?.filter((item: any) => {
-                    return item?._id !== info?.getValue();
-                  }),
-                );
-          }}
-          name={info?.getValue()}
-        />
-      ),
-      header: (
-        <CheckboxField
-          checked={
-            !!installationData?.length
-              ? activeCheck?.length === installationData?.length
-              : false
-          }
-          onChange={(e: any) => {
-            e?.target?.checked
-              ? setActiveCheck([...installationData])
-              : setActiveCheck([]);
-          }}
-          name="_id"
-        />
-      ),
-    },
+    tableCheckbox({
+      selectedList: activeCheck,
+      setSelectedList: setActiveCheck,
+      tableData: installationData,
+    }),
     {
       accessorFn: (row: any) => row?.displayName,
       id: 'displayName',

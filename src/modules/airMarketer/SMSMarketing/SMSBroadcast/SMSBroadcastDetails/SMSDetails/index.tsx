@@ -16,6 +16,10 @@ import ImportIcon from '@/assets/icons/shared/import-icon';
 import SkeletonComponent from '@/components/CardSkeletons';
 import useSMSBroadcastDetails from '../useSMSBroadcastDetails';
 import { SMSDetailsProps } from '@/modules/airMarketer/SMSMarketing/SMSBroadcast/SMSBroadcast-interface';
+import StatusCards from '../../../SMSDashboard/StatusCards';
+import { STATUS_CONTANTS } from '@/constants/strings';
+import { capitalizeFirstLetter } from '@/utils/api';
+import { enqueueSnackbar } from 'notistack';
 
 const SMSDetails = ({
   detailsData,
@@ -25,30 +29,84 @@ const SMSDetails = ({
   const { theme, filters, setFilters, updatedRecords } =
     useSMSBroadcastDetails(detailsData);
 
+  const exportToCSV: any = () => {
+    const currentDate = new Date();
+    const formattedDate = `${currentDate.getFullYear()}-${(
+      currentDate.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, '0')}-${currentDate
+      .getDate()
+      .toString()
+      .padStart(2, '0')}_${currentDate
+      .getHours()
+      .toString()
+      .padStart(2, '0')}-${currentDate
+      .getMinutes()
+      .toString()
+      .padStart(2, '0')}`;
+
+    const fileName = `Sms_Marketing_Data_${formattedDate}.csv`;
+
+    const csvContent =
+      'data:text/csv;charset=utf-8,' +
+      [
+        'First Name,Last Name,Phone Number,Status',
+        ...detailsData?.recipients?.map(
+          (val: any) =>
+            `${val?.firstName},${val?.lastName},="${val?.phoneNumber}",${
+              val?.status || 'N/A'
+            }`,
+        ),
+      ].join('\n');
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', fileName);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    enqueueSnackbar('File Exported Successfully', { variant: 'success' });
+  };
+
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} mt={1}>
       <Grid item xs={12}>
         {isLoading ? (
           <SkeletonComponent numberOfSkeletons={1} />
         ) : (
-          <Stack direction="row" alignItems="center" gap={1}>
-            <Avatar />
-            <Box>
-              <Typography
-                variant="body2"
-                fontWeight={700}
-                sx={{
-                  color: theme?.palette?.custom?.text_slate_blue,
-                  fontSize: '15px',
-                }}
-              >
-                {detailsData?.campaign?.title ?? 'N/A'}
-              </Typography>
-              <Typography variant="body2" sx={{ fontSize: '13px' }}>
-                Just Now
-              </Typography>
-            </Box>
-          </Stack>
+          <>
+            <Stack direction="row" alignItems="center" gap={1} mb={2}>
+              <Avatar sx={{ color: theme?.palette?.grey[600] }}>
+                {capitalizeFirstLetter(detailsData?.campaign?.title?.charAt(0))}
+              </Avatar>
+              <Box>
+                <Typography
+                  variant="body2"
+                  fontWeight={700}
+                  sx={{
+                    color: theme?.palette?.custom?.text_slate_blue,
+                    fontSize: '15px',
+                  }}
+                >
+                  {detailsData?.campaign?.title ?? 'N/A'}
+                </Typography>
+                <Typography variant="body2" sx={{ fontSize: '13px' }}>
+                  Just Now
+                </Typography>
+              </Box>
+            </Stack>
+            {detailsData?.status !== STATUS_CONTANTS?.DRAFT &&
+              detailsData?.status !== STATUS_CONTANTS?.SCHEDULED && (
+                <StatusCards
+                  analytics={detailsData?.statisticsData}
+                  isDashboard={false}
+                  isLoading={isLoading}
+                />
+              )}
+          </>
         )}
       </Grid>
       <Grid item xs={12} lg={5}>
@@ -104,6 +162,7 @@ const SMSDetails = ({
               variant="outlined"
               color="inherit"
               endIcon={<ImportIcon />}
+              onClick={() => exportToCSV()}
             >
               Export
             </Button>

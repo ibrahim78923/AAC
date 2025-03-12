@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 import { AutocompleteAsyncOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { AnnouncementPortalComponentsPropsI } from '../Announcement.interface';
 import { DATE_FORMAT } from '@/constants';
-import { ANNOUNCEMENTS_VISIBILITY, ARRAY_INDEX } from '@/constants/strings';
+import { ARRAY_INDEX } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
 import {
   useAddServicesDashboardSingleAnnouncementMutation,
@@ -21,6 +21,7 @@ import {
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { otherDateFormat } from '@/lib/date-time';
 import { useFormLib } from '@/hooks/useFormLib';
+import { ANNOUNCEMENTS_VISIBILITY } from '@/constants/services';
 
 const { ZERO } = ARRAY_INDEX ?? {};
 const { SPECIFIC_USERS } = ANNOUNCEMENTS_VISIBILITY ?? {};

@@ -7,7 +7,7 @@ import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { HeadingFormGrid } from '@/components/Grids/HeadingFormGrid';
 
-export const UpsertTiers = () => {
+const UpsertTiers = () => {
   const {
     isPortalOpen,
     closePortal,
@@ -65,3 +65,5 @@ export const UpsertTiers = () => {
     </CommonDrawer>
   );
 };
+
+export default UpsertTiers;

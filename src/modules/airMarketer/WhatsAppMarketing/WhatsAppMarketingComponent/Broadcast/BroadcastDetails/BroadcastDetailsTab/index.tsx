@@ -15,6 +15,9 @@ import { AlertModals } from '@/components/AlertModals';
 import { AlertModalDeleteIcon } from '@/assets/icons';
 import useBroadcastDetails from '../useBroadcastDetails';
 import Image from 'next/image';
+import StatusCards from '../../../Dashboard/StatusCards';
+import { STATUS_CONTANTS } from '@/constants/strings';
+import { enqueueSnackbar } from 'notistack';
 
 const BroadcastDetailsTab = ({
   isLoading,
@@ -32,6 +35,46 @@ const BroadcastDetailsTab = ({
     filters,
   } = useBroadcastDetails(broadcastDetails);
 
+  const exportToCSV: any = () => {
+    const currentDate = new Date();
+    const formattedDate = `${currentDate.getFullYear()}-${(
+      currentDate.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, '0')}-${currentDate
+      .getDate()
+      .toString()
+      .padStart(2, '0')}_${currentDate
+      .getHours()
+      .toString()
+      .padStart(2, '0')}-${currentDate
+      .getMinutes()
+      .toString()
+      .padStart(2, '0')}`;
+
+    const fileName = `Whatsapp_Marketing_Data_${formattedDate}.csv`;
+
+    const csvContent =
+      'data:text/csv;charset=utf-8,' +
+      [
+        'First Name,Last Name,Phone Number,Status',
+        ...updatedRecords?.map(
+          (val: any) =>
+            `${val?.firstName},${val?.lastName},="${val?.phoneNumber}",${val?.messageStatus}`,
+        ),
+      ].join('\n');
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', fileName);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    enqueueSnackbar('File Exported Successfully', { variant: 'success' });
+  };
+
   return (
     <>
       <Box sx={{ p: '0 24px' }}>
@@ -39,7 +82,15 @@ const BroadcastDetailsTab = ({
           <Skeleton height={250} width={600} />
         ) : (
           <>
-            <Box sx={styles?.media}>
+            {broadcastDetails?.status !== STATUS_CONTANTS?.DRAFT &&
+              broadcastDetails?.status !== STATUS_CONTANTS?.SCHEDULED && (
+                <StatusCards
+                  whatsappAnalytics={broadcastDetails?.statisticsData}
+                  loading={isLoading}
+                />
+              )}
+
+            <Box sx={styles?.media} mt={3}>
               <Image
                 height={150}
                 width={500}
@@ -88,6 +139,7 @@ const BroadcastDetailsTab = ({
               color="inherit"
               variant="outlined"
               endIcon={<GetAppIcon />}
+              onClick={() => exportToCSV()}
             >
               Export
             </Button>

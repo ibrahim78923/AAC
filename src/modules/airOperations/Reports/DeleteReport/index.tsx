@@ -2,7 +2,7 @@ import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { useDeleteReport } from './useDeleteReport';
 
-export const DeleteReport = () => {
+const DeleteReport = () => {
   const {
     deleteReport,
     closeModal,
@@ -22,3 +22,5 @@ export const DeleteReport = () => {
     />
   );
 };
+
+export default DeleteReport;

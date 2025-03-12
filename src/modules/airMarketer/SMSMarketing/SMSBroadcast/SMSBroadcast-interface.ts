@@ -21,12 +21,7 @@ export interface GroupContactsProps {
 }
 
 export interface SMSDetailsProps {
-  detailsData: {
-    campaign?: {
-      title?: string;
-    };
-    detail?: string | any;
-  };
+  detailsData: any;
   isLoading: boolean;
   recordStatus: string;
 }

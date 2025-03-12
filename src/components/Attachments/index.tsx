@@ -1,13 +1,25 @@
-import { Box, Button, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { AttachFileCard } from '@/components/Avatars/AttachFileCard';
-import { AlertModals } from '@/components/AlertModals';
 import { useAttachments } from './useAttachments';
-import SkeletonForm from '../Skeletons/SkeletonForm';
-import ApiErrorState from '../ApiErrorState';
 import NoData from '../NoData';
-import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { AttachmentsPropsI } from './Attachments.interface';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import dynamic from 'next/dynamic';
+import LazyLoadingFlow from '../LazyLoadingFlow';
+import { ContainerGrid } from '../Grids/ContainerGrid';
+import { CustomGrid } from '../Grids/CustomGrid';
+import { AddNewItemButton } from '../Buttons/AddNewItemButton';
+import { ApiRequestFlow } from '../ApiRequestStates/ApiRequestFlow';
+
+const DeleteAttachments = dynamic(() => import('./DeleteAttachments'), {
+  ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="delete attachment"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
+});
 
 export const Attachments = (props: AttachmentsPropsI) => {
   const {
@@ -25,70 +37,64 @@ export const Attachments = (props: AttachmentsPropsI) => {
   const {
     deleteModal,
     setDeleteModal,
-    deleteAttachmentSubmit,
-    deleteAttachmentStatus,
     data,
     isFetching,
     isLoading,
     isError,
+    getSingleAttachment,
   }: any = useAttachments(props);
-
-  if (isLoading || isFetching) return <SkeletonForm />;
-
-  if (isError) return <ApiErrorState height="100%" />;
 
   return (
     <>
-      {!!data?.data?.length ? (
-        <>
-          {canAttachFile && (
-            <Box mb={2} textAlign={'end'}>
-              <Button
-                variant="outlined"
-                className="small"
-                onClick={() => attachFileHandler?.()}
-                startIcon={<AddCircleIcon />}
-              >
-                Attach Files
-              </Button>
-            </Box>
-          )}
-          <Grid container spacing={2}>
-            {data?.data?.map((singleAttachment: any) => (
-              <Grid
-                item
-                xs={12}
-                sm={colSpan?.sm ?? 6}
-                lg={colSpan?.lg ?? 4}
-                key={singleAttachment?._id}
-              >
-                <AttachFileCard
-                  size={size}
-                  data={singleAttachment}
-                  onDelete={() =>
-                    setDeleteModal({ open: true, id: singleAttachment?._id })
-                  }
-                  permissionKey={permissionKey}
-                  hasNoDeletePermission={hasNoDeletePermission}
-                  hasStyling={hasStyling}
-                  canDelete={canDelete}
+      <ApiRequestFlow
+        showSkeleton={isLoading || isFetching}
+        hasError={isError}
+        refreshApi={getSingleAttachment}
+        errorHeight="100%"
+      >
+        {!!data?.data?.length ? (
+          <>
+            {canAttachFile && (
+              <Box mb={2} textAlign={'end'}>
+                <AddNewItemButton
+                  name="Attach Files"
+                  variant="outlined"
+                  onClick={attachFileHandler}
                 />
-              </Grid>
-            ))}
-          </Grid>
-        </>
-      ) : (
-        children
-      )}
+              </Box>
+            )}
+            <ContainerGrid>
+              {data?.data?.map((singleAttachment: any) => (
+                <CustomGrid
+                  sm={colSpan?.sm ?? 6}
+                  lg={colSpan?.lg ?? 4}
+                  key={singleAttachment?._id}
+                >
+                  <AttachFileCard
+                    size={size}
+                    data={singleAttachment}
+                    onDelete={() =>
+                      setDeleteModal({ open: true, id: singleAttachment?._id })
+                    }
+                    permissionKey={permissionKey}
+                    hasNoDeletePermission={hasNoDeletePermission}
+                    hasStyling={hasStyling}
+                    canDelete={canDelete}
+                  />
+                </CustomGrid>
+              ))}
+            </ContainerGrid>
+          </>
+        ) : (
+          children
+        )}
+      </ApiRequestFlow>
+
       {deleteModal?.open && (
-        <AlertModals
-          message={'Are you sure you want to delete attachment file?'}
-          type={ALERT_MODALS_TYPE?.DELETE}
-          open={deleteModal?.open}
-          handleClose={() => setDeleteModal({ open: false, id: '' })}
-          handleSubmitBtn={() => deleteAttachmentSubmit?.()}
-          loading={deleteAttachmentStatus?.isLoading}
-          disableCancelBtn={deleteAttachmentStatus?.isLoading}
+        <DeleteAttachments
+          deleteModal={deleteModal}
+          setDeleteModal={setDeleteModal}
+          getSingleAttachment={getSingleAttachment}
         />
       )}
     </>

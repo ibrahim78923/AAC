@@ -2,7 +2,7 @@ import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { useDeleteFolder } from './useDeleteFolder';
 
-export const DeleteFolder = () => {
+const DeleteFolder = () => {
   const {
     deleteFolder,
     deleteFolderForArticleStatus,
@@ -24,3 +24,5 @@ export const DeleteFolder = () => {
     </>
   );
 };
+
+export default DeleteFolder;

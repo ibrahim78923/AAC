@@ -2,7 +2,7 @@ import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { useDeleteRolesAndRight } from './useDeleteRolesAndRight';
 
-export const DeleteRolesAndRight = () => {
+const DeleteRolesAndRight = () => {
   const {
     deleteRoleAndRights,
     apiCallInProgress,
@@ -22,3 +22,5 @@ export const DeleteRolesAndRight = () => {
     />
   );
 };
+
+export default DeleteRolesAndRight;

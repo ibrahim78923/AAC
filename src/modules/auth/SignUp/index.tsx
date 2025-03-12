@@ -31,6 +31,8 @@ import { LoadingButton } from '@mui/lab';
 import StepOne from './StepOne';
 import { LogoAvatar } from '@/components/Avatars/LogoAvatar';
 import { PROJECT_NAME } from '@/config';
+import { AUTH } from '@/constants';
+import { useRouter } from 'next/router';
 
 const SignUp = () => {
   const {
@@ -56,6 +58,7 @@ const SignUp = () => {
   });
 
   const theme = useTheme();
+  const { push } = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
   const [ConfirmShowPassword, setShowConfirmPassword] = useState(false);
@@ -76,7 +79,12 @@ const SignUp = () => {
   return (
     <Box sx={{ height: '100vh' }}>
       <Box sx={styles?.AuthHeader}>
-        <Box>
+        <Box
+          sx={{
+            cursor: 'pointer',
+          }}
+          onClick={() => push(AUTH?.SALE_SITE)}
+        >
           <LogoAvatar />
         </Box>
         <Box>
@@ -181,7 +189,8 @@ const SignUp = () => {
                             label=" Delegate Reference Number (DRN) if applied"
                             size="small"
                             placeholder="Enter DRN"
-                            autoComplete="off"
+                            // autoComplete="off"
+                            autoComplete="new-password"
                           />
                         </Grid>
 

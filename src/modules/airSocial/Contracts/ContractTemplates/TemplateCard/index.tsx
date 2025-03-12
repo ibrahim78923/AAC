@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 
 interface TemplateCardProps {
   data: any;
-  onClick?: (templateId: string) => void;
+  onClick?: (data: any) => void;
 }
 
 export default function TemplateCard({ data, onClick }: TemplateCardProps) {
@@ -26,7 +26,7 @@ export default function TemplateCard({ data, onClick }: TemplateCardProps) {
             {dayjs(data?.updatedAt)?.format(DATE_FORMAT?.UI)}
           </Box>
         </Box>
-        <IconButton onClick={() => onClick?.(data?._id)}>
+        <IconButton onClick={() => onClick?.(data)}>
           <IconTemplateView />
         </IconButton>
       </Box>

@@ -25,9 +25,10 @@ import {
   DYNAMIC_FORM_FIELDS_TYPES,
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
-import { ARRAY_INDEX, ASSET_IMPACT } from '@/constants/strings';
+import { ARRAY_INDEX } from '@/constants/strings';
 import { isoDateString } from '@/lib/date-time';
 import { useFormLib } from '@/hooks/useFormLib';
+import { ASSET_IMPACT } from '@/constants/services';
 
 export const useUpsertInventory = () => {
   const theme = useTheme();

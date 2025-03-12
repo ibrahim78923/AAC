@@ -8,7 +8,7 @@ import { FormGrid } from '@/components/Grids/FormGrid';
 import { ActionsLoadingButton } from '@/components/Buttons/ActionsLoadingButton';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
-export const Loyalty = () => {
+const Loyalty = () => {
   const {
     methods,
     handleSubmit,
@@ -50,3 +50,5 @@ export const Loyalty = () => {
     </Box>
   );
 };
+
+export default Loyalty;

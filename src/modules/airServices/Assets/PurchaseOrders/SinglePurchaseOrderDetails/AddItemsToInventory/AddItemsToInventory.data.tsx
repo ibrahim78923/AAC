@@ -6,13 +6,13 @@ import {
 import { Error } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import * as Yup from 'yup';
-import { ASSET_IMPACT } from '@/constants/strings';
 import Search from '@/components/Search';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import NoData from '@/components/NoData';
 import GetPurchaseOrderDepartmentDropdown from '../../PurchaseOrderFormFieldsDropdowns/GetPurchaseOrderDepartmentDropdown';
 import GetPurchaseOrderLocationDropdown from '../../PurchaseOrderFormFieldsDropdowns/GetPurchaseOrderLocationDropdown';
+import { ASSET_IMPACT } from '@/constants/services';
 
 export const ADDED_INVENTORY_METHODS = {
   ADD_NEW: 'addNew',

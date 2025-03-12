@@ -6,19 +6,19 @@ import {
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import { Box, Typography } from '@mui/material';
-import {
-  ARRAY_INDEX,
-  BILLING_CYCLE,
-  CONTRACT_STATUS,
-  CONTRACT_TYPES,
-  LICENSE_TYPE,
-} from '@/constants/strings';
+import { ARRAY_INDEX } from '@/constants/strings';
 import { ItemDetail } from './ItemDetail';
 import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
 import GetSoftwareContractSoftwareDropdown from '../../../SoftwareFormFieldsDropdowns/GetSoftwareContractSoftwareDropdown';
 import GetSoftwareContractApproverDropdown from '../../../SoftwareFormFieldsDropdowns/GetSoftwareContractApproverDropdown';
 import GetSoftwareContractVendorDropdown from '../../../SoftwareFormFieldsDropdowns/GetSoftwareContractVendorDropdown';
 import { localeDateTime } from '@/lib/date-time';
+import {
+  BILLING_CYCLE,
+  CONTRACT_STATUS,
+  CONTRACT_TYPES,
+  LICENSE_TYPE,
+} from '@/constants/services';
 
 export const CONTRACT_TYPES_CHECK = {
   LEASE: 'lease',

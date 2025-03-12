@@ -13,10 +13,12 @@ export const CustomLinearProgress = (props: any) => {
       : pxToRem(70),
     height = pxToRem(5),
     customStyles,
+    progressBarLabel = `linear-progress-bar-${variant}`,
   } = props;
 
   return (
     <LinearProgress
+      aria-label={progressBarLabel}
       variant={variant}
       value={value}
       sx={{

@@ -53,7 +53,12 @@ import { convertTimezone } from '@/utils/dateTime';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-const CreateNewEmail = ({ edit, data, setIsEditEmailOpen }: any) => {
+const CreateNewEmail = ({
+  edit,
+  data,
+  setIsEditEmailOpen,
+  setSelectedRecords,
+}: any) => {
   const router = useRouter();
 
   const {
@@ -251,6 +256,7 @@ const CreateNewEmail = ({ edit, data, setIsEditEmailOpen }: any) => {
         reset();
         if (edit) {
           setIsEditEmailOpen(false);
+          setSelectedRecords([]);
         }
         setIsSendLater(false);
         router.push(

@@ -15,6 +15,7 @@ export const ApiPollingButton = (props: ApiPollingButtonPropsI) => {
     isFetching,
     fulfilledTimeStamp,
     intervalTime,
+    buttonLabel = 'refresh api ',
   } = props;
 
   const pollProps = {
@@ -27,6 +28,7 @@ export const ApiPollingButton = (props: ApiPollingButtonPropsI) => {
 
   return (
     <Button
+      aria-label={buttonLabel}
       variant={variant}
       color="inherit"
       size="small"

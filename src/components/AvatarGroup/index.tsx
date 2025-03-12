@@ -18,7 +18,7 @@ const AppAvatarGroup = ({ data }: { data: SingleAvatarI[] }) => {
         color: theme?.palette?.blue?.light,
         '&  .MuiAvatar-root': {
           color: theme?.palette?.blue?.light,
-          background: theme?.palette?.primary?.lighter,
+          background: theme?.palette?.primary?.light,
         },
         '& .MuiAvatar-root:not(:last-child)': {
           marginLeft: '-20px',
@@ -37,7 +37,7 @@ const AppAvatarGroup = ({ data }: { data: SingleAvatarI[] }) => {
             alt={singleItem?.name}
             src={singleItem?.img}
             sx={{
-              background: theme?.palette?.primary?.lighter,
+              background: theme?.palette?.primary?.light,
               color: theme?.palette?.blue?.light,
               borderRadius: '15px',
               border: `1px solid ${theme?.palette?.common?.white}`,

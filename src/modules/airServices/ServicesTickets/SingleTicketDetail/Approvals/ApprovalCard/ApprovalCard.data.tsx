@@ -1,7 +1,7 @@
 import { ReceivedFileIcon, SharedIcon } from '@/assets/icons';
 import { AIR_SERVICES_TICKETS_TICKET_LISTS } from '@/constants/permission-keys';
 import { TICKET_APPROVALS_ACTIONS_CONSTANT } from '@/constants/portal-actions';
-import { TICKET_APPROVALS } from '@/constants/strings';
+import { TICKET_APPROVALS } from '@/constants/services';
 import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import { Cancel, CheckCircle, Unsubscribe } from '@mui/icons-material';
 

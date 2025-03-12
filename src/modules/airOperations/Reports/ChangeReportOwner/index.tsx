@@ -3,7 +3,7 @@ import { useChangeReportOwner } from './useChangeReportOwner';
 import { ReportOwnerFieldDropdown } from '../ReportFormFields/ReportOwnerFieldDropdown';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 
-export const ChangeReportOwner = () => {
+const ChangeReportOwner = () => {
   const {
     methods,
     handleSubmit,
@@ -29,3 +29,5 @@ export const ChangeReportOwner = () => {
     </CustomCommonDialog>
   );
 };
+
+export default ChangeReportOwner;

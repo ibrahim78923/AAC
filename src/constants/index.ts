@@ -141,7 +141,8 @@ export const SOCIAL_COMPONENTS = {
 export const AUTH = {
   FORGOT_PASSWORD: `/forget-password`,
   LOGIN: `/login`,
-  SALE_SITE: 'https://airapplecart.co.uk/',
+  // SALE_SITE: 'https://airapplecart.co.uk/',
+  SALE_SITE: 'https://agenticcreed.ai/',
   RESET_PASSWORD: '/reset-password',
   SET_PASSWORD: '/set-password',
 };
@@ -560,12 +561,12 @@ export const MANAGE_ACCESS_VISIBLE = {
 };
 
 export const PRODUCT_EXTERNAl_LINKS = {
-  AIR_SALES: 'https://airapplecart.co.uk/product/air-sales',
-  AIR_SERVICES: 'https://airapplecart.co.uk/product/air-service',
-  AIR_MARKETER: 'https://airapplecart.co.uk/product/air-marketer',
-  AIR_OPERATIONS: 'https://airapplecart.co.uk/product/air-operation',
-  LOYALTY_PROGRAM: 'https://airapplecart.co.uk/product/air-loyalty-program',
-  CALL_CENTER: 'https://airapplecart.co.uk/product/air-call-center',
+  AIR_SALES: 'https://agenticcreed.ai/product/sales',
+  AIR_SERVICES: 'https://agenticcreed.ai/product/service',
+  AIR_MARKETER: 'https://agenticcreed.ai/product/marketer',
+  AIR_OPERATIONS: 'https://agenticcreed.ai/product/operation',
+  LOYALTY_PROGRAM: 'https://agenticcreed.ai/product/loyalty-program',
+  CALL_CENTER: 'https://agenticcreed.ai/product/call-center',
   CUSTOMER_PORTAL: '',
   ORG_ADMIN: '',
   COMMON_FEATURES: '',

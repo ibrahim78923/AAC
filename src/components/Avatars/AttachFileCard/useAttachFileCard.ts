@@ -11,7 +11,9 @@ export const useAttachFileCard = (props: any) => {
   const [cross, setCross] = useState(false);
   const [isPortalOpen, setIsPortalOpen] = useState(false);
 
-  const onClick = () => {
+  const onClick = (e: any) => {
+    e?.stopPropagation();
+    e?.preventDefault();
     if (!data?.fileUrl) return;
     if (!canPreviewImage) return;
     if (EXCLUDE_FILE_PREVIEW?.[data?.fileType])

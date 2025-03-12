@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 import { AlertModals } from '@/components/AlertModals';
 
@@ -36,50 +36,67 @@ const MergeModal = ({
     <AlertModals
       typeImage={<MergeCompaniesIcon />}
       message={
-        <Box>
-          <Grid container>
-            <Grid item lg={6}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <Image
-                  src={CompanyLogoImage}
-                  alt="logo"
-                  width={40}
-                  height={40}
-                />
-                <Box>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{
-                      fontWeight: 500,
-                      color: `${theme?.palette?.blue?.dull_blue}`,
-                    }}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', md: 'row', lg: 'row' },
+            gap: '16px',
+            width: '100%',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {companyDetails?.logo ? (
+              <Image src={CompanyLogoImage} alt="logo" width={40} height={40} />
+            ) : (
+              <>
+                <Box
+                  sx={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '50%',
+                    backgroundColor: theme?.palette?.grey?.[400],
+                  }}
+                ></Box>
+              </>
+            )}
+            <Box>
+              <Typography
+                variant="subtitle2"
+                sx={{
+                  fontWeight: 500,
+                  color: `${theme?.palette?.blue?.dull_blue}`,
+                }}
+              >
+                {companyDetails?.name}
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                sx={{
+                  fontWeight: 400,
+                  color: `${theme?.palette?.custom?.light}`,
+                }}
+              >
+                {companyDetails?.domain}
+              </Typography>
+            </Box>
+          </Box>
+
+          <Box sx={{ width: { xs: '100%', md: '70%', lg: '70%' } }}>
+            <FormProvider methods={methods}>
+              <RHFSelect name="mergeCompanies" select={true} size="small">
+                {companiesDropdown?.map((item: CompaniesDropdownI) => (
+                  <option
+                    key={uuidv4()}
+                    value={item?._id}
+                    disabled={companyDetails?.name === item?.name}
                   >
-                    {companyDetails?.name}
-                  </Typography>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{
-                      fontWeight: 400,
-                      color: `${theme?.palette?.custom?.light}`,
-                    }}
-                  >
-                    {companyDetails?.domain}
-                  </Typography>
-                </Box>
-              </Box>
-            </Grid>
-            <Grid item lg={6}>
-              <FormProvider methods={methods}>
-                <RHFSelect name="mergeCompanies" select={true} size="small">
-                  {companiesDropdown?.map((item: CompaniesDropdownI) => (
-                    <option key={uuidv4()} value={item?._id}>
-                      {item?.name ?? item?.domain}
-                    </option>
-                  ))}
-                </RHFSelect>
-              </FormProvider>
-            </Grid>
-          </Grid>
+                    {item?.name ?? item?.domain}
+                  </option>
+                ))}
+              </RHFSelect>
+            </FormProvider>
+          </Box>
         </Box>
       }
       type="Merge Companies"

@@ -42,10 +42,8 @@ export const Folder = () => {
               alignItems: 'center',
               gap: 1,
               p: 1,
-              background:
-                tab?._id === selectedFolder?._id
-                  ? theme?.palette?.grey?.['400']
-                  : 'common.white',
+              backgroundColor:
+                tab?._id === selectedFolder?._id ? 'grey.400' : 'common.white',
               borderRadius: '0.5rem',
               cursor: 'pointer',
             }}
@@ -59,12 +57,17 @@ export const Folder = () => {
               }
             />
             <Typography
-              color={
-                theme?.palette?.grey?.[
-                  tab?._id === selectedFolder?._id ? '800' : '900'
-                ]
-              }
-              textTransform={'capitalize'}
+              sx={{
+                color:
+                  tab?._id === selectedFolder?._id
+                    ? 'grey.800'
+                    : 'slateBlue.main',
+                textTransform: 'capitalize',
+                fontWeight:
+                  tab?._id === selectedFolder?._id
+                    ? 'fontWeightSmall'
+                    : 'fontWeightRegular',
+              }}
             >
               {truncateText(tab?.name?.toLowerCase(), 15)}
             </Typography>

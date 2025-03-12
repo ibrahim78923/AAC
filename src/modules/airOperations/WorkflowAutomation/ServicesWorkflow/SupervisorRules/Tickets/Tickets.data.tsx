@@ -1,8 +1,7 @@
 import { AntSwitch } from '@/components/AntSwitch';
-import { Box, Checkbox, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import {
   GENERIC_UPSERT_FORM_CONSTANT,
@@ -17,6 +16,7 @@ import { UserInfo } from '@/components/UserInfo';
 import { getActivePermissionsSession } from '@/utils';
 import { uiDateFormat } from '@/lib/date-time';
 import { CustomChip } from '@/components/Chip/CustomChip';
+import { tableCheckbox } from '@/utils/table-checkbox';
 
 export const EventBaseWorkflowActionsDropdown = (
   handleActionClick: any,
@@ -68,52 +68,11 @@ export const listsColumnsFunction = (
   handleChangeStatus: (data: WorkflowI) => void,
   switchLoading: any,
 ) => [
-  {
-    accessorFn: (row: any) => row?._id,
-    id: 'id',
-    cell: (info: any) => (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
-        checked={
-          !!selectedAction?.find((item: any) => item?._id === info?.getValue())
-        }
-        onChange={(e: any) => {
-          e?.target?.checked
-            ? setSelectedAction([
-                ...selectedAction,
-                listData?.find((item: any) => item?._id === info?.getValue()),
-              ])
-            : setSelectedAction(
-                selectedAction?.filter((item: any) => {
-                  return item?._id !== info?.getValue();
-                }),
-              );
-        }}
-        color="primary"
-        name={info?.getValue()}
-      />
-    ),
-    header: (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
-        checked={
-          !!listData?.length
-            ? selectedAction?.length === listData?.length
-            : false
-        }
-        onChange={(e: any) => {
-          e?.target?.checked
-            ? setSelectedAction([...listData])
-            : setSelectedAction([]);
-        }}
-        color="primary"
-        name="id"
-      />
-    ),
-    isSortable: false,
-  },
+  tableCheckbox({
+    selectedList: selectedAction,
+    setSelectedList: setSelectedAction,
+    tableData: listData,
+  }),
   {
     accessorFn: (row: any) => row?.title,
     id: 'title',

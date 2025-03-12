@@ -1,4 +1,3 @@
-import { EXPENSE_TYPE } from '@/constants/strings';
 import { localeDateTime } from '@/lib/date-time';
 import * as yup from 'yup';
 import { ExpenseI } from '../Expense.interface';
@@ -7,6 +6,7 @@ import {
   RHFDatePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { EXPENSE_TYPE } from '@/constants/services';
 
 export const expenseTypeDropdown = [
   EXPENSE_TYPE?.PURCHASE,

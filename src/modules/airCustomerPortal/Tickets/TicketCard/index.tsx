@@ -43,7 +43,12 @@ export const TicketsCard = (props: TicketCardPropsI) => {
       }}
     >
       <Box>
-        <Typography fontWeight={600} variant="body2" color={'blue.main'}>
+        <Typography
+          fontWeight={600}
+          variant="body2"
+          color={'blue.main'}
+          component="div"
+        >
           <TruncateText
             text={ticket?.subject}
             size={50}

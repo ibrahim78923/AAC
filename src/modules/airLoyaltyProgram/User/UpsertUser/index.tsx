@@ -10,7 +10,7 @@ import { FormGrid } from '@/components/Grids/FormGrid';
 
 const { LOYALTY_PROGRAM_USERS_DETAIL } = LOYALTY_PROGRAM_USERS_ACTIONS_CONSTANT;
 
-export const UpsertUser = () => {
+const UpsertUser = () => {
   const {
     upsertUserFormFields,
     methods,
@@ -61,3 +61,5 @@ export const UpsertUser = () => {
     </CommonDrawer>
   );
 };
+
+export default UpsertUser;

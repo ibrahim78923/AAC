@@ -4,7 +4,7 @@ import { Box } from '@mui/material';
 import { useFilterReport } from './useFilterReport';
 import { FormGrid } from '@/components/Grids/FormGrid';
 
-export const FilterReport = () => {
+const FilterReport = () => {
   const {
     methods,
     handleSubmit,
@@ -37,3 +37,5 @@ export const FilterReport = () => {
     </>
   );
 };
+
+export default FilterReport;

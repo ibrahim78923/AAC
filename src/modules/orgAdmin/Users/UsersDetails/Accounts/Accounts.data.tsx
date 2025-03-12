@@ -1,13 +1,16 @@
 import { Avatar, Box, CircularProgress, Typography } from '@mui/material';
 import { SwitchBtn } from '@/components/SwitchButton';
-import { LogoIcon } from '@/assets/icons';
+import { EditBlackIcon, LogoIcon } from '@/assets/icons';
 import { generateImage } from '@/utils/avatarUtils';
 import { capitalizeFirstLetter } from '@/utils/api';
 import { PRODUCT_USER_STATUS } from '@/constants/strings';
+import EditRoleModal from './EditRoleModal';
 
 export const companyColumns: any = (
   handleStatusUpdate: any,
   isLoadingStatus: any,
+  editRoleModal: any,
+  setEditRoleModal: any,
 ) => [
   {
     accessorFn: (row: any) => row?.product,
@@ -51,7 +54,23 @@ export const companyColumns: any = (
     id: 'name',
     isSortable: true,
     header: 'Manage Roles',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => (
+      <Box display="flex" alignItems="center" gap={1}>
+        <Typography>{info?.getValue()}</Typography>
+        <Box
+          sx={{ cursor: 'pointer' }}
+          onClick={() =>
+            setEditRoleModal({ isOpen: true, data: info?.row?.original })
+          }
+        >
+          <EditBlackIcon />
+        </Box>
+        <EditRoleModal
+          editRoleModal={editRoleModal}
+          setEditRoleModal={setEditRoleModal}
+        />
+      </Box>
+    ),
   },
   {
     accessorFn: (row: any) => row?.Status,

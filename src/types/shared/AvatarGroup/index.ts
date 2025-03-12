@@ -4,3 +4,8 @@ export interface IAVATARGROUPDATA {
   img?: string;
 }
 [];
+
+export interface SingleAvatarI {
+  name: string;
+  img?: string; // Optional image URL
+}

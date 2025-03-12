@@ -3,9 +3,7 @@ import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { useDeleteAnnouncement } from './useDeleteAnnouncement';
 import { AnnouncementPortalComponentsPropsI } from '../Announcement.interface';
 
-export const DeleteAnnouncement = (
-  props: AnnouncementPortalComponentsPropsI,
-) => {
+const DeleteAnnouncement = (props: AnnouncementPortalComponentsPropsI) => {
   const { isPortalOpen } = props;
   const {
     deleteAnnouncement,
@@ -27,3 +25,5 @@ export const DeleteAnnouncement = (
     </>
   );
 };
+
+export default DeleteAnnouncement;

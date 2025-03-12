@@ -1,48 +1,18 @@
 import { Typography } from '@mui/material';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { UserInfo } from '@/components/UserInfo';
-import { CheckboxField } from '@/components/InputFields/CheckboxField';
+import { tableCheckbox } from '@/utils/table-checkbox';
 
 export const useAddContactsColumns = ({
   setSelected,
   selected,
   associatesContactsList,
 }: any) => [
-  {
-    accessorFn: (row: any) => row?._id,
-    id: '_id',
-    cell: (info: any) => (
-      <CheckboxField
-        checked={!!selected?.find((item: any) => item === info?.getValue())}
-        onChange={(e: any) => {
-          e?.target?.checked
-            ? setSelected([...selected, info?.getValue()])
-            : setSelected(
-                selected?.filter((item: any) => item !== info?.getValue()),
-              );
-        }}
-        name={info?.getValue()}
-      />
-    ),
-    header: (
-      <CheckboxField
-        checked={
-          associatesContactsList?.length
-            ? selected?.length === associatesContactsList?.length
-            : false
-        }
-        onChange={(e: any) => {
-          e?.target?.checked
-            ? setSelected(
-                associatesContactsList?.map((asset: any) => asset?._id),
-              )
-            : setSelected([]);
-        }}
-        name="id"
-      />
-    ),
-    isSortable: false,
-  },
+  tableCheckbox({
+    selectedList: selected,
+    setSelectedList: setSelected,
+    tableData: associatesContactsList,
+  }),
   {
     accessorFn: (row: any) => row?._id,
     id: 'contactID',

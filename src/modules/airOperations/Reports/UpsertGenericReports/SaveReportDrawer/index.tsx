@@ -27,8 +27,8 @@ export const SaveReportDrawer = (props: SaveReportDrawerI) => {
       cancelBtnHandler={() => setOpen(false)}
       title="Save Reports"
       okText="Apply"
-      isOk={true}
-      footer={true}
+      isOk
+      footer
       isLoading={
         reportId
           ? patchGenericReportStatus?.isLoading

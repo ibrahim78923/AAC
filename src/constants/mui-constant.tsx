@@ -15,7 +15,7 @@ export const AVATAR_VARIANTS: any = {
   ROUNDED: 'rounded',
 };
 
-export const CHIP_VARIANTS = {
+export const CHIP_VARIANTS: any = {
   FILLED: 'filled',
   OUTLINED: 'outlined',
 };

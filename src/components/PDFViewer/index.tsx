@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Stack } from '@mui/material';
+import { Box, IconButton, Stack, Button } from '@mui/material';
 import { Document, Page, pdfjs } from 'react-pdf';
 // import SignatureCanvas from 'react-signature-canvas';
 // import { PDFDocument } from 'pdf-lib';
@@ -14,6 +14,7 @@ import {
 import PdfAddSignature from '@/modules/airSocial/Contracts/CreateContract/components/PdfAddSignature';
 import { DndContext, useDraggable, DragEndEvent } from '@dnd-kit/core';
 import { restrictToParentElement } from '@dnd-kit/modifiers';
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 
 pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.js';
 
@@ -21,16 +22,16 @@ type PDFEditorProps = {
   pdfFile: File | string;
   addTextComponent?: TextComponentI[];
   addSignatureFields?: signatureFieldI[];
-  onClickTextDelete?: (id: string) => void;
-  onClickSignatureDelete?: (id: string) => void;
+  handleDeleteText: (id: string) => void;
+  handleDeleteSignature: (id: string) => void;
 };
 
 export default function PDFViewer({
   pdfFile,
   addTextComponent,
   addSignatureFields,
-  onClickTextDelete = () => {},
-  onClickSignatureDelete = () => {},
+  handleDeleteText,
+  handleDeleteSignature,
 }: PDFEditorProps) {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -104,7 +105,7 @@ export default function PDFViewer({
                     }));
                   }}
                 >
-                  <PdfAddText data={item} onClickDelete={onClickTextDelete} />
+                  <PdfAddText data={item} handleDeleteText={handleDeleteText} />
                 </DraggableText>
               );
             })}
@@ -122,7 +123,7 @@ export default function PDFViewer({
               >
                 <PdfAddSignature
                   data={item}
-                  onClickDelete={onClickSignatureDelete}
+                  handleDeleteSignature={handleDeleteSignature}
                 />
               </DraggableText>
             ))}
@@ -152,14 +153,30 @@ function DraggableText({ id, children, position }: DraggableTextProps) {
     position: 'absolute',
     top: currentY,
     left: currentX,
-    cursor: 'move',
     zIndex: 100,
     width: '100%',
     maxWidth: '430px',
   };
 
   return (
-    <Box ref={setNodeRef} sx={style} {...listeners} {...attributes}>
+    <Box ref={setNodeRef} sx={style}>
+      <IconButton
+        {...listeners}
+        {...attributes}
+        sx={{
+          fontSize: '20px',
+          cursor: 'move',
+          position: 'absolute',
+          top: '5px',
+          left: '10px',
+          '& > svg': {
+            height: '20px',
+            width: '20px',
+          },
+        }}
+      >
+        <DragIndicatorIcon />
+      </IconButton>
       {children}
     </Box>
   );

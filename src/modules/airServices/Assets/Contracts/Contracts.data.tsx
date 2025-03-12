@@ -3,7 +3,7 @@ import { Typography } from '@mui/material';
 import { splitCapitalizedWords } from '@/utils/api';
 import { AIR_SERVICES } from '@/constants/routes';
 import { uiDateFormat } from '@/lib/date-time';
-import { CheckboxField } from '@/components/InputFields/CheckboxField';
+import { tableCheckbox } from '@/utils/table-checkbox';
 
 export const contractsListsColumnsFunction = (
   selectedContractList: any,
@@ -11,48 +11,11 @@ export const contractsListsColumnsFunction = (
   mainContractsData: any = [],
   router: any,
 ): any => [
-  {
-    accessorFn: (row: any) => row?._id,
-    id: '_id',
-    cell: (info: any) => (
-      <CheckboxField
-        checked={
-          !!selectedContractList?.find((item: any) => item === info?.getValue())
-        }
-        onChange={(e: any) => {
-          e?.target?.checked
-            ? setSelectedContractList([
-                ...selectedContractList,
-                info?.getValue(),
-              ])
-            : setSelectedContractList(
-                selectedContractList?.filter(
-                  (item: any) => item !== info?.getValue(),
-                ),
-              );
-        }}
-        name={info?.getValue()}
-      />
-    ),
-    header: (
-      <CheckboxField
-        checked={
-          mainContractsData?.length
-            ? selectedContractList?.length === mainContractsData?.length
-            : false
-        }
-        onChange={(e: any) => {
-          e?.target?.checked
-            ? setSelectedContractList(
-                mainContractsData?.map((list: any) => list?._id),
-              )
-            : setSelectedContractList([]);
-        }}
-        name="id"
-      />
-    ),
-    isSortable: false,
-  },
+  tableCheckbox({
+    selectedList: selectedContractList,
+    setSelectedList: setSelectedContractList,
+    tableData: mainContractsData,
+  }),
   {
     accessorFn: (row: any) => row?.name,
     id: 'name',

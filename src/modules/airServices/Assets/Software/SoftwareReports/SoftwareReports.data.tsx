@@ -1,5 +1,5 @@
 import { TruncateText } from '@/components/TruncateText';
-import { SOFTWARE_STATUS } from '@/constants/strings';
+import { SOFTWARE_STATUS } from '@/constants/services';
 import { fullName } from '@/utils/avatarUtils';
 
 export const SoftwareReportsCountData = (data: any) => {

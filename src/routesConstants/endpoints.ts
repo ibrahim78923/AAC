@@ -28,6 +28,7 @@ export const END_POINTS = {
   ORGANIZATION: '/organization',
   USER_ACCOUNTS_LIST: '/super-admin/accounts-list',
   USER_ACCOUNT: '/account',
+  UPDATE_USER_ROLE: '/users/update-account-role',
   UPDATE_USER_LIST: '/users/edit',
   ADD_ACCOUNTS: '/super-admin/add-accounts',
   COMPANY_CRN: '/auth/search-company',
@@ -88,6 +89,7 @@ export const END_POINTS = {
   ASSETS_INVENTORY_Associations: '/assets/inventory-association-list',
   QUOTE: '/quote',
   DELETE_QUOTES: '/quote/delete/quotes',
+  GET_DISCOUNT_RULES: '/rules-and-tiers/get-rules',
   QUOTE_SUBMIT: '/quote/submit',
   QUOTE_SUBMIT_RECORD: '/quote/submit/quote-record',
   GET_COMPANY_ORGANIZATION_DROPDOWN: '/dropdown/organizations',
@@ -579,6 +581,7 @@ export const END_POINTS = {
   LOYALTY_REWARDS_DROPDOWN: 'rewards/rewards-list',
   LOYALTY_PROGRAM_DASHBOARD_WIDGETS: '/consumers/get-dashboard-data',
   MEETINGS_SETTINGS_UPDATE_CALENDAR: '/meeting-settings/update-calendar',
+  GET_RULES_FOR_INVOICES: `/rules-and-tiers/get-rules`,
 };
 
 export const LEAD_CAPTURE_FORM = {
@@ -804,6 +807,7 @@ export const COMMON_CONTRACTS = {
   POST_COMMOM_CONTRACT: '/common-contract/add-common-contract',
   GET_CONTRACTS: '/common-contract/get-common-contracts',
   GET_CONTRACT_BY_ID: '/common-contract',
+  GET_PUBLIC_CONTRACT_BY_ID: '/common-contract/public',
   SAVE_AS_DRAFT: '/common-contract/save-as-draft',
   GET_TEMPLATE_BY_FOLDER: '/common-contract-template/by-folder',
   GET_RECENTLY_USED_TEMPLATES: '/common-contract-template/get-recent/templates',
@@ -812,4 +816,5 @@ export const COMMON_CONTRACTS = {
   POST_COMMON_CONTRACTS_FOLDERS: '/common-contract-folder',
   PATCH_LIST_COMMON_CONTRACTS: '/common-contract',
   GET_COMMON_MY_FOLDERS: '/common-contract-folder/my-folders',
+  PUT_CONTRACT_PUBLIC_SIGN: '/common-contract/public-sign',
 };

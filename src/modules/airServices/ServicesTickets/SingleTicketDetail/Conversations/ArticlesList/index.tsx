@@ -2,7 +2,6 @@ import Search from '@/components/Search';
 import { Box, Typography } from '@mui/material';
 import { useArticlesList } from './useArticlesList';
 import CustomPagination from '@/components/CustomPagination';
-import { TICKET_CONVERSATIONS_CONTENT_TYPE } from '@/constants/strings';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 import Link from 'next/link';
 import { AIR_SERVICES } from '@/constants/routes';
@@ -10,6 +9,7 @@ import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { SKELETON_TYPES } from '@/constants/mui-constant';
 import { AddNewItemButton } from '@/components/Buttons/AddNewItemButton';
 import { CustomButton } from '@/components/Buttons/CustomButton';
+import { TICKET_CONVERSATIONS_CONTENT_TYPE } from '@/constants/services';
 
 export const ArticlesList = (props: any) => {
   const { setArticleResponse } = props;

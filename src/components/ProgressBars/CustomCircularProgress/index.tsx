@@ -11,10 +11,12 @@ export const CustomCircularProgress = (props: any) => {
     progressBarColor = 'primary.main',
     color = 'primary',
     disableShrink = false,
+    progressBarLabel = `circular-progress-bar-${variant}`,
   } = props;
 
   return (
     <CircularProgress
+      aria-label={progressBarLabel}
       disableShrink={disableShrink}
       variant={variant}
       color={color}

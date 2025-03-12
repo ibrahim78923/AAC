@@ -13,7 +13,6 @@ export const useSoftware = () => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [filterValues, setFilterValues] = useState({});
   const [isOpenFilterDrawer, setIsOpenFilterDrawer] = useState<boolean>(false);
-
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 

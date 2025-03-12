@@ -6,9 +6,7 @@ import { AnnouncementPortalComponentsPropsI } from '../Announcement.interface';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 import { HeadingFormGrid } from '@/components/Grids/HeadingFormGrid';
 
-export const UpsertAnnouncement = (
-  props: AnnouncementPortalComponentsPropsI,
-) => {
+const UpsertAnnouncement = (props: AnnouncementPortalComponentsPropsI) => {
   const { isPortalOpen } = props;
   const {
     upsertAnnouncementFormFields,
@@ -54,3 +52,5 @@ export const UpsertAnnouncement = (
     </>
   );
 };
+
+export default UpsertAnnouncement;

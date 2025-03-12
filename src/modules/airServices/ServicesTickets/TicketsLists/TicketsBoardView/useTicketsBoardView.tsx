@@ -8,7 +8,7 @@ import {
   setPageLimit,
 } from '@/redux/slices/airServices/tickets/slice';
 import { groupArrayByKey } from '@/utils/data-transformation';
-import { TICKET_STATUS } from '@/constants/strings';
+import { TICKET_STATUS } from '@/constants/services';
 import { useUpdateBulkServicesTicketsMutation } from '@/services/airServices/tickets';
 
 export const useTicketsBoardView = () => {

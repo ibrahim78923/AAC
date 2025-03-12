@@ -1,6 +1,6 @@
 import { ActivityStatusMenu } from '@/components/ActivityStatusMenu';
+import { LOYALTY_VOUCHER_STATUS } from '@/constants/loyalty-program';
 import { AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS } from '@/constants/permission-keys';
-import { LOYALTY_VOUCHER_STATUS } from '@/constants/strings';
 import { usePatchVoucherMutation } from '@/services/airLoyaltyProgram/loyalty/vouchers';
 import { getActivePermissionsSession } from '@/utils';
 import { capitalizeFirstLetter } from '@/utils/api';

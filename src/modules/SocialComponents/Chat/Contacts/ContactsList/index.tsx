@@ -340,18 +340,38 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
                     {item?.isDeleted ? (
                       <></>
                     ) : (
-                      <ContactsCard
-                        key={uuidv4()}
-                        cardData={{ item }}
-                        selectedValues={selectedValues}
-                        setSelectedValues={setSelectedValues}
-                        handleManualRefetch={handleManualRefetch}
-                      />
+                      <>
+                        {(chatMode === 'personalChat' && !item?.isGroup) ||
+                        (chatMode !== 'personalChat' && item?.isGroup) ? (
+                          <ContactsCard
+                            key={uuidv4()}
+                            cardData={{ item }}
+                            selectedValues={selectedValues}
+                            setSelectedValues={setSelectedValues}
+                            handleManualRefetch={handleManualRefetch}
+                          />
+                        ) : null}
+                      </>
                     )}
                   </>
                 ))
               ) : (
-                <Box>No Data Found</Box>
+                <Box
+                  sx={{
+                    width: '300px',
+                    textAlign: 'center',
+                    color: theme?.palette?.grey[500],
+                    margin: '0 auto',
+                    fontSize: '14px',
+                    mt: 2,
+                    '@media (max-width:1480px)': {
+                      width: '95%',
+                    },
+                  }}
+                >
+                  Start messaging by tapping the '+' button in the bottom right
+                  corner
+                </Box>
               )}
             </>
           )}

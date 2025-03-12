@@ -92,6 +92,14 @@ export const invoiceAPI = baseAPI.injectEndpoints({
       },
       providesTags: ['RECEIVER_BANK_ACCOUNT'],
     }),
+
+    getRulesForInvoice: builder.query({
+      query: ({ id, quetoAmount, amount, productQuantity }: any) => ({
+        url: `${END_POINTS?.GET_RULES_FOR_INVOICES}?consumerId=${id}&quetoAmount=${quetoAmount}&amount=${amount}&productQuantity=${productQuantity}`,
+        method: 'GET',
+      }),
+      providesTags: ['AIR_SALES_QUOTES'],
+    }),
   }),
 });
 
@@ -106,4 +114,5 @@ export const {
   useLazyGetEmployeeListInvoiceQuery,
   useLazyGetQuoteByIdForInvoiceQuery,
   useLazyGetBankAccountsListForInvoicesQuery,
+  useGetRulesForInvoiceQuery,
 } = invoiceAPI;

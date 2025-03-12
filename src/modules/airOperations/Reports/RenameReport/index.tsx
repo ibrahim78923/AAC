@@ -2,7 +2,7 @@ import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import { useRenameReport } from './useRenameReport';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 
-export const RenameReport = () => {
+const RenameReport = () => {
   const {
     onSubmit,
     handleSubmit,
@@ -35,3 +35,5 @@ export const RenameReport = () => {
     </CustomCommonDialog>
   );
 };
+
+export default RenameReport;

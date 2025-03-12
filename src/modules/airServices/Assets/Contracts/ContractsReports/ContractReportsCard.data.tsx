@@ -1,5 +1,5 @@
 import { TruncateText } from '@/components/TruncateText';
-import { CONTRACT_REPORT_STATUS } from '@/constants/strings';
+import { CONTRACT_REPORT_STATUS } from '@/constants/services';
 import { uiDateFormat } from '@/lib/date-time';
 
 export const ContractReportsCountData = (data: any) => {

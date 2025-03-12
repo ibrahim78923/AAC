@@ -4,9 +4,9 @@ import { setIsPortalOpen } from '@/redux/slices/airServices/tickets-tasks/slice'
 import { TICKET_TASKS_ACTIONS_CONSTANT } from '../Tasks.data';
 import { useLazyGetServicesTicketsTaskListAsExportQuery } from '@/services/airServices/tickets/single-ticket-details/tasks';
 import { downloadFile } from '@/utils/file';
-import { EXPORT_FILE_TYPE, EXPORT_TYPE } from '@/constants/strings';
 import { useRouter } from 'next/router';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { EXPORT_FILE_TYPE, EXPORT_TYPE } from '@/constants/file';
 
 const { CREATE_TICKET_TASKS } = TICKET_TASKS_ACTIONS_CONSTANT;
 

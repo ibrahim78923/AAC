@@ -1,18 +1,102 @@
 import { SingleDropdownButtonCloseMenuI } from '@/components/Buttons/SingleDropdownButton/SingleDropdownButton.interface';
+import LazyLoadingFlow from '@/components/LazyLoadingFlow';
 import {
   ARRAY_INDEX,
   MANAGE_ACCESS_TYPES,
   SELECTED_ARRAY_LENGTH,
 } from '@/constants/strings';
-import { RenameReport } from '../RenameReport';
-import { CloneReport } from '../CloneReport';
-import { EmailReport } from '../EmailReport';
-import { ChangeReportOwner } from '../ChangeReportOwner';
-import { AddToDashboardReport } from '../AddToDashboardReport';
-import { DeleteReport } from '../DeleteReport';
-import { ManageReportAccess } from '../ManageReportAccess';
-import { FilterReport } from '../FilterReport';
-import { ExportReport } from '../ExportReport';
+import dynamic from 'next/dynamic';
+
+const RenameReport = dynamic(() => import('../RenameReport'), {
+  ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="rename report"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
+});
+const CloneReport = dynamic(() => import('../CloneReport'), {
+  ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="clone report"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
+});
+const EmailReport = dynamic(() => import('../EmailReport'), {
+  ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="email report"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
+});
+const ChangeReportOwner = dynamic(() => import('../ChangeReportOwner'), {
+  ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="change report owner"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
+});
+const AddToDashboardReport = dynamic(() => import('../AddToDashboardReport'), {
+  ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="add to dashboard report"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
+});
+const DeleteReport = dynamic(() => import('../DeleteReport'), {
+  ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="delete report"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
+});
+const ManageReportAccess = dynamic(() => import('../ManageReportAccess'), {
+  ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="manage report access"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
+});
+const FilterReport = dynamic(() => import('../FilterReport'), {
+  ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="filter report"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
+});
+const ExportReport = dynamic(() => import('../ExportReport'), {
+  ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="export report"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
+});
 
 const { PRIVATE_CAPITAL, SPECIFIC_USERS, VIEW_ONLY_CAPITAL, EVERYONE_CAPITAL } =
   MANAGE_ACCESS_TYPES ?? {};

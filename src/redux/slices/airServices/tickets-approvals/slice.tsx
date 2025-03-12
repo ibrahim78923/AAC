@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { servicesTicketApprovalsReducersList } from './reducers';
-import { TICKET_APPROVALS } from '@/constants/strings';
+import { TICKET_APPROVALS } from '@/constants/services';
 
 export const isPortalOpenInitialState = {
   isOpen: false,

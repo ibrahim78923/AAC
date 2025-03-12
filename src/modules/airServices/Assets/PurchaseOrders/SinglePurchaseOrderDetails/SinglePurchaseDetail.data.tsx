@@ -1,5 +1,5 @@
 import { AIR_SERVICES } from '@/constants/routes';
-import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
+import { PURCHASE_ORDER_STATUS } from '@/constants/services';
 
 export const singlePurchaseDetailActionDropdownFunction = (
   setDeleteModalOpen: any,

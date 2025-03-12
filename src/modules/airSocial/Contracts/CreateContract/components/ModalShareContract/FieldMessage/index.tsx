@@ -4,7 +4,7 @@ import React from 'react';
 export default function FieldMessage() {
   return (
     <RHFTextField
-      name="message"
+      name="emailContent"
       label="Message"
       size="small"
       fullWidth

@@ -1,39 +1,80 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useEffect } from 'react';
+import { useForm, useFieldArray } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { defaultValues, validationSchema } from './ModalShareContract.data';
+import { useUpdateCommonContractMutation } from '@/services/commonFeatures/contracts';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useRouter } from 'next/router';
+import { createCollaboratorsFormData } from '@/utils/contracts';
 
-export default function useModalShareContract() {
-  const initialCollaborator = {
-    name: 'collaborator-1',
-    permission: 'permission-collaborator-1',
-  };
-  const [collaborators, setCollaborators] = useState<any[]>([
-    initialCollaborator,
-  ]);
-  const methods: any = useForm({
-    // resolver: yupResolver(validationSchema),
-    // defaultValues: initialValues,
+export default function useModalShareContract(
+  setOpenModalShareContract: React.Dispatch<React.SetStateAction<boolean>>,
+) {
+  const router = useRouter();
+  const { contractId } = router?.query;
+
+  const methodsShareContract = useForm<any>({
+    resolver: yupResolver(validationSchema()),
+    defaultValues: defaultValues({}),
   });
-  const { handleSubmit } = methods;
+  const { control, handleSubmit, reset } = methodsShareContract;
+
+  useEffect(() => {
+    reset(defaultValues({}));
+  }, [methodsShareContract, reset]);
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'collaborators',
+  });
 
   const handleAddCollaborator = () => {
-    setCollaborators([
-      ...collaborators,
-      {
-        name: `collaborator-${collaborators.length + 1}`,
-        permission: `permission-collaborator-${collaborators.length + 1}`,
-      },
-    ]);
+    append({
+      user: null,
+      permission: '',
+    });
   };
 
-  const onSubmit = () => {
-    // console.log('Form values:::', values);
+  const handleRemoveCollaborator = (index: number) => {
+    remove(index);
+  };
+
+  const [updateCommonContract, { isLoading: loadingUpdateContract }] =
+    useUpdateCommonContractMutation();
+
+  const onSubmit = async (values: any) => {
+    const formData = new FormData();
+    formData.append(
+      'sharedWithUsers',
+      createCollaboratorsFormData(values?.collaborators) || '',
+    );
+
+    try {
+      await updateCommonContract({
+        id: contractId,
+        body: formData,
+      })?.unwrap();
+      successSnackbar('Contract updated successfully');
+      setOpenModalShareContract(false);
+      reset(defaultValues({}));
+    } catch (error: any) {
+      errorSnackbar(`An error occured: ${error?.message}`);
+    }
+  };
+  const handleSubmitShareContract = handleSubmit(onSubmit);
+
+  const handleCloseModal = () => {
+    setOpenModalShareContract(false);
+    reset(defaultValues({}));
   };
 
   return {
-    collaborators,
+    fields,
     handleAddCollaborator,
-    methods,
-    handleSubmit,
-    onSubmit,
+    handleRemoveCollaborator,
+    methodsShareContract,
+    handleSubmitShareContract,
+    handleCloseModal,
+    loadingUpdateContract,
   };
 }

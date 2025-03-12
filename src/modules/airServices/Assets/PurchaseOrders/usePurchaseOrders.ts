@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AIR_SERVICES } from '@/constants/routes';
 import { PAGINATION } from '@/config';
-import { EXPORT_FILE_TYPE } from '@/constants/strings';
 import { downloadFile } from '@/utils/file';
 import {
   useLazyGetAirServicesAssetsExportPurchaseOrderListQuery,
@@ -12,6 +11,7 @@ import { buildQueryParams } from '@/utils/api';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { purchaseOrderColumnsFunction } from './PurchaseOrders.data';
 import { useTheme } from '@mui/material';
+import { EXPORT_FILE_TYPE } from '@/constants/file';
 
 const { NEW_PURCHASE_ORDER } = AIR_SERVICES;
 

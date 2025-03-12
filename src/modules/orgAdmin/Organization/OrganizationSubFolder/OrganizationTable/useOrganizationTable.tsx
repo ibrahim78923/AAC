@@ -27,7 +27,7 @@ const useOrganizationTable = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [editData, setEditData] = useState<any>({});
   const [drawerHeading, setDrawerHeading] = useState('Create Company');
-  const [isGetRowValues, setIsGetRowValues] = useState<any>([]);
+  const [selectedRecords, setSelectedRecords] = useState<any>([]);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [openEditDrawer, setOpenEditDrawer] = useState(false);
   const [value, setValue] = useState('');
@@ -68,13 +68,13 @@ const useOrganizationTable = () => {
   const deleteOrganizationCompany = async () => {
     try {
       await deleteOrganization({
-        body: { accountIds: isGetRowValues },
+        body: { accountIds: selectedRecords.map((item: any) => item?._id) },
       }).unwrap();
       enqueueSnackbar('Company Deleted Successfully', {
         variant: 'success',
       });
       setIsOpenDelete(false);
-      setIsGetRowValues([]);
+      setSelectedRecords([]);
     } catch (error: any) {
       enqueueSnackbar('Something went wrong!', { variant: 'error' });
     }
@@ -226,7 +226,7 @@ const useOrganizationTable = () => {
         enqueueSnackbar('Company Updated Successfully', {
           variant: 'success',
         });
-        setIsGetRowValues([]);
+        setSelectedRecords([]);
         reset(validationSchema);
         setIsOpenDrawer(false);
       } else {
@@ -236,7 +236,7 @@ const useOrganizationTable = () => {
         });
         reset(validationSchema);
         setIsOpenDrawer(false);
-        setIsGetRowValues([]);
+        setSelectedRecords([]);
       }
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message || 'Something went wrong !', {
@@ -254,13 +254,17 @@ const useOrganizationTable = () => {
   };
   const tableRowData = data?.data?.organizationcompanyaccounts ?? [];
   const getRowValues = columns(
-    setIsGetRowValues,
+    setSelectedRecords,
     setIsChecked,
-    isGetRowValues,
+    selectedRecords,
     setEditData,
     updateOrganizationStatus,
     tableRowData,
   );
+
+  useEffect(() => {
+    setEditData(selectedRecords[0] ?? {});
+  }, [selectedRecords]);
 
   return {
     tableRow: data?.data?.organizationcompanyaccounts ?? [],
@@ -290,10 +294,10 @@ const useOrganizationTable = () => {
     onSubmit,
     handleSubmit,
     methods,
-    setIsGetRowValues,
+    setSelectedRecords,
     setIsChecked,
     isChecked,
-    isGetRowValues,
+    selectedRecords,
     getRowValues,
     setEditData,
     imageHandler,

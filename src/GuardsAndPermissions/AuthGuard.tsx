@@ -17,8 +17,10 @@ export default function AuthGuard({ children }: any) {
   const { pathname, push } = useRouter();
   const [requestedLocation, setRequestedLocation] = useState<any>(null);
 
-  const { user }: { accessToken: string; refreshToken: string; user: any } =
-    getSession();
+  const {
+    user,
+    accessToken,
+  }: { accessToken: string; refreshToken: string; user: any } = getSession();
 
   // const pathSegments = pathname.slice(1).split('/');
 
@@ -35,9 +37,8 @@ export default function AuthGuard({ children }: any) {
     return <LoadingScreen />;
   }
 
-  if (!isAuthenticated) {
+  if ((!isAuthenticated || !accessToken) && basePath !== 'login') {
     if (pathname !== requestedLocation) {
-      // setRequestedLocation(pathname);
       push('/login');
     }
     return <Login />;

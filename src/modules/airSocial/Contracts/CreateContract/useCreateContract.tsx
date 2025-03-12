@@ -2,9 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useForm, useFieldArray, useWatch } from 'react-hook-form';
 import { defaultValues, validationSchema } from './CreateContract.data';
 import { yupResolver } from '@hookform/resolvers/yup';
-// import { generateUniqueId } from '@/utils/dynamic-forms';
 import { useRouter } from 'next/router';
-// import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useCreateCommonContractTemplateMutation,
   useCreateCommonContractMutation,
@@ -20,14 +18,26 @@ import {
   ENUM_SIGNATURE_TYPE,
 } from '@/utils/contracts';
 import { AIR_SOCIAL_CONTRACTS } from '@/constants/routes';
+import dayjs from 'dayjs';
+
+type DynamicField = {
+  id?: string;
+  label: string;
+  name: string;
+  type: string;
+  required?: boolean;
+  placeholder?: string;
+  description?: string;
+  options?: any;
+};
 
 export default function useCreateContract() {
   /* VARIABLE DECLERATION
   -------------------------------------------------------------------------------------*/
   const router = useRouter();
-  const { templateId, folderId, contractId } = router?.query;
-
+  const { templateId, folderId, contractId, contractType } = router?.query;
   const [activeView, setActiveView] = useState<string>('create');
+  const [openModalAddSignee, setOpenModalAddSignee] = useState<boolean>(false);
   const [openModalManageSignature, setOpenModalManageSignature] =
     useState<boolean>(false);
   const [templateCatgValue, setTemplateCatgValue] = useState<string>('');
@@ -87,7 +97,9 @@ export default function useCreateContract() {
     append: appendDynamicField,
     remove: removeDynamicField,
     update: updateDynamicField,
-  } = useFieldArray({
+  } = useFieldArray<{
+    dynamicFields: DynamicField[];
+  }>({
     control,
     name: 'dynamicFields',
   });
@@ -128,7 +140,7 @@ export default function useCreateContract() {
   const [createCommonContractTemplate, { isLoading: loadingCreateTemplate }] =
     useCreateCommonContractTemplateMutation();
 
-  const [createCommonContractAsDraft, { isLoading: loadingCreateDraft }] =
+  const [createCommonContract, { isLoading: loadingCreateDraft }] =
     useCreateCommonContractMutation();
 
   const onSubmit = async (values: any, saveAs: string) => {
@@ -150,12 +162,10 @@ export default function useCreateContract() {
     createFormData('logo', values?.logo);
     createFormData('parties', createPartiesFormData(values?.parties, false));
     createFormData('signees', createSigneesFormData(values?.signees, false));
-    // createFormData(
-    //   'dynamicFields',
-    //   values?.dynamicFields?.length === 0
-    //     ? null
-    //     : JSON.stringify(values?.dynamicFields),
-    // );
+    createFormData('dynamicFields', JSON.stringify(values?.dynamicFields));
+    if (contractType && contractType === 'PDF') {
+      createFormData('contractType', 'PDF');
+    }
 
     if (saveAs === 'template') {
       createFormData('category', templateCatgValue);
@@ -166,25 +176,47 @@ export default function useCreateContract() {
         router.back();
         reset();
       } catch (error: any) {
-        errorSnackbar('An error occured');
+        const errorMessage =
+          error?.data?.message ||
+          error?.error ||
+          'An unexpected error occurred';
+        errorSnackbar(`An error occurred: ${errorMessage}`);
       }
     }
     if (saveAs === 'draft') {
-      // formData.append('visibleTo', values?.visibleTo);
       createFormData('status', 'DRAFT');
-      createFormData('folderId', values?.folderId ?? folderId);
+      createFormData('folderId', folderId);
       if (templateId) {
         if (typeof templateId === 'string') {
           createFormData('templateId', templateId);
         }
       }
       try {
-        await createCommonContractAsDraft(formData)?.unwrap();
+        await createCommonContract(formData)?.unwrap();
         successSnackbar('Contract created as draft successfully');
         router.push(AIR_SOCIAL_CONTRACTS?.CONTRACTS);
         reset();
       } catch (error: any) {
-        errorSnackbar('An error occured');
+        errorSnackbar(`An error occured: ${error}`);
+      }
+    }
+    if (saveAs === 'sign') {
+      createFormData('status', 'PENDING');
+      createFormData('folderId', folderId);
+      if (templateId) {
+        if (typeof templateId === 'string') {
+          createFormData('templateId', templateId);
+        }
+      }
+      try {
+        await createCommonContract(formData)?.unwrap();
+        successSnackbar(
+          'The contract has been successfully sent to the signees.',
+        );
+        router.push(AIR_SOCIAL_CONTRACTS?.CONTRACTS);
+        reset();
+      } catch (error: any) {
+        errorSnackbar(`An error occured: ${error?.message}`);
       }
     }
   };
@@ -199,7 +231,7 @@ export default function useCreateContract() {
   const [updateCommonContract, { isLoading: loadingUpdateContract }] =
     useUpdateCommonContractMutation();
 
-  const onSubmitUpdateContract = async (values: any) => {
+  const onSubmitUpdateContract = async (values: any, signAndSend: boolean) => {
     const formData = new FormData();
     const createFormData = (key: string, value: any) => {
       if (
@@ -218,12 +250,7 @@ export default function useCreateContract() {
     createFormData('logo', values?.logo);
     createFormData('parties', createPartiesFormData(values?.parties, true));
     createFormData('signees', createSigneesFormData(values?.signees, true));
-    // createFormData(
-    //   'dynamicFields',
-    //   values?.dynamicFields?.length === 0
-    //     ? null
-    //     : JSON.stringify(values?.dynamicFields),
-    // );
+    createFormData('dynamicFields', JSON.stringify(values?.dynamicFields));
 
     if (!contractId) {
       try {
@@ -238,12 +265,19 @@ export default function useCreateContract() {
       }
     }
     if (contractId) {
+      if (signAndSend) {
+        createFormData('status', 'PENDING');
+      }
       try {
         await updateCommonContract({
           id: contractId,
           body: formData,
         })?.unwrap();
-        successSnackbar('Contract updated successfully');
+        successSnackbar(
+          signAndSend
+            ? 'The contract has been successfully sent to the signees.'
+            : 'Contract updated successfully',
+        );
         router.push(AIR_SOCIAL_CONTRACTS?.CONTRACTS);
         reset();
       } catch (error: any) {
@@ -252,7 +286,8 @@ export default function useCreateContract() {
     }
   };
 
-  const handleSubmitUpdateContract = handleSubmit(onSubmitUpdateContract);
+  const handleSubmitUpdateContract = (signAndSend: boolean = false) =>
+    handleSubmit((values: any) => onSubmitUpdateContract(values, signAndSend));
 
   /* EVENT FUNCTIONS
   -------------------------------------------------------------------------------------*/
@@ -305,19 +340,19 @@ export default function useCreateContract() {
     (data: any) => {
       const newField = {
         label: data?.name,
-        name: `dynamicFields.${dynamicFields?.length}.${data?.name}`,
+        name: data?.name,
         type: data?.type,
         required: false,
         description: '',
-        value: '',
-        index: dynamicFields?.length + 1,
+        [data.name]: '',
+        options:
+          data?.type === 'checkbox'
+            ? [
+                { value: 'yes', label: 'Yes' },
+                { value: 'no', label: 'No' },
+              ]
+            : undefined,
       };
-      if (data?.type === 'checkbox') {
-        newField.options = [
-          { value: 'yes', label: 'Yes' },
-          { value: 'no', label: 'No' },
-        ];
-      }
       appendDynamicField(newField);
     },
     [appendDynamicField],
@@ -331,18 +366,38 @@ export default function useCreateContract() {
   );
 
   const handleUpdateDynamicField = useCallback(
-    (index: any, data: { required?: any; value?: any }) => {
-      if (dynamicFields[index]) {
-        updateDynamicField(index, {
-          ...dynamicFields[index],
-          required: data?.required ?? dynamicFields[index]?.required,
-          // description: data?.description ?? dynamicFields[index]?.description,
-          value: data?.value ?? dynamicFields[index]?.value,
-        });
+    (
+      index: number,
+      data: { required?: boolean; value?: any; description: string },
+    ) => {
+      if (!dynamicFields[index]) return;
+
+      const { name, required, description } = dynamicFields[index];
+      let safeValue = data.value;
+
+      if (
+        typeof safeValue === 'string' &&
+        dayjs(safeValue, 'YYYY-MM-DD', true).isValid()
+      ) {
+        safeValue = dayjs(safeValue, 'YYYY-MM-DD').toDate();
       }
+
+      updateDynamicField(index, {
+        ...dynamicFields[index],
+        required: data.required ?? required,
+        description: data.description ?? description,
+        [name]: safeValue ?? dynamicFields[index][name as keyof DynamicField],
+      });
     },
     [updateDynamicField, dynamicFields],
   );
+
+  const handleOpenModalAddSignee = () => {
+    setOpenModalAddSignee(true);
+  };
+  const handleCloseModalAddSignee = () => {
+    setOpenModalAddSignee(false);
+  };
 
   const handleOpenModalManageSignature = () => {
     setOpenModalManageSignature(true);
@@ -437,6 +492,10 @@ export default function useCreateContract() {
     loadingCreateTemplate,
     loadingCreateDraft,
     dynamicFields,
+
+    openModalAddSignee,
+    handleOpenModalAddSignee,
+    handleCloseModalAddSignee,
 
     openModalSignAndSend,
     handleOpenModalSignAndSend,

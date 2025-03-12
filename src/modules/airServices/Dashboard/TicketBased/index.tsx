@@ -1,5 +1,4 @@
 import { Box, Typography } from '@mui/material';
-import { TICKET_GRAPH_TYPES } from '@/constants/strings';
 import { TicketStatusGraph } from './TicketStatusGraph';
 import { TicketPriorityGraph } from './TicketPriorityGraph';
 import { dropDownMenus } from './TicketBased.data';
@@ -8,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setTicketBasedGraphType } from '@/redux/slices/airServices/dashboard/slice';
 import { PublicSingleDropdownButton } from '@/components/Buttons/PublicSingleDropdownButton';
 import { dashboardTicketBasedGraphTypeSelector } from '@/redux/slices/airServices/dashboard/selectors';
+import { TICKET_GRAPH_TYPES } from '@/constants/services';
 
 export const TicketBased = (props: any) => {
   const { data, isPreviewMode } = props;

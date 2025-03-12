@@ -4,7 +4,8 @@ import { EditYellowBGPenIcon, TrashIcon } from '@/assets/icons';
 import { UserInfo } from '@/components/UserInfo';
 import { otherDateFormat } from '@/lib/date-time';
 import { VoucherStatus } from './VoucherStatus';
-import { LOYALTY_VOUCHER_STATUS } from '@/constants/strings';
+import { LOYALTY_VOUCHER_STATUS } from '@/constants/loyalty-program';
+
 export const vouchersColumns = (
   handleVoucherClick: any,
   handleEditVoucher: any,

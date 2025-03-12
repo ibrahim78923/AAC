@@ -38,7 +38,7 @@ import { styles } from './Header.style';
 
 import { v4 as uuidv4 } from 'uuid';
 import { generateImage } from '@/utils/avatarUtils';
-import { ROLES } from '@/constants/strings';
+import { ARRAY_INDEX, ROLES } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
@@ -101,7 +101,7 @@ const Header = (props: any) => {
     ROLES?.SUPER_ADMIN
       ? superAdminTabsData
       : ActiveProduct?.name?.replace(/\s+/g, '_')?.toUpperCase() ===
-            ROLES?.ORG_ADMIN || isNullOrEmpty(ActiveProduct?.name)
+          ROLES?.ORG_ADMIN
         ? orgAdminTabsData
         : ActiveProduct?.name?.replace(/\s+/g, '_')?.toUpperCase() ===
             ROLES?.AIR_SALES
@@ -393,13 +393,15 @@ const Header = (props: any) => {
                 inputProps={{ 'aria-label': 'search' }}
                 onChange={handleChange}
               />
-              <IconButton onClick={handleExpandClick}>
+              <IconButton aria-label="search" onClick={handleExpandClick}>
                 {/* <Image src={SearchImage} alt="search" /> */}
                 <SearchSharedIcon />
               </IconButton>
             </Box>
             {ActiveProduct?.name === PRODUCT_LABELS?.AIR_MARKETER ||
               ActiveProduct?.name === PRODUCT_LABELS?.LOYALTY_PROGRAM ||
+              isNullOrEmpty(ActiveProduct?.name) ||
+              isCustomerPortal ||
               (showTabs && (
                 <Box
                   sx={{
@@ -543,7 +545,7 @@ const Header = (props: any) => {
               sx={styles?.searchIcon(theme)}
               onClick={handleClickOpen}
             >
-              <IconButton>
+              <IconButton aria-label="shared-search">
                 <SearchSharedIcon />
               </IconButton>
             </Box>
@@ -617,8 +619,11 @@ const Header = (props: any) => {
               bgcolor: 'primary.main',
               fontSize: 13,
             }}
+            alt="logged-user-avatar"
           >
-            {`${user?.firstName?.charAt(0)}${user?.lastName?.charAt(0)}`}
+            {`${user?.firstName?.charAt(
+              ARRAY_INDEX?.ZERO,
+            )}${user?.lastName?.charAt(ARRAY_INDEX?.ZERO)}`}
           </Avatar>
           <ProfilMenu />
         </Box>

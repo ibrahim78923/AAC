@@ -1,8 +1,21 @@
-import { DeleteRules } from '../Rules/DeleteRules';
-import { UpsertRules } from '../Rules/UpsertRules';
+import dynamic from 'next/dynamic';
 import { RULES_AND_TIERS_PORTAL_ACTION_CONSTANTS } from '../RulesAndTiers.constant';
-import { DeleteTiers } from '../Tiers/DeleteTiers';
-import { UpsertTiers } from '../Tiers/UpsertTiers';
+
+const DeleteRules = dynamic(() => import('../Rules/DeleteRules'), {
+  ssr: false,
+});
+
+const UpsertRules = dynamic(() => import('../Rules/UpsertRules'), {
+  ssr: false,
+});
+
+const DeleteTiers = dynamic(() => import('../Tiers/DeleteTiers'), {
+  ssr: false,
+});
+
+const UpsertTiers = dynamic(() => import('../Tiers/UpsertTiers'), {
+  ssr: false,
+});
 
 export const loyaltyProgramRulesActionComponent = {
   [RULES_AND_TIERS_PORTAL_ACTION_CONSTANTS?.CREATE_RULES]: <UpsertRules />,

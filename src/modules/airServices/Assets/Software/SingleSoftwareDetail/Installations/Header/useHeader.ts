@@ -5,7 +5,7 @@ import { downloadFile } from '@/utils/file';
 import { useRouter } from 'next/router';
 import { HeaderPropsI } from '../Installations.interface';
 import { INSTALLATION_PORTAL_ACTION } from '../Installations.data';
-import { EXPORT_FILE_TYPE } from '@/constants/strings';
+import { EXPORT_FILE_TYPE } from '@/constants/file';
 
 export const useHeader = (props: HeaderPropsI) => {
   const { setSearch, setPage, setIsPortalOpen } = props;

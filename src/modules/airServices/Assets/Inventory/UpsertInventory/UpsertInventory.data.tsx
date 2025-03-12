@@ -7,7 +7,6 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { Typography } from '@mui/material';
-import { ASSET_IMPACT } from '@/constants/strings';
 import { pxToRem } from '@/utils/getFontValue';
 import {
   dynamicFormInitialValue,
@@ -19,6 +18,7 @@ import GetInventoryAssetsDropdown from '../InventoryFormFieldsDropdowns/GetInven
 import GetInventoryDepartmentDropdown from '../InventoryFormFieldsDropdowns/GetInventoryDepartmentDropdown';
 import GetInventoryLocationDropdown from '../InventoryFormFieldsDropdowns/GetInventoryLocationDropdown';
 import GetInventoryAllUsersDropdown from '../InventoryFormFieldsDropdowns/GetInventoryAllUsersDropdown';
+import { ASSET_IMPACT } from '@/constants/services';
 
 export const assetsImpactOptions = [
   ASSET_IMPACT?.LOW,

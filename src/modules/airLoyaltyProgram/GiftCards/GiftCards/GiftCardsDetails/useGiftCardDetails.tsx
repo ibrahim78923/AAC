@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { ExportModal } from '@/components/ExportModal';
 import { PAGINATION } from '@/config';
-import { EXPORT_FILE_TYPE } from '@/constants/strings';
 import { downloadFile } from '@/utils/file';
 import { GiftCardDetailsFilter } from './GiftCardDetailsFilter';
 import { AddGiftCardDetails } from './AddGiftCardDetails';
@@ -11,6 +10,7 @@ import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { otherDateFormat } from '@/lib/date-time';
 import { CALENDAR_FORMAT } from '@/constants';
 import { useGetTransactionListQuery } from '@/services/airLoyaltyProgram/giftCards/transactions';
+import { EXPORT_FILE_TYPE } from '@/constants/file';
 
 export const useGiftCardsDetails = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);

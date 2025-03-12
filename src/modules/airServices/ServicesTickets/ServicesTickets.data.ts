@@ -1,13 +1,13 @@
 import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
 import { TICKET_TYPE_MAPPED } from '@/constants/api-mapped';
 import {
+  TICKET_SOURCE,
+  TICKET_STATUS,
   TICKET_CATEGORY,
   TICKET_IMPACT,
   TICKET_PRIORITY,
-  TICKET_SOURCE,
-  TICKET_STATUS,
   TICKET_TYPE,
-} from '@/constants/strings';
+} from '@/constants/services';
 
 export const ticketStatusOptions: AutocompleteOptionsI[] = [
   {

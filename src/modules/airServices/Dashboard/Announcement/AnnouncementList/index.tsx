@@ -3,7 +3,7 @@ import { useAnnouncementList } from './useAnnouncementList';
 import { InteractiveUserFeedCard } from '@/components/Cards/InteractiveUserFeedCard';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
 
-export const AnnouncementList = (props: any) => {
+const AnnouncementList = (props: any) => {
   const {
     isPortalOpen,
     dropdownAnnouncementsOptions,
@@ -47,3 +47,5 @@ export const AnnouncementList = (props: any) => {
     </CommonDrawer>
   );
 };
+
+export default AnnouncementList;

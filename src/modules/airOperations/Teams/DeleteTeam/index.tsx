@@ -2,7 +2,7 @@ import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { useDeleteTeam } from './useDeleteTeam';
 
-export const DeleteTeam = () => {
+const DeleteTeam = () => {
   const {
     deleteTeam,
     closeTeamDeleteModal,
@@ -24,3 +24,5 @@ export const DeleteTeam = () => {
     </>
   );
 };
+
+export default DeleteTeam;

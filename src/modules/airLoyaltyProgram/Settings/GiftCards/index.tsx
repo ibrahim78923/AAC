@@ -9,7 +9,7 @@ import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { ActionsLoadingButton } from '@/components/Buttons/ActionsLoadingButton';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
-export const GiftCards = () => {
+const GiftCards = () => {
   const {
     methods,
     handleSubmit,
@@ -71,3 +71,5 @@ export const GiftCards = () => {
     </Box>
   );
 };
+
+export default GiftCards;

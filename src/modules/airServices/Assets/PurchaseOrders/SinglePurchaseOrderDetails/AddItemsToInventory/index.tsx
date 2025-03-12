@@ -74,10 +74,7 @@ export const AddItemsToInventory = (props: any) => {
               flexWrap={'wrap'}
             >
               <Box display={'flex'} gap={1} flex={0.5}>
-                <StaticAvatar
-                  avatarSrc={TotalItemImage?.src}
-                  alt="total-items"
-                />
+                <StaticAvatar avatarSrc={TotalItemImage} alt="total-items" />
                 <Box>
                   <Typography
                     color="slateBlue.main"
@@ -102,10 +99,7 @@ export const AddItemsToInventory = (props: any) => {
                 flex={0.5}
                 justifyContent={'center'}
               >
-                <StaticAvatar
-                  avatarSrc={ItemStatusImage?.src}
-                  alt="item-status"
-                />
+                <StaticAvatar avatarSrc={ItemStatusImage} alt="item-status" />
                 <Box>
                   <Typography
                     color="slateBlue.main"

@@ -16,16 +16,12 @@ const AwardCard = (props: any) => {
         borderColor,
       }}
     >
-      <StaticAvatar
-        avatarSrc={icon?.src}
-        avatarSize={{ width: 50, height: 60 }}
-        alt={title}
-      />
+      <StaticAvatar avatarSrc={icon} width={50} height={55} alt={title} />
       <Box>
         <Typography fontWeight={600} pb={0.6} color={'slateBlue.main'}>
           {title}
         </Typography>
-        <Typography color={'custom.main'} fontSize={12}>
+        <Typography color={'custom.main'} variant="body3">
           {text}
         </Typography>
       </Box>

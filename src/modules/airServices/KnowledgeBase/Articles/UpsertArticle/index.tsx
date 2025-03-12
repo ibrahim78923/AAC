@@ -7,10 +7,7 @@ import {
 } from '@/components/ReactHookForm';
 import { useUpsertArticle } from './useUpsertArticle';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import {
-  ARTICLE_STATUS,
-  GENERIC_UPSERT_FORM_CONSTANT,
-} from '@/constants/strings';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import {
   AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS,
@@ -24,6 +21,7 @@ import { ACCEPT_FILE_EXTENSIONS } from '@/constants/file';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
 import { CustomLoadingButton } from '@/components/Buttons/CustomLoadingButton';
+import { ARTICLE_STATUS } from '@/constants/services';
 
 const { CREATE_ARTICLE, SAVE_AS_DRAFT, PUBLISH_NOW } =
   AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS ?? {};

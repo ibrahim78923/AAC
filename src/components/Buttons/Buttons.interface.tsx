@@ -47,6 +47,7 @@ export interface ApiPollingButtonPropsI {
   isFetching: boolean;
   fulfilledTimeStamp?: number;
   intervalTime: number;
+  buttonLabel?: string;
 }
 
 export interface CustomButtonPropsI {
@@ -65,7 +66,7 @@ export interface CustomButtonPropsI {
 }
 
 export interface CustomIconButtonPropsI {
-  onClick: () => void;
+  onClick: any;
   color?: ButtonColorI;
   customStyles?: SxProps<Theme>;
   children: ReactNode;
@@ -74,6 +75,7 @@ export interface CustomIconButtonPropsI {
   iconType?: string;
   size?: ButtonSizeI;
   type?: ButtonTypeI;
+  iconName?: string;
 }
 
 export interface CustomLoadingButtonPropsI {
@@ -90,6 +92,7 @@ export interface CustomLoadingButtonPropsI {
   primary?: boolean;
   fullWidth?: boolean;
   startIcon?: null | ReactNode;
+  buttonLabel?: string;
 }
 
 export interface DownloadButtonPropsI {
@@ -100,14 +103,7 @@ export interface DownloadButtonPropsI {
   children?: ReactNode;
   downloadRef?: any;
   downloadFileType?: string;
-}
-
-export interface InteractiveButtonPropsI {
-  color?: ButtonColorI;
-  variant?: ButtonVariantI;
-  children?: ReactNode;
-  customStyles?: SxProps<Theme>;
-  onClick: () => void;
+  buttonLabel?: string;
 }
 
 export interface LinkButtonPropsI {
@@ -115,6 +111,7 @@ export interface LinkButtonPropsI {
   variant?: ButtonVariantI;
   link?: string;
   name: string;
+  customStyles?: any;
 }
 
 export interface ExportButtonPropsI {

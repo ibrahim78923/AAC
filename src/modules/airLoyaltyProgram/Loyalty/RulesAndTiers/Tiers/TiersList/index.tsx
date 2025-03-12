@@ -50,6 +50,7 @@ export const TiersList = () => {
       }}
       incrementPageClick={increment}
       decrementPageClick={decrement}
+      noDataTableText="No tiers found"
     />
   );
 };

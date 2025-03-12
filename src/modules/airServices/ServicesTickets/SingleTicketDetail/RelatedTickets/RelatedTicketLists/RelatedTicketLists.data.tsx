@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material';
-import { TICKET_STATUS, TICKET_TYPE } from '@/constants/strings';
+import { TICKET_STATUS, TICKET_TYPE } from '@/constants/services';
 import { fullName } from '@/utils/avatarUtils';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 import { NextRouter } from 'next/router';

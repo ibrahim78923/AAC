@@ -28,7 +28,7 @@ import { localeDateTime } from '@/lib/date-time';
 import { formatDurationHourMinute } from '@/utils/dateTime';
 import { uploadFileMaxSize } from '@/utils/avatarUtils';
 import { ACCEPT_FILE_EXTENSIONS } from '@/constants/file';
-import { TICKET_STATUS } from '@/constants/strings';
+import { TICKET_STATUS } from '@/constants/services';
 
 const { SERVICES_TICKETS_SUBJECT_MAX_CHARACTERS } = CHARACTERS_LIMIT ?? {};
 

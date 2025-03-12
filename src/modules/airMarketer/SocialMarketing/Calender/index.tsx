@@ -72,7 +72,7 @@ const Calender = () => {
 
   return (
     <>
-      <Box sx={{ backgroundColor: 'white' }}>
+      <Box sx={styles}>
         <PermissionsGuard
           permissions={[
             AIR_MARKETER_SOCIAL_MARKETING_CALENDER_PERMISSIONS?.CREATE_POST,

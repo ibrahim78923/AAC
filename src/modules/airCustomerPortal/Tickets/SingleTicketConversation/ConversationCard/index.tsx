@@ -2,16 +2,16 @@ import { DATE_TIME_FORMAT } from '@/constants';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { Box } from '@mui/material';
 import { ShortcutSharpLeftIcon } from '@/assets/icons';
-import { TICKET_CONVERSATIONS_TYPE } from '@/constants/strings';
 import { ReplySingleTicketConversation } from '../ReplySingleTicketConversation';
 import { CustomTooltip } from '@/components/CustomTooltip';
 import { ConversationCardPropsI } from '../useSingleTicketConversation.interface';
 import { CUSTOMER_PORTAL_TICKET_CONVERSATION_ACTIONS } from './ConversationCard.data';
 import { otherDateFormat } from '@/lib/date-time';
 import { AttachFileCard } from '@/components/Avatars/AttachFileCard';
-import { LogInfo } from '@/components/LogInfo';
+import { LogInfo } from '@/components/DataDisplay/LogInfo';
 import { UserInfo } from '@/components/UserInfo';
 import { HtmlRenderer } from '@/components/DataDisplay/HtmlRenderer';
+import { TICKET_CONVERSATIONS_TYPE } from '@/constants/services';
 
 export const ConversationCard = (props: ConversationCardPropsI) => {
   const { data, isReplyOpen, setIsReplyOpen, singleTicketData } = props;

@@ -11,8 +11,8 @@ export default function CreateContractSidebar({
   handleAddDynamicField,
   allDataFields,
   signeeFields,
-  handleAddSigneeCard,
   partyFields,
+  partyValues,
   handleDeleteSigneeCard,
   appendSignee,
   removeSignee,
@@ -51,8 +51,9 @@ export default function CreateContractSidebar({
       <TabPanel value="signees">
         <Signees
           signeeFields={signeeFields}
-          handleAddSigneeCard={handleAddSigneeCard}
+          // handleAddSigneeCard={handleAddSigneeCard}
           partyFields={partyFields}
+          partyValues={partyValues}
           handleDeleteSigneeCard={handleDeleteSigneeCard}
           appendSignee={appendSignee}
           removeSignee={removeSignee}

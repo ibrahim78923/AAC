@@ -41,11 +41,22 @@ export default function useContractTemplates() {
     ...searchParams,
   });
 
-  const handleClickTemplateView = (templateId: string) => {
-    router?.push({
-      pathname: AIR_SOCIAL_CONTRACTS?.CONTRACTS_CREATE,
-      query: { folderId: folderId, templateId: templateId },
-    });
+  const handleClickTemplateView = (data: any) => {
+    if (data?.contractType === 'PDF') {
+      router?.push({
+        pathname: AIR_SOCIAL_CONTRACTS?.CONTRACTS_CREATE,
+        query: {
+          contractType: 'PDF',
+          folderId: folderId,
+          templateId: data?._id,
+        },
+      });
+    } else {
+      router?.push({
+        pathname: AIR_SOCIAL_CONTRACTS?.CONTRACTS_CREATE,
+        query: { folderId: folderId, templateId: data?._id },
+      });
+    }
   };
 
   return {

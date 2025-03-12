@@ -1,6 +1,6 @@
 import { AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS } from '@/constants/permission-keys';
 import { AIR_SERVICES } from '@/constants/routes';
-import { CONTRACT_STATUS } from '@/constants/strings';
+import { CONTRACT_STATUS } from '@/constants/services';
 
 export const singleContractDetailsActionDropdownFunction = (
   setDeleteModalOpen: any,

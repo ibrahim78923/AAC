@@ -4,4 +4,5 @@ export interface CustomCircularProgressBarPropsI {
   progressColor?: string | undefined;
   value?: number | undefined;
   percentage?: number;
+  progressBarLabel?: string;
 }

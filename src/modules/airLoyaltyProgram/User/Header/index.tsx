@@ -35,16 +35,10 @@ export const Header = () => {
           </Box>
         </PermissionsGuard>
         <Box display={'flex'} gap={2} alignItems={'center'} flexWrap={'wrap'}>
-          <PermissionsGuard
-            permissions={[
-              AIR_LOYALTY_PROGRAM_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.EDIT_OR_DELETE_USER,
-            ]}
-          >
-            <SingleDropdownButton
-              dropdownOptions={actionsDropdownForLoyaltyProgramUser}
-              disabled={!!!selectedUsersLists?.length}
-            />
-          </PermissionsGuard>
+          <SingleDropdownButton
+            dropdownOptions={actionsDropdownForLoyaltyProgramUser}
+            disabled={!!!selectedUsersLists?.length}
+          />
           <PermissionsGuard
             permissions={[
               AIR_LOYALTY_PROGRAM_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.ADD_USER,

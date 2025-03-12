@@ -322,6 +322,6 @@ export const quickLinksTableData: any = [
     product: 'sales',
     moduleName: 'deals',
     createdDate: '12-july-2023',
-    url: 'https://www.airapplecart.co.uk',
+    url: 'https://agenticcreed.ai/',
   },
 ];

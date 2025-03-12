@@ -1,11 +1,11 @@
 import { RHFAutocomplete } from '@/components/ReactHookForm';
+import { TIME_PERIODS } from '@/constants/services';
 import {
   AGENTS_LIST,
   CALL_DIRECTION,
   CALL_TAGS,
   CALL_TYPES,
   CONTRACT,
-  TIME_PERIODS,
 } from '@/constants/strings';
 
 export const virtualNumbersOptions = [

@@ -50,7 +50,7 @@ const StepBuyerInfo = ({
           ) : (
             <>
               <Box>
-                {(!selectedBuyerContactIds || !selectedCompanyIds) && (
+                {!selectedBuyerContactIds && (
                   <Alert
                     sx={{
                       mb: '16px',
@@ -60,7 +60,7 @@ const StepBuyerInfo = ({
                     }}
                     severity="error"
                   >
-                    Please select Company and Contact to continue.
+                    Please select Contact to continue.
                   </Alert>
                 )}
                 <Box sx={styles?.rowBuyerInfo}>

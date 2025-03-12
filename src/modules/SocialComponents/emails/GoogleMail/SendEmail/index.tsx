@@ -15,7 +15,7 @@ import {
   FormProvider,
   RHFCheckbox,
   RHFDateTimePicker,
-  RHFDropZone,
+  RHFDropZoneMultipleFiles,
   RHFEditor,
   RHFSelect,
   RHFTextField,
@@ -417,7 +417,7 @@ const SendEmailDrawer = (props: any) => {
                 </Box>
               </Grid>
               <Grid item xs={12}>
-                <RHFDropZone
+                <RHFDropZoneMultipleFiles
                   name="attachFile"
                   label="Attachments"
                   multiple

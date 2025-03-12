@@ -6,8 +6,8 @@ import { DeletePurchaseOrder } from './DeletePurchaseOrder';
 import { AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { PurchaseOrderHeader } from './PurchaseOrderHeader';
-import { EXPORT_TYPE } from '@/constants/strings';
 import { Box } from '@mui/material';
+import { EXPORT_TYPE } from '@/constants/file';
 
 const PurchaseOrder = () => {
   const {

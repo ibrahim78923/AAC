@@ -1,7 +1,7 @@
 import { ExportModal } from '@/components/ExportModal';
 import { useExportReport } from './useExportReport';
 
-export const ExportReport = () => {
+const ExportReport = () => {
   const {
     isPortalOpen,
     handleFileExportSubmit,
@@ -18,3 +18,5 @@ export const ExportReport = () => {
     />
   );
 };
+
+export default ExportReport;

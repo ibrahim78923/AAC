@@ -1,6 +1,6 @@
 import React from 'react';
 import CommonDialog from '@/components/CommonDialog';
-// import SigneeCard from '../../../components/SigneeCard';
+import { FormProvider } from '@/components/ReactHookForm';
 import { Grid } from '@mui/material';
 import SigningOrder from '../../../components/SigneeCard/form-fields/SigningOrder';
 import OnBehalfOf from '../../../components/SigneeCard/form-fields/OnBehalfOf';
@@ -9,84 +9,81 @@ import SigneeEmail from '../../../components/SigneeCard/form-fields/SigneeEmail'
 import SigningDigitally from '../../../components/SigneeCard/form-fields/SigningDigitally';
 import PersonalTitle from '../../../components/SigneeCard/form-fields/PersonalTitle';
 import { styles } from './styles';
+import useAddSignee from './useAddSignee';
 
 interface ModalProps {
   open: boolean;
   onClose: () => void;
-  methods: any;
-  onSubmit: () => void;
-  partyFields: any;
+  partyValues: any;
   signeeFields: any;
-  index: any;
 }
 
 export default function AddSignee({
   open,
   onClose,
-  // methods,
-  onSubmit,
-  // partyFields,
-  // signeeFields,
-  index,
+  partyValues,
+  signeeFields,
 }: ModalProps) {
+  const { methods, handleAddSignee } = useAddSignee(onClose);
+
+  const signingOrderData = Array(signeeFields?.length + 1)
+    .fill(null)
+    .map((_, index) => ({
+      label: `${index + 1}`,
+      value: index + 1,
+    }));
+
+  const onBehalfOfData = partyValues?.map((party: any) => {
+    return {
+      _id: party?.moduleData?._id,
+      name:
+        party?.moduleData?.name ||
+        `${party?.moduleData?.firstName || ''} ${
+          party?.moduleData?.lastName || ''
+        }`.trim(),
+    };
+  });
+
   return (
     <CommonDialog
       title={'Create New Signee'}
       open={open}
       onClose={onClose}
-      onSubmit={onSubmit}
+      onSubmit={handleAddSignee}
       okText={'Create'}
       cancelText={'Cancel'}
       width={'416px'}
     >
-      <>
-        {/* <SigneeCard
-          numberOfSignees={signeeFields?.length}
-          index={signeeFields?.length}
-          onDelete={onClose}
-        /> */}
+      <FormProvider methods={methods}>
         <Grid container spacing={'4px'}>
           <Grid item xs={12} sx={styles?.fieldLabel}>
             <SigningOrder
-              data={[]}
-              name={`signees.${index + 1}.signingOrder`}
+              data={signingOrderData}
+              name={`signingOrder`}
+              disabled={true}
             />
           </Grid>
           <Grid item xs={12} sx={styles?.fieldLabel}>
-            <OnBehalfOf name={`signees.${index + 1}.onBehalfOf`} />
+            <OnBehalfOf
+              name={`onBehalfOf`}
+              data={onBehalfOfData}
+              required={false}
+            />
           </Grid>
           <Grid item xs={12} sx={styles?.fieldLabel}>
-            <PersonalTitle name={`signees.${index + 1}.personalTitle`} />
+            <PersonalTitle name={`personalTitle`} />
           </Grid>
           <Grid item xs={12} sx={styles?.fieldLabel}>
-            <SigneeFullName name={`signees.${index + 1}.name`} />
+            <SigneeFullName name={`signeeName`} />
           </Grid>
           <Grid item xs={12} sx={styles?.fieldLabel}>
-            <SigneeEmail name={`signees.${index + 1}.email`} />
+            <SigneeEmail name={`signeeEmail`} />
           </Grid>
           <Grid item xs={12} sx={styles?.fieldLabel}>
             <SigningDigitally />
           </Grid>
         </Grid>
-      </>
-
-      {/* <FormProvider methods={methods}>
-        <Grid container spacing={'22px'}>
-          {AddSigneeFieldsData()?.map((item: any) => (
-            <Grid item xs={12} md={item?.md} key={item?.componentProps?.name} sx={{paddingTop:"10px !important"}}>
-              <item.component {...item.componentProps} size={'small'}>
-                {item?.componentProps?.select
-                  ? item?.options?.map((option: any) => (
-                      <option key={option?.value} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))
-                  : null}
-              </item.component>
-            </Grid>
-          ))}
-        </Grid>
-      </FormProvider> */}
+      </FormProvider>
     </CommonDialog>
   );
 }

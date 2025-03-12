@@ -1,6 +1,5 @@
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
-import { ASSET_IMPACT } from '@/constants/strings';
 import { fullName } from '@/utils/avatarUtils';
 import { Box, Chip, Typography, alpha } from '@mui/material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
@@ -12,6 +11,7 @@ import { TruncateText } from '@/components/TruncateText';
 import { splitCapitalizedWords } from '@/utils/api';
 import { pxToRem } from '@/utils/getFontValue';
 import { otherDateFormat } from '@/lib/date-time';
+import { ASSET_IMPACT } from '@/constants/services';
 
 export const TYPE_VALUES = {
   ASSETS: 'assets',

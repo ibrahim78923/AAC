@@ -1,14 +1,14 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
-import { Box, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
+import { Box, FormGroup, FormControlLabel } from '@mui/material';
 import { chipColor } from './ExistingIncident.data';
 import { useExistingIncident } from './useExistingIncident';
 import NoData from '@/components/NoData';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import CustomPagination from '@/components/CustomPagination';
 import { truncateText } from '@/utils/avatarUtils';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { CustomChip } from '@/components/Chip/CustomChip';
+import { CheckboxField } from '@/components/InputFields/CheckboxField';
 
 export const ExistingIncident: React.FC<{
   openDrawer: boolean;
@@ -63,9 +63,7 @@ export const ExistingIncident: React.FC<{
               <FormGroup>
                 <FormControlLabel
                   control={
-                    <Checkbox
-                      icon={<CheckboxIcon />}
-                      checkedIcon={<CheckboxCheckedIcon />}
+                    <CheckboxField
                       checked={checkboxValues?.[item?._id] || false}
                       onChange={handleCheckboxChange}
                       id={item?._id}

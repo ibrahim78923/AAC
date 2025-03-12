@@ -2,7 +2,7 @@ import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 import { DownloadDashboard } from '../DownloadDashboard';
 import { Box } from '@mui/material';
 
-export const DownloadDashboards = (props: any) => {
+const DownloadDashboards = (props: any) => {
   const { setIsPortalOpen, isPortalOpen, dashboardName, downloadRef } = props;
 
   const closePortal = () => setIsPortalOpen?.({ isOpen: false, action: '' });
@@ -23,3 +23,5 @@ export const DownloadDashboards = (props: any) => {
     </CustomCommonDialog>
   );
 };
+
+export default DownloadDashboards;

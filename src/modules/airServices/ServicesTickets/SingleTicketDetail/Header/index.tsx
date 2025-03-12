@@ -11,11 +11,11 @@ import {
 } from '@/constants/permission-keys';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { pxToRem } from '@/utils/getFontValue';
-import { TICKET_TYPE } from '@/constants/strings';
 import { useHeader } from './useHeader';
 import StopWatch from '../Details/TimeEntries/StopWatch';
 import { TruncateText } from '@/components/TruncateText';
 import { CustomLoadingButton } from '@/components/Buttons/CustomLoadingButton';
+import { TICKET_TYPE } from '@/constants/services';
 
 export const Header = (props: any) => {
   const {

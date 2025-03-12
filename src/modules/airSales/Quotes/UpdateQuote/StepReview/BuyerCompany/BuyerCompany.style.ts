@@ -4,6 +4,15 @@ export const styles = {
     borderRadius: '8px',
     p: '32px 32px 20px',
   }),
+  buyerInfoTitle: (theme: any) => ({
+    fontWeight: '600',
+    color: theme?.palette?.grey[800],
+  }),
+  buyerInfoText: (theme: any) => ({
+    color: theme?.palette?.custom?.main,
+    mt: '8px',
+    lineHeight: '1.42857',
+  }),
   company: () => ({
     display: 'flex',
   }),

@@ -5,7 +5,7 @@ import {
 } from './UpsertTicket.data';
 import { useEffect } from 'react';
 import { filteredEmptyValues } from '@/utils/api';
-import { ARRAY_INDEX, MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
+import { ARRAY_INDEX, MODULE_TYPE } from '@/constants/strings';
 import { DYNAMIC_FIELDS } from '@/utils/dynamic-forms';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useGetTicketList } from '../TicketsServicesHooks/useGetTicketList';
@@ -28,6 +28,7 @@ import {
 } from '@/redux/slices/airServices/tickets/selectors';
 import { useFormLib } from '@/hooks/useFormLib';
 import { useDynamicForm } from '@/components/DynamicForm/useDynamicForm';
+import { TICKET_TYPE } from '@/constants/services';
 
 export const useUpsertTicket = () => {
   const dispatch = useAppDispatch();

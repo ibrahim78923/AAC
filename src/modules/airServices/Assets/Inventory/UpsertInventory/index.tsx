@@ -4,10 +4,7 @@ import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 import { Attachments } from '@/components/Attachments';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import {
-  GENERIC_UPSERT_FORM_CONSTANT,
-  INVENTORY_TITLE,
-} from '@/constants/strings';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import { uploadFileMaxSize } from '@/utils/avatarUtils';
 import { ACCEPT_FILE_EXTENSIONS } from '@/constants/file';
 import { ApiRequestFlow } from '@/components/ApiRequestStates/ApiRequestFlow';
@@ -42,11 +39,11 @@ export const UpsertInventory = () => {
       <PageTitledHeader
         moveBack={() => moveBack?.()}
         canMovedBack
-        title={
+        title={`${
           !!inventoryId
-            ? INVENTORY_TITLE?.UPDATE_INVENTORY
-            : INVENTORY_TITLE?.ADD_NEW_INVENTORY
-        }
+            ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
+            : GENERIC_UPSERT_FORM_CONSTANT?.ADD
+        } Contract`}
       />
       <ApiRequestFlow
         showLoader={isLoading || isFetching}

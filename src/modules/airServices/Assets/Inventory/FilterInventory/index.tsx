@@ -2,7 +2,6 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { useFilterInventory } from './useFilterInventory';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FilterInventoryI } from './FilterInventory.interface';
-import { INVENTORY_TITLE } from '@/constants/strings';
 import { FormGrid } from '@/components/Grids/FormGrid';
 
 export const FilterInventory: React.FC<FilterInventoryI> = (props) => {
@@ -18,7 +17,7 @@ export const FilterInventory: React.FC<FilterInventoryI> = (props) => {
   return (
     <>
       <CommonDrawer
-        title={INVENTORY_TITLE?.FILTER_INVENTORY}
+        title={'Filters'}
         isDrawerOpen={isDrawerOpen}
         submitHandler={() => {
           handleSubmit?.(submitInventoryFilterForm)();

@@ -4,51 +4,71 @@ import useModalShareContract from './useModalShareContract';
 import FieldName from './FieldName';
 import FieldPermissions from './FieldPermissions';
 import FieldMessage from './FieldMessage';
-import { IconAddCollaborator } from '@/assets/icons';
+import { IconAddCollaborator, IconTrashContracts } from '@/assets/icons';
 import { FormProvider } from '@/components/ReactHookForm';
 import { styles } from './styles';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, IconButton } from '@mui/material';
 
 interface ModalProps {
   open: boolean;
-  onClose: () => void;
+  setOpenModalShareContract: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function ModalShareContract({ open, onClose }: ModalProps) {
+export default function ModalShareContract({
+  open,
+  setOpenModalShareContract,
+}: ModalProps) {
   const {
-    collaborators,
-    methods,
+    fields,
     handleAddCollaborator,
-    handleSubmit,
-    onSubmit,
-  } = useModalShareContract();
+    handleRemoveCollaborator,
+    methodsShareContract,
+    handleSubmitShareContract,
+    handleCloseModal,
+    loadingUpdateContract,
+  } = useModalShareContract(setOpenModalShareContract);
 
   return (
     <CommonModal
       title={'Share the contract with others'}
       open={open}
-      handleClose={onClose}
-      handleCancel={onClose}
-      handleSubmit={onClose}
+      handleClose={handleCloseModal}
+      handleCancel={handleCloseModal}
+      handleSubmit={handleSubmitShareContract}
       okText={'Send'}
       cancelText={'Cancel'}
       footer={true}
       width={700}
+      isLoading={loadingUpdateContract}
+      isSubmitDisabled={fields?.length === 0}
     >
       <Box sx={styles?.invitePeople}>
         Invite people to collaborate on the contract.
       </Box>
-      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+      <FormProvider methods={methodsShareContract}>
         <Grid container spacing={2}>
-          {collaborators?.map((item) => (
-            <React.Fragment key={item?.name}>
-              <Grid item xs={12} sm={6}>
-                <FieldName name={item?.name} />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <FieldPermissions name={item?.permission} />
-              </Grid>
-            </React.Fragment>
+          {fields?.map((item, index) => (
+            <Grid item xs={12} key={item?.id || `field-${index}`}>
+              <Box sx={styles?.collaborator}>
+                <Box sx={styles?.collaboratorContent}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} sm={6}>
+                      <FieldName name={`collaborators.${index}.user`} />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <FieldPermissions
+                        name={`collaborators.${index}.permission`}
+                      />
+                    </Grid>
+                  </Grid>
+                </Box>
+                <Box sx={styles?.collaboratorAction}>
+                  <IconButton onClick={() => handleRemoveCollaborator(index)}>
+                    <IconTrashContracts />
+                  </IconButton>
+                </Box>
+              </Box>
+            </Grid>
           ))}
 
           <Grid item xs={12}>

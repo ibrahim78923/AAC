@@ -2,10 +2,10 @@ import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 import { Avatar } from '@mui/material';
 import { AVATAR_VARIANTS } from '@/constants/mui-constant';
 import { generateImage } from '@/utils/avatarUtils';
-import { ATTACHMENT_FILE_TYPE } from '@/constants/strings';
 import { ViewAvatarPropsI } from '../Avatars.interface';
+import { ATTACHMENT_FILE_TYPE } from '@/constants/file';
 
-export const ViewAvatar = (props: ViewAvatarPropsI) => {
+const ViewAvatar = (props: ViewAvatarPropsI) => {
   const { isPortalOpen, setIsPortalOpen, avatarSrc, title, fileType } = props;
 
   const closeModal = () => setIsPortalOpen(false);
@@ -42,3 +42,5 @@ export const ViewAvatar = (props: ViewAvatarPropsI) => {
     </CustomCommonDialog>
   );
 };
+
+export default ViewAvatar;

@@ -9,3 +9,7 @@ export const SNACKBAR_VARIANTS: {
   WARNING: 'warning',
   INFO: 'info',
 };
+
+export const ALERTS_TIMER = {
+  CONDITIONAL_ALERT: 5000,
+};

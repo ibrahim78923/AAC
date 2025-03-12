@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import { fullName } from '@/utils/avatarUtils';
 import { TruncateText } from '@/components/TruncateText';
-import { LogInfo } from '@/components/LogInfo';
+import { LogInfo } from '@/components/DataDisplay/LogInfo';
 import { otherDateFormat } from '@/lib/date-time';
 import { ActivityCardPropsI } from '../Cards.interface';
 

@@ -13,6 +13,10 @@ const useAccounts = () => {
   const [isLoadingStatus, setIsLoadingStatus] = useState<{
     [key: string]: boolean;
   }>({});
+  const [editRoleModal, setEditRoleModal] = useState({
+    isOpen: false,
+    data: {},
+  });
 
   const handleStatusUpdate = async (id: any, value: any) => {
     setIsLoadingStatus((prevState) => ({ ...prevState, [id]: true }));
@@ -44,6 +48,8 @@ const useAccounts = () => {
     setPageLimit,
     handleStatusUpdate,
     isLoadingStatus,
+    editRoleModal,
+    setEditRoleModal,
   };
 };
 

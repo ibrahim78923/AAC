@@ -1,57 +1,20 @@
 import { CustomAvatarGroup } from '@/components/Avatars/CustomAvatarGroup';
-import { CheckboxField } from '@/components/InputFields/CheckboxField';
 import { TruncateText } from '@/components/TruncateText';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { CANNED_RESPONSES } from '@/constants/strings';
 import { otherDateFormat } from '@/lib/date-time';
+import { tableCheckbox } from '@/utils/table-checkbox';
 
 export const responsesListColumnsDynamic = (
   responsesData: any,
   setResponsesData: any,
   responsesMainData: any,
 ): any => [
-  {
-    accessorFn: (row: { _id: string }) => row?._id,
-    id: '_id',
-    cell: (info: any) => (
-      <CheckboxField
-        checked={
-          !!responsesData?.find((item: any) => item?._id === info?.getValue())
-        }
-        onChange={(e: any) => {
-          e?.target?.checked
-            ? setResponsesData([
-                ...responsesData,
-                responsesMainData?.find(
-                  (item: any) => item?._id === info?.getValue(),
-                ),
-              ])
-            : setResponsesData(
-                responsesData?.filter((item: any) => {
-                  return item?._id !== info?.getValue();
-                }),
-              );
-        }}
-        name={info?.getValue()}
-      />
-    ),
-    header: (
-      <CheckboxField
-        checked={
-          !!responsesMainData?.length
-            ? responsesData?.length === responsesMainData?.length
-            : false
-        }
-        onChange={(e: any) => {
-          e?.target?.checked
-            ? setResponsesData([...responsesMainData])
-            : setResponsesData([]);
-        }}
-        name="id"
-      />
-    ),
-    isSortable: false,
-  },
+  tableCheckbox({
+    selectedList: responsesData,
+    setSelectedList: setResponsesData,
+    tableData: responsesMainData,
+  }),
   {
     accessorFn: (row: { title: string }) => row?.title,
     id: 'title',

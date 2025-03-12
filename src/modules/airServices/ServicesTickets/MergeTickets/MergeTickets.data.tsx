@@ -1,12 +1,12 @@
 import { RHFAutocomplete } from '@/components/ReactHookForm';
 import { AutocompleteOptionsI } from '@/components/ReactHookForm/ReactHookForm.interface';
-import { TICKET_SELECTION_TYPE } from '@/constants/strings';
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 import { RequesterFieldDropdown } from '../ServiceTicketFormFields/RequesterFieldDropdown';
 import { TicketByIdFieldDropdown } from '../ServiceTicketFormFields/TicketByIdFieldDropdown';
 import { TicketBySubjectFieldDropdown } from '../ServiceTicketFormFields/TicketBySubjectFieldDropdown';
 import { TicketByRequesterFieldDropdown } from '../ServiceTicketFormFields/TicketByRequesterFieldDropdown';
+import { TICKET_SELECTION_TYPE } from '@/constants/services';
 
 export const mergeTicketsFormValidationSchema = Yup?.object()?.shape({
   ticketSelection: Yup?.mixed()?.nullable()?.required('Required'),

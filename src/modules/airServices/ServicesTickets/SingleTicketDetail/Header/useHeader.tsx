@@ -14,21 +14,50 @@ import {
   SOCIAL_COMPONENTS,
 } from '@/constants/routes';
 import dynamic from 'next/dynamic';
+import LazyLoadingFlow from '@/components/LazyLoadingFlow';
 
 const UpdateTicketStatus = dynamic(() => import('../../UpdateTicketStatus'), {
   ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="update ticket status"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
 });
 
 const PrintTicket = dynamic(() => import('../../PrintTicket'), {
   ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="print ticket"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
 });
 
 const EmailTicket = dynamic(() => import('../../EmailTicket'), {
   ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="email ticket"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
 });
 
 const TicketsDelete = dynamic(() => import('../../TicketsDelete'), {
   ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="delete ticket"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
 });
 
 export const useHeader = (props: any) => {
