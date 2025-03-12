@@ -36,7 +36,7 @@ export default function HeaderCreateContract({
   disabledSignAndSend = true,
 }: HeaderCreateContractProps) {
   const router = useRouter();
-  // const { templateId } = router?.query;
+  const { templateId } = router?.query;
 
   const {
     anchorElMoreMenu,
