@@ -1,6 +1,7 @@
 // import { generateUniqueId } from '@/utils/dynamic-forms';
 import * as Yup from 'yup';
 import { FIELD_TYPES } from '@/utils/contracts';
+import dayjs from 'dayjs';
 
 export const validationSchema = () => {
   return Yup?.object()?.shape({
@@ -43,20 +44,25 @@ export const defaultValues = (data: any) => {
 
   const updatedDynamicFields = (data?.dynamicFields || []).map((field: any) => {
     const fieldValue = field[field.name];
+
     if (
       field?.type === 'date' &&
       typeof fieldValue === 'string' &&
       fieldValue.trim() !== ''
     ) {
-      const parsedDate = new Date(fieldValue);
-
-      return {
-        ...field,
-        [field.name]: parsedDate,
-      };
+      const parsedDate = dayjs(fieldValue, undefined, true);
+      return parsedDate.isValid()
+        ? { ...field, [field.name]: parsedDate.toDate() }
+        : { ...field, [field.name]: null };
     }
+
     return field;
   });
+
+  let logo = data?.logo ?? null;
+  if (typeof logo === 'string' && logo.trim() !== '') {
+    logo = { url: logo };
+  }
 
   return {
     name: data?.name ?? '',
@@ -64,7 +70,7 @@ export const defaultValues = (data: any) => {
     attachment: data?.attachment ?? null,
     message: data?.message ?? '',
     visibleTo: data?.visibleTo ?? 'EVERYONE',
-    logo: data?.logo ?? null,
+    logo,
     signees: updatedSignees ?? [],
     parties: data?.parties ?? [],
     dynamicFields:

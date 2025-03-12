@@ -6,6 +6,7 @@ import {
   IconFieldText,
 } from '@/assets/icons';
 import { errorSnackbar } from '@/lib/snackbar';
+import dayjs from 'dayjs';
 
 export const ENUM_CONTRACT_TYPE = {
   BASIC: 'BASIC',
@@ -44,6 +45,11 @@ export const ENUM_SIGNATURE_TYPE = {
   SMS: 'SMS',
   DRAW: 'DRAW',
 } as const;
+
+export const ENUM_CONTRACT_PERMISSIONS = {
+  VIEW_ACCESS: 'VIEW_ACCESS',
+  FULL_ACCESS: 'FULL_ACCESS',
+};
 
 export const SIGNATURE_METHODS_LABEL = {
   CLICK: 'Sign with a Click',
@@ -98,7 +104,6 @@ export const createPartiesFormData = (parties: any, update: boolean) => {
       };
 
       if (update && party?._id) setValue('id', party?._id);
-      if (party?._id) setValue('id', party?._id);
       setValue('address', party?.address);
       setValue('idNumber', party?.idNumber);
       setValue('referredAs', party?.referredAs);
@@ -139,6 +144,33 @@ export const createSigneesFormData = (signees: any, update: boolean) => {
       setValue('moduleId', signee?.onBehalfOf);
 
       return formattedSignee;
+    })
+    .filter(Boolean);
+
+  return formData.length ? JSON.stringify(formData) : null;
+};
+
+export const createCollaboratorsFormData = (collaborators: any) => {
+  if (!Array.isArray(collaborators) || collaborators.length === 0) return null;
+
+  const formData = collaborators
+    .map((collaborator: any) => {
+      if (!collaborator || typeof collaborator !== 'object') return null;
+
+      const formattedCollaborator: any = {};
+      const setValue = (key: string, value: any) => {
+        formattedCollaborator[key] =
+          value === null ||
+          value === undefined ||
+          (typeof value === 'string' && value.trim() === '')
+            ? null
+            : value;
+      };
+
+      setValue('userId', collaborator?.user?._id);
+      setValue('permissions', collaborator?.permission);
+
+      return formattedCollaborator;
     })
     .filter(Boolean);
 
@@ -216,4 +248,13 @@ export const base64ToFile = (
     errorSnackbar(`Error converting base64 to File: ${error}`);
     return null;
   }
+};
+
+export const isValidDate = (value: any): boolean => {
+  if (!value) return false; // Handle null, undefined, or empty string
+  if (value instanceof Date) return !isNaN(value.getTime()); // Check if Date object is valid
+  if (typeof value === 'string') {
+    return dayjs(value, ['YYYY-MM-DD', 'YYYY-MM-DDTHH:mm:ssZ'], true).isValid();
+  }
+  return false;
 };

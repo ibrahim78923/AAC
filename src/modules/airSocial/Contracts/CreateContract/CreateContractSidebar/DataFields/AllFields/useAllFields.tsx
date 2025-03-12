@@ -14,7 +14,7 @@ import {
   PropertiesValidationSchema,
 } from './ModalPropertiesField/AddPropertiesFields.data';
 import dayjs from 'dayjs';
-import { CONTRACT_FORMAT } from '@/constants';
+import { DATE_FORMAT } from '@/constants';
 
 export default function useAllFields(
   handleAddDynamicField: any,
@@ -59,10 +59,10 @@ export default function useAllFields(
   };
 
   const [indexValue, setIndexValue] = useState(null);
-  const [allFields, setAllFields] = useState();
+  const [allFields, setAllFields] = useState<any[]>([]);
 
   useEffect(() => {
-    setAllFields(data);
+    setAllFields(data || []);
   }, [data]);
 
   const [openModal, setOpenModal] = useState(false);
@@ -92,29 +92,26 @@ export default function useAllFields(
   });
 
   const onSubmitProperties = (values: any) => {
-    let dateValue;
-    if (selectedField?.type === 'date') {
-      dateValue = {
-        value: dayjs(values?.value).format(CONTRACT_FORMAT?.DMMMMYYYY),
-      };
-      delete values?.value;
+    let formattedValue = values.value;
+
+    if (values.value && dayjs(values.value).isValid()) {
+      formattedValue = dayjs(values.value).format(DATE_FORMAT?.API);
     }
 
     handleUpdateDynamicField(indexValue, {
       required: values?.required,
-      description: descriptionValue,
-      value: selectedField?.type === 'date' ? dateValue?.value : values?.value,
+      description: values?.description,
+      value: formattedValue,
     });
 
-    if (indexValue !== null) {
-      const updatedFields = [...allFields];
-      updatedFields[indexValue] = {
-        ...updatedFields[indexValue],
-        ...values,
-        ...dateValue,
-      };
-      setAllFields(updatedFields);
-    }
+    // if (indexValue !== null) {
+    //   const updatedFields = [...allFields];
+    //   updatedFields[indexValue] = {
+    //     ...updatedFields[indexValue],
+    //     ...values,
+    //   };
+    //   setAllFields(updatedFields);
+    // }
     handleCloseModal();
   };
 
@@ -126,8 +123,9 @@ export default function useAllFields(
     register,
     setValue,
   } = PropertiesMethods;
+
   const AddDescription = watch('AddDescription');
-  const descriptionValue = watch('description');
+  // const descriptionValue = watch('description');
 
   const handleSubmitPropertiesField =
     PropertiesHandleSubmit(onSubmitProperties);

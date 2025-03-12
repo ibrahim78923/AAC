@@ -8,7 +8,7 @@ import { useFormContext } from 'react-hook-form';
 import DefaultSignatures from '../form-fields/DefaultSignatures';
 import useCreateContract from '../useCreateContract';
 import DocumentHistory from '../components/DocumentHistory';
-import { getPartyName } from '@/utils/contracts';
+import { getPartyName, generateSrc } from '@/utils/contracts';
 
 interface PreviewProps {
   documentHistoryData: any;
@@ -32,13 +32,13 @@ export default function Preview({ documentHistoryData }: PreviewProps) {
   return (
     <Grid container spacing="30px">
       <Grid item xs={12} sm={6}>
-        <Box sx={styles?.contractTitle}>{data?.name}</Box>
+        <Box sx={styles?.contractTitle}>{data?.name || 'Untitled Draft'}</Box>
       </Grid>
 
       <Grid item xs={12} sm={6}>
         <Box sx={styles?.contractLogo}>
           <Image
-            src={LogoImage}
+            src={generateSrc(data?.logo) || LogoImage}
             alt="Contract Logo"
             width={108}
             height={18}

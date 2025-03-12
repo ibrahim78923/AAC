@@ -376,6 +376,21 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       },
       providesTags: ['USERS_DROPDOWN'],
     }),
+
+    getDropdownOrganizationUsers: builder.query({
+      query: ({ params }: any) => {
+        const { id, ...otherParams } = params;
+        return {
+          url: `${END_POINTS?.DROPDOWN_ORGANIZATIONS}/${id}/users`,
+          method: 'GET',
+          params: otherParams,
+        };
+      },
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: ['USERS_DROPDOWN'],
+    }),
   }),
 });
 
@@ -415,4 +430,5 @@ export const {
   useLazyGetAllUsersDropdownQuery,
   useGetAllUsersDropdownQuery,
   useLazyGetCompanyAccountsDropdownQuery,
+  useLazyGetDropdownOrganizationUsersQuery,
 } = CommonAPIS;

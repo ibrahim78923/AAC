@@ -1,21 +1,26 @@
 import React from 'react';
-import { RHFMultiSearchableSelect } from '@/components/ReactHookForm';
+import { RHFSelect } from '@/components/ReactHookForm';
+import { ENUM_CONTRACT_PERMISSIONS } from '@/utils/contracts';
 
-interface FieldPermissionsProps {
+interface FieldPermissionProps {
   name: string;
 }
 
-export default function FieldPermissions({ name }: FieldPermissionsProps) {
+export default function FieldPermissions({ name }: FieldPermissionProps) {
   return (
-    <RHFMultiSearchableSelect
+    <RHFSelect
       name={name}
-      label="Permissions"
-      options={[
-        { label: 'View Contract', value: 'view' },
-        { label: 'Full Access', value: 'fullAccess' },
-      ]}
+      label="Permission"
       size="small"
       placeholder="View, private comments, private history"
-    />
+      required
+    >
+      <option value={ENUM_CONTRACT_PERMISSIONS?.VIEW_ACCESS}>
+        View Contract
+      </option>
+      <option value={ENUM_CONTRACT_PERMISSIONS?.FULL_ACCESS}>
+        Full Access
+      </option>
+    </RHFSelect>
   );
 }

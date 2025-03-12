@@ -18,6 +18,18 @@ import {
   ENUM_SIGNATURE_TYPE,
 } from '@/utils/contracts';
 import { AIR_SOCIAL_CONTRACTS } from '@/constants/routes';
+import dayjs from 'dayjs';
+
+type DynamicField = {
+  id?: string;
+  label: string;
+  name: string;
+  type: string;
+  required?: boolean;
+  placeholder?: string;
+  description?: string;
+  options?: any;
+};
 
 export default function useCreateContract() {
   /* VARIABLE DECLERATION
@@ -85,7 +97,9 @@ export default function useCreateContract() {
     append: appendDynamicField,
     remove: removeDynamicField,
     update: updateDynamicField,
-  } = useFieldArray({
+  } = useFieldArray<{
+    dynamicFields: DynamicField[];
+  }>({
     control,
     name: 'dynamicFields',
   });
@@ -162,13 +176,16 @@ export default function useCreateContract() {
         router.back();
         reset();
       } catch (error: any) {
-        errorSnackbar('An error occured');
+        const errorMessage =
+          error?.data?.message ||
+          error?.error ||
+          'An unexpected error occurred';
+        errorSnackbar(`An error occurred: ${errorMessage}`);
       }
     }
     if (saveAs === 'draft') {
-      // formData.append('visibleTo', values?.visibleTo);
       createFormData('status', 'DRAFT');
-      createFormData('folderId', '67ac4ba6aa0d4a7a6de68f6f');
+      createFormData('folderId', folderId);
       if (templateId) {
         if (typeof templateId === 'string') {
           createFormData('templateId', templateId);
@@ -180,13 +197,12 @@ export default function useCreateContract() {
         router.push(AIR_SOCIAL_CONTRACTS?.CONTRACTS);
         reset();
       } catch (error: any) {
-        errorSnackbar('An error occured');
+        errorSnackbar(`An error occured: ${error}`);
       }
     }
     if (saveAs === 'sign') {
-      // formData.append('visibleTo', values?.visibleTo);
       createFormData('status', 'PENDING');
-      createFormData('folderId', values?.folderId ?? folderId);
+      createFormData('folderId', folderId);
       if (templateId) {
         if (typeof templateId === 'string') {
           createFormData('templateId', templateId);
@@ -200,7 +216,7 @@ export default function useCreateContract() {
         router.push(AIR_SOCIAL_CONTRACTS?.CONTRACTS);
         reset();
       } catch (error: any) {
-        errorSnackbar('An error occured');
+        errorSnackbar(`An error occured: ${error?.message}`);
       }
     }
   };
@@ -350,15 +366,28 @@ export default function useCreateContract() {
   );
 
   const handleUpdateDynamicField = useCallback(
-    (index: any, data: { required?: any; value?: any }) => {
-      if (dynamicFields[index]) {
-        updateDynamicField(index, {
-          ...dynamicFields[index],
-          required: data?.required ?? dynamicFields[index]?.required,
-          // description: data?.description ?? dynamicFields[index]?.description,
-          value: data?.value ?? dynamicFields[index]?.value,
-        });
+    (
+      index: number,
+      data: { required?: boolean; value?: any; description: string },
+    ) => {
+      if (!dynamicFields[index]) return;
+
+      const { name, required, description } = dynamicFields[index];
+      let safeValue = data.value;
+
+      if (
+        typeof safeValue === 'string' &&
+        dayjs(safeValue, 'YYYY-MM-DD', true).isValid()
+      ) {
+        safeValue = dayjs(safeValue, 'YYYY-MM-DD').toDate();
       }
+
+      updateDynamicField(index, {
+        ...dynamicFields[index],
+        required: data.required ?? required,
+        description: data.description ?? description,
+        [name]: safeValue ?? dynamicFields[index][name as keyof DynamicField],
+      });
     },
     [updateDynamicField, dynamicFields],
   );

@@ -90,6 +90,15 @@ export const commonContractsAPI = baseAPI.injectEndpoints({
       invalidatesTags: ['COMMON_CONTRACTS'],
     }),
 
+    putContractSign: builder.mutation({
+      query: ({ body }) => ({
+        url: COMMON_CONTRACTS?.PUT_CONTRACT_PUBLIC_SIGN,
+        method: 'PUT',
+        body: body,
+      }),
+      invalidatesTags: ['COMMON_CONTRACTS'],
+    }),
+
     // deleteContact: builder.mutation({
     //   query: ({ contactIds }: any) => ({
     //     url: `${END_POINTS?.CONTACTS}`,
@@ -133,4 +142,5 @@ export const {
   useCreateCommonContractMutation,
   usePostSignAndSendMutation,
   useGetPublicCommonContractByIdQuery,
+  usePutContractSignMutation,
 } = commonContractsAPI;

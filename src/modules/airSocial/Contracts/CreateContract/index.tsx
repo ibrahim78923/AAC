@@ -59,7 +59,6 @@ export default function CreateContract() {
     // handleCloseModalAddSignee,
 
     openModalSignAndSend,
-    handleOpenModalSignAndSend,
     handleCloseModalSignAndSend,
 
     openModalPhoneNumber,
@@ -105,6 +104,25 @@ export default function CreateContract() {
 
   return (
     <>
+      <Backdrop
+        open={
+          loadingCreateTemplate ||
+          loadingCreateDraft ||
+          loadingGetTemplateById ||
+          loadingGetContractById ||
+          loadingUpdateTemplate ||
+          loadingUpdateContract
+        }
+        sx={{
+          background: 'rgba(255, 255, 255, 0.75)',
+          color: (theme) => theme?.palette?.primary?.main,
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          backdropFilter: 'blur(1px)',
+        }}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+
       <PlainHeader>
         <HeaderCreateContract
           documentTitle={contractDetailsData?.name || 'Untitled Draft'}
@@ -126,24 +144,6 @@ export default function CreateContract() {
           }
         />
       </PlainHeader>
-
-      <Backdrop
-        open={
-          loadingCreateTemplate ||
-          loadingCreateDraft ||
-          loadingGetTemplateById ||
-          loadingGetContractById ||
-          loadingUpdateTemplate ||
-          loadingUpdateContract
-        }
-        sx={{
-          background: 'rgba(255, 255, 255, 0.75)',
-          color: (theme) => theme?.palette?.primary?.main,
-          zIndex: (theme) => theme.zIndex.drawer + 1,
-        }}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
 
       <Box sx={styles?.container}>
         <FormProvider methods={methods}>
@@ -255,7 +255,11 @@ export default function CreateContract() {
                         variant={'contained'}
                         className={'small'}
                         fullWidth
-                        onClick={handleOpenModalSignAndSend}
+                        onClick={
+                          contractId
+                            ? handleSubmitUpdateContract(true)
+                            : handleSubmitCreateTemplate('sign')
+                        }
                         disabled={
                           !(
                             partyFields?.length !== 0 &&

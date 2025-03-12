@@ -36,7 +36,7 @@ export default function HeaderCreateContract({
   disabledSignAndSend = true,
 }: HeaderCreateContractProps) {
   const router = useRouter();
-  // const { templateId } = router?.query;
+  const { templateId } = router?.query;
 
   const {
     anchorElMoreMenu,
@@ -58,20 +58,21 @@ export default function HeaderCreateContract({
 
           <Box sx={styles.headerTitle}>{documentTitle}</Box>
 
-          <Box sx={styles.statusBadge}>{documentStatus}</Box>
+          {!!!templateId && <Box sx={styles.statusBadge}>{documentStatus}</Box>}
         </Box>
 
         <Box sx={styles.right}>
-          <Button
-            onClick={() => setOpenModalShareContract(true)}
-            startIcon={<IconContractShare />}
-            variant="outlined"
-            color="secondary"
-            className="small"
-          >
-            Share
-          </Button>
-
+          {!!!templateId && (
+            <Button
+              onClick={() => setOpenModalShareContract(true)}
+              startIcon={<IconContractShare />}
+              variant="outlined"
+              color="secondary"
+              className="small"
+            >
+              Share
+            </Button>
+          )}
           <Button
             id="more-menu-button"
             aria-controls={openMoreMenu ? 'contracts-more-menu' : undefined}
@@ -148,7 +149,7 @@ export default function HeaderCreateContract({
 
       <ModalShareContract
         open={openModalShareContract}
-        onClose={() => setOpenModalShareContract(false)}
+        setOpenModalShareContract={setOpenModalShareContract}
       />
     </>
   );

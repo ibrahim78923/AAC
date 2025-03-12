@@ -15,4 +15,15 @@ export const styles = {
     cursor: 'pointer',
     gap: '16px',
   },
+  collaborator: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '16px',
+  },
+  collaboratorContent: {
+    flex: '1',
+  },
+  collaboratorAction: {
+    pt: '30px',
+  },
 };
