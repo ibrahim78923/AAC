@@ -218,6 +218,7 @@ const AddRegNumber: FC<any> = ({
               variant="contained"
               color="primary"
               sx={{ height: '40px' }}
+              disabled={configValue?.length < 1}
             >
               Change
             </LoadingButton>

@@ -2,7 +2,7 @@ import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { useDeleteRules } from './useDeleteRules';
 
-export const DeleteRules = () => {
+const DeleteRules = () => {
   const { deleteRule, closePortal, apiCallInProgress, isPortalOpen } =
     useDeleteRules();
 
@@ -20,3 +20,5 @@ export const DeleteRules = () => {
     </>
   );
 };
+
+export default DeleteRules;

@@ -12,7 +12,7 @@ const TemplateFrame = ({ children }: any) => {
           <Box component={'span'}></Box>
           <Box component={'span'}></Box>
         </Box>
-        <Box sx={styles?.headerText}>airapplecart.com</Box>
+        <Box sx={styles?.headerText}>agenticcreed.ai</Box>
         <Box sx={{ display: 'flex', ml: '14px' }}>
           <FrameRefreshIcon />
         </Box>

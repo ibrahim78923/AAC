@@ -5,9 +5,9 @@ import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/per
 import RewardStatus from './RewardStatus';
 import { otherDateFormat } from '@/lib/date-time';
 import { DATE_TIME_FORMAT } from '@/constants';
-import { LOYALTY_REWARDS_STATUS } from '@/constants/strings';
 import { UserInfo } from '@/components/UserInfo';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
+import { LOYALTY_REWARDS_STATUS } from '@/constants/loyalty-program';
 
 export const loyaltyRewardColumnDynamic: any = (
   setIsRewardDetailsOpen: any,

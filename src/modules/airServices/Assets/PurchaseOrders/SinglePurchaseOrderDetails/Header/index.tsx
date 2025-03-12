@@ -1,11 +1,11 @@
 import { Box, Skeleton } from '@mui/material';
 import { AIR_SERVICES } from '@/constants/routes';
 import { useHeader } from './useHeader';
-import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { truncateText } from '@/utils/avatarUtils';
 import { PublicSingleDropdownButton } from '@/components/Buttons/PublicSingleDropdownButton';
 import { CustomButton } from '@/components/Buttons/CustomButton';
+import { PURCHASE_ORDER_STATUS } from '@/constants/services';
 
 export const Header = (props: any) => {
   const {

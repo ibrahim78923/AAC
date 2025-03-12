@@ -250,6 +250,7 @@ const ActionButton = ({
             })
           }
           selectedRecords={selectedRecords[indexNumbers?.ZERO]}
+          setSelectedRecords={setSelectedRecords}
         />
       )}
       {actionsModalDetails?.isSaveAsTemplate && (

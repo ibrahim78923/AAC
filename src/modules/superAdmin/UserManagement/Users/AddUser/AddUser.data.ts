@@ -60,9 +60,7 @@ export const orgEmployeeValidationSchema = Yup.object().shape({
       }
       return value;
     }),
-  postCode: Yup.string()
-    .required('Field is Required')
-    .matches(/^[0-9]+$/, 'Must be a number'),
+  postCode: Yup.string().required('Field is Required'),
   address: Yup.string()?.required('Field is Required'),
   facebookUrl: Yup.string().url('Please enter a valid URL').optional(),
   linkedInUrl: Yup.string().url('Please enter a valid URL').optional(),

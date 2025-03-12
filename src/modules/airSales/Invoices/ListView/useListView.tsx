@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { AIR_SALES } from '@/routesConstants/paths';
 import { PAGINATION } from '@/config';
@@ -7,6 +7,7 @@ import {
   useGetInvoiceQuery,
   useUpdateInvoiceMutation,
   useLazyGetEmployeeListInvoiceQuery,
+  useGetRulesForInvoiceQuery,
 } from '@/services/airSales/invoices';
 import { useForm } from 'react-hook-form';
 import dayjs from 'dayjs';
@@ -16,11 +17,10 @@ import { enqueueSnackbar } from 'notistack';
 import { isNullOrEmpty } from '@/utils';
 import {
   usePutGiftCardValueMutation,
-  // usePutLoyaltyProgramConsumersPointsUpdateMutation,
+  usePutLoyaltyProgramConsumersPointsUpdateMutation,
   usePutVoucherValueMutation,
   useUpdateRedeemRewardMutation,
 } from '@/services/airSales/quotes/loyality';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useListView = () => {
   const router = useRouter();
@@ -35,6 +35,9 @@ const useListView = () => {
   const [filterParams, setFilterParams] = useState({});
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [consumerData, setConsumerData]: any = useState();
+  const [getRulesData, setGetRulesData]: any = useState();
+  const [invoiceStatus, setInvoiceStatus]: any = useState();
 
   const paginationParams = {
     page: page,
@@ -141,12 +144,62 @@ const useListView = () => {
     useUpdateInvoiceMutation();
 
   const [updateRedeemReward] = useUpdateRedeemRewardMutation();
-  // const [updateConsumerPoints] =
-  //   usePutLoyaltyProgramConsumersPointsUpdateMutation();
+  const [updateConsumerPoints] =
+    usePutLoyaltyProgramConsumersPointsUpdateMutation();
   const [updateGiftCardApi] = usePutGiftCardValueMutation();
   const [updateVoucherApi] = usePutVoucherValueMutation();
 
+  const { data: RulesData, refetch: refetchRulesData } =
+    useGetRulesForInvoiceQuery(
+      {
+        id: consumerData?.quote?.consumer?._id,
+        quetoAmount: consumerData?.quote?.subTotal,
+        amount: consumerData?.quote?.subTotal,
+        productQuantity: consumerData?.quote?.products?.length,
+      },
+      { skip: isNullOrEmpty(consumerData) },
+    );
+
+  useEffect(() => {
+    setGetRulesData(RulesData);
+  }, [RulesData]);
+
+  useEffect(() => {
+    if (!isNullOrEmpty(getRulesData) && invoiceStatus === 'PAID') {
+      const consumersPayload = {
+        lastTransactionDate: dayjs()?.format('YYYY-MM-DD'),
+        currentPointBalance: `${
+          consumerData?.quote?.consumer?.currentPointBalance +
+          getRulesData?.totalDiscount
+        }`,
+        totalPointsEarned: `${
+          consumerData?.quote?.consumer?.totalPointsEarned +
+          getRulesData?.totalDiscount
+        }`,
+        numberOfTransactions: `${
+          consumerData?.quote?.consumer?.numberOfTransactions + 1
+        }`,
+        firstPointsReceptionDate:
+          consumerData?.quote?.consumer?.numberOfTransactions >= 1
+            ? dayjs(consumerData?.quote?.consumer?.lastTransactionDate).format(
+                DATE_FORMAT?.API,
+              )
+            : dayjs()?.format('YYYY-MM-DD'),
+        ids: [consumerData?.quote?.consumer?._id],
+      };
+      updateConsumerPoints(consumersPayload)?.unwrap();
+    }
+  }, [!isNullOrEmpty(getRulesData), consumerData?.quote?.consumer?._id]);
+
   const handleUpdateStatus = async (status: string, Data: any) => {
+    setConsumerData(null);
+    setConsumerData(Data);
+    setInvoiceStatus(status);
+    // Check if refetchRulesData is defined before calling it
+    if (consumerData) {
+      refetchRulesData();
+    }
+
     const redeemRewardDataArray = Data?.quote?.loyaltyRewards
       ?.map((reward: any) => {
         const matchingRewardData = Data?.quote?.loyaltyRewardsData?.find(
@@ -183,16 +236,6 @@ const useListView = () => {
       },
     };
 
-    // first call /rules-and-tiers/get-rules?consumerId=677cd9fea117e3d19d08a5ec
-    // after that we compare rules if match then add or subtract values
-    // const consumersData = {
-    //   lastTransactionDate: dayjs()?.format('YYYY-MM-DD'),
-    //   currentPointBalance: `${Data?.quote?.consumer?.currentPointBalance}`,
-    //   totalPointRedeemed: `${Data?.quote?.consumer?.totalPointRedeemed}`,
-    //   totalPointsEarned: `${Data?.quote?.consumer?.totalPointsEarned}`,
-    //   numberofTransactions: `${Data?.quote?.consumer?.numberOfTransactions} `,
-    //   ids: [Data?.quote?.consumer?._id],
-    // };
     const voucherData = {
       queryParams: {
         voucherCode: Data?.quote?.loyaltyVouchersData?.voucherCode,
@@ -233,8 +276,6 @@ const useListView = () => {
             );
             if (status === 'PAID') {
               try {
-                // updateConsumerPoints(consumersData)?.unwrap();
-
                 if (!isNullOrEmpty(Data?.quote?.loyaltyRewards)) {
                   updateRedeemReward({
                     body: redeemRewardDataArray,
@@ -246,11 +287,7 @@ const useListView = () => {
                 if (!isNullOrEmpty(Data?.quote?.loyaltyVouchers)) {
                   updateVoucherApi(voucherData).unwrap();
                 }
-              } catch (error: any) {
-                enqueueSnackbar('Error while updating call', {
-                  variant: NOTISTACK_VARIANTS?.ERROR,
-                });
-              }
+              } catch (error: any) {}
             }
           }
         });

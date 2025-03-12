@@ -2,7 +2,11 @@ import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 import { Delete } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 
-export const mappedColumns = ['File columns', 'CRM Columns', 'Action'];
+export const mappedColumns = [
+  { _id: 'File columns', label: 'File columns' },
+  { _id: 'CRM Columns', label: 'CRM columns' },
+  { _id: 'Action', label: 'Action' },
+];
 
 export const mappedColumnsFormFieldsFunction = (
   name: any,

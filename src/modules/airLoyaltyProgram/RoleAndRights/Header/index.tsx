@@ -34,7 +34,6 @@ export const Header = () => {
           gap={2}
           flexWrap={'wrap'}
         >
-          {' '}
           <PermissionsGuard
             permissions={[
               AIR_LOYALTY_PROGRAM_SETTINGS_ROLES_AND_RIGHT_PERMISSIONS?.SEARCH_DETAILS,
@@ -44,16 +43,10 @@ export const Header = () => {
               <Search label="Search Here" setSearchBy={handleSetSearch} />
             </Box>
           </PermissionsGuard>
-          <PermissionsGuard
-            permissions={[
-              AIR_LOYALTY_PROGRAM_SETTINGS_ROLES_AND_RIGHT_PERMISSIONS?.EDIT_OR_DELETE_ROLE,
-            ]}
-          >
-            <SingleDropdownButton
-              dropdownOptions={roleAndRightsActionDropdown}
-              disabled={!!!selectedRoleAndRightsLists?.length}
-            />
-          </PermissionsGuard>
+          <SingleDropdownButton
+            dropdownOptions={roleAndRightsActionDropdown}
+            disabled={!!!selectedRoleAndRightsLists?.length}
+          />
         </Box>
       </Box>
       {isPortalOpen?.isOpen &&

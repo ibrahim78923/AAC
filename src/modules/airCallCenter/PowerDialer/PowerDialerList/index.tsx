@@ -2,7 +2,7 @@ import { Box, Button, Typography } from '@mui/material';
 import { userList, powerDialerListTableData } from './PowerDialerList.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
-import { FilterLinesIcon } from '@/assets/icons';
+import { FilterIcon } from '@/assets/icons';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { usePowerDialerList } from './usePowerDialerList';
 import CreatePowerDialerModal from '../CreatePowerDialer';
@@ -72,7 +72,7 @@ export const PowerDialerList = () => {
               <Button
                 variant="outlined"
                 color="inherit"
-                startIcon={<FilterLinesIcon />}
+                startIcon={<FilterIcon />}
                 onClick={() => setIsDrawerOpen(true)}
                 sx={{ width: { sm: 'auto', xs: '100%' } }}
               >

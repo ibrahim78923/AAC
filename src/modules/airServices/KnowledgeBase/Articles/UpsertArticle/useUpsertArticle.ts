@@ -6,7 +6,6 @@ import {
   upsertArticleFormFieldsDynamic,
   upsertArticleValidationSchema,
 } from './UpsertArticle.data';
-import { ARTICLE_STATUS } from '@/constants/strings';
 import { UpsertArticlesFormFieldsI } from './UpsertArticles.interface';
 import {
   useAddServicesKnowledgeBaseSingleArticleMutation,
@@ -21,6 +20,7 @@ import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useAppSelector } from '@/redux/store';
 import { ALL_FOLDER } from '../../Folder/Folder.data';
 import { useFormLib } from '@/hooks/useFormLib';
+import { ARTICLE_STATUS } from '@/constants/services';
 
 const { KNOWLEDGE_BASE } = AIR_SERVICES ?? {};
 const { DRAFT } = ARTICLE_STATUS ?? {};

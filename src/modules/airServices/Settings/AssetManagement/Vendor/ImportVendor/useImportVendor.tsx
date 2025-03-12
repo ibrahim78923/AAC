@@ -1,6 +1,5 @@
 import {
   FIELD_TYPES,
-  IMPORT_FILE_TYPE,
   IMPORT_OBJECT_TYPE,
   IMPORT_PRODUCTS_NAME,
   IMPORT_TABLE_NAMES,
@@ -9,6 +8,7 @@ import { useNewImportFileForServicesMutation } from '@/services/airServices/glob
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { CRM_COLUMNS_VENDOR } from './ImportVendor.data';
 import { IVendorProps } from '../Vendor.interface';
+import { IMPORT_FILE_TYPE } from '@/constants/file';
 
 export const useImportVendor = (props: IVendorProps) => {
   const { setIsDrawerOpen } = props;

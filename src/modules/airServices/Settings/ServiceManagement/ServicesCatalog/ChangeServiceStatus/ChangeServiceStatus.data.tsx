@@ -1,5 +1,5 @@
 import { RHFRadioGroup } from '@/components/ReactHookForm';
-import { SERVICE_CATALOG_STATUSES } from '@/constants/strings';
+import { SERVICE_CATALOG_STATUSES } from '@/constants/services';
 import * as Yup from 'yup';
 
 export const changeStatusValidationSchema = Yup?.object()?.shape({

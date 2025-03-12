@@ -19,6 +19,7 @@ export const SingleDropdownButton = (props: SingleDropdownButtonPropsI) => {
     btnVariant = 'outlined',
     Variant = hasEndIcon ? Button : IconButton,
     menuSxProps,
+    buttonLabel = `action`,
     ...buttonProps
   } = props;
 
@@ -40,6 +41,7 @@ export const SingleDropdownButton = (props: SingleDropdownButtonPropsI) => {
         onClick={handleClick}
         color="secondary"
         disabled={disabled}
+        aria-label={buttonLabel}
         sx={{ textTransform: 'capitalize' }}
         {...buttonPropsWithIcon}
         {...buttonProps}

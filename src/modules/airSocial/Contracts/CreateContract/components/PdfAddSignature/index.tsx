@@ -7,12 +7,12 @@ import { signatureFieldI } from '@/modules/airSocial/Contracts/CreateContract/Cr
 
 interface PdfAddSignProps {
   data: signatureFieldI;
-  onClickDelete: (id: string) => void;
+  handleDeleteSignature: (id: string) => void;
 }
 
 export default function PdfAddSignature({
   data,
-  onClickDelete,
+  handleDeleteSignature,
 }: PdfAddSignProps) {
   return (
     <Box sx={styles?.container}>
@@ -20,7 +20,7 @@ export default function PdfAddSignature({
         <IconButton>
           <IconAddTextCopy />
         </IconButton>
-        <IconButton onClick={() => onClickDelete(data?.id)}>
+        <IconButton onClick={() => handleDeleteSignature(data?.id)}>
           <IconAddTextDelete />
         </IconButton>
       </Box>

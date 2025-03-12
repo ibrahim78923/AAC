@@ -2,8 +2,8 @@ export const styles = {
   box: (theme: any) => ({
     border: `1px solid ${theme?.palette?.grey[700]}`,
     borderRadius: '8px',
-    mt: '16px',
     backgroundColor: theme?.palette?.grey[100],
+    height: '100%',
   }),
   bRow: () => ({
     display: 'flex',

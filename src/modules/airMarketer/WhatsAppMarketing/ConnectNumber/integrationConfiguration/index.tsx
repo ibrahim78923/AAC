@@ -132,8 +132,10 @@ const IntegrationConfiguration = () => {
   };
 
   const handelUpdatedAccountSession = (id: any) => {
+    // eslint-disable-next-line
+    const { whatsappNumber, ...accountWithoutTwilio } = activeAccount;
     setActiveAccountSession({
-      ...activeAccount,
+      ...accountWithoutTwilio,
       whatsappConfigurationId: id,
     });
   };

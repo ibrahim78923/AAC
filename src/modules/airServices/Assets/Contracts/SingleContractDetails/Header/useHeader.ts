@@ -1,4 +1,4 @@
-import { CONTRACT_STATUS } from '@/constants/strings';
+import { CONTRACT_STATUS } from '@/constants/services';
 import useAuth from '@/hooks/useAuth';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {

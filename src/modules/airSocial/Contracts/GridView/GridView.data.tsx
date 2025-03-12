@@ -2,9 +2,10 @@ import { SentIcon, SignedIcon, ViewedIcon } from '@/assets/icons';
 import DocumentIcon from '@/assets/icons/modules/airSocial/contracts/documentIcon';
 import FolderRoundedIcon from '@/assets/icons/shared/folder-rounded';
 import { CustomTooltip } from '@/components/CustomTooltip';
-import { CONTRACTS_STATUS } from '@/constants';
+import { IMG_URL } from '@/config';
 import { AIR_SOCIAL_CONTRACTS } from '@/constants/routes';
 import { Box, Button, Checkbox, Typography, useTheme } from '@mui/material';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -13,18 +14,17 @@ export const contractsColumns = ({
   setSelectedRecords,
   selectedRecords,
   data,
+  setViewMoreData,
 }: any) => {
   const theme = useTheme();
   const router = useRouter();
 
   const handleClick = (item: any) => {
-    if (selectedRecords?.some((record: any) => record._id === item._id)) {
-      // If the item is already selected, remove it
+    if (selectedRecords?.some((record: any) => record?._id === item?._id)) {
       setSelectedRecords(
-        selectedRecords.filter((record: any) => record._id !== item._id),
+        selectedRecords?.filter((record: any) => record?._id !== item?._id),
       );
     } else {
-      // If the item is not selected, add it
       setSelectedRecords([...(selectedRecords || []), item]);
     }
   };
@@ -34,7 +34,6 @@ export const contractsColumns = ({
       // If all items are already selected, clear the selection
       setSelectedRecords([]);
     } else {
-      // Select all items
       setSelectedRecords(data || []);
     }
   };
@@ -208,7 +207,16 @@ export const contractsColumns = ({
               height: '40px',
               borderRadius: '50%',
             }}
-          ></Box>
+          >
+            {info?.getValue()?.avatar?.url && (
+              <Image
+                src={`${IMG_URL}${info?.getValue()?.avatar?.url}`}
+                alt="Owner"
+                width={40}
+                height={40}
+              />
+            )}
+          </Box>
           {`${info?.getValue()?.firstName} ${info?.getValue()?.lastName}`}
         </Box>
       ),
@@ -220,82 +228,86 @@ export const contractsColumns = ({
       cell: (info: any) => (
         <>
           <Box>
-            {info?.getValue() ? (
+            {info?.row?.original?.signees ? (
               <Box>
-                {info?.getValue()?.map((item: any, index: any) => (
-                  <Box
-                    key={uuidv4()}
-                    display="flex"
-                    alignItems="flex-start"
-                    gap="10px"
-                  >
-                    <Box sx={{ display: 'flex', gap: '5px' }}>
-                      {item?.statuses?.map((status: string) => (
-                        <Box key={uuidv4()}>
-                          {status?.includes(CONTRACTS_STATUS?.SIGNED) && (
-                            <CustomTooltip title="Signed">
-                              <Box>
-                                <SignedIcon />
-                              </Box>
-                            </CustomTooltip>
-                          )}
-                          {status?.includes(CONTRACTS_STATUS?.REJECTED) && (
-                            <CustomTooltip title="Rejected">
-                              <Box>
-                                <SignedIcon
-                                  color={theme?.palette?.error?.main}
-                                />
-                              </Box>
-                            </CustomTooltip>
-                          )}
-                          {status?.includes(CONTRACTS_STATUS?.VIEWED) && (
-                            <CustomTooltip title="Viewed">
-                              <Box>
-                                <ViewedIcon />
-                              </Box>
-                            </CustomTooltip>
-                          )}
-                          {status?.includes(CONTRACTS_STATUS?.SENT) && (
-                            <CustomTooltip title="Sent">
-                              <Box>
-                                <SentIcon />
-                              </Box>
-                            </CustomTooltip>
-                          )}
-                        </Box>
-                      ))}
-                    </Box>
-                    <Box>
-                      <Box sx={{ fontSize: '14px', fontWeight: '600' }}>
-                        {item?.company}
-                      </Box>
+                {info?.row?.original?.signees
+                  ?.slice(0, 2)
+                  ?.map((item: any, index: any) => {
+                    const partyInfo = info?.row?.original?.parties.find(
+                      (ele: any) => ele?._id === item?.partyId,
+                    );
+                    return (
                       <Box
-                        sx={{
-                          fontSize: '12px',
-                          fontWeight: '400',
-                          color: theme?.palette?.custom?.slate_blue,
-                        }}
+                        key={uuidv4()}
+                        display="flex"
+                        alignItems="flex-start"
+                        gap="10px"
                       >
-                        {item?.userName}
-                      </Box>
-                      {info?.row?.original?.activity?.length === index + 1 && (
-                        <Button
-                          sx={{ marginLeft: '-10px', height: '30px' }}
-                          onClick={() => setIsViewAllActivityDrawerOpen(true)}
-                        >
-                          <Typography
+                        <Box sx={{ display: 'flex', gap: '5px' }}>
+                          <CustomTooltip title="Signed">
+                            <Box>
+                              <SignedIcon />
+                            </Box>
+                          </CustomTooltip>
+
+                          <CustomTooltip title="Rejected">
+                            <Box>
+                              <SignedIcon color={theme?.palette?.error?.main} />
+                            </Box>
+                          </CustomTooltip>
+
+                          <CustomTooltip title="Viewed">
+                            <Box>
+                              <ViewedIcon />
+                            </Box>
+                          </CustomTooltip>
+
+                          <CustomTooltip title="Sent">
+                            <Box>
+                              <SentIcon />
+                            </Box>
+                          </CustomTooltip>
+                        </Box>
+
+                        <Box>
+                          <Box sx={{ fontSize: '14px', fontWeight: '600' }}>
+                            {partyInfo?.referredAs ?? '--'}
+                          </Box>
+                          <Box
                             sx={{
                               fontSize: '12px',
-                              color: theme?.palette?.primary?.main,
+                              fontWeight: '400',
+                              color: theme?.palette?.custom?.slate_blue,
                             }}
                           >
-                            View all
-                          </Typography>
-                        </Button>
-                      )}
-                    </Box>
-                  </Box>
-                ))}
+                            {item?.personalTitle} {item?.name}
+                          </Box>
+                          {index !== 0 && (
+                            <>
+                              {info?.row?.original?.signees?.length > 2 && (
+                                <Button
+                                  sx={{ marginLeft: '-10px', height: '30px' }}
+                                  onClick={() => {
+                                    setViewMoreData(info?.row?.original),
+                                      setIsViewAllActivityDrawerOpen(true);
+                                  }}
+                                >
+                                  <Typography
+                                    sx={{
+                                      fontSize: '12px',
+                                      color: theme?.palette?.primary?.main,
+                                    }}
+                                  >
+                                    View all
+                                  </Typography>
+                                </Button>
+                              )}
+                            </>
+                          )}
+                        </Box>
+                      </Box>
+                    );
+                  })}
               </Box>
             ) : (
               '--'

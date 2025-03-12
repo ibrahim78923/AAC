@@ -1,5 +1,5 @@
 import { TruncateText } from '@/components/TruncateText';
-import { PURCHASE_ORDER_REPORT_STATUS } from '@/constants/strings';
+import { PURCHASE_ORDER_REPORT_STATUS } from '@/constants/services';
 
 export const PurchaseOrderReportsCountData = (data: any) => {
   return {

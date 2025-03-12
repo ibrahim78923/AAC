@@ -6,14 +6,10 @@ import {
   setArticlesListsTotalRecords,
 } from '@/redux/slices/airServices/knowledge-base/slice';
 import { ALL_FOLDER } from '../Folder/Folder.data';
-import { useMemo } from 'react';
-import { getActiveAccountSession } from '@/utils';
 import { useLazyGetServicesKnowledgeBaseArticlesListQuery } from '@/services/airServices/knowledge-base/articles';
 
 export const useGetArticlesApi = () => {
   const dispatch = useAppDispatch();
-  const product = useMemo(() => getActiveAccountSession(), []);
-  const companyId = product?.company?._id ?? {};
 
   const page = useAppSelector((state) => state?.servicesKnowledgeBase?.page);
   const pageLimit = useAppSelector(
@@ -40,7 +36,6 @@ export const useGetArticlesApi = () => {
       ['page', currentPage + ''],
       ['limit', pageLimit + ''],
       ['search', search],
-      ['companyId', companyId],
       ...(selectedFolder?._id === ALL_FOLDER
         ? []
         : [['folderId', selectedFolder?._id]]),

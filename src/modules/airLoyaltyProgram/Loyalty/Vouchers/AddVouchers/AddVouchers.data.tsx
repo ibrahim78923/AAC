@@ -6,7 +6,7 @@ import {
   RHFRadioButtonTwoLabel,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { VOUCHERS_CONSTANTS } from '@/constants/strings';
+import { VOUCHERS_CONSTANTS } from '@/constants/loyalty-program';
 import { REGEX } from '@/constants/validation';
 import * as Yup from 'yup';
 

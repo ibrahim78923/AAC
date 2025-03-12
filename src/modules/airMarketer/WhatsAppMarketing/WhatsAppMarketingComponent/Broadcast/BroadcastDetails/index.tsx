@@ -1,12 +1,12 @@
 import { Box, Skeleton, Typography } from '@mui/material';
-import CommonTabs from '@/components/Tabs';
 import BroadcastDetailsTab from './BroadcastDetailsTab';
-import AnalyticsTab from './AnalyticsTab';
 import { styles } from './BroadcastDetails.style';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { statusTag } from '@/utils';
 import useBroadcastDetails from './useBroadcastDetails';
+import dayjs from 'dayjs';
+import { DATE_FORMAT, TIME_FORMAT } from '@/constants';
 
 const BroadcastDetails = () => {
   const { navigate, theme, smsDetailsLoading, smsBroadcastDetails } =
@@ -45,21 +45,26 @@ const BroadcastDetails = () => {
                 borderRadius: '50%',
               }}
             />
-            <Typography>{smsBroadcastDetails?.status}</Typography>
+            <Box>
+              <Typography>{smsBroadcastDetails?.status}</Typography>
+              <Typography variant="body2">
+                {dayjs(smsBroadcastDetails?.schedualDate)?.format(
+                  DATE_FORMAT?.API,
+                )}
+                &nbsp;&nbsp;
+                {dayjs(smsBroadcastDetails?.schedualDate)?.format(
+                  TIME_FORMAT?.API,
+                )}
+              </Typography>
+            </Box>
           </Box>
         )}
       </Box>
-      <CommonTabs tabsArray={['Broadcast Details', 'Analytics']}>
-        <BroadcastDetailsTab
-          broadcastDetails={smsBroadcastDetails}
-          isLoading={smsDetailsLoading}
-          recordStatus={smsBroadcastDetails?.status}
-        />
-        <AnalyticsTab
-          statisticsData={smsBroadcastDetails?.statisticsData}
-          isLoading={smsDetailsLoading}
-        />
-      </CommonTabs>
+      <BroadcastDetailsTab
+        broadcastDetails={smsBroadcastDetails}
+        isLoading={smsDetailsLoading}
+        recordStatus={smsBroadcastDetails?.status}
+      />
     </Box>
   );
 };

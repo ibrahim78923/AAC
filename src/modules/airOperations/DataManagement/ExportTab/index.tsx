@@ -1,9 +1,9 @@
 import { useExportTab } from './useExportTab';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { Header } from './Header';
-import { EXPORT_TYPE } from '@/constants/strings';
 import { ExportTabI } from './ExportTab.interface';
 import { exportTabColumns } from './ExportTab.data';
+import { EXPORT_TYPE } from '@/constants/file';
 
 export const ExportTab = () => {
   const {

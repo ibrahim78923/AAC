@@ -137,10 +137,13 @@ export default function RHFAutocompleteAsync({
             renderInput={(params) => (
               <Fragment>
                 {other?.label && (
-                  <CustomLabel label={other?.label} required={required} />
+                  <label htmlFor={name}>
+                    <CustomLabel label={other?.label} required={required} />
+                  </label>
                 )}
                 <TextField
                   {...params}
+                  id={name}
                   label={''}
                   placeholder={placeholder}
                   error={Boolean(form?.fieldState?.error)}

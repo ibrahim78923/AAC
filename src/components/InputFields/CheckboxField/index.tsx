@@ -3,7 +3,7 @@ import { Box, Checkbox, Typography } from '@mui/material';
 import { CheckboxFieldPropsI } from '../InputFields.interface';
 
 export const CheckboxField = (props: CheckboxFieldPropsI) => {
-  const { checked, onChange, label, name = label } = props;
+  const { checked, onChange, label, name = label, id = '' } = props;
   return (
     <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
       <Checkbox
@@ -13,6 +13,7 @@ export const CheckboxField = (props: CheckboxFieldPropsI) => {
         name={name}
         checked={checked}
         onChange={onChange}
+        id={id}
       />
       {!!label && (
         <Typography

@@ -1,6 +1,7 @@
 // import { generateUniqueId } from '@/utils/dynamic-forms';
 import * as Yup from 'yup';
 import { FIELD_TYPES } from '@/utils/contracts';
+import dayjs from 'dayjs';
 
 export const validationSchema = () => {
   return Yup?.object()?.shape({
@@ -41,52 +42,71 @@ export const defaultValues = (data: any) => {
     };
   });
 
+  const updatedDynamicFields = (data?.dynamicFields || []).map((field: any) => {
+    const fieldValue = field[field.name];
+
+    if (
+      field?.type === 'date' &&
+      typeof fieldValue === 'string' &&
+      fieldValue.trim() !== ''
+    ) {
+      const parsedDate = dayjs(fieldValue, undefined, true);
+      return parsedDate.isValid()
+        ? { ...field, [field.name]: parsedDate.toDate() }
+        : { ...field, [field.name]: null };
+    }
+
+    return field;
+  });
+
+  let logo = data?.logo ?? null;
+  if (typeof logo === 'string' && logo.trim() !== '') {
+    logo = { url: logo };
+  }
+
   return {
     name: data?.name ?? '',
     folderId: data?.folderId ?? null,
     attachment: data?.attachment ?? null,
     message: data?.message ?? '',
     visibleTo: data?.visibleTo ?? 'EVERYONE',
-    logo: data?.logo ?? null,
+    logo,
     signees: updatedSignees ?? [],
     parties: data?.parties ?? [],
-    dynamicFields: [
-      ...defaultFieldsData,
-      ...(Array.isArray(data?.dynamicFields) ? data.dynamicFields : []),
-    ],
+    dynamicFields:
+      updatedDynamicFields?.length > 0
+        ? updatedDynamicFields
+        : defaultFieldsData,
   };
 };
 
 export const defaultFieldsData = [
   {
-    index: 0,
-    name: 'startDate',
+    name: `startDate`,
     label: 'Start Date',
     type: FIELD_TYPES.DATE,
     placeholder: 'Set date',
     required: false,
     description: '',
-    value: '',
+    startDate: null,
   },
   {
-    index: 1,
     name: 'renewalTerms',
     label: 'Renewal terms',
     type: FIELD_TYPES.TEXT,
     placeholder: 'Add text',
     required: false,
     description: '',
-    value: '',
+    renewalTerms: '',
   },
   {
-    index: 2,
     name: 'contractCurrency',
     label: 'Contract currency',
     type: FIELD_TYPES.CHECKBOX,
     placeholder: 'Select',
     required: false,
     description: '',
-    value: '',
+    contractCurrency: '',
     options: [
       { value: 'USD', label: 'USD' },
       { value: 'EUR', label: 'EUR' },
@@ -94,27 +114,25 @@ export const defaultFieldsData = [
     ],
   },
   {
-    index: 3,
     name: 'contractValue',
     label: 'Total yearly Contract Value',
     type: FIELD_TYPES.SELECT,
     placeholder: 'Select',
     required: false,
     description: '',
-    value: '',
+    contractValue: '',
     options: [
       { value: 'yes', label: 'Yes' },
       { value: 'no', label: 'No' },
     ],
   },
   {
-    index: 4,
     name: 'amount',
     label: 'Amount',
     type: FIELD_TYPES.NUMBER,
     placeholder: 'Add value',
     required: false,
     description: '',
-    value: '',
+    amount: '',
   },
 ];

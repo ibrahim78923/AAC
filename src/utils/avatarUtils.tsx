@@ -1,4 +1,5 @@
 import { FILE_MAX_SIZE, IMG_URL } from '@/config';
+import { FILE_SIZE_UNITS } from '@/constants/file';
 import { FILE_TYPE_BASED_IMAGES } from '@/constants/images';
 import { ARRAY_INDEX } from '@/constants/strings';
 
@@ -88,4 +89,14 @@ export const getInitialsSingleName = (name: any) => {
 };
 
 export const uploadFileMaxSize =
-  FILE_MAX_SIZE?.ATTACH_FILE_MAX_SIZE / (1024 * 1024);
+  FILE_MAX_SIZE?.ATTACH_FILE_MAX_SIZE / FILE_SIZE_UNITS?.MB;
+
+export const maxFileSize = (sizeInBytes: number) => {
+  const sizeInMB = sizeInBytes / FILE_SIZE_UNITS?.MB;
+  return sizeInMB?.toFixed(2) + ' MB';
+};
+
+export const getPreviewImageByType = (data: any) => {
+  const type = data?.type?.split('/')?.pop();
+  return FILE_TYPE_BASED_IMAGES?.[type]?.src || URL?.createObjectURL(data);
+};

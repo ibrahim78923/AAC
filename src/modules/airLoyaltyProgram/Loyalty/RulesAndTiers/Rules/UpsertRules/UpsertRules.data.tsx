@@ -10,11 +10,6 @@ import {
   RULES_AUDIENCE_TYPE_MAPPED,
   RULES_TIME_SPAN_MAPPED,
 } from '@/constants/api-mapped';
-import {
-  LOYALTY_RULES_ATTRIBUTES,
-  RULES_AUDIENCE_TYPE,
-  RULES_OPERATORS,
-} from '@/constants/strings';
 import { CHARACTERS_LIMIT } from '@/constants/validation';
 import * as Yup from 'yup';
 import { useGetTiersListDropdown } from '../RulesFormField/useGetTiersListDropdown';
@@ -24,6 +19,11 @@ import {
   LOYALTY_PROGRAM_TIERS_REWARD_TYPE,
 } from '@/constants/api';
 import { localeDateTime } from '@/lib/date-time';
+import {
+  LOYALTY_RULES_ATTRIBUTES,
+  RULES_AUDIENCE_TYPE,
+  RULES_OPERATORS,
+} from '@/constants/loyalty-program';
 
 export const rulesAudienceType = [
   {

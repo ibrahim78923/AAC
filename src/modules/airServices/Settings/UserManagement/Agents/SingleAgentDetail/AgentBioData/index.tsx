@@ -161,9 +161,10 @@ export const AgentBioData = (props: any) => {
               >
                 <StaticAvatar
                   avatarSrc={
-                    AGENT_LEVELS_IMAGES?.[agentLevelDetail?.data?.badges]?.src
+                    AGENT_LEVELS_IMAGES?.[agentLevelDetail?.data?.badges]
                   }
-                  avatarSize={{ width: 30, height: 30 }}
+                  width={30}
+                  height={30}
                   alt={agentLevelDetail?.data?.badges}
                 />
                 <Typography

@@ -2,7 +2,7 @@ import { AlertModals } from '@/components/AlertModals';
 import { useDeleteArticles } from './useDeleteArticles';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 
-export const DeleteArticles = () => {
+const DeleteArticles = () => {
   const {
     deleteArticles,
     closeArticleDeleteModal,
@@ -22,3 +22,5 @@ export const DeleteArticles = () => {
     />
   );
 };
+
+export default DeleteArticles;

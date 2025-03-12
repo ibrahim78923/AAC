@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { Box, Theme, Typography, useTheme } from '@mui/material';
@@ -22,6 +22,9 @@ const useCalendar = () => {
   const theme = useTheme<Theme>();
   const router = useRouter();
 
+  const [yearValue, setYearValue] = useState(dayjs().format('YYYY'));
+  const [monthValue, setMonthValue] = useState(dayjs().format('MMMM'));
+
   const [selectedEventData, setSelectedEventData] = useState<any>({});
   const [modalEvents, setModalEvents] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -40,6 +43,23 @@ const useCalendar = () => {
     id: '',
     startDate: null,
   });
+
+  const months = Array.from({ length: 12 }, (_, index) =>
+    new Date(0, index, 1).toLocaleString('default', { month: 'long' }),
+  );
+  const handleManualDateChange = () => {
+    const monthIndex = months.indexOf(monthValue);
+    const newDate = new Date(Number(yearValue), monthIndex, 1);
+    calendarRef?.current?.getApi()?.gotoDate(newDate);
+  };
+
+  useEffect(() => {
+    handleManualDateChange();
+  }, [yearValue, monthValue]);
+
+  useEffect(() => {
+    setCalendarDate(`${yearValue} ${monthValue}`);
+  }, [yearValue, monthValue]);
 
   const calanderDrawerType = {
     TASKS: 'Tasks',
@@ -251,8 +271,8 @@ const useCalendar = () => {
     { length: 10 },
     (_, index) => (currentYear + index)?.toString(),
   );
-  const monthsArray = Array?.from({ length: 12 }, (_, index) =>
-    (index + 1).toString(),
+  const monthsArray = Array.from({ length: 12 }, (_, index) =>
+    new Date(0, index, 1).toLocaleString('default', { month: 'long' }),
   );
 
   const handleDateClick = (arg: any) => {
@@ -334,6 +354,11 @@ const useCalendar = () => {
     isDelete,
     router,
     theme,
+
+    yearValue,
+    setYearValue,
+    monthValue,
+    setMonthValue,
   };
 };
 

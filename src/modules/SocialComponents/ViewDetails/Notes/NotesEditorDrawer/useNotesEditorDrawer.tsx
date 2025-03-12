@@ -26,20 +26,21 @@ const useNotesEditorDrawer = (
   const rowApiValues = {
     title: rowData?.title,
     description: rowData?.description,
-    attachfile: rowData?.user?.profileImage,
+    file: '',
+    attachment: rowData?.file,
+    id: rowData?._id,
   };
-
   const methods = useForm({
     resolver: yupResolver(dealsNotesValidationSchema),
     defaultValues: async () => {
       // if action is view or update
 
       if (rowApiValues) {
-        const { title, description, attachfile } = rowApiValues;
+        const { title, description, file } = rowApiValues;
         return {
           title,
           description,
-          attachfile,
+          file,
         };
       }
       return dealsNotesDefaultValues;
@@ -52,7 +53,6 @@ const useNotesEditorDrawer = (
     const formData = new FormData();
     const desc = 'description';
     const file = 'file';
-
     Object.entries(values)?.forEach(([key, value]: any) => {
       if (value !== undefined && value !== null && value !== '') {
         if (key === desc || key === file) {
@@ -83,7 +83,15 @@ const useNotesEditorDrawer = (
     }
   };
 
-  return { handleSubmit, onSubmit, methods, updatedIsLoading, postIsLoading };
+  return {
+    handleSubmit,
+    onSubmit,
+    methods,
+    updatedIsLoading,
+    postIsLoading,
+    rowApiValues,
+    reset,
+  };
 };
 
 export default useNotesEditorDrawer;

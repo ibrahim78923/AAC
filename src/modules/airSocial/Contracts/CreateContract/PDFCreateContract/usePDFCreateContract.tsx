@@ -40,7 +40,7 @@ export default function usePDFCreateContract() {
     const newSignatureField = {
       id: `${Date.now()}`,
       name: name,
-      x: 0,
+      x: 430,
       y: 0,
     };
 

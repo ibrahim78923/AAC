@@ -1,10 +1,10 @@
 import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material';
-import { EXPORT_TYPE } from '@/constants/strings';
 import { useState } from 'react';
 import { ExportModalPropsI } from './ExportModal.interface';
 import { errorSnackbar } from '@/lib/snackbar';
 import { CustomCommonDialog } from '../CustomCommonDialog';
 import { ExportReportIcon } from '@/assets/icons';
+import { EXPORT_TYPE } from '@/constants/file';
 
 export const ExportModal = (props: ExportModalPropsI) => {
   const { open, onSubmit, handleClose, disableCancelBtn, loading } = props;

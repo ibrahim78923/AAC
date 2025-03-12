@@ -54,7 +54,7 @@ const OrganizationTable = () => {
     methods,
     onSubmit,
     getRowValues,
-    isGetRowValues,
+    selectedRecords,
     deleteOrganizationCompany,
     value,
     setValue,
@@ -63,7 +63,7 @@ const OrganizationTable = () => {
     loadingAddCompanyAccount,
     loadingUpdateCompanyAccount,
     setEditData,
-    setIsGetRowValues,
+    setSelectedRecords,
     setPageLimit,
     setPage,
     tableInfo,
@@ -95,9 +95,9 @@ const OrganizationTable = () => {
     }
   };
 
-  const selectedRecord = tableRow?.filter(
-    (obj: any) => isGetRowValues?.includes(obj._id),
-  );
+  // const selectedRecord = tableRow?.filter(
+  //   (obj: any) => selectedRecords?.includes(obj._id),
+  // );
 
   return (
     <>
@@ -363,7 +363,7 @@ const OrganizationTable = () => {
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
-                disabled={isGetRowValues?.length === 0}
+                disabled={selectedRecords?.length === 0}
                 className="small"
                 endIcon={<ArrowDropDownIcon />}
               >
@@ -389,7 +389,7 @@ const OrganizationTable = () => {
                       setDrawerHeading('Edit Company');
                       setIsOpenDrawer(true);
                     }}
-                    disabled={isGetRowValues?.length > 1}
+                    disabled={selectedRecords?.length > 1}
                   >
                     Edit
                   </MenuItem>
@@ -405,7 +405,7 @@ const OrganizationTable = () => {
                       setDrawerHeading('Company Account');
                       setIsOpenDrawer(true);
                     }}
-                    disabled={isGetRowValues.length > 1}
+                    disabled={selectedRecords.length > 1}
                   >
                     View
                   </MenuItem>
@@ -415,7 +415,7 @@ const OrganizationTable = () => {
                     handleClose();
                     setIsOpenDelete(true);
                   }}
-                  disabled={selectedRecord?.some(
+                  disabled={selectedRecords?.some(
                     (record: any) => record?.isDefault,
                   )}
                 >
@@ -433,7 +433,7 @@ const OrganizationTable = () => {
                     setDrawerHeading('Create Company');
                     setIsOpenDrawer(true);
                     setEditData({});
-                    setIsGetRowValues([]);
+                    setSelectedRecords([]);
                     reset();
                     setImagePreview('');
                   }}

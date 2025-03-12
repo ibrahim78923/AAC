@@ -4,7 +4,7 @@ import {
   ASSET_TYPE,
   MODE_OF_PROCUREMENT,
   PRODUCT_CATALOG_STATUS,
-} from '@/constants/strings';
+} from '@/constants/services';
 import { truncateText } from '@/utils/avatarUtils';
 import { Box, Typography } from '@mui/material';
 

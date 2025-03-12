@@ -1,7 +1,7 @@
-import { CheckboxField } from '@/components/InputFields/CheckboxField';
 import { TruncateText } from '@/components/TruncateText';
 import { AIR_SERVICES } from '@/constants/routes';
 import { uiDateFormat } from '@/lib/date-time';
+import { tableCheckbox } from '@/utils/table-checkbox';
 
 export const purchaseOrderColumnsFunction = (
   purchaseOrderData: any,
@@ -10,50 +10,11 @@ export const purchaseOrderColumnsFunction = (
   router: any,
 ): any => {
   return [
-    {
-      accessorFn: (row: any) => row?._id,
-      id: '_id',
-      cell: (info: any) => (
-        <CheckboxField
-          checked={
-            !!purchaseOrderData?.find(
-              (item: any) => item?._id === info?.getValue(),
-            )
-          }
-          onChange={(e: any) => {
-            e?.target?.checked
-              ? setPurchaseOrderData([
-                  ...purchaseOrderData,
-                  purchaseData?.find(
-                    (item: any) => item?._id === info?.getValue(),
-                  ),
-                ])
-              : setPurchaseOrderData(
-                  purchaseOrderData?.filter((item: any) => {
-                    return item?._id !== info?.getValue();
-                  }),
-                );
-          }}
-          name={info?.getValue()}
-        />
-      ),
-      header: (
-        <CheckboxField
-          checked={
-            purchaseData?.length
-              ? purchaseOrderData?.length === purchaseData?.length
-              : false
-          }
-          onChange={(e: any) => {
-            e?.target?.checked
-              ? setPurchaseOrderData([...purchaseData])
-              : setPurchaseOrderData([]);
-          }}
-          name="_id"
-        />
-      ),
-      isSortable: false,
-    },
+    tableCheckbox({
+      selectedList: purchaseOrderData,
+      setSelectedList: setPurchaseOrderData,
+      tableData: purchaseData,
+    }),
     {
       accessorFn: (row: any) => row?.orderNumber,
       id: 'orderNumber',

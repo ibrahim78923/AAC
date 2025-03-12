@@ -5,13 +5,14 @@ import {
 } from '@/components/ReactHookForm';
 import { SingleDropdownButtonCloseMenuI } from '@/components/Buttons/SingleDropdownButton/SingleDropdownButton.interface';
 import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
-import { ROLE } from '@/constants/strings';
 import { GLOBAL_CHARACTERS_LIMIT } from '@/constants/validation';
 import { NextRouter } from 'next/router';
 import { Dispatch, SetStateAction } from 'react';
 import * as Yup from 'yup';
 import { ACCEPT_FILE_EXTENSIONS } from '@/constants/file';
 import { uploadFileMaxSize } from '@/utils/avatarUtils';
+import { ROLES } from '@/constants/strings';
+import { PAGINATION } from '@/config';
 
 export const reportIssueFormValidationSchema = (checkPermission: any) =>
   Yup?.object()?.shape({
@@ -88,7 +89,10 @@ export const reportIssueFormFieldsDynamic = (
       fullWidth: true,
       required: true,
       apiQuery: apiQueryRequester,
-      externalParams: { limit: 500, role: ROLE?.ORG_REQUESTER },
+      externalParams: {
+        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
+        role: ROLES?.ORG_REQUESTER,
+      },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
       placeholder: 'Add Requester',

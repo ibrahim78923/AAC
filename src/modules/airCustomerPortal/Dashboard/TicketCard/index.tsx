@@ -50,6 +50,7 @@ export const TicketCard = (props: any) => {
         }
         variant="determinate"
         progressBarColor={color}
+        progressBarLabel={label}
       />
       <Typography variant="body2" pt={1} color="blue.main">
         Tickets Status: {`${count}/${totalCount}`}

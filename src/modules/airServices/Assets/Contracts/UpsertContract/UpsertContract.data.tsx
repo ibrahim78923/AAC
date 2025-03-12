@@ -6,11 +6,6 @@ import {
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import { Box, Typography } from '@mui/material';
-import {
-  BILLING_CYCLE,
-  CONTRACT_STATUS,
-  LICENSE_TYPE,
-} from '@/constants/strings';
 import { ItemDetail } from './ItemDetail';
 import {
   dynamicFormInitialValue,
@@ -24,6 +19,11 @@ import GetContractAdminAgentDropdown from '../ContractFormFieldsDropdowns/GetCon
 import GetContractAssetsDropdown from '../ContractFormFieldsDropdowns/GetContractAssetsDropdown';
 import GetContractContractTypeDropdown from '../ContractFormFieldsDropdowns/GetContractContractTypeDropdown';
 import { localeDateTime } from '@/lib/date-time';
+import {
+  BILLING_CYCLE,
+  CONTRACT_STATUS,
+  LICENSE_TYPE,
+} from '@/constants/services';
 
 export const CONTRACT_TYPES_CHECK = {
   LEASE: 'lease',

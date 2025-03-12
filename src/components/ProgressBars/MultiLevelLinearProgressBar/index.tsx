@@ -20,6 +20,7 @@ export const MultiLevelLinearProgressBar: React.FC<{
               component={'span'}
             >
               <LinearProgress
+                aria-label={`${item?.text} multi level linear progress`}
                 variant="determinate"
                 value={100}
                 sx={{

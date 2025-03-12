@@ -10,7 +10,6 @@ import { updateQuoteSteps } from './UpdateQuote.data';
 import CreateContacts from './CreateContacts';
 import { LoadingButton } from '@mui/lab';
 import { useAppSelector } from '@/redux/store';
-import DiscountModal from './DiscountModal';
 
 const UpdateQuote = () => {
   const {
@@ -51,10 +50,6 @@ const UpdateQuote = () => {
     setIsOpenFormCreateProduct,
     handleLoyalityCalulation,
     loyalityCalculation,
-    isOpenDiscountModal,
-    setIsOpenDiscountModal,
-    handleApplyGetDiscount,
-    handleContinueDiscount,
   } = useUpdateQuote();
 
   const stepsArgs: any = {
@@ -217,18 +212,6 @@ const UpdateQuote = () => {
           onClose={() => setIsOpenFormCreateProduct(false)}
           dataGetQuoteById={dataGetQuoteById}
           productsArray={productsArray}
-        />
-      )}
-
-      {isOpenDiscountModal?.isToggle && (
-        <DiscountModal
-          open={isOpenDiscountModal}
-          onClose={() =>
-            setIsOpenDiscountModal({ ...isOpenDiscountModal, isToggle: false })
-          }
-          totalAmount={calculations?.finalTotal}
-          handleApplyDiscount={handleApplyGetDiscount}
-          handleContinueDiscount={handleContinueDiscount}
         />
       )}
     </>

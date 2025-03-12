@@ -235,5 +235,6 @@ export const useUpsertDashboard = () => {
     setValue,
     openPreviewDashboard,
     showLoader,
+    dashboardId,
   };
 };

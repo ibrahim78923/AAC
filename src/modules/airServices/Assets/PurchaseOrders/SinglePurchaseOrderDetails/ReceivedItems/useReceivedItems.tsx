@@ -11,7 +11,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useRouter } from 'next/router';
-import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
+import { PURCHASE_ORDER_STATUS } from '@/constants/services';
 
 export const useReceivedItems = (props: any) => {
   const router = useRouter();

@@ -1,89 +1,104 @@
-import React, { useCallback } from 'react';
-import { Box, Typography, useTheme } from '@mui/material';
+import React, { useCallback, useMemo } from 'react';
+import { Box, Typography } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
 import { useFormContext } from 'react-hook-form';
 import { CsvImportIcon } from '@/assets/icons';
 import CustomLabel from '../CustomLabel';
+import { ARRAY_INDEX, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
+import { FILE_MAX_SIZE, FILE_SIZE_MESSAGES } from '@/config';
+import { maxFileSize } from '@/utils/avatarUtils';
 
 const RHFFileImport = (props: any) => {
   const { required, name, ...other } = props;
+
   const {
     setValue,
     getValues,
     formState: { errors },
   }: any = useFormContext();
-  const theme = useTheme();
+
+  const onDrop = useCallback(
+    (files: any) => {
+      if (files && files?.length > SELECTED_ARRAY_LENGTH?.ZERO) {
+        setValue(name, files?.[ARRAY_INDEX?.ZERO]);
+      }
+    },
+    [setValue, name],
+  );
+
   const { acceptedFiles, getRootProps, getInputProps, fileRejections } =
     useDropzone({
       multiple: false,
       accept: {
         'text/csv': ['.csv'],
       },
-      onDrop: useCallback(
-        (files: any) => {
-          if (files && files?.length > 0) {
-            setValue(name, files?.[0]);
-          }
-        },
-        [setValue, name],
-      ),
+      onDrop,
     });
+
+  const fileName = useMemo(() => {
+    return acceptedFiles?.[ARRAY_INDEX?.ZERO]?.name || getValues(name)?.name;
+  }, [acceptedFiles, getValues(name), name]);
+
   return (
     <>
+      <input type="file" {...getInputProps()} id={name} />
       {other?.label && <CustomLabel label={other?.label} required={required} />}
-      <Box
-        {...getRootProps()}
-        sx={{
-          border: `1px solid ${theme?.palette?.custom?.off_white_three}`,
-          borderRadius: '8px',
-          padding: '20px',
-          textAlign: 'center',
-          cursor: 'pointer',
-        }}
-      >
-        <input {...getInputProps()} />
-
-        {!!getValues(name)?.name ? (
-          <Typography variant="body2">
-            {acceptedFiles?.[0]?.name || getValues(name)?.name}
-          </Typography>
-        ) : (
-          <Box>
-            <CsvImportIcon />
-            <Typography variant="body1" fontWeight={'bold'}>
-              CSV File
+      <label htmlFor={name}>
+        <Box
+          {...getRootProps()}
+          onClick={undefined}
+          sx={{
+            border: `1px solid `,
+            borderColor: 'custom.off_white_three',
+            borderRadius: 2,
+            padding: 2,
+            textAlign: 'center',
+            cursor: 'pointer',
+          }}
+        >
+          {!!fileName ? (
+            <Typography variant="body2" color={'slateBlue.main'}>
+              {fileName}
             </Typography>
-            <Typography variant="body2">
-              <Typography
-                component="span"
-                fontSize={12}
-                color={theme?.palette?.primary?.main}
-              >
-                Click to upload{' '}
+          ) : (
+            <>
+              <CsvImportIcon />
+              <Typography variant="body1" fontWeight={'fontWeightBold'}>
+                CSV File
               </Typography>
-              or drag and drop
-            </Typography>
-            <Typography component="span" fontSize={12}>
-              CSV file here
-            </Typography>
-          </Box>
-        )}
-      </Box>
+              <Typography variant="body2" sx={{ my: 0.5 }}>
+                <Typography component="span" variant="body2" color="primary">
+                  Click to upload{' '}
+                </Typography>
+                or drag and drop
+              </Typography>
+              <Typography variant="body3">CSV file here</Typography>
+            </>
+          )}
+        </Box>
+      </label>
+
       {!!errors?.[name] && !!!getValues(name)?.name && (
         <Typography variant="body2" color="error">
           {errors?.[name]?.message}
         </Typography>
       )}
+
       {!!fileRejections?.length &&
         fileRejections?.map((fileError: any, index: any) => (
           <Typography
             variant="body2"
             color="error"
             key={fileError?.code?.[index]}
+            sx={{ wordBreak: 'break-all' }}
           >
-            {fileError?.errors?.[0]?.message}
-            <br />
-            {fileError?.errors?.[1]?.message}
+            {fileError?.errors?.some(
+              (err: any) => err?.code === FILE_SIZE_MESSAGES?.FILE_TOO_LARGE,
+            )
+              ? `File size should be less than ${maxFileSize(
+                  FILE_MAX_SIZE?.ATTACH_FILE_MAX_SIZE,
+                )}`
+              : `${fileError?.errors[ARRAY_INDEX?.ZERO]?.message}`}
           </Typography>
         ))}
     </>

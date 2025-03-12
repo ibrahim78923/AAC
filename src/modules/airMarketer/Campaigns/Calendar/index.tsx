@@ -64,6 +64,11 @@ const Calendar = () => {
     campaignsTaskLoading,
     calanderDrawerType,
     handleEditClick,
+
+    yearValue,
+    setYearValue,
+    monthValue,
+    setMonthValue,
   } = useCalendar();
 
   const renderLoader = () => {
@@ -96,6 +101,8 @@ const Calendar = () => {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 label="Year"
+                onChange={(e: any) => setYearValue(e.target.value)}
+                value={yearValue}
               >
                 {yearsArray?.map((item: any) => (
                   <MenuItem key={uuidv4()} value={item}>
@@ -110,6 +117,8 @@ const Calendar = () => {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 label="Month"
+                onChange={(e: any) => setMonthValue(e.target.value)}
+                value={monthValue}
               >
                 {monthsArray?.map((item: any) => (
                   <MenuItem key={uuidv4()} value={item}>

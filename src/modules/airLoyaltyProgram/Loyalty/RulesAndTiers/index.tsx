@@ -8,7 +8,10 @@ export const RulesAndTiers = () => {
     <>
       <Header />
       <br />
-      <PermissionsTabs tabsDataArray={loyaltyRulesAndTiersTabs} />
+      <PermissionsTabs
+        hasNoPermissions
+        tabsDataArray={loyaltyRulesAndTiersTabs}
+      />
     </>
   );
 };

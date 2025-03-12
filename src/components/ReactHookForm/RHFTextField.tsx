@@ -20,10 +20,13 @@ export default function RHFTextField({
       render={({ field, fieldState: { error } }) => (
         <>
           {other?.label && (
-            <CustomLabel label={other?.label} required={required} />
+            <label htmlFor={name}>
+              <CustomLabel label={other?.label} required={required} />
+            </label>
           )}
           <TextField
             {...field}
+            id={name}
             value={field?.value || ''}
             onChange={field?.onChange}
             onBlur={() => {

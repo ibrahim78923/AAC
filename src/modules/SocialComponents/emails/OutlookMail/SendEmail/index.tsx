@@ -15,7 +15,7 @@ import {
   FormProvider,
   RHFAutocompleteAsync,
   RHFCheckbox,
-  RHFDropZone,
+  RHFDropZoneMultipleFiles,
   RHFEditor,
   RHFTextField,
 } from '@/components/ReactHookForm';
@@ -328,7 +328,7 @@ const SendEmailDrawer = (props: any) => {
               </Grid>
 
               <Grid item xs={12}>
-                <RHFDropZone
+                <RHFDropZoneMultipleFiles
                   name="attachments"
                   label="Attachments"
                   multiple

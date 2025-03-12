@@ -3,7 +3,7 @@ import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { useCloneReport } from './useCloneReport';
 import { CloneReportIcon } from '@/assets/icons';
 
-export const CloneReport = () => {
+const CloneReport = () => {
   const { cloneReport, closeModal, cloneReportsStatus, isPortalOpen } =
     useCloneReport();
 
@@ -20,3 +20,5 @@ export const CloneReport = () => {
     />
   );
 };
+
+export default CloneReport;

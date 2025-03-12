@@ -1,6 +1,6 @@
 import { TruncateText } from '@/components/TruncateText';
 import { UserInfo } from '@/components/UserInfo';
-import { TICKET_TYPE } from '@/constants/strings';
+import { TICKET_TYPE } from '@/constants/services';
 import { formatTimeDifference } from '@/lib/date-time';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { Box, Typography } from '@mui/material';

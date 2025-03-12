@@ -10,16 +10,20 @@ export const CustomIconButton = (props: CustomIconButtonPropsI) => {
     size = 'small',
     customStyles,
     color,
+    iconName,
   } = props;
 
   return (
     <IconButton
+      disableFocusRipple
+      disableRipple
       disabled={disabled}
       color={color}
       sx={customStyles}
       onClick={onClick}
       type={type}
       size={size}
+      aria-label={iconName}
     >
       {children}
     </IconButton>

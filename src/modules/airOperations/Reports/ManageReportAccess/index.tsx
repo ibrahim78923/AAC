@@ -3,7 +3,7 @@ import { useManageReportAccess } from './useManageReportAccess';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
 import { FormGrid } from '@/components/Grids/FormGrid';
 
-export const ManageReportAccess = () => {
+const ManageReportAccess = () => {
   const {
     methods,
     handleSubmit,
@@ -30,3 +30,5 @@ export const ManageReportAccess = () => {
     </CustomCommonDialog>
   );
 };
+
+export default ManageReportAccess;

@@ -7,7 +7,11 @@ import LoadingScreen from '@/components/LoadingScreen';
 import { ROLES } from '@/constants/strings';
 import { SUPER_ADMIN, AUTH } from '@/constants';
 import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
-import { setActivePermissionsSession, setActiveProductSession } from '@/utils';
+import {
+  getSession,
+  setActivePermissionsSession,
+  setActiveProductSession,
+} from '@/utils';
 import {
   orgAdminAllPermissions,
   superAdminAllPermissions,
@@ -38,6 +42,9 @@ export default function GuestGuard({ children }: any) {
   const [isLoading, setIsLoading] = useState(true);
 
   const { isAuthenticated, isInitialized, user, logout }: any = useAuth();
+  const {
+    accessToken,
+  }: { accessToken: string; refreshToken: string; user: any } = getSession();
 
   // const findSkillByEmail = ({ user, array }: any) => {
   //   return array.find((skill: any) => skill?.email === user?.email);
@@ -72,7 +79,7 @@ export default function GuestGuard({ children }: any) {
 
   useEffect(() => {
     if (!isInitialized) return;
-    if (isAuthenticated) {
+    if (isAuthenticated && accessToken) {
       push(pathVariable);
       if (pathVariable === AUTH.LOGIN) {
         logout();

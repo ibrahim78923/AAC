@@ -5,7 +5,7 @@ import {
   upsertTicketValidationSchema,
 } from './UpsertRelatedTicket.data';
 import { useEffect } from 'react';
-import { ARRAY_INDEX, MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
+import { ARRAY_INDEX, MODULE_TYPE } from '@/constants/strings';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { RELATED_TICKET_ACTIONS_CONSTANT } from '../Header/Header.data';
 import {
@@ -22,6 +22,7 @@ import { isoDateString } from '@/lib/date-time';
 import { REGEX } from '@/constants/validation';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { useFormLib } from '@/hooks/useFormLib';
+import { TICKET_TYPE } from '@/constants/services';
 
 export const useUpsertRelatedTicket = () => {
   const { getChildTicketsListData } = useGetRelatedTicketList();

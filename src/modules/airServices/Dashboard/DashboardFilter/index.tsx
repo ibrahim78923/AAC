@@ -3,14 +3,36 @@ import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys'
 import { Box, Typography } from '@mui/material';
 import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
 import { Permissions } from '@/constants/permissions';
-import EmailThisDashboard from '../EmailThisDashboard';
 import { useDashboardFilter } from './useDashboardFilter';
 import { DashboardListFieldDropdown } from '../DashboardFormFields/DashboardsListFieldDropdown';
 import { TruncateText } from '@/components/TruncateText';
-import { DownloadDashboards } from '../DownloadDashboards';
 import { DASHBOARD_FILTER_PORTAL_ACTION } from './DashboardFilter.data';
 import { CustomButton } from '@/components/Buttons/CustomButton';
 import { CustomLinearProgress } from '@/components/ProgressBars/CustomLinearProgress';
+import dynamic from 'next/dynamic';
+import LazyLoadingFlow from '@/components/LazyLoadingFlow';
+
+const EmailThisDashboard = dynamic(() => import('../EmailThisDashboard'), {
+  ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="email dashboard"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
+});
+
+const DownloadDashboards = dynamic(() => import('../DownloadDashboards'), {
+  ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="download dashboard"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
+});
 
 export const DashboardFilter = (props: any) => {
   const { apiLoader, hasDefaultDashboard, hasError, showLoader, downloadRef } =

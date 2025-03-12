@@ -56,7 +56,7 @@ const useSignup = () => {
 
   debouncedSearch(organizationNumber, setOrgNumber);
 
-  const { data, isSuccess, isError } = useGetAuthCompaniesQuery(
+  const { data, isSuccess, isError, error } = useGetAuthCompaniesQuery(
     { q: orgNumber },
     { skip: orgNumber?.length < 3 },
   );
@@ -196,7 +196,11 @@ const useSignup = () => {
 
   useEffect(() => {
     if (isError) {
-      errorSnackbar('Please enter correct Organisation Number');
+      if (error?.data?.statusCode === 404) {
+        errorSnackbar('Please enter correct Organisation Number');
+      } else {
+        errorSnackbar(error?.data?.message);
+      }
     }
   }, [data, isError]);
 

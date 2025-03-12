@@ -12,8 +12,8 @@ import {
 import { useEffect } from 'react';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
-import { SERVICE_CATALOG_STATUSES } from '@/constants/strings';
 import { useFormLib } from '@/hooks/useFormLib';
+import { SERVICE_CATALOG_STATUSES } from '@/constants/services';
 
 export const useUpsertServices = () => {
   const router = useRouter();

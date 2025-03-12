@@ -591,6 +591,7 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
     consumerDetailLoading,
     VoucherData,
     createConsumerFunction,
+    consumerDetails,
     isConsumerDetailsDataAvailable,
   };
 };

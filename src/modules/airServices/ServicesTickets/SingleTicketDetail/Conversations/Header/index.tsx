@@ -1,11 +1,11 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { SingleDropdownButton } from '@/components/Buttons/SingleDropdownButton';
-import { Permissions } from '@/constants/permissions';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { pxToRem } from '@/utils/getFontValue';
 import { PlusSharedColorIcon } from '@/assets/icons';
 import { useHeader } from './useHeader';
 import { ticketsConversationPortalActionComponent } from './Header.data';
+import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 
 export const Header = () => {
   const { addConversationDropdownActions, isPortalOpen } = useHeader();
@@ -14,9 +14,11 @@ export const Header = () => {
     <>
       <PageTitledHeader title={'Conversation'}>
         <PermissionsGuard
-          permissions={
-            Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_ADD_CONVERSATION
-          }
+          permissions={[
+            AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_CONVERSATION_NOTE,
+            AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_CONVERSATION_REPLY,
+            AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_CONVERSATION_DISCUSSIONS,
+          ]}
         >
           <SingleDropdownButton
             dropdownOptions={addConversationDropdownActions}

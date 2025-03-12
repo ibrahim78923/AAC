@@ -1,4 +1,4 @@
-import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
+import { PURCHASE_ORDER_STATUS } from '@/constants/services';
 import { uiDateFormat } from '@/lib/date-time';
 import { truncateText } from '@/utils/avatarUtils';
 import { DYNAMIC_FORM_FIELDS_TYPES } from '@/utils/dynamic-forms';

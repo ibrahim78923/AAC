@@ -2,9 +2,10 @@ import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import { useGetAllKnowledgeBaseArticleQuery } from '@/services/airCustomerPortal/KnowledgeBase';
 import { PAGINATION } from '@/config';
-import { ARRAY_INDEX, ARTICLE_STATUS } from '@/constants/strings';
+import { ARRAY_INDEX } from '@/constants/strings';
 import { getActiveAccountSession, getSession } from '@/utils';
 import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
+import { ARTICLE_STATUS } from '@/constants/services';
 
 export const useKnowledgeBaseDetail = () => {
   const router = useRouter();

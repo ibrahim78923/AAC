@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { filteredEmptyValues } from '@/utils/api';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
-import { MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
+import { MODULE_TYPE } from '@/constants/strings';
 import { useRouter } from 'next/router';
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 import {
@@ -25,6 +25,7 @@ import {
   dynamicAttachmentsPost,
 } from '@/utils/dynamic-forms';
 import { isoDateString } from '@/lib/date-time';
+import { TICKET_TYPE } from '@/constants/services';
 
 export const useNewIncident = (props: {
   openDrawer: boolean;

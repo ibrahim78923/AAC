@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { contractsListsColumnsFunction } from './Contracts.data';
-import { EXPORT_FILE_TYPE } from '@/constants/strings';
 import { downloadFile } from '@/utils/file';
 import {
   useLazyGetContractQuery,
@@ -12,6 +11,7 @@ import { useTheme } from '@mui/material';
 import { buildQueryParams } from '@/utils/api';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { AIR_SERVICES } from '@/constants/routes';
+import { EXPORT_FILE_TYPE } from '@/constants/file';
 
 export const useContracts = () => {
   const theme = useTheme();

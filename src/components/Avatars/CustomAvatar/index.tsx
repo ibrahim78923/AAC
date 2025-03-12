@@ -16,7 +16,7 @@ export const CustomAvatar = (props: CustomAvatarPropsI) => {
     backgroundColor = 'primary.main',
     customStyles,
     padding,
-    initialColor = 'grey.200',
+    initialColor = 'grey.800',
     nameInitialsSize = 14,
   } = props;
 

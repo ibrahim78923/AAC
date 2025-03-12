@@ -40,6 +40,16 @@ const Notes = ({ companyId }: any) => {
   } = useNotes(companyId);
   const { theme } = useNameWithStyledWords();
 
+  const getInitials = (name: any) => {
+    if (!name) return '';
+    const words = name.trim().split(/\s+/);
+    if (words.length === 1) return words[0].charAt(0).toUpperCase();
+    return (
+      words[0].charAt(0).toUpperCase() +
+      words[words.length - 1].charAt(0).toUpperCase()
+    );
+  };
+
   return (
     <Box sx={styles?.horizontalTabsBox}>
       <Grid container spacing={2}>
@@ -145,13 +155,31 @@ const Notes = ({ companyId }: any) => {
                     alignItems: 'center',
                   }}
                 >
-                  <Image
-                    src={generateImage(item?.file?.url)}
-                    width={70}
-                    height={70}
-                    alt="image"
-                    style={{ borderRadius: '50%' }}
-                  />
+                  {item?.user?.profileImage ? (
+                    <Image
+                      src={generateImage(item?.user?.profileImage)}
+                      width={70}
+                      height={70}
+                      alt="image"
+                      style={{ borderRadius: '50%' }}
+                    />
+                  ) : (
+                    <Box
+                      sx={{
+                        width: '70px',
+                        height: '70px',
+                        borderRadius: '50%',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        bgcolor: theme?.palette?.grey?.A200,
+                      }}
+                    >
+                      <Typography variant="h5">
+                        {getInitials(item?.user?.name)}
+                      </Typography>
+                    </Box>
+                  )}
                 </Grid>
                 <Grid item xs={12} lg={9} sm={9} sx={{ gap: 1 }}>
                   <Typography

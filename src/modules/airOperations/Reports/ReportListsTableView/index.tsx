@@ -39,6 +39,7 @@ export const ReportsListsTableView = () => {
         }}
         incrementPageClick={increment}
         decrementPageClick={decrement}
+        noDataTableText="No report found"
       />
     </>
   );

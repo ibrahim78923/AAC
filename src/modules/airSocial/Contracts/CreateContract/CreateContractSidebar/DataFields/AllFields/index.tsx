@@ -20,61 +20,25 @@ import ModalDuplicateDataField from './ModalDuplicateDataField';
 import useAllFields from './useAllFields';
 import ModalPropertiesField from './ModalPropertiesField';
 
-const getDataField = (field: any, handleUpdateDynamicField: any) => {
+const getDataField = (index: number, field: any) => {
   switch (field?.type) {
     case FIELD_TYPES?.TEXT:
-      return (
-        <DataFieldText
-          data={field}
-          value={field?.value}
-          handleUpdateDynamicField={handleUpdateDynamicField}
-        />
-      );
+      return <DataFieldText index={index} data={field} />;
 
     case FIELD_TYPES?.DATE:
-      return (
-        <DataFieldDate
-          data={field}
-          value={field?.value}
-          handleUpdateDynamicField={handleUpdateDynamicField}
-        />
-      );
+      return <DataFieldDate index={index} data={field} />;
 
     case FIELD_TYPES?.NUMBER:
-      return (
-        <DataFieldNumber
-          data={field}
-          value={field?.value}
-          handleUpdateDynamicField={handleUpdateDynamicField}
-        />
-      );
+      return <DataFieldNumber index={index} data={field} />;
 
     case FIELD_TYPES?.CHECKBOX:
-      return (
-        <DataFieldCheckbox
-          data={field}
-          value={field?.value}
-          handleUpdateDynamicField={handleUpdateDynamicField}
-        />
-      );
+      return <DataFieldCheckbox index={index} data={field} />;
 
     case FIELD_TYPES?.SELECT:
-      return (
-        <DataFieldCheckbox
-          data={field}
-          value={field?.value}
-          handleUpdateDynamicField={handleUpdateDynamicField}
-        />
-      );
+      return <DataFieldCheckbox index={index} data={field} />;
 
     default:
-      return (
-        <DataFieldText
-          data={field}
-          value={field?.value}
-          handleUpdateDynamicField={handleUpdateDynamicField}
-        />
-      );
+      return <DataFieldText index={index} data={field} />;
   }
 };
 
@@ -122,7 +86,7 @@ export default function AllFields({
             <FieldIcon size={30}>{getFieldIcon(field?.type)}</FieldIcon>
             <Box sx={styles?.fieldInfo}>
               <Box sx={styles?.fieldName}>{field?.label}</Box>
-              {getDataField(field, handleUpdateDynamicField)}
+              {getDataField(index, field)}
             </Box>
             <CustomMenu
               field={field}
@@ -131,7 +95,6 @@ export default function AllFields({
               setIndexValue={setIndexValue}
               setOpenModal={setOpenModal}
               setSelectedField={setSelectedField}
-              selectedField={selectedField}
               handleRemoveDynamicField={handleRemoveDynamicField}
             />
           </Box>
@@ -168,7 +131,6 @@ const CustomMenu = ({
   setIndexValue,
   setOpenModal,
   setSelectedField,
-  selectedField,
   handleRemoveDynamicField,
 }: any) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -227,8 +189,8 @@ const CustomMenu = ({
         <Divider />
 
         <MenuItem
-          disabled={!selectedField?.id}
-          onClick={() => handleRemoveDynamicField(index - 5)}
+          disabled={[0, 1, 2, 3, 4]?.includes(index)}
+          onClick={() => handleRemoveDynamicField(index)}
         >
           Delete field
         </MenuItem>

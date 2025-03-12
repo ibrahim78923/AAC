@@ -1,9 +1,8 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { RHFCheckbox, RHFTextField } from '@/components/ReactHookForm';
+import { RHFTextField } from '@/components/ReactHookForm';
 import { Box, Button, Container, Toolbar, Typography } from '@mui/material';
 import { useChartEditor } from './useChartEditor';
 import { CHARTS } from '@/constants/strings';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { xAxesDataArray } from './ChartEditor.data';
 import { ChartEditorI } from './ChartEditor.interface';
 import { ChartListDropdown } from './ChartFormFields/ChartListDropdown';
@@ -95,13 +94,14 @@ export const ChartEditor = (props: ChartEditorI) => {
               )}
             </>
           )}
-          <RHFCheckbox
+          {/* TODO : will be added in future */}
+          {/* <RHFCheckbox
             name="subFilter"
             label="Add Date Range Filter"
             disabled={disableTemplate}
             icon={<CheckboxIcon />}
             checkedIcon={<CheckboxCheckedIcon />}
-          />
+          /> */}
         </Container>
       </Box>
       <Box position="static">

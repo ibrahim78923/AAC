@@ -2,8 +2,29 @@ import { AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS } from '@/constants/pe
 import { SingleDropdownButtonCloseMenuI } from '@/components/Buttons/SingleDropdownButton/SingleDropdownButton.interface';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { OPERATIONS_USERS_ACTIONS_CONSTANT } from '../User.data';
-import { UpsertUser } from '../UpsertUser';
-import { DeleteUser } from '../DeleteUser';
+import dynamic from 'next/dynamic';
+import LazyLoadingFlow from '@/components/LazyLoadingFlow';
+
+const UpsertUser = dynamic(() => import('../UpsertUser'), {
+  ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="upsert user"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
+});
+const DeleteUser = dynamic(() => import('../DeleteUser'), {
+  ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="delete user"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
+});
 
 const {
   ADD_OPERATIONS_USERS,

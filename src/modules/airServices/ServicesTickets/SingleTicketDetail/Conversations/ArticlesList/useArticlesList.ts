@@ -1,5 +1,5 @@
 import { PAGINATION } from '@/config';
-import { ARTICLE_STATUS } from '@/constants/strings';
+import { ARTICLE_STATUS } from '@/constants/services';
 import { setIsResponsePortalClose } from '@/redux/slices/airServices/ticket-conversation/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useGetServicesTicketsConversationPublishedArticlesListQuery } from '@/services/airServices/tickets/single-ticket-details/conversation';

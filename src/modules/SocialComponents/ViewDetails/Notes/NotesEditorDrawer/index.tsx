@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 
@@ -13,6 +13,8 @@ import {
 } from './NotesEditorDrawer.data';
 
 import { v4 as uuidv4 } from 'uuid';
+import Image from 'next/image';
+import { IMG_URL } from '@/config';
 
 const NotesEditorDrawer = (props: any) => {
   const {
@@ -22,20 +24,31 @@ const NotesEditorDrawer = (props: any) => {
     rowData,
     setSelectedCheckboxes,
   } = props;
-  const { handleSubmit, onSubmit, methods, updatedIsLoading, postIsLoading } =
-    useNotesEditorDrawer(
-      openDrawer,
-      setOpenDrawer,
-      companyId,
-      rowData,
-      setSelectedCheckboxes,
-    );
+
+  const {
+    handleSubmit,
+    onSubmit,
+    methods,
+    updatedIsLoading,
+    postIsLoading,
+    rowApiValues,
+    reset,
+  } = useNotesEditorDrawer(
+    openDrawer,
+    setOpenDrawer,
+    companyId,
+    rowData,
+    setSelectedCheckboxes,
+  );
 
   return (
     <div>
       <CommonDrawer
         isDrawerOpen={openDrawer}
-        onClose={() => setOpenDrawer('')}
+        onClose={() => {
+          reset();
+          setOpenDrawer('');
+        }}
         title={drawerTitle[openDrawer]}
         okText={drawerButtonTitle[openDrawer]}
         isOk={true}
@@ -57,6 +70,21 @@ const NotesEditorDrawer = (props: any) => {
             </Grid>
           </FormProvider>
         </Box>
+
+        {['Edit', 'View']?.includes(openDrawer) && (
+          <>
+            <Typography variant="h6" sx={{ mt: 2 }}>
+              Attachments
+            </Typography>
+            <Image
+              src={`${IMG_URL}${rowApiValues?.attachment?.url}`}
+              alt="attachment"
+              width={80}
+              height={80}
+              style={{ borderRadius: '8px' }}
+            />
+          </>
+        )}
       </CommonDrawer>
     </div>
   );

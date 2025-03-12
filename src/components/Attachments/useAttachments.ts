@@ -1,18 +1,10 @@
-import {
-  useLazyGetSingleAttachmentQuery,
-  useDeleteSingleAttachmentMutation,
-} from '@/services/airServices/tickets/attachments';
+import { useLazyGetSingleAttachmentQuery } from '@/services/airServices/tickets/attachments';
 import { useEffect, useState } from 'react';
 import { AttachmentsPropsI } from './Attachments.interface';
-import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 export const useAttachments = (props: AttachmentsPropsI) => {
   const { recordId, hasAttachments } = props;
   const [deleteModal, setDeleteModal] = useState({ open: false, id: '' });
-
-  const [deleteAttachmentTrigger, deleteAttachmentStatus] =
-    useDeleteSingleAttachmentMutation();
-
   const [
     getSingleAttachmentTrigger,
     { data, isFetching, isLoading, isError },
@@ -37,32 +29,13 @@ export const useAttachments = (props: AttachmentsPropsI) => {
     getSingleAttachment();
   }, []);
 
-  const deleteAttachmentSubmit = async () => {
-    const deleteSingleAttachmentParameter = {
-      queryParams: {
-        id: deleteModal?.id,
-      },
-    };
-
-    try {
-      await deleteAttachmentTrigger(deleteSingleAttachmentParameter)?.unwrap();
-      successSnackbar('Attachment Deleted Successfully!');
-      getSingleAttachment?.();
-      setDeleteModal({ open: false, id: '' });
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
-      setDeleteModal({ open: false, id: '' });
-    }
-  };
-
   return {
     deleteModal,
     setDeleteModal,
-    deleteAttachmentSubmit,
-    deleteAttachmentStatus,
     data,
     isFetching,
     isLoading,
     isError,
+    getSingleAttachment,
   };
 };

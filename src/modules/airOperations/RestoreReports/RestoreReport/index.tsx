@@ -3,7 +3,7 @@ import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { RestoreReportIcon } from '@/assets/icons';
 import { useRestoreReport } from './useRestoreReport';
 
-export const RestoreReport = () => {
+const RestoreReport = () => {
   const {
     restoreReport,
     closeModal,
@@ -26,3 +26,5 @@ export const RestoreReport = () => {
     />
   );
 };
+
+export default RestoreReport;

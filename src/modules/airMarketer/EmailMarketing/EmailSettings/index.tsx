@@ -154,7 +154,7 @@ const EmailSettings = () => {
   const deleteEmail = async () => {
     try {
       await deleteEmailSettings({
-        id: selectedRecords.map((item: any) => item?._id),
+        id: selectedRecords?.map((item: any) => item?._id),
       })?.unwrap();
       enqueueSnackbar('Request Successful', {
         variant: 'success',
@@ -297,7 +297,7 @@ const EmailSettings = () => {
             'aria-labelledby': 'basic-button',
           }}
         >
-          {selectedRecords[indexNumbers?.ZERO]?.status === 'PENDING' && (
+          {selectedRecords[indexNumbers?.ZERO]?.status !== 'VERIFIED' && (
             <MenuItem
               onClick={() => {
                 if (!isTimerRunning) {

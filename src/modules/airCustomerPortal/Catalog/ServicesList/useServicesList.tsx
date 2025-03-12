@@ -1,5 +1,5 @@
 import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
-import { SERVICE_CATALOG_STATUSES } from '@/constants/strings';
+import { SERVICE_CATALOG_STATUSES } from '@/constants/services';
 import { useGetServiceCatalogQuery } from '@/services/airCustomerPortal/catalog';
 import { useRouter } from 'next/router';
 

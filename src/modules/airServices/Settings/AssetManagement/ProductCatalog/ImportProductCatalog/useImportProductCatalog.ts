@@ -1,6 +1,5 @@
 import {
   FIELD_TYPES,
-  IMPORT_FILE_TYPE,
   IMPORT_OBJECT_TYPE,
   IMPORT_PRODUCTS_NAME,
   IMPORT_TABLE_NAMES,
@@ -12,6 +11,7 @@ import { useRouter } from 'next/router';
 import { CRM_COLUMNS } from './ImportProductCatalog.data';
 import { IProductCatalogProps } from '../ProductCatalog.interface';
 import { IErrorResponse } from '@/types/shared/ErrorResponse';
+import { IMPORT_FILE_TYPE } from '@/constants/file';
 
 export const useImportProductCatalog = (props: IProductCatalogProps) => {
   const { setIsDrawerOpen } = props;

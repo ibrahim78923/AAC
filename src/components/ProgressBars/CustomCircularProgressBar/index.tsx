@@ -15,6 +15,7 @@ export const CustomCircularProgressBar = (
     progressColor,
     value = 50,
     percentage = 50,
+    progressBarLabel = `circular-progress-bar-${progressColor}`,
     ...others
   } = props;
 
@@ -22,6 +23,7 @@ export const CustomCircularProgressBar = (
     <Box>
       <Box sx={{ position: 'relative' }}>
         <CircularProgress
+          aria-label={`${progressBarLabel} top`}
           variant="determinate"
           sx={{
             color: (theme) => theme?.palette?.grey?.[200],
@@ -32,6 +34,7 @@ export const CustomCircularProgressBar = (
           value={100}
         />
         <CircularProgress
+          aria-label={`${progressBarLabel} bottom`}
           variant="determinate"
           size={size}
           thickness={thickness}

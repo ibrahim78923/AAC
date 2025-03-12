@@ -5,7 +5,7 @@ import { emailReportFormFields } from './EmailReport.data';
 import { FormGrid } from '@/components/Grids/FormGrid';
 import { CustomLoadingButton } from '@/components/Buttons/CustomLoadingButton';
 
-export const EmailReport = () => {
+const EmailReport = () => {
   const {
     methods,
     handleSubmit,
@@ -41,3 +41,5 @@ export const EmailReport = () => {
     </CommonDrawer>
   );
 };
+
+export default EmailReport;

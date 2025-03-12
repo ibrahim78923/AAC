@@ -1,7 +1,7 @@
 import { PAGINATION } from '@/config';
 import { createSlice } from '@reduxjs/toolkit';
 import { servicesDashboardReducersList } from './reducers';
-import { TICKET_GRAPH_TYPES } from '@/constants/strings';
+import { TICKET_GRAPH_TYPES } from '@/constants/services';
 
 export const isPortalOpenInitialState = {
   isOpen: false,

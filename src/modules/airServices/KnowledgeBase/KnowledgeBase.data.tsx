@@ -1,7 +1,29 @@
 import { Permissions } from '@/constants/permissions';
 import { Articles } from './Articles';
-import { Approvals } from './Approvals';
-import { KnowledgeInsights } from './KnowledgeInsights';
+import dynamic from 'next/dynamic';
+import LazyLoadingFlow from '@/components/LazyLoadingFlow';
+
+const Approvals = dynamic(() => import('./Approvals'), {
+  ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="approvals"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
+});
+
+const KnowledgeInsights = dynamic(() => import('./KnowledgeInsights'), {
+  ssr: false,
+  loading: (options: any) => (
+    <LazyLoadingFlow
+      name="knowledge insights"
+      isLoading={options?.isLoading}
+      error={options?.error}
+    />
+  ),
+});
 
 const { AIR_SERVICES_KNOWLEDGE_BASE_TABS } = Permissions ?? {};
 
@@ -10,28 +32,20 @@ export const knowledgeBaseTabsDataDynamic = () => {
     {
       _id: 1,
       name: 'Articles',
-      id: 'articles',
       tabPermissions: AIR_SERVICES_KNOWLEDGE_BASE_TABS,
       component: Articles,
-      componentProps: {},
     },
     {
       _id: 2,
       name: 'Approvals',
-      id: 'approvals',
       hasNoPermissions: true,
-      tabPermissions: [],
       component: Approvals,
-      componentProps: {},
     },
     {
       _id: 3,
       name: 'Knowledge Insights',
-      id: 'knowledge_insights',
       hasNoPermissions: true,
-      tabPermissions: [],
       component: KnowledgeInsights,
-      componentProps: {},
     },
   ];
 };

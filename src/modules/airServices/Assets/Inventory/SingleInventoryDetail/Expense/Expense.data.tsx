@@ -1,9 +1,9 @@
 import { Typography } from '@mui/material';
-import { EXPENSE_TYPE } from '@/constants/strings';
 import { ExpenseI } from './Expense.interface';
 import { otherDateFormat } from '@/lib/date-time';
 import { CALENDAR_FORMAT } from '@/constants';
-import { CheckboxField } from '@/components/InputFields/CheckboxField';
+import { tableCheckbox } from '@/utils/table-checkbox';
+import { EXPENSE_TYPE } from '@/constants/services';
 
 export const EXPENSE_PORTAL_ACTIONS = {
   ADD_EXPENSE: 'Add New Expense',
@@ -21,48 +21,11 @@ export const addExpenseColumnsFunction = (
   selectedExpenseList: ExpenseI[],
   setSelectedExpenseList: React.Dispatch<React.SetStateAction<ExpenseI[]>>,
 ) => [
-  {
-    accessorFn: (row: any) => row?._id,
-    id: '_id',
-    cell: (info: any) => (
-      <CheckboxField
-        checked={
-          !!selectedExpenseList?.find(
-            (item: any) => item?._id === info?.getValue(),
-          )
-        }
-        onChange={(e: any) => {
-          e?.target?.checked
-            ? setSelectedExpenseList([
-                ...selectedExpenseList,
-                info?.row?.original,
-              ])
-            : setSelectedExpenseList(
-                selectedExpenseList?.filter(
-                  (item: any) => item?._id !== info?.getValue(),
-                ),
-              );
-        }}
-        name={info?.getValue()}
-      />
-    ),
-    header: (
-      <CheckboxField
-        checked={
-          !!expenseData?.length
-            ? selectedExpenseList?.length === expenseData?.length
-            : false
-        }
-        onChange={(e: any) => {
-          e?.target?.checked
-            ? setSelectedExpenseList(expenseData)
-            : setSelectedExpenseList([]);
-        }}
-        name="id"
-      />
-    ),
-    isSortable: false,
-  },
+  tableCheckbox({
+    selectedList: selectedExpenseList,
+    setSelectedList: setSelectedExpenseList,
+    tableData: expenseData,
+  }),
   {
     accessorFn: (row: any) => row?.type,
     id: 'type',

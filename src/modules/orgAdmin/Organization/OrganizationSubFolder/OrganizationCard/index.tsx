@@ -173,7 +173,7 @@ const OrganizationCard = () => {
                           color: `${theme?.palette?.custom?.main}`,
                         }}
                       >
-                        {currOrg?.owner?.firstName ?? '-'}
+                        {currOrg?.owner?.firstName ?? '-'}&nbsp;
                         {currOrg?.owner?.lastName ?? '-'}
                       </Typography>
                     </Box>

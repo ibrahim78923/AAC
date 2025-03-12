@@ -23,6 +23,7 @@ import PDFCreateContract from './PDFCreateContract';
 import ModalSignAndSend from './components/ModalSignAndSend';
 import ModalTemplateCategories from './components/ModalTemplateCategories';
 import { ENUM_CONTRACT_TYPE } from '@/utils/contracts';
+// import ModalAddSignee from './components/ModalAddSignee';
 
 export default function CreateContract() {
   const {
@@ -53,8 +54,11 @@ export default function CreateContract() {
     loadingCreateDraft,
     dynamicFields,
 
+    // openModalAddSignee,
+    // handleOpenModalAddSignee,
+    // handleCloseModalAddSignee,
+
     openModalSignAndSend,
-    handleOpenModalSignAndSend,
     handleCloseModalSignAndSend,
 
     openModalPhoneNumber,
@@ -70,6 +74,7 @@ export default function CreateContract() {
     loadingGetContractById,
     loadingGetTemplateById,
     loadingUpdateTemplate,
+    loadingUpdateContract,
     handleSubmitUpdateContract,
     handleAddDynamicField,
     handleUpdateDynamicField,
@@ -99,36 +104,46 @@ export default function CreateContract() {
 
   return (
     <>
-      <PlainHeader>
-        <HeaderCreateContract
-          documentTitle={contractDetailsData?.name || 'Untitled Draft'}
-          documentStatus={contractDetailsData?.status || 'Draft'}
-          onClickSave={handleSubmitUpdateContract}
-          onClickSign={handleOpenModalSignAndSend}
-          onClickSaveAsTemplate={() => setOpenModalTemplateCategories(true)}
-          onClickSaveAsDraft={handleSubmitCreateTemplate('draft')}
-          disabledSaveAsDraft={!!contractId}
-          disabledSaveAsTemplate={!!templateId || !!contractId}
-          disabledSaveChanges={disabledSaveChanges()}
-        />
-      </PlainHeader>
-
       <Backdrop
         open={
           loadingCreateTemplate ||
           loadingCreateDraft ||
           loadingGetTemplateById ||
           loadingGetContractById ||
-          loadingUpdateTemplate
+          loadingUpdateTemplate ||
+          loadingUpdateContract
         }
         sx={{
           background: 'rgba(255, 255, 255, 0.75)',
           color: (theme) => theme?.palette?.primary?.main,
           zIndex: (theme) => theme.zIndex.drawer + 1,
+          backdropFilter: 'blur(1px)',
         }}
       >
         <CircularProgress color="inherit" />
       </Backdrop>
+
+      <PlainHeader>
+        <HeaderCreateContract
+          documentTitle={contractDetailsData?.name || 'Untitled Draft'}
+          documentStatus={contractDetailsData?.status || 'Draft'}
+          onClickSave={handleSubmitUpdateContract(false)}
+          // onClickSign={handleOpenModalSignAndSend}
+          onClickSign={
+            contractId
+              ? handleSubmitUpdateContract(true)
+              : handleSubmitCreateTemplate('sign')
+          }
+          onClickSaveAsTemplate={() => setOpenModalTemplateCategories(true)}
+          onClickSaveAsDraft={handleSubmitCreateTemplate('draft')}
+          disabledSaveAsDraft={!!contractId}
+          disabledSaveAsTemplate={!!templateId || !!contractId}
+          disabledSaveChanges={disabledSaveChanges()}
+          disabledSignAndSend={
+            !(partyFields?.length !== 0 && signeeFields?.length !== 0)
+          }
+        />
+      </PlainHeader>
 
       <Box sx={styles?.container}>
         <FormProvider methods={methods}>
@@ -240,8 +255,17 @@ export default function CreateContract() {
                         variant={'contained'}
                         className={'small'}
                         fullWidth
-                        onClick={handleOpenModalSignAndSend}
-                        disabled={true}
+                        onClick={
+                          contractId
+                            ? handleSubmitUpdateContract(true)
+                            : handleSubmitCreateTemplate('sign')
+                        }
+                        disabled={
+                          !(
+                            partyFields?.length !== 0 &&
+                            signeeFields?.length !== 0
+                          )
+                        }
                       >
                         Sign & Send
                       </Button>
@@ -280,6 +304,7 @@ export default function CreateContract() {
                 handleDeleteSigneeCard={handleDeleteSigneeCard}
                 appendSignee={appendSignee}
                 removeSignee={removeSignee}
+                partyValues={partyValues}
               />
             </Box>
           </Box>

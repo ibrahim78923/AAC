@@ -19,6 +19,7 @@ export const Header = () => {
           permissions={AIR_SERVICES_KNOWLEDGE_BASE_CREATE_ARTICLE_FOLDER}
         >
           <SingleDropdownButton
+            buttonLabel="Create New"
             dropdownOptions={createNewKnowledgeBaseDropdownOptions}
             dropdownName={'Create New'}
             btnVariant="contained"

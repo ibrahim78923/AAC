@@ -2,7 +2,7 @@ import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { useDeleteUser } from './useDeleteUser';
 
-export const DeleteUser = () => {
+const DeleteUser = () => {
   const { deleteUser, closeUserDeleteModal, apiCallInProgress, isPortalOpen } =
     useDeleteUser();
 
@@ -20,3 +20,5 @@ export const DeleteUser = () => {
     </>
   );
 };
+
+export default DeleteUser;

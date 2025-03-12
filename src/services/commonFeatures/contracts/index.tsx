@@ -55,6 +55,14 @@ export const commonContractsAPI = baseAPI.injectEndpoints({
       providesTags: ['COMMON_CONTRACTS'],
     }),
 
+    getPublicCommonContractById: builder.query({
+      query: (id: any) => ({
+        url: `${COMMON_CONTRACTS?.GET_PUBLIC_CONTRACT_BY_ID}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: ['COMMON_CONTRACTS'],
+    }),
+
     getCommonContractTemplateRecentlyUsed: builder.query({
       query: (params) => ({
         url: COMMON_CONTRACTS?.GET_RECENTLY_USED_TEMPLATES,
@@ -77,6 +85,15 @@ export const commonContractsAPI = baseAPI.injectEndpoints({
       query: ({ id, body }) => ({
         url: `${COMMON_CONTRACTS?.GET_CONTRACT_BY_ID}/${id}`,
         method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: ['COMMON_CONTRACTS'],
+    }),
+
+    putContractSign: builder.mutation({
+      query: ({ body }) => ({
+        url: COMMON_CONTRACTS?.PUT_CONTRACT_PUBLIC_SIGN,
+        method: 'PUT',
         body: body,
       }),
       invalidatesTags: ['COMMON_CONTRACTS'],
@@ -124,4 +141,6 @@ export const {
   useUpdateCommonContractMutation,
   useCreateCommonContractMutation,
   usePostSignAndSendMutation,
+  useGetPublicCommonContractByIdQuery,
+  usePutContractSignMutation,
 } = commonContractsAPI;

@@ -7,7 +7,6 @@ import {
   CardActionArea,
   Box,
   Typography,
-  CircularProgress,
   Button,
 } from '@mui/material';
 
@@ -38,6 +37,7 @@ import { AUTH, ERROR_PAGES, ORG_ADMIN } from '@/constants';
 import { useGetActiveProductsQuery } from '@/services/common-APIs';
 import { LogoutImage } from '@/assets/images';
 import { LogoAvatar } from '@/components/Avatars/LogoAvatar';
+import LogoLoader from '@/components/Loaders/LogoLoader';
 // import { generateImage } from '@/utils/avatarUtils';
 
 const ProductSuite = () => {
@@ -252,7 +252,7 @@ const ProductSuite = () => {
             justifyContent={'center'}
             alignContent={'center'}
           >
-            <CircularProgress />
+            <LogoLoader height={'100%'} />
           </Box>
         ) : (
           <>

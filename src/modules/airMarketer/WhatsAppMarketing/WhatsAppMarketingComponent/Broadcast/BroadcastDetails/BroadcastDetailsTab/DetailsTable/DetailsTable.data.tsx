@@ -9,7 +9,7 @@ export const detailsColumns: any = (
   return [
     {
       accessorFn: (row: any) =>
-        `${row?.firstName ?? 'N/A'} ${row?.lastName ?? ''}`,
+        `${row?.firstName ?? 'Unknown User'} ${row?.lastName ?? ''}`,
       id: 'name',
       isSortable: false,
       header: 'Name',

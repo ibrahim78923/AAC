@@ -70,7 +70,7 @@ export const dataArray = [
     componentProps: {
       name: 'sendTo',
       label: 'Send To',
-      placeholder: 'Example@airapplecart.co.uk',
+      placeholder: 'Example@agenticcreed.co.uk',
       fullWidth: true,
     },
 

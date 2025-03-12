@@ -1,7 +1,7 @@
 import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
-import { TIME_PERIODS } from '@/constants/strings';
 import { UsersFilterDataI } from './UsersFilter.interface';
 import GetSoftwareDepartmentDropdown from '../../../SoftwareFormFieldsDropdowns/GetSoftwareDepartmentDropdown';
+import { TIME_PERIODS } from '@/constants/services';
 
 export const dropdownOptions = [
   TIME_PERIODS?.NONE,

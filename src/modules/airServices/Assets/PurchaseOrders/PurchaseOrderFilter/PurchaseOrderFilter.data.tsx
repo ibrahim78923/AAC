@@ -1,7 +1,7 @@
 import { RHFAutocomplete } from '@/components/ReactHookForm';
-import { PURCHASE_ORDER_STATUS, TIME_PERIODS } from '@/constants/strings';
 import GetPurchaseOrderVendorDropdown from '../PurchaseOrderFormFieldsDropdowns/GetPurchaseOrderVendorDropdown';
 import GetPurchaseOrderDepartmentDropdown from '../PurchaseOrderFormFieldsDropdowns/GetPurchaseOrderDepartmentDropdown';
+import { PURCHASE_ORDER_STATUS, TIME_PERIODS } from '@/constants/services';
 
 export const statusOptions = [
   {

@@ -71,7 +71,7 @@ const FormCreateProduct = (props: any) => {
           } else if (key === 'image') {
             formData?.append(key, value);
           } else {
-            formData?.append(key, JSON?.stringify(value));
+            formData?.append(key, value);
           }
         }
       });

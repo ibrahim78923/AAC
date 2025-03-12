@@ -6,7 +6,7 @@ import { REQUESTORS_STATUS } from '@/constants/strings';
 import { errorSnackbar } from '@/lib/snackbar';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { Box } from '@mui/material';
-import { CheckboxField } from '@/components/InputFields/CheckboxField';
+import { tableCheckbox } from '@/utils/table-checkbox';
 
 export const agentActionsDropdown = (
   setOpenDeleteModal: any,
@@ -44,50 +44,11 @@ export const agentsListsColumnsFunction = (
   processedAgentListData: any = [],
   router: any,
 ): any => [
-  {
-    accessorFn: (row: { _id: string }) => row?._id,
-    id: 'id',
-    cell: (info: any) => (
-      <CheckboxField
-        checked={
-          !!selectedAgentList?.find(
-            (item: any) => item?._id === info?.getValue(),
-          )
-        }
-        onChange={(e: any) => {
-          e?.target?.checked
-            ? setSelectedAgentList([
-                ...selectedAgentList,
-                processedAgentListData?.find(
-                  (item: any) => item?._id === info?.getValue(),
-                ),
-              ])
-            : setSelectedAgentList(
-                selectedAgentList?.filter((item: any) => {
-                  return item?._id !== info?.getValue();
-                }),
-              );
-        }}
-        name={info?.getValue()}
-      />
-    ),
-    header: (
-      <CheckboxField
-        checked={
-          !!processedAgentListData?.length
-            ? selectedAgentList?.length === processedAgentListData?.length
-            : false
-        }
-        onChange={(e: any) => {
-          e?.target?.checked
-            ? setSelectedAgentList([...processedAgentListData])
-            : setSelectedAgentList([]);
-        }}
-        name="id"
-      />
-    ),
-    isSortable: false,
-  },
+  tableCheckbox({
+    selectedList: selectedAgentList,
+    setSelectedList: setSelectedAgentList,
+    tableData: processedAgentListData,
+  }),
   {
     accessorFn: (row: { fullName: string }) => row?.fullName,
     id: 'fullName',

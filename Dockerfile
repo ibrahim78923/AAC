@@ -17,7 +17,3 @@ COPY --from=builder /app/next-env.d.ts ./
 COPY --from=builder /app/node_modules ./node_modules
 EXPOSE 3000
 CMD ["npm", "run", "start"]
-
-
-
-

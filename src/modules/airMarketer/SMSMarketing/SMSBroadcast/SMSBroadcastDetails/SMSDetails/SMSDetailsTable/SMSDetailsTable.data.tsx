@@ -13,8 +13,13 @@ export const smsDetailsColumns: any = (
       id: 'name',
       isSortable: false,
       header: 'Name',
-      cell: (info: any) =>
-        `${info?.row?.original?.firstName} ${info?.row?.original?.lastName}`,
+      cell: (info: any) => {
+        const firstName = info?.row?.original?.firstName;
+        const lastName = info?.row?.original?.lastName;
+        return firstName || lastName
+          ? `${firstName ?? ''} ${lastName ?? ''}`.trim()
+          : 'Unknown User';
+      },
     },
     {
       accessorFn: (row: any) => row?.phoneNumber,

@@ -16,6 +16,7 @@ const ViewDetailsAndPerformance = ({
   openViewDetails,
   handleCloseViewDetails,
   selectedRecords,
+  setSelectedRecords,
 }: any) => {
   const { data, isLoading } = useGetEmailMarketingByIdQuery(
     {
@@ -152,6 +153,7 @@ const ViewDetailsAndPerformance = ({
             edit
             data={data}
             setIsEditEmailOpen={setIsEditEmailOpen}
+            setSelectedRecords={setSelectedRecords}
           />
         </CommonModal>
       )}

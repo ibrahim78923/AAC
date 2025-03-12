@@ -134,8 +134,10 @@ const IntegrationConfiguration = () => {
   };
 
   const handelUpdatedAccountSession = (id: any) => {
+    // eslint-disable-next-line
+    const { twilioNumber, ...accountWithoutTwilio } = activeAccount;
     setActiveAccountSession({
-      ...activeAccount,
+      ...accountWithoutTwilio,
       configurationId: id,
     });
   };

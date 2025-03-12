@@ -16,6 +16,7 @@ import { generateImage } from '@/utils/avatarUtils';
 import { UsersDetailsProps } from './UsersDetails-interface';
 import { indexNumbers } from '@/constants';
 import { capitalizeFirstLetter } from '@/utils/api';
+import { ROLES } from '@/constants/strings';
 
 const UsersDetails = (props: UsersDetailsProps) => {
   const { employeeDataById, searchAccount, setSearchAccount } = props;
@@ -43,7 +44,8 @@ const UsersDetails = (props: UsersDetailsProps) => {
               userName={`${
                 capitalizeFirstLetter(profileData?.data?.firstName) ?? 'N/A'
               } ${capitalizeFirstLetter(profileData?.data?.lastName) ?? ''}`}
-              isBadge={false}
+              isBadge={profileData?.data?.role === ROLES?.ORG_ADMIN && true}
+              role={profileData?.data?.role}
               email={profileData?.data?.email}
               phone={profileData?.data?.phoneNumber}
               handleEditProfile={() => setTabVal(indexNumbers?.ONE)}

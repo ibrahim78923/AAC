@@ -1,9 +1,9 @@
 import { RHFDatePicker, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import { Typography } from '@mui/material';
-import { CONTRACT_ACTION } from '@/constants/strings';
 import { uiDateFormat } from '@/lib/date-time';
 import GetContractAdminAgentDropdown from '../ContractFormFieldsDropdowns/GetContractAdminAgentDropdown';
+import { CONTRACT_STATUS } from '@/constants/services';
 
 export const updateContractFormValidationSchema = Yup?.object()?.shape({
   approver: Yup?.mixed()?.nullable(),
@@ -36,7 +36,7 @@ export const updateContractFormFieldsFunction = (actionRenewExtend: any) => [
     componentProps: {
       name: 'startDate',
       label: 'Start Date',
-      disabled: actionRenewExtend === CONTRACT_ACTION?.EXTEND,
+      disabled: actionRenewExtend === CONTRACT_STATUS?.EXTEND,
       fullWidth: true,
     },
     component: RHFDatePicker,

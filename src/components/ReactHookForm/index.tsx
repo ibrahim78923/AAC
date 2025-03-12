@@ -3,7 +3,7 @@ export { default as RHFAutocomplete } from './RHFAutocomplete';
 export { default as RHFAutocompleteAsync } from './RHFAutocompleteAsync';
 export { default as RHFCheckbox } from './RHFCheckbox';
 export { default as RHFDatePicker } from './RHFDatePicker';
-export { default as RHFDropZone } from './RHFDropZone';
+export { default as RHFDropZone } from './RHFDropZoneSingleFile';
 export { default as RHFMultiCheckbox } from './RHFMultiCheckbox';
 export { default as RHFMultiSelect } from './RHFMultiSelect';
 export { default as RHFRadioGroup } from './RHFRadioGroup';
@@ -26,3 +26,4 @@ export { default as RHFDesktopDateTimePicker } from './RHFDesktopDateTimePicker'
 export { default as RHFImageEditor } from './RHFImageEditor';
 export { default as RHFDropzonePreview } from './RHFDropzonePreview';
 export { default as RHFDropzonePreviewAllTypes } from './RHFDropzonePreviewAllTypes';
+export { default as RHFDropZoneMultipleFiles } from './RHFDropZoneMultipleFiles';

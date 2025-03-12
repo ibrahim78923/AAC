@@ -1,9 +1,9 @@
 import NoData from '@/components/NoData';
 import { AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS } from '../Dashboard.data';
 import { createElement } from 'react';
-import { TICKET_GRAPH_TYPES } from '@/constants/strings';
 import { CustomGrid } from '@/components/Grids/CustomGrid';
 import { ContainerGrid } from '@/components/Grids/ContainerGrid';
+import { TICKET_GRAPH_TYPES } from '@/constants/services';
 
 const { PRIORITY } = TICKET_GRAPH_TYPES ?? {};
 

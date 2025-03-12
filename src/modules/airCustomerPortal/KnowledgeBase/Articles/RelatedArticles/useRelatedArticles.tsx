@@ -2,8 +2,9 @@ import { useGetAllKnowledgeBaseArticleQuery } from '@/services/airCustomerPortal
 import { useMemo } from 'react';
 import { getActiveAccountSession, getSession } from '@/utils';
 import { useRouter } from 'next/router';
-import { ARRAY_INDEX, ARTICLE_STATUS } from '@/constants/strings';
+import { ARRAY_INDEX } from '@/constants/strings';
 import { AIR_CUSTOMER_PORTAL } from '@/constants/routes';
+import { ARTICLE_STATUS } from '@/constants/services';
 
 export const useRelatedArticles = () => {
   const router = useRouter();

@@ -95,6 +95,14 @@ export const quotesLoaylityAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    getMoreDiscount: builder.query({
+      query: (params: any) => ({
+        url: END_POINTS?.GET_DISCOUNT_RULES,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
   }),
 });
 
@@ -110,4 +118,5 @@ export const {
   usePutGiftCardValueMutation,
   useGetSingleVouchersQuotesQuery,
   usePutVoucherValueMutation,
+  useGetMoreDiscountQuery,
 } = quotesLoaylityAPI;

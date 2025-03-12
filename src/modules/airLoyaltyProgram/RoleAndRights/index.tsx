@@ -5,7 +5,7 @@ import { useAppDispatch } from '@/redux/store';
 import { resetComponentState } from '@/redux/slices/airLoyaltyProgram/roles-and-right/slice';
 import { useEffect } from 'react';
 
-export const RolesAndRight = () => {
+const RolesAndRight = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -30,3 +30,5 @@ export const RolesAndRight = () => {
     </>
   );
 };
+
+export default RolesAndRight;

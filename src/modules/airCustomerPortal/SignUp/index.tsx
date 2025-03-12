@@ -42,8 +42,13 @@ export const SignUp = () => {
       >
         <CustomGrid md={6}>
           <Box maxWidth={{ xs: '100%', md: '70%' }} margin="auto">
-            <Typography variant="h2">Welcome to {PROJECT_NAME}</Typography>
-            <Typography sx={{ py: 1 }} variant="h6" color="grey.900" mb={4}>
+            <Typography variant="h2" color="slateBlue.main">
+              Welcome to {PROJECT_NAME}
+            </Typography>
+            <Typography
+              color="grey.800"
+              sx={{ py: 1, mb: 4, fontWight: 'fontWeightSmall' }}
+            >
               Let&rsquo;s Get Started!
             </Typography>
 
@@ -111,13 +116,13 @@ export const SignUp = () => {
         </CustomGrid>
         <CustomGrid md={6}>
           <StaticAvatar
-            avatarSrc={SignUpImage?.src}
+            avatarSrc={SignUpImage}
             padding={1}
-            avatarSize={{
-              width: '90%',
-              height: '90%',
-              variant: AVATAR_VARIANTS?.SQUARE,
-            }}
+            width="80%"
+            height={'auto'}
+            variant={AVATAR_VARIANTS?.SQUARE}
+            aspectRatio="1.41"
+            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
           />
         </CustomGrid>
       </ContainerGrid>

@@ -6,7 +6,10 @@ import {
   upsertRulesFormValidationSchema,
 } from './UpsertRules.data';
 import { useEffect } from 'react';
-import { useAddLoyaltyProgramLoyaltySingleRuleMutation } from '@/services/airLoyaltyProgram/loyalty/rulesAndTiers/rules';
+import {
+  useAddLoyaltyProgramLoyaltySingleRuleMutation,
+  useUpdateLoyaltyProgramLoyaltySingleRuleMutation,
+} from '@/services/airLoyaltyProgram/loyalty/rulesAndTiers/rules';
 import {
   LOYALTY_PROGRAM_RULES_BENEFIT_TYPE,
   LOYALTY_PROGRAM_RULES_TIME_SPAN,
@@ -19,6 +22,7 @@ import { isoDateString } from '@/lib/date-time';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { loyaltyProgramRulesIsPortalOpenSelector } from '@/redux/slices/airLoyaltyProgram/rules/selectors';
 import { useFormLib } from '@/hooks/useFormLib';
+import { RULES_AND_TIERS_PORTAL_ACTION_CONSTANTS } from '../../RulesAndTiers.constant';
 
 export const useUpsertRules = () => {
   const { getLoyaltyProgramRulesList } = useGetRulesLists?.();
@@ -31,6 +35,11 @@ export const useUpsertRules = () => {
     addLoyaltyProgramLoyaltySingleRuleTrigger,
     addLoyaltyProgramLoyaltySingleRuleStatus,
   ] = useAddLoyaltyProgramLoyaltySingleRuleMutation();
+
+  const [
+    updateLoyaltyProgramLoyaltySingleRuleTrigger,
+    updateLoyaltyProgramLoyaltySingleRuleStatus,
+  ] = useUpdateLoyaltyProgramLoyaltySingleRuleMutation();
 
   const formLibProps = {
     validationSchema: upsertRulesFormValidationSchema,
@@ -76,11 +85,39 @@ export const useUpsertRules = () => {
       body,
     };
 
+    if (
+      isPortalOpen?.action ===
+      RULES_AND_TIERS_PORTAL_ACTION_CONSTANTS?.EDIT_RULES
+    ) {
+      await updateSubmitUpsertRuleForm?.(body);
+      return;
+    }
+
     try {
       await addLoyaltyProgramLoyaltySingleRuleTrigger(
         apiDataParameter,
       )?.unwrap();
       successSnackbar?.('Rules added successfully');
+      closePortal();
+      await getLoyaltyProgramRulesList?.();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
+
+  const updateSubmitUpsertRuleForm = async (formData: any) => {
+    const apiDataParameter = {
+      pathParams: {
+        id: isPortalOpen?.data?._id,
+      },
+      body: formData,
+    };
+
+    try {
+      await updateLoyaltyProgramLoyaltySingleRuleTrigger(
+        apiDataParameter,
+      )?.unwrap();
+      successSnackbar?.('Rules updated successfully');
       closePortal();
       await getLoyaltyProgramRulesList?.();
     } catch (error: any) {
@@ -111,7 +148,9 @@ export const useUpsertRules = () => {
     dispatch(setIsPortalClose());
   };
 
-  const apiCallInProgress = addLoyaltyProgramLoyaltySingleRuleStatus?.isLoading;
+  const apiCallInProgress =
+    addLoyaltyProgramLoyaltySingleRuleStatus?.isLoading ||
+    updateLoyaltyProgramLoyaltySingleRuleStatus?.isLoading;
 
   return {
     closePortal,

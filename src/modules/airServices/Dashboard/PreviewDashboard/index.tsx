@@ -9,7 +9,7 @@ import { SERVICES_DASHBOARD_PORTAL_ACTIONS_CONSTANT } from '../Dashboard.data';
 import { dashboardIsPortalOpenSelector } from '@/redux/slices/airServices/dashboard/selectors';
 import { shallowEqual } from 'react-redux';
 
-export const PreviewDashboard = () => {
+const PreviewDashboard = () => {
   const dispatch = useAppDispatch();
 
   const isPortalOpen = useAppSelector(
@@ -49,3 +49,5 @@ export const PreviewDashboard = () => {
     </>
   );
 };
+
+export default PreviewDashboard;

@@ -1,7 +1,7 @@
 import { NoDashboardWidgetImage } from '@/assets/images';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Typography } from '@mui/material';
-import { DASHBOARD, GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import { useUpsertDashboard } from './useUpsertDashboard';
 import { pxToRem } from '@/utils/getFontValue';
 import { AddWidgets } from './AddWidgets';
@@ -20,7 +20,6 @@ export const UpsertDashboard = () => {
     methods,
     submitCreateDashboardFilterForm,
     reportsWatch,
-    action,
     handleSubmit,
     upsertServiceDashboardFormFields,
     isError,
@@ -31,6 +30,7 @@ export const UpsertDashboard = () => {
     setValue,
     openPreviewDashboard,
     showLoader,
+    dashboardId,
   } = useUpsertDashboard();
 
   return (
@@ -113,7 +113,7 @@ export const UpsertDashboard = () => {
         </ContainerGrid>
         <ActionsLoadingButton
           submitButtonText={
-            action === DASHBOARD?.EDIT
+            !!dashboardId
               ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
               : GENERIC_UPSERT_FORM_CONSTANT?.CREATE
           }

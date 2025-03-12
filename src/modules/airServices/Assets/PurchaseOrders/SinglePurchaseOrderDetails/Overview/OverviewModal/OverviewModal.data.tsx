@@ -1,4 +1,4 @@
-import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
+import { PURCHASE_ORDER_STATUS } from '@/constants/services';
 import { truncateText } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
 

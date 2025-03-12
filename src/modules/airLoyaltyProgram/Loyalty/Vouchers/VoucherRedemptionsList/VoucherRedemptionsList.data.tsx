@@ -1,6 +1,6 @@
 import { UserInfo } from '@/components/UserInfo';
 import { DATE_TIME_FORMAT } from '@/constants';
-import { ESCROW_STATUS } from '@/constants/strings';
+import { ESCROW_STATUS } from '@/constants/loyalty-program';
 import { otherDateFormat } from '@/lib/date-time';
 
 export const voucherRedemptionsColumns = [
