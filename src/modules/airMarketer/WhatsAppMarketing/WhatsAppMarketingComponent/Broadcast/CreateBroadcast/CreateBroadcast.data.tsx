@@ -16,6 +16,8 @@ import {
 } from '@/utils/dynamic-forms';
 import { AGENT_REQUEST_STATUS, STATUS_CONTANTS } from '@/constants/strings';
 import { getActiveAccountSession } from '@/utils';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 export const broadCastValidationSchema = (
   isSchedule: any,
@@ -91,7 +93,10 @@ export const createBroadcastFields = (handleOpenContactsDrawer: any) => {
         required: true,
         apiQuery: campaignsList,
         getOptionLabel: (option: any) => option?.title,
-        externalParams: { companyId: ActiveAccount?.company?._id },
+        externalParams: {
+          companyId: ActiveAccount?.company?._id,
+          validDate: dayjs().format(DATE_FORMAT?.API),
+        },
       },
       component: RHFAutocompleteAsync,
       md: 12,

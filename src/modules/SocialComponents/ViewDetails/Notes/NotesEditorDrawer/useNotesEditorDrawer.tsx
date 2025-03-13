@@ -30,6 +30,7 @@ const useNotesEditorDrawer = (
     attachment: rowData?.file,
     id: rowData?._id,
   };
+
   const methods = useForm({
     resolver: yupResolver(dealsNotesValidationSchema),
     defaultValues: async () => {

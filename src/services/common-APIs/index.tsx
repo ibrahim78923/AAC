@@ -176,6 +176,18 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       }),
       providesTags: ['CONTACTS'],
     }),
+
+    getCompaniesContactsAsync: builder?.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.CONTACTS,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.contacts;
+      },
+    }),
+
     getSchemaKeys: builder.query({
       query: (params: any) => ({
         url: OPERATION?.SCHEMA_KEYS,
@@ -430,5 +442,6 @@ export const {
   useLazyGetAllUsersDropdownQuery,
   useGetAllUsersDropdownQuery,
   useLazyGetCompanyAccountsDropdownQuery,
+  useLazyGetCompaniesContactsAsyncQuery,
   useLazyGetDropdownOrganizationUsersQuery,
 } = CommonAPIS;

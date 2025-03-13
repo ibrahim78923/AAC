@@ -1,5 +1,6 @@
 import { RHFAutocompleteAsync, RHFEditor } from '@/components/ReactHookForm';
 import RHFTextField from '@/components/ReactHookForm/RHFTextField';
+import { DATE_FORMAT } from '@/constants';
 import { STATUS_CONTANTS } from '@/constants/strings';
 import {
   useLazyGetAllCampaignsListQuery,
@@ -10,6 +11,7 @@ import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
+import dayjs from 'dayjs';
 import * as Yup from 'yup';
 
 export const validationSchema = (
@@ -76,7 +78,10 @@ export const createBroadcast = () => {
         required: true,
         apiQuery: campaignsList,
         getOptionLabel: (option: any) => option?.title,
-        externalParams: { companyId: ActiveAccount?.company?._id },
+        externalParams: {
+          companyId: ActiveAccount?.company?._id,
+          validDate: dayjs().format(DATE_FORMAT?.API),
+        },
       },
       component: RHFAutocompleteAsync,
       md: 12,

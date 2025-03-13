@@ -244,29 +244,39 @@ export const contractsColumns = ({
                         gap="10px"
                       >
                         <Box sx={{ display: 'flex', gap: '5px' }}>
-                          <CustomTooltip title="Signed">
-                            <Box>
-                              <SignedIcon />
-                            </Box>
-                          </CustomTooltip>
+                          {item?.isSigned && (
+                            <CustomTooltip title="Signed">
+                              <Box>
+                                <SignedIcon />
+                              </Box>
+                            </CustomTooltip>
+                          )}
 
-                          <CustomTooltip title="Rejected">
-                            <Box>
-                              <SignedIcon color={theme?.palette?.error?.main} />
-                            </Box>
-                          </CustomTooltip>
+                          {item?.rejected && (
+                            <CustomTooltip title="Rejected">
+                              <Box>
+                                <SignedIcon
+                                  color={theme?.palette?.error?.main}
+                                />
+                              </Box>
+                            </CustomTooltip>
+                          )}
 
-                          <CustomTooltip title="Viewed">
-                            <Box>
-                              <ViewedIcon />
-                            </Box>
-                          </CustomTooltip>
+                          {item?.viewed && (
+                            <CustomTooltip title="Viewed">
+                              <Box>
+                                <ViewedIcon />
+                              </Box>
+                            </CustomTooltip>
+                          )}
 
-                          <CustomTooltip title="Sent">
-                            <Box>
-                              <SentIcon />
-                            </Box>
-                          </CustomTooltip>
+                          {item?.emailSent && (
+                            <CustomTooltip title="Sent">
+                              <Box>
+                                <SentIcon />
+                              </Box>
+                            </CustomTooltip>
+                          )}
                         </Box>
 
                         <Box>

@@ -1,4 +1,4 @@
-import { COMMON_CONTRACTS } from '@/routesConstants/endpoints';
+import { COMMON_CONTRACTS, END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const TAGS = ['COMMON_CONTRACTS'];
@@ -78,6 +78,15 @@ export const commonContractsDashboardAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAGS,
     }),
+
+    postDealAssociation: builder.mutation({
+      query: ({ body }: any) => ({
+        url: END_POINTS?.POST_ASSOCIATION,
+        method: 'POST',
+        body: body,
+      }),
+      invalidatesTags: ['CONTACT_ASSOCIATION'],
+    }),
   }),
 });
 export const {
@@ -90,4 +99,5 @@ export const {
   useUpdateCreateContractFolderMutation,
   useDeleteContractFolderMutation,
   useUpdateListCommonContractsMutation,
+  usePostDealAssociationMutation,
 } = commonContractsDashboardAPI;
