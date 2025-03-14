@@ -8,7 +8,6 @@ import {
   TableBody,
   TableCell,
   TableRow,
-  Button,
   LinearProgress,
   useTheme,
 } from '@mui/material';
@@ -18,6 +17,7 @@ import { styles } from './ChoosePlan.style';
 import { orgAdminSubcriptionInvoices } from '@/routesConstants/paths';
 import {
   useGetCRMPlanListQuery,
+  useGetPaymentCardQuery,
   useGetProductFeaturesQuery,
   useGetProductPlanListProductIdQuery,
   usePatchSubscriptionPlanMutation,
@@ -44,6 +44,8 @@ import {
   PlanDataI,
   ProductFeatureI,
 } from './choosePlan.interface';
+import { PAGINATION } from '@/config';
+import { LoadingButton } from '@mui/lab';
 const ChoosePlan = () => {
   const router = useRouter();
   const theme = useTheme();
@@ -200,6 +202,16 @@ const ChoosePlan = () => {
       data: groupedData[key],
     }));
 
+  const { data: dataPaymentCard, isLoading: loadingPaymentCard } =
+    useGetPaymentCardQuery({
+      params: {
+        page: PAGINATION?.CURRENT_PAGE,
+        limit: PAGINATION?.PAGE_LIMIT,
+      },
+    });
+
+  const isCardAdded = dataPaymentCard?.data?.payments > 0;
+
   return (
     <>
       <AlertModals
@@ -291,16 +303,27 @@ const ChoosePlan = () => {
                                 >
                                   {choosePlan?.planType?.name ===
                                   'Free' ? null : (
-                                    <Button
+                                    <LoadingButton
+                                      loading={loadingPaymentCard}
                                       variant="contained"
                                       color="primary"
                                       onClick={() => {
-                                        setActivePlanToBuy(choosePlan),
-                                          setIsBuyPlan(true);
+                                        if (!isCardAdded) {
+                                          enqueueSnackbar(
+                                            'Add a card first to buy plan',
+                                            {
+                                              variant: 'error',
+                                            },
+                                          );
+                                          return;
+                                        } else {
+                                          setActivePlanToBuy(choosePlan),
+                                            setIsBuyPlan(true);
+                                        }
                                       }}
                                     >
                                       Buy Plan
-                                    </Button>
+                                    </LoadingButton>
                                   )}
                                 </PermissionsGuard>
                               )}

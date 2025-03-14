@@ -209,6 +209,9 @@ export const columns = (
 
 export const validationSchema = Yup?.object()?.shape({
   accountName: Yup?.string()?.required('Field is Required'),
+  email: Yup.string()
+    ?.email('Invalid email format')
+    ?.required('Field is Required'),
   phoneNo: Yup?.string()?.trim()?.required('Field is Required'),
   postCode: Yup?.string()?.trim()?.required('Field is Required'),
   address: Yup?.string()?.trim()?.required('Field is Required'),
@@ -219,6 +222,7 @@ export const defaultValuesOrganization = {
   phoneNo: '',
   postCode: '',
   address: '',
+  email: '',
   // unit: '',
   // buildingName: '',
   // buildingNumber: '',
@@ -234,6 +238,17 @@ export const dataArray = ({ drawerHeading, isToggled }: any) => {
       componentProps: {
         name: 'accountName',
         label: 'Company Account Name',
+        fullWidth: true,
+        required: true,
+        disabled: isViewMode,
+      },
+      component: RHFTextField,
+      md: 12,
+    },
+    {
+      componentProps: {
+        name: 'email',
+        label: 'Email',
         fullWidth: true,
         required: true,
         disabled: isViewMode,
