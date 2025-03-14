@@ -2,10 +2,8 @@ import { Box, Typography } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { columns } from './ProductsAndServices.data';
 import { styles } from './ProductsAndServices.style';
-import useViewQuotes from '../useViewQuote';
 
-const ProductsAndServices = () => {
-  const { QuotesProduct } = useViewQuotes();
+const ProductsAndServices = ({ QuotesProduct }: any) => {
   return (
     <Box sx={styles?.wrapper}>
       <Typography variant="h5" sx={styles?.heading}>

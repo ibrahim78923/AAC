@@ -1,11 +1,9 @@
 import { Box, Typography, useTheme } from '@mui/material';
 import { styles } from './Quotation.style';
-import useViewQuotes from '../useViewQuote';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 
-const Quotation = () => {
-  const { viewQuotesData } = useViewQuotes();
+const Quotation = ({ viewQuotesData }: any) => {
   const theme = useTheme();
 
   return (

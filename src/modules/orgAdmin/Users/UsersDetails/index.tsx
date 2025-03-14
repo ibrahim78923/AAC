@@ -100,7 +100,7 @@ const UsersDetails = (props: UsersDetailsProps) => {
                           onClick={() => setIsOpenAddAccountDrawer(true)}
                           startIcon={<AddCircle />}
                         >
-                          Add account
+                          Assign Account
                         </Button>
                       </PermissionsGuard>
                     </>

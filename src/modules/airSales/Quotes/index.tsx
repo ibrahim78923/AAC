@@ -46,6 +46,8 @@ const Quotes = () => {
     handleOpenModalExport,
     handleCloseModalExport,
     openModalExport,
+    isDownloadQuote,
+    setIsDownloadQuote,
   } = useQuotes();
 
   const { activeColumns } = useCustomizeColumn({});
@@ -61,10 +63,15 @@ const Quotes = () => {
   useEffect(() => {
     setcheckedColumns(getQuotesColumns?.map((column: any) => column?.id));
   }, []);
+
   return (
     <>
       <Box sx={styles?.TableWrapper}>
-        <PageHeader />
+        <PageHeader
+          isDownloadQuote={isDownloadQuote}
+          setIsDownloadQuote={setIsDownloadQuote}
+          rowId={rowId}
+        />
 
         <TableToolbar
           setSearchValue={setSearchValue}

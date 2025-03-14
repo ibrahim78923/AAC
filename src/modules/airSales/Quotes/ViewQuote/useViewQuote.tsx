@@ -1,23 +1,17 @@
-import {
-  useGetQuoteByIdQuery,
-  useGetTaxCalculationsQuery,
-} from '@/services/airSales/quotes';
+import { useGetQuoteByIdQuery } from '@/services/airSales/quotes';
 import { useSearchParams } from 'next/navigation';
 
 const useViewQuotes = () => {
-  const param = {
-    applyOn: 'quotes',
-  };
   const quoteId = useSearchParams().get('id');
-
-  const { data: viewQuotesData } = useGetQuoteByIdQuery({ id: quoteId });
+  const { data: viewQuotesData, isFetching } = useGetQuoteByIdQuery({
+    id: quoteId,
+  });
   const { data: QuotesProduct } = useGetQuoteByIdQuery({ id: quoteId });
-  const { data: taxCalculation } = useGetTaxCalculationsQuery(param);
 
   return {
-    viewQuotesData,
+    isFetching,
     QuotesProduct,
-    taxCalculation,
+    viewQuotesData,
   };
 };
 
