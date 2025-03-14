@@ -24,6 +24,7 @@ const styles = {
 };
 
 export default function DataFieldCheckbox({ index, data }: any) {
+  const [selectedValue, setSelectedValue] = React.useState();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -36,7 +37,8 @@ export default function DataFieldCheckbox({ index, data }: any) {
   return (
     <Box>
       <Box sx={styles.label} onClick={handleClick}>
-        Select
+        {selectedValue ??
+          (data?.[data?.name] ? data?.[data?.name] : 'Select value')}
       </Box>
       <Menu
         anchorEl={anchorEl}
@@ -49,6 +51,10 @@ export default function DataFieldCheckbox({ index, data }: any) {
           name={`dynamicFields.${index}.${data?.name}`}
           row={false}
           options={data?.options}
+          onChange={(e) => {
+            setSelectedValue(e?.target?.value);
+            setAnchorEl(null);
+          }}
           // value={selectedDate}
           // onChange={handleDateChange}
         />

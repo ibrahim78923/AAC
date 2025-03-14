@@ -20,7 +20,6 @@ export const superAdminValidationSchema = Yup.object().shape({
     .email('Invalid email address'),
   phoneNumber: Yup.string()
     .nullable() // Allow null or undefined values
-    .matches(/^\+\d{1,}(\s\d+)*$/, 'Invalid phone number')
     .transform((value, originalValue) => {
       if (
         originalValue === '' ||

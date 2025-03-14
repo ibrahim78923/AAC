@@ -368,7 +368,12 @@ export default function useCreateContract() {
   const handleUpdateDynamicField = useCallback(
     (
       index: number,
-      data: { required?: boolean; value?: any; description: string },
+      data: {
+        required?: boolean;
+        value?: any;
+        description: string;
+        options: any;
+      },
     ) => {
       if (!dynamicFields[index]) return;
 
@@ -387,6 +392,7 @@ export default function useCreateContract() {
         required: data.required ?? required,
         description: data.description ?? description,
         [name]: safeValue ?? dynamicFields[index][name as keyof DynamicField],
+        options: data.options ?? dynamicFields[index].options,
       });
     },
     [updateDynamicField, dynamicFields],

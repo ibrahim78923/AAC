@@ -10,7 +10,6 @@ import {
   dynamicFormInitialValue,
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
-const phoneRegex = /^\+\d{1,3}[-.\s]?\d{10,}$/;
 export const createComapnySchema = (form: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
 
@@ -20,13 +19,7 @@ export const createComapnySchema = (form: any) => {
     totalRevenue: Yup?.number(),
     noOfEmloyee: Yup?.number(),
     ownerId: Yup?.object()?.required('Field is Required'),
-    phone: Yup.string()
-      .nullable()
-      .test(
-        'isValidPhoneNumber',
-        'Phone number is not valid',
-        (value) => !value || phoneRegex.test(value),
-      ),
+    phone: Yup.string().nullable(),
     ...formSchema,
   });
 };

@@ -23,6 +23,7 @@ const useRolesAndRights = () => {
     search: '',
     status: '',
     product: {},
+    organizationCompanyAccountId: '',
   });
 
   const [loadingState, setLoadingState] = useState<{ [key: string]: boolean }>(
@@ -48,6 +49,8 @@ const useRolesAndRights = () => {
     dateEnd: filterValues?.endDate
       ? dayjs(filterValues?.endDate)?.format(DATE_FORMAT?.API)
       : undefined,
+    organizationCompanyAccountId:
+      filterValues?.organizationCompanyAccountId?._id,
   };
 
   const {
@@ -72,6 +75,7 @@ const useRolesAndRights = () => {
       search: '',
       status: '',
       productId: '',
+      organizationCompanyAccountId: '',
     });
   };
 
