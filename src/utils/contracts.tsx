@@ -168,8 +168,8 @@ export const createCollaboratorsFormData = (collaborators: any) => {
             : value;
       };
 
-      setValue('userId', collaborator?.user?._id);
-      setValue('permissions', collaborator?.permission);
+      setValue('userId', collaborator?.sharedUserData?._id);
+      setValue('permissions', collaborator?.permissions);
 
       return formattedCollaborator;
     })

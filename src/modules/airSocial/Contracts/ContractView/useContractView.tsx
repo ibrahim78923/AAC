@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import {
   useGetPublicCommonContractByIdQuery,
@@ -21,6 +21,7 @@ export default function useContractView() {
   const currentSignee = signees?.find(
     (signee: any) => signee?._id === signeeId,
   );
+
   const currentSigneeSignatureType = currentSignee?.signatureType;
 
   const [isConfirmSigning, setIsConfirmSigning] = useState(false);
@@ -100,6 +101,33 @@ export default function useContractView() {
       errorSnackbar('An error occured');
     }
   };
+
+  const hasRun = useRef(false);
+  const sendIsViewedRequest = useCallback(async () => {
+    if (!contractId || !signeeId || currentSignee?.isViewed || hasRun.current)
+      return;
+
+    try {
+      const formData = new FormData();
+      formData.append(
+        'contractId',
+        Array.isArray(contractId) ? contractId[0] : contractId,
+      );
+      formData.append(
+        'signees',
+        JSON.stringify([{ id: signeeId, isViewed: true }]),
+      );
+
+      await putCommonContract({ body: formData })?.unwrap();
+      hasRun.current = true;
+    } catch (error: any) {
+      errorSnackbar('An error occurred');
+    }
+  }, [contractId, signeeId, currentSignee, putCommonContract]);
+
+  useEffect(() => {
+    sendIsViewedRequest();
+  }, [sendIsViewedRequest]);
 
   return {
     signature,
