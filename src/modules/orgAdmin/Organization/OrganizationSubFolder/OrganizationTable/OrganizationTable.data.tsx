@@ -223,12 +223,6 @@ export const defaultValuesOrganization = {
   postCode: '',
   address: '',
   email: '',
-  // unit: '',
-  // buildingName: '',
-  // buildingNumber: '',
-  // streetName: '',
-  // city: '',
-  // country: '',
 };
 
 export const dataArray = ({ drawerHeading, isToggled }: any) => {

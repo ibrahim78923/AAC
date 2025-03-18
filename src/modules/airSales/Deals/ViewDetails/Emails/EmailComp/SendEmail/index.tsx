@@ -204,27 +204,29 @@ const SendEmailDrawer = (props: any) => {
   };
 
   // outlook
-  const { data: authURLOutlook } = useGetAuthURLOutlookQuery(
-    {
-      params: {
-        redirectUrl: moduleType ? redirectUrls[moduleType] : '',
+  const { data: authURLOutlook, isLoading: outlookUrlLoading } =
+    useGetAuthURLOutlookQuery(
+      {
+        params: {
+          redirectUrl: moduleType ? redirectUrls[moduleType] : '',
+        },
       },
-    },
-    { skip: !isOutlookAuthErr },
-  );
+      { skip: !isOutlookAuthErr },
+    );
   const handleOutLookAuthClick = () => {
     const oauthUrl = `${authURLOutlook?.data}`;
     window.open(oauthUrl);
   };
   // gmail
-  const { data: authUrlData } = useGetAuthURLGmailQuery(
-    {
-      params: {
-        redirectUrl: moduleType ? redirectUrls[moduleType] : '',
+  const { data: authUrlData, isLoading: gmailUrlLoading } =
+    useGetAuthURLGmailQuery(
+      {
+        params: {
+          redirectUrl: moduleType ? redirectUrls[moduleType] : '',
+        },
       },
-    },
-    { skip: !isGmailAuthErr },
-  );
+      { skip: !isGmailAuthErr },
+    );
   const handleGmailAuthClick = () => {
     const oauthUrl = `${authUrlData?.data}`;
     window.open(oauthUrl);
@@ -616,36 +618,66 @@ const SendEmailDrawer = (props: any) => {
                       )}
                     </Box>
                     {isGmailAuthErr && (
-                      <Box sx={{ textAlign: 'center' }}>
-                        You are not authenticated to <strong>Gmail</strong>{' '}
-                        <br />
-                        <span
-                          onClick={handleGmailAuthClick}
-                          style={{
-                            color: theme?.palette?.primary?.main,
-                            cursor: 'pointer',
-                            fontWeight: '500',
-                          }}
-                        >
-                          Click to authenticate
-                        </span>
-                      </Box>
+                      <>
+                        {!gmailUrlLoading ? (
+                          <Box sx={{ textAlign: 'center' }}>
+                            You are not authenticated to <strong>Gmail</strong>{' '}
+                            <br />
+                            <span
+                              onClick={handleGmailAuthClick}
+                              style={{
+                                color: theme?.palette?.primary?.main,
+                                cursor: 'pointer',
+                                fontWeight: '500',
+                              }}
+                            >
+                              Click to authenticate
+                            </span>
+                          </Box>
+                        ) : (
+                          <>
+                            <Skeleton
+                              variant="rounded"
+                              sx={{ width: '250px', height: '20px' }}
+                            />
+                            <Skeleton
+                              variant="rounded"
+                              sx={{ width: '100px', height: '20px' }}
+                            />
+                          </>
+                        )}
+                      </>
                     )}
                     {isOutlookAuthErr && (
-                      <Box sx={{ textAlign: 'center' }}>
-                        You are not authenticated to <strong>Outlook</strong>{' '}
-                        <br />
-                        <span
-                          onClick={handleOutLookAuthClick}
-                          style={{
-                            color: theme?.palette?.primary?.main,
-                            cursor: 'pointer',
-                            fontWeight: '500',
-                          }}
-                        >
-                          Click to authenticate
-                        </span>
-                      </Box>
+                      <>
+                        {!outlookUrlLoading ? (
+                          <Box sx={{ textAlign: 'center' }}>
+                            You are not authenticated to{' '}
+                            <strong>Outlook</strong> <br />
+                            <span
+                              onClick={handleOutLookAuthClick}
+                              style={{
+                                color: theme?.palette?.primary?.main,
+                                cursor: 'pointer',
+                                fontWeight: '500',
+                              }}
+                            >
+                              Click to authenticate
+                            </span>
+                          </Box>
+                        ) : (
+                          <>
+                            <Skeleton
+                              variant="rounded"
+                              sx={{ width: '250px', height: '20px' }}
+                            />
+                            <Skeleton
+                              variant="rounded"
+                              sx={{ width: '100px', height: '20px' }}
+                            />
+                          </>
+                        )}
+                      </>
                     )}
                   </>
                 </Box>

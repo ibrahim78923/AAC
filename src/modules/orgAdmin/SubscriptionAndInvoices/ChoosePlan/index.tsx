@@ -210,7 +210,8 @@ const ChoosePlan = () => {
       },
     });
 
-  const isCardAdded = dataPaymentCard?.data?.payments > 0;
+  const isCardAdded = dataPaymentCard?.data?.payments?.length > 0;
+
 
   return (
     <>

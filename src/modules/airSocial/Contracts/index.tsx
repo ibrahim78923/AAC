@@ -73,7 +73,7 @@ const Contracts = () => {
   const { data, isLoading } = useGetCommonContractsSharedFoldersListQuery({
     page: 1,
     limit: 10,
-    ...(searchValue.length && { search: searchValue }),
+    ...(searchValue?.length && { search: searchValue }),
     meta: true,
     nested: true,
   });
