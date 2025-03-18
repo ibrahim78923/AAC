@@ -31,7 +31,6 @@ const NotesEditorDrawer = (props: any) => {
     methods,
     updatedIsLoading,
     postIsLoading,
-    rowApiValues,
     reset,
   } = useNotesEditorDrawer(
     openDrawer,
@@ -73,16 +72,20 @@ const NotesEditorDrawer = (props: any) => {
 
         {['Edit', 'View']?.includes(openDrawer) && (
           <>
-            <Typography variant="h6" sx={{ mt: 2 }}>
-              Attachments
-            </Typography>
-            <Image
-              src={`${IMG_URL}${rowApiValues?.attachment?.url}`}
-              alt="attachment"
-              width={80}
-              height={80}
-              style={{ borderRadius: '8px' }}
-            />
+            {rowData?.file?.url && (
+              <>
+                <Typography variant="h6" sx={{ mt: 2 }}>
+                  Attachments
+                </Typography>
+                <Image
+                  src={`${IMG_URL}${rowData?.file?.url}`}
+                  alt="attachment"
+                  width={80}
+                  height={80}
+                  style={{ borderRadius: '8px' }}
+                />
+              </>
+            )}
           </>
         )}
       </CommonDrawer>

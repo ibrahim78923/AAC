@@ -6,9 +6,12 @@ import { AIR_SALES } from '@/routesConstants/paths';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_QUOTES_MANAGE_QUOTES_PERMISSIONS } from '@/constants/permission-keys';
 import { LoadingButton } from '@mui/lab';
+import DownloadQuote from '../DownloadQuote';
 
-const PageHeader = () => {
+const PageHeader = (props: any) => {
+  const { isDownloadQuote, setIsDownloadQuote, rowId } = props;
   const router = useRouter();
+
   return (
     <Box sx={styles?.pageHeader}>
       <Typography variant="h3" sx={styles?.pageHeaderTitle}>
@@ -26,10 +29,12 @@ const PageHeader = () => {
         >
           <Button
             className="small"
+            disabled={!rowId}
             sx={styles?.actionButton}
             startIcon={<DownloadIcon />}
+            onClick={() => setIsDownloadQuote(true)}
           >
-            Download All
+            Download
           </Button>
         </PermissionsGuard>
         <PermissionsGuard
@@ -59,6 +64,13 @@ const PageHeader = () => {
           </LoadingButton>
         </PermissionsGuard>
       </Box>
+      {isDownloadQuote && (
+        <DownloadQuote
+          isDownloadQuote={isDownloadQuote}
+          setIsDownloadQuote={setIsDownloadQuote}
+          rowId={rowId}
+        />
+      )}
     </Box>
   );
 };

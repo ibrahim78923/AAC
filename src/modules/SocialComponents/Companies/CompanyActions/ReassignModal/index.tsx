@@ -1,10 +1,10 @@
 import { AlertModals } from '@/components/AlertModals';
 import { AssignCommonIcon } from '@/assets/icons';
-import { FormProvider, RHFSelect } from '@/components/ReactHookForm';
-import { v4 as uuidv4 } from 'uuid';
+import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import useReassignModal from './useReassignModal';
 import { useChangeCompanyOwnerMutation } from '@/services/commonFeatures/companies';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { useLazyGetCompaniesContactsAsyncQuery } from '@/services/common-APIs';
 
 const ReassignModal = ({
   isReassign,
@@ -12,26 +12,28 @@ const ReassignModal = ({
   checkedRows,
   setCheckedRows,
 }: any) => {
-  const { methods, seletedContact, getCompanyContacts } = useReassignModal();
+  const { methods, seletedContact, params } = useReassignModal();
   const [changeCompanyOwner] = useChangeCompanyOwnerMutation();
+
+  const apiQueryUsers = useLazyGetCompaniesContactsAsyncQuery?.();
 
   return (
     <AlertModals
       typeImage={<AssignCommonIcon />}
       message={
         <FormProvider methods={methods}>
-          <RHFSelect
-            name="companyOwner"
+          <RHFAutocompleteAsync
             label="Company Owner"
-            select={true}
+            name="companyOwner"
+            fullWidth
+            apiQuery={apiQueryUsers}
+            externalParams={params}
             size="small"
-          >
-            {getCompanyContacts?.data?.contacts?.map((item: any) => (
-              <option key={uuidv4()} value={item?._id}>
-                {`${item?.firstName} ${item?.lastName}`}
-              </option>
-            ))}
-          </RHFSelect>
+            placeholder="Select user"
+            getOptionLabel={(option: any) =>
+              `${option?.firstName + ' ' + option?.lastName}`
+            }
+          />
         </FormProvider>
       }
       type="Assign"
@@ -42,7 +44,7 @@ const ReassignModal = ({
       handleSubmitBtn={() => {
         if (checkedRows != null && seletedContact != null) {
           changeCompanyOwner({
-            body: { id: checkedRows, ownerId: seletedContact },
+            body: { id: checkedRows, ownerId: seletedContact?._id },
           });
           setIsReassign({ reassignModal: false });
           setCheckedRows([]);

@@ -20,7 +20,6 @@ export const superAdminValidationSchema = Yup.object().shape({
     .email('Invalid email address'),
   phoneNumber: Yup.string()
     .nullable() // Allow null or undefined values
-    .matches(/^\+\d{1,}(\s\d+)*$/, 'Invalid phone number')
     .transform((value, originalValue) => {
       if (
         originalValue === '' ||
@@ -31,8 +30,6 @@ export const superAdminValidationSchema = Yup.object().shape({
       }
       return value;
     }),
-  postCode: Yup.string().required('Field is Required'),
-  compositeAddress: Yup.string()?.required('Field is Required'),
   linkedInUrl: Yup.string().url('Please enter a valid URL').optional(),
   twitterUrl: Yup.string().url('Please enter a valid URL').optional(),
 });
@@ -64,7 +61,6 @@ export const addUsersArray = [
     componentProps: {
       name: 'postCode',
       label: 'Post Code',
-      required: true,
       placeholder: 'Enter Post Code',
       fullWidth: true,
     },
@@ -75,7 +71,6 @@ export const addUsersArray = [
     componentProps: {
       name: 'compositeAddress',
       label: 'Address',
-      required: true,
       placeholder: 'Address',
       multiline: true,
       rows: 4,

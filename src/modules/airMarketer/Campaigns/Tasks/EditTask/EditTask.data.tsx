@@ -20,6 +20,8 @@ import {
 import { indexNumbers } from '@/constants';
 
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 
 const today = new Date();
 today.setHours(0, 0, 0, 0);

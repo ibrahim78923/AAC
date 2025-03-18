@@ -115,7 +115,7 @@ const useOrganizationTable = () => {
 
   useEffect(() => {
     if (Object?.keys(editData)?.length > 0) {
-      const { accountName, phoneNo, address, postCode } = editData;
+      const { accountName, phoneNo, address, postCode, email } = editData;
       setImagePreview(generateImage(editData?.image?.url));
 
       let addressOthFields;
@@ -132,6 +132,7 @@ const useOrganizationTable = () => {
         addressOthFields = address;
       }
       methods.setValue('accountName', accountName);
+      methods.setValue('email', email);
       methods.setValue('phoneNo', phoneNo);
       methods.setValue('postCode', postCode);
       methods.setValue('unit', addressOthFields?.flatNumber);
@@ -211,6 +212,7 @@ const useOrganizationTable = () => {
     formData.append('image', imageToUpload);
     formData.append('products', selectedProducts);
     formData.append('accountName', data?.accountName);
+    formData.append('email', data?.email);
     formData.append('phoneNo', data?.phoneNo);
     formData.append('postCode', data?.postCode);
     formData.append('address', JSON.stringify(address));

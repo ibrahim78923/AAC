@@ -4,6 +4,7 @@ import FolderRoundedIcon from '@/assets/icons/shared/folder-rounded';
 import { CustomTooltip } from '@/components/CustomTooltip';
 import { IMG_URL } from '@/config';
 import { AIR_SOCIAL_CONTRACTS } from '@/constants/routes';
+import { ENUM_CONTRACT_STATUS } from '@/utils/contracts';
 import { Box, Button, Checkbox, Typography, useTheme } from '@mui/material';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -243,30 +244,47 @@ export const contractsColumns = ({
                         alignItems="flex-start"
                         gap="10px"
                       >
-                        <Box sx={{ display: 'flex', gap: '5px' }}>
-                          <CustomTooltip title="Signed">
-                            <Box>
-                              <SignedIcon />
-                            </Box>
-                          </CustomTooltip>
+                        <Box
+                          sx={{ display: 'flex', gap: '5px', minWidth: '80px' }}
+                        >
+                          {item?.signatureStatus ===
+                            ENUM_CONTRACT_STATUS?.SIGNED && (
+                            <CustomTooltip title="Signed">
+                              <Box>
+                                <SignedIcon />
+                              </Box>
+                            </CustomTooltip>
+                          )}
 
-                          <CustomTooltip title="Rejected">
-                            <Box>
-                              <SignedIcon color={theme?.palette?.error?.main} />
-                            </Box>
-                          </CustomTooltip>
+                          {item?.signatureStatus ===
+                            ENUM_CONTRACT_STATUS?.REJECTED && (
+                            <CustomTooltip title="Rejected">
+                              <Box>
+                                <SignedIcon
+                                  color={theme?.palette?.error?.main}
+                                />
+                              </Box>
+                            </CustomTooltip>
+                          )}
 
-                          <CustomTooltip title="Viewed">
-                            <Box>
-                              <ViewedIcon />
-                            </Box>
-                          </CustomTooltip>
+                          {(item?.signatureStatus ===
+                            ENUM_CONTRACT_STATUS?.SIGNED ||
+                            item?.signatureStatus ===
+                              ENUM_CONTRACT_STATUS?.REJECTED) && (
+                            <CustomTooltip title="Viewed">
+                              <Box>
+                                <ViewedIcon />
+                              </Box>
+                            </CustomTooltip>
+                          )}
 
-                          <CustomTooltip title="Sent">
-                            <Box>
-                              <SentIcon />
-                            </Box>
-                          </CustomTooltip>
+                          {item?.emailSent && (
+                            <CustomTooltip title="Sent">
+                              <Box>
+                                <SentIcon />
+                              </Box>
+                            </CustomTooltip>
+                          )}
                         </Box>
 
                         <Box>

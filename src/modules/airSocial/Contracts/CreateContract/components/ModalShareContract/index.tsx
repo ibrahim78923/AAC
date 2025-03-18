@@ -12,11 +12,13 @@ import { Box, Grid, IconButton } from '@mui/material';
 interface ModalProps {
   open: boolean;
   setOpenModalShareContract: React.Dispatch<React.SetStateAction<boolean>>;
+  data: any;
 }
 
 export default function ModalShareContract({
   open,
   setOpenModalShareContract,
+  data,
 }: ModalProps) {
   const {
     fields,
@@ -26,7 +28,7 @@ export default function ModalShareContract({
     handleSubmitShareContract,
     handleCloseModal,
     loadingUpdateContract,
-  } = useModalShareContract(setOpenModalShareContract);
+  } = useModalShareContract(setOpenModalShareContract, data);
 
   return (
     <CommonModal
@@ -53,11 +55,13 @@ export default function ModalShareContract({
                 <Box sx={styles?.collaboratorContent}>
                   <Grid container spacing={2}>
                     <Grid item xs={12} sm={6}>
-                      <FieldName name={`collaborators.${index}.user`} />
+                      <FieldName
+                        name={`collaborators.${index}.sharedUserData`}
+                      />
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <FieldPermissions
-                        name={`collaborators.${index}.permission`}
+                        name={`collaborators.${index}.permissions`}
                       />
                     </Grid>
                   </Grid>

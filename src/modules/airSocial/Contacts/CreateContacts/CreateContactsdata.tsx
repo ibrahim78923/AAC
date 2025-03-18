@@ -14,13 +14,7 @@ export const contactsValidationSchema = (form: any) => {
   const formSchema: any = dynamicFormValidationSchema(form);
   return Yup?.object()?.shape({
     email: Yup?.string()?.email('Invalid email')?.required('Field is Required'),
-    phoneNumber: Yup.string()
-      .nullable()
-      .test(
-        'isValidPhoneNumber',
-        'Phone number is not valid',
-        (value) => !value || phoneRegex.test(value),
-      ),
+    phoneNumber: Yup.string().nullable(),
     whatsAppNumber: Yup.string()
       .nullable()
       .test(

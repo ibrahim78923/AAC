@@ -7,13 +7,12 @@ import * as Yup from 'yup';
 import { indexNumbers } from '@/constants';
 import {
   useLazyGetCompanyAccountsListsQuery,
-  useLazyGetProductsListQuery,
+  useLazyGetUsersProductsListQuery,
 } from '@/services/common-APIs';
-import { PRODUCT_USER_STATUS } from '@/constants/strings';
 
 export const AddAccountArray = (companyRoleParams: any, productValue: any) => {
   const { companyRoles, user } = useAddAccount();
-  const products = useLazyGetProductsListQuery();
+  const products = useLazyGetUsersProductsListQuery();
   const companyAccounts = useLazyGetCompanyAccountsListsQuery();
 
   return [
@@ -25,7 +24,7 @@ export const AddAccountArray = (companyRoleParams: any, productValue: any) => {
         placeholder: 'Select product',
         apiQuery: products,
         getOptionLabel: (option: any) => option?.name,
-        externalParams: { status: PRODUCT_USER_STATUS?.active },
+        // externalParams: { status: PRODUCT_USER_STATUS?.active },
       },
       component: RHFAutocompleteAsync,
       md: 12,

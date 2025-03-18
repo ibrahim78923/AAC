@@ -6,7 +6,6 @@ import {
   dynamicFormValidationSchema,
 } from '@/utils/dynamic-forms';
 import { ARRAY_INDEX } from '@/constants/strings';
-import { REGEX } from '@/constants/validation';
 import { DepartmentListDropdown } from '../AgentFormFields/DepartmentListDropdown';
 import { RoleListDropdown } from '../AgentFormFields/RoleListDropdown';
 
@@ -21,15 +20,7 @@ export const validationSchemaAgentFields: any = (form: any) => {
       ?.trim()
       ?.email('Please provide valid email')
       ?.required('Email is required'),
-    phoneNumber: yup
-      ?.string()
-      ?.trim()
-      ?.test('is-valid-phone', 'Only UK phone number', function (value) {
-        if (value) {
-          return REGEX?.PHONE_NUMBER?.test(value);
-        }
-        return true;
-      }),
+    phoneNumber: yup?.string()?.trim(),
     departmentId: yup?.mixed()?.nullable(),
     permissionsRole: yup?.mixed()?.nullable()?.required('Role is required'),
     timezone: yup?.mixed()?.nullable(),
