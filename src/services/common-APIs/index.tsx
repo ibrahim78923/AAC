@@ -70,6 +70,17 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       },
       providesTags: ['PRODUCTS'],
     }),
+    getUsersProductsList: builder.query({
+      query: ({ params }: any) => ({
+        url: organization?.USERS_PRODUCTS,
+        method: 'GET',
+        params: params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: ['PRODUCTS'],
+    }),
 
     getOrganizationsList: builder.query({
       query: ({ params }: any) => ({
@@ -176,6 +187,18 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       }),
       providesTags: ['CONTACTS'],
     }),
+
+    getCompaniesContactsAsync: builder?.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.CONTACTS,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.contacts;
+      },
+    }),
+
     getSchemaKeys: builder.query({
       query: (params: any) => ({
         url: OPERATION?.SCHEMA_KEYS,
@@ -395,6 +418,8 @@ export const CommonAPIS = baseAPI.injectEndpoints({
 });
 
 export const {
+  // getUsersProductsList
+  useLazyGetUsersProductsListQuery,
   useGetProductsQuery,
   useLazyGetDropdownProductsQuery,
   useLazyGetProductsListQuery,
@@ -430,5 +455,6 @@ export const {
   useLazyGetAllUsersDropdownQuery,
   useGetAllUsersDropdownQuery,
   useLazyGetCompanyAccountsDropdownQuery,
+  useLazyGetCompaniesContactsAsyncQuery,
   useLazyGetDropdownOrganizationUsersQuery,
 } = CommonAPIS;

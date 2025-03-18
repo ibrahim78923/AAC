@@ -38,6 +38,7 @@ const useQuotes = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [searchValue, setSearchValue] = useState('');
+  const [isDownloadQuote, setIsDownloadQuote] = useState(false);
   const [filterParams, setFilterParams] = useState({});
   const paginationParams = {
     page: page,
@@ -197,6 +198,8 @@ const useQuotes = () => {
     handleOpenModalExport,
     handleCloseModalExport,
     openModalExport,
+    isDownloadQuote,
+    setIsDownloadQuote,
   };
 };
 

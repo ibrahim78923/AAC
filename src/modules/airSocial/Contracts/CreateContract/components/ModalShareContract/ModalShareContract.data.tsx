@@ -4,8 +4,8 @@ export const validationSchema = () => {
   return Yup?.object()?.shape({
     collaborators: Yup.array().of(
       Yup.object().shape({
-        user: Yup.mixed().nullable()?.required('Field is Required'),
-        permission: Yup?.string()?.trim()?.required('Field is Required'),
+        sharedUserData: Yup.mixed().nullable()?.required('Field is Required'),
+        permissions: Yup?.string()?.trim()?.required('Field is Required'),
       }),
     ),
   });
@@ -13,16 +13,16 @@ export const validationSchema = () => {
 
 const defaultCollaborator = [
   {
-    user: null,
-    permission: '',
+    sharedUserData: null,
+    permissions: '',
   },
 ];
 
 export const defaultValues = (data: any) => {
   return {
     collaborators:
-      data?.sharedWithUserIds?.length > 0
-        ? data?.sharedWithUserIds
+      data?.sharedWithUsers?.length > 0
+        ? data?.sharedWithUsers
         : defaultCollaborator,
     emailContent: data?.emailContent ?? '',
   };

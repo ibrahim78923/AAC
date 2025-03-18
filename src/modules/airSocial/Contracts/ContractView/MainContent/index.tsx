@@ -4,7 +4,7 @@ import { styles } from './MainContent.style';
 import Image from 'next/image';
 import { IconDefaultAttachment, IconSigningDigitally } from '@/assets/icons';
 import DocumentHistory from '../../CreateContract/components/DocumentHistory';
-import { getPartyName } from '@/utils/contracts';
+import { ENUM_CONTRACT_STATUS, getPartyName } from '@/utils/contracts';
 import { generateImage } from '@/utils/avatarUtils';
 
 type MainContentProps = {
@@ -15,6 +15,10 @@ type MainContentProps = {
   attachment: any;
   activityHistory: [];
   signeeId: any;
+  status: string;
+  handleOpenModalSignAndSend: () => void;
+  handleOpenModalDismissAgreement: () => void;
+  handleOpenModalRequestChanged: () => void;
 };
 
 export default function MainContent({
@@ -25,6 +29,10 @@ export default function MainContent({
   attachment,
   activityHistory,
   signeeId,
+  status,
+  handleOpenModalSignAndSend,
+  handleOpenModalDismissAgreement,
+  handleOpenModalRequestChanged,
 }: MainContentProps) {
   const theme = useTheme();
   const currentSignee: any = signees?.find(
@@ -134,7 +142,45 @@ export default function MainContent({
           </Box>
         </Grid>
       ))}
-
+      {status === ENUM_CONTRACT_STATUS?.PENDING && (
+        <Grid item xs={12}>
+          <Grid container spacing="12px">
+            <Grid item xs={12}>
+              <Button
+                variant={'contained'}
+                className={'small'}
+                fullWidth
+                onClick={handleOpenModalSignAndSend}
+              >
+                Sign & Send
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Button
+                onClick={handleOpenModalDismissAgreement}
+                variant={'contained'}
+                className={'small'}
+                fullWidth
+                color={'error'}
+              >
+                Dismiss Agreement
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Button
+                onClick={handleOpenModalRequestChanged}
+                variant="outlined"
+                className="small"
+                color="inherit"
+                sx={{ color: theme?.palette?.custom['main'] }}
+                fullWidth
+              >
+                Suggest Changes
+              </Button>
+            </Grid>
+          </Grid>
+        </Grid>
+      )}
       {attachment && (
         <Grid item xs={12}>
           <Box sx={styles?.attachmentPreview}>

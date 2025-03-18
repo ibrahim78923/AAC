@@ -9,19 +9,20 @@ import { createCollaboratorsFormData } from '@/utils/contracts';
 
 export default function useModalShareContract(
   setOpenModalShareContract: React.Dispatch<React.SetStateAction<boolean>>,
+  data: any,
 ) {
   const router = useRouter();
   const { contractId } = router?.query;
 
   const methodsShareContract = useForm<any>({
     resolver: yupResolver(validationSchema()),
-    defaultValues: defaultValues({}),
+    defaultValues: defaultValues(data),
   });
   const { control, handleSubmit, reset } = methodsShareContract;
 
   useEffect(() => {
-    reset(defaultValues({}));
-  }, [methodsShareContract, reset]);
+    reset(defaultValues(data));
+  }, [methodsShareContract, reset, data]);
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -30,8 +31,8 @@ export default function useModalShareContract(
 
   const handleAddCollaborator = () => {
     append({
-      user: null,
-      permission: '',
+      sharedUserData: null,
+      permissions: '',
     });
   };
 

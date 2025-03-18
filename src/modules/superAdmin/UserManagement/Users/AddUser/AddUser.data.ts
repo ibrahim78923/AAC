@@ -60,8 +60,6 @@ export const orgEmployeeValidationSchema = Yup.object().shape({
       }
       return value;
     }),
-  postCode: Yup.string().required('Field is Required'),
-  address: Yup.string()?.required('Field is Required'),
   facebookUrl: Yup.string().url('Please enter a valid URL').optional(),
   linkedInUrl: Yup.string().url('Please enter a valid URL').optional(),
 });
@@ -96,8 +94,6 @@ export const superAdminValidationSchema = Yup.object().shape({
       }
       return value;
     }),
-  postCode: Yup.string().required('Field is Required'),
-  address: Yup.string()?.required('Field is Required'),
   facebookUrl: Yup.string().url('Please enter a valid URL').optional(),
   linkedInUrl: Yup.string().url('Please enter a valid URL').optional(),
 });
@@ -230,7 +226,6 @@ export const addUsersArray = () => {
       componentProps: {
         name: 'postCode',
         label: 'Post Code',
-        required: true,
         placeholder: 'Enter Post Code',
         fullWidth: true,
       },
@@ -242,7 +237,6 @@ export const addUsersArray = () => {
       componentProps: {
         name: 'address',
         label: 'Address',
-        required: true,
         placeholder: 'Address',
         multiline: true,
         rows: 4,

@@ -1,6 +1,7 @@
 import { Grid } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import {
+  addRolesSchema,
   rolesFilterDefaultValues,
   rolesFiltersArray,
 } from './RoleFilters.data';
@@ -8,11 +9,15 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
 import { filteredEmptyValues } from '@/utils/api';
 import { RoleFiltersProps } from '../Roles-inerface';
+import { useLazyGetCompanyAccountsListsQuery } from '@/services/common-APIs';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const RoleFilters = (props: RoleFiltersProps) => {
   const { isOpen, setIsOpen, filterVal, setFilterValues } = props;
+  const companyAccounts = useLazyGetCompanyAccountsListsQuery();
 
   const methods = useForm({
+    resolver: yupResolver(addRolesSchema),
     defaultValues: rolesFilterDefaultValues(filterVal),
   });
 
@@ -38,7 +43,7 @@ const RoleFilters = (props: RoleFiltersProps) => {
     >
       <FormProvider methods={methods}>
         <Grid container spacing={2}>
-          {rolesFiltersArray()?.map((item: any) => (
+          {rolesFiltersArray(companyAccounts)?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={item?.componentProps?.name}>
               <item.component {...item?.componentProps} size={'small'}>
                 {item?.componentProps?.select &&

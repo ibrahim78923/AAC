@@ -1,11 +1,9 @@
 import { Box, Grid } from '@mui/material';
 import { styles } from './QuoteInfo.style';
-import useViewQuotes from '../useViewQuote';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 
-const QuoteInfo = () => {
-  const { viewQuotesData } = useViewQuotes();
+const QuoteInfo = ({ viewQuotesData }: any) => {
   return (
     <>
       <Box sx={styles?.quoteInfo}>
@@ -13,7 +11,9 @@ const QuoteInfo = () => {
           <Grid item lg={4} md={6} sm={6} xs={12}>
             <Box sx={styles?.quoteInfoTitle}>
               Quote No:
-              <Box component="span">{viewQuotesData?.data?.quoteNumber}</Box>
+              <Box component="span">
+                {viewQuotesData?.data?.quoteNumber ?? 'N/A'}
+              </Box>
             </Box>
           </Grid>
           <Grid item lg={4} md={6} sm={6} xs={12}>

@@ -209,6 +209,7 @@ const useAddUser = (useActionParams: UseActionParams): UseAddUserReturn => {
 
   //onsubmit function of forms
   const onSubmit = async (values: any) => {
+    values.postCode = values?.postCode ? values?.postCode : undefined;
     if (
       pathName === SUPER_ADMIN?.USERMANAGMENT &&
       tabTitle === EQuickLinksType?.COMPANY_OWNER

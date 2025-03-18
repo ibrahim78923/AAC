@@ -20,8 +20,8 @@ const AddAccount = (props: AddAccountProps) => {
     <CommonDrawer
       isDrawerOpen={isOpen}
       onClose={() => setIsOpenAddAccountDrawer(false)}
-      title="Add Account"
-      okText="Add"
+      title="Assign Account"
+      okText="Assign"
       isOk={true}
       footer
       submitHandler={handleSubmit(onSubmit)}

@@ -5,10 +5,20 @@ import {
   RHFSwitch,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { isNullOrEmpty } from '@/utils';
+import dayjs from 'dayjs';
 import * as Yup from 'yup';
 
+export const dateDefaultValues = (selectedField: any) => {
+  return {
+    value: isNullOrEmpty(selectedField?.startDate)
+      ? dayjs().toDate()
+      : dayjs(selectedField?.startDate)?.format('MM/DD/YYYY'),
+  };
+};
+
 export const PropertiesValidationSchema = Yup.object().shape({
-  value: Yup?.string()?.trim(),
+  value: Yup?.date()?.nullable(),
   dateFormate: Yup?.string()?.trim(),
   AddDescription: Yup?.string(),
 });
@@ -165,7 +175,7 @@ export const PropertiesNumberFields = [
     componentProps: {
       name: 'value',
       label: 'Value',
-      placeholder: 'Enter Value',
+      placeholder: 'Enter Amount',
       fullWidth: true,
     },
     component: RHFTextField,

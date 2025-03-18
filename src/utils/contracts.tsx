@@ -19,6 +19,7 @@ export const ENUM_CONTRACT_STATUS = {
   SIGNED: 'SIGNED',
   REJECTED: 'REJECTED',
   DEFAULT: 'DEFAULT',
+  CHANGES_REQUESTED: 'CHANGES_REQUESTED',
 };
 
 export const ENUM_CONTRACT_VISIBLE_TO = {
@@ -167,8 +168,8 @@ export const createCollaboratorsFormData = (collaborators: any) => {
             : value;
       };
 
-      setValue('userId', collaborator?.user?._id);
-      setValue('permissions', collaborator?.permission);
+      setValue('userId', collaborator?.sharedUserData?._id);
+      setValue('permissions', collaborator?.permissions);
 
       return formattedCollaborator;
     })

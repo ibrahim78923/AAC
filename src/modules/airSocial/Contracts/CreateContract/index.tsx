@@ -127,6 +127,7 @@ export default function CreateContract() {
         <HeaderCreateContract
           documentTitle={contractDetailsData?.name || 'Untitled Draft'}
           documentStatus={contractDetailsData?.status || 'Draft'}
+          sharedWithUsers={contractDetailsData?.sharedWithUsers}
           onClickSave={handleSubmitUpdateContract(false)}
           // onClickSign={handleOpenModalSignAndSend}
           onClickSign={

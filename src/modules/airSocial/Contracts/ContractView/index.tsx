@@ -7,9 +7,12 @@ import MainContent from './MainContent';
 import useContractView from './useContractView';
 import ModalSignAndSend from './ModalSignAndSend';
 import SidebarContent from './SidebarContent';
+import ModalDismissAgreement from './ModalDismissAgreement';
+import ModalRequestChanged from './ModalRequestChanged';
 
 export default function ContractView() {
   const {
+    signature,
     setSignature,
     dataContractById,
     loadingGetContractById,
@@ -24,8 +27,18 @@ export default function ContractView() {
     isConfirmSigning,
     handleChangeConfirmSigning,
 
-    loadingUpdateContract,
+    loadingPutContract,
     handleSubmitSignAndSend,
+
+    signatureMessage,
+    setSignatureMessage,
+    openModalDismissAgreement,
+    handleOpenModalDismissAgreement,
+    handleCloseModalDismissAgreement,
+
+    openModalRequestChanged,
+    handleOpenModalRequestChanged,
+    handleCloseModalRequestChanged,
   } = useContractView();
 
   return (
@@ -61,6 +74,10 @@ export default function ContractView() {
               attachment={dataContractById?.data?.attachment || null}
               activityHistory={dataContractById?.data?.activityHistory || []}
               signeeId={signeeId}
+              handleOpenModalSignAndSend={handleOpenModalSignAndSend}
+              status={dataContractById?.data?.status || 'Pending'}
+              handleOpenModalDismissAgreement={handleOpenModalDismissAgreement}
+              handleOpenModalRequestChanged={handleOpenModalRequestChanged}
             />
           </Box>
 
@@ -85,8 +102,27 @@ export default function ContractView() {
         signatureType={currentSigneeSignatureType}
         handleChangeConfirmSigning={handleChangeConfirmSigning}
         isConfirmSigning={isConfirmSigning}
-        isLoading={loadingUpdateContract}
+        isLoading={loadingPutContract}
+        signature={signature}
         setSignature={setSignature}
+      />
+
+      <ModalDismissAgreement
+        open={openModalDismissAgreement}
+        onClose={handleCloseModalDismissAgreement}
+        onSubmit={handleSubmitSignAndSend}
+        isLoading={loadingPutContract}
+        signatureMessage={signatureMessage}
+        setSignatureMessage={setSignatureMessage}
+      />
+
+      <ModalRequestChanged
+        open={openModalRequestChanged}
+        onClose={handleCloseModalRequestChanged}
+        onSubmit={handleSubmitSignAndSend}
+        isLoading={loadingPutContract}
+        signatureMessage={signatureMessage}
+        setSignatureMessage={setSignatureMessage}
       />
     </>
   );

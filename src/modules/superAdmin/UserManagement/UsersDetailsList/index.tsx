@@ -343,7 +343,16 @@ const UsersDetailsList = () => {
                                 )}
                               </PermissionsGuard>
                             </Box>
-                            <Typography>{item?.email}</Typography>
+                            <Typography
+                              sx={{
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                width: `calc(30vh - 15px)`,
+                              }}
+                            >
+                              {item?.email}
+                            </Typography>
                           </Box>
                         </Box>
                       </Box>
@@ -432,12 +441,11 @@ const UsersDetailsList = () => {
                                   sx={{
                                     border: `1px solid ${theme?.palette?.custom?.dark}`,
                                     color: theme?.palette?.custom?.main,
-                                    width: '146px',
                                     height: '36px',
                                   }}
                                   startIcon={<AddCircleOutlined />}
                                 >
-                                  Add Account
+                                  Assign Account
                                 </Button>
                               </PermissionsGuard>
                             </>

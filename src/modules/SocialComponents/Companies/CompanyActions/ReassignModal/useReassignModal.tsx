@@ -6,7 +6,7 @@ import { useGetCompanyContactsQuery } from '@/services/common-APIs';
 import { getSession } from '@/utils';
 
 const useReassignModal = () => {
-  const { user } = getSession();
+  const { user }: any = getSession();
   const theme = useTheme<Theme>();
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -28,6 +28,7 @@ const useReassignModal = () => {
     setPage,
     setPageLimit,
     getCompanyContacts,
+    params,
   };
 };
 

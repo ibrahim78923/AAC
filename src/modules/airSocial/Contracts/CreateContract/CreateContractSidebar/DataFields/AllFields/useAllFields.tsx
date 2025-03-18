@@ -94,14 +94,25 @@ export default function useAllFields(
   const onSubmitProperties = (values: any) => {
     let formattedValue = values.value;
 
-    if (values.value && dayjs(values.value).isValid()) {
-      formattedValue = dayjs(values.value).format(DATE_FORMAT?.API);
+    if (selectedField?.type === 'date') {
+      if (values.value && dayjs(values.value).isValid()) {
+        formattedValue = dayjs(values.value).format(DATE_FORMAT?.API);
+      }
+    } else if (selectedField?.type === 'number') {
+      formattedValue = JSON.parse(values.value);
+    }
+
+    let options;
+    if (selectedField?.type === 'checkbox') {
+      options = values?.options;
     }
 
     handleUpdateDynamicField(indexValue, {
       required: values?.required,
       description: values?.description,
+      // value: selectedField?.type === 'checkbox' ? options : formattedValue,
       value: formattedValue,
+      options: selectedField?.type === 'checkbox' ? options : undefined,
     });
 
     // if (indexValue !== null) {
@@ -142,6 +153,10 @@ export default function useAllFields(
       remove(Array?.from({ length: fields?.length }, (_, i) => i));
     }
   };
+
+  useEffect(() => {
+    setValue('value', selectedField?.[selectedField?.name]);
+  }, [selectedField]);
 
   return {
     allFields,

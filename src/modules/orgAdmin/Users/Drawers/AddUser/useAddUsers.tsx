@@ -52,7 +52,7 @@ const useAddUser = (useActionParams?: any) => {
     const bodyVals: any = {
       firstName: values?.firstName,
       lastName: values?.lastName,
-      postCode: values?.postCode,
+      postCode: values?.postCode ? values?.postCode : undefined,
       email: values?.email,
       phoneNumber: values?.phoneNumber,
       jobTitle: values?.jobTitle,
@@ -92,7 +92,7 @@ const useAddUser = (useActionParams?: any) => {
         reset();
       }
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message, {
+      enqueueSnackbar(error?.data?.message[0], {
         variant: 'error',
       });
     }

@@ -20,7 +20,11 @@ import ModalDuplicateDataField from './ModalDuplicateDataField';
 import useAllFields from './useAllFields';
 import ModalPropertiesField from './ModalPropertiesField';
 
-const getDataField = (index: number, field: any) => {
+const getDataField = (
+  index: number,
+  field: any,
+  handleUpdateDynamicField: any,
+) => {
   switch (field?.type) {
     case FIELD_TYPES?.TEXT:
       return <DataFieldText index={index} data={field} />;
@@ -32,10 +36,22 @@ const getDataField = (index: number, field: any) => {
       return <DataFieldNumber index={index} data={field} />;
 
     case FIELD_TYPES?.CHECKBOX:
-      return <DataFieldCheckbox index={index} data={field} />;
+      return (
+        <DataFieldCheckbox
+          index={index}
+          data={field}
+          handleUpdateDynamicField={handleUpdateDynamicField}
+        />
+      );
 
     case FIELD_TYPES?.SELECT:
-      return <DataFieldCheckbox index={index} data={field} />;
+      return (
+        <DataFieldCheckbox
+          index={index}
+          data={field}
+          handleUpdateDynamicField={handleUpdateDynamicField}
+        />
+      );
 
     default:
       return <DataFieldText index={index} data={field} />;
@@ -86,7 +102,7 @@ export default function AllFields({
             <FieldIcon size={30}>{getFieldIcon(field?.type)}</FieldIcon>
             <Box sx={styles?.fieldInfo}>
               <Box sx={styles?.fieldName}>{field?.label}</Box>
-              {getDataField(index, field)}
+              {getDataField(index, field, handleUpdateDynamicField)}
             </Box>
             <CustomMenu
               field={field}

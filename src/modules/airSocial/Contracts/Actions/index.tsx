@@ -25,13 +25,16 @@ import {
 import { useLazyGetAllDealsAsyncQuery } from '@/services/commonFeatures/email/outlook';
 import {
   useGetCommonContractsPersonalFoldersActionListQuery,
+  usePostDealAssociationMutation,
   useUpdateListCommonContractsMutation,
 } from '@/services/commonFeatures/contracts/contracts-dashboard';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { RecursiveFolderAccordion } from '..';
 import { successSnackbar } from '@/lib/snackbar';
-import { API_STATUS } from '@/constants';
+import { API_STATUS, ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const Actions = ({ selectedRecords, setSelectedRecords }: any) => {
   const theme: any = useTheme();
@@ -53,12 +56,36 @@ const Actions = ({ selectedRecords, setSelectedRecords }: any) => {
 
   const [isDealAssociations, setIsDealAssociations] = useState(false);
 
-  const methods: any = useForm<any>({
+  const methods = useForm<any>({
     resolver: yupResolver(associationsValidationSchema),
     defaultValues: associationsDefaultValues,
   });
   const { handleSubmit, reset } = methods;
-  const onSubmit = () => {};
+
+  const [postDealAssociation, { isLoading: postAssociationLoading }] =
+    usePostDealAssociationMutation();
+
+  const onSubmit = async (values: any) => {
+    try {
+      const payload = {
+        recordId: values?.linkToDeal?._id,
+        contractsIds: selectedRecords?.map((record: any) => record?._id),
+        recordType: ASSOCIATIONS_API_PARAMS_FOR?.DEALS,
+        operation: ASSOCIATIONS_API_PARAMS_FOR?.ADD,
+      };
+      await postDealAssociation({
+        body: payload,
+      })?.unwrap();
+      enqueueSnackbar('Record Deleted Successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      enqueueSnackbar(errMsg ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
 
   const apiQueryUsers = useLazyGetAllDealsAsyncQuery?.();
 
@@ -274,6 +301,7 @@ const Actions = ({ selectedRecords, setSelectedRecords }: any) => {
         okText="Add"
         cancelText="Cancel"
         footer
+        isLoading={postAssociationLoading}
       >
         <FormProvider methods={methods}>
           <Grid container>

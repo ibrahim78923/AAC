@@ -17,8 +17,6 @@ export const profileValidationSchema = Yup.object().shape({
       /^[A-Za-z\s]+$/,
       'Only alphabetic characters and spaces are allowed',
     ),
-  // postCode: Yup.string().required('Field is Required'),
-  compositeAddress: Yup.string().required('Field is Required'),
   facebookUrl: Yup.string().url('Please enter a valid URL').optional(),
   linkedInUrl: Yup.string().url('Please enter a valid URL').optional(),
 });
@@ -92,7 +90,6 @@ export const profileFields = [
     componentProps: {
       name: 'compositeAddress',
       label: 'Address',
-      required: true,
       placeholder: 'Enter Address',
       fullWidth: true,
       multiline: true,

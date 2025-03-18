@@ -17,7 +17,7 @@ import { useGetProductsQuery } from '@/services/common-APIs';
 import { useGetOrganizationProductsQuery } from '@/services/orgAdmin/organization';
 import { AccountsDataProductI, ProductI } from './dashboard.interface';
 import { PRODUCT_EXTERNAl_LINKS, PRODUCT_LABELS } from '@/constants';
-import FreeTrialCountDown from './FreeTrialCountDown';
+// import FreeTrialCountDown from './FreeTrialCountDown';
 
 const Dashboard = () => {
   const { theme } = useDashboard();
@@ -59,10 +59,10 @@ const Dashboard = () => {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <FreeTrialCountDown
+            {/* <FreeTrialCountDown
               startDate={Date.now()}
               duration={14 * 86400000}
-            />
+            /> */}
           </Box>
         </Grid>
         <Grid item lg={8} md={6} sm={12} xs={12}>
@@ -130,13 +130,13 @@ const Dashboard = () => {
         >
           My Accounts
         </Typography>
-        <Typography
+        {/* <Typography
           variant="body2"
           sx={{ color: theme?.palette?.custom?.cadet_color, fontWeight: 400 }}
         >
           All the accounts in this organisation that you have access to. Click
           to open.
-        </Typography>
+        </Typography> */}
       </Box>
       <Grid container spacing={2}>
         {accountsData?.data ? (

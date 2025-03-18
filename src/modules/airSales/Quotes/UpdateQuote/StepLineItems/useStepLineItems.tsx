@@ -142,7 +142,7 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
     });
 
   const paramVoucher = {
-    // consumerId: consumerDetails?.data?._id,
+    consumerId: consumerDetails?.data?._id,
     voucherCode: VoucherDebouncedValue,
   };
   const { data: VoucherData, isError: isErrorVoucher }: any =

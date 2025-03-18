@@ -24,6 +24,7 @@ interface ModalSignAndSendProps {
   ) => void;
   isConfirmSigning: boolean;
   isLoading?: boolean;
+  signature: any;
   setSignature: (signature: string | null) => void;
 }
 
@@ -35,6 +36,7 @@ export default function ModalSignAndSend({
   handleChangeConfirmSigning,
   isConfirmSigning,
   isLoading,
+  signature,
   setSignature,
 }: ModalSignAndSendProps) {
   const sigCanvasRef = useRef<SignatureCanvas>(null);
@@ -54,22 +56,29 @@ export default function ModalSignAndSend({
       ? 'Sign and send the document'
       : signatureType === ENUM_SIGNATURE_TYPE?.DRAW
         ? 'Draw your signature'
-        : '';
+        : 'Sign and send the document';
+
+  const isDrawType = signatureType === ENUM_SIGNATURE_TYPE.DRAW;
+  const isSMSType = signatureType === ENUM_SIGNATURE_TYPE.SMS;
+  const isClickType = signatureType === ENUM_SIGNATURE_TYPE.CLICK;
+  const okDisabled = isDrawType
+    ? signature == null || !isConfirmSigning
+    : !isConfirmSigning;
 
   return (
     <CommonDialog
-      title={title === '' ? undefined : title}
+      title={title}
       open={open}
       onClose={onClose}
       onSubmit={onSubmit}
       okText={'Sign & Send'}
-      okDisabled={title === '' ? false : !isConfirmSigning}
+      okDisabled={okDisabled}
       cancelText="Cancel"
       width="648px"
-      closeIcon={title === '' ? false : true}
+      closeIcon={true}
       isLoading={isLoading}
     >
-      {signatureType === ENUM_SIGNATURE_TYPE?.SMS && (
+      {isSMSType && (
         <Typography variant="body1">
           The document will be signed by you and sent to the subsequent signee
           (if any). By signing this document, you agree to its terms and
@@ -77,7 +86,7 @@ export default function ModalSignAndSend({
         </Typography>
       )}
 
-      {signatureType === ENUM_SIGNATURE_TYPE?.CLICK && (
+      {isClickType && (
         <Box>
           <Typography variant="body1">
             The document will be signed by you and sent to the subsequent signee
@@ -96,7 +105,7 @@ export default function ModalSignAndSend({
           </Box>
         </Box>
       )}
-      {signatureType === ENUM_SIGNATURE_TYPE?.DRAW && (
+      {isDrawType && (
         <>
           <Typography variant="body1">
             The document will be signed by you and sent to the subsequent

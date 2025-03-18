@@ -21,6 +21,7 @@ interface HeaderCreateContractProps {
   disabledSaveAsTemplate?: boolean;
   disabledSaveChanges?: boolean;
   disabledSignAndSend?: boolean;
+  sharedWithUsers?: any;
 }
 
 export default function HeaderCreateContract({
@@ -34,6 +35,7 @@ export default function HeaderCreateContract({
   disabledSaveAsTemplate,
   disabledSaveChanges = true,
   disabledSignAndSend = true,
+  sharedWithUsers,
 }: HeaderCreateContractProps) {
   const router = useRouter();
   const { templateId } = router?.query;
@@ -150,6 +152,7 @@ export default function HeaderCreateContract({
       <ModalShareContract
         open={openModalShareContract}
         setOpenModalShareContract={setOpenModalShareContract}
+        data={{ sharedWithUsers: sharedWithUsers }}
       />
     </>
   );
