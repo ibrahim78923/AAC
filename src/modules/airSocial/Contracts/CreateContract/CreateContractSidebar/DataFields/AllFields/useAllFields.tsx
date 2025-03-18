@@ -99,7 +99,7 @@ export default function useAllFields(
         formattedValue = dayjs(values.value).format(DATE_FORMAT?.API);
       }
     } else if (selectedField?.type === 'number') {
-      formattedValue = values.value;
+      formattedValue = JSON.parse(values.value);
     }
 
     let options;
@@ -110,7 +110,8 @@ export default function useAllFields(
     handleUpdateDynamicField(indexValue, {
       required: values?.required,
       description: values?.description,
-      value: selectedField?.type === 'checkbox' ? options : formattedValue,
+      // value: selectedField?.type === 'checkbox' ? options : formattedValue,
+      value: formattedValue,
       options: selectedField?.type === 'checkbox' ? options : undefined,
     });
 

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { RHFRadioGroup } from '@/components/ReactHookForm';
 import { Box, Menu, Theme } from '@mui/material';
+import { isNullOrEmpty } from '@/utils';
 
 const styles = {
   label: (theme: Theme) => ({
@@ -23,8 +24,14 @@ const styles = {
   },
 };
 
-export default function DataFieldCheckbox({ index, data }: any) {
-  const [selectedValue, setSelectedValue] = React.useState();
+export default function DataFieldCheckbox({
+  index,
+  data,
+  handleUpdateDynamicField,
+}: any) {
+  const [selectedValue, setSelectedValue] = React.useState(
+    data?.[data?.name] || 'Select value',
+  );
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -34,11 +41,18 @@ export default function DataFieldCheckbox({ index, data }: any) {
     setAnchorEl(null);
   };
 
+  useEffect(() => {
+    if (!isNullOrEmpty(selectedValue) && selectedValue !== data?.[data?.name]) {
+      handleUpdateDynamicField(index, {
+        value: selectedValue,
+      });
+    }
+  }, [selectedValue]);
+
   return (
     <Box>
       <Box sx={styles.label} onClick={handleClick}>
-        {selectedValue ??
-          (data?.[data?.name] ? data?.[data?.name] : 'Select value')}
+        {selectedValue ?? 'Select value'}
       </Box>
       <Menu
         anchorEl={anchorEl}

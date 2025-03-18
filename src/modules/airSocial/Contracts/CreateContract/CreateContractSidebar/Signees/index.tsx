@@ -68,7 +68,6 @@ export default function Signees({
   const handleCloseModalCreateDataField = () => {
     setOpenModalCreateDataField(false);
   };
-  // const handleSubmitCreateDataField = handleSubmit(onSubmit);
 
   const handleMoveDown = (index: any) => {
     if (index < signeeFields.length - 1) {
