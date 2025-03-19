@@ -1,8 +1,9 @@
 import { usePatchDealsMutation } from '@/services/airSales/deals';
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
-import { useRouter } from 'next/router';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { useGetDealsActionPreviewQuery } from '@/services/airSales/deals';
+import { useEffect } from 'react';
 
 const useRestoreAssign = (
   seletedId: string[],
@@ -11,21 +12,34 @@ const useRestoreAssign = (
 ) => {
   const [updatedAssignDeal, { isLoading: loadingUpdateOwner }] =
     usePatchDealsMutation();
-  const router = useRouter();
 
-  const { dealOwnerId } = router.query;
+  const { data: dealsDetailsData, isLoading }: any =
+    useGetDealsActionPreviewQuery(
+      {
+        id: seletedId,
+      },
+      { skip: !seletedId },
+    );
 
   const methods: any = useForm({
     defaultValues: {
-      ownerId: dealOwnerId ?? '',
+      ownerId: null,
     },
   });
-  const { handleSubmit } = methods;
+
+  const { handleSubmit, reset } = methods;
+
+  useEffect(() => {
+    if (dealsDetailsData?.data) {
+      reset({ ownerId: dealsDetailsData?.data?.dealOwner });
+    }
+  }, [dealsDetailsData?.data, reset]);
+
   const onSubmit = async (values: any) => {
     try {
       await updatedAssignDeal({
         id: seletedId,
-        body: { ownerId: values?.ownerId },
+        body: { ownerId: [values?.ownerId?._id] },
       });
 
       enqueueSnackbar('Re-assign Updated ', {
@@ -46,7 +60,7 @@ const useRestoreAssign = (
     handleSubmit,
     onSubmit,
     methods,
-    dealOwnerId,
+    isLoading,
     loadingUpdateOwner,
   };
 };

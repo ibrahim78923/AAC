@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import DealHeader from './DealHeader';
 import DealsTab from './DealTab';
 import { styles } from './deals.style';
 import { useGetDealsViewsQuery } from '@/services/airSales/deals';
@@ -7,6 +6,7 @@ import { useState } from 'react';
 
 const Deals = () => {
   const [search, setSearch] = useState<string>('');
+
   const { data: dealViewsData }: any = useGetDealsViewsQuery({
     search: search ? search : undefined,
   });
@@ -19,8 +19,10 @@ const Deals = () => {
   };
   return (
     <Box sx={styles?.TableWrapper}>
-      <DealHeader dealHeaderParams={dealHeaderParams} />
-      <DealsTab dealViewsData={activeDealsViews} />
+      <DealsTab
+        dealViewsData={activeDealsViews}
+        dealHeaderParams={dealHeaderParams}
+      />
     </Box>
   );
 };

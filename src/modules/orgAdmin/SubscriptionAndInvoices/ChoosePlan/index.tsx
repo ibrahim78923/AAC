@@ -212,7 +212,6 @@ const ChoosePlan = () => {
 
   const isCardAdded = dataPaymentCard?.data?.payments?.length > 0;
 
-
   return (
     <>
       <AlertModals

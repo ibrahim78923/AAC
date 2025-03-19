@@ -87,7 +87,7 @@ const NotesEditorDrawer = (props: NotesEditorDrawerProps) => {
                   </item.component>
                 </Grid>
               ))}
-              {
+              {openDrawer !== DRAWER_TYPES?.ADD && (
                 <Grid item xs={12}>
                   <AttachFileCard
                     data={attachmentData}
@@ -95,7 +95,7 @@ const NotesEditorDrawer = (props: NotesEditorDrawerProps) => {
                     permissionKey={[]}
                   />
                 </Grid>
-              }
+              )}
             </Grid>
           </FormProvider>
         </Box>

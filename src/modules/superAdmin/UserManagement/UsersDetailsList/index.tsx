@@ -52,6 +52,7 @@ import { SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-
 import SkeletonComponent from '@/components/CardSkeletons';
 import { generateImage } from '@/utils/avatarUtils';
 import { capitalizeFirstLetter } from '@/utils/api';
+import { ROLES } from '@/constants/strings';
 
 const UsersDetailsList = () => {
   const {
@@ -429,25 +430,28 @@ const UsersDetailsList = () => {
                           ]}
                           headerChildren={
                             <>
-                              <PermissionsGuard
-                                permissions={[
-                                  SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.ADD_COMPANY_ACCOUNTS,
-                                ]}
-                              >
-                                <Button
-                                  onClick={() => {
-                                    setIsOpenAddAccountDrawer(true);
-                                  }}
-                                  sx={{
-                                    border: `1px solid ${theme?.palette?.custom?.dark}`,
-                                    color: theme?.palette?.custom?.main,
-                                    height: '36px',
-                                  }}
-                                  startIcon={<AddCircleOutlined />}
+                              {profileData?.data?.role !==
+                                ROLES?.ORG_REQUESTER && (
+                                <PermissionsGuard
+                                  permissions={[
+                                    SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.ADD_COMPANY_ACCOUNTS,
+                                  ]}
                                 >
-                                  Assign Account
-                                </Button>
-                              </PermissionsGuard>
+                                  <Button
+                                    onClick={() => {
+                                      setIsOpenAddAccountDrawer(true);
+                                    }}
+                                    sx={{
+                                      border: `1px solid ${theme?.palette?.custom?.dark}`,
+                                      color: theme?.palette?.custom?.main,
+                                      height: '36px',
+                                    }}
+                                    startIcon={<AddCircleOutlined />}
+                                  >
+                                    Assign Account
+                                  </Button>
+                                </PermissionsGuard>
+                              )}
                             </>
                           }
                         >

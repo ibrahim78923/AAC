@@ -2,7 +2,11 @@ import { useForm } from 'react-hook-form';
 import { FormProvider, RHFDatePicker } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { RestoreFilterDrawerProps } from '../Restore-interface';
-import { restoreDefaultValues } from './RestoreFilterDrawer.data';
+import {
+  restoreDataValidationSchema,
+  restoreDefaultValues,
+} from './RestoreFilterDrawer.data';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const RestoreFilterDrawer = ({
   open,
@@ -12,6 +16,7 @@ const RestoreFilterDrawer = ({
   restoreFilter,
 }: RestoreFilterDrawerProps) => {
   const methods = useForm({
+    resolver: yupResolver(restoreDataValidationSchema),
     defaultValues: restoreDefaultValues(restoreFilter),
   });
   const { handleSubmit } = methods;
