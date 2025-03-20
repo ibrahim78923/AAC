@@ -234,9 +234,6 @@ export const contractsColumns = ({
                 {info?.row?.original?.signees
                   ?.slice(0, 2)
                   ?.map((item: any, index: any) => {
-                    const partyInfo = info?.row?.original?.parties.find(
-                      (ele: any) => ele?._id === item?.partyId,
-                    );
                     return (
                       <Box
                         key={uuidv4()}
@@ -289,7 +286,7 @@ export const contractsColumns = ({
 
                         <Box>
                           <Box sx={{ fontSize: '14px', fontWeight: '600' }}>
-                            {partyInfo?.referredAs ?? '--'}
+                            {item?.party?.moduleData?.name ?? '--'}
                           </Box>
                           <Box
                             sx={{
@@ -298,7 +295,7 @@ export const contractsColumns = ({
                               color: theme?.palette?.custom?.slate_blue,
                             }}
                           >
-                            {item?.personalTitle} {item?.name}
+                            {item?.personalTitle} {item?.name ?? '--'}
                           </Box>
                           {index !== 0 && (
                             <>

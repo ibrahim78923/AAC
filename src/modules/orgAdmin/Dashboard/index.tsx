@@ -130,13 +130,6 @@ const Dashboard = () => {
         >
           My Accounts
         </Typography>
-        {/* <Typography
-          variant="body2"
-          sx={{ color: theme?.palette?.custom?.cadet_color, fontWeight: 400 }}
-        >
-          All the accounts in this organisation that you have access to. Click
-          to open.
-        </Typography> */}
       </Box>
       <Grid container spacing={2}>
         {accountsData?.data ? (

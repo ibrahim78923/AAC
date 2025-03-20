@@ -96,6 +96,7 @@ export const END_POINTS = {
   GET_COMPANY_ACCOUNTS: '/company-accounts',
   SALE_PRODUCTS: '/sales-product',
   ACTIVITY_LOG: '/activity-log',
+  ACTIVITY_LOG_SUB_ACTIVITIES: '/activity-log/sub-activities',
   DEAL_PIPELINE: '/deal-pipeline',
   GET_PRODUCTS_PERMISSIONS: '/permissions/permissions-by-product',
   VENDOR_LIST: '/vendors/get-vendors',

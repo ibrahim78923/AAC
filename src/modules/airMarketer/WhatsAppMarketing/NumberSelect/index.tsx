@@ -86,6 +86,7 @@ const NumberSelect = () => {
             }`}
             phone={activeNumber?.phoneNumber ?? '--'}
             open={open}
+            isValid={activeNumber?.userDetails?.avatar?.url}
             isDropdown
           />
         )}
@@ -141,17 +142,30 @@ const UserInfo: React.FC<any> = ({
   open,
   isDropdown,
   isSelected,
+  isValid,
 }: any) => {
   const theme = useTheme();
+
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-      <Image
-        style={{ borderRadius: '50%' }}
-        width={36}
-        height={36}
-        src={avatarSrc}
-        alt="User"
-      />
+      {isValid ? (
+        <Image
+          style={{ borderRadius: '50%' }}
+          width={36}
+          height={36}
+          src={avatarSrc}
+          alt="User"
+        />
+      ) : (
+        <Box
+          sx={{
+            width: '36px',
+            height: '36px',
+            backgroundColor: theme.palette.grey[300],
+          }}
+        ></Box>
+      )}
+
       <Box sx={{ textAlign: 'left' }}>
         <Typography
           variant="body2"

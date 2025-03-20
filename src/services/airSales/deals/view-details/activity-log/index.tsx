@@ -5,7 +5,7 @@ export const ActivityLogAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getActivityLog: builder.query({
       query: ({ params }) => ({
-        url: `${END_POINTS?.ACTIVITY_LOG}`,
+        url: `${END_POINTS?.ACTIVITY_LOG_SUB_ACTIVITIES}`,
         method: 'GET',
         params: params,
       }),

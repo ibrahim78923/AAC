@@ -70,6 +70,27 @@ const ActivityLog = ({ selectedRecId }: any) => {
                       >
                         {item?.moduleName}
                       </Typography>
+                      {item?.recordData[0]?.name && (
+                        <>
+                          <Typography
+                            variant="h5"
+                            sx={{
+                              fontWeight: 400,
+                            }}
+                          >
+                            with
+                          </Typography>
+                          <Typography
+                            variant="h5"
+                            sx={{
+                              color: theme?.palette?.primary?.main,
+                              fontWeight: 400,
+                            }}
+                          >
+                            {item?.recordData[0]?.name}
+                          </Typography>
+                        </>
+                      )}
                     </Box>
                     <Typography
                       variant="body3"

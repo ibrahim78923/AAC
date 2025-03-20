@@ -59,7 +59,7 @@ const IntegrationConfiguration = () => {
     },
   });
 
-  const getRowValues = columns(theme, setIsDeleteModalOpen, setActiveId);
+  const getRowValues = columns();
 
   const [activeRecord, setActiveRecord] = useState('');
 
@@ -91,6 +91,7 @@ const IntegrationConfiguration = () => {
   const handleUpdateConfig = async (id: any) => {
     const payload = {
       configurationId: id,
+      updateConfiguration: true,
     };
     try {
       await updateAccountConfig({
@@ -109,8 +110,9 @@ const IntegrationConfiguration = () => {
     }
   };
 
-  const handleUpdateDisConnectConfig = async () => {
+  const handleUpdateDisConnectConfig = async (id: any) => {
     const payload = {
+      configurationId: id,
       updateConfiguration: true,
     };
     try {
@@ -251,7 +253,7 @@ const IntegrationConfiguration = () => {
                                   onClick={() => {
                                     setActiveRecord(item?._id);
                                     if (configId === item?._id) {
-                                      handleUpdateDisConnectConfig();
+                                      handleUpdateDisConnectConfig(item?._id);
                                     } else {
                                       handleUpdateConfig(item?._id);
                                     }
