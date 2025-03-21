@@ -61,7 +61,6 @@ export default function useCreateContract() {
     defaultValues: defaultValues(contractDetailsData),
   });
   const { control, handleSubmit, reset, setValue } = methods;
-
   // Signees FieldArray
   const {
     fields: signeeFields,

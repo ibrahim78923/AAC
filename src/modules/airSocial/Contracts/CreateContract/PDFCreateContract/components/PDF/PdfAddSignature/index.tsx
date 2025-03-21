@@ -4,23 +4,23 @@ import { styles } from './PdfAddText.style';
 import { IconAddTextCopy, IconAddTextDelete } from '@/assets/icons';
 import CustomLabel from '@/components/CustomLabel';
 import { signatureFieldI } from '@/modules/airSocial/Contracts/CreateContract/CreateContract.interface';
+import { useDispatch } from 'react-redux';
+import { deleteSignatureComponent } from '@/redux/slices/airSocial/contracts/pdf-contract/slice';
 
 interface PdfAddSignProps {
   data: signatureFieldI;
-  handleDeleteSignature: (id: string) => void;
 }
 
-export default function PdfAddSignature({
-  data,
-  handleDeleteSignature,
-}: PdfAddSignProps) {
+export default function PdfAddSignature({ data }: PdfAddSignProps) {
+  const dispatch = useDispatch();
+
   return (
     <Box sx={styles?.container}>
       <Box sx={styles?.addTextControls}>
         <IconButton>
           <IconAddTextCopy />
         </IconButton>
-        <IconButton onClick={() => handleDeleteSignature(data?.id)}>
+        <IconButton onClick={() => dispatch(deleteSignatureComponent(data.id))}>
           <IconAddTextDelete />
         </IconButton>
       </Box>

@@ -10,32 +10,29 @@ import {
   IconDefaultAttachment,
   IconAttachmentTrash,
 } from '@/assets/icons';
-import PDFViewer from '@/components/PDFViewer';
-import {
-  TextComponentI,
-  signatureFieldI,
-} from '@/modules/airSocial/Contracts/CreateContract/CreateContract.interface';
+import PDFViewer from '@/modules/airSocial/Contracts/CreateContract/PDFCreateContract/components/PDF/PDFViewer';
 import { generateSrc, getFileName } from '@/utils/contracts';
+import { errorSnackbar } from '@/lib/snackbar';
 
-interface DefaultAttachmentProps {
-  addTextComponent: TextComponentI[];
-  addSignatureFields: signatureFieldI[];
-  handleDeleteSignature: (id: string) => void;
-  handleDeleteText: (id: string) => void;
-}
-
-export default function DefaultAttachment({
-  addTextComponent,
-  addSignatureFields,
-  handleDeleteSignature,
-  handleDeleteText,
-}: DefaultAttachmentProps) {
+export default function DefaultAttachment() {
   const { watch, setValue } = useFormContext();
   const defaultAttachment = watch('attachment');
 
   const handleReset = useCallback(() => {
     setValue('attachment', null);
   }, [setValue]);
+
+  const handleUpdatePdf = async (newPdfUrl: string) => {
+    try {
+      const response = await fetch(newPdfUrl);
+      const blob = await response.blob();
+      const file = new File([blob], 'updated.pdf', { type: 'application/pdf' });
+
+      setValue('attachment', file);
+    } catch (error) {
+      errorSnackbar(`Failed to update PDF`);
+    }
+  };
 
   return (
     <>
@@ -80,10 +77,7 @@ export default function DefaultAttachment({
           <Box>
             <PDFViewer
               pdfFile={generateSrc(defaultAttachment)}
-              addTextComponent={addTextComponent}
-              addSignatureFields={addSignatureFields}
-              handleDeleteText={handleDeleteText}
-              handleDeleteSignature={handleDeleteSignature}
+              onUpdatePdf={handleUpdatePdf}
             />
           </Box>
         </Box>

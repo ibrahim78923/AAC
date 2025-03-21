@@ -21,6 +21,7 @@ export default function SigningOrder({
       select={true}
       placeholder="Select Signee Order"
       disabled={disabled}
+      required={true}
     >
       {data?.map((item) => (
         <option key={item?.value} value={item?.value}>
