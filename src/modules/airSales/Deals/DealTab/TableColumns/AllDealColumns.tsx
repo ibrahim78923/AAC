@@ -76,7 +76,7 @@ export const AllDealColumns = ({
           onClick={() => {
             navigate?.push({
               pathname: AIR_SALES?.VIEW_DETAILS,
-              query: { id: info?.row?.original?._id },
+              query: { id: info?.row?.original?._id, activeTab: 0 },
             });
           }}
         >

@@ -14,7 +14,10 @@ import {
 
 import { v4 as uuidv4 } from 'uuid';
 import { NotesEditorDrawerProps } from '../Notes-interface';
-import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import {
+  DRAWER_ACTIONS_TITLES,
+  GENERIC_UPSERT_FORM_CONSTANT,
+} from '@/constants/strings';
 import { AttachFileCard } from '@/components/Avatars/AttachFileCard';
 
 const NotesEditorDrawer = (props: NotesEditorDrawerProps) => {
@@ -87,7 +90,7 @@ const NotesEditorDrawer = (props: NotesEditorDrawerProps) => {
                   </item.component>
                 </Grid>
               ))}
-              {openDrawer !== DRAWER_TYPES?.ADD && (
+              {openDrawer !== DRAWER_ACTIONS_TITLES?.Add && (
                 <Grid item xs={12}>
                   <AttachFileCard
                     data={attachmentData}
