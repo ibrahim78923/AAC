@@ -1,4 +1,4 @@
-import { Box, Divider, Typography, useTheme } from '@mui/material';
+import { Box, Divider, Skeleton, Typography, useTheme } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 import { AirPlaneIcon } from '@/assets/icons';
@@ -17,10 +17,11 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
     .map(([key, value]) => `${key}=${encodeURIComponent(value as string)}`)
     .join('&');
   const query = `&${queryParams}`;
-  const { data: BillingDetailsHistory } = useGetBillingHistoryQuery<any>({
-    query,
-    pagination: `page=1&limit=10`,
-  });
+  const { data: BillingDetailsHistory, isLoading } =
+    useGetBillingHistoryQuery<any>({
+      params: query,
+      pagination: `page=1&limit=10`,
+    });
 
   return (
     <CommonDrawer
@@ -30,186 +31,310 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
       isOk
       footer={false}
     >
-      {BillingDetailsHistory?.data?.invoices?.length > 0
-        ? BillingDetailsHistory?.data?.invoices?.map((data: any) => (
-            <Box
-              key={uuidv4()}
-              sx={{
-                boxShadow: '0px 3px 6px 0px rgba(107, 114, 128, 0.10)',
-                padding: '10px',
-                borderRadius: '8px',
-                marginBottom: '15px',
-              }}
-            >
-              <Box sx={{ display: 'flex', alignItems: 'center', my: '15px' }}>
-                <Box
-                  sx={{
-                    background: theme?.palette?.primary?.lighter,
-                    padding: '5px 8px',
-                    marginRight: '13px',
-                  }}
-                >
-                  <AirPlaneIcon />
-                </Box>
-                <Box>
-                  <Typography
-                    variant="overline"
-                    sx={{ textTransform: 'capitalize' }}
-                  >
-                    {data?.plans?.products[0]?.name} ({' '}
-                    {data?.details?.plantypes} )
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    sx={{ textTransform: 'lowercase' }}
-                  >
-                    paid {data?.details?.billingCycle}
-                  </Typography>
-                </Box>
-
-                <Box sx={{ ml: 'auto' }}>
-                  <Typography
-                    variant="body3"
-                    sx={{
-                      background:
-                        data?.status === 'pending'
-                          ? theme?.palette?.warning?.main
-                          : theme?.palette?.primary?.main,
-                      borderRadius: '15px',
-                      padding: '7px',
-                      color: 'white',
-                    }}
-                  >
-                    {data?.status}
-                  </Typography>
-                </Box>
+      {isLoading ? (
+        <Skeleton variant="rounded" width="100%" height={300} />
+      ) : BillingDetailsHistory?.data?.invoices?.length > 0 ? (
+        BillingDetailsHistory?.data?.invoices?.map((data: any) => (
+          <Box
+            key={uuidv4()}
+            sx={{
+              boxShadow: '0px 3px 6px 0px rgba(107, 114, 128, 0.10)',
+              padding: '10px',
+              borderRadius: '8px',
+              marginBottom: '15px',
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', my: '15px' }}>
+              <Box
+                sx={{
+                  background: theme?.palette?.primary?.lighter,
+                  padding: '5px 8px',
+                  marginRight: '13px',
+                }}
+              >
+                <AirPlaneIcon />
               </Box>
-              <Divider />
-
-              <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
-                <Typography variant="caption">
-                  Invoice Date:{' '}
-                  {data?.billingDate
-                    ? new Date(data?.billingDate)?.toLocaleDateString('en-GB')
-                    : 'Invalid Date'}
-                </Typography>
-                <Box sx={{ ml: 'auto' }}>
-                  <Typography variant="caption">
-                    Due Date:{' '}
-                    {data?.dueDate
-                      ? new Date(data?.dueDate)?.toLocaleDateString('en-GB')
-                      : 'Invalid Date'}
-                  </Typography>
-                </Box>
-              </Box>
-
-              <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
-                <Typography variant="caption">Plan Price</Typography>
-                <Box sx={{ ml: 'auto' }}>
-                  <Typography variant="overline">
-                    {data?.details?.plans?.planPrice}
-                  </Typography>
-                </Box>
-              </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
-                <Typography variant="caption">
-                  {data?.details?.additionalUsers} Additional Users (£{' '}
-                  {data?.details?.plans?.additionalPerUserPrice}/user)
-                </Typography>
-                <Box sx={{ ml: 'auto' }}>
-                  <Typography variant="overline">
-                    £{' '}
-                    {data?.details?.additionalUsers *
-                      data?.details?.plans?.additionalPerUserPrice}
-                  </Typography>
-                </Box>
-              </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
-                <Typography variant="caption">
-                  {data?.details?.additionalStorage} Additional Storage (£{' '}
-                  {data?.details?.plans?.additionalStoragePrice}/GB)
-                </Typography>
-                <Box sx={{ ml: 'auto' }}>
-                  <Typography variant="overline">
-                    £{' '}
-                    {data?.details?.additionalStorage *
-                      data?.details?.plans?.additionalStoragePrice}
-                  </Typography>
-                </Box>
-              </Box>
-
-              <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
-                <Typography variant="caption">
-                  <Typography
-                    variant="overline"
-                    sx={{ textTransform: 'capitalize' }}
-                  >
-                    Discount{' '}
-                  </Typography>{' '}
-                  ({data?.invoiceDiscount}%)
-                </Typography>
-                <Box sx={{ ml: 'auto' }}>
-                  <Typography variant="overline">
-                    £{' '}
-                    {(
-                      (data?.invoiceDiscount / 100) *
-                      data?.details?.subTotal
-                    )?.toFixed(2)}
-                  </Typography>
-                </Box>
-              </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', my: '15px' }}>
-                <Typography variant="caption">
-                  <Typography
-                    variant="overline"
-                    sx={{ textTransform: 'capitalize' }}
-                  >
-                    Tax{' '}
-                  </Typography>{' '}
-                  (Vat {data?.tax}%)
-                </Typography>
-                <Box sx={{ ml: 'auto' }}>
-                  <Typography variant="overline">
-                    £
-                    {(
-                      (data?.tax / 100) *
-                        (data?.plans?.planPrice +
-                          data?.details?.sumAdditionalUsersPrices +
-                          data?.details?.sumAdditionalStoragePrices -
-                          (data?.details?.planDiscount / 100) *
-                            (data?.plans?.planPrice +
-                              data?.details?.sumAdditionalUsersPrices +
-                              data?.details?.sumAdditionalStoragePrices)) -
-                      (data?.invoiceDiscount / 100) *
-                        (data?.plans?.planPrice +
-                          data?.details?.sumAdditionalUsersPrices +
-                          data?.details?.sumAdditionalStoragePrices -
-                          (data?.details?.planDiscount / 100) *
-                            (data?.plans?.planPrice +
-                              data?.details?.sumAdditionalUsersPrices +
-                              data?.details?.sumAdditionalStoragePrices))
-                    )?.toFixed(2)}
-                  </Typography>
-                </Box>
-              </Box>
-              <Divider />
-              <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
+              <Box>
                 <Typography
                   variant="overline"
                   sx={{ textTransform: 'capitalize' }}
                 >
-                  Total Cost{' '}
+                  {data?.plans?.products[0]?.name} ( {data?.details?.plantypes}{' '}
+                  )
                 </Typography>
+                <Typography variant="body1" sx={{ textTransform: 'lowercase' }}>
+                  paid {data?.details?.billingCycle}
+                </Typography>
+              </Box>
 
-                <Box sx={{ ml: 'auto' }}>
-                  <Typography variant="overline">
-                    {data?.netAmount?.toFixed(2)}
-                  </Typography>
-                </Box>
+              <Box sx={{ ml: 'auto' }}>
+                <Typography
+                  variant="body3"
+                  sx={{
+                    background:
+                      data?.status === 'pending'
+                        ? theme?.palette?.warning?.main
+                        : theme?.palette?.primary?.main,
+                    borderRadius: '15px',
+                    padding: '7px',
+                    color: 'white',
+                  }}
+                >
+                  {data?.status}
+                </Typography>
               </Box>
             </Box>
-          ))
-        : 'No Billing History'}
+            <Divider />
+
+            <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
+              <Typography variant="caption">
+                Invoice Date:{' '}
+                {data?.billingDate
+                  ? new Date(data?.billingDate)?.toLocaleDateString('en-GB')
+                  : 'Invalid Date'}
+              </Typography>
+              <Box sx={{ ml: 'auto' }}>
+                <Typography variant="caption">
+                  Due Date:{' '}
+                  {data?.dueDate
+                    ? new Date(data?.dueDate)?.toLocaleDateString('en-GB')
+                    : 'Invalid Date'}
+                </Typography>
+              </Box>
+            </Box>
+
+            <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
+              <Typography variant="caption">Plan Price</Typography>
+              <Box sx={{ ml: 'auto' }}>
+                <Typography variant="overline">
+                  {data?.details?.plans?.planPrice}
+                </Typography>
+              </Box>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
+              <Typography variant="caption">
+                {data?.details?.additionalUsers} Additional Users (£{' '}
+                {data?.details?.plans?.additionalPerUserPrice}/user)
+              </Typography>
+              <Box sx={{ ml: 'auto' }}>
+                <Typography variant="overline">
+                  £{' '}
+                  {data?.details?.additionalUsers *
+                    data?.details?.plans?.additionalPerUserPrice}
+                </Typography>
+              </Box>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
+              <Typography variant="caption">
+                {data?.details?.additionalStorage} Additional Storage (£{' '}
+                {data?.details?.plans?.additionalStoragePrice}/GB)
+              </Typography>
+              <Box sx={{ ml: 'auto' }}>
+                <Typography variant="overline">
+                  £{' '}
+                  {data?.details?.additionalStorage *
+                    data?.details?.plans?.additionalStoragePrice}
+                </Typography>
+              </Box>
+            </Box>
+
+            <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
+              <Typography variant="caption">
+                <Typography
+                  variant="overline"
+                  sx={{ textTransform: 'capitalize' }}
+                >
+                  Discount{' '}
+                </Typography>{' '}
+                ({data?.invoiceDiscount}%)
+              </Typography>
+              <Box sx={{ ml: 'auto' }}>
+                <Typography variant="overline">
+                  £{' '}
+                  {(
+                    (data?.invoiceDiscount / 100) *
+                    data?.details?.subTotal
+                  )?.toFixed(2)}
+                </Typography>
+              </Box>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', my: '15px' }}>
+              <Typography variant="caption">
+                <Typography
+                  variant="overline"
+                  sx={{ textTransform: 'capitalize' }}
+                >
+                  Tax{' '}
+                </Typography>{' '}
+                (Vat {data?.tax}%)
+              </Typography>
+              <Box sx={{ ml: 'auto' }}>
+                <Typography variant="overline">
+                  £
+                  {(
+                    (data?.tax / 100) *
+                      (data?.plans?.planPrice +
+                        data?.details?.sumAdditionalUsersPrices +
+                        data?.details?.sumAdditionalStoragePrices -
+                        (data?.details?.planDiscount / 100) *
+                          (data?.plans?.planPrice +
+                            data?.details?.sumAdditionalUsersPrices +
+                            data?.details?.sumAdditionalStoragePrices)) -
+                    (data?.invoiceDiscount / 100) *
+                      (data?.plans?.planPrice +
+                        data?.details?.sumAdditionalUsersPrices +
+                        data?.details?.sumAdditionalStoragePrices -
+                        (data?.details?.planDiscount / 100) *
+                          (data?.plans?.planPrice +
+                            data?.details?.sumAdditionalUsersPrices +
+                            data?.details?.sumAdditionalStoragePrices))
+                  )?.toFixed(2)}
+                </Typography>
+              </Box>
+            </Box>
+            <Divider />
+            <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
+              <Typography
+                variant="overline"
+                sx={{ textTransform: 'capitalize' }}
+              >
+                Total Cost{' '}
+              </Typography>
+
+              <Box sx={{ ml: 'auto' }}>
+                <Typography variant="overline">
+                  {data?.netAmount?.toFixed(2)}
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+        ))
+      ) : (
+        <Box
+          key={uuidv4()}
+          sx={{
+            boxShadow: '0px 3px 6px 0px rgba(107, 114, 128, 0.10)',
+            padding: '10px',
+            borderRadius: '8px',
+            marginBottom: '15px',
+          }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center', my: '15px' }}>
+            <Box
+              sx={{
+                background: theme?.palette?.primary?.lighter,
+                padding: '5px 8px',
+                marginRight: '13px',
+              }}
+            >
+              <AirPlaneIcon />
+            </Box>
+            <Box>
+              <Typography
+                variant="overline"
+                sx={{ textTransform: 'capitalize' }}
+              >
+                {isGetRowValues?.planProducts[0]?.name} ({' '}
+                {isGetRowValues?.plantypes?.name} )
+              </Typography>
+              <Typography variant="body1" sx={{ textTransform: 'lowercase' }}>
+                paid {isGetRowValues?.billingCycle}
+              </Typography>
+            </Box>
+
+            <Box sx={{ ml: 'auto' }}>
+              <Typography
+                variant="body3"
+                sx={{
+                  background:
+                    isGetRowValues?.status === 'pending'
+                      ? theme?.palette?.warning?.main
+                      : theme?.palette?.primary?.main,
+                  borderRadius: '15px',
+                  padding: '7px',
+                  color: 'white',
+                }}
+              >
+                {isGetRowValues?.status}
+              </Typography>
+            </Box>
+          </Box>
+          <Divider />
+
+          <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
+            <Typography variant="caption">
+              Expiry Date:{' '}
+              {isGetRowValues?.billingDate
+                ? new Date(isGetRowValues?.billingDate)?.toLocaleDateString(
+                    'en-GB',
+                  )
+                : 'Invalid Date'}
+            </Typography>
+          </Box>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
+            <Typography variant="caption">Plan Price</Typography>
+            <Box sx={{ ml: 'auto' }}>
+              <Typography variant="overline">£ 0</Typography>
+            </Box>
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
+            <Typography variant="caption">
+              0 Additional Users (£ 0/user)
+            </Typography>
+            <Box sx={{ ml: 'auto' }}>
+              <Typography variant="overline">£ 0</Typography>
+            </Box>
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
+            <Typography variant="caption">
+              0 Additional Storage (£ 0/GB)
+            </Typography>
+            <Box sx={{ ml: 'auto' }}>
+              <Typography variant="overline">£ 0</Typography>
+            </Box>
+          </Box>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
+            <Typography variant="caption">
+              <Typography
+                variant="overline"
+                sx={{ textTransform: 'capitalize' }}
+              >
+                Discount{' '}
+              </Typography>{' '}
+              0%
+            </Typography>
+            <Box sx={{ ml: 'auto' }}>
+              <Typography variant="overline">£ 0</Typography>
+            </Box>
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', my: '15px' }}>
+            <Typography variant="caption">
+              <Typography
+                variant="overline"
+                sx={{ textTransform: 'capitalize' }}
+              >
+                Tax{' '}
+              </Typography>{' '}
+              (Vat0 %)
+            </Typography>
+            <Box sx={{ ml: 'auto' }}>
+              <Typography variant="overline">£ 0</Typography>
+            </Box>
+          </Box>
+          <Divider />
+          <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
+            <Typography variant="overline" sx={{ textTransform: 'capitalize' }}>
+              Total Cost{' '}
+            </Typography>
+
+            <Box sx={{ ml: 'auto' }}>
+              <Typography variant="overline">£ 0</Typography>
+            </Box>
+          </Box>
+        </Box>
+      )}
     </CommonDrawer>
   );
 };

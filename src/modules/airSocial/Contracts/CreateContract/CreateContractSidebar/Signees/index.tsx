@@ -16,6 +16,8 @@ import UserProfileIcon from '@/assets/icons/modules/SocialComponents/Contacts/us
 import AddSignee from './AddSignee';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Search from '@/components/Search';
+import { ENUM_CONTRACT_TYPE } from '@/utils/contracts';
+import { useRouter } from 'next/router';
 
 export default function Signees({
   signeeFields,
@@ -25,7 +27,7 @@ export default function Signees({
   removeSignee,
 }: any) {
   const [checked, setChecked] = useState(false);
-
+  const router = useRouter();
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
@@ -103,16 +105,18 @@ export default function Signees({
   return (
     <Box sx={styles?.signeePanel}>
       <Box>
-        <Button
-          onClick={handleClick}
-          variant="outlined"
-          className="small"
-          color="inherit"
-          startIcon={<IconPlusAddContractsFields />}
-          fullWidth
-        >
-          Add Signee
-        </Button>
+        {router?.query?.contractType === ENUM_CONTRACT_TYPE?.PDF && (
+          <Button
+            onClick={handleClick}
+            variant="outlined"
+            className="small"
+            color="inherit"
+            startIcon={<IconPlusAddContractsFields />}
+            fullWidth
+          >
+            Add Signee
+          </Button>
+        )}
         <Menu
           anchorEl={anchorEl}
           open={open}
@@ -163,10 +167,12 @@ export default function Signees({
           </MenuItem>
         </Menu>
       </Box>
-      <Box sx={styles?.signingOrder}>
-        <Box sx={styles?.signingOrderTitle}>Signing order</Box>
-        <Switch checked={checked} onChange={handleChange} />
-      </Box>
+      {router?.query?.contractType === ENUM_CONTRACT_TYPE?.PDF && (
+        <Box sx={styles?.signingOrder}>
+          <Box sx={styles?.signingOrderTitle}>Signing order</Box>
+          <Switch checked={checked} onChange={handleChange} />
+        </Box>
+      )}
       {(!signeeFields || signeeFields?.length === 0) && (
         <MenuItem disableRipple sx={styles?.plainItem}>
           <NoData height="auto" image={false} />
