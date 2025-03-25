@@ -1,6 +1,8 @@
 import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { useRequestApprovalForm } from './useRequestApprovalForm';
 import { CustomCommonDialog } from '@/components/CustomCommonDialog';
+import { Box, Typography } from '@mui/material';
+import { ROLES } from '@/constants/strings';
 
 export const RequestApprovalForm = (props: any) => {
   const {
@@ -36,6 +38,29 @@ export const RequestApprovalForm = (props: any) => {
           }
           required
           externalParams={{ productId, admin: true }}
+          renderOption={(option: any) => (
+            <Box
+              display={'flex'}
+              alignItems={'center'}
+              justifyContent={'space-between'}
+              width={'100%'}
+            >
+              <Box>
+                <Typography
+                  variant={'body2'}
+                  color={'grey.600'}
+                  fontWeight={'fontWeightSmall'}
+                >
+                  {option?.firstName} {option?.lastName}
+                </Typography>
+                {option?.role !== ROLES?.ORG_REQUESTER && (
+                  <Typography variant={'body4'} color={'grey.900'}>
+                    {option?.timezone}
+                  </Typography>
+                )}
+              </Box>
+            </Box>
+          )}
         />
       </FormProvider>
     </CustomCommonDialog>

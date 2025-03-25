@@ -11,13 +11,18 @@ export const useSendApprovalReminder = () => {
 
   const dispatch = useAppDispatch();
 
-  const isPortalOpen = useAppSelector(
+  const isPortalOpen: any = useAppSelector(
     (state) => state?.servicesTicketApprovals?.isPortalOpen,
   );
 
   const sendReminderOfTicketApproval = async () => {
+    const apiDataParameter = {
+      queryParams: {
+        id: isPortalOpen?.data?._id,
+      },
+    };
     try {
-      await postApprovalTicketsRemindersTrigger({})?.unwrap();
+      await postApprovalTicketsRemindersTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Reminder send successfully');
       closePortal?.();
     } catch (error: any) {
