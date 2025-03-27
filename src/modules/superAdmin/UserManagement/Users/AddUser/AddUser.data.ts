@@ -77,7 +77,7 @@ export const superAdminValidationSchema = Yup.object().shape({
       /^[A-Za-z\s]+$/,
       'Only alphabetic characters and spaces are allowed',
     ),
-  superAdminRoleId: Yup.object().required('Field is Required'),
+  adminRoleId: Yup.object().required('Field is Required'),
   email: Yup.string()
     .required('Field is Required')
     .email('Invalid email address'),
@@ -149,7 +149,7 @@ export const addUsersArray = () => {
     },
     {
       componentProps: {
-        name: 'superAdminRoleId',
+        name: 'adminRoleId',
         label: 'Assign Role',
         placeholder: 'Select Role',
         fullWidth: true,

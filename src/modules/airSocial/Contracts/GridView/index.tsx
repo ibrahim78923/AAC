@@ -8,6 +8,7 @@ import { SentIcon, SignedIcon, ViewedIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import DefaultUserIcon from '@/assets/icons/shared/default-user';
 import useGridView from './useGridView';
+import { ENUM_CONTRACT_STATUS } from '@/utils/contracts';
 
 const ContractsGrid = ({
   activeFolder,
@@ -71,9 +72,6 @@ const ContractsGrid = ({
           </Typography>
 
           {viewMoreData?.signees?.map((ele: any) => {
-            const partyInfo = viewMoreData?.parties.find(
-              (item: any) => item?._id === ele?.partyId,
-            );
             return (
               <Box
                 display="flex"
@@ -81,35 +79,45 @@ const ContractsGrid = ({
                 gap="10px"
                 key={uuidv4()}
               >
-                <Box sx={{ display: 'flex', gap: '5px' }}>
-                  <CustomTooltip title="Signed">
-                    <Box>
-                      <SignedIcon />
-                    </Box>
-                  </CustomTooltip>
+                <Box sx={{ display: 'flex', gap: '5px', minWidth: '80px' }}>
+                  {ele?.signatureStatus === ENUM_CONTRACT_STATUS?.SIGNED && (
+                    <CustomTooltip title="Signed">
+                      <Box>
+                        <SignedIcon />
+                      </Box>
+                    </CustomTooltip>
+                  )}
 
-                  <CustomTooltip title="Rejected">
-                    <Box>
-                      <SignedIcon color={theme?.palette?.error?.main} />
-                    </Box>
-                  </CustomTooltip>
+                  {ele?.signatureStatus === ENUM_CONTRACT_STATUS?.REJECTED && (
+                    <CustomTooltip title="Rejected">
+                      <Box>
+                        <SignedIcon color={theme?.palette?.error?.main} />
+                      </Box>
+                    </CustomTooltip>
+                  )}
 
-                  <CustomTooltip title="Viewed">
-                    <Box>
-                      <ViewedIcon />
-                    </Box>
-                  </CustomTooltip>
+                  {(ele?.signatureStatus === ENUM_CONTRACT_STATUS?.SIGNED ||
+                    ele?.signatureStatus ===
+                      ENUM_CONTRACT_STATUS?.REJECTED) && (
+                    <CustomTooltip title="Viewed">
+                      <Box>
+                        <ViewedIcon />
+                      </Box>
+                    </CustomTooltip>
+                  )}
 
-                  <CustomTooltip title="Sent">
-                    <Box>
-                      <SentIcon />
-                    </Box>
-                  </CustomTooltip>
+                  {ele?.emailSent && (
+                    <CustomTooltip title="Sent">
+                      <Box>
+                        <SentIcon />
+                      </Box>
+                    </CustomTooltip>
+                  )}
                 </Box>
 
                 <Box sx={{ mb: 2 }}>
                   <Box sx={{ fontSize: '14px', fontWeight: '600' }}>
-                    {partyInfo?.referredAs ?? '--'}
+                    {ele?.party?.moduleData?.name ?? '--'}
                   </Box>
                   <Box
                     sx={{
@@ -141,9 +149,7 @@ const ContractsGrid = ({
                           fontSize: '13.74px',
                           color: theme?.palette?.custom?.light,
                         }}
-                      >
-                        --
-                      </Typography>
+                      ></Typography>
                     </Box>
                   </Box>
                 </Box>

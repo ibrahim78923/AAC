@@ -8,6 +8,8 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Tooltip,
+  Button,
 } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
@@ -24,17 +26,19 @@ import {
   MailIcon,
   SaveIcon,
 } from '@/assets/icons';
-
 import { styles } from './ShareMyDine.style';
 import dayjs from 'dayjs';
 import { DATE_FORMAT, indexNumbers } from '@/constants';
 import { ShareMyDineProps } from './ShareMyDine-interface';
+import { AIR_SALES } from '@/routesConstants/paths';
+import { useRouter } from 'next/router';
 
 const ShareMyDine = ({ open, onClose, selectedTableIds }: ShareMyDineProps) => {
   const theme = useTheme();
   const { data: DealsActionData }: any = useGetDealsActionPreviewQuery({
     id: selectedTableIds[0],
   });
+  const navigate = useRouter();
 
   return (
     <>
@@ -48,13 +52,66 @@ const ShareMyDine = ({ open, onClose, selectedTableIds }: ShareMyDineProps) => {
         title={DealsActionData?.data?.name}
       >
         <Box sx={styles?.iconWrap}>
-          <Box>
-            <MailIcon />
-          </Box>
-          <CallIcon />
-          <ActivitiesIcon />
-          <CalendarIcon />
-          <SaveIcon />
+          <Tooltip title="Email" arrow>
+            <Button
+              onClick={() => {
+                navigate?.push({
+                  pathname: AIR_SALES?.VIEW_DETAILS,
+                  query: { id: selectedTableIds[0], activeTab: 7 },
+                });
+              }}
+            >
+              <MailIcon />
+            </Button>
+          </Tooltip>
+          <Tooltip title="Call" arrow>
+            <Button
+              onClick={() => {
+                navigate?.push({
+                  pathname: AIR_SALES?.VIEW_DETAILS,
+                  query: { id: selectedTableIds[0], activeTab: 5 },
+                });
+              }}
+            >
+              <CallIcon />
+            </Button>
+          </Tooltip>
+          <Tooltip title="Notes" arrow>
+            <Button
+              onClick={() => {
+                navigate?.push({
+                  pathname: AIR_SALES?.VIEW_DETAILS,
+                  query: { id: selectedTableIds[0], activeTab: 4 },
+                });
+              }}
+            >
+              <ActivitiesIcon />
+            </Button>
+          </Tooltip>
+          <Tooltip title="Meeting" arrow>
+            <Button
+              onClick={() => {
+                navigate?.push({
+                  pathname: AIR_SALES?.VIEW_DETAILS,
+                  query: { id: selectedTableIds[0], activeTab: 6 },
+                });
+              }}
+            >
+              <CalendarIcon />
+            </Button>
+          </Tooltip>
+          <Tooltip title="Task" arrow>
+            <Button
+              onClick={() => {
+                navigate?.push({
+                  pathname: AIR_SALES?.VIEW_DETAILS,
+                  query: { id: selectedTableIds[0], activeTab: 3 },
+                });
+              }}
+            >
+              <SaveIcon />
+            </Button>
+          </Tooltip>
         </Box>
         <Box sx={{ marginTop: '40px' }}>
           {ShareData(DealsActionData?.data)?.map((item: any) => (

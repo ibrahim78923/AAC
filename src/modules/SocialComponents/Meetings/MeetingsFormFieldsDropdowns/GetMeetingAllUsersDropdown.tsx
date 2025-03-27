@@ -4,6 +4,7 @@ import { Box, Typography } from '@mui/material';
 import { peopleTypes } from '../ScheduleMeetings/UpsertMeeting/MeetingForm/AttendeePeople/AttendeePeople.data';
 import PersonIcon from '@mui/icons-material/Person';
 import ContactsIcon from '@mui/icons-material/Contacts';
+import { fullName } from '@/utils/avatarUtils';
 
 const GetMeetingAllUsersDropdown = (props: any) => {
   const { router, userDropdown } = props;
@@ -22,9 +23,12 @@ const GetMeetingAllUsersDropdown = (props: any) => {
           <Box display={'flex'} gap={1} width={'100%'}>
             <Box>
               <Typography variant={'body2'} color={'grey.600'} fontWeight={500}>
-                {`${capitalizeFirstWord(
-                  option?.firstName,
-                )}  ${capitalizeFirstWord(option?.lastName)}`}
+                {fullName(option?.firstName, option?.lastName) === 'None'
+                  ? option?.email
+                  : fullName(
+                      capitalizeFirstWord(option?.firstName),
+                      capitalizeFirstWord(option?.lastName),
+                    )}
               </Typography>
             </Box>
             <Box>

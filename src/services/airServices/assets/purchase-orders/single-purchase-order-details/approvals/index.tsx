@@ -35,9 +35,10 @@ export const approvalsAPI = baseAPI.injectEndpoints({
     }),
 
     postAirServicesAssetsPurchaseOrderApprovalReminders: builder?.mutation({
-      query: () => ({
+      query: (apiDataParameter: any) => ({
         url: END_POINTS?.SEND_PURCHASE_APPROVAL_REMINDER,
         method: 'POST',
+        params: apiDataParameter?.queryParams,
       }),
       invalidatesTags: [TAG],
     }),

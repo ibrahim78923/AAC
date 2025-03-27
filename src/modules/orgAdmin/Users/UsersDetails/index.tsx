@@ -33,6 +33,7 @@ const UsersDetails = (props: UsersDetailsProps) => {
 
   const { data: profileData, isLoading: profileDataLoading } =
     useGetUsersByIdQuery(employeeDataById, { skip: !employeeDataById });
+
   return (
     <Box>
       <Grid container spacing={2}>
@@ -88,21 +89,25 @@ const UsersDetails = (props: UsersDetailsProps) => {
                   }
                   headerChildren={
                     <>
-                      <PermissionsGuard
-                        permissions={[
-                          ORG_ADMIN_USERS_PERMISSIONS?.ADD_ACCOUNTS,
-                        ]}
-                      >
-                        <Button
-                          className="small"
-                          variant="outlined"
-                          color="inherit"
-                          onClick={() => setIsOpenAddAccountDrawer(true)}
-                          startIcon={<AddCircle />}
+                      {profileData?.data?.role !== ROLES?.ORG_REQUESTER && (
+                        <PermissionsGuard
+                          permissions={[
+                            ORG_ADMIN_USERS_PERMISSIONS?.ADD_ACCOUNTS,
+                          ]}
                         >
-                          Assign Account
-                        </Button>
-                      </PermissionsGuard>
+                          <Button
+                            className="small"
+                            variant="outlined"
+                            color="inherit"
+                            onClick={() => setIsOpenAddAccountDrawer(true)}
+                            startIcon={<AddCircle />}
+                          >
+                            Assign Account
+                          </Button>
+                        </PermissionsGuard>
+                      )}
+
+
                     </>
                   }
                 >

@@ -27,7 +27,10 @@ import {
 
 import { v4 as uuidv4 } from 'uuid';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
+import {
+  AIR_SALES_DEALS_PERMISSIONS,
+  SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS,
+} from '@/constants/permission-keys';
 import {
   useDeleteAssociationEmailMutation,
   useGetAssociatedEmailsQuery,
@@ -340,7 +343,9 @@ const EmailComp = ({ moduleType, moduleId }: any) => {
               </Menu>
 
               <PermissionsGuard
-                permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_SEND_EMAIL]}
+                permissions={[
+                  SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.SEND_EMAILS,
+                ]}
               >
                 <Button
                   variant="contained"

@@ -33,10 +33,13 @@ const usePaymentMethods = () => {
     searchPayLoad = { search: searchValue };
   }
 
-  const { data: dataPaymentCard, isLoading: loadingPaymentCard } =
-    useGetPaymentCardQuery({
-      params: { ...searchPayLoad, ...paginationParams },
-    });
+  const {
+    data: dataPaymentCard,
+    isLoading: loadingPaymentCard,
+    isFetching,
+  } = useGetPaymentCardQuery({
+    params: { ...searchPayLoad, ...paginationParams },
+  });
 
   const [deletePaymentCard, { isLoading: loadingDelete }] =
     useDeletePaymentCardMutation();
@@ -135,6 +138,7 @@ const usePaymentMethods = () => {
     searchValue,
     setSearchValue,
     loadingPaymentCard,
+    isFetching,
     setPageLimit,
     setPage,
     loadingDelete,

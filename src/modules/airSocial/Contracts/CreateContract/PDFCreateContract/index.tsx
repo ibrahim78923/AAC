@@ -13,27 +13,24 @@ import { IconAddText, IconAddSignature } from '@/assets/icons';
 import DefaultAttachment from '../form-fields/DefaultAttachmentEdit';
 import usePDFCreateContract from './usePDFCreateContract';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { mockUsers } from './data';
 import ContractTitle from '../form-fields/ContractTitle';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 
-export default function PDFCreateContract() {
+function PDFCreateContract() {
   const {
-    textComponents,
     handleAddText,
-    handleDeleteText,
-
     anchorEl,
     open,
     handleClick,
     handleClose,
-    signatureFields,
     handleAddSignature,
-    handleDeleteSignature,
   } = usePDFCreateContract();
 
   const { watch } = useFormContext();
   const defaultAttachment = watch('attachment');
+  const signeeValues = useWatch({
+    name: 'signees',
+  });
 
   return (
     <Grid container spacing={'24px'}>
@@ -80,13 +77,13 @@ export default function PDFCreateContract() {
               },
             }}
           >
-            {mockUsers.map((user) => (
+            {signeeValues.map((signee: any, index: number) => (
               <MenuItem
-                key={user?.id}
+                key={signee?._id || `${signee?.name}-${index}`}
                 sx={{ gap: '10px' }}
                 onClick={() => {
-                  handleAddSignature(user?.name);
                   handleClose();
+                  handleAddSignature(signee);
                 }}
               >
                 <Avatar
@@ -98,8 +95,8 @@ export default function PDFCreateContract() {
                   }}
                 ></Avatar>
                 <Box sx={{ '& .MuiTypography-root': { lineHeight: '1.2' } }}>
-                  <Typography variant="body1">{user?.name}</Typography>
-                  <Typography variant="body2">{user?.role}</Typography>
+                  <Typography variant="body1">{signee?.name}</Typography>
+                  <Typography variant="body2">{signee?.email}</Typography>
                 </Box>
               </MenuItem>
             ))}
@@ -107,13 +104,10 @@ export default function PDFCreateContract() {
         </Box>
       </Grid>
       <Grid item xs={12}>
-        <DefaultAttachment
-          addTextComponent={textComponents}
-          addSignatureFields={signatureFields}
-          handleDeleteText={handleDeleteText}
-          handleDeleteSignature={handleDeleteSignature}
-        />
+        <DefaultAttachment />
       </Grid>
     </Grid>
   );
 }
+
+export default React.memo(PDFCreateContract);

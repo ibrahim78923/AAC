@@ -179,6 +179,7 @@ const OrganizationTable = () => {
                 overflowX: 'auto',
                 marginBottom: '1rem',
                 mt: 1,
+                scrollbarColor: `${theme?.palette?.primary?.main} transparent`,
               }}
             >
               {productsList?.data?.map((product: ProductListPropsI) => (

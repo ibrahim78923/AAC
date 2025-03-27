@@ -5,7 +5,7 @@ export const styles = {
     padding: '18px 0',
   },
   signeesList: {
-    pt: '22px',
+    pt: '0px',
   },
   signeeDetails: (theme: Theme) => ({
     display: 'flex',

@@ -21,13 +21,6 @@ export const contactsValidationSchema: any = Yup?.object()?.shape({
       ? field.required('Field is required')
       : field.optional(),
   ),
-  dateOfBirth: Yup?.date()
-    ?.nullable()
-    ?.when('contactType', ([contact]: any, field: any) =>
-      contact === CONTACT_TYPE?.NEW_CONTACT
-        ? field?.required('Field is required')
-        : field?.optional(),
-    ),
 });
 
 // Define your default values
@@ -103,7 +96,6 @@ export const contactsDataArray = ({
         label: 'Date Of Birth',
         placeholder: 'MM/DD/YYYY',
         fullWidth: true,
-        required: true,
       },
       md: 12,
       component: RHFDatePicker,

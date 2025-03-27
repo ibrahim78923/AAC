@@ -7,19 +7,13 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-
 import NotesEditorDrawer from './NotesEditorDrawer';
 import NotesActionDropdown from './NotesActionDropDown';
-
 import useNotes from './useNotes';
 import useNameWithStyledWords from '@/hooks/useNameStyledWords';
-
 import { isNullOrEmpty } from '@/utils';
-
 import { MessageIcon, PlusIcon } from '@/assets/icons';
-
 import { styles } from '../ViewDetails.style';
-
 import { v4 as uuidv4 } from 'uuid';
 import { IMG_URL } from '@/config';
 import { DATE_TIME_FORMAT } from '@/constants';
@@ -28,6 +22,7 @@ import CustomPagination from '@/components/CustomPagination';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 import { capitalizeFirstLetter } from '@/utils/api';
+import { getInitialsSingleName } from '@/utils/avatarUtils';
 
 const Notes = ({ selected }: any) => {
   const {
@@ -72,7 +67,7 @@ const Notes = ({ selected }: any) => {
                   <Button
                     variant="contained"
                     className="small"
-                    onClick={() => setOpenDrawer('add')}
+                    onClick={() => setOpenDrawer('Add')}
                     startIcon={<PlusIcon />}
                   >
                     Add Notes
@@ -107,7 +102,6 @@ const Notes = ({ selected }: any) => {
             </Box>
           )}
         </Grid>
-
         {!isNullOrEmpty(data?.data?.notes) && (
           <Grid item xs={12} sx={styles?.horizontalTabsInnnerBox}>
             {data?.data?.notes?.map((item: any) => (
@@ -170,8 +164,7 @@ const Notes = ({ selected }: any) => {
                         textTransform: 'upperCase',
                       }}
                     >
-                      {item?.title?.charAt(0)}
-                      {item?.title?.charAt(item?.title?.length - 1)}
+                      {getInitialsSingleName(item?.title) ?? 'N/A'}
                     </Typography>
                   </Avatar>
                 </Grid>

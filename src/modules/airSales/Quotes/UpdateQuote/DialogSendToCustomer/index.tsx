@@ -14,11 +14,7 @@ import { useRouter } from 'next/router';
 import { CloseModalIcon } from '@/assets/icons';
 import { FormProvider } from '@/components/ReactHookForm';
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  formFields,
-  validationSchema,
-  initValues,
-} from './DialogSendToCustomer.data';
+import { formFields, validationSchema } from './DialogSendToCustomer.data';
 import { styles } from './DialogSendToCustomer.style';
 import { AIR_SALES, quoteStatus } from '@/routesConstants/paths';
 import useUpdateQuote from '../useUpdateQuote';
@@ -51,12 +47,17 @@ const DialogSendToCustomer = ({
   voucherData,
 }: any) => {
   const router = useRouter();
+
+  const { quoteId, dataGetQuoteById } = useUpdateQuote();
+
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
-    defaultValues: initValues,
+    defaultValues: {
+      email: dataGetQuoteById?.data?.buyerContact?.email ?? '',
+    },
   });
   const { handleSubmit } = methods;
-  const { quoteId, dataGetQuoteById } = useUpdateQuote();
+
   const [updateQuoteSubmision] = useUpdateQuoteSubmisionMutation();
   const [postAttachmentQuote, { isLoading: postAttachmentLoading }] =
     usePostAttachmentQuoteMutation();
@@ -81,7 +82,6 @@ const DialogSendToCustomer = ({
 
       const updateTaxAmount =
         calculations?.calculationsArray[5]?.amount?.replace('%', '');
-
       const formData = new FormData();
       formData.append('fileUrl', pdfBlob);
       formData.append('module', 'QUOTE');

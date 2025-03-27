@@ -26,7 +26,7 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 const ViewDetails = () => {
   const { theme, viewDeal, isLoading, selecetdDealId } = useViewDetails();
-  const searchParams = useSearchParams()?.get('tab-value');
+  const searchParams = useSearchParams()?.get('activeTab');
 
   return (
     <Box>

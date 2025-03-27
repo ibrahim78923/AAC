@@ -195,7 +195,9 @@ const useDealTab = (dealViewsData?: any) => {
         break;
     }
   };
-  const allDealsData = getDealsTableList?.data?.deals;
+  const allDealsData = getDealsTableList?.data
+    ? getDealsTableList?.data?.deals
+    : [];
   const handleSelectAllCheckbox = (checked: any) => {
     setSelectedRows(
       checked ? allDealsData?.map((obj: { _id: string }) => obj?._id) : [],
@@ -290,6 +292,7 @@ const useDealTab = (dealViewsData?: any) => {
     filters,
     page,
     pageLimit,
+    isSuccess,
   };
 };
 

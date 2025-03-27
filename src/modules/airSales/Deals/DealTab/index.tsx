@@ -35,8 +35,10 @@ import BoardView from '../BoardView/BoardView';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 import { AIR_SALES } from '@/routesConstants/paths';
+import DealHeader from '../DealHeader';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
-const DealsTab = ({ dealViewsData }: any) => {
+const DealsTab = ({ dealViewsData, dealHeaderParams }: any) => {
   const navigate = useRouter();
   const {
     tabsArray,
@@ -69,226 +71,251 @@ const DealsTab = ({ dealViewsData }: any) => {
     setSelectedRows,
     filters,
     setSearchDeal,
+    isSuccess,
   } = useDealTab(dealViewsData);
   const theme = useTheme();
-
   return (
-    <Box sx={styles?.tabWrapper}>
-      <Box
-        className="tabs-container"
-        sx={{
-          mt: '20px',
-          borderBottom: 1,
-          borderColor: theme?.palette?.custom?.off_white_three,
-          display: 'flex',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-        }}
-      >
-        <PermissionsGuard
-          permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_TAB_VIEW]}
-        >
-          <Tabs
-            variant="scrollable"
-            defaultValue={value}
-            value={value}
-            onChange={handleChange}
-            aria-label="common tabs"
+    <>
+      {!isSuccess ? (
+        <>
+          <SkeletonTable />
+          <SkeletonTable />
+        </>
+      ) : (
+        <Box sx={styles?.tabWrapper}>
+          <DealHeader dealHeaderParams={dealHeaderParams} />
+          <Box
+            className="tabs-container"
+            sx={{
+              mt: '20px',
+              borderBottom: 1,
+              borderColor: theme?.palette?.custom?.off_white_three,
+              display: 'flex',
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+            }}
           >
-            {tabsArray?.map((tab: any, index: number) => {
-              return (
-                <Tab
-                  sx={{
-                    '&.Mui-selected': {
-                      color: theme?.palette?.custom?.turquoise_Blue,
-                    },
-                  }}
-                  classes={{ textColorPrimary: 'text-primary-my' }}
-                  disableRipple
-                  key={uuidv4()}
-                  label={tab?.name}
-                  id={`simple-tab-${index}`}
-                  aria-controls={`simple-tabpanel-${index}`}
-                  onClick={() => handleTabChange(tab)}
-                />
-              );
-            })}
-          </Tabs>
-        </PermissionsGuard>
-        <Box sx={{ ml: '50px' }}>
-          <AddCircleIcon onClick={handleAddTab} sx={styles?.addIcon(theme)} />
-        </Box>
-      </Box>
-      <Box sx={styles?.headerWrapper}>
-        <PermissionsGuard
-          permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_SEARCH_AND_FILTER]}
-        >
-          <Search
-            setSearchBy={setSearchDeal}
-            placeholder="Search Here"
-            size="small"
-          />
-        </PermissionsGuard>
-        <Box sx={styles?.headerChild}>
-          {selectedRows?.length >= 2 ? (
             <PermissionsGuard
-              permissions={[AIR_SALES_DEALS_PERMISSIONS?.DELETE_DEAL]}
+              permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_TAB_VIEW]}
             >
+              <Tabs
+                variant="scrollable"
+                defaultValue={value}
+                value={value}
+                onChange={handleChange}
+                aria-label="common tabs"
+              >
+                {tabsArray?.map((tab: any, index: number) => {
+                  return (
+                    <Tab
+                      sx={{
+                        '&.Mui-selected': {
+                          color: theme?.palette?.custom?.turquoise_Blue,
+                        },
+                      }}
+                      classes={{ textColorPrimary: 'text-primary-my' }}
+                      disableRipple
+                      key={uuidv4()}
+                      label={tab?.name}
+                      id={`simple-tab-${index}`}
+                      aria-controls={`simple-tabpanel-${index}`}
+                      onClick={() => handleTabChange(tab)}
+                    />
+                  );
+                })}
+              </Tabs>
+            </PermissionsGuard>
+            <Box sx={{ ml: '50px' }}>
+              <AddCircleIcon
+                onClick={handleAddTab}
+                sx={styles?.addIcon(theme)}
+              />
+            </Box>
+          </Box>
+          <Box sx={styles?.headerWrapper}>
+            <PermissionsGuard
+              permissions={[
+                AIR_SALES_DEALS_PERMISSIONS?.DEAL_SEARCH_AND_FILTER,
+              ]}
+            >
+              <Search
+                setSearchBy={setSearchDeal}
+                placeholder="Search Here"
+                size="small"
+              />
+            </PermissionsGuard>
+            <Box sx={styles?.headerChild}>
+              {selectedRows?.length >= 2 ? (
+                <PermissionsGuard
+                  permissions={[AIR_SALES_DEALS_PERMISSIONS?.DELETE_DEAL]}
+                >
+                  <Button
+                    className="small"
+                    variant="outlined"
+                    color="inherit"
+                    startIcon={<DeleteIcon />}
+                    onClick={handleDeleteModal}
+                  >
+                    Delete
+                  </Button>
+                </PermissionsGuard>
+              ) : (
+                <DealsActions
+                  menuItem={['Preview', 'Re-assign', 'Delete', 'View Details']}
+                  onChange={handleActions}
+                  checkedRows={selectedRows}
+                />
+              )}
+              <PermissionsGuard
+                permissions={[AIR_SALES_DEALS_PERMISSIONS?.RESTORE_DEAL]}
+              >
+                <Button
+                  onClick={() => navigate?.push(AIR_SALES?.RESTORE_DEALS)}
+                  variant="outlined"
+                  color="inherit"
+                  className="small"
+                  startIcon={<RefreshTasksIcon />}
+                  sx={{ width: { xs: '100%', sm: '100px' } }}
+                >
+                  Restore
+                </Button>
+              </PermissionsGuard>
+              <PermissionsGuard
+                permissions={[
+                  AIR_SALES_DEALS_PERMISSIONS?.COLUMN_CUSTOMIZATION,
+                ]}
+              >
+                <Button
+                  onClick={handleDealCustomize}
+                  variant="outlined"
+                  color="inherit"
+                  className="small"
+                  sx={{ minWidth: '132px', width: { xs: '100%', sm: '100px' } }}
+                  startIcon={<CutomizeIcon />}
+                >
+                  Customize
+                </Button>
+              </PermissionsGuard>
+
               <Button
+                variant="outlined"
                 className="small"
+                color="inherit"
+                sx={{ color: theme?.palette?.custom['main'] }}
+                onClick={handleExportRecord}
+              >
+                <ExportCloudIcon />
+                &nbsp; Export
+              </Button>
+
+              <PermissionsGuard
+                permissions={[AIR_SALES_DEALS_PERMISSIONS?.REFRESH]}
+              >
+                <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+                  <Button
+                    onClick={handleResetFilters}
+                    variant="outlined"
+                    color="inherit"
+                    className="small"
+                  >
+                    <RefreshTasksIcon />
+                  </Button>
+                </Tooltip>
+              </PermissionsGuard>
+              <PermissionsGuard
+                permissions={[
+                  AIR_SALES_DEALS_PERMISSIONS?.DEAL_SEARCH_AND_FILTER,
+                ]}
+              >
+                <Button
+                  variant="outlined"
+                  color="inherit"
+                  className="small"
+                  onClick={handleFilter}
+                  sx={{ width: { xs: '100%', sm: '100px' } }}
+                  startIcon={<FilterIcon />}
+                >
+                  Filter
+                </Button>
+              </PermissionsGuard>
+              <ButtonGroup
                 variant="outlined"
                 color="inherit"
-                startIcon={<DeleteIcon />}
-                onClick={handleDeleteModal}
+                aria-label="outlined button group"
               >
-                Delete
-              </Button>
-            </PermissionsGuard>
+                <Button
+                  className="small"
+                  onClick={() => handleListViewClick('listView')}
+                >
+                  <ListViewIcon />
+                </Button>
+                <PermissionsGuard
+                  permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_BOARD_VIEW]}
+                >
+                  <Button
+                    onClick={() => handleListViewClick('gridView')}
+                    className="small"
+                  >
+                    <GridViewIcon />
+                  </Button>
+                </PermissionsGuard>
+              </ButtonGroup>
+            </Box>
+          </Box>
+          {listView === 'listView' ? (
+            <TanstackTable {...dealTableData} />
           ) : (
-            <DealsActions
-              menuItem={['Preview', 'Re-assign', 'Delete', 'View Details']}
-              onChange={handleActions}
-              checkedRows={selectedRows}
+            <BoardView />
+          )}
+          {isAddTabOpen && (
+            <CreateView open={isAddTabOpen} onClose={handleAddTab} />
+          )}
+          {isFilterDrawer && (
+            <DealFilterDrawer
+              open={isFilterDrawer}
+              onClose={handleFilter}
+              setFilters={setFilters}
+              filters={filters}
             />
           )}
-          <PermissionsGuard
-            permissions={[AIR_SALES_DEALS_PERMISSIONS?.RESTORE_DEAL]}
-          >
-            <Button
-              onClick={() => navigate?.push(AIR_SALES?.RESTORE_DEALS)}
-              variant="outlined"
-              color="inherit"
-              className="small"
-              startIcon={<RefreshTasksIcon />}
-              sx={{ width: { xs: '100%', sm: '100px' } }}
-            >
-              Restore
-            </Button>
-          </PermissionsGuard>
-          <PermissionsGuard
-            permissions={[AIR_SALES_DEALS_PERMISSIONS?.COLUMN_CUSTOMIZATION]}
-          >
-            <Button
-              onClick={handleDealCustomize}
-              variant="outlined"
-              color="inherit"
-              className="small"
-              sx={{ minWidth: '132px', width: { xs: '100%', sm: '100px' } }}
-              startIcon={<CutomizeIcon />}
-            >
-              Customize
-            </Button>
-          </PermissionsGuard>
-
-          <Button
-            variant="outlined"
-            className="small"
-            color="inherit"
-            sx={{ color: theme?.palette?.custom['main'] }}
-            onClick={handleExportRecord}
-          >
-            <ExportCloudIcon />
-            &nbsp; Export
-          </Button>
-
-          <PermissionsGuard
-            permissions={[AIR_SALES_DEALS_PERMISSIONS?.REFRESH]}
-          >
-            <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
-              <Button
-                onClick={handleResetFilters}
-                variant="outlined"
-                color="inherit"
-                className="small"
-              >
-                <RefreshTasksIcon />
-              </Button>
-            </Tooltip>
-          </PermissionsGuard>
-          <PermissionsGuard
-            permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_SEARCH_AND_FILTER]}
-          >
-            <Button
-              variant="outlined"
-              color="inherit"
-              className="small"
-              onClick={handleFilter}
-              sx={{ width: { xs: '100%', sm: '100px' } }}
-              startIcon={<FilterIcon />}
-            >
-              Filter
-            </Button>
-          </PermissionsGuard>
-          <ButtonGroup
-            variant="outlined"
-            color="inherit"
-            aria-label="outlined button group"
-          >
-            <Button
-              className="small"
-              onClick={() => handleListViewClick('listView')}
-            >
-              <ListViewIcon />
-            </Button>
-            <PermissionsGuard
-              permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_BOARD_VIEW]}
-            >
-              <Button
-                onClick={() => handleListViewClick('gridView')}
-                className="small"
-              >
-                <GridViewIcon />
-              </Button>
-            </PermissionsGuard>
-          </ButtonGroup>
+          {isDealCustomize && (
+            <DealCustomize
+              open={isDealCustomize}
+              onClose={handleDealCustomize}
+            />
+          )}
+          {isShareDine && (
+            <ShareMyDine
+              open={isShareDine}
+              onClose={handleSMD}
+              selectedTableIds={selectedRows}
+            />
+          )}
+          {isDelete && (
+            <DeleteModal
+              open={isDelete}
+              onClose={handleDeleteModal}
+              handleSubmitBtn={handleDeleteDeals}
+              loading={deleteDealLoading}
+            />
+          )}
+          {isAssign && (
+            <AssignModalBox
+              seletedId={selectedRows}
+              setSelectedRows={setSelectedRows}
+              open={isAssign}
+              onClose={handleAssignModal}
+            />
+          )}
+          {isExportRecord && (
+            <ExportRecordModal
+              open={isExportRecord}
+              onClose={handleExportRecord}
+            />
+          )}
         </Box>
-      </Box>
-      {listView === 'listView' ? (
-        <TanstackTable {...dealTableData} />
-      ) : (
-        <BoardView />
       )}
-      {isAddTabOpen && (
-        <CreateView open={isAddTabOpen} onClose={handleAddTab} />
-      )}
-      {isFilterDrawer && (
-        <DealFilterDrawer
-          open={isFilterDrawer}
-          onClose={handleFilter}
-          setFilters={setFilters}
-          filters={filters}
-        />
-      )}
-      {isDealCustomize && (
-        <DealCustomize open={isDealCustomize} onClose={handleDealCustomize} />
-      )}
-      {isShareDine && (
-        <ShareMyDine
-          open={isShareDine}
-          onClose={handleSMD}
-          selectedTableIds={selectedRows}
-        />
-      )}
-      {isDelete && (
-        <DeleteModal
-          open={isDelete}
-          onClose={handleDeleteModal}
-          handleSubmitBtn={handleDeleteDeals}
-          loading={deleteDealLoading}
-        />
-      )}
-      {isAssign && (
-        <AssignModalBox
-          seletedId={selectedRows}
-          setSelectedRows={setSelectedRows}
-          open={isAssign}
-          onClose={handleAssignModal}
-        />
-      )}
-      {isExportRecord && (
-        <ExportRecordModal open={isExportRecord} onClose={handleExportRecord} />
-      )}
-    </Box>
+    </>
   );
 };
 export default DealsTab;

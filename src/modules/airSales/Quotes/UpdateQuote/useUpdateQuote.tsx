@@ -35,7 +35,9 @@ const useUpdateQuote = () => {
   const param = {
     applyOn: 'quotes',
   };
-  const { data: taxCalculation } = useGetTaxCalculationsQuery(param);
+  const { data: taxCalculation } = useGetTaxCalculationsQuery(param, {
+    skip: !param?.applyOn,
+  });
 
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);

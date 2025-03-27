@@ -33,6 +33,7 @@ const PaymentMethods = () => {
     searchValue,
     setSearchValue,
     loadingPaymentCard,
+    isFetching,
     setPageLimit,
     setPage,
     loadingDelete,
@@ -141,6 +142,7 @@ const PaymentMethods = () => {
           data={dataPaymentCard?.data?.payments ?? []}
           isPagination
           isLoading={loadingPaymentCard}
+          isFetching={isFetching}
           setPage={setPage}
           setPageLimit={setPageLimit}
           count={dataPaymentCard?.data?.meta?.pages}

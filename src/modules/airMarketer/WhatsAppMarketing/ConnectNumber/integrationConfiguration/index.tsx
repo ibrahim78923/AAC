@@ -56,7 +56,7 @@ const IntegrationConfiguration = () => {
       },
     });
 
-  const getRowValues = columns(theme, setIsDeleteModalOpen, setActiveId);
+  const getRowValues = columns();
 
   const [activeRecord, setActiveRecord] = useState('');
 
@@ -87,7 +87,8 @@ const IntegrationConfiguration = () => {
 
   const handleUpdateConfig = async (id: any) => {
     const payload = {
-      configurationId: id,
+      whatsappConfigurationId: id,
+      updateConfiguration: true,
     };
     try {
       await updateAccountConfig({
@@ -106,8 +107,10 @@ const IntegrationConfiguration = () => {
     }
   };
 
-  const handleUpdateDisConnectConfig = async () => {
+  const handleUpdateDisConnectConfig = async (id: any) => {
     const payload = {
+      // configuration ID
+      whatsappConfigurationId: id,
       updateConfiguration: true,
     };
     try {
@@ -149,7 +152,7 @@ const IntegrationConfiguration = () => {
         <Typography
           variant="h4"
           sx={{ fontWeight: '600' }}
-          onClick={() => handleUpdateDisConnectConfig()}
+          // onClick={() => handleUpdateDisConnectConfig()}
         >
           Integration Configuration
         </Typography>
@@ -247,7 +250,7 @@ const IntegrationConfiguration = () => {
                               onClick={() => {
                                 setActiveRecord(item?._id);
                                 if (configId === item?._id) {
-                                  handleUpdateDisConnectConfig();
+                                  handleUpdateDisConnectConfig(item?._id);
                                 } else {
                                   handleUpdateConfig(item?._id);
                                 }

@@ -58,9 +58,16 @@ export const useApprovals = () => {
     }
   }, [page, pageLimit, purchaseOrderId]);
 
-  const sendReminderForPurchaseOrderApproval = async () => {
+  const sendReminderForPurchaseOrderApproval = async (id: any) => {
+    const apiDataParameter = {
+      queryParams: {
+        id,
+      },
+    };
     try {
-      await postPurchaseOrderApprovalRemindersTrigger({})?.unwrap();
+      await postPurchaseOrderApprovalRemindersTrigger(
+        apiDataParameter,
+      )?.unwrap();
       successSnackbar('Reminder Sent Successfully');
     } catch (error: any) {
       errorSnackbar(error?.data?.message);

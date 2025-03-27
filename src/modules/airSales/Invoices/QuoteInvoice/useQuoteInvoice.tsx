@@ -6,10 +6,7 @@ import {
 import { errorSnackbar } from '@/utils/api';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import {
-  sendEmailDefaultValues,
-  sendEmailValidationSchema,
-} from './QuoteInvoice.data';
+import { sendEmailValidationSchema } from './QuoteInvoice.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
 import { useRouter } from 'next/router';
@@ -63,9 +60,12 @@ const useQuoteInvoice = (quoteId: any) => {
 
   const methodsSendEmail = useForm({
     resolver: yupResolver(sendEmailValidationSchema),
-    defaultValues: sendEmailDefaultValues,
+    defaultValues: {
+      customerEmail: quoteDataById?.buyerContact?.email ?? '',
+    },
   });
-  const { handleSubmit: handleMethodAddFaq } = methodsSendEmail;
+
+  const { handleSubmit: handleMethodAddFaq, reset } = methodsSendEmail;
   const openModalEmail = () => {
     setIsEmailModal(true);
   };
@@ -87,6 +87,12 @@ const useQuoteInvoice = (quoteId: any) => {
       setAccountNo('');
     }
   }, [watchBankAccout]);
+
+  useEffect(() => {
+    reset({
+      customerEmail: quoteDataById?.buyerContact?.email ?? '',
+    });
+  }, [quoteDataById?.buyerContact?.email]);
 
   // Create Invoice
   const [postCreateInvoice, { isLoading: loadingPostInvoice }] =

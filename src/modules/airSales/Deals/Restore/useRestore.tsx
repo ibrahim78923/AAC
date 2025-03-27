@@ -87,10 +87,11 @@ const useRestore = () => {
     message: string,
   ) => {
     try {
-      await updateRestoreMutation({
-        id: checkedAll?.join(','),
+      const params = {
+        ids: [checkedAll],
         action,
-      })?.unwrap();
+      };
+      await updateRestoreMutation(params)?.unwrap();
       enqueueSnackbar(message, { variant: 'success' });
       if (action === 'HARD_DELETED') handlePermanantDelete();
       else handleResDealModal();

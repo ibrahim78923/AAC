@@ -62,7 +62,7 @@ const AddCard = ({
     });
 
     if (error) {
-      errorSnackbar('Error creating token');
+      errorSnackbar(error?.message);
       return;
     } else {
       const payload = {
@@ -78,9 +78,18 @@ const AddCard = ({
         successSnackbar('Card Added Successful');
         onClose();
       } catch (error: any) {
-        errorSnackbar('something went wrong');
+        errorSnackbar(error?.data?.message);
       }
     }
+    setCardHolderName('');
+  };
+
+  const handleCardHolderNameChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const value = e?.target?.value;
+    const textOnlyValue = value?.replace(/[0-9]/g, ''); // Remove numeric characters
+    setCardHolderName(textOnlyValue);
   };
 
   const handleCloseAddCard = () => {
@@ -149,7 +158,7 @@ const AddCard = ({
                 variant="outlined"
                 placeholder="Enter Cardholder Name"
                 value={cardHolderName}
-                onChange={(e) => setCardHolderName(e.target.value)}
+                onChange={handleCardHolderNameChange}
                 required
                 fullWidth
                 size="small"
