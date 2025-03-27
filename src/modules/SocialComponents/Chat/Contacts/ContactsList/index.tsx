@@ -369,8 +369,14 @@ const ContactList = ({ chatMode, handleManualRefetch }: ContactListPropsI) => {
                     },
                   }}
                 >
-                  Start messaging by tapping the '+' button in the bottom right
-                  corner
+                  {chatMode === 'groupChat' ? (
+                    <>No records found</>
+                  ) : (
+                    <>
+                      Start messaging by tapping the '+' button in the bottom
+                      right corner
+                    </>
+                  )}
                 </Box>
               )}
             </>

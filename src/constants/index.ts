@@ -712,3 +712,12 @@ export const GlobalSearchAirOperationModules = {
   QUOTES: 'QUOTES',
   TASKS: 'TASKS',
 };
+
+export const paymentType: any = {
+  MONTHLY: 'Monthly ',
+  HALF_MONTH: 'Half Month',
+  QUARTERLY: 'Quarterly',
+  HALF_YEARLY: 'Half Yearly',
+  YEARLY: 'Yearly',
+  ONE_TIME: 'One Time',
+};

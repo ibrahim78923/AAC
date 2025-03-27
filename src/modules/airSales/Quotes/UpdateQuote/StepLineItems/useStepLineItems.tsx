@@ -401,10 +401,14 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
           break;
       }
 
-      const updatedProducts = productsData?.data?.products?.filter(
-        (product: any) => product?.productId !== data?.productId,
+      const updatedProducts = productsData?.data?.products?.map(
+        (product: any) => {
+          if (product?.productId === data?.productId) {
+            return productRespParams;
+          }
+          return product;
+        },
       );
-      updatedProducts?.push(productRespParams);
 
       const submitQuotesPayload = {
         id: dataGetQuoteById?.data?._id,

@@ -9,6 +9,7 @@ export default function SigneeFullName({ name }: { name: string }) {
       size="small"
       fullWidth
       placeholder="Enter full name"
+      required={true}
     />
   );
 }

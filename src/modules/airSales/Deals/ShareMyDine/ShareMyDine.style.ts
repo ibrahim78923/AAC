@@ -1,7 +1,7 @@
 import { Theme } from '@mui/material';
 
 export const styles = {
-  iconWrap: { display: 'flex', gap: '25px', alignItems: 'center' },
+  iconWrap: { display: 'flex', gap: '5px', alignItems: 'center' },
 
   accordianText: (theme: Theme) => {
     return {

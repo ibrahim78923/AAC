@@ -1,11 +1,7 @@
-import { Box, Theme } from '@mui/material';
-import { DeleteIcon } from '@/assets/icons';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
-export const columns = (
-  theme: Theme,
-  setIsDeleteModalOpen: any,
-  setActiveId: any,
-) => {
+export const columns = () => {
   return [
     {
       accessorFn: (row: any) => row?.phoneNumber,
@@ -15,28 +11,11 @@ export const columns = (
       cell: (info: any) => formatPhoneNumber(info?.getValue()),
     },
     {
-      accessorFn: (row: any) => row?.action,
-      id: 'action',
+      accessorFn: (row: any) => row?.createdAt,
+      id: 'createdAt',
       isSortable: false,
-      header: 'Action',
-      cell: (info: any) => (
-        <Box sx={{ display: 'flex', gap: 2 }}>
-          <Box
-            sx={{
-              cursor: 'pointer',
-              background: theme?.palette?.grey?.[400],
-              padding: '5px',
-              borderRadius: '50%',
-            }}
-            onClick={() => {
-              setActiveId(info?.row?.original?._id);
-              setIsDeleteModalOpen(true);
-            }}
-          >
-            <DeleteIcon />
-          </Box>
-        </Box>
-      ),
+      header: 'Created at',
+      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT?.UI),
     },
   ];
 };

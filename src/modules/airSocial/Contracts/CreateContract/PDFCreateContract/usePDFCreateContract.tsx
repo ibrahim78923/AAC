@@ -1,29 +1,20 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-  TextComponentI,
-  signatureFieldI,
-} from '@/modules/airSocial/Contracts/CreateContract/CreateContract.interface';
+  addSignatureComponent,
+  addTextComponent,
+} from '@/redux/slices/airSocial/contracts/pdf-contract/slice';
+import { RootState } from '@/redux/store';
 
 export default function usePDFCreateContract() {
+  const dispatch = useDispatch();
+  const currentPage = useSelector(
+    (state: RootState) => state.airSocialPdfContract.currentPage,
+  );
   // Add Text
-  const [textComponents, setTextComponents] = useState<TextComponentI[]>([]);
-  const handleAddText = () => {
-    const newTextComponent = {
-      id: `${Date.now()}`,
-      name: `editor-${textComponents?.length + 1}`,
-      content: '',
-      x: 0,
-      y: 0,
-    };
-
-    setTextComponents([...textComponents, newTextComponent]);
-  };
-  const handleDeleteText = (id: string) => {
-    const newTextComponents = textComponents.filter(
-      (textComponent) => textComponent.id !== id,
-    );
-    setTextComponents(newTextComponents);
-  };
+  const handleAddText = useCallback(() => {
+    dispatch(addTextComponent());
+  }, [dispatch]);
 
   // Add Signature
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -35,36 +26,25 @@ export default function usePDFCreateContract() {
     setAnchorEl(null);
   };
 
-  const [signatureFields, setSignatureFields] = useState<signatureFieldI[]>([]);
-  const handleAddSignature = (name: string) => {
-    const newSignatureField = {
-      id: `${Date.now()}`,
-      name: name,
-      x: 430,
-      y: 0,
-    };
-
-    setSignatureFields([...signatureFields, newSignatureField]);
-  };
-
-  const handleDeleteSignature = (id: string) => {
-    const newSignatureFields = signatureFields.filter(
-      (signatureField) => signatureField.id !== id,
+  const handleAddSignature = (signee: any) => {
+    dispatch(
+      addSignatureComponent({
+        name: signee.name,
+        email: signee.email,
+        x: 100,
+        y: 100,
+        page: currentPage,
+      }),
     );
-    setSignatureFields(newSignatureFields);
   };
 
   return {
-    textComponents,
     handleAddText,
-    handleDeleteText,
 
     anchorEl,
     open,
     handleClick,
     handleClose,
-    signatureFields,
     handleAddSignature,
-    handleDeleteSignature,
   };
 }

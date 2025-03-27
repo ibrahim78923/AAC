@@ -198,7 +198,11 @@ export const Approvals = () => {
                                 }
                                 variant="outlined"
                                 startIcon={<NotificationsIcon />}
-                                onClick={sendReminderForPurchaseOrderApproval}
+                                onClick={() =>
+                                  sendReminderForPurchaseOrderApproval?.(
+                                    item?._id,
+                                  )
+                                }
                               >
                                 Send Reminder
                               </CustomLoadingButton>

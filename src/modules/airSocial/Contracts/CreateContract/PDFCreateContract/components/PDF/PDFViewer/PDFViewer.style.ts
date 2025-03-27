@@ -2,7 +2,7 @@ export const styles = {
   pdfViewer: {
     position: 'relative',
     '& .react-pdf__Document': {
-      overflow: 'auto',
+      overflowY: 'auto',
       height: '530px',
     },
     '& .react-pdf__Page': {

@@ -6,6 +6,8 @@ import { useLazyGetAllUsersAsRequestersDropdownForServicesTicketsQuery } from '@
 import { useMemo } from 'react';
 import { getActiveProductSession } from '@/utils';
 import { AIR_SERVICES } from '@/constants/routes';
+import { Box, Typography } from '@mui/material';
+import { ROLES } from '@/constants/strings';
 
 export const RequesterFieldDropdown = (props: any) => {
   const { required = true, hasEndIcon = true, label = 'Requester' } = props;
@@ -37,6 +39,29 @@ export const RequesterFieldDropdown = (props: any) => {
         `${option?.firstName} ${option?.lastName}`
       }
       endIconClick={() => router?.push(AIR_SERVICES?.REQUESTERS_SETTINGS)}
+      renderOption={(option: any) => (
+        <Box
+          display={'flex'}
+          alignItems={'center'}
+          justifyContent={'space-between'}
+          width={'100%'}
+        >
+          <Box>
+            <Typography
+              variant={'body2'}
+              color={'grey.600'}
+              fontWeight={'fontWeightSmall'}
+            >
+              {option?.firstName} {option?.lastName}
+            </Typography>
+            {option?.role !== ROLES?.ORG_REQUESTER && (
+              <Typography variant={'body4'} color={'grey.900'}>
+                {option?.timezone}
+              </Typography>
+            )}
+          </Box>
+        </Box>
+      )}
     />
   );
 };

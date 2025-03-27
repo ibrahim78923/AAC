@@ -68,7 +68,7 @@ const useDetails = () => {
   }, [data]);
 
   const onSubmit = async (values: any) => {
-    values.ownerId = values?.ownerId?._id;
+    values.ownerId = [values?.ownerId?._id];
     values.dealPipelineId = values?.dealPipelineId?._id;
     delete values?.createdDate;
     delete values?.createdAt;

@@ -40,9 +40,10 @@ export const approvalsTicketsAPI = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     sendSingleServicesTicketsApprovalReminder: builder?.mutation({
-      query: () => ({
+      query: (apiDataParameter: any) => ({
         url: END_POINTS?.SEND_TICKET_APPROVAL_REMINDER,
         method: 'POST',
+        params: apiDataParameter?.queryParams,
       }),
       invalidatesTags: [TAG],
     }),

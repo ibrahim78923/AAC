@@ -33,6 +33,7 @@ import loyaltyProgramTiersSlice from './slices/airLoyaltyProgram/tiers/slice';
 import servicesDashboardSlice from './slices/airServices/dashboard/slice';
 import quotesSlice from './slices/airSales/Quotes/quotesSlice';
 import loyaltyProgramDashboardSlice from './slices/airLoyaltyProgram/dashboard';
+import airSocialPdfContractSlice from './slices/airSocial/contracts/pdf-contract/slice';
 
 const store = configureStore({
   reducer: {
@@ -69,6 +70,7 @@ const store = configureStore({
     servicesDashboard: servicesDashboardSlice,
     quotesForm: quotesSlice,
     loyaltyProgramDashboard: loyaltyProgramDashboardSlice,
+    airSocialPdfContract: airSocialPdfContractSlice,
   },
 
   middleware: (getDefaultMiddleware) =>
