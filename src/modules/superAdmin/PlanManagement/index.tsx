@@ -74,7 +74,6 @@ const PlanManagement = () => {
         <Typography variant="h4" sx={styles?.planManagementHeading}>
           Plan Management
         </Typography>
-        .
         <PermissionsGuard
           permissions={[SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS_KEYS?.ADD_PLAN]}
         >
