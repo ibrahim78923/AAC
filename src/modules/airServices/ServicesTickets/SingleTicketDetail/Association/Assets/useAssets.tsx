@@ -180,7 +180,7 @@ export default function useAssets({ setIsDrawerOpen }: any) {
         recordId: ticketId,
         recordType: ASSOCIATIONS_API_PARAMS_FOR?.TICKETS,
         operation: ASSOCIATIONS_API_PARAMS_FOR?.ADD,
-        associatePurchaseOrders: selected,
+        associatePurchaseOrders: selected?.map((asset: any) => asset?._id),
       };
       const postRemoveAssociateTicketsParameter = {
         body,
@@ -200,7 +200,7 @@ export default function useAssets({ setIsDrawerOpen }: any) {
         recordId: ticketId,
         recordType: ASSOCIATIONS_API_PARAMS_FOR?.TICKETS,
         operation: ASSOCIATIONS_API_PARAMS_FOR?.ADD,
-        associateAssets: selected,
+        associateAssets: selected?.map((asset: any) => asset?._id),
       };
       const postRemoveAssociateTicketsParameter = {
         body,
