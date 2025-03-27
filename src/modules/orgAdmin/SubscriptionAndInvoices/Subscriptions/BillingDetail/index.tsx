@@ -16,7 +16,7 @@ import { AirPlaneIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { useGetInvoicesByIdQuery } from '@/services/orgAdmin/subscription-and-invoices';
 import dayjs from 'dayjs';
-import { DATE_FORMAT, PLAN_CALCULATIONS } from '@/constants';
+import { DATE_FORMAT, paymentType, PLAN_CALCULATIONS } from '@/constants';
 import { useAppSelector } from '@/redux/store';
 import usePlanCalculations from '../../usePlanCalculations';
 
@@ -80,7 +80,7 @@ const BillingDetail: FC<BillingDetailI> = ({
                           parsedManageData?.planName
                         }
                         planType={data?.details?.plantypes}
-                        billingCycle={''}
+                        billingCycle={parsedManageData?.billingCycle}
                         billingDate={data?.billingDate}
                         dueDate={
                           dayjs(data?.dueDate)?.format(DATE_FORMAT?.UI) || null
@@ -150,7 +150,6 @@ const InvoiceCard = ({
   productName,
   planType,
   billingCycle,
-  payment,
   billingDate,
   dueDate,
   planPrice,
@@ -170,6 +169,7 @@ const InvoiceCard = ({
   totalCost, // subTotal,
 }: InvoiceCardPropsI) => {
   const theme = useTheme();
+
   return (
     <Box
       key={uuidv4()}
@@ -194,31 +194,14 @@ const InvoiceCard = ({
           <Typography variant="overline" sx={{ textTransform: 'capitalize' }}>
             {productName} ( {planType})
           </Typography>
-          <Typography variant="body1">{billingCycle}</Typography>
-        </Box>
-
-        <Box sx={{ ml: 'auto' }}>
-          <Typography
-            variant="body3"
-            sx={{
-              background:
-                payment === 'pending'
-                  ? theme?.palette?.warning?.main
-                  : theme?.palette?.primary?.main,
-              borderRadius: '15px',
-              padding: '7px',
-              color: 'white',
-              textTransform: 'capitalized',
-            }}
-          >
-            {payment ? payment : 'Plan Type'}
-          </Typography>
+          <Typography variant="body1">{paymentType[billingCycle]}</Typography>
         </Box>
       </Box>
       <Divider />
       <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
         <Typography variant="caption">
-          Invoice Date: {dayjs(billingDate)?.format(DATE_FORMAT?.UI)}
+          {planType === 'Free' ? 'Expire Date' : 'Invoice Date'} :{' '}
+          {dayjs(billingDate)?.format(DATE_FORMAT?.UI)}
         </Typography>
         {dueDate && (
           <Box sx={{ ml: 'auto' }}>

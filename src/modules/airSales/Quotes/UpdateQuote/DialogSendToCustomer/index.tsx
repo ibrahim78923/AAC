@@ -82,7 +82,6 @@ const DialogSendToCustomer = ({
 
       const updateTaxAmount =
         calculations?.calculationsArray[5]?.amount?.replace('%', '');
-
       const formData = new FormData();
       formData.append('fileUrl', pdfBlob);
       formData.append('module', 'QUOTE');
