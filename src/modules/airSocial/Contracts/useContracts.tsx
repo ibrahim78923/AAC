@@ -15,7 +15,10 @@ export default function useContracts(activeFolder: any) {
   const handleClickSignPdf = () => {
     router?.push({
       pathname: AIR_SOCIAL_CONTRACTS?.CONTRACTS_CREATE,
-      query: { contractType: ENUM_CONTRACT_TYPE?.PDF },
+      query: {
+        contractType: ENUM_CONTRACT_TYPE?.PDF,
+        folderId: activeFolder?._id,
+      },
     });
   };
 

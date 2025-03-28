@@ -10,9 +10,8 @@ import {
   IconDefaultAttachment,
   IconAttachmentTrash,
 } from '@/assets/icons';
-import PDFViewer from '@/modules/airSocial/Contracts/CreateContract/PDFCreateContract/components/PDF/PDFViewer';
+import PDFViewer from '@/modules/airSocial/Contracts/CreateContract/PDFCreateContract/components/PDFViewer';
 import { generateSrc, getFileName } from '@/utils/contracts';
-import { errorSnackbar } from '@/lib/snackbar';
 
 export default function DefaultAttachment() {
   const { watch, setValue } = useFormContext();
@@ -22,17 +21,17 @@ export default function DefaultAttachment() {
     setValue('attachment', null);
   }, [setValue]);
 
-  const handleUpdatePdf = async (newPdfUrl: string) => {
-    try {
-      const response = await fetch(newPdfUrl);
-      const blob = await response.blob();
-      const file = new File([blob], 'updated.pdf', { type: 'application/pdf' });
+  // const handleUpdatePdf = async (newPdfUrl: string) => {
+  //   try {
+  //     const response = await fetch(newPdfUrl);
+  //     const blob = await response.blob();
+  //     const file = new File([blob], 'updated.pdf', { type: 'application/pdf' });
 
-      setValue('attachment', file);
-    } catch (error) {
-      errorSnackbar(`Failed to update PDF`);
-    }
-  };
+  //     setValue('attachment', file);
+  //   } catch (error) {
+  //     errorSnackbar(`Failed to update PDF`);
+  //   }
+  // };
 
   return (
     <>
@@ -75,10 +74,7 @@ export default function DefaultAttachment() {
 
           {/* Preview PDF */}
           <Box>
-            <PDFViewer
-              pdfFile={generateSrc(defaultAttachment)}
-              onUpdatePdf={handleUpdatePdf}
-            />
+            <PDFViewer pdfFile={generateSrc(defaultAttachment)} />
           </Box>
         </Box>
       )}

@@ -1,16 +1,16 @@
 import React, { useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
-  addSignatureComponent,
   addTextComponent,
+  addSignatureComponent,
 } from '@/redux/slices/airSocial/contracts/pdf-contract/slice';
-import { RootState } from '@/redux/store';
+// import { RootState } from '@/redux/store';
 
 export default function usePDFCreateContract() {
   const dispatch = useDispatch();
-  const currentPage = useSelector(
-    (state: RootState) => state.airSocialPdfContract.currentPage,
-  );
+  // const currentPage = useSelector(
+  //   (state: RootState) => state.airSocialPdfContract.currentPage,
+  // );
   // Add Text
   const handleAddText = useCallback(() => {
     dispatch(addTextComponent());
@@ -26,17 +26,17 @@ export default function usePDFCreateContract() {
     setAnchorEl(null);
   };
 
-  const handleAddSignature = (signee: any) => {
-    dispatch(
-      addSignatureComponent({
-        name: signee.name,
-        email: signee.email,
-        x: 100,
-        y: 100,
-        page: currentPage,
-      }),
-    );
-  };
+  const handleAddSignature = useCallback(
+    (signee: any) => {
+      dispatch(
+        addSignatureComponent({
+          signee: signee,
+        }),
+      );
+      handleClose();
+    },
+    [dispatch],
+  );
 
   return {
     handleAddText,

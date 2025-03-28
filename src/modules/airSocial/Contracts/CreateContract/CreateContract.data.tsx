@@ -6,22 +6,23 @@ import dayjs from 'dayjs';
 export const validationSchema = () => {
   return Yup?.object()?.shape({
     name: Yup?.string()?.trim()?.required('Field is Required'),
-    signees: Yup.array().of(
-      Yup.object().shape({
-        signingOrder: Yup?.string()?.trim()?.required('Field is Required'),
-        onBehalfOf: Yup?.mixed()?.nullable()?.required('Field is Required'),
-        name: Yup?.string()?.trim()?.required('Field is Required'),
-        email: Yup.string()?.trim()?.email('Invalid email'),
-      }),
-    ),
-    parties: Yup.array().of(
-      Yup.object().shape({
-        moduleData: Yup?.object()?.required('Field is Required'),
-        // address: Yup?.string()?.trim()?.required('Field is Required'),
-        // idNumber: Yup?.string()?.trim()?.required('Field is Required'),
-        // referredAs: Yup?.string()?.trim()?.required('Field is Required'),
-      }),
-    ),
+    // signees: Yup.array().of(
+    //   Yup.object().shape({
+    //     signingOrder: Yup?.string()?.trim()?.required('Field is Required'),
+    //     onBehalfOf: Yup?.mixed()?.nullable()?.required('Field is Required'),
+    //     name: Yup?.string()?.trim()?.required('Field is Required'),
+    //     email: Yup.string()?.trim()?.email('Invalid email'),
+    //   }),
+    // ),
+
+    // parties: Yup.array().of(
+    //   Yup.object().shape({
+    //     moduleData: Yup?.object()?.required('Field is Required'),
+    //     // address: Yup?.string()?.trim()?.required('Field is Required'),
+    //     // idNumber: Yup?.string()?.trim()?.required('Field is Required'),
+    //     // referredAs: Yup?.string()?.trim()?.required('Field is Required'),
+    //   }),
+    // ),
   });
 };
 

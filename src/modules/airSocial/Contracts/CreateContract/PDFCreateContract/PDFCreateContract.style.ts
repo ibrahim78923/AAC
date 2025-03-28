@@ -9,4 +9,13 @@ export const styles = {
     border: `1px solid ${theme.palette.grey[300]}`,
     borderRadius: '6px',
   }),
+  plainItem: {
+    padding: '0',
+    '&:hover': {
+      backgroundColor: 'transparent',
+    },
+    '& .MuiTypography-h6': {
+      margin: '30px 0',
+    },
+  },
 };

@@ -1,17 +1,19 @@
+export interface ISignee {
+  name: string;
+  email: string;
+}
 export interface ITextComponent {
   id: string;
-  name: string;
-  content: string;
   x: number;
   y: number;
   page: number;
+  text: string;
 }
 
 export interface ISignatureComponent {
   id: string;
-  name: string;
-  email: string;
   x: number;
   y: number;
   page: number;
+  signee: ISignee;
 }

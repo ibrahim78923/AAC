@@ -1,23 +1,41 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ITextComponent, ISignatureComponent } from './types';
+import { ITextComponent, ISignatureComponent, ISignee } from './types';
 
 // Define the initial state with type
 interface IAirSocialPdfContractState {
   textComponents: ITextComponent[];
   signatureComponents: ISignatureComponent[];
   currentPage: number;
+  containerWidth: number;
+  pageDimensions: {
+    width: number;
+    height: number;
+  } | null;
 }
 
 const initialState: IAirSocialPdfContractState = {
   textComponents: [],
   signatureComponents: [],
   currentPage: 1,
+  containerWidth: 612,
+  pageDimensions: null,
 };
 
 const airSocialPdfContractSlice = createSlice({
   name: 'airSocialPdfContract',
   initialState,
   reducers: {
+    setContainerWidth: (state, action: PayloadAction<number>) => {
+      state.containerWidth = action.payload;
+    },
+
+    setPageDimensions: (
+      state,
+      action: PayloadAction<{ width: number; height: number } | null>,
+    ) => {
+      state.pageDimensions = action.payload;
+    },
+
     setCurrentPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload;
     },
@@ -30,10 +48,13 @@ const airSocialPdfContractSlice = createSlice({
     addTextComponent: (state) => {
       state.textComponents.push({
         id: `${Date.now()}`,
-        name: `editor-${state.textComponents.length + 1}`,
-        content: '',
-        x: 0,
-        y: 0,
+        text: 'Double click to edit',
+        x: 50,
+        y:
+          50 +
+          state.textComponents.filter((c) => c.page === state.currentPage)
+            .length *
+            30,
         page: state.currentPage,
       });
     },
@@ -61,25 +82,48 @@ const airSocialPdfContractSlice = createSlice({
 
     updateTextComponentContent: (
       state,
-      action: PayloadAction<{ id: string; content: string }>,
+      action: PayloadAction<{ id: string; text: string }>,
     ) => {
       const textComponent = state.textComponents.find(
         (comp) => comp.id === action.payload.id,
       );
       if (textComponent) {
-        textComponent.content = action.payload.content;
+        textComponent.text = action.payload.text;
       }
+    },
+
+    setSignatureComponents: (
+      state,
+      action: PayloadAction<ISignatureComponent[]>,
+    ) => {
+      state.signatureComponents = action.payload;
     },
 
     addSignatureComponent: (
       state,
-      action: PayloadAction<Omit<ISignatureComponent, 'id'>>,
+      action: PayloadAction<{ signee: ISignee }>,
     ) => {
+      const signaturesOnCurrentPage = state.signatureComponents.filter(
+        (sig) => sig.page === state.currentPage,
+      );
+
+      const pdfPageWidth = state.pageDimensions?.width || 612;
+      const signatureWidth = 150;
+      const padding = 50;
+
+      // Calculate positions in original PDF coordinates
+      const defaultX = pdfPageWidth - signatureWidth - padding;
+      const defaultY = 70 + signaturesOnCurrentPage.length * 30;
+
       state.signatureComponents.push({
         id: `${Date.now()}`,
-        ...action.payload,
+        x: defaultX,
+        y: defaultY,
+        page: state.currentPage,
+        signee: action.payload.signee,
       });
     },
+
     updateSignaturePosition: (
       state,
       action: PayloadAction<{ id: string; x: number; y: number }>,
@@ -92,6 +136,7 @@ const airSocialPdfContractSlice = createSlice({
         signature.y = action.payload.y;
       }
     },
+
     deleteSignatureComponent: (state, action: PayloadAction<string>) => {
       state.signatureComponents = state.signatureComponents.filter(
         (sig) => sig.id !== action.payload,
@@ -102,12 +147,15 @@ const airSocialPdfContractSlice = createSlice({
 
 // Export actions
 export const {
-  setTextComponents,
+  setContainerWidth,
+  setPageDimensions,
   setCurrentPage,
+  setTextComponents,
   addTextComponent,
   deleteTextComponent,
   updateTextComponentPosition,
   updateTextComponentContent,
+  setSignatureComponents,
   addSignatureComponent,
   updateSignaturePosition,
   deleteSignatureComponent,

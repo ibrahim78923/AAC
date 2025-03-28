@@ -38,7 +38,7 @@ export default function HeaderCreateContract({
   sharedWithUsers,
 }: HeaderCreateContractProps) {
   const router = useRouter();
-  const { templateId } = router?.query;
+  const { templateId, contractId } = router?.query;
 
   const {
     anchorElMoreMenu,
@@ -64,7 +64,7 @@ export default function HeaderCreateContract({
         </Box>
 
         <Box sx={styles.right}>
-          {!!!templateId && (
+          {!!contractId && (
             <Button
               onClick={() => setOpenModalShareContract(true)}
               startIcon={<IconContractShare />}
