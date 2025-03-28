@@ -5,6 +5,7 @@ import { AirPlaneIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { useGetBillingHistoryQuery } from '@/services/superAdmin/billing-invoices';
 import { isNullOrEmpty } from '@/utils';
+import { useGetTaxCalculationsQuery } from '@/services/airSales/quotes';
 
 const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
   const theme: any = useTheme();
@@ -22,6 +23,10 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
       params: query,
       pagination: `page=1&limit=10`,
     });
+  const param = {
+    applyOn: 'invoice',
+  };
+  const { data: taxCalculation } = useGetTaxCalculationsQuery(param);
 
   return (
     <CommonDrawer
@@ -238,24 +243,7 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
                 {isGetRowValues?.plantypes?.name} )
               </Typography>
               <Typography variant="body1" sx={{ textTransform: 'lowercase' }}>
-                paid {isGetRowValues?.billingCycle}
-              </Typography>
-            </Box>
-
-            <Box sx={{ ml: 'auto' }}>
-              <Typography
-                variant="body3"
-                sx={{
-                  background:
-                    isGetRowValues?.status === 'pending'
-                      ? theme?.palette?.warning?.main
-                      : theme?.palette?.primary?.main,
-                  borderRadius: '15px',
-                  padding: '7px',
-                  color: 'white',
-                }}
-              >
-                {isGetRowValues?.status}
+                {isGetRowValues?.billingCycle}
               </Typography>
             </Box>
           </Box>
@@ -263,7 +251,7 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
 
           <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
             <Typography variant="caption">
-              Expiry Date:{' '}
+              Invoice Date:{' '}
               {isGetRowValues?.billingDate
                 ? new Date(isGetRowValues?.billingDate)?.toLocaleDateString(
                     'en-GB',
@@ -275,23 +263,35 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
           <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
             <Typography variant="caption">Plan Price</Typography>
             <Box sx={{ ml: 'auto' }}>
-              <Typography variant="overline">£ 0</Typography>
+              <Typography variant="overline">
+                £ {isGetRowValues?.plans?.planPrice}
+              </Typography>
             </Box>
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
             <Typography variant="caption">
-              0 Additional Users (£ 0/user)
+              {isGetRowValues?.additionalUsers ?? 0} Additional Users (£{' '}
+              {isGetRowValues?.plans?.additionalPerUserPrice ?? 0}/user)
             </Typography>
             <Box sx={{ ml: 'auto' }}>
-              <Typography variant="overline">£ 0</Typography>
+              <Typography variant="overline">
+                £{' '}
+                {isGetRowValues?.additionalUsers *
+                  isGetRowValues?.plans?.additionalPerUserPrice}
+              </Typography>
             </Box>
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
             <Typography variant="caption">
-              0 Additional Storage (£ 0/GB)
+              {isGetRowValues?.additionalStorage ?? 0} Additional Storage (£{' '}
+              {isGetRowValues?.plans?.additionalStoragePrice ?? 0}/GB)
             </Typography>
             <Box sx={{ ml: 'auto' }}>
-              <Typography variant="overline">£ 0</Typography>
+              <Typography variant="overline">
+                £{' '}
+                {isGetRowValues?.additionalStorage *
+                  isGetRowValues?.plans?.additionalStoragePrice}
+              </Typography>
             </Box>
           </Box>
 
@@ -303,10 +303,14 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
               >
                 Discount{' '}
               </Typography>{' '}
-              0%
+              {isGetRowValues?.planDiscount ?? 0} %
             </Typography>
             <Box sx={{ ml: 'auto' }}>
-              <Typography variant="overline">£ 0</Typography>
+              <Typography variant="overline">
+                £{' '}
+                {(isGetRowValues?.planDiscount / 100) *
+                  isGetRowValues?.subtotal}
+              </Typography>
             </Box>
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center', my: '15px' }}>
@@ -317,10 +321,12 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
               >
                 Tax{' '}
               </Typography>{' '}
-              (Vat0 %)
+              (Vat {taxCalculation?.data ?? 0} %)
             </Typography>
             <Box sx={{ ml: 'auto' }}>
-              <Typography variant="overline">£ 0</Typography>
+              <Typography variant="overline">
+                £ {(taxCalculation?.data / 100) * isGetRowValues?.total}
+              </Typography>
             </Box>
           </Box>
           <Divider />
@@ -330,7 +336,11 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
             </Typography>
 
             <Box sx={{ ml: 'auto' }}>
-              <Typography variant="overline">£ 0</Typography>
+              <Typography variant="overline">
+                £{' '}
+                {(taxCalculation?.data / 100) * isGetRowValues?.total +
+                  isGetRowValues?.total}
+              </Typography>
             </Box>
           </Box>
         </Box>

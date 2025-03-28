@@ -197,6 +197,13 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
   };
   const handleDownload = () => {
     const invoiceElement = document.querySelector('#invoice-data');
+    const downloadButton = document.querySelector('#download-button');
+
+    if (downloadButton) {
+      // Hide the download button
+      downloadButton.style.display = 'none';
+    }
+
     html2canvas(invoiceElement).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF('portrait', 'pt', 'a4');
@@ -217,6 +224,10 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
       }
 
       pdf.save('invoice.pdf');
+      if (downloadButton) {
+        // Show the download button again
+        downloadButton.style.display = 'inline-flex';
+      }
       onClose();
     });
   };
@@ -401,6 +412,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
 
           <Box sx={{ textAlign: 'right' }}>
             <Button
+              id="download-button"
               variant="contained"
               color="primary"
               onClick={handleDownload}

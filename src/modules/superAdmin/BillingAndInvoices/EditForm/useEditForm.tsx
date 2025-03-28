@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
-import { defaultValues, validationSchema } from './EditForm.data';
+import {
+  BillingCycleEnum,
+  defaultValues,
+  validationSchema,
+} from './EditForm.data';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -21,6 +25,7 @@ import {
   UseEditFormI,
 } from './editForm.interface';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import dayjs from 'dayjs';
 
 const useEditForm = ({
   isEditModal,
@@ -74,11 +79,16 @@ const useEditForm = ({
   const organizationId = watch('clientName');
   const billingCycle = watch('billingCycle');
 
-  if (billingCycle === 'MONTHLY' && !isEditModal) {
-    const currentDate = new Date();
-    currentDate?.setMonth(currentDate?.getMonth() + 1);
-    setValue('date', currentDate);
-  }
+  useEffect(() => {
+    if (billingCycle) {
+      const currentBillingDate = new Date();
+      const newBillingDate = calculateNewBillingDate(
+        billingCycle as BillingCycleEnum,
+        currentBillingDate,
+      );
+      setValue('date', newBillingDate);
+    }
+  }, [billingCycle, setValue]);
 
   let planData: any;
   let isSuccessPlan: any;
@@ -193,14 +203,6 @@ const useEditForm = ({
   }, []);
 
   const onSubmit = async (values: SubmitValuesI) => {
-    const originalDate = values?.date;
-    const date = new Date(originalDate ?? '');
-    const year = date?.getUTCFullYear();
-    const month = (date?.getUTCMonth() + 1)?.toString()?.padStart(2, '0');
-    const day = date?.getUTCDate()?.toString()?.padStart(2, '0');
-
-    const formattedDate = `${year}-${month}-${day}`;
-
     const assignPlanPayload = {
       organizationId: values?.clientName?._id,
       planId:
@@ -211,7 +213,7 @@ const useEditForm = ({
       additionalStorage: parseInt(values?.additionalStorage),
       planDiscount: parseInt(values?.discount),
       billingCycle: values?.billingCycle,
-      billingDate: formattedDate,
+      billingDate: dayjs().format('YYYY-MM-DD'),
       isCRM: selectProductSuite === productSuiteName?.crm ? true : false,
     };
 
@@ -310,3 +312,32 @@ const useEditForm = ({
 };
 
 export default useEditForm;
+
+const calculateNewBillingDate = (
+  billingCycle: BillingCycleEnum,
+  billingDate: Date,
+) => {
+  const newValidTillDate = new Date(billingDate);
+
+  const updatedBillingDate: any = {
+    [BillingCycleEnum.HALF_MONTH]: () =>
+      // newValidTillDate.setDate(newValidTillDate.getDate() + 15), //FOR LIVE: 15 Days Substription
+      newValidTillDate.setDate(newValidTillDate.getDate() + 1), // FOR TESTING: 1 DAYS as a Half Month Subscription
+    [BillingCycleEnum.MONTHLY]: () =>
+      newValidTillDate.setMonth(newValidTillDate.getMonth() + 1),
+    [BillingCycleEnum.QUARTERLY]: () =>
+      newValidTillDate.setMonth(newValidTillDate.getMonth() + 3),
+    [BillingCycleEnum.HALF_YEARLY]: () =>
+      newValidTillDate.setMonth(newValidTillDate.getMonth() + 6),
+    [BillingCycleEnum.YEARLY]: () =>
+      newValidTillDate.setFullYear(newValidTillDate.getFullYear() + 1),
+
+    //Default: 15 Days Substription
+    default: () => newValidTillDate.setDate(newValidTillDate.getDate() + 15),
+  };
+
+  //Execute
+  (updatedBillingDate[billingCycle] || updatedBillingDate.default)();
+
+  return newValidTillDate;
+};

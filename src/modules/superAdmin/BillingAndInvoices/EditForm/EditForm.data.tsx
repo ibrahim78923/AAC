@@ -225,6 +225,7 @@ export const assignPlanData = (
         label: 'Billing Date',
         fullWidth: true,
         required: true,
+        disabled: true,
       },
 
       component: RHFDatePicker,
@@ -233,3 +234,12 @@ export const assignPlanData = (
     },
   ];
 };
+
+export enum BillingCycleEnum {
+  MONTHLY = 'MONTHLY',
+  HALF_MONTH = 'HALF_MONTH',
+  QUARTERLY = 'QUARTERLY',
+  HALF_YEARLY = 'HALF_YEARLY',
+  YEARLY = 'YEARLY',
+  ONE_TIME = 'ONE_TIME',
+}
