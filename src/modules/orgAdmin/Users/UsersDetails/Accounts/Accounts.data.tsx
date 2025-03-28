@@ -5,12 +5,14 @@ import { generateImage } from '@/utils/avatarUtils';
 import { capitalizeFirstLetter } from '@/utils/api';
 import { PRODUCT_USER_STATUS } from '@/constants/strings';
 import EditRoleModal from './EditRoleModal';
+import { enqueueSnackbar } from 'notistack';
 
 export const companyColumns: any = (
   handleStatusUpdate: any,
   isLoadingStatus: any,
   editRoleModal: any,
   setEditRoleModal: any,
+  userAccountsList: any,
 ) => [
   {
     accessorFn: (row: any) => row?.product,
@@ -80,14 +82,28 @@ export const companyColumns: any = (
     cell: (info: any) => {
       const rowId = info?.row?.original?._id;
       const isLoading = isLoadingStatus[rowId] ?? false;
+
+      const exists = userAccountsList?.some(
+        (account: any) => account?._id === info?.row?.original?.product?._id,
+      );
+
       return isLoading ? (
         <CircularProgress size={25} />
       ) : (
         <SwitchBtn
           handleSwitchChange={(e: any) => {
-            handleStatusUpdate(rowId, e?.target?.checked);
+            if (exists) {
+              handleStatusUpdate(rowId, e?.target?.checked);
+            } else {
+              enqueueSnackbar(
+                'Product Subscription is Inactive or Not Subscribed',
+                {
+                  variant: 'error',
+                },
+              );
+            }
           }}
-          defaultChecked={
+          checked={
             info?.row?.original?.status === PRODUCT_USER_STATUS?.ACTIVE
               ? true
               : false

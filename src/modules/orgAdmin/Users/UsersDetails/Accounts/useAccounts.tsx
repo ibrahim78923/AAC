@@ -3,6 +3,7 @@ import { PAGINATION } from '@/config';
 import { userListApi } from '@/services/superAdmin/user-management/UserList';
 import { enqueueSnackbar } from 'notistack';
 import { PRODUCT_USER_STATUS } from '@/constants/strings';
+import { useGetUsersProductsListQuery } from '@/services/common-APIs';
 
 const useAccounts = () => {
   const { useGetUsersAccountsQuery } = userListApi;
@@ -17,6 +18,8 @@ const useAccounts = () => {
     isOpen: false,
     data: {},
   });
+
+  const { data: userAccountsList } = useGetUsersProductsListQuery({});
 
   const handleStatusUpdate = async (id: any, value: any) => {
     setIsLoadingStatus((prevState) => ({ ...prevState, [id]: true }));
@@ -50,6 +53,7 @@ const useAccounts = () => {
     isLoadingStatus,
     editRoleModal,
     setEditRoleModal,
+    userAccountsList,
   };
 };
 
