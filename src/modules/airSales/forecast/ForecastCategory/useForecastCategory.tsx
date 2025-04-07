@@ -43,10 +43,13 @@ const useForecastCategory = () => {
     useGetDealPipeLineForecastQuery({ meta: false });
 
   const statsParams = {
-    pipelines: [
-      dealPipelineData?.data[indexNumbers?.ZERO]?._id,
-      dealPipelineData?.data[indexNumbers?.ONE]?._id,
-    ],
+    pipelines: dealPipelineData?.data[indexNumbers?.ZERO]?._id,
+    // [
+    //   dealPipelineData?.data[indexNumbers?.ZERO]?._id,
+    //   dealPipelineData?.data?.length > 1
+    //   ? dealPipelineData?.data[indexNumbers?.ONE]?._id
+    //   : undefined,
+    // ]?.filter(Boolean),
     isTeam: alignment === 'UserCategory' ? false : true,
   };
 

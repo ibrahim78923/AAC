@@ -8,7 +8,6 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   Tooltip,
-  Typography,
 } from '@mui/material';
 import { manageTableColumns } from './Goals.data';
 import TanstackTable from '@/components/Table/TanstackTable';
@@ -481,9 +480,11 @@ const Goals = () => {
                         );
                       })}
                       {uniqueSerialNumbers?.length === 0 && (
-                        <Typography sx={{ color: theme?.palette?.error?.main }}>
-                          No data found
-                        </Typography>
+                        <NoData
+                          image={NoAssociationFoundImage}
+                          message={MESSAGES?.NO_DATA_FOUND}
+                          height="40vh"
+                        />
                       )}
                     </Box>
                     <CustomPagination

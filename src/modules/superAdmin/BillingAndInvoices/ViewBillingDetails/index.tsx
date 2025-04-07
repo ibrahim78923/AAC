@@ -308,8 +308,10 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
             <Box sx={{ ml: 'auto' }}>
               <Typography variant="overline">
                 £{' '}
-                {(isGetRowValues?.planDiscount / 100) *
-                  isGetRowValues?.subtotal}
+                {(
+                  (isGetRowValues?.planDiscount / 100) *
+                  isGetRowValues?.subtotal
+                )?.toFixed(2)}
               </Typography>
             </Box>
           </Box>
@@ -325,7 +327,11 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
             </Typography>
             <Box sx={{ ml: 'auto' }}>
               <Typography variant="overline">
-                £ {(taxCalculation?.data / 100) * isGetRowValues?.total}
+                £{' '}
+                {(
+                  (taxCalculation?.data / 100) *
+                  isGetRowValues?.total
+                )?.toFixed(2)}
               </Typography>
             </Box>
           </Box>
@@ -338,8 +344,10 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
             <Box sx={{ ml: 'auto' }}>
               <Typography variant="overline">
                 £{' '}
-                {(taxCalculation?.data / 100) * isGetRowValues?.total +
-                  isGetRowValues?.total}
+                {(
+                  (taxCalculation?.data / 100) * isGetRowValues?.total +
+                  isGetRowValues?.total
+                )?.toFixed(2)}
               </Typography>
             </Box>
           </Box>

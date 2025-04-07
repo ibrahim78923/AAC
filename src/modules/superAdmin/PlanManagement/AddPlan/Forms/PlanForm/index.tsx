@@ -124,9 +124,9 @@ const AddPlanForm = ({
                       ) : (
                         <>
                           Suite{' '}
-                          <span style={{ color: theme?.palette?.error?.main }}>
+                          {/* <span style={{ color: theme?.palette?.error?.main }}>
                             *
-                          </span>
+                          </span> */}
                         </>
                       )
                     }
