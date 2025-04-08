@@ -76,7 +76,11 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
   const contactsDataArray =
     contactsData?.data?.contacts &&
     contactsData?.data?.contacts?.map((item: any) => ({
-      label: `${item?.firstName} ${item?.lastName}`,
+      label: `${
+        item?.firstName || item?.lastName
+          ? `${item?.firstName || ''} ${item?.lastName || ''}`.trim()
+          : item?.email || 'NA'
+      }`,
       id: item?._id,
     }));
 

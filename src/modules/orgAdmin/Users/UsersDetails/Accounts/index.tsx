@@ -16,6 +16,7 @@ const Accounts = (props: any) => {
     isLoadingStatus,
     editRoleModal,
     setEditRoleModal,
+    userAccountsList,
   } = useAccounts();
 
   const accountsParams = {
@@ -43,6 +44,7 @@ const Accounts = (props: any) => {
         isLoadingStatus,
         editRoleModal,
         setEditRoleModal,
+        userAccountsList,
       )}
       data={userAccounts?.data?.usercompanyaccounts}
       isPagination

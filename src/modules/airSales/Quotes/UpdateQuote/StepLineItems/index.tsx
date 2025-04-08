@@ -209,16 +209,30 @@ const StepLineItems = (props: any) => {
                       <Box
                         sx={{ display: 'flex', alignItems: 'center', mt: 2 }}
                       >
-                        <Typography sx={{ color: theme?.palette?.grey[800] }}>
-                          Rewards:{' '}
-                        </Typography>
-                        <Typography
-                          sx={{ color: theme?.palette?.custom?.main, mx: 0.5 }}
-                        >
-                          {ConsumerTotalPointsValue}pts = £
-                          {ExchangeRate?.data?.calculatedExchangeRate}
-                        </Typography>
-                        <InfoIconBlueBg />
+                        {ConsumerTotalPointsValue === 0 ? (
+                          <Typography sx={{ color: theme?.palette?.grey[500] }}>
+                            {' '}
+                            No Rewards points for this contact{' '}
+                          </Typography>
+                        ) : (
+                          <>
+                            <Typography
+                              sx={{ color: theme?.palette?.grey[800] }}
+                            >
+                              Rewards:{' '}
+                            </Typography>
+                            <Typography
+                              sx={{
+                                color: theme?.palette?.custom?.main,
+                                mx: 0.5,
+                              }}
+                            >
+                              {ConsumerTotalPointsValue} pts = £
+                              {ExchangeRate?.data?.calculatedExchangeRate}
+                            </Typography>
+                            <InfoIconBlueBg />
+                          </>
+                        )}
                       </Box>
                     </Box>
                   )}

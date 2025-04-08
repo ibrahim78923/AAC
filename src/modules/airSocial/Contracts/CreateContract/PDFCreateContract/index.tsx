@@ -15,6 +15,8 @@ import usePDFCreateContract from './usePDFCreateContract';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ContractTitle from '../form-fields/ContractTitle';
 import { useFormContext, useWatch } from 'react-hook-form';
+import NoData from '@/components/NoData';
+
 
 function PDFCreateContract() {
   const {
@@ -77,6 +79,12 @@ function PDFCreateContract() {
               },
             }}
           >
+            {(!signeeValues || signeeValues?.length === 0) && (
+              <MenuItem disableRipple sx={styles?.plainItem}>
+                <NoData height="auto" image={false} />
+              </MenuItem>
+            )}
+
             {signeeValues.map((signee: any, index: number) => (
               <MenuItem
                 key={signee?._id || `${signee?.name}-${index}`}

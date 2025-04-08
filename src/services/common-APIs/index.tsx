@@ -420,6 +420,7 @@ export const CommonAPIS = baseAPI.injectEndpoints({
 export const {
   // getUsersProductsList
   useLazyGetUsersProductsListQuery,
+  useGetUsersProductsListQuery,
   useGetProductsQuery,
   useLazyGetDropdownProductsQuery,
   useLazyGetProductsListQuery,

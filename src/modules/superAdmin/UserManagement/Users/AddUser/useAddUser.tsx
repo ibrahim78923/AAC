@@ -39,6 +39,7 @@ const useAddUser = (useActionParams: UseActionParams): UseAddUserReturn => {
   } = useActionParams;
   const [orgNumber, setOrgNumber] = useState('');
   const [email, setEmail] = useState();
+  const initialTab = 0;
   const pathName = window?.location?.pathname;
   const { usePostUsersMutation, useUpdateUsersMutation } = usersApi;
   const [postUsers, { isLoading: postUserLoading }] = usePostUsersMutation();
@@ -68,7 +69,6 @@ const useAddUser = (useActionParams: UseActionParams): UseAddUserReturn => {
     }
   }, [checkedEmailError]);
 
-  const initialTab = 0;
   const tabTitle =
     tabVal === initialTab
       ? EQuickLinksType?.COMPANY_OWNER
