@@ -452,6 +452,7 @@ const UsersDetailsList = () => {
                                   </Button>
                                 </PermissionsGuard>
                               )}
+
                             </>
                           }
                         >

@@ -8,6 +8,7 @@ export interface ITextComponent {
   y: number;
   page: number;
   text: string;
+
 }
 
 export interface ISignatureComponent {
@@ -16,4 +17,5 @@ export interface ISignatureComponent {
   y: number;
   page: number;
   signee: ISignee;
+
 }

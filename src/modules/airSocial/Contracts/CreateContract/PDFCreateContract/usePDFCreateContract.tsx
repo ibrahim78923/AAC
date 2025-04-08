@@ -11,6 +11,7 @@ export default function usePDFCreateContract() {
   // const currentPage = useSelector(
   //   (state: RootState) => state.airSocialPdfContract.currentPage,
   // );
+
   // Add Text
   const handleAddText = useCallback(() => {
     dispatch(addTextComponent());
@@ -37,6 +38,7 @@ export default function usePDFCreateContract() {
     },
     [dispatch],
   );
+
 
   return {
     handleAddText,
