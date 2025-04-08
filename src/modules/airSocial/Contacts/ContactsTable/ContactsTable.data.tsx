@@ -68,7 +68,9 @@ export const ContactsColumns = (
         </Box>
       );
     } else if (attribute === COLUMNS_ATTR?.DATE_BIRTH) {
-      const formattedDate = dayjs(info?.getValue()).format(DATE_FORMAT?.UI);
+      const dateValue = info?.getValue();
+      if (!dateValue) return 'N/A';
+      const formattedDate = dayjs(dateValue).format(DATE_FORMAT?.UI);
       return formattedDate;
     } else {
       return info?.getValue() ?? 'N/A';
