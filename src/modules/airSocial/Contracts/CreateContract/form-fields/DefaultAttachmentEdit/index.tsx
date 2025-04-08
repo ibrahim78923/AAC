@@ -15,6 +15,7 @@ import PDFViewer from '@/modules/airSocial/Contracts/CreateContract/PDFCreateCon
 import { generateSrc, getFileName } from '@/utils/contracts';
 import { errorSnackbar } from '@/lib/snackbar';
 
+
 export default function DefaultAttachment() {
   const { watch, setValue } = useFormContext();
   const defaultAttachment = watch('attachment');
@@ -34,6 +35,7 @@ export default function DefaultAttachment() {
   //     errorSnackbar(`Failed to update PDF`);
   //   }
   // };
+
 
 
   return (
@@ -78,6 +80,7 @@ export default function DefaultAttachment() {
           {/* Preview PDF */}
           <Box>
             <PDFViewer pdfFile={generateSrc(defaultAttachment)} />
+
 
           </Box>
         </Box>
