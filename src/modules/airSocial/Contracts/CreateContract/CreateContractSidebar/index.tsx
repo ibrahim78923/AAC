@@ -18,6 +18,7 @@ export default function CreateContractSidebar({
   removeSignee,
   handleUpdateDynamicField,
   handleRemoveDynamicField,
+  dataContractById,
 }: any) {
   const { tabValue, handleChangeTab } = useCreateContractSidebar();
 
@@ -45,7 +46,7 @@ export default function CreateContractSidebar({
       </TabPanel>
 
       <TabPanel value="details">
-        <Details />
+        <Details dataContractById={dataContractById} />
       </TabPanel>
 
       <TabPanel value="signees">

@@ -88,7 +88,7 @@ export default function CreateContract() {
     templateCatgValue,
     setTemplateCatgValue,
     handleRemoveDynamicField,
-
+    dataContractById,
     contractDetailsData,
   } = useCreateContract();
 
@@ -306,6 +306,7 @@ export default function CreateContract() {
                 appendSignee={appendSignee}
                 removeSignee={removeSignee}
                 partyValues={partyValues}
+                dataContractById={dataContractById}
               />
             </Box>
           </Box>

@@ -9,7 +9,7 @@ export const styles = {
     fontSize: '16px',
     fontWeight: '500',
     lineHeight: '1.25',
-    marginBottom: '22px',
+    marginBottom: '10px',
   },
   ownerDetails: (theme: Theme) => ({
     display: 'flex',

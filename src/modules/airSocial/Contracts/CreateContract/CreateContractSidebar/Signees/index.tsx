@@ -42,6 +42,7 @@ export default function Signees({
   };
   const [selectedIndex, setSelectedIndex] = useState(null);
   // const [selectedSignee, setSelectedSignee] = useState(null);
+  const [signeeValue, setSigneeValue] = useState(null);
 
   const [anchorElOption, setAnchorElOption] = useState<null | HTMLElement>(
     null,
@@ -65,9 +66,21 @@ export default function Signees({
   const handleOpenModalCreateDataField = () => {
     handleClose();
     setOpenModalCreateDataField(true);
+    setAnchorElOption(null);
+  };
+
+  const handleOpenEditSigneeModal = () => {
+    if (selectedIndex !== null && signeeFields[selectedIndex]) {
+      const signee = signeeFields[selectedIndex];
+      setSigneeValue(signee);
+    }
+    handleClose();
+    setOpenModalCreateDataField(true);
+    setAnchorElOption(null);
   };
 
   const handleCloseModalCreateDataField = () => {
+    setSigneeValue(null);
     setOpenModalCreateDataField(false);
   };
 
@@ -189,9 +202,11 @@ export default function Signees({
               <Box sx={styles?.signeeName}>{signee?.name}</Box>
               <Box sx={styles?.signeeMeta}>{signee?.email}</Box>
             </Box>
-            <IconButton onClick={(event) => handleClickOption(event, index)}>
-              <MoreHorizIcon />
-            </IconButton>
+            {router?.query?.contractType === ENUM_CONTRACT_TYPE?.PDF && (
+              <IconButton onClick={(event) => handleClickOption(event, index)}>
+                <MoreHorizIcon />
+              </IconButton>
+            )}
             <Menu
               anchorEl={anchorElOption}
               open={openOption}
@@ -213,7 +228,7 @@ export default function Signees({
                 horizontal: 'right',
               }}
             >
-              <MenuItem>Edit</MenuItem>
+              <MenuItem onClick={handleOpenEditSigneeModal}>Edit</MenuItem>
               <MenuItem
                 onClick={() => {
                   handleMoveUp(selectedIndex);
@@ -250,6 +265,7 @@ export default function Signees({
         onClose={handleCloseModalCreateDataField}
         partyValues={partyValues}
         signeeFields={signeeFields}
+        signeeValue={signeeValue}
       />
     </Box>
   );

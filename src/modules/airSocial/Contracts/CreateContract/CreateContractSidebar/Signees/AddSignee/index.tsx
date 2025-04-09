@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import CommonDialog from '@/components/CommonDialog';
 import {
   FormProvider,
@@ -15,21 +15,24 @@ import SigneeEmail from '../../../components/SigneeCard/form-fields/SigneeEmail'
 import { styles } from './styles';
 import useAddSignee from './useAddSignee';
 import { useLazyGetCommonAllCompaniesQuery } from '@/services/common-APIs';
+import { isNullOrEmpty } from '@/utils';
 
 interface ModalProps {
   open: boolean;
   onClose: () => void;
   partyValues: any;
   signeeFields: any;
+  signeeValue: any;
 }
 
 export default function AddSignee({
   open,
   onClose,
+  signeeValue,
   // partyValues,
   // signeeFields,
 }: ModalProps) {
-  const { methods, handleAddSignee } = useAddSignee(onClose);
+  const { methods, handleAddSignee, setValue } = useAddSignee(onClose);
   const apiQueryCompanies = useLazyGetCommonAllCompaniesQuery();
   // const signingOrderData = Array(signeeFields?.length + 1)
   //   .fill(null)
@@ -48,9 +51,23 @@ export default function AddSignee({
   //   };
   // });
 
+  useEffect(() => {
+    const fields = {
+      signeeName: signeeValue?.name,
+      signeeEmail: signeeValue?.email,
+      personalTitle: signeeValue?.personalTitle,
+      phoneNumber: signeeValue?.phoneNumber,
+      company: signeeValue?.moduleId,
+    };
+
+    Object.entries(fields)?.forEach(([key, value]) => {
+      setValue(key, value);
+    });
+  }, [signeeValue]);
+
   return (
     <CommonDialog
-      title={'Create New Signee'}
+      title={isNullOrEmpty(signeeValue) ? 'Create New Signee' : 'Edit Signee'}
       open={open}
       onClose={onClose}
       onSubmit={handleAddSignee}
@@ -78,7 +95,10 @@ export default function AddSignee({
             <SigneeFullName name={`signeeName`} />
           </Grid>
           <Grid item xs={6} sx={styles?.fieldLabel}>
-            <SigneeEmail name={`signeeEmail`} />
+            <SigneeEmail
+              name={`signeeEmail`}
+              disable={!isNullOrEmpty(signeeValue)}
+            />
           </Grid>
           <Grid item xs={12} sx={styles?.fieldLabel}>
             {/* <PersonalTitle name={`personalTitle`} /> */}
