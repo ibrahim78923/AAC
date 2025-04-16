@@ -14,15 +14,17 @@ export const productsValidationSchema = Yup?.object()?.shape({
       ? field?.required('Field is required')
       : field?.optional(),
   ),
-  purchasePrice: Yup?.string()
+  purchasePrice: Yup?.number()
     ?.nullable()
+    ?.positive('Purchase price must be a positive number')
     ?.when('productType', ([pro]: any, field: any) =>
       pro === PRODUCTS_TYPE?.NEW_PRODUCT
         ? field?.required('Field is required')
         : field?.optional(),
     ),
-  unitPrice: Yup?.string()
+  unitPrice: Yup?.number()
     ?.nullable()
+    ?.positive('unit price must be a positive number')
     ?.when('productType', ([pro]: any, field: any) =>
       pro === PRODUCTS_TYPE?.NEW_PRODUCT
         ? field?.required('Field is required')

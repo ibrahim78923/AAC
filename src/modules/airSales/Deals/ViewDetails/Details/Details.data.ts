@@ -135,7 +135,10 @@ export const detailsDataArray = (dealPipelineId: any) => {
       options: getDealOwnerContacts?.data?.contacts?.map((item: any) => ({
         key: item?._id,
         value: item?._id,
-        label: `${item?.firstName} ${item?.lastName}`,
+        label:
+          item?.firstName && item?.lastName
+            ? `${item?.firstName} ${item?.lastName}`
+            : item?.email,
       })) ?? [{ label: '', value: '' }],
       component: RHFSelect,
       md: 4,

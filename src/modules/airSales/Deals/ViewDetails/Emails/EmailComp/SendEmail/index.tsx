@@ -57,6 +57,7 @@ import { useGetAuthURLOutlookQuery } from '@/services/commonFeatures/email/outlo
 import { useGetAuthURLGmailQuery } from '@/services/commonFeatures/email/gmail';
 import { useEffect, useState } from 'react';
 import useEmails from '../useEmails';
+import { isNullOrEmpty } from '@/utils';
 
 const SendEmailDrawer = (props: any) => {
   const {
@@ -286,6 +287,7 @@ const SendEmailDrawer = (props: any) => {
         okText={isScheduleExists ? 'Schedule' : 'Send'}
         isOk={true}
         footer={(() => {
+          if (isNullOrEmpty(valueProvider)) return false;
           if (drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL) return true;
           if (
             (drawerType === CREATE_EMAIL_TYPES?.REPLY ||

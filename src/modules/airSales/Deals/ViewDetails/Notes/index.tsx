@@ -11,7 +11,7 @@ import NotesEditorDrawer from './NotesEditorDrawer';
 import NotesActionDropdown from './NotesActionDropDown';
 import useNotes from './useNotes';
 import useNameWithStyledWords from '@/hooks/useNameStyledWords';
-import { isNullOrEmpty } from '@/utils';
+import { getSession, isNullOrEmpty } from '@/utils';
 import { MessageIcon, PlusIcon } from '@/assets/icons';
 import { styles } from '../ViewDetails.style';
 import { v4 as uuidv4 } from 'uuid';
@@ -22,7 +22,6 @@ import CustomPagination from '@/components/CustomPagination';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 import { capitalizeFirstLetter } from '@/utils/api';
-import { getInitialsSingleName } from '@/utils/avatarUtils';
 
 const Notes = ({ selected }: any) => {
   const {
@@ -38,6 +37,7 @@ const Notes = ({ selected }: any) => {
   } = useNotes(selected);
 
   const { theme } = useNameWithStyledWords();
+  const session: any = getSession();
 
   return (
     <Box sx={styles?.horizontalTabsBox}>
@@ -148,7 +148,11 @@ const Notes = ({ selected }: any) => {
                   }}
                 >
                   <Avatar
-                    src={`${IMG_URL}${item?.file?.url}`}
+                    src={
+                      item?.file?.url
+                        ? `${IMG_URL}${item?.file?.url}`
+                        : `${IMG_URL}${session?.user?.avatar?.url}`
+                    }
                     alt="_img"
                     sx={{
                       width: 66,
@@ -156,7 +160,7 @@ const Notes = ({ selected }: any) => {
                       border: `2px solid ${theme?.palette?.blue?.main}`,
                     }}
                   >
-                    <Typography
+                    {/* <Typography
                       variant="body1"
                       fontWeight={500}
                       sx={{
@@ -165,7 +169,7 @@ const Notes = ({ selected }: any) => {
                       }}
                     >
                       {getInitialsSingleName(item?.title) ?? 'N/A'}
-                    </Typography>
+                    </Typography> */}
                   </Avatar>
                 </Grid>
                 <Grid item xs={12} lg={10} sm={9} sx={{ gap: 1 }}>
