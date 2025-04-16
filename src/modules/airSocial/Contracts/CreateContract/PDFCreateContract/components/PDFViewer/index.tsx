@@ -19,9 +19,17 @@ pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.js';
 
 interface PDFViewerProps {
   pdfFile: File | string;
+  onSignatureClick?: () => void;
+  signees?: any;
+  readonly?: boolean;
 }
 
-export default function PDFViewer({ pdfFile }: PDFViewerProps) {
+export default function PDFViewer({
+  pdfFile,
+  onSignatureClick,
+  signees,
+  readonly,
+}: PDFViewerProps) {
   const dispatch = useDispatch();
   const currentPage = useSelector(
     (state: RootState) => state.airSocialPdfContract.currentPage,
@@ -109,6 +117,9 @@ export default function PDFViewer({ pdfFile }: PDFViewerProps) {
             pageWidth={containerWidth}
             pageHeight={pageHeight}
             scale={containerWidth / pageDimensions.width}
+            readonly={readonly}
+            onSignatureClick={onSignatureClick}
+            signees={signees}
           />
         )}
       </Box>

@@ -4,7 +4,7 @@ import FolderRoundedIcon from '@/assets/icons/shared/folder-rounded';
 import { CustomTooltip } from '@/components/CustomTooltip';
 import { IMG_URL } from '@/config';
 import { AIR_SOCIAL_CONTRACTS } from '@/constants/routes';
-import { ENUM_CONTRACT_STATUS } from '@/utils/contracts';
+import { ENUM_CONTRACT_STATUS, ENUM_CONTRACT_TYPE } from '@/utils/contracts';
 import { Box, Button, Checkbox, Typography, useTheme } from '@mui/material';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -160,12 +160,22 @@ export const contractsColumns = ({
               color: theme?.palette?.primary?.main,
               cursor: 'pointer',
             }}
-            onClick={() =>
-              router?.push({
-                pathname: AIR_SOCIAL_CONTRACTS?.CONTRACTS_CREATE,
-                query: { contractId: info?.row?.original?._id },
-              })
-            }
+            onClick={() => {
+              if (info?.row?.original?.contractType === 'PDF') {
+                router?.push({
+                  pathname: AIR_SOCIAL_CONTRACTS?.CONTRACTS_CREATE,
+                  query: {
+                    contractType: ENUM_CONTRACT_TYPE?.PDF,
+                    contractId: info?.row?.original?._id,
+                  },
+                });
+              } else {
+                router?.push({
+                  pathname: AIR_SOCIAL_CONTRACTS?.CONTRACTS_CREATE,
+                  query: { contractId: info?.row?.original?._id },
+                });
+              }
+            }}
           >
             {info?.getValue()}
           </Box>

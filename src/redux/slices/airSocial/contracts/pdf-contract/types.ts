@@ -1,6 +1,7 @@
 export interface ISignee {
   name: string;
   email: string;
+  signatureAttachment?: any;
 }
 export interface ITextComponent {
   id: string;
@@ -8,7 +9,6 @@ export interface ITextComponent {
   y: number;
   page: number;
   text: string;
-
 }
 
 export interface ISignatureComponent {
@@ -17,5 +17,4 @@ export interface ISignatureComponent {
   y: number;
   page: number;
   signee: ISignee;
-
 }

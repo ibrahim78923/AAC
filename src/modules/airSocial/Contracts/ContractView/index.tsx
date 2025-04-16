@@ -60,6 +60,7 @@ export default function ContractView() {
           title={dataContractById?.data?.name || 'Untitled Contract'}
           status={dataContractById?.data?.status || 'Pending'}
           handleOpenModalSignAndSend={handleOpenModalSignAndSend}
+          contractType={dataContractById?.data?.contractType}
         />
       </PlainHeader>
 
@@ -67,15 +68,9 @@ export default function ContractView() {
         <Box sx={styles?.contentRow}>
           <Box sx={styles?.content}>
             <MainContent
-              title={dataContractById?.data?.name || 'Untitled Contract'}
-              logo={dataContractById?.data?.logo || null}
-              parties={dataContractById?.data?.parties || []}
-              signees={dataContractById?.data?.signees || []}
-              attachment={dataContractById?.data?.attachment || null}
-              activityHistory={dataContractById?.data?.activityHistory || []}
+              contractData={dataContractById?.data}
               signeeId={signeeId}
               handleOpenModalSignAndSend={handleOpenModalSignAndSend}
-              status={dataContractById?.data?.status || 'Pending'}
               handleOpenModalDismissAgreement={handleOpenModalDismissAgreement}
               handleOpenModalRequestChanged={handleOpenModalRequestChanged}
             />

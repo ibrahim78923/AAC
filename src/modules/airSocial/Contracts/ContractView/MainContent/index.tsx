@@ -6,36 +6,25 @@ import { IconDefaultAttachment, IconSigningDigitally } from '@/assets/icons';
 import DocumentHistory from '../../CreateContract/components/DocumentHistory';
 import { ENUM_CONTRACT_STATUS, getPartyName } from '@/utils/contracts';
 import { generateImage } from '@/utils/avatarUtils';
+import EditablePDF from './EditablePDF';
 
 type MainContentProps = {
-  title: string;
-  logo: any;
-  parties: [];
-  signees: [];
-  attachment: any;
-  activityHistory: [];
+  contractData: any;
   signeeId: any;
-  status: string;
-  handleOpenModalSignAndSend: () => void;
+  handleOpenModalSignAndSend: (_?: any, data?: any) => void;
   handleOpenModalDismissAgreement: () => void;
   handleOpenModalRequestChanged: () => void;
 };
 
 export default function MainContent({
-  title,
-  logo,
-  parties,
-  signees,
-  attachment,
-  activityHistory,
+  contractData,
   signeeId,
-  status,
   handleOpenModalSignAndSend,
   handleOpenModalDismissAgreement,
   handleOpenModalRequestChanged,
 }: MainContentProps) {
   const theme = useTheme();
-  const currentSignee: any = signees?.find(
+  const currentSignee: any = contractData?.signees?.find(
     (signee: any) => signee?._id === signeeId,
   );
 
@@ -48,21 +37,25 @@ export default function MainContent({
   };
 
   const getOnBehalfOf = (partyId: string) => {
-    const party: any = parties?.find((p: any) => p?._id === partyId);
+    const party: any = contractData?.parties?.find(
+      (p: any) => p?._id === partyId,
+    );
     return party?.moduleData;
   };
+
+  const sizeMB = contractData?.attachment?.size / (1024 * 1024);
 
   return (
     <Grid container spacing="30px">
       <Grid item xs={12} sm={6}>
-        <Box sx={styles?.contractTitle}>{title}</Box>
+        <Box sx={styles?.contractTitle}>{contractData?.name}</Box>
       </Grid>
 
       <Grid item xs={12} sm={6}>
-        {logo && (
+        {contractData?.logo && (
           <Box sx={styles?.contractLogo}>
             <Image
-              src={generateImage(logo?.url)}
+              src={generateImage(contractData?.logo?.url)}
               alt="Contract Logo"
               width={108}
               height={18}
@@ -72,7 +65,7 @@ export default function MainContent({
         )}
       </Grid>
 
-      {parties?.map((party: any) => (
+      {contractData?.parties?.map((party: any) => (
         <Grid item xs={12} sm={6} key={party?._id || party?.id}>
           <Box sx={styles?.fieldCard}>
             <Box sx={styles?.fieldCardField}>
@@ -93,12 +86,7 @@ export default function MainContent({
         </Grid>
       ))}
 
-      <Grid item xs={12}>
-        {/* <Box>Start adding document content here...</Box>
-        <Box>Make sure that the “Full text editing” mode is switched on.</Box> */}
-      </Grid>
-
-      {signees?.map((signee: any) => (
+      {contractData?.signees?.map((signee: any) => (
         <Grid item xs={12} sm={6} key={signee?._id || signee?.id}>
           <Box sx={styles?.signatureCard(theme, signee?.signatureStatus)}>
             <Box sx={styles?.signatureCardBody}>
@@ -142,19 +130,32 @@ export default function MainContent({
           </Box>
         </Grid>
       ))}
-      {status === ENUM_CONTRACT_STATUS?.PENDING && (
+
+      {contractData?.contractType === 'PDF' && (
+        <Grid item xs={12}>
+          <EditablePDF
+            contractData={contractData}
+            onSignatureClick={handleOpenModalSignAndSend}
+            signees={contractData?.signees}
+          />
+        </Grid>
+      )}
+
+      {contractData?.status === ENUM_CONTRACT_STATUS?.PENDING && (
         <Grid item xs={12}>
           <Grid container spacing="12px">
-            <Grid item xs={12}>
-              <Button
-                variant={'contained'}
-                className={'small'}
-                fullWidth
-                onClick={handleOpenModalSignAndSend}
-              >
-                Sign & Send
-              </Button>
-            </Grid>
+            {contractData?.contractType === 'BASIC' && (
+              <Grid item xs={12}>
+                <Button
+                  variant={'contained'}
+                  className={'small'}
+                  fullWidth
+                  onClick={handleOpenModalSignAndSend}
+                >
+                  Sign & Send
+                </Button>
+              </Grid>
+            )}
             <Grid item xs={12} sm={6}>
               <Button
                 onClick={handleOpenModalDismissAgreement}
@@ -181,7 +182,8 @@ export default function MainContent({
           </Grid>
         </Grid>
       )}
-      {attachment && (
+
+      {contractData?.contractType === 'BASIC' && contractData?.attachment && (
         <Grid item xs={12}>
           <Box sx={styles?.attachmentPreview}>
             <Box className="previewLabel">Default attachment</Box>
@@ -191,9 +193,14 @@ export default function MainContent({
                   <IconDefaultAttachment />
                 </Box>
                 <Box>
-                  <Box className="previewFileName">{attachment?.name}</Box>
+                  <Box className="previewFileName">
+                    {contractData?.attachment?.name}
+                  </Box>
                   <Box className="previewFileSize">
-                    {Math.floor(attachment?.size / 1024)} MB
+                    {sizeMB < 1
+                      ? Math.round(contractData?.attachment?.size / 1024) +
+                        ' KB'
+                      : Math.round(sizeMB) + ' MB'}
                   </Box>
                 </Box>
               </Box>
@@ -201,7 +208,7 @@ export default function MainContent({
 
             <Box sx={styles?.embedPdf}>
               <embed
-                src={generateImage(attachment?.url)}
+                src={generateImage(contractData?.attachment?.url)}
                 type="application/pdf"
               />
             </Box>
@@ -209,7 +216,7 @@ export default function MainContent({
         </Grid>
       )}
 
-      {signees?.length > 0 && (
+      {contractData?.signees?.length > 0 && (
         <Grid item xs={12}>
           <Box sx={styles?.labelWrapper}>
             <Box sx={styles.label}>Default Signatures</Box>
@@ -252,9 +259,10 @@ export default function MainContent({
           </Box>
         </Grid>
       )}
-      {activityHistory && (
+
+      {contractData?.activityHistory && (
         <Grid item xs={12}>
-          <DocumentHistory data={activityHistory || []} />
+          <DocumentHistory data={contractData?.activityHistory || []} />
         </Grid>
       )}
     </Grid>

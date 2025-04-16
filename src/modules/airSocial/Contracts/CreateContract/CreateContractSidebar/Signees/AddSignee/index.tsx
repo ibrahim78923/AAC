@@ -6,12 +6,8 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { Grid } from '@mui/material';
-// import SigningOrder from '../../../components/SigneeCard/form-fields/SigningOrder';
-// import OnBehalfOf from '../../../components/SigneeCard/form-fields/OnBehalfOf';
 import SigneeFullName from '../../../components/SigneeCard/form-fields/SigneeFullName';
 import SigneeEmail from '../../../components/SigneeCard/form-fields/SigneeEmail';
-// import SigningDigitally from '../../../components/SigneeCard/form-fields/SigningDigitally';
-// import PersonalTitle from '../../../components/SigneeCard/form-fields/PersonalTitle';
 import { styles } from './styles';
 import useAddSignee from './useAddSignee';
 import { useLazyGetCommonAllCompaniesQuery } from '@/services/common-APIs';
@@ -32,24 +28,12 @@ export default function AddSignee({
   // partyValues,
   // signeeFields,
 }: ModalProps) {
-  const { methods, handleAddSignee, setValue } = useAddSignee(onClose);
+  const isEditMode = !isNullOrEmpty(signeeValue);
+  const { methods, handleAddSignee, setValue } = useAddSignee(
+    onClose,
+    isEditMode,
+  );
   const apiQueryCompanies = useLazyGetCommonAllCompaniesQuery();
-  // const signingOrderData = Array(signeeFields?.length + 1)
-  //   .fill(null)
-  //   .map((_, index) => ({
-  //     label: `${index + 1}`,
-  //     value: index + 1,
-  //   }));
-
-  // const onBehalfOfData = partyValues?.map((party: any) => {
-  //   return {
-  //     _id: party?.moduleData?._id,
-  //     name:
-  //       party?.moduleData?.name ||
-  //       `${party?.moduleData?.firstName || ''} ${party?.moduleData?.lastName || ''
-  //         }`.trim(),
-  //   };
-  // });
 
   useEffect(() => {
     const fields = {
@@ -57,7 +41,7 @@ export default function AddSignee({
       signeeEmail: signeeValue?.email,
       personalTitle: signeeValue?.personalTitle,
       phoneNumber: signeeValue?.phoneNumber,
-      company: signeeValue?.moduleId,
+      company: signeeValue?.moduleData,
     };
 
     Object.entries(fields)?.forEach(([key, value]) => {
@@ -73,24 +57,10 @@ export default function AddSignee({
       onSubmit={handleAddSignee}
       okText={'Create'}
       cancelText={'Cancel'}
-      width={'416px'}
+      width={'700px'}
     >
       <FormProvider methods={methods}>
-        <Grid container spacing={'4px'}>
-          {/* <Grid item xs={12} sx={styles?.fieldLabel}>
-            <SigningOrder
-              data={signingOrderData}
-              name={`signingOrder`}
-              disabled={true}
-            />
-          </Grid>
-          <Grid item xs={12} sx={styles?.fieldLabel}>
-            <OnBehalfOf
-              name={`onBehalfOf`}
-              data={onBehalfOfData}
-              required={false}
-            />
-          </Grid> */}
+        <Grid container rowSpacing={'22px'} columnSpacing={'16px'}>
           <Grid item xs={6} sx={styles?.fieldLabel}>
             <SigneeFullName name={`signeeName`} />
           </Grid>
@@ -101,7 +71,6 @@ export default function AddSignee({
             />
           </Grid>
           <Grid item xs={12} sx={styles?.fieldLabel}>
-            {/* <PersonalTitle name={`personalTitle`} /> */}
             <RHFTextField
               name="personalTitle"
               label="Representative Title"
@@ -112,7 +81,6 @@ export default function AddSignee({
           </Grid>
 
           <Grid item xs={12} sx={styles?.fieldLabel}>
-            {/* <SigneeFullName name={`phoneNumber`} /> */}
             <RHFTextField
               name="phoneNumber"
               label="Phone Number"
@@ -127,7 +95,7 @@ export default function AddSignee({
               label="Company"
               fullWidth
               size="small"
-              // required={true}
+              required={true}
               apiQuery={apiQueryCompanies}
               externalParams={{ meta: false }}
               getOptionLabel={(option: any) => {
@@ -142,9 +110,6 @@ export default function AddSignee({
               }}
             />
           </Grid>
-          {/* <Grid item xs={12} sx={styles?.fieldLabel}>
-            <SigningDigitally />
-          </Grid> */}
         </Grid>
       </FormProvider>
     </CommonDialog>

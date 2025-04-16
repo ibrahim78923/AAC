@@ -16,6 +16,7 @@ interface EditableTextProps {
   onDelete: () => void;
   pageWidth: number;
   pageHeight: number;
+  readonly: boolean;
 }
 
 const EditableText = ({
@@ -29,6 +30,7 @@ const EditableText = ({
   onDelete,
   pageWidth,
   pageHeight,
+  readonly = false,
 }: EditableTextProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [textWidth, setTextWidth] = useState(200);
@@ -130,26 +132,29 @@ const EditableText = ({
         y={y}
         fontSize={20}
         fill={'#2e74b5'}
-        draggable
+        draggable={!readonly}
         width={textWidth}
-        dragBoundFunc={handleDragBound}
-        onDblClick={handleTextDblClick}
-        onDblTap={handleTextDblTap}
+        dragBoundFunc={!readonly ? handleDragBound : undefined}
+        onDblClick={!readonly ? handleTextDblClick : undefined}
+        onDblTap={!readonly ? handleTextDblTap : undefined}
         onClick={(e) => {
+          if (readonly) return;
           e.cancelBubble = true;
           if (!isEditing) onSelect();
         }}
         onTap={(e) => {
+          if (readonly) return;
           e.cancelBubble = true;
           if (!isEditing) onSelect();
         }}
-        onTransform={handleTransform}
+        onTransform={!readonly ? handleTransform : undefined}
         onDragEnd={(e) => {
-          if (!isEditing) onPositionChange(e.target.x(), e.target.y());
+          if (!isEditing && !readonly)
+            onPositionChange(e.target.x(), e.target.y());
         }}
       />
 
-      {isEditing && (
+      {isEditing && !readonly && (
         <TextEditor
           textNode={textRef.current!}
           onChange={(newText) => {
@@ -161,7 +166,7 @@ const EditableText = ({
         />
       )}
 
-      {isSelected && !isEditing && (
+      {isSelected && !isEditing && !readonly && (
         <Transformer
           ref={trRef}
           enabledAnchors={['middle-left', 'middle-right']}

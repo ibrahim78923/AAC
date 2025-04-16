@@ -47,7 +47,7 @@ export default function ModalSignAndSend({
   };
 
   const handleSignatureEnd = () => {
-    const sigData = sigCanvasRef.current?.toDataURL();
+    const sigData = sigCanvasRef.current?.getTrimmedCanvas().toDataURL();
     setSignature(sigData || null);
   };
 

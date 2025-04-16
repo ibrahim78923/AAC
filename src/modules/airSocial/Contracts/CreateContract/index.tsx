@@ -30,6 +30,7 @@ export default function CreateContract() {
     router,
     contractId,
     templateId,
+    contractType,
     activeView,
     handlePreviewToggle,
 
@@ -102,6 +103,14 @@ export default function CreateContract() {
     return true;
   };
 
+  const disabledSignAndSend = () => {
+    if (contractType) {
+      return signeeFields?.length === 0;
+    } else {
+      return partyFields?.length === 0 && signeeFields?.length === 0;
+    }
+  };
+
   return (
     <>
       <Backdrop
@@ -140,9 +149,7 @@ export default function CreateContract() {
           disabledSaveAsDraft={!!contractId}
           disabledSaveAsTemplate={!!templateId || !!contractId}
           disabledSaveChanges={disabledSaveChanges()}
-          disabledSignAndSend={
-            !(partyFields?.length !== 0 && signeeFields?.length !== 0)
-          }
+          disabledSignAndSend={disabledSignAndSend()}
         />
       </PlainHeader>
 
@@ -158,7 +165,7 @@ export default function CreateContract() {
               </Box>
               {activeView === 'create' &&
                 (router?.query?.contractType === ENUM_CONTRACT_TYPE?.PDF ? (
-                  <PDFCreateContract />
+                  <PDFCreateContract contractData={contractDetailsData} />
                 ) : (
                   <Grid container spacing={{ xs: '20px', lg: '30px' }}>
                     <Grid item xs={12} md={6} lg={8}>

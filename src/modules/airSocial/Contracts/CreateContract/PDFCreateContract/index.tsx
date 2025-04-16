@@ -17,8 +17,7 @@ import ContractTitle from '../form-fields/ContractTitle';
 import { useFormContext, useWatch } from 'react-hook-form';
 import NoData from '@/components/NoData';
 
-
-function PDFCreateContract() {
+function PDFCreateContract({ contractData }: any) {
   const {
     handleAddText,
     anchorEl,
@@ -29,7 +28,7 @@ function PDFCreateContract() {
   } = usePDFCreateContract();
 
   const { watch } = useFormContext();
-  const defaultAttachment = watch('attachment');
+  const defaultAttachment = watch('latestAttachment');
   const signeeValues = useWatch({
     name: 'signees',
   });
@@ -112,7 +111,7 @@ function PDFCreateContract() {
         </Box>
       </Grid>
       <Grid item xs={12}>
-        <DefaultAttachment />
+        <DefaultAttachment contractData={contractData} />
       </Grid>
     </Grid>
   );

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { RHFDropzonePreviewAllTypes } from '@/components/ReactHookForm';
 import { useFormContext } from 'react-hook-form';
 import { Box, IconButton } from '@mui/material';
@@ -13,15 +13,32 @@ import {
 import PDFViewer from '@/modules/airSocial/Contracts/CreateContract/PDFCreateContract/components/PDFViewer';
 
 import { generateSrc, getFileName } from '@/utils/contracts';
-import { errorSnackbar } from '@/lib/snackbar';
+import { useDispatch } from 'react-redux';
+import {
+  setTextComponents,
+  setSignatureComponents,
+} from '@/redux/slices/airSocial/contracts/pdf-contract/slice';
 
-export default function DefaultAttachment() {
+export default function DefaultAttachment({ contractData }: any) {
+  const dispatch = useDispatch();
   const { watch, setValue } = useFormContext();
-  const defaultAttachment = watch('attachment');
+  const defaultAttachment = watch('latestAttachment');
+
+  useEffect(() => {
+    dispatch(setTextComponents(contractData?.textComponent || []));
+  }, [contractData, dispatch]);
+
+  useEffect(() => {
+    dispatch(setSignatureComponents(contractData?.signatureComponent || []));
+  }, [contractData, dispatch]);
 
   const handleReset = useCallback(() => {
-    setValue('attachment', null);
-  }, [setValue]);
+    setValue('latestAttachment', null);
+    dispatch(setTextComponents(contractData?.textComponent || []));
+
+    // Reset signature components to contract data if available, otherwise empty array
+    dispatch(setSignatureComponents(contractData?.signatureComponent || []));
+  }, [setValue, dispatch, contractData]);
 
   // const handleUpdatePdf = async (newPdfUrl: string) => {
   //   try {
@@ -35,13 +52,12 @@ export default function DefaultAttachment() {
   //   }
   // };
 
-
   return (
     <>
       {!defaultAttachment && (
         <RHFDropzonePreviewAllTypes
           label="Default Attachments"
-          name="attachment"
+          name="latestAttachment"
           fileName=""
           fileType="PDF (max 2.44 MB)"
           accept={{
@@ -77,8 +93,10 @@ export default function DefaultAttachment() {
 
           {/* Preview PDF */}
           <Box>
-            <PDFViewer pdfFile={generateSrc(defaultAttachment)} />
-
+            <PDFViewer
+              pdfFile={generateSrc(defaultAttachment)}
+              readonly={false}
+            />
           </Box>
         </Box>
       )}

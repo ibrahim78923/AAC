@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Html } from 'react-konva-utils';
 import Konva from 'konva';
+import ClearIcon from '@mui/icons-material/Clear';
 
 interface TextEditorProps {
   textNode: Konva.Text;
@@ -146,9 +147,8 @@ const TextEditor = ({
             borderRadius: '4px',
             padding: '0',
             cursor: 'pointer',
-            fontSize: '12px',
+            fontSize: '16px',
             fontWeight: 'bold',
-            display: 'inline-block',
             verticalAlign: 'top',
             margin: 0,
             position: 'absolute',
@@ -156,9 +156,12 @@ const TextEditor = ({
             top: '-20px',
             height: '20px',
             width: '20px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
-          ×
+          <ClearIcon sx={{ fontSize: '1rem' }} />
         </button>
       </div>
     </Html>

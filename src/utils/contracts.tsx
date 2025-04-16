@@ -151,6 +151,41 @@ export const createSigneesFormData = (signees: any, update: boolean) => {
   return formData.length ? JSON.stringify(formData) : null;
 };
 
+export const createPDFSigneeFormData = (signees: any) => {
+  if (!Array.isArray(signees) || signees.length === 0) return null;
+
+  const formData = signees
+    .map((signee: any) => {
+      if (!signee || typeof signee !== 'object') return null;
+
+      const formattedSignee: any = {};
+      const setValue = (key: string, value: any) => {
+        formattedSignee[key] =
+          value === null ||
+          value === undefined ||
+          (typeof value === 'string' && value.trim() === '')
+            ? null
+            : value;
+      };
+
+      if (signee?._id) setValue('id', signee?._id);
+      setValue('signingOrder', Number(signee?.signingOrder));
+      setValue('name', signee?.name);
+      setValue('email', signee?.email);
+      setValue('personalTitle', signee?.personalTitle);
+      // setValue('phoneNumber', signee?.phoneNumber);
+      setValue('moduleId', signee?.moduleId);
+      setValue('moduleType', signee?.moduleType);
+      setValue('signatureStatus', signee?.signatureStatus);
+      setValue('signatureType', signee?.signatureType);
+
+      return formattedSignee;
+    })
+    .filter(Boolean);
+
+  return formData.length ? JSON.stringify(formData) : null;
+};
+
 export const createCollaboratorsFormData = (collaborators: any) => {
   if (!Array.isArray(collaborators) || collaborators.length === 0) return null;
 
@@ -258,4 +293,66 @@ export const isValidDate = (value: any): boolean => {
     return dayjs(value, ['YYYY-MM-DD', 'YYYY-MM-DDTHH:mm:ssZ'], true).isValid();
   }
   return false;
+};
+
+export const textComponentsFormData = (textComponents: any) => {
+  if (!Array.isArray(textComponents) || textComponents.length === 0)
+    return null;
+
+  const formData = textComponents
+    .map((textComponent: any) => {
+      if (!textComponent || typeof textComponent !== 'object') return null;
+
+      const formattedTextComponent: any = {};
+      const setValue = (key: string, value: any) => {
+        formattedTextComponent[key] =
+          value === null ||
+          value === undefined ||
+          (typeof value === 'string' && value.trim() === '')
+            ? null
+            : value;
+      };
+
+      if (textComponent?._id) setValue('id', textComponent?._id);
+      setValue('text', textComponent?.text);
+      setValue('x', textComponent?.x);
+      setValue('y', textComponent?.y);
+      setValue('page', textComponent?.page);
+
+      return formattedTextComponent;
+    })
+    .filter(Boolean);
+
+  return formData.length ? JSON.stringify(formData) : null;
+};
+
+export const signatureComponentsFormData = (signatureComponents: any) => {
+  if (!Array.isArray(signatureComponents) || signatureComponents.length === 0)
+    return null;
+
+  const formData = signatureComponents
+    .map((signatureComponent: any) => {
+      if (!signatureComponent || typeof signatureComponent !== 'object')
+        return null;
+
+      const formattedSignatureComponent: any = {};
+      const setValue = (key: string, value: any) => {
+        formattedSignatureComponent[key] =
+          value === null ||
+          value === undefined ||
+          (typeof value === 'string' && value.trim() === '')
+            ? null
+            : value;
+      };
+
+      setValue('x', signatureComponent?.x);
+      setValue('y', signatureComponent?.y);
+      setValue('page', signatureComponent?.page);
+      setValue('signee', signatureComponent?.signee);
+
+      return formattedSignatureComponent;
+    })
+    .filter(Boolean);
+
+  return formData.length ? JSON.stringify(formData) : null;
 };

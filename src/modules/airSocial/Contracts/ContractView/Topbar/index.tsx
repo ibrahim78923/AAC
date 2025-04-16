@@ -6,13 +6,15 @@ import { ENUM_CONTRACT_STATUS } from '@/utils/contracts';
 interface TopbarProps {
   title: string;
   status: string;
-  handleOpenModalSignAndSend: () => void;
+  handleOpenModalSignAndSend: (_?: any, data?: any) => void;
+  contractType?: string;
 }
 
 export default function Topbar({
   title,
   status,
   handleOpenModalSignAndSend,
+  contractType,
 }: TopbarProps) {
   return (
     <Box sx={styles.toolbar}>
@@ -23,7 +25,7 @@ export default function Topbar({
       </Box>
 
       <Box sx={styles.right}>
-        {status === ENUM_CONTRACT_STATUS?.PENDING && (
+        {status === ENUM_CONTRACT_STATUS?.PENDING && contractType !== 'PDF' && (
           <Button
             onClick={handleOpenModalSignAndSend}
             variant="contained"

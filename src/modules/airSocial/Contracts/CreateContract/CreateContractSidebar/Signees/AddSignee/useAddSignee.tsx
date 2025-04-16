@@ -2,10 +2,11 @@ import { useForm, useFieldArray } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema } from './AddSignee.data';
 import { ENUM_SIGNATURE_TYPE } from '@/utils/contracts';
-import { isNullOrEmpty } from '@/utils';
-import { errorSnackbar } from '@/utils/api';
 
-export default function useAddSignee(handleCloseModal: () => void) {
+export default function useAddSignee(
+  handleCloseModal: () => void,
+  isEditMode: boolean,
+) {
   const {
     fields: signeeFields,
     append: appendSignee,
@@ -17,14 +18,19 @@ export default function useAddSignee(handleCloseModal: () => void) {
 
   const SIGNING_ORDER = Number(signeeFields?.length + 1);
 
+  const existingEmails = signeeFields.map(
+    (signee: any) => signee?.email?.toLowerCase(),
+  );
+
   const methods = useForm<any>({
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver(validationSchema(existingEmails, isEditMode)),
     defaultValues: {
       signingOrder: SIGNING_ORDER,
-      onBehalfOf: null,
-      personalTitle: '',
       signeeName: '',
       signeeEmail: '',
+      personalTitle: '',
+      phoneNumber: '',
+      company: null,
     },
   });
 
@@ -35,12 +41,8 @@ export default function useAddSignee(handleCloseModal: () => void) {
   //   }, [signeeFields, SIGNING_ORDER, reset]);
 
   const onSubmitAddSignee = async (values: any) => {
-    if (isNullOrEmpty(values.signeeName) || isNullOrEmpty(values.signeeEmail)) {
-      errorSnackbar('Please Enter Name and Email');
-      return;
-    }
     const existingSigneeIndex = signeeFields.findIndex(
-      (signee) => signee.email === values.signeeEmail,
+      (signee: any) => signee.email === values.signeeEmail,
     );
 
     if (existingSigneeIndex !== -1) {
@@ -55,13 +57,15 @@ export default function useAddSignee(handleCloseModal: () => void) {
     } else {
       // Add new signee
       appendSignee({
-        personalTitle: values?.personalTitle,
-        name: values?.signeeName,
-        email: values?.signeeEmail,
-        signatureStatus: 'PENDING',
-        signatureType: ENUM_SIGNATURE_TYPE?.CLICK,
+        signingOrder: values?.signingOrder,
+        name: values.signeeName,
+        email: values.signeeEmail,
+        personalTitle: values.personalTitle,
         phoneNumber: values?.phoneNumber,
         moduleId: values?.company?._id,
+        moduleType: 'COMPANIES',
+        signatureStatus: 'PENDING',
+        signatureType: ENUM_SIGNATURE_TYPE?.DRAW,
       });
     }
 

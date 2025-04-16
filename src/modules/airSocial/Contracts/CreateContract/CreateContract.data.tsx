@@ -23,7 +23,6 @@ export const validationSchema = () => {
     //     // referredAs: Yup?.string()?.trim()?.required('Field is Required'),
     //   }),
     // ),
-
   });
 };
 
@@ -70,6 +69,7 @@ export const defaultValues = (data: any) => {
     name: data?.name ?? '',
     folderId: data?.folderId ?? null,
     attachment: data?.attachment ?? null,
+    latestAttachment: data?.latestAttachment ?? null,
     message: data?.message ?? '',
     visibleTo: data?.visibleTo ?? 'EVERYONE',
     logo,

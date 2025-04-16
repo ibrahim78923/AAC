@@ -15,10 +15,15 @@ import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
   createPartiesFormData,
   createSigneesFormData,
+  createPDFSigneeFormData,
+  textComponentsFormData,
+  signatureComponentsFormData,
   ENUM_SIGNATURE_TYPE,
 } from '@/utils/contracts';
 import { AIR_SOCIAL_CONTRACTS } from '@/constants/routes';
 import dayjs from 'dayjs';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 type DynamicField = {
   id?: string;
@@ -34,6 +39,13 @@ type DynamicField = {
 export default function useCreateContract() {
   /* VARIABLE DECLERATION
   -------------------------------------------------------------------------------------*/
+  const textComponents = useSelector(
+    (state: RootState) => state.airSocialPdfContract.textComponents,
+  );
+  const signatureComponents = useSelector(
+    (state: RootState) => state.airSocialPdfContract.signatureComponents,
+  );
+
   const router = useRouter();
   const { templateId, folderId, contractId, contractType } = router?.query;
   const [activeView, setActiveView] = useState<string>('create');
@@ -156,14 +168,24 @@ export default function useCreateContract() {
       }
     };
     createFormData('name', values?.name);
-    createFormData('latestAttachment', values?.attachment);
+    createFormData('attachment', values?.attachment);
     createFormData('message', values?.message);
     createFormData('logo', values?.logo);
     createFormData('parties', createPartiesFormData(values?.parties, false));
-    createFormData('signees', createSigneesFormData(values?.signees, false));
+    if (!contractType) {
+      createFormData('signees', createSigneesFormData(values?.signees, false));
+    }
     createFormData('dynamicFields', JSON.stringify(values?.dynamicFields));
+
     if (contractType && contractType === 'PDF') {
+      createFormData('latestAttachment', values?.latestAttachment);
       createFormData('contractType', 'PDF');
+      createFormData('textComponent', textComponentsFormData(textComponents));
+      createFormData(
+        'signatureComponent',
+        signatureComponentsFormData(signatureComponents),
+      );
+      createFormData('signees', createPDFSigneeFormData(values?.signees));
     }
 
     if (saveAs === 'template') {
@@ -175,11 +197,7 @@ export default function useCreateContract() {
         router.back();
         reset();
       } catch (error: any) {
-        const errorMessage =
-          error?.data?.message ||
-          error?.error ||
-          'An unexpected error occurred';
-        errorSnackbar(`An error occurred: ${errorMessage}`);
+        errorSnackbar(`An error occured: ${error?.data?.message}`);
       }
     }
     if (saveAs === 'draft') {
@@ -196,7 +214,7 @@ export default function useCreateContract() {
         router.push(AIR_SOCIAL_CONTRACTS?.CONTRACTS);
         reset();
       } catch (error: any) {
-        errorSnackbar(`An error occured: ${error}`);
+        errorSnackbar(`An error occured: ${error?.data?.message}`);
       }
     }
     if (saveAs === 'sign') {
@@ -215,7 +233,7 @@ export default function useCreateContract() {
         router.push(AIR_SOCIAL_CONTRACTS?.CONTRACTS);
         reset();
       } catch (error: any) {
-        errorSnackbar(`An error occured: ${error?.message}`);
+        errorSnackbar(`An error occured: ${error?.data?.message}`);
       }
     }
   };
@@ -244,12 +262,25 @@ export default function useCreateContract() {
       }
     };
     createFormData('name', values?.name);
-    createFormData('attachment', values?.attachment);
+
     createFormData('message', values?.message);
     createFormData('logo', values?.logo);
     createFormData('parties', createPartiesFormData(values?.parties, true));
-    createFormData('signees', createSigneesFormData(values?.signees, true));
+    if (!contractType) {
+      createFormData('signees', createSigneesFormData(values?.signees, true));
+    }
     createFormData('dynamicFields', JSON.stringify(values?.dynamicFields));
+    createFormData('attachment', values?.attachment);
+    if (contractType && contractType === 'PDF') {
+      createFormData('latestAttachment', values?.latestAttachment);
+      createFormData('contractType', 'PDF');
+      createFormData('textComponent', textComponentsFormData(textComponents));
+      createFormData(
+        'signatureComponent',
+        signatureComponentsFormData(signatureComponents),
+      );
+      createFormData('signees', createPDFSigneeFormData(values?.signees));
+    }
 
     if (!contractId) {
       try {
@@ -474,6 +505,7 @@ export default function useCreateContract() {
     router,
     contractId,
     templateId,
+    contractType,
     activeView,
     handlePreviewToggle,
 

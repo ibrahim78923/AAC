@@ -28,7 +28,6 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
   };
   const { data: taxCalculation } = useGetTaxCalculationsQuery(param);
 
-
   return (
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
@@ -245,7 +244,6 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
               </Typography>
               <Typography variant="body1" sx={{ textTransform: 'lowercase' }}>
                 {isGetRowValues?.billingCycle}
-
               </Typography>
             </Box>
           </Box>
@@ -254,7 +252,6 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
           <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
             <Typography variant="caption">
               Invoice Date:{' '}
-
               {isGetRowValues?.billingDate
                 ? new Date(isGetRowValues?.billingDate)?.toLocaleDateString(
                     'en-GB',
@@ -269,7 +266,6 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
               <Typography variant="overline">
                 £ {isGetRowValues?.plans?.planPrice}
               </Typography>
-
             </Box>
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
@@ -283,7 +279,6 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
                 {isGetRowValues?.additionalUsers *
                   isGetRowValues?.plans?.additionalPerUserPrice}
               </Typography>
-
             </Box>
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
@@ -297,7 +292,6 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
                 {isGetRowValues?.additionalStorage *
                   isGetRowValues?.plans?.additionalStoragePrice}
               </Typography>
-
             </Box>
           </Box>
 
@@ -319,7 +313,6 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
                   isGetRowValues?.subtotal
                 )?.toFixed(2)}
               </Typography>
-
             </Box>
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center', my: '15px' }}>
@@ -340,7 +333,6 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
                   isGetRowValues?.total
                 )?.toFixed(2)}
               </Typography>
-
             </Box>
           </Box>
           <Divider />
@@ -357,7 +349,6 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
                   isGetRowValues?.total
                 )?.toFixed(2)}
               </Typography>
-
             </Box>
           </Box>
         </Box>

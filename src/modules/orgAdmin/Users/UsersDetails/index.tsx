@@ -106,7 +106,6 @@ const UsersDetails = (props: UsersDetailsProps) => {
                           </Button>
                         </PermissionsGuard>
                       )}
-
                     </>
                   }
                 >

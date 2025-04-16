@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ITextComponent, ISignatureComponent, ISignee } from './types';
 
-
 // Define the initial state with type
 interface IAirSocialPdfContractState {
   textComponents: ITextComponent[];
@@ -12,7 +11,6 @@ interface IAirSocialPdfContractState {
     width: number;
     height: number;
   } | null;
-
 }
 
 const initialState: IAirSocialPdfContractState = {
@@ -21,7 +19,6 @@ const initialState: IAirSocialPdfContractState = {
   currentPage: 1,
   containerWidth: 612,
   pageDimensions: null,
-
 };
 
 const airSocialPdfContractSlice = createSlice({
@@ -38,7 +35,6 @@ const airSocialPdfContractSlice = createSlice({
     ) => {
       state.pageDimensions = action.payload;
     },
-
 
     setCurrentPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload;
@@ -88,7 +84,6 @@ const airSocialPdfContractSlice = createSlice({
     updateTextComponentContent: (
       state,
       action: PayloadAction<{ id: string; text: string }>,
-
     ) => {
       const textComponent = state.textComponents.find(
         (comp) => comp.id === action.payload.id,
@@ -129,7 +124,6 @@ const airSocialPdfContractSlice = createSlice({
         signee: action.payload.signee,
       });
     },
-
 
     updateSignaturePosition: (
       state,

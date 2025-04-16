@@ -12,7 +12,6 @@ export default function useContractView() {
   const [signature, setSignature] = useState<string | null>(null);
   const [signatureStatus, setSignatureStatus] = useState<string>('SIGNED');
   const [signatureMessage, setSignatureMessage] = useState<string>('');
-
   const { contractId, signeeId } = router?.query;
   const { data: dataContractById, isLoading: loadingGetContractById } =
     useGetPublicCommonContractByIdQuery(contractId, { skip: !contractId });
@@ -33,7 +32,16 @@ export default function useContractView() {
 
   const [openModalSignAndSend, setOpenModalSignAndSend] =
     useState<boolean>(false);
-  const handleOpenModalSignAndSend = () => {
+  const handleOpenModalSignAndSend = (_: any, data?: any) => {
+    if (currentSignee?.signatureStatus === 'SIGNED') return;
+
+    if (data) {
+      if (currentSignee?.email !== data?.email) {
+        errorSnackbar('You are not allowed to sign this contract');
+        return;
+      }
+    }
+
     setSignatureStatus('SIGNED');
     setOpenModalSignAndSend(true);
   };

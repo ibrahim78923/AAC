@@ -176,7 +176,7 @@ export default function Signees({
             <Box sx={styles?.icon}>
               <IconPlusAddContractsFields />
             </Box>
-            Create new assignee
+            Create new signee
           </MenuItem>
         </Menu>
       </Box>

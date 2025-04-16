@@ -14,7 +14,6 @@ const BuyerCompany = ({ viewQuotesData }: any) => {
             justifyContent="space-between"
             flexWrap="wrap"
             sx={{ padding: '0px 10px 0px', m: 0 }}
-
           >
             <Grid item xs={12} sm={6} md={4} lg={3} sx={{ p: 0, m: 0 }}>
               <Box display="flex" gap={1}>
@@ -62,7 +61,6 @@ const BuyerCompany = ({ viewQuotesData }: any) => {
               lg={3}
               sx={{ p: 0, m: 0, minWidth: 'fit-content' }}
             >
-
               <Typography
                 variant="h5"
                 color={theme?.palette?.common?.white}

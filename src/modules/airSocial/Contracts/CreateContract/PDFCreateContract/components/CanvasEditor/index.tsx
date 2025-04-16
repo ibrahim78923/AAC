@@ -1,9 +1,10 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { Stage, Layer } from 'react-konva';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/redux/store';
 import EditableText from './EditableText';
 import EditableSignature from './EditableSignature';
+import Konva from 'konva';
 import {
   updateTextComponentPosition,
   updateTextComponentContent,
@@ -17,6 +18,9 @@ interface CanvasEditorProps {
   pageWidth: number;
   pageHeight: number;
   scale: number;
+  readonly?: boolean;
+  onSignatureClick?: () => void;
+  signees?: any;
 }
 
 const CanvasEditor = ({
@@ -24,7 +28,11 @@ const CanvasEditor = ({
   pageWidth,
   pageHeight,
   scale,
+  readonly = false,
+  onSignatureClick,
+  signees,
 }: CanvasEditorProps) => {
+  const stageRef = useRef<Konva.Stage>(null);
   const dispatch = useDispatch();
   const [selectedId, setSelectedId] = React.useState<string | null>(null);
   const [selectedType, setSelectedType] = React.useState<
@@ -42,6 +50,25 @@ const CanvasEditor = ({
           (c) => c.page === page,
         ),
     }),
+  );
+
+  // Manipulate singature components if signees have signatureAttachment
+  const signatureComponentsWithAttachment = signatureComponents.map(
+    (component: any) => {
+      const matchingSignee = signees?.find(
+        (s: any) => s.email === component?.signee?.email,
+      );
+      if (matchingSignee && matchingSignee.signatureAttachment) {
+        return {
+          ...component,
+          signee: {
+            ...component.signee,
+            signatureAttachment: matchingSignee?.signatureAttachment,
+          },
+        };
+      }
+      return component;
+    },
   );
 
   // const handleTextChange = (id: string, newText: string) => {
@@ -79,6 +106,7 @@ const CanvasEditor = ({
 
   return (
     <Stage
+      ref={stageRef}
       width={pageWidth}
       height={pageHeight}
       style={{
@@ -98,36 +126,45 @@ const CanvasEditor = ({
             y={item.y * scale}
             // text={item.text}
             isSelected={selectedId === item.id && selectedType === 'text'}
-            onSelect={() => handleSelect('text', item.id)}
+            onSelect={() => !readonly && handleSelect('text', item.id)}
             onTextChange={(text) =>
+              !readonly &&
               dispatch(updateTextComponentContent({ id: item.id, text }))
             }
             onPositionChange={(x, y) =>
-              handlePositionChange('text')(item.id, x, y)
+              !readonly && handlePositionChange('text')(item.id, x, y)
             }
             onDelete={() => handleDelete('text')(item.id)}
             pageWidth={pageWidth}
             pageHeight={pageHeight}
+            readonly={readonly}
           />
         ))}
 
         {/* Render signature components */}
-        {signatureComponents.map((item) => (
-          <EditableSignature
-            key={`signature-${item.id}`}
-            {...item}
-            x={item.x * scale}
-            y={item.y * scale}
-            isSelected={selectedId === item.id && selectedType === 'signature'}
-            onSelect={() => handleSelect('signature', item.id)}
-            onPositionChange={(x, y) =>
-              handlePositionChange('signature')(item.id, x, y)
-            }
-            onDelete={() => handleDelete('signature')(item.id)}
-            pageWidth={pageWidth}
-            pageHeight={pageHeight}
-          />
-        ))}
+        {signatureComponentsWithAttachment.map((item) => {
+          return (
+            <EditableSignature
+              key={`signature-${item.id}`}
+              {...item}
+              x={item.x * scale}
+              y={item.y * scale}
+              isSelected={
+                selectedId === item.id && selectedType === 'signature'
+              }
+              onSelect={() => !readonly && handleSelect('signature', item.id)}
+              onPositionChange={(x, y) =>
+                !readonly && handlePositionChange('signature')(item.id, x, y)
+              }
+              onDelete={() => !readonly && handleDelete('signature')(item.id)}
+              pageWidth={pageWidth}
+              pageHeight={pageHeight}
+              stageRef={stageRef}
+              readonly={readonly}
+              onSignatureClick={onSignatureClick}
+            />
+          );
+        })}
       </Layer>
     </Stage>
   );
