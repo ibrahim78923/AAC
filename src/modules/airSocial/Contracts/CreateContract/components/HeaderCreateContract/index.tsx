@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { Box, Button, Divider, Menu, MenuItem } from '@mui/material';
+import { Box, Button, Menu, MenuItem } from '@mui/material';
 import { styles } from './HeaderCreateContract.style';
 import {
   IconPlainBack,
@@ -9,6 +9,7 @@ import {
 } from '@/assets/icons';
 import useHeaderCreateContract from './useHeaderCreateContract';
 import ModalShareContract from '../ModalShareContract';
+import { ENUM_CONTRACT_STATUS } from '@/utils/contracts';
 
 interface HeaderCreateContractProps {
   documentTitle: string;
@@ -60,93 +61,94 @@ export default function HeaderCreateContract({
 
           <Box sx={styles.headerTitle}>{documentTitle}</Box>
 
-          {!!!templateId && <Box sx={styles.statusBadge}>{documentStatus}</Box>}
+          {!!!templateId && (
+            <Box sx={styles.statusBadge(documentStatus)}>{documentStatus}</Box>
+          )}
         </Box>
-
-        <Box sx={styles.right}>
-          {!!contractId && (
+        {documentStatus === ENUM_CONTRACT_STATUS.DRAFT && (
+          <Box sx={styles.right}>
+            {!!contractId && (
+              <Button
+                onClick={() => setOpenModalShareContract(true)}
+                startIcon={<IconContractShare />}
+                variant="outlined"
+                color="secondary"
+                className="small"
+              >
+                Share
+              </Button>
+            )}
             <Button
-              onClick={() => setOpenModalShareContract(true)}
-              startIcon={<IconContractShare />}
+              id="more-menu-button"
+              aria-controls={openMoreMenu ? 'contracts-more-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={openMoreMenu ? 'true' : undefined}
+              onClick={handleClickMoreMenu}
               variant="outlined"
               color="secondary"
               className="small"
             >
-              Share
+              <IconContractMore />
             </Button>
-          )}
-          <Button
-            id="more-menu-button"
-            aria-controls={openMoreMenu ? 'contracts-more-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={openMoreMenu ? 'true' : undefined}
-            onClick={handleClickMoreMenu}
-            variant="outlined"
-            color="secondary"
-            className="small"
-          >
-            <IconContractMore />
-          </Button>
-          <Menu
-            id="contracts-more-menu"
-            anchorEl={anchorElMoreMenu}
-            open={openMoreMenu}
-            onClose={handleCloseMoreMenu}
-            MenuListProps={{
-              'aria-labelledby': 'more-menu-button',
-            }}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'right',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-          >
-            <MenuItem onClick={handleCloseMoreMenu}>Download pdf</MenuItem>
-            <MenuItem
-              onClick={() => {
-                handleCloseMoreMenu();
-                onClickSaveAsDraft();
+            <Menu
+              id="contracts-more-menu"
+              anchorEl={anchorElMoreMenu}
+              open={openMoreMenu}
+              onClose={handleCloseMoreMenu}
+              MenuListProps={{
+                'aria-labelledby': 'more-menu-button',
               }}
-              disabled={disabledSaveAsDraft}
-            >
-              Save as a new draft
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                handleCloseMoreMenu();
-                onClickSaveAsTemplate();
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
               }}
-              disabled={disabledSaveAsTemplate}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
             >
-              Save as a new template
-            </MenuItem>
-          </Menu>
+              <MenuItem onClick={handleCloseMoreMenu}>Download pdf</MenuItem>
+              <MenuItem
+                onClick={() => {
+                  handleCloseMoreMenu();
+                  onClickSaveAsDraft();
+                }}
+                disabled={disabledSaveAsDraft}
+              >
+                Save as a new draft
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  handleCloseMoreMenu();
+                  onClickSaveAsTemplate();
+                }}
+                disabled={disabledSaveAsTemplate}
+              >
+                Save as a new template
+              </MenuItem>
+            </Menu>
 
-          <Divider orientation="vertical" flexItem />
+            <Button
+              onClick={onClickSave}
+              variant="outlined"
+              color="secondary"
+              className="small"
+              disabled={disabledSaveChanges}
+            >
+              Save Changes
+            </Button>
 
-          <Button
-            onClick={onClickSave}
-            variant="outlined"
-            color="secondary"
-            className="small"
-            disabled={disabledSaveChanges}
-          >
-            Save Changes
-          </Button>
-
-          <Button
-            onClick={onClickSign}
-            variant="contained"
-            color="primary"
-            className="small"
-            disabled={disabledSignAndSend}
-          >
-            Sign & Send
-          </Button>
-        </Box>
+            <Button
+              onClick={onClickSign}
+              variant="contained"
+              color="primary"
+              className="small"
+              disabled={disabledSignAndSend}
+            >
+              Sign & Send
+            </Button>
+          </Box>
+        )}
       </Box>
 
       <ModalShareContract

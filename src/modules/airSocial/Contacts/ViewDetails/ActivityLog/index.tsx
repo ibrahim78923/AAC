@@ -52,9 +52,14 @@ const ActivityLog = ({ contactId }: any) => {
                   <Box sx={styles?.logImage}>
                     <Image src={CalendarActiveImage} alt="image" />
                   </Box>
+
                   <Box>
                     <Box sx={styles?.logTitle}>
-                      <Box component="span">{item?.moduleName}</Box>{' '}
+                      <Box component="span">"{item?.moduleName}"</Box>
+                      <Box component="span" sx={styles?.module}>
+                        {' '}
+                        {item?.module} was{' '}
+                      </Box>
                       <Box component="span" sx={styles?.activityType}>
                         {item?.activityType}
                       </Box>{' '}

@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { addNoteValidationSchema, addNoteDefaultValues } from './Notes.data';
 import { AddNoteI } from './Notes.interface';
+
 const useNotes = (singleContactId: any) => {
   // Action Dropdown
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -127,10 +128,32 @@ const useNotes = (singleContactId: any) => {
 
   const onSubmitEditNote = async (values: any, contactId: any) => {
     const formData = new FormData();
-    formData?.append('contactId', contactId);
-    formData?.append('title', values?.title);
-    formData?.append('description', values?.description);
-    formData?.append('attachment', values?.attachment);
+    const originalNote = selectedCheckboxes[0];
+    // Always include contactId
+    formData.append('contactId', contactId);
+
+    if (values.title !== originalNote.title) {
+      formData.append('title', values.title);
+    }
+
+    if (values.description !== originalNote.description) {
+      formData.append('description', values.description);
+    }
+
+    if (values.attachment) {
+      // If attachment is a File object (new upload)
+      if (values.attachment instanceof File) {
+        formData.append('attachment', values.attachment);
+      }
+      // If attachment is a string (existing file) but different from original
+      else if (
+        typeof values.attachment === 'string' &&
+        values.attachment !== originalNote.attachment
+      ) {
+        formData.append('attachment', values.attachment);
+      }
+    }
+
     try {
       await updateNote({
         id: selectedCheckboxes[0]?._id,

@@ -23,6 +23,7 @@ export default function DefaultAttachment({ contractData }: any) {
   const dispatch = useDispatch();
   const { watch, setValue } = useFormContext();
   const defaultAttachment = watch('latestAttachment');
+  const contractStaus = contractData?.status || 'DRAFT';
 
   useEffect(() => {
     dispatch(setTextComponents(contractData?.textComponent || []));
@@ -95,7 +96,7 @@ export default function DefaultAttachment({ contractData }: any) {
           <Box>
             <PDFViewer
               pdfFile={generateSrc(defaultAttachment)}
-              readonly={false}
+              readonly={contractStaus === 'DRAFT' ? false : true}
             />
           </Box>
         </Box>

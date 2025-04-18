@@ -22,7 +22,7 @@ import Preview from './Preview';
 import PDFCreateContract from './PDFCreateContract';
 import ModalSignAndSend from './components/ModalSignAndSend';
 import ModalTemplateCategories from './components/ModalTemplateCategories';
-import { ENUM_CONTRACT_TYPE } from '@/utils/contracts';
+import { ENUM_CONTRACT_STATUS, ENUM_CONTRACT_TYPE } from '@/utils/contracts';
 // import ModalAddSignee from './components/ModalAddSignee';
 
 export default function CreateContract() {
@@ -135,7 +135,9 @@ export default function CreateContract() {
       <PlainHeader>
         <HeaderCreateContract
           documentTitle={contractDetailsData?.name || 'Untitled Draft'}
-          documentStatus={contractDetailsData?.status || 'Draft'}
+          documentStatus={
+            contractDetailsData?.status || ENUM_CONTRACT_STATUS?.DRAFT
+          }
           sharedWithUsers={contractDetailsData?.sharedWithUsers}
           onClickSave={handleSubmitUpdateContract(false)}
           // onClickSign={handleOpenModalSignAndSend}

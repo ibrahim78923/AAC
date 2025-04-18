@@ -82,7 +82,11 @@ export const styles = {
   logPerformedBy: (theme: any) => ({
     color: theme?.palette?.primary?.main,
   }),
-  activityType: () => ({
+  activityType: (theme: any) => ({
+    textTransform: 'lowercase',
+    color: theme?.palette?.primary?.main,
+  }),
+  module: () => ({
     textTransform: 'lowercase',
   }),
 };
