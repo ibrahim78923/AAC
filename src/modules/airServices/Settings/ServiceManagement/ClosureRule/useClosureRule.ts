@@ -80,7 +80,7 @@ export const useClosureRule = () => {
 
     if (resolveIncident) {
       if (!getValues('resolveIncidentClosedResolved')) {
-        setValue('resolveIncidentClosedResolved', 'IncidentResolveClosed');
+        setValue('resolveIncidentClosedResolved', 'IncidentResolveEither');
       }
     } else {
       setValue('resolveIncidentClosedResolved', '');
@@ -96,7 +96,7 @@ export const useClosureRule = () => {
 
     if (serviceResolve) {
       if (!getValues('serviceResolveClosedResolved')) {
-        setValue('serviceResolveClosedResolved', 'ServiceCloseClosed');
+        setValue('serviceResolveClosedResolved', 'ServiceCloseEither');
       }
     } else {
       setValue('serviceResolveClosedResolved', '');
@@ -169,7 +169,7 @@ export const useClosureRule = () => {
       };
       try {
         await postClosureRuleTrigger(payload).unwrap();
-        successSnackbar('Closure Rule Added Successfully');
+        successSnackbar('Closure rule added successfully');
         handleBack();
         reset();
       } catch (error) {

@@ -66,12 +66,18 @@ export const useUpdateTicketStatus = () => {
     };
 
     try {
-      await patchBulkUpdateTicketsTrigger(apiDataParameter)?.unwrap();
-      successSnackbar(
-        `Ticket marked as ${isPortalOpen?.status?.toLowerCase()} successfully`,
-      );
+      const response =
+        await patchBulkUpdateTicketsTrigger(apiDataParameter)?.unwrap();
+      const hasErrors = response?.data?.errors?.length;
+      if (hasErrors) {
+        errorSnackbar(response?.data?.errors);
+      } else {
+        successSnackbar(
+          `Ticket marked as ${isPortalOpen?.status?.toLowerCase()} successfully`,
+        );
+        await refetchApi?.();
+      }
       closeModal?.();
-      await refetchApi?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

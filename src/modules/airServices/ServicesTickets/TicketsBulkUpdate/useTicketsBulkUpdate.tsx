@@ -104,11 +104,18 @@ export const useTicketBulkUpdate = () => {
     };
 
     try {
-      await patchBulkUpdateTicketsTrigger(bulkUpdateTicketsParameter)?.unwrap();
+      const response = await patchBulkUpdateTicketsTrigger(
+        bulkUpdateTicketsParameter,
+      )?.unwrap();
       if (!!data?.to?.length && !!data?.description) {
         await submitReply?.(data);
       }
-      successSnackbar('Ticket updated successfully');
+      const hasErrors = response?.data?.errors?.length;
+      if (hasErrors) {
+        errorSnackbar(response?.data?.errors);
+      } else {
+        successSnackbar('Ticket updated successfully');
+      }
       onClose();
       await refetchApi();
     } catch (error: any) {
