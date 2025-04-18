@@ -197,65 +197,71 @@ export default function Signees({
             sx={styles?.signeeDetails}
             key={signee?._id || `signee-${index}`}
           >
-            <UserProfileIcon />
-            <Box sx={styles?.signeeInfo}>
-              <Box sx={styles?.signeeName}>{signee?.name}</Box>
-              <Box sx={styles?.signeeMeta}>{signee?.email}</Box>
+            <Box sx={{ height: '40px', width: '40px' }}>
+              <UserProfileIcon />
             </Box>
-            {router?.query?.contractType === ENUM_CONTRACT_TYPE?.PDF && (
-              <IconButton onClick={(event) => handleClickOption(event, index)}>
-                <MoreHorizIcon />
-              </IconButton>
-            )}
-            <Menu
-              anchorEl={anchorElOption}
-              open={openOption}
-              onClose={handleCloseOption}
-              slotProps={{
-                paper: {
-                  sx: {
-                    padding: '10px',
-                    boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
+            <Box sx={styles?.signeeInfoWrap}>
+              <Box sx={styles?.signeeInfo}>
+                <Box sx={styles?.signeeName}>{signee?.name}</Box>
+                <Box sx={styles?.signeeMeta}>{signee?.email}</Box>
+              </Box>
+              {router?.query?.contractType === ENUM_CONTRACT_TYPE?.PDF && (
+                <IconButton
+                  onClick={(event) => handleClickOption(event, index)}
+                >
+                  <MoreHorizIcon />
+                </IconButton>
+              )}
+              <Menu
+                anchorEl={anchorElOption}
+                open={openOption}
+                onClose={handleCloseOption}
+                slotProps={{
+                  paper: {
+                    sx: {
+                      padding: '10px',
+                      boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
+                    },
                   },
-                },
-              }}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-            >
-              <MenuItem onClick={handleOpenEditSigneeModal}>Edit</MenuItem>
-              <MenuItem
-                onClick={() => {
-                  handleMoveUp(selectedIndex);
-                  setAnchorElOption(null);
+                }}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'right',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
                 }}
               >
-                Move up
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  handleMoveDown(selectedIndex);
-                  setAnchorElOption(null);
-                }}
-              >
-                {' '}
-                Move Down
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  handleDeleteSigneeCard(selectedIndex);
-                  setAnchorElOption(null);
-                }}
-              >
-                {' '}
-                Delete
-              </MenuItem>
-            </Menu>
+                <MenuItem onClick={handleOpenEditSigneeModal}>Edit</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    handleMoveUp(selectedIndex);
+                    setAnchorElOption(null);
+                  }}
+                >
+                  Move up
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    handleMoveDown(selectedIndex);
+                    setAnchorElOption(null);
+                  }}
+                >
+                  {' '}
+                  Move Down
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    handleDeleteSigneeCard(selectedIndex);
+                    setAnchorElOption(null);
+                  }}
+                >
+                  {' '}
+                  Delete
+                </MenuItem>
+              </Menu>
+            </Box>
           </Box>
         ))}
       </Box>

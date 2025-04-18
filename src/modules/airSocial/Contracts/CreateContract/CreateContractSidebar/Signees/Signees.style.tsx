@@ -13,6 +13,7 @@ export const styles = {
     gap: '12px',
     padding: '14px 18px',
     borderBottom: `1px solid ${theme?.palette?.divider}`,
+    minWidth: '0',
   }),
   signeeAvatar: (theme: Theme) => ({
     width: '40px',
@@ -20,6 +21,11 @@ export const styles = {
     backgroundColor: theme?.palette?.primary?.main,
     fontSize: '14px',
   }),
+  signeeInfoWrap: {
+    flex: '1',
+    display: 'flex',
+    gap: '10px',
+  },
   signeeInfo: {
     flex: '1',
   },
@@ -34,6 +40,9 @@ export const styles = {
     fontWeight: '400',
     lineHeight: '1.25',
     color: theme?.palette?.custom?.light,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   }),
 
   signingOrder: {

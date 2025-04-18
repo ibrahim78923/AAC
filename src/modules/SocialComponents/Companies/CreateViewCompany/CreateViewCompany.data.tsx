@@ -101,7 +101,7 @@ export const createViewArr = (teamIds: any) => {
           { value: 'PRIVATE', label: 'Private' },
           {
             value: 'MY_TEAM',
-            label: 'My Team (test)',
+            label: 'My Teams',
             disabled: !teamIds || teamIds?.length === 0,
           },
           { value: 'EVERYONE', label: 'Everyone' },

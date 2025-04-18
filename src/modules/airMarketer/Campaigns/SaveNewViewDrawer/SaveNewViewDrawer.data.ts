@@ -85,7 +85,7 @@ export const dataArray = () => {
         defaultValue: 'everyone',
         options: [
           { value: 'private', label: 'Private' },
-          { value: 'specific user or team', label: 'My Team' },
+          { value: 'specific user or team', label: 'My Teams' },
           { value: 'everyone', label: 'Everyone' },
         ],
       },

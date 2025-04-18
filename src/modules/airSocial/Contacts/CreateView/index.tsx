@@ -98,7 +98,7 @@ const CreateView = ({ open, onClose, changeRadio, sharedWithvalue }: any) => {
               <FormControlLabel
                 value={sharedWithOptions?.myTeam}
                 control={<Radio />}
-                label="My Teams (worked)"
+                label="My Teams"
                 disabled={!teamIds || teamIds?.length === 0}
               />
               <FormControlLabel

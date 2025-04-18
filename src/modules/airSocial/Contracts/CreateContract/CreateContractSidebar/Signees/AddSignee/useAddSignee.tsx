@@ -17,7 +17,6 @@ export default function useAddSignee(
   });
 
   const SIGNING_ORDER = Number(signeeFields?.length + 1);
-
   const existingEmails = signeeFields.map(
     (signee: any) => signee?.email?.toLowerCase(),
   );
@@ -25,7 +24,6 @@ export default function useAddSignee(
   const methods = useForm<any>({
     resolver: yupResolver(validationSchema(existingEmails, isEditMode)),
     defaultValues: {
-      signingOrder: SIGNING_ORDER,
       signeeName: '',
       signeeEmail: '',
       personalTitle: '',
@@ -57,7 +55,7 @@ export default function useAddSignee(
     } else {
       // Add new signee
       appendSignee({
-        signingOrder: values?.signingOrder,
+        signingOrder: SIGNING_ORDER,
         name: values.signeeName,
         email: values.signeeEmail,
         personalTitle: values.personalTitle,
