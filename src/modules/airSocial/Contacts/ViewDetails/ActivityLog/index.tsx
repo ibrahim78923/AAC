@@ -10,6 +10,7 @@ import { SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS } from '@/constants/permission-k
 import useActivityLog from './useActivityLog';
 import ApiErrorState from '@/components/ApiErrorState';
 import NoData from '@/components/NoData';
+import { capitalizeFirstLetter, normalizeLabel } from '@/utils/api';
 
 const ActivityLog = ({ contactId }: any) => {
   const { theme, data, isError, isFetching, isLoading, isSuccess } =
@@ -54,20 +55,46 @@ const ActivityLog = ({ contactId }: any) => {
                   </Box>
 
                   <Box>
-                    <Box sx={styles?.logTitle}>
-                      <Box component="span">"{item?.moduleName}"</Box>
-                      <Box component="span" sx={styles?.module}>
-                        {' '}
-                        {item?.module} was{' '}
-                      </Box>
-                      <Box component="span" sx={styles?.activityType}>
-                        {item?.activityType}
+                    <Typography variant="h5" sx={{ fontWeight: '400' }}>
+                      <Box component="span">{item?.performedByName}</Box>{' '}
+                      <Box
+                        component="span"
+                        sx={{ color: theme?.palette?.primary?.main }}
+                      >
+                        {capitalizeFirstLetter(item?.activityType)}
                       </Box>{' '}
-                      <Box component="span">by</Box>{' '}
-                      <Box component="span" sx={styles?.logPerformedBy}>
-                        {item?.performedByName}
-                      </Box>
-                    </Box>
+                      <Box
+                        component="span"
+                        sx={{ color: theme?.palette?.custom?.main }}
+                      >
+                        {normalizeLabel(item?.module)}
+                      </Box>{' '}
+                      <Box
+                        component="span"
+                        sx={{ color: theme?.palette?.primary?.main }}
+                      >
+                        {item?.moduleName}
+                      </Box>{' '}
+                      {['REMOVED', 'ASSOCIATED', 'UNASSOCIATED'].includes(
+                        item?.activityType,
+                      ) && (
+                        <>
+                          <Box component="span">with</Box>{' '}
+                          <Box
+                            component="span"
+                            sx={{ color: theme?.palette?.custom?.main }}
+                          >
+                            {normalizeLabel(item?.recordType)}
+                          </Box>{' '}
+                          <Box
+                            component="span"
+                            sx={{ color: theme?.palette?.primary?.main }}
+                          >
+                            {item?.recordData[0]?.name}
+                          </Box>
+                        </>
+                      )}
+                    </Typography>
                     <Typography
                       fontWeight={400}
                       fontSize="12px"

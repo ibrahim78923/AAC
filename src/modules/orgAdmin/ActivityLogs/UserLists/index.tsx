@@ -4,9 +4,11 @@ import { UserListI } from './UserList.interface';
 import { styles, renderLabelColors } from './UserList.style';
 import { v4 as uuidv4 } from 'uuid';
 import Link from 'next/link';
+import { normalizeLabel } from '@/utils/api';
 
 const UserLists = ({
   performedByName = '',
+  module = '',
   moduleName,
   label = '',
   time,
@@ -32,10 +34,17 @@ const UserLists = ({
             </Avatar>
             <Box>
               {/* This line is more modify WRF Backend data */}
+              {performedByName}
               <Link href={``}>
-                {performedByName}
                 <Box sx={{ textTransform: 'lowercase' }}>
-                  has {label}{' '}
+                  has{' '}
+                  <Box
+                    component={'span'}
+                    sx={{ color: (theme) => theme?.palette?.primary?.main }}
+                  >
+                    {label}
+                  </Box>{' '}
+                  {normalizeLabel(module)}
                   <Link href={``} style={styles?.msg}>
                     {' '}
                     {moduleName}{' '}

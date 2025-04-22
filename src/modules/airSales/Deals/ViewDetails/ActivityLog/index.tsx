@@ -8,7 +8,7 @@ import useActivitylog from './useActivitylog';
 import { DATE_TIME_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import { capitalizeFirstLetter } from '@/utils/api';
+import { capitalizeFirstLetter, normalizeLabel } from '@/utils/api';
 
 const ActivityLog = ({ selectedRecId }: any) => {
   const { theme } = useNameWithStyledWords();
@@ -42,56 +42,46 @@ const ActivityLog = ({ selectedRecId }: any) => {
                     />
                   </Box>
                   <Box sx={{ width: '50vw' }}>
-                    <Box sx={{ display: 'flex', gap: 0.5 }}>
-                      <Typography
-                        variant="h5"
-                        sx={{
-                          color: theme?.palette?.primary?.main,
-                          fontWeight: 400,
-                        }}
-                      >
-                        {item?.performedByName}
-                      </Typography>
-                      <Typography
-                        variant="h5"
-                        sx={{
-                          color: theme?.palette?.custom?.main,
-                          fontWeight: 400,
-                        }}
+                    <Typography variant="h5" sx={{ fontWeight: '400' }}>
+                      <Box component="span">{item?.performedByName}</Box>{' '}
+                      <Box
+                        component="span"
+                        sx={{ color: theme?.palette?.primary?.main }}
                       >
                         {capitalizeFirstLetter(item?.activityType)}
-                      </Typography>
-                      <Typography
-                        variant="h5"
-                        sx={{
-                          color: theme?.palette?.primary?.main,
-                          fontWeight: 400,
-                        }}
+                      </Box>{' '}
+                      <Box
+                        component="span"
+                        sx={{ color: theme?.palette?.custom?.main }}
+                      >
+                        {normalizeLabel(item?.module)}
+                      </Box>{' '}
+                      <Box
+                        component="span"
+                        sx={{ color: theme?.palette?.primary?.main }}
                       >
                         {item?.moduleName}
-                      </Typography>
-                      {item?.recordData[0]?.name && (
+                      </Box>{' '}
+                      {['REMOVED', 'ASSOCIATED', 'UNASSOCIATED'].includes(
+                        item?.activityType,
+                      ) && (
                         <>
-                          <Typography
-                            variant="h5"
-                            sx={{
-                              fontWeight: 400,
-                            }}
+                          <Box component="span">with</Box>{' '}
+                          <Box
+                            component="span"
+                            sx={{ color: theme?.palette?.custom?.main }}
                           >
-                            with
-                          </Typography>
-                          <Typography
-                            variant="h5"
-                            sx={{
-                              color: theme?.palette?.primary?.main,
-                              fontWeight: 400,
-                            }}
+                            {normalizeLabel(item?.recordType)}
+                          </Box>{' '}
+                          <Box
+                            component="span"
+                            sx={{ color: theme?.palette?.primary?.main }}
                           >
                             {item?.recordData[0]?.name}
-                          </Typography>
+                          </Box>
                         </>
                       )}
-                    </Box>
+                    </Typography>
                     <Typography
                       variant="body3"
                       sx={{ color: theme?.palette?.custom?.main }}

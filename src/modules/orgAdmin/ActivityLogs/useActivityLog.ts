@@ -90,6 +90,7 @@ const useActivityLog = () => {
             {
               id: log._id,
               performedByName: log.performedByName,
+              module: log.module,
               moduleName: log.moduleName,
               performedBy: log.performedBy,
               moduleId: log.moduleId,

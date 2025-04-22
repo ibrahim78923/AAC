@@ -3,6 +3,7 @@ import { StaticImageData } from 'next/image';
 export interface UserListI {
   key?: string | number;
   performedByName?: string;
+  module?: string;
   moduleName?: string;
   label?: string;
   time?: string;

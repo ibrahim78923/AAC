@@ -3,6 +3,7 @@ import { SNACKBAR_VARIANTS } from '@/constants/snackbar';
 import { ARRAY_INDEX } from '@/constants/strings';
 import { isoDateString } from '@/lib/date-time';
 import { enqueueSnackbar } from 'notistack';
+import pluralize from 'pluralize';
 
 export const transformResponse = (response: any) => {
   if (response) return response?.data;
@@ -173,4 +174,17 @@ export const convertCurrentCaseToTitleCase = (
         word?.slice?.(ARRAY_INDEX?.ONE),
     )
     ?.join?.(' ');
+};
+
+export const normalizeLabel = (input: string) => {
+  // Convert to lowercase, replace underscores, and split into words
+  const words = input.toLowerCase().replace(/_/g, ' ').split(' ');
+
+  const capitalized = words.map((word) => {
+    // Use pluralize to singularize the word
+    const singular = pluralize.singular(word);
+    return singular.charAt(0).toUpperCase() + singular.slice(1);
+  });
+
+  return capitalized.join(' ');
 };

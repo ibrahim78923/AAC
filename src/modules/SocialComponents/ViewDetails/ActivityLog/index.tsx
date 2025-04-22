@@ -15,6 +15,7 @@ import { DATE_FORMAT } from '@/constants';
 import { isNullOrEmpty } from '@/utils';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS } from '@/constants/permission-keys';
+import { capitalizeFirstLetter, normalizeLabel } from '@/utils/api';
 
 const ActivityLog = ({ companyId }: any) => {
   const { theme } = useNameWithStyledWords();
@@ -74,22 +75,45 @@ const ActivityLog = ({ companyId }: any) => {
                       />
                     </Box>
                     <Box sx={{ width: '50vw' }}>
-                      <Typography
-                        sx={{
-                          color: theme?.palette?.primary?.main,
-                          fontSize: '18px',
-                          textTransform: 'capitalize',
-                        }}
-                      >
-                        {' '}
-                        {item?.moduleName}{' '}
-                        <span
-                          style={{ color: 'black', textTransform: 'lowercase' }}
+                      <Typography variant="h5" sx={{ fontWeight: '400' }}>
+                        <Box component="span">{item?.performedByName}</Box>{' '}
+                        <Box
+                          component="span"
+                          sx={{ color: theme?.palette?.primary?.main }}
                         >
-                          {' '}
-                          {item?.activityType} By{' '}
-                        </span>{' '}
-                        {item?.performedByName}{' '}
+                          {capitalizeFirstLetter(item?.activityType)}
+                        </Box>{' '}
+                        <Box
+                          component="span"
+                          sx={{ color: theme?.palette?.custom?.main }}
+                        >
+                          {normalizeLabel(item?.module)}
+                        </Box>{' '}
+                        <Box
+                          component="span"
+                          sx={{ color: theme?.palette?.primary?.main }}
+                        >
+                          {item?.moduleName}
+                        </Box>{' '}
+                        {['REMOVED', 'ASSOCIATED', 'UNASSOCIATED'].includes(
+                          item?.activityType,
+                        ) && (
+                          <>
+                            <Box component="span">with</Box>{' '}
+                            <Box
+                              component="span"
+                              sx={{ color: theme?.palette?.custom?.main }}
+                            >
+                              {normalizeLabel(item?.recordType)}
+                            </Box>{' '}
+                            <Box
+                              component="span"
+                              sx={{ color: theme?.palette?.primary?.main }}
+                            >
+                              {item?.recordData[0]?.name}
+                            </Box>
+                          </>
+                        )}
                       </Typography>
                       <Typography
                         variant="body3"
