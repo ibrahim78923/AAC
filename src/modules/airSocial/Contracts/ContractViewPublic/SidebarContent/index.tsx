@@ -8,10 +8,16 @@ import Details from './Details';
 import Signees from './Signees';
 
 interface SidebarContentProps {
-  contractData: any;
+  dataFieldsData: any;
+  ownerData: any;
+  signeesData: any;
 }
 
-export default function SidebarContent({ contractData }: SidebarContentProps) {
+export default function SidebarContent({
+  dataFieldsData,
+  ownerData,
+  signeesData,
+}: SidebarContentProps) {
   const { tabValue, handleChangeTab } = useSidebarContent();
   return (
     <TabContext value={tabValue}>
@@ -28,22 +34,15 @@ export default function SidebarContent({ contractData }: SidebarContentProps) {
       </Box>
 
       <TabPanel value="fields">
-        <DataFields dataFieldsData={contractData?.dynamicFields || []} />
+        <DataFields dataFieldsData={dataFieldsData} />
       </TabPanel>
 
       <TabPanel value="details">
-        <Details
-          data={{
-            ownerData: contractData?.owner || {},
-            createdAt: contractData?.createdAt,
-            contractId: contractData?._id,
-            sharedWithUsers: contractData?.sharedWithUsers || [],
-          }}
-        />
+        <Details data={ownerData} />
       </TabPanel>
 
       <TabPanel value="signees">
-        <Signees data={contractData?.signees || []} />
+        <Signees data={signeesData} />
       </TabPanel>
     </TabContext>
   );

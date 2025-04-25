@@ -3,16 +3,18 @@ import { Avatar, Box, Button } from '@mui/material';
 import { styles } from './IndividualSignature.style';
 
 interface IndividualSignatureProps {
-  setSelectedSigneeId: (id: string | null) => void;
+  setSelectedSigneeIndex: (id: number | null) => void;
   onClickChange?: () => void;
   signee?: any;
+  index?: number;
 }
 
 const IndvidualSignature = memo(
   ({
-    setSelectedSigneeId,
+    setSelectedSigneeIndex,
     onClickChange,
     signee,
+    index,
   }: IndividualSignatureProps) => {
     const getAvatarPlaceholder = (name: string) => {
       return name
@@ -49,7 +51,7 @@ const IndvidualSignature = memo(
             size="small"
             className="small"
             onClick={() => {
-              setSelectedSigneeId(signee?._id || null);
+              setSelectedSigneeIndex(index !== undefined ? index : null);
               onClickChange?.();
             }}
           >

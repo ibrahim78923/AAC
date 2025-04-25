@@ -185,4 +185,5 @@ export const AIR_SOCIAL_CONTRACTS = {
   CONTRACTS: '/air-social/contracts',
   CONTRACTS_TEMPLATES: '/air-social/contracts/templates',
   CONTRACTS_CREATE: '/air-social/contracts/create-contract',
+  CONTRACT_VIEW: '/air-social/contracts/view',
 };

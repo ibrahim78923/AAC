@@ -13,7 +13,7 @@ interface ModalManageSignaturesProps {
   open: boolean;
   onClose: () => void;
   value: string;
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>, id: string) => void;
+  handleChange: (value: string) => void;
 }
 
 export default function ModalManageSignatures({
@@ -48,7 +48,7 @@ export default function ModalManageSignatures({
           aria-labelledby="signature-method"
           name="signatureMethod"
           value={value}
-          onChange={handleChange}
+          onChange={(e) => handleChange(e.target.value)}
           sx={{
             pl: '12px',
           }}

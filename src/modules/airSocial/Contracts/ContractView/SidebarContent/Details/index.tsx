@@ -1,7 +1,6 @@
 import React from 'react';
 import { Avatar, AvatarGroup, Box } from '@mui/material';
 import { styles } from './Details.style';
-import { AvatarImage } from '@/assets/images';
 import { IMG_URL } from '@/config';
 
 interface DetailsProps {
@@ -9,19 +8,24 @@ interface DetailsProps {
 }
 
 export default function Details({ data }: DetailsProps) {
+  const { ownerData, createdAt, contractId, sharedWithUsers } = data;
+
   return (
     <Box sx={styles?.ownerDetailsContainer}>
       <Box sx={styles?.detailsTitle}>Owner</Box>
 
       <Box sx={styles?.ownerDetails}>
-        <Avatar src={`${IMG_URL}${data?.avatar?.url}`} sx={styles?.ownerAvatar}>
-          {data?.firstName?.charAt(0)} {data?.lastName?.charAt(0)}
+        <Avatar
+          src={`${IMG_URL}${ownerData?.avatar?.url}`}
+          sx={styles?.ownerAvatar}
+        >
+          {ownerData?.firstName?.charAt(0)} {ownerData?.lastName?.charAt(0)}
         </Avatar>
         <Box sx={styles?.ownerInfo}>
           <Box sx={styles?.ownerRole}>
-            {data?.firstName} {data?.lastName}
+            {ownerData?.firstName} {ownerData?.lastName}
           </Box>
-          <Box sx={styles?.ownerEmail}>{data?.email}</Box>
+          <Box sx={styles?.ownerEmail}>{ownerData?.email}</Box>
         </Box>
       </Box>
 
@@ -31,13 +35,11 @@ export default function Details({ data }: DetailsProps) {
         <Box component={'ul'} sx={styles?.otherDetailsList}>
           <Box component={'li'}>
             <Box className="listItemLabel">Creation Date</Box>
-            <Box className="listItemMeta">{data?.createdAt}</Box>
+            <Box className="listItemMeta">{createdAt}</Box>
           </Box>
           <Box component={'li'}>
             <Box className="listItemLabel">Contract ID</Box>
-            <Box className="listItemMeta">
-              {data?.contractId || 'Not available'}
-            </Box>
+            <Box className="listItemMeta">{contractId || 'N/A'}</Box>
           </Box>
           <Box component={'li'}>
             <Box className="listItemLabel">
@@ -48,18 +50,25 @@ export default function Details({ data }: DetailsProps) {
         </Box>
       </Box>
 
-      <Box sx={styles?.userAccessDetails}>
-        <Box sx={styles?.detailsTitle}>Users with access</Box>
-        <Box sx={styles?.usrsAccess}>
-          <AvatarGroup max={8} sx={styles?.avatarGroup}>
-            <Avatar alt="Remy Sharp" src={AvatarImage.src} />
-            <Avatar alt="Travis Howard" src={AvatarImage.src} />
-            <Avatar alt="Cindy Baker" src={AvatarImage.src} />
-            <Avatar alt="Agnes Walker" src={AvatarImage.src} />
-            <Avatar alt="Trevor Henderson" src={AvatarImage.src} />
-          </AvatarGroup>
+      {sharedWithUsers?.length > 0 && (
+        <Box sx={styles?.userAccessDetails}>
+          <Box sx={styles?.detailsTitle}>Users with access</Box>
+          <Box sx={styles?.usrsAccess}>
+            <AvatarGroup max={8} sx={styles?.avatarGroup}>
+              {sharedWithUsers?.map((user: any) => (
+                <Avatar
+                  key={user?.userId}
+                  alt={`${user?.sharedUserData?.firstName} ${user?.sharedUserData?.lastName}`}
+                  src={`${IMG_URL}${user?.sharedUserData?.avatar?.url}`}
+                >
+                  {user?.sharedUserData?.firstName?.charAt(0)}{' '}
+                  {user?.sharedUserData?.lastName?.charAt(0)}
+                </Avatar>
+              ))}
+            </AvatarGroup>
+          </Box>
         </Box>
-      </Box>
+      )}
     </Box>
   );
 }

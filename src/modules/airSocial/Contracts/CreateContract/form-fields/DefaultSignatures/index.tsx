@@ -11,7 +11,7 @@ interface DefaultSignaturesProps {
   onChangeIndividualSignature: (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => void;
-  setSelectedSigneeId: (id: string | null) => void;
+  setSelectedSigneeIndex: (id: number | null) => void;
   preview?: boolean;
 }
 
@@ -20,12 +20,9 @@ export default function DefaultSignatures({
   onClickChange,
   isIndividualSignature,
   onChangeIndividualSignature,
-  setSelectedSigneeId,
+  setSelectedSigneeIndex,
   preview = false,
 }: DefaultSignaturesProps) {
-  // const { isIndividualSignature, handleChangeIndividualSignature } =
-  //   useDefaultSignatures();
-
   return (
     <Box>
       <Box sx={styles?.labelWrapper}>
@@ -47,12 +44,13 @@ export default function DefaultSignatures({
 
       {isIndividualSignature ? (
         <Box sx={styles?.fieldGroup}>
-          {signees?.map((signee: any) => (
+          {signees?.map((signee: any, index: number) => (
             <IndividualSignature
-              key={signee?._id}
-              setSelectedSigneeId={setSelectedSigneeId}
+              key={signee?._id || signee?.id}
+              setSelectedSigneeIndex={setSelectedSigneeIndex}
               onClickChange={onClickChange}
-              signee={signee}
+              signee={{ ...signee }}
+              index={index}
             />
           ))}
         </Box>

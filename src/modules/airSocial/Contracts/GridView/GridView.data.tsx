@@ -3,10 +3,18 @@ import DocumentIcon from '@/assets/icons/modules/airSocial/contracts/documentIco
 import FolderRoundedIcon from '@/assets/icons/shared/folder-rounded';
 import { CustomTooltip } from '@/components/CustomTooltip';
 import { IMG_URL } from '@/config';
+import { DATE_FORMAT } from '@/constants';
 import { AIR_SOCIAL_CONTRACTS } from '@/constants/routes';
 import { ENUM_CONTRACT_STATUS, ENUM_CONTRACT_TYPE } from '@/utils/contracts';
-import { Box, Button, Checkbox, Typography, useTheme } from '@mui/material';
-import Image from 'next/image';
+import {
+  Avatar,
+  Box,
+  Button,
+  Checkbox,
+  Typography,
+  useTheme,
+} from '@mui/material';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -211,23 +219,20 @@ export const contractsColumns = ({
             whiteSpace: 'nowrap',
           }}
         >
-          <Box
+          <Avatar
             sx={{
-              background: theme?.palette?.grey[300],
-              width: '40px',
-              height: '40px',
-              borderRadius: '50%',
+              bgcolor: 'primary.main',
+              textTransform: 'uppercase',
+              fontSize: '14px',
+              mr: '6px',
             }}
+            alt={info?.getValue()}
+            src={`${IMG_URL}${info?.getValue()?.avatar?.url}`}
           >
-            {info?.getValue()?.avatar?.url && (
-              <Image
-                src={`${IMG_URL}${info?.getValue()?.avatar?.url}`}
-                alt="Owner"
-                width={40}
-                height={40}
-              />
-            )}
-          </Box>
+            {`${info?.getValue()?.firstName?.charAt(0)}${info
+              ?.getValue()
+              ?.lastName?.charAt(0)}`}
+          </Avatar>
           {`${info?.getValue()?.firstName} ${info?.getValue()?.lastName}`}
         </Box>
       ),
@@ -353,7 +358,9 @@ export const contractsColumns = ({
       accessorFn: (row: any) => row?.createdAt,
       id: 'createdAt',
       header: 'Created at',
-      cell: (info: any) => <> {info?.getValue()}</>,
+      cell: (info: any) => (
+        <> {dayjs(info?.getValue()).format(DATE_FORMAT.UI)}</>
+      ),
     },
   ];
 };

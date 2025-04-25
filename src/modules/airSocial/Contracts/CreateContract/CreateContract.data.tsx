@@ -27,19 +27,10 @@ export const validationSchema = () => {
 };
 
 export const defaultValues = (data: any) => {
-  const partyMap = new Map(
-    (data?.parties || []).map((party: any) => [
-      party._id,
-      party.moduleData?._id || '',
-    ]),
-  );
-
   const updatedSignees = (data?.signees || []).map((signee: any) => {
-    const onBehalfOf = partyMap.get(signee.partyId) || '';
-
     return {
       ...signee,
-      onBehalfOf,
+      onBehalfOf: signee?.moduleData._id,
     };
   });
 

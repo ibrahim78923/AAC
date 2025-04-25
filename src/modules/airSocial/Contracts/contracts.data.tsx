@@ -46,14 +46,14 @@ export const renameFolderDefaultValues = {
 export const contractsFiltersValidationSchema = Yup.object().shape({
   type: Yup.string(),
   sortBy: Yup.string(),
-  date: Yup?.mixed()?.nullable()?.required('dateRange is required'),
+  date: Yup?.mixed()?.nullable(),
 });
 export const contractsFiltersDefaultValues = {
   type: '',
   sortBy: '',
   date: {
-    startDate: new Date(),
-    endDate: new Date(),
+    startDate: null,
+    endDate: null,
     key: 'selection',
   },
 };

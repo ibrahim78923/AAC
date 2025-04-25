@@ -171,6 +171,9 @@ export const styles = {
     border: `1px solid rgba(0,0,0,0.23)`,
     borderRadius: '4px',
     padding: '0 12px',
+    '&:not(:first-of-type)': {
+      marginTop: '12px',
+    },
   }),
   individual: () => ({
     display: 'flex',

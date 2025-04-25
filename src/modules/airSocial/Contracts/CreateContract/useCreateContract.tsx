@@ -39,6 +39,8 @@ type DynamicField = {
 export default function useCreateContract() {
   /* VARIABLE DECLERATION
   -------------------------------------------------------------------------------------*/
+  const generateId = () =>
+    Date.now().toString(36) + Math.random().toString(36).substring(2);
   const textComponents = useSelector(
     (state: RootState) => state.airSocialPdfContract.textComponents,
   );
@@ -120,21 +122,27 @@ export default function useCreateContract() {
   const [openModalPhoneNumber, setOpenModalPhoneNumber] =
     useState<boolean>(false);
   const [isIndividualSignature, setIsIndividualSignature] = useState(false);
-  const [selectedSigneeId, setSelectedSigneeId] = useState<string | null>(null);
+  const [selectedSigneeIndex, setSelectedSigneeIndex] = useState<number | null>(
+    null,
+  );
   const [isConfirmSigning, setIsConfirmSigning] = useState(false);
 
   /* EVENT LISTENERS
   -------------------------------------------------------------------------------------*/
   useEffect(() => {
-    if (signeeValues) {
-      const isDifferent = !allSignatureTypesSame(signeeValues);
-      setIsIndividualSignature(isDifferent);
-    }
-  }, [signeeValues]);
-
-  useEffect(() => {
     reset(defaultValues(contractDetailsData ?? {}));
   }, [contractDetailsData, contractId, methods, reset]);
+
+  useEffect(() => {
+    if (signeeFields.length > 0) {
+      const sameType = allSignatureTypesSame(signeeFields);
+      if (sameType) {
+        setIsIndividualSignature(false);
+      } else {
+        setIsIndividualSignature(true);
+      }
+    }
+  }, [signeeFields]);
 
   useEffect(() => {
     partyValues?.forEach((party: any, index: number) => {
@@ -144,7 +152,7 @@ export default function useCreateContract() {
         });
       }
     });
-  }, [partyValues, setValue]);
+  }, [partyValues]);
 
   /* ASYNC FUNCTIONS
   -------------------------------------------------------------------------------------*/
@@ -173,7 +181,10 @@ export default function useCreateContract() {
     createFormData('logo', values?.logo);
     createFormData('parties', createPartiesFormData(values?.parties, false));
     if (!contractType) {
-      createFormData('signees', createSigneesFormData(values?.signees, false));
+      createFormData(
+        'signees',
+        createSigneesFormData(values?.signees, false, values?.parties),
+      );
     }
     createFormData('dynamicFields', JSON.stringify(values?.dynamicFields));
 
@@ -267,7 +278,10 @@ export default function useCreateContract() {
     createFormData('logo', values?.logo);
     createFormData('parties', createPartiesFormData(values?.parties, true));
     if (!contractType) {
-      createFormData('signees', createSigneesFormData(values?.signees, true));
+      createFormData(
+        'signees',
+        createSigneesFormData(values?.signees, true, values?.parties),
+      );
     }
     createFormData('dynamicFields', JSON.stringify(values?.dynamicFields));
     createFormData('attachment', values?.attachment);
@@ -308,7 +322,7 @@ export default function useCreateContract() {
             ? 'The contract has been successfully sent to the signees.'
             : 'Contract updated successfully',
         );
-        router.push(AIR_SOCIAL_CONTRACTS?.CONTRACTS);
+        // router.push(AIR_SOCIAL_CONTRACTS?.CONTRACTS);
         reset();
       } catch (error: any) {
         errorSnackbar('An error occured');
@@ -339,6 +353,7 @@ export default function useCreateContract() {
     );
 
     appendSignee({
+      id: generateId(),
       signingOrder: maxSigningOrder + 1,
       onBehalfOf: null,
       personalTitle: '',
@@ -439,7 +454,7 @@ export default function useCreateContract() {
     setOpenModalManageSignature(true);
   };
   const handleCloseModalManageSignature = () => {
-    setSelectedSigneeId(null);
+    setSelectedSigneeIndex(null);
     setOpenModalManageSignature(false);
   };
 
@@ -459,13 +474,13 @@ export default function useCreateContract() {
 
   const handleChangeSignatureMethod = (
     event: React.ChangeEvent<HTMLInputElement>,
-    signeeId: string | null,
+    signeeId: string | number | null,
   ) => {
     const newSignatureType = event.target.value;
 
     const updatedSignees = isIndividualSignature
-      ? signeeFields.map((signee: any) => {
-          if (signee._id === signeeId) {
+      ? signeeFields.map((signee: any, index: number) => {
+          if (index === signeeId) {
             return {
               ...signee,
               signatureType: newSignatureType,
@@ -544,8 +559,8 @@ export default function useCreateContract() {
 
     isIndividualSignature,
     handleChangeIndividualSignature,
-    selectedSigneeId,
-    setSelectedSigneeId,
+    selectedSigneeIndex,
+    setSelectedSigneeIndex,
 
     dataTemplateById,
     loadingGetTemplateById,

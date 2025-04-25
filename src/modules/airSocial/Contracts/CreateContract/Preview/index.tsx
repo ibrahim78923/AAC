@@ -2,7 +2,6 @@ import React from 'react';
 import { Box, Grid } from '@mui/material';
 import { styles } from './Preview.style';
 import Image from 'next/image';
-import LogoImage from './contract-logo.png';
 import { IconDefaultAttachment, IconSigningDigitally } from '@/assets/icons';
 import { useFormContext } from 'react-hook-form';
 import DefaultSignatures from '../form-fields/DefaultSignatures';
@@ -26,7 +25,7 @@ export default function Preview({ documentHistoryData }: PreviewProps) {
 
     isIndividualSignature,
     handleChangeIndividualSignature,
-    setSelectedSigneeId,
+    setSelectedSigneeIndex,
   } = useCreateContract();
 
   return (
@@ -37,13 +36,15 @@ export default function Preview({ documentHistoryData }: PreviewProps) {
 
       <Grid item xs={12} sm={6}>
         <Box sx={styles?.contractLogo}>
-          <Image
-            src={generateSrc(data?.logo) || LogoImage}
-            alt="Contract Logo"
-            width={108}
-            height={18}
-            style={styles?.logo}
-          />
+          {data?.logo && (
+            <Image
+              src={generateSrc(data?.logo)}
+              alt="Contract Logo"
+              width={108}
+              height={18}
+              style={styles?.logo}
+            />
+          )}
         </Box>
       </Grid>
       {data?.parties?.length > 0 &&
@@ -67,62 +68,12 @@ export default function Preview({ documentHistoryData }: PreviewProps) {
             </Box>
           </Grid>
         ))}
-      {data?.parties?.length === 0 && (
-        <Grid item xs={12} sm={6}>
-          <Box sx={styles?.fieldCard}>
-            <Box sx={styles?.fieldCardField}>
-              <Box sx={styles?.fieldCardLabel}>{'Full name'}</Box>
-              <Box sx={styles?.fieldCardValue}>{'--'}</Box>
-            </Box>
-            <Box sx={styles?.fieldCardField}>
-              <Box sx={styles?.fieldCardLabel}>
-                {'Hereinafter referred to as'}
-              </Box>
-              <Box sx={styles?.fieldCardValue}>{'--'}</Box>
-            </Box>
-          </Box>
-        </Grid>
-      )}
 
       <Grid item xs={12}>
-        <Box>Start adding document content here...</Box>
-        <Box>Make sure that the “Full text editing” mode is switched on.</Box>
+        {/* <Box>Start adding document content here...</Box>
+        <Box>Make sure that the “Full text editing” mode is switched on.</Box> */}
       </Grid>
 
-      {data?.signees?.length === 0 && (
-        <Grid item xs={12} sm={6}>
-          <Box sx={styles?.signatureCard}>
-            <Box sx={styles?.signatureCardBody}>
-              <Box sx={styles?.signatureCardField}>
-                <Box sx={styles?.fieldCardLabel}>{'On behalf of'}</Box>
-                <Box sx={styles?.fieldCardValue}>{'--'}</Box>
-              </Box>
-              <Box sx={styles?.signatureCardField}>
-                <Box sx={styles?.fieldCardLabel}>{'Email'}</Box>
-                <Box sx={styles?.fieldCardValue}>{'--'}</Box>
-              </Box>
-              <Box sx={styles?.signatureCardField}>
-                <Box sx={styles?.fieldCardLabel}>{'Full name'}</Box>
-                <Box sx={styles?.fieldCardValue}>{'--'}</Box>
-              </Box>
-              <Box sx={styles?.signatureCardField}>
-                <Box sx={styles?.fieldCardLabel}>{'IP Address'}</Box>
-                <Box sx={styles?.fieldCardValue}>{'-'}</Box>
-              </Box>
-            </Box>
-            <Box sx={styles?.signatureCardFooter}>
-              <Box sx={styles?.signatureCardFooterInner}>
-                <Box sx={styles?.signingDigitally}>
-                  <IconSigningDigitally />
-                  <Box>Signing digitally</Box>
-                </Box>
-              </Box>
-
-              <Box sx={styles?.signatureCardFooterStripe} />
-            </Box>
-          </Box>
-        </Grid>
-      )}
       {data?.signees?.length > 0 &&
         data?.signees?.map((signee: any) => (
           <Grid item xs={12} sm={6} key={signee?._id || signee?.id}>
@@ -203,7 +154,7 @@ export default function Preview({ documentHistoryData }: PreviewProps) {
             isIndividualSignature={isIndividualSignature}
             onChangeIndividualSignature={handleChangeIndividualSignature}
             signees={signeeValues}
-            setSelectedSigneeId={setSelectedSigneeId}
+            setSelectedSigneeIndex={setSelectedSigneeIndex}
             preview={true}
           />
         </Grid>

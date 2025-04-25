@@ -43,7 +43,6 @@ export default function CreateContract() {
     openModalManageSignature,
     handleOpenModalManageSignature,
     handleCloseModalManageSignature,
-    handleChangeSignatureMethod,
 
     methods,
     handleSubmitCreateTemplate,
@@ -68,8 +67,8 @@ export default function CreateContract() {
 
     isIndividualSignature,
     handleChangeIndividualSignature,
-    selectedSigneeId,
-    setSelectedSigneeId,
+    selectedSigneeIndex,
+    setSelectedSigneeIndex,
 
     // dataTemplateById,
     loadingGetContractById,
@@ -210,28 +209,30 @@ export default function CreateContract() {
                       <DefaultAttachment />
                     </Grid>
 
-                    {/* Signatures */}
+                    {/* Signees */}
                     <Grid item xs={12}>
                       <Box sx={styles?.headingBar}>
                         <Box sx={styles?.headingBarTitle}>Signatures</Box>
                       </Box>
                       <Grid container spacing={'30px'}>
-                        {signeeFields?.map((signee: any, index: number) => (
-                          <Grid
-                            item
-                            xs={12}
-                            md={4}
-                            key={signee?._id || `signee-${index}`}
-                            sx={styles?.partyCardgridItem}
-                          >
-                            <SigneeCard
-                              numberOfSignees={signeeFields.length}
-                              index={index}
-                              onDelete={() => handleDeleteSigneeCard(index)}
-                              partyValues={partyValues}
-                            />
-                          </Grid>
-                        ))}
+                        {signeeFields?.map((signee: any, index: number) => {
+                          return (
+                            <Grid
+                              item
+                              xs={12}
+                              md={4}
+                              key={signee?._id || signee?.id}
+                              sx={styles?.partyCardgridItem}
+                            >
+                              <SigneeCard
+                                numberOfSignees={signeeFields.length}
+                                index={index}
+                                onDelete={() => handleDeleteSigneeCard(index)}
+                                partyValues={partyValues}
+                              />
+                            </Grid>
+                          );
+                        })}
 
                         <Grid item xs={12} md={4}>
                           <AddCard
@@ -247,7 +248,7 @@ export default function CreateContract() {
                       <MessageToRecipient />
                     </Grid>
 
-                    {signeeFields?.length > 0 && (
+                    {signeeValues?.length > 0 && (
                       <Grid item xs={12}>
                         <DefaultSignatures
                           isIndividualSignature={isIndividualSignature}
@@ -256,7 +257,7 @@ export default function CreateContract() {
                           }
                           signees={signeeValues}
                           onClickChange={handleOpenModalManageSignature}
-                          setSelectedSigneeId={setSelectedSigneeId}
+                          setSelectedSigneeIndex={setSelectedSigneeIndex}
                         />
                       </Grid>
                     )}
@@ -325,25 +326,34 @@ export default function CreateContract() {
       <ModalManageSignatures
         open={openModalManageSignature}
         onClose={() => {
-          setSelectedSigneeId(null);
+          setSelectedSigneeIndex(null);
           handleCloseModalManageSignature();
         }}
         value={
           isIndividualSignature
-            ? selectedSigneeId
-              ? (
-                  signeeFields?.find(
-                    (signee: any) => signee?._id === selectedSigneeId,
-                  ) as any
-                )?.signatureType || ''
+            ? selectedSigneeIndex !== null
+              ? (signeeValues[selectedSigneeIndex] as any)?.signatureType || ''
               : ''
-            : (signeeFields[0] as any)?.signatureType || ''
+            : (signeeValues[0] as any)?.signatureType || ''
         }
-        handleChange={(event) => {
-          handleChangeSignatureMethod(
-            event,
-            isIndividualSignature ? selectedSigneeId : null,
-          );
+        handleChange={(newValue) => {
+          if (isIndividualSignature && selectedSigneeIndex !== null) {
+            // Update the specific signee's signature type
+            const updatedSignees = signeeValues.map(
+              (signee: any, index: number) =>
+                index === selectedSigneeIndex
+                  ? { ...signee, signatureType: newValue }
+                  : signee,
+            );
+            methods.setValue('signees', updatedSignees, { shouldDirty: true });
+          } else {
+            // Update all signees' signature types
+            const updatedSignees = signeeValues.map((signee: any) => ({
+              ...signee,
+              signatureType: newValue,
+            }));
+            methods.setValue('signees', updatedSignees, { shouldDirty: true });
+          }
         }}
       />
 

@@ -18,6 +18,7 @@ import CommonModal from '@/components/CommonModal';
 import { useForm } from 'react-hook-form';
 import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useRouter } from 'next/router';
 import {
   associationsDefaultValues,
   associationsValidationSchema,
@@ -35,10 +36,12 @@ import { successSnackbar } from '@/lib/snackbar';
 import { API_STATUS, ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { AIR_SOCIAL_CONTRACTS } from '@/constants/routes';
+import { ENUM_CONTRACT_STATUS } from '@/utils/contracts';
 
 const Actions = ({ selectedRecords, setSelectedRecords }: any) => {
   const theme: any = useTheme();
-
+  const router = useRouter();
   const currentFolder = selectedRecords[0];
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -152,6 +155,23 @@ const Actions = ({ selectedRecords, setSelectedRecords }: any) => {
           'aria-labelledby': 'basic-button',
         }}
       >
+        {selectedRecords?.length === 1 &&
+          (currentFolder?.status === ENUM_CONTRACT_STATUS?.SIGNED ||
+            currentFolder?.status === ENUM_CONTRACT_STATUS?.PENDING ||
+            currentFolder?.status === ENUM_CONTRACT_STATUS?.REJECTED) && (
+            <MenuItem
+              disabled={selectedRecords?.length > 1}
+              onClick={() => {
+                handleClose();
+                router?.push({
+                  pathname: AIR_SOCIAL_CONTRACTS?.CONTRACT_VIEW,
+                  query: { contractId: currentFolder?._id },
+                });
+              }}
+            >
+              View
+            </MenuItem>
+          )}
         <MenuItem
           disabled={selectedRecords?.length > 1}
           onClick={() => {

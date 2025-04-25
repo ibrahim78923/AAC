@@ -6,7 +6,7 @@ export default function SigneeEmail({
   disable,
 }: {
   name: string;
-  disable: boolean;
+  disable?: boolean;
 }) {
   return (
     <RHFTextField

@@ -5,41 +5,10 @@ import Topbar from './Topbar';
 import { styles } from './ContractView.style';
 import MainContent from './MainContent';
 import useContractView from './useContractView';
-import ModalSignAndSend from './ModalSignAndSend';
 import SidebarContent from './SidebarContent';
-import ModalDismissAgreement from './ModalDismissAgreement';
-import ModalRequestChanged from './ModalRequestChanged';
 
 export default function ContractView() {
-  const {
-    signature,
-    setSignature,
-    dataContractById,
-    loadingGetContractById,
-    signeeId,
-
-    currentSigneeSignatureType,
-
-    openModalSignAndSend,
-    handleOpenModalSignAndSend,
-    handleCloseModalSignAndSend,
-
-    isConfirmSigning,
-    handleChangeConfirmSigning,
-
-    loadingPutContract,
-    handleSubmitSignAndSend,
-
-    signatureMessage,
-    setSignatureMessage,
-    openModalDismissAgreement,
-    handleOpenModalDismissAgreement,
-    handleCloseModalDismissAgreement,
-
-    openModalRequestChanged,
-    handleOpenModalRequestChanged,
-    handleCloseModalRequestChanged,
-  } = useContractView();
+  const { dataContractById, loadingGetContractById } = useContractView();
 
   return (
     <>
@@ -59,66 +28,20 @@ export default function ContractView() {
         <Topbar
           title={dataContractById?.data?.name || 'Untitled Contract'}
           status={dataContractById?.data?.status || 'Pending'}
-          handleOpenModalSignAndSend={handleOpenModalSignAndSend}
-          contractType={dataContractById?.data?.contractType}
         />
       </PlainHeader>
 
       <Box sx={styles?.container}>
         <Box sx={styles?.contentRow}>
           <Box sx={styles?.content}>
-            <MainContent
-              contractData={dataContractById?.data}
-              signeeId={signeeId}
-              handleOpenModalSignAndSend={handleOpenModalSignAndSend}
-              handleOpenModalDismissAgreement={handleOpenModalDismissAgreement}
-              handleOpenModalRequestChanged={handleOpenModalRequestChanged}
-            />
+            <MainContent contractData={dataContractById?.data} />
           </Box>
 
           <Box sx={styles?.sidebar}>
-            <SidebarContent
-              dataFieldsData={dataContractById?.data?.dynamicFields || []}
-              ownerData={{
-                ...(dataContractById?.data?.owner || {}),
-                createdAt: dataContractById?.data?.createdAt,
-                contractId: dataContractById?.data?._id,
-              }}
-              signeesData={dataContractById?.data?.signees || []}
-            />
+            <SidebarContent contractData={dataContractById?.data} />
           </Box>
         </Box>
       </Box>
-
-      <ModalSignAndSend
-        open={openModalSignAndSend}
-        onClose={handleCloseModalSignAndSend}
-        onSubmit={handleSubmitSignAndSend}
-        signatureType={currentSigneeSignatureType}
-        handleChangeConfirmSigning={handleChangeConfirmSigning}
-        isConfirmSigning={isConfirmSigning}
-        isLoading={loadingPutContract}
-        signature={signature}
-        setSignature={setSignature}
-      />
-
-      <ModalDismissAgreement
-        open={openModalDismissAgreement}
-        onClose={handleCloseModalDismissAgreement}
-        onSubmit={handleSubmitSignAndSend}
-        isLoading={loadingPutContract}
-        signatureMessage={signatureMessage}
-        setSignatureMessage={setSignatureMessage}
-      />
-
-      <ModalRequestChanged
-        open={openModalRequestChanged}
-        onClose={handleCloseModalRequestChanged}
-        onSubmit={handleSubmitSignAndSend}
-        isLoading={loadingPutContract}
-        signatureMessage={signatureMessage}
-        setSignatureMessage={setSignatureMessage}
-      />
     </>
   );
 }

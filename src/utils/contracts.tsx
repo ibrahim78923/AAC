@@ -118,12 +118,20 @@ export const createPartiesFormData = (parties: any, update: boolean) => {
   return formData.length ? JSON.stringify(formData) : null;
 };
 
-export const createSigneesFormData = (signees: any, update: boolean) => {
+export const createSigneesFormData = (
+  signees: any,
+  update: boolean,
+  parties?: any,
+) => {
   if (!Array.isArray(signees) || signees.length === 0) return null;
 
   const formData = signees
     .map((signee: any) => {
       if (!signee || typeof signee !== 'object') return null;
+
+      const moduleType = parties?.find(
+        (party: any) => party?.moduleData?._id === signee?.onBehalfOf,
+      )?.moduleType;
 
       const formattedSignee: any = {};
       const setValue = (key: string, value: any) => {
@@ -143,6 +151,7 @@ export const createSigneesFormData = (signees: any, update: boolean) => {
       setValue('signatureStatus', signee?.signatureStatus);
       setValue('signatureType', signee?.signatureType);
       setValue('moduleId', signee?.onBehalfOf);
+      setValue('moduleType', moduleType);
 
       return formattedSignee;
     })

@@ -1,6 +1,6 @@
 import React from 'react';
-import ContractView from '@/modules/airSocial/Contracts/ContractView';
+import ContractViewPublic from '@/modules/airSocial/Contracts/ContractViewPublic';
 
 export default function ContractViewPage() {
-  return <ContractView />;
+  return <ContractViewPublic />;
 }

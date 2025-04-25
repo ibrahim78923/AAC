@@ -1,19 +1,32 @@
 import React from 'react';
-import { Avatar, Box, Button, Grid, Stack, useTheme } from '@mui/material';
+import { Avatar, Box, Button, Grid, useTheme } from '@mui/material';
 import { styles } from './MainContent.style';
 import Image from 'next/image';
 import { IconDefaultAttachment, IconSigningDigitally } from '@/assets/icons';
 import DocumentHistory from '../../CreateContract/components/DocumentHistory';
-import { getPartyName } from '@/utils/contracts';
+import { ENUM_CONTRACT_STATUS, getPartyName } from '@/utils/contracts';
 import { generateImage } from '@/utils/avatarUtils';
 import EditablePDF from './EditablePDF';
 
 type MainContentProps = {
   contractData: any;
+  signeeId: any;
+  handleOpenModalSignAndSend: (_?: any, data?: any) => void;
+  handleOpenModalDismissAgreement: () => void;
+  handleOpenModalRequestChanged: () => void;
 };
 
-export default function MainContent({ contractData }: MainContentProps) {
+export default function MainContent({
+  contractData,
+  signeeId,
+  handleOpenModalSignAndSend,
+  handleOpenModalDismissAgreement,
+  handleOpenModalRequestChanged,
+}: MainContentProps) {
   const theme = useTheme();
+  const currentSignee: any = contractData?.signees?.find(
+    (signee: any) => signee?._id === signeeId,
+  );
 
   const getAvatarPlaceholder = (name: string) => {
     return name
@@ -21,6 +34,13 @@ export default function MainContent({ contractData }: MainContentProps) {
       ?.map((n: string) => n.charAt(0))
       ?.join('')
       ?.slice(0, 2);
+  };
+
+  const getOnBehalfOf = (partyId: string) => {
+    const party: any = contractData?.parties?.find(
+      (p: any) => p?._id === partyId,
+    );
+    return party?.moduleData;
   };
 
   const sizeMB = contractData?.attachment?.size / (1024 * 1024);
@@ -73,7 +93,7 @@ export default function MainContent({ contractData }: MainContentProps) {
               <Box sx={styles?.signatureCardField}>
                 <Box sx={styles?.fieldCardLabel}>{'On behalf of'}</Box>
                 <Box sx={styles?.fieldCardValue}>
-                  {getPartyName(signee?.moduleData)}
+                  {getPartyName(getOnBehalfOf(signee?.partyId)) ?? '--'}
                 </Box>
               </Box>
               <Box sx={styles?.signatureCardField}>
@@ -115,8 +135,51 @@ export default function MainContent({ contractData }: MainContentProps) {
         <Grid item xs={12}>
           <EditablePDF
             contractData={contractData}
+            onSignatureClick={handleOpenModalSignAndSend}
             signees={contractData?.signees}
           />
+        </Grid>
+      )}
+
+      {contractData?.status === ENUM_CONTRACT_STATUS?.PENDING && (
+        <Grid item xs={12}>
+          <Grid container spacing="12px">
+            {contractData?.contractType === 'BASIC' && (
+              <Grid item xs={12}>
+                <Button
+                  variant={'contained'}
+                  className={'small'}
+                  fullWidth
+                  onClick={handleOpenModalSignAndSend}
+                >
+                  Sign & Send
+                </Button>
+              </Grid>
+            )}
+            <Grid item xs={12} sm={6}>
+              <Button
+                onClick={handleOpenModalDismissAgreement}
+                variant={'contained'}
+                className={'small'}
+                fullWidth
+                color={'error'}
+              >
+                Dismiss Agreement
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Button
+                onClick={handleOpenModalRequestChanged}
+                variant="outlined"
+                className="small"
+                color="inherit"
+                sx={{ color: theme?.palette?.custom['main'] }}
+                fullWidth
+              >
+                Suggest Changes
+              </Button>
+            </Grid>
+          </Grid>
         </Grid>
       )}
 
@@ -158,45 +221,42 @@ export default function MainContent({ contractData }: MainContentProps) {
           <Box sx={styles?.labelWrapper}>
             <Box sx={styles.label}>Default Signatures</Box>
           </Box>
-          <Stack>
-            {contractData?.signees?.map((signee: any) => (
-              <Box sx={styles?.fieldGroup} key={signee?._id || signee?.id}>
-                <Box sx={styles?.individual}>
-                  <Box sx={styles?.signees}>
-                    <Avatar
-                      alt={signee?.name}
-                      src=""
-                      sx={{
-                        width: 36,
-                        height: 36,
-                        backgroundColor: 'primary.main',
-                        fontSize: 14,
-                        textTransform: 'uppercase',
-                      }}
-                    >
-                      {getAvatarPlaceholder(signee?.name)}
-                    </Avatar>
 
-                    <Box sx={styles?.signeeName}>{signee?.name}</Box>
-                  </Box>
-                  <Box sx={styles?.fieldActions}>
-                    <Box sx={styles?.signatureValue}>
-                      {signee?.signatureType}
-                    </Box>
-                    <Button
-                      variant="outlined"
-                      color="inherit"
-                      size="small"
-                      className="small"
-                      disabled
-                    >
-                      Change
-                    </Button>
-                  </Box>
-                </Box>
+          <Box sx={styles?.fieldGroup}>
+            <Box sx={styles?.individual}>
+              <Box sx={styles?.signees}>
+                <Avatar
+                  alt={currentSignee?.name}
+                  src=""
+                  sx={{
+                    width: 36,
+                    height: 36,
+                    backgroundColor: 'primary.main',
+                    fontSize: 14,
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  {getAvatarPlaceholder(currentSignee?.name)}
+                </Avatar>
+
+                <Box sx={styles?.signeeName}>{currentSignee?.name}</Box>
               </Box>
-            ))}
-          </Stack>
+              <Box sx={styles?.fieldActions}>
+                <Box sx={styles?.signatureValue}>
+                  {currentSignee?.signatureType}
+                </Box>
+                <Button
+                  variant="outlined"
+                  color="inherit"
+                  size="small"
+                  className="small"
+                  disabled
+                >
+                  Change
+                </Button>
+              </Box>
+            </Box>
+          </Box>
         </Grid>
       )}
 

@@ -44,7 +44,7 @@ import CommonModal from '@/components/CommonModal';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { CONTRACTS_STATUS } from '@/constants';
+import { CONTRACTS_STATUS, DATE_FORMAT } from '@/constants';
 import { styles } from './contracts.style';
 import Actions from './Actions';
 import CommonDrawer from '@/components/CommonDrawer';
@@ -60,6 +60,7 @@ import {
 } from '@/services/commonFeatures/contracts/contracts-dashboard';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import { v4 as uuidv4 } from 'uuid';
+import dayjs from 'dayjs';
 const Contracts = () => {
   const theme = useTheme();
   const [selectedRecords, setSelectedRecords] = useState([]);
@@ -144,12 +145,19 @@ const Contracts = () => {
   });
   const { handleSubmit: handleSubmitFilter } = methodsFilter;
   const onSubmitFilter = (values: any) => {
+    const hasValue = (val: any) =>
+      val !== undefined && val !== null && val !== '';
     setFilterParams({
-      type: values?.type,
-      sortBy: values?.sortBy,
-      dateStart: values?.date?.startDate,
-      dateEnd: values?.date?.endDate,
+      ...(hasValue(values?.type) && { type: values.type }),
+      ...(hasValue(values?.sortBy) && { sortBy: values.sortBy }),
+      ...(hasValue(values?.date?.startDate) && {
+        dateStart: dayjs(values.date.startDate).format(DATE_FORMAT.API),
+      }),
+      ...(hasValue(values?.date?.endDate) && {
+        dateEnd: dayjs(values.date.endDate).format(DATE_FORMAT.API),
+      }),
     });
+    setIsFilterDrawerOpen(false);
   };
 
   useEffect(() => {
@@ -634,6 +642,11 @@ const Contracts = () => {
         title="Filter"
         okText="Apply"
         cancelText="cancel"
+        cancelBtnHandler={() => {
+          setIsFilterDrawerOpen(false);
+          setFilterParams({});
+          methodsFilter.reset();
+        }}
         submitHandler={handleSubmitFilter(onSubmitFilter)}
         isOk
       >
