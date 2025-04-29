@@ -4,8 +4,7 @@ import FolderRoundedIcon from '@/assets/icons/shared/folder-rounded';
 import { CustomTooltip } from '@/components/CustomTooltip';
 import { IMG_URL } from '@/config';
 import { DATE_FORMAT } from '@/constants';
-import { AIR_SOCIAL_CONTRACTS } from '@/constants/routes';
-import { ENUM_CONTRACT_STATUS, ENUM_CONTRACT_TYPE } from '@/utils/contracts';
+import { ENUM_CONTRACT_STATUS, getPartyName } from '@/utils/contracts';
 import {
   Avatar,
   Box,
@@ -15,8 +14,6 @@ import {
   useTheme,
 } from '@mui/material';
 import dayjs from 'dayjs';
-import { useRouter } from 'next/router';
-import { v4 as uuidv4 } from 'uuid';
 
 export const contractsColumns = ({
   setIsViewAllActivityDrawerOpen,
@@ -26,7 +23,6 @@ export const contractsColumns = ({
   setViewMoreData,
 }: any) => {
   const theme = useTheme();
-  const router = useRouter();
 
   const handleClick = (item: any) => {
     if (selectedRecords?.some((record: any) => record?._id === item?._id)) {
@@ -165,24 +161,6 @@ export const contractsColumns = ({
           <Box
             sx={{
               whiteSpace: 'nowrap',
-              color: theme?.palette?.primary?.main,
-              cursor: 'pointer',
-            }}
-            onClick={() => {
-              if (info?.row?.original?.contractType === 'PDF') {
-                router?.push({
-                  pathname: AIR_SOCIAL_CONTRACTS?.CONTRACTS_CREATE,
-                  query: {
-                    contractType: ENUM_CONTRACT_TYPE?.PDF,
-                    contractId: info?.row?.original?._id,
-                  },
-                });
-              } else {
-                router?.push({
-                  pathname: AIR_SOCIAL_CONTRACTS?.CONTRACTS_CREATE,
-                  query: { contractId: info?.row?.original?._id },
-                });
-              }
             }}
           >
             {info?.getValue()}
@@ -241,67 +219,107 @@ export const contractsColumns = ({
       accessorFn: (row: any) => row?.activity,
       id: 'activity',
       header: 'Activity',
-      cell: (info: any) => (
-        <>
-          <Box>
+      cell: (info: any) => {
+        return (
+          <>
             {info?.row?.original?.signees ? (
-              <Box>
+              <>
                 {info?.row?.original?.signees
                   ?.slice(0, 2)
                   ?.map((item: any, index: any) => {
                     return (
                       <Box
-                        key={uuidv4()}
+                        key={item?._id}
                         display="flex"
                         alignItems="flex-start"
                         gap="10px"
                       >
-                        <Box
-                          sx={{ display: 'flex', gap: '5px', minWidth: '80px' }}
-                        >
-                          {item?.signatureStatus ===
-                            ENUM_CONTRACT_STATUS?.SIGNED && (
-                            <CustomTooltip title="Signed">
-                              <Box>
-                                <SignedIcon />
-                              </Box>
-                            </CustomTooltip>
-                          )}
-
-                          {item?.signatureStatus ===
-                            ENUM_CONTRACT_STATUS?.REJECTED && (
-                            <CustomTooltip title="Rejected">
-                              <Box>
-                                <SignedIcon
-                                  color={theme?.palette?.error?.main}
-                                />
-                              </Box>
-                            </CustomTooltip>
-                          )}
-
-                          {(item?.signatureStatus ===
-                            ENUM_CONTRACT_STATUS?.SIGNED ||
-                            item?.signatureStatus ===
-                              ENUM_CONTRACT_STATUS?.REJECTED) && (
-                            <CustomTooltip title="Viewed">
-                              <Box>
-                                <ViewedIcon />
-                              </Box>
-                            </CustomTooltip>
-                          )}
-
-                          {item?.emailSent && (
-                            <CustomTooltip title="Sent">
-                              <Box>
+                        {info?.row?.original?.status !==
+                          ENUM_CONTRACT_STATUS?.DRAFT && (
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              gap: '5px',
+                              minWidth: '80px',
+                            }}
+                          >
+                            <CustomTooltip
+                              title={item?.emailSent ? 'Sent' : 'Not sent'}
+                            >
+                              <Box
+                                sx={{
+                                  display: 'inline-flex',
+                                  color: item?.emailSent
+                                    ? 'primary.main'
+                                    : 'inherit',
+                                }}
+                              >
                                 <SentIcon />
                               </Box>
                             </CustomTooltip>
-                          )}
-                        </Box>
 
+                            <CustomTooltip
+                              title={item?.isViewed ? 'Viewed' : 'Not viewed'}
+                            >
+                              <Box
+                                sx={{
+                                  display: 'inline-flex',
+                                  color: item?.isViewed
+                                    ? 'primary.main'
+                                    : 'inherit',
+                                }}
+                              >
+                                <ViewedIcon />
+                              </Box>
+                            </CustomTooltip>
+
+                            <CustomTooltip
+                              title={
+                                !item?.isViewed
+                                  ? 'Not viewed'
+                                  : item?.signatureStatus ===
+                                      ENUM_CONTRACT_STATUS?.SIGNED
+                                    ? 'Signed'
+                                    : item?.signatureStatus ===
+                                        ENUM_CONTRACT_STATUS?.REJECTED
+                                      ? 'Rejected'
+                                      : item?.signatureStatus ===
+                                          ENUM_CONTRACT_STATUS?.PENDING
+                                        ? 'Pending'
+                                        : item?.signatureStatus ===
+                                            ENUM_CONTRACT_STATUS?.CHANGE_REQUEST
+                                          ? 'Change Request'
+                                          : 'Not signed'
+                              }
+                            >
+                              <Box
+                                sx={{
+                                  display: 'inline-flex',
+                                  color: !item?.isViewed
+                                    ? 'inherit'
+                                    : item?.signatureStatus ===
+                                        ENUM_CONTRACT_STATUS?.SIGNED
+                                      ? 'primary.main'
+                                      : item?.signatureStatus ===
+                                          ENUM_CONTRACT_STATUS?.REJECTED
+                                        ? 'error.main'
+                                        : item?.signatureStatus ===
+                                            ENUM_CONTRACT_STATUS?.PENDING
+                                          ? 'error.main'
+                                          : item?.signatureStatus ===
+                                              ENUM_CONTRACT_STATUS?.CHANGE_REQUEST
+                                            ? 'error.main'
+                                            : 'inherit',
+                                }}
+                              >
+                                <SignedIcon />
+                              </Box>
+                            </CustomTooltip>
+                          </Box>
+                        )}
                         <Box>
                           <Box sx={{ fontSize: '14px', fontWeight: '600' }}>
-                            {item?.party?.moduleData?.name ?? '--'}
+                            {getPartyName(item?.moduleData)}
                           </Box>
                           <Box
                             sx={{
@@ -310,7 +328,7 @@ export const contractsColumns = ({
                               color: theme?.palette?.custom?.slate_blue,
                             }}
                           >
-                            {item?.personalTitle} {item?.name ?? '--'}
+                            {item?.name ?? '--'}
                           </Box>
                           {index !== 0 && (
                             <>
@@ -338,13 +356,13 @@ export const contractsColumns = ({
                       </Box>
                     );
                   })}
-              </Box>
+              </>
             ) : (
               '--'
             )}
-          </Box>
-        </>
-      ),
+          </>
+        );
+      },
     },
     {
       accessorFn: (row: any) => row?.status,

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import {
   useGetPublicCommonContractByIdQuery,
@@ -22,6 +22,7 @@ export default function useContractView() {
   );
 
   const currentSigneeSignatureType = currentSignee?.signatureType;
+  const currentSigneesignatureStatus = currentSignee?.signatureStatus;
 
   const [isConfirmSigning, setIsConfirmSigning] = useState(false);
   const handleChangeConfirmSigning = (
@@ -33,7 +34,7 @@ export default function useContractView() {
   const [openModalSignAndSend, setOpenModalSignAndSend] =
     useState<boolean>(false);
   const handleOpenModalSignAndSend = (_: any, data?: any) => {
-    if (currentSignee?.signatureStatus === 'SIGNED') return;
+    if (currentSigneesignatureStatus === 'SIGNED') return;
 
     if (data) {
       if (currentSignee?.email !== data?.email) {
@@ -110,10 +111,8 @@ export default function useContractView() {
     }
   };
 
-  const hasRun = useRef(false);
-  const sendIsViewedRequest = useCallback(async () => {
-    if (!contractId || !signeeId || currentSignee?.isViewed || hasRun.current)
-      return;
+  const sendIsViewedRequest = async () => {
+    if (!contractId || !signeeId || currentSignee?.isViewed) return;
 
     try {
       const formData = new FormData();
@@ -127,15 +126,16 @@ export default function useContractView() {
       );
 
       await putCommonContract({ body: formData })?.unwrap();
-      hasRun.current = true;
     } catch (error: any) {
       errorSnackbar('An error occurred');
     }
-  }, [contractId, signeeId, currentSignee, putCommonContract]);
+  };
 
   useEffect(() => {
-    sendIsViewedRequest();
-  }, [sendIsViewedRequest]);
+    if (dataContractById && !currentSignee?.isViewed) {
+      sendIsViewedRequest();
+    }
+  }, [currentSignee, dataContractById]);
 
   return {
     signature,
@@ -146,6 +146,7 @@ export default function useContractView() {
 
     currentSignee,
     currentSigneeSignatureType,
+    currentSigneesignatureStatus,
 
     openModalSignAndSend,
     handleOpenModalSignAndSend,

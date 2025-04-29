@@ -17,13 +17,15 @@ export const styles = {
   },
   collaborator: {
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     gap: '16px',
   },
   collaboratorContent: {
     flex: '1',
   },
   collaboratorAction: {
-    pt: '30px',
+    height: '60px',
+    display: 'flex',
+    alignItems: 'center',
   },
 };

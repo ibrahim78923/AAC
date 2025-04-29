@@ -37,7 +37,7 @@ import { API_STATUS, ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { AIR_SOCIAL_CONTRACTS } from '@/constants/routes';
-import { ENUM_CONTRACT_STATUS } from '@/utils/contracts';
+import { ENUM_CONTRACT_STATUS, ENUM_CONTRACT_TYPE } from '@/utils/contracts';
 
 const Actions = ({ selectedRecords, setSelectedRecords }: any) => {
   const theme: any = useTheme();
@@ -79,9 +79,10 @@ const Actions = ({ selectedRecords, setSelectedRecords }: any) => {
       await postDealAssociation({
         body: payload,
       })?.unwrap();
-      enqueueSnackbar('Record Deleted Successfully', {
+      enqueueSnackbar('Contract successfully associated with deal.', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
+      setIsDealAssociations(false);
     } catch (error: any) {
       const errMsg = error?.data?.message;
       enqueueSnackbar(errMsg ?? 'Error occurred', {
@@ -170,6 +171,31 @@ const Actions = ({ selectedRecords, setSelectedRecords }: any) => {
               }}
             >
               View
+            </MenuItem>
+          )}
+        {selectedRecords?.length === 1 &&
+          currentFolder?.status === ENUM_CONTRACT_STATUS?.DRAFT && (
+            <MenuItem
+              disabled={selectedRecords?.length > 1}
+              onClick={() => {
+                handleClose();
+                if (currentFolder?.contractType === 'PDF') {
+                  router?.push({
+                    pathname: AIR_SOCIAL_CONTRACTS?.CONTRACTS_CREATE,
+                    query: {
+                      contractType: ENUM_CONTRACT_TYPE?.PDF,
+                      contractId: currentFolder?._id,
+                    },
+                  });
+                } else {
+                  router?.push({
+                    pathname: AIR_SOCIAL_CONTRACTS?.CONTRACTS_CREATE,
+                    query: { contractId: currentFolder?._id },
+                  });
+                }
+              }}
+            >
+              Edit
             </MenuItem>
           )}
         <MenuItem

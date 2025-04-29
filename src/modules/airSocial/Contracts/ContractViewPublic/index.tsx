@@ -19,6 +19,7 @@ export default function ContractViewPublic() {
     signeeId,
 
     currentSigneeSignatureType,
+    currentSigneesignatureStatus,
 
     openModalSignAndSend,
     handleOpenModalSignAndSend,
@@ -61,6 +62,7 @@ export default function ContractViewPublic() {
           status={dataContractById?.data?.status || 'Pending'}
           handleOpenModalSignAndSend={handleOpenModalSignAndSend}
           contractType={dataContractById?.data?.contractType}
+          signatureStatus={currentSigneesignatureStatus}
         />
       </PlainHeader>
 
@@ -77,15 +79,7 @@ export default function ContractViewPublic() {
           </Box>
 
           <Box sx={styles?.sidebar}>
-            <SidebarContent
-              dataFieldsData={dataContractById?.data?.dynamicFields || []}
-              ownerData={{
-                ...(dataContractById?.data?.owner || {}),
-                createdAt: dataContractById?.data?.createdAt,
-                contractId: dataContractById?.data?._id,
-              }}
-              signeesData={dataContractById?.data?.signees || []}
-            />
+            <SidebarContent contractData={dataContractById?.data} />
           </Box>
         </Box>
       </Box>

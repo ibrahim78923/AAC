@@ -82,7 +82,7 @@ export default function Preview({ documentHistoryData }: PreviewProps) {
                 <Box sx={styles?.signatureCardField}>
                   <Box sx={styles?.fieldCardLabel}>{'On behalf of'}</Box>
                   <Box sx={styles?.fieldCardValue}>
-                    {signee?.onBehalfOf ?? '--'}
+                    {getPartyName(signee?.moduleData)}
                   </Box>
                 </Box>
                 <Box sx={styles?.signatureCardField}>

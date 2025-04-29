@@ -30,7 +30,7 @@ export const defaultValues = (data: any) => {
   const updatedSignees = (data?.signees || []).map((signee: any) => {
     return {
       ...signee,
-      onBehalfOf: signee?.moduleData._id,
+      onBehalfOf: signee?.moduleData?._id,
     };
   });
 

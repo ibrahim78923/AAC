@@ -36,12 +36,12 @@ export default function MainContent({
       ?.slice(0, 2);
   };
 
-  const getOnBehalfOf = (partyId: string) => {
-    const party: any = contractData?.parties?.find(
-      (p: any) => p?._id === partyId,
-    );
-    return party?.moduleData;
-  };
+  // const getOnBehalfOf = (partyId: string) => {
+  //   const party: any = contractData?.parties?.find(
+  //     (p: any) => p?._id === partyId,
+  //   );
+  //   return party?.moduleData;
+  // };
 
   const sizeMB = contractData?.attachment?.size / (1024 * 1024);
 
@@ -93,7 +93,7 @@ export default function MainContent({
               <Box sx={styles?.signatureCardField}>
                 <Box sx={styles?.fieldCardLabel}>{'On behalf of'}</Box>
                 <Box sx={styles?.fieldCardValue}>
-                  {getPartyName(getOnBehalfOf(signee?.partyId)) ?? '--'}
+                  {getPartyName(signee?.moduleData)}
                 </Box>
               </Box>
               <Box sx={styles?.signatureCardField}>
@@ -141,47 +141,48 @@ export default function MainContent({
         </Grid>
       )}
 
-      {contractData?.status === ENUM_CONTRACT_STATUS?.PENDING && (
-        <Grid item xs={12}>
-          <Grid container spacing="12px">
-            {contractData?.contractType === 'BASIC' && (
-              <Grid item xs={12}>
+      {contractData?.status === ENUM_CONTRACT_STATUS?.PENDING &&
+        currentSignee?.signatureStatus !== 'SIGNED' && (
+          <Grid item xs={12}>
+            <Grid container spacing="12px">
+              {contractData?.contractType === 'BASIC' && (
+                <Grid item xs={12}>
+                  <Button
+                    variant={'contained'}
+                    className={'small'}
+                    fullWidth
+                    onClick={handleOpenModalSignAndSend}
+                  >
+                    Sign & Send
+                  </Button>
+                </Grid>
+              )}
+              <Grid item xs={12} sm={6}>
                 <Button
+                  onClick={handleOpenModalDismissAgreement}
                   variant={'contained'}
                   className={'small'}
                   fullWidth
-                  onClick={handleOpenModalSignAndSend}
+                  color={'error'}
                 >
-                  Sign & Send
+                  Dismiss Agreement
                 </Button>
               </Grid>
-            )}
-            <Grid item xs={12} sm={6}>
-              <Button
-                onClick={handleOpenModalDismissAgreement}
-                variant={'contained'}
-                className={'small'}
-                fullWidth
-                color={'error'}
-              >
-                Dismiss Agreement
-              </Button>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Button
-                onClick={handleOpenModalRequestChanged}
-                variant="outlined"
-                className="small"
-                color="inherit"
-                sx={{ color: theme?.palette?.custom['main'] }}
-                fullWidth
-              >
-                Suggest Changes
-              </Button>
+              <Grid item xs={12} sm={6}>
+                <Button
+                  onClick={handleOpenModalRequestChanged}
+                  variant="outlined"
+                  className="small"
+                  color="inherit"
+                  sx={{ color: theme?.palette?.custom['main'] }}
+                  fullWidth
+                >
+                  Suggest Changes
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-      )}
+        )}
 
       {contractData?.contractType === 'BASIC' && contractData?.attachment && (
         <Grid item xs={12}>

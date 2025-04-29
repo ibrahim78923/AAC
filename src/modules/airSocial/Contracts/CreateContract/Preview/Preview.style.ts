@@ -17,7 +17,7 @@ export const styles = {
     maxWidth: '100%',
     height: 'auto',
     width: 'auto',
-    maxHeight: '256px',
+    maxHeight: '160px',
   },
   fieldCard: (theme: Theme) => ({
     backgroundColor: theme?.palette?.custom?.pale_grayish_blue,

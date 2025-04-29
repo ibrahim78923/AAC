@@ -8,6 +8,7 @@ interface TopbarProps {
   status: string;
   handleOpenModalSignAndSend: (_?: any, data?: any) => void;
   contractType?: string;
+  signatureStatus?: string;
 }
 
 export default function Topbar({
@@ -15,6 +16,7 @@ export default function Topbar({
   status,
   handleOpenModalSignAndSend,
   contractType,
+  signatureStatus,
 }: TopbarProps) {
   return (
     <Box sx={styles.toolbar}>
@@ -25,16 +27,18 @@ export default function Topbar({
       </Box>
 
       <Box sx={styles.right}>
-        {status === ENUM_CONTRACT_STATUS?.PENDING && contractType !== 'PDF' && (
-          <Button
-            onClick={handleOpenModalSignAndSend}
-            variant="contained"
-            color="primary"
-            className="small"
-          >
-            Sign & Send
-          </Button>
-        )}
+        {status === ENUM_CONTRACT_STATUS?.PENDING &&
+          contractType !== 'PDF' &&
+          signatureStatus !== 'SIGNED' && (
+            <Button
+              onClick={handleOpenModalSignAndSend}
+              variant="contained"
+              color="primary"
+              className="small"
+            >
+              Sign & Send
+            </Button>
+          )}
       </Box>
     </Box>
   );

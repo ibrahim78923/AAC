@@ -8,7 +8,7 @@ import { SentIcon, SignedIcon, ViewedIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import DefaultUserIcon from '@/assets/icons/shared/default-user';
 import useGridView from './useGridView';
-import { ENUM_CONTRACT_STATUS } from '@/utils/contracts';
+import { ENUM_CONTRACT_STATUS, getPartyName } from '@/utils/contracts';
 
 const ContractsGrid = ({
   activeFolder,
@@ -71,7 +71,7 @@ const ContractsGrid = ({
             --
           </Typography>
 
-          {viewMoreData?.signees?.map((ele: any) => {
+          {viewMoreData?.signees?.map((signee: any) => {
             return (
               <Box
                 display="flex"
@@ -80,44 +80,79 @@ const ContractsGrid = ({
                 key={uuidv4()}
               >
                 <Box sx={{ display: 'flex', gap: '5px', minWidth: '80px' }}>
-                  {ele?.signatureStatus === ENUM_CONTRACT_STATUS?.SIGNED && (
-                    <CustomTooltip title="Signed">
-                      <Box>
-                        <SignedIcon />
-                      </Box>
-                    </CustomTooltip>
-                  )}
+                  <CustomTooltip
+                    title={signee?.emailSent ? 'Sent' : 'Not sent'}
+                  >
+                    <Box
+                      sx={{
+                        display: 'inline-flex',
+                        color: signee?.emailSent ? 'primary.main' : 'inherit',
+                      }}
+                    >
+                      <SentIcon />
+                    </Box>
+                  </CustomTooltip>
 
-                  {ele?.signatureStatus === ENUM_CONTRACT_STATUS?.REJECTED && (
-                    <CustomTooltip title="Rejected">
-                      <Box>
-                        <SignedIcon color={theme?.palette?.error?.main} />
-                      </Box>
-                    </CustomTooltip>
-                  )}
+                  <CustomTooltip
+                    title={signee?.isViewed ? 'Viewed' : 'Not viewed'}
+                  >
+                    <Box
+                      sx={{
+                        display: 'inline-flex',
+                        color: signee?.isViewed ? 'primary.main' : 'inherit',
+                      }}
+                    >
+                      <ViewedIcon />
+                    </Box>
+                  </CustomTooltip>
 
-                  {(ele?.signatureStatus === ENUM_CONTRACT_STATUS?.SIGNED ||
-                    ele?.signatureStatus ===
-                      ENUM_CONTRACT_STATUS?.REJECTED) && (
-                    <CustomTooltip title="Viewed">
-                      <Box>
-                        <ViewedIcon />
-                      </Box>
-                    </CustomTooltip>
-                  )}
-
-                  {ele?.emailSent && (
-                    <CustomTooltip title="Sent">
-                      <Box>
-                        <SentIcon />
-                      </Box>
-                    </CustomTooltip>
-                  )}
+                  <CustomTooltip
+                    title={
+                      !signee?.isViewed
+                        ? 'Not viewed'
+                        : signee?.signatureStatus ===
+                            ENUM_CONTRACT_STATUS?.SIGNED
+                          ? 'Signed'
+                          : signee?.signatureStatus ===
+                              ENUM_CONTRACT_STATUS?.REJECTED
+                            ? 'Rejected'
+                            : signee?.signatureStatus ===
+                                ENUM_CONTRACT_STATUS?.PENDING
+                              ? 'Pending'
+                              : signee?.signatureStatus ===
+                                  ENUM_CONTRACT_STATUS?.CHANGE_REQUEST
+                                ? 'Change Request'
+                                : 'Not signed'
+                    }
+                  >
+                    <Box
+                      sx={{
+                        display: 'inline-flex',
+                        color: !signee?.isViewed
+                          ? 'inherit'
+                          : signee?.signatureStatus ===
+                              ENUM_CONTRACT_STATUS?.SIGNED
+                            ? 'primary.main'
+                            : signee?.signatureStatus ===
+                                ENUM_CONTRACT_STATUS?.REJECTED
+                              ? 'error.main'
+                              : signee?.signatureStatus ===
+                                  ENUM_CONTRACT_STATUS?.PENDING
+                                ? 'error.main'
+                                : signee?.signatureStatus ===
+                                    ENUM_CONTRACT_STATUS?.CHANGE_REQUEST
+                                  ? 'error.main'
+                                  : 'inherit',
+                      }}
+                    >
+                      <SignedIcon />
+                    </Box>
+                  </CustomTooltip>
                 </Box>
 
                 <Box sx={{ mb: 2 }}>
                   <Box sx={{ fontSize: '14px', fontWeight: '600' }}>
-                    {ele?.party?.moduleData?.name ?? '--'}
+                    {getPartyName(signee?.moduleData)}
                   </Box>
                   <Box
                     sx={{
@@ -141,7 +176,7 @@ const ContractsGrid = ({
                     </Box>
                     <Box>
                       <Typography variant="body2" sx={{ fontSize: '13.74px' }}>
-                        {ele?.personalTitle} {ele?.name}
+                        {signee?.personalTitle} {signee?.name}
                       </Typography>
                       <Typography
                         variant="body2"
@@ -149,7 +184,9 @@ const ContractsGrid = ({
                           fontSize: '13.74px',
                           color: theme?.palette?.custom?.light,
                         }}
-                      ></Typography>
+                      >
+                        {signee?.email}
+                      </Typography>
                     </Box>
                   </Box>
                 </Box>
