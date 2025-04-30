@@ -176,7 +176,7 @@ export default function useCreateContract() {
       }
     };
     createFormData('name', values?.name);
-    createFormData('attachment', values?.attachment);
+    createFormData('latestAttachment', values?.attachment);
     createFormData('message', values?.message);
     createFormData('logo', values?.logo);
     createFormData('parties', createPartiesFormData(values?.parties, false));
