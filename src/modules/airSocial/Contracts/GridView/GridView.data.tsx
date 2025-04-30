@@ -240,7 +240,6 @@ export const contractsColumns = ({
                             sx={{
                               display: 'flex',
                               gap: '5px',
-                              minWidth: '80px',
                             }}
                           >
                             <CustomTooltip
@@ -318,7 +317,13 @@ export const contractsColumns = ({
                           </Box>
                         )}
                         <Box>
-                          <Box sx={{ fontSize: '14px', fontWeight: '600' }}>
+                          <Box
+                            sx={{
+                              fontSize: '14px',
+                              fontWeight: '600',
+                              whiteSpace: 'nowrap',
+                            }}
+                          >
                             {getPartyName(item?.moduleData)}
                           </Box>
                           <Box

@@ -143,7 +143,8 @@ const Contracts = () => {
     resolver: yupResolver(contractsFiltersValidationSchema),
     defaultValues: contractsFiltersDefaultValues,
   });
-  const { handleSubmit: handleSubmitFilter } = methodsFilter;
+  const { handleSubmit: handleSubmitFilter, reset: resetFilters } =
+    methodsFilter;
   const onSubmitFilter = (values: any) => {
     const hasValue = (val: any) =>
       val !== undefined && val !== null && val !== '';
@@ -576,7 +577,10 @@ const Contracts = () => {
                   sx={{
                     width: { xs: '100%', sm: 'auto', md: 'auto', lg: 'auto' },
                   }}
-                  onClick={() => setFilterParams({})}
+                  onClick={() => {
+                    setFilterParams({});
+                    resetFilters();
+                  }}
                 >
                   <RefreshTasksIcon />
                 </Button>
@@ -645,7 +649,7 @@ const Contracts = () => {
         cancelBtnHandler={() => {
           setIsFilterDrawerOpen(false);
           setFilterParams({});
-          methodsFilter.reset();
+          resetFilters();
         }}
         submitHandler={handleSubmitFilter(onSubmitFilter)}
         isOk

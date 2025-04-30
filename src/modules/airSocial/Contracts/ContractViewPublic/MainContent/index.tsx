@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Box, Button, Grid, useTheme } from '@mui/material';
+import { Avatar, Box, Button, Grid, Typography, useTheme } from '@mui/material';
 import { styles } from './MainContent.style';
 import Image from 'next/image';
 import { IconDefaultAttachment, IconSigningDigitally } from '@/assets/icons';
@@ -7,6 +7,7 @@ import DocumentHistory from '../../CreateContract/components/DocumentHistory';
 import { ENUM_CONTRACT_STATUS, getPartyName } from '@/utils/contracts';
 import { generateImage } from '@/utils/avatarUtils';
 import EditablePDF from './EditablePDF';
+import dayjs from 'dayjs';
 
 type MainContentProps = {
   contractData: any;
@@ -86,6 +87,8 @@ export default function MainContent({
         </Grid>
       ))}
 
+      <Grid item xs={12}></Grid>
+
       {contractData?.signees?.map((signee: any) => (
         <Grid item xs={12} sm={6} key={signee?._id || signee?.id}>
           <Box sx={styles?.signatureCard(theme, signee?.signatureStatus)}>
@@ -117,14 +120,44 @@ export default function MainContent({
               sx={styles?.signatureCardFooter(theme, signee?.signatureStatus)}
             >
               <Box sx={styles?.signatureCardFooterInner}>
-                <Box sx={styles?.signingDigitally}>
+                <Box
+                  sx={styles?.signingDigitally(theme, signee?.signatureStatus)}
+                >
                   <IconSigningDigitally />
-                  <Box>Signing digitally</Box>
+                  <Box>
+                    <Typography
+                      sx={{
+                        color:
+                          signee?.signatureStatus ===
+                            ENUM_CONTRACT_STATUS?.CHANGE_REQUEST ||
+                          signee?.signatureStatus ===
+                            ENUM_CONTRACT_STATUS?.REJECTED
+                            ? 'error.main'
+                            : 'inherit',
+                      }}
+                    >
+                      {signee?.signatureStatus ===
+                        ENUM_CONTRACT_STATUS?.CHANGE_REQUEST ||
+                      signee?.signatureStatus === ENUM_CONTRACT_STATUS?.REJECTED
+                        ? 'Rejected'
+                        : 'Signing digitally'}
+                    </Typography>
+                    {signee?.signatureStatus === 'SIGNED' && (
+                      <Typography variant="body2">
+                        {dayjs(signee?.updatedAt).format(
+                          'DD MMMM YYYY [at] HH:mm:ss [GMT] Z',
+                        )}
+                      </Typography>
+                    )}
+                  </Box>
                 </Box>
               </Box>
 
               <Box
-                sx={styles?.signatureCardFooterStripe(signee?.signatureStatus)}
+                sx={styles?.signatureCardFooterStripe(
+                  theme,
+                  signee?.signatureStatus,
+                )}
               />
             </Box>
           </Box>

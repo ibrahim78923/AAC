@@ -1,4 +1,4 @@
-import { RHFDateRangePicker, RHFSelect } from '@/components/ReactHookForm';
+import { RHFDateRangePicker } from '@/components/ReactHookForm';
 import { CONTRACTS_STATUS, CONTRACTS_STATUS_TITLES } from '@/constants';
 import * as Yup from 'yup';
 
@@ -44,60 +44,23 @@ export const renameFolderDefaultValues = {
 };
 
 export const contractsFiltersValidationSchema = Yup.object().shape({
-  type: Yup.string(),
-  sortBy: Yup.string(),
   date: Yup?.mixed()?.nullable(),
 });
 export const contractsFiltersDefaultValues = {
-  type: '',
-  sortBy: '',
   date: {
-    startDate: null,
-    endDate: null,
+    startDate: new Date(),
+    endDate: new Date(),
     key: 'selection',
   },
 };
 export const contractsFilterData = () => [
   {
-    id: '01',
-    componentProps: {
-      name: 'type',
-      label: 'Type',
-      fullWidth: true,
-      required: false,
-      select: true,
-    },
-    options: [
-      { value: 'ownedByMe', label: 'Owned by me' },
-      { value: 'ownedByOthers', label: 'Owned by others' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    id: '02',
-    componentProps: {
-      name: 'sortBy',
-      label: 'Sortby',
-      fullWidth: true,
-      required: false,
-      select: true,
-    },
-    options: [
-      { value: 'titleAtoZ', label: 'Title A to Z' },
-      { value: 'titleZtoA', label: 'Title Z to A' },
-      { value: 'oldestToNew', label: 'Oldest to Newest' },
-      { value: 'newToOldest', label: 'Newest to Oldest ' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
     id: 70,
     componentProps: {
       name: 'date',
-      label: 'Created Date',
+      label: 'Date',
       placeholder: 'Select created date',
+      maxDate: new Date(),
     },
     component: RHFDateRangePicker,
     md: 12,

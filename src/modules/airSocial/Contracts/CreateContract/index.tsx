@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PlainHeader from '@/components/PlainHeader';
 import HeaderCreateContract from './components/HeaderCreateContract';
 import { Backdrop, Box, Button, CircularProgress, Grid } from '@mui/material';
@@ -23,6 +23,7 @@ import PDFCreateContract from './PDFCreateContract';
 import ModalSignAndSend from './components/ModalSignAndSend';
 import ModalTemplateCategories from './components/ModalTemplateCategories';
 import { ENUM_CONTRACT_STATUS, ENUM_CONTRACT_TYPE } from '@/utils/contracts';
+import { AIR_SOCIAL_CONTRACTS } from '@/constants/routes';
 // import ModalAddSignee from './components/ModalAddSignee';
 
 export default function CreateContract() {
@@ -91,6 +92,22 @@ export default function CreateContract() {
     dataContractById,
     contractDetailsData,
   } = useCreateContract();
+
+  useEffect(() => {
+    if (!contractDetailsData) return;
+    const redirectCheck =
+      contractDetailsData.status === ENUM_CONTRACT_STATUS?.SIGNED ||
+      contractDetailsData.status === ENUM_CONTRACT_STATUS?.REJECTED ||
+      contractDetailsData.status === ENUM_CONTRACT_STATUS?.CHANGE_REQUEST ||
+      contractDetailsData.status === ENUM_CONTRACT_STATUS?.PENDING;
+
+    if (redirectCheck) {
+      router?.push({
+        pathname: AIR_SOCIAL_CONTRACTS?.CONTRACT_VIEW,
+        query: { contractId: contractId },
+      });
+    }
+  }, [contractDetailsData, router, contractId]);
 
   const disabledSaveChanges = () => {
     if (templateId) {

@@ -2,7 +2,7 @@ import { PAGINATION } from '@/config';
 import { CONTRACTS_STATUS } from '@/constants';
 import { useGetCommonContractsListQuery } from '@/services/commonFeatures/contracts/contracts-dashboard';
 import { useTheme } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function useGridView({
   tabValue,
@@ -16,6 +16,10 @@ export default function useGridView({
 
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+
+  useEffect(() => {
+    setPage(PAGINATION?.CURRENT_PAGE);
+  }, [filterParams, tabValue]);
 
   const { data, isLoading, isFetching, isError, isSuccess } =
     useGetCommonContractsListQuery(

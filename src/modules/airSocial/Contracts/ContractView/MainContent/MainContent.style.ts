@@ -48,7 +48,10 @@ export const styles = {
     border: `1px solid ${
       status === ENUM_CONTRACT_STATUS?.SIGNED
         ? 'rgba(202, 244, 243, 0.75)'
-        : theme?.palette?.custom?.border_grayish_blue
+        : status === ENUM_CONTRACT_STATUS?.CHANGE_REQUEST ||
+            status === ENUM_CONTRACT_STATUS?.REJECTED
+          ? '#fff0ee'
+          : theme?.palette?.custom?.border_grayish_blue
     }`,
     borderRadius: '6px',
     height: '100%',
@@ -69,29 +72,62 @@ export const styles = {
     backgroundColor: `${
       status === ENUM_CONTRACT_STATUS?.SIGNED
         ? 'rgba(202, 244, 243, 0.75)'
-        : theme?.palette?.custom?.pale_grayish_blue
-    }`,
+        : status === ENUM_CONTRACT_STATUS?.CHANGE_REQUEST ||
+            status === ENUM_CONTRACT_STATUS?.REJECTED
+          ? '#fff0ee'
+          : theme?.palette?.custom?.pale_grayish_blue
+    }
+    `,
   }),
   signatureCardFooterInner: {
-    padding: '24px',
-  },
-  signingDigitally: (theme: Theme) => ({
+    padding: '12px 24px',
+    height: '80px',
     display: 'flex',
     alignItems: 'center',
-    gap: '18px',
-    fontSize: '12px',
-    color: theme?.palette?.custom?.light,
-  }),
-  signatureCardFooterStripe: (status: string) => {
+  },
+  signingDigitally: (theme: Theme, status: string) => {
+    const isRejected =
+      status === ENUM_CONTRACT_STATUS?.CHANGE_REQUEST ||
+      status === ENUM_CONTRACT_STATUS?.REJECTED;
+    return {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '18px',
+      fontSize: '12px',
+      color: isRejected ? 'error.main' : theme?.palette?.custom?.light,
+    };
+  },
+  signatureCardFooterStripe: (theme: Theme, status: string) => {
     const isSigned = status === ENUM_CONTRACT_STATUS?.SIGNED;
+    const isRejected =
+      status === ENUM_CONTRACT_STATUS?.CHANGE_REQUEST ||
+      status === ENUM_CONTRACT_STATUS?.REJECTED;
 
     return {
-      borderTop: `2px solid ${isSigned ? '#38CAB5' : '#344054'}`,
+      borderTop: `2px solid ${
+        isSigned
+          ? '#38CAB5'
+          : isRejected
+            ? theme?.palette.error.main
+            : '#344054'
+      }`,
       height: '9px',
       background: `repeating-linear-gradient(
         -55deg,
-        ${isSigned ? '#38CAB5' : '#344054'},
-        ${isSigned ? '#38CAB5' : '#344054'} 48px,
+        ${
+          isSigned
+            ? '#38CAB5'
+            : isRejected
+              ? theme?.palette.error.main
+              : '#344054'
+        },
+        ${
+          isSigned
+            ? '#38CAB5'
+            : isRejected
+              ? theme?.palette.error.main
+              : '#344054'
+        } 48px,
         #ffffff 48px,
         #ffffff 54px
       )`,
