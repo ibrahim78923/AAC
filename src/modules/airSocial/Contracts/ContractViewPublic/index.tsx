@@ -40,6 +40,8 @@ export default function ContractViewPublic() {
     openModalRequestChanged,
     handleOpenModalRequestChanged,
     handleCloseModalRequestChanged,
+
+    downloadRef,
   } = useContractView();
 
   return (
@@ -63,6 +65,7 @@ export default function ContractViewPublic() {
           handleOpenModalSignAndSend={handleOpenModalSignAndSend}
           contractType={dataContractById?.data?.contractType}
           signatureStatus={currentSigneesignatureStatus}
+          downloadRef={downloadRef}
         />
       </PlainHeader>
 
@@ -75,6 +78,7 @@ export default function ContractViewPublic() {
               handleOpenModalSignAndSend={handleOpenModalSignAndSend}
               handleOpenModalDismissAgreement={handleOpenModalDismissAgreement}
               handleOpenModalRequestChanged={handleOpenModalRequestChanged}
+              downloadRef={downloadRef}
             />
           </Box>
 

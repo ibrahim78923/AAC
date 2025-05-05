@@ -15,6 +15,7 @@ type MainContentProps = {
   handleOpenModalSignAndSend: (_?: any, data?: any) => void;
   handleOpenModalDismissAgreement: () => void;
   handleOpenModalRequestChanged: () => void;
+  downloadRef?: React.RefObject<HTMLDivElement>;
 };
 
 export default function MainContent({
@@ -23,6 +24,7 @@ export default function MainContent({
   handleOpenModalSignAndSend,
   handleOpenModalDismissAgreement,
   handleOpenModalRequestChanged,
+  downloadRef,
 }: MainContentProps) {
   const theme = useTheme();
   const currentSignee: any = contractData?.signees?.find(
@@ -47,7 +49,7 @@ export default function MainContent({
   const sizeMB = contractData?.attachment?.size / (1024 * 1024);
 
   return (
-    <Grid container spacing="30px">
+    <Grid container spacing="30px" ref={downloadRef}>
       <Grid item xs={12} sm={6}>
         <Box sx={styles?.contractTitle}>{contractData?.name}</Box>
       </Grid>

@@ -8,7 +8,8 @@ import useContractView from './useContractView';
 import SidebarContent from './SidebarContent';
 
 export default function ContractView() {
-  const { dataContractById, loadingGetContractById } = useContractView();
+  const { dataContractById, loadingGetContractById, downloadRef } =
+    useContractView();
 
   return (
     <>
@@ -28,13 +29,17 @@ export default function ContractView() {
         <Topbar
           title={dataContractById?.data?.name || 'Untitled Contract'}
           status={dataContractById?.data?.status || 'Pending'}
+          downloadRef={downloadRef}
         />
       </PlainHeader>
 
       <Box sx={styles?.container}>
         <Box sx={styles?.contentRow}>
           <Box sx={styles?.content}>
-            <MainContent contractData={dataContractById?.data} />
+            <MainContent
+              contractData={dataContractById?.data}
+              downloadRef={downloadRef}
+            />
           </Box>
 
           <Box sx={styles?.sidebar}>

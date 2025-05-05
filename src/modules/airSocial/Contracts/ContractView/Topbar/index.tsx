@@ -3,13 +3,15 @@ import { Box, Button, Menu, MenuItem } from '@mui/material';
 import { styles } from './Topbar.style';
 import { IconContractMore, IconPlainBack } from '@/assets/icons';
 import { useRouter } from 'next/router';
+import { htmlToPdfConvert } from '@/lib/html-to-pdf-converter';
 
 interface TopbarProps {
   title: string;
   status: string;
+  downloadRef: React.RefObject<HTMLDivElement>;
 }
 
-export default function Topbar({ title, status }: TopbarProps) {
+export default function Topbar({ title, status, downloadRef }: TopbarProps) {
   const router = useRouter();
 
   const [anchorElMoreMenu, setAnchorElMoreMenu] = useState<null | HTMLElement>(
@@ -64,7 +66,14 @@ export default function Topbar({ title, status }: TopbarProps) {
             horizontal: 'right',
           }}
         >
-          <MenuItem onClick={handleCloseMoreMenu}>Download pdf</MenuItem>
+          <MenuItem
+            onClick={() => {
+              handleCloseMoreMenu();
+              htmlToPdfConvert?.(downloadRef, title, 20);
+            }}
+          >
+            Download pdf
+          </MenuItem>
         </Menu>
       </Box>
     </Box>

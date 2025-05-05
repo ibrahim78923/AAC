@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import {
   useGetPublicCommonContractByIdQuery,
@@ -9,6 +9,7 @@ import { base64ToFile } from '@/utils/contracts';
 
 export default function useContractView() {
   const router = useRouter();
+  const downloadRef = useRef(null);
   const [signature, setSignature] = useState<string | null>(null);
   const [signatureStatus, setSignatureStatus] = useState<string>('SIGNED');
   const [signatureMessage, setSignatureMessage] = useState<string>('');
@@ -167,5 +168,7 @@ export default function useContractView() {
     openModalRequestChanged,
     handleOpenModalRequestChanged,
     handleCloseModalRequestChanged,
+
+    downloadRef,
   };
 }
