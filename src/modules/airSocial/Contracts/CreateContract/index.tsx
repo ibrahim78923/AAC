@@ -24,6 +24,7 @@ import ModalSignAndSend from './components/ModalSignAndSend';
 import ModalTemplateCategories from './components/ModalTemplateCategories';
 import { ENUM_CONTRACT_STATUS, ENUM_CONTRACT_TYPE } from '@/utils/contracts';
 import { AIR_SOCIAL_CONTRACTS } from '@/constants/routes';
+import { isNullOrEmpty } from '@/utils';
 // import ModalAddSignee from './components/ModalAddSignee';
 
 export default function CreateContract() {
@@ -91,6 +92,8 @@ export default function CreateContract() {
     handleRemoveDynamicField,
     dataContractById,
     contractDetailsData,
+    latestAttachment,
+    contractTitle,
   } = useCreateContract();
 
   useEffect(() => {
@@ -121,7 +124,11 @@ export default function CreateContract() {
 
   const disabledSignAndSend = () => {
     if (contractType) {
-      return signeeFields?.length === 0;
+      return (
+        signeeValues?.length === 0 ||
+        !latestAttachment ||
+        isNullOrEmpty(contractTitle)
+      );
     } else {
       return partyFields?.length === 0 && signeeFields?.length === 0;
     }

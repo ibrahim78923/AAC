@@ -74,7 +74,10 @@ export default function useCreateContract() {
     resolver: yupResolver(validationSchema()),
     defaultValues: defaultValues(contractDetailsData),
   });
-  const { control, handleSubmit, reset, setValue } = methods;
+  const { control, handleSubmit, reset, setValue, watch } = methods;
+  const latestAttachment = watch('latestAttachment');
+  const contractTitle = watch('name');
+
   // Signees FieldArray
   const {
     fields: signeeFields,
@@ -585,5 +588,7 @@ export default function useCreateContract() {
     dataContractById,
 
     contractDetailsData,
+    latestAttachment,
+    contractTitle,
   };
 }
