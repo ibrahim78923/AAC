@@ -111,11 +111,11 @@ export const columns = (selectedRows: any, handleCheckboxClick: any) => {
       id: 'total',
       isSortable: true,
       header: 'Invoice amount',
-      cell: (info: any) => <>£ {info?.row?.original?.netAmount}</>,
+      cell: (info: any) => <>£ {info?.row?.original?.netAmount?.toFixed(2)}</>,
     },
     {
-      accessorFn: (row: any) => row?.dueDate,
-      id: 'InvoiceAmount',
+      accessorFn: (row: any) => row?.invoicePayDate,
+      id: 'invoicePayDate',
       isSortable: true,
       header: 'Payment Date',
       cell: (info: any) => (
@@ -190,7 +190,7 @@ export const FilterInvoiceFiltersDataArray = () => {
     {
       componentProps: {
         name: 'status',
-        label: 'status',
+        label: 'Status',
         select: true,
       },
       options: [

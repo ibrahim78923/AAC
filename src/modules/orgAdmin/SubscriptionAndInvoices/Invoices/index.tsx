@@ -26,7 +26,7 @@ import { v4 as uuidv4 } from 'uuid';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS } from '@/constants/permission-keys';
 import { indexNumbers } from '@/constants';
-import { TICKETS_STATE } from '@/constants/strings';
+import { TICKET_STATUS, TICKETS_STATE } from '@/constants/strings';
 
 const Invoices = () => {
   const {
@@ -86,7 +86,7 @@ const Invoices = () => {
                     sx={{ fontSize: '1rem', width: '100px' }}
                   />
                 ) : (
-                  `£ ${data?.data?.widget?.totalAmountDue}`
+                  `£ ${(data?.data?.widget?.totalAmountDue).toFixed(2)}`
                 )}
               </Box>
             </Grid>
@@ -146,7 +146,9 @@ const Invoices = () => {
                   onClick={handleOpenPayInvoice}
                   disabled={
                     selectedRows[indexNumbers?.ZERO]?.status ===
-                    TICKETS_STATE?.PAID
+                      TICKETS_STATE?.PAID ||
+                    selectedRows[indexNumbers?.ZERO]?.status ===
+                      TICKET_STATUS?.CLOSED
                   }
                 >
                   Pay Now

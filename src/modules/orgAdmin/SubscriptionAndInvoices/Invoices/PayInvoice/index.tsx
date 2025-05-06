@@ -73,11 +73,32 @@ const PayInvoice: FC<PayInvoiceI> = ({ open, onClose, invoiceId }) => {
       submitHandler={handleSubmit}
       isLoading={PostPayNowLoading}
     >
-      <Typography sx={styles?.invoiceDetailsTitle} variant="h5">
-        Invoice Details
-      </Typography>
+      <Box
+        display={'flex'}
+        justifyContent="space-between"
+        sx={styles?.invoiceDetailsTitle}
+      >
+        <Typography display={'flex'} alignItems={'center'}>
+          <Box fontWeight={'bold'}>Invoice#: </Box> {data?.data?.invoiceNo}
+        </Typography>
+        <Typography
+          sx={{
+            ...styles?.planActiveChip,
+            backgroundColor:
+              data?.data?.status === 'PAID'
+                ? 'success.lighter'
+                : theme?.palette?.custom?.warning_light,
+          }}
+          variant="body1"
+        >
+          {data?.data?.status?.charAt(0)?.toUpperCase() +
+            data?.data?.status?.slice(1)?.toLowerCase()}
+        </Typography>
+      </Box>
       <Box sx={styles?.iRow}>
-        <Box sx={styles?.iCellHead}>{data?.data?.details?.plantypes} Plan</Box>
+        <Box sx={styles?.iCellHead}>
+          {data?.data?.details?.plans?.name} Plan
+        </Box>
         <Box sx={styles?.iCellHead}>
           £ {data?.data?.details?.plans?.planPrice}
         </Box>
@@ -85,51 +106,119 @@ const PayInvoice: FC<PayInvoiceI> = ({ open, onClose, invoiceId }) => {
 
       <Box sx={{ mt: '8px' }}>
         <Box sx={styles?.iCell}>
-          {dayjs(data?.data?.details?.billingDate)?.format(DATE_FORMAT?.UI)} to{' '}
-          {dayjs(data?.data?.details?.billingDate)
-            ?.add(1, 'month')
-            ?.format(DATE_FORMAT?.UI)}
+          {dayjs(data?.data?.billingFrom)?.format(DATE_FORMAT?.UI)} to{' '}
+          {dayjs(data?.data?.billingDate)?.format(DATE_FORMAT?.UI)}
         </Box>
       </Box>
 
-      <Box sx={{ mt: '24px' }}>
-        <Box sx={styles?.iRow}>
-          <Box sx={styles?.iCell}>additionalUsers Cost</Box>
-          <Box sx={styles?.iCellHead}>
-            £ {data?.data?.details?.sumAdditionalUsersPrices}
-          </Box>
-        </Box>
-      </Box>
-
-      <Box sx={{ mt: '24px' }}>
-        <Box sx={styles?.iRow}>
-          <Box sx={styles?.iCell}>Sub total</Box>
-          <Box sx={styles?.iCellHead}>£ {data?.data?.details?.subTotal}</Box>
-        </Box>
-      </Box>
-
-      <Box sx={{ mt: '12px' }}>
+      <Box sx={{ mt: '8px' }}>
         <Box sx={styles?.iRow}>
           <Box sx={styles?.iCell}>
-            Discount ({data?.data?.invoiceDiscount}%)
+            Additional Users (
+            {data?.data?.details?.calculations?.additionalUsers} users/£{' '}
+            {data?.data?.details?.calculations?.perDayPerUserPrice} per day){' '}
           </Box>
           <Box sx={styles?.iCellHead}>
-            £{' '}
-            {data?.data?.invoiceDiscount === 0
-              ? data?.data?.details?.subTotal
-              : data?.data?.details?.subTotal / data?.data?.invoiceDiscount -
-                data?.data?.details?.subTotal}
+            £ {data?.data?.details?.calculations?.sumOfUserPrice}
           </Box>
         </Box>
       </Box>
 
-      <Box sx={{ mt: '12px' }}>
+      <Box sx={{ mt: '8px' }}>
         <Box sx={styles?.iRow}>
-          <Box sx={styles?.iCell}>Vat. ({data?.data?.tax}%)</Box>
+          <Box sx={styles?.iCell}>
+            Additional Storage (
+            {data?.data?.details?.calculations?.additionalStorage} gb/£{' '}
+            {data?.data?.details?.calculations?.perDayPerStoragePrice} per day)
+          </Box>
+          <Box sx={styles?.iCellHead}>
+            £ {data?.data?.details?.calculations?.sumOfStoragePrice}
+          </Box>
+        </Box>
+      </Box>
+      <Box sx={{ mt: '8px' }}>
+        <Box sx={styles?.iRow}>
+          <Box sx={styles?.iCell}>Price Before Discount</Box>
           <Box sx={styles?.iCellHead}>
             £{' '}
-            {data?.data?.details?.subTotal / data?.data?.tax +
-              data?.data?.details?.subTotal}
+            {data?.data?.details?.calculations?.subTotalBeforeDiscount?.toFixed(
+              2,
+            )}
+          </Box>
+        </Box>
+      </Box>
+      <Box sx={{ mt: '8px' }}>
+        <Box sx={styles?.iRow}>
+          <Box sx={styles?.iCell}>
+            Plan Discount (
+            {data?.data?.details?.calculations?.planDiscountPercentage}%)
+          </Box>
+          <Box sx={styles?.iCellHead}>
+            £{' '}
+            {data?.data?.details?.calculations?.planDiscountAmount?.toFixed(2)}
+          </Box>
+        </Box>
+      </Box>
+      <Box sx={{ mt: '8px' }}>
+        <Box sx={styles?.iRow}>
+          <Box sx={styles?.iCell} fontWeight={'bold'}>
+            Sub total
+          </Box>
+          <Box sx={styles?.iCellHead}>
+            £ {data?.data?.details?.calculations?.subTotal?.toFixed(2)}
+          </Box>
+        </Box>
+      </Box>
+      <Box sx={{ mt: '8px' }}>
+        <Box sx={styles?.iRow}>
+          <Box sx={styles?.iCell}>
+            Invoice Discount (
+            {data?.data?.details?.calculations?.invoiceDiscountPercentage}%)
+          </Box>
+          <Box sx={styles?.iCellHead}>
+            £{' '}
+            {data?.data?.details?.calculations?.invoiceDiscountAmount?.toFixed(
+              2,
+            )}
+          </Box>
+        </Box>
+      </Box>
+      <Box sx={{ mt: '8px' }}>
+        <Box sx={styles?.iRow}>
+          <Box sx={styles?.iCell}>Payable</Box>
+          <Box sx={styles?.iCellHead}>
+            £ {data?.data?.details?.calculations?.payable}
+          </Box>
+        </Box>
+      </Box>
+
+      <Box sx={{ mt: '8px' }}>
+        <Box sx={styles?.iRow}>
+          <Box sx={styles?.iCell}>Adjusted Amount</Box>
+          <Box sx={styles?.iCellHead}>
+            £ {data?.data?.details?.calculations?.alreadyPaid}
+          </Box>
+        </Box>
+      </Box>
+
+      <Box sx={{ mt: '8px' }}>
+        <Box sx={styles?.iRow}>
+          <Box sx={styles?.iCell} fontWeight={'bold'}>
+            Total
+          </Box>
+          <Box sx={styles?.iCellHead}>
+            £ {data?.data?.details?.calculations?.total?.toFixed(2)}
+          </Box>
+        </Box>
+      </Box>
+
+      <Box sx={{ mt: '8px' }}>
+        <Box sx={styles?.iRow}>
+          <Box sx={styles?.iCell}>
+            Vat. ({data?.data?.details?.calculations?.taxPercentage}%)
+          </Box>
+          <Box sx={styles?.iCellHead}>
+            £ {data?.data?.details?.calculations?.taxAmount?.toFixed(2)}
           </Box>
         </Box>
       </Box>
@@ -137,21 +226,25 @@ const PayInvoice: FC<PayInvoiceI> = ({ open, onClose, invoiceId }) => {
       <Divider sx={{ my: '16px', borderColor: '#D1D5DB' }} />
 
       <Box sx={styles?.iRow}>
-        <Box sx={styles?.iCell}>Total</Box>
-        <Box sx={styles?.iCellHead}>£ {data?.data?.netAmount}</Box>
+        <Box sx={styles?.iCell} fontWeight={'bold'}>
+          Net Amount
+        </Box>
+        <Box sx={styles?.iCellHead}>
+          £ {data?.data?.details?.calculations?.netAmount?.toFixed(2)}
+        </Box>
       </Box>
 
       <Divider sx={{ mt: '24px', mb: '20px', borderColor: '#D1D5DB' }} />
 
       <Box sx={styles?.iCellHead}>Primary company address</Box>
       <Box sx={{ mt: '8px' }}>
-        {data?.data?.organizations?.address?.street},
-        <br />
-        {data?.data?.organizations?.address?.city}, <br />
-        {data?.data?.organizations?.address?.state}
+        {data?.data?.organizations?.address?.street},{' '}
+        {data?.data?.organizations?.address?.city},{' '}
+        {data?.data?.organizations?.address?.state},{' '}
+        {data?.data?.organizations?.address?.postalCode}
       </Box>
 
-      <Box sx={{ mt: '40px' }}>
+      <Box sx={{ mt: '20px' }}>
         <Box sx={styles?.iCellHead}>Payment Methods</Box>
 
         <List sx={styles?.paymentMethods}>

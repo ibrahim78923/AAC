@@ -82,6 +82,7 @@ export const assignPlanData = (
         fullWidth: true,
         placeholder: 'Select organisation',
         apiQuery: organizations,
+        disabled: isEditModal,
         getOptionLabel: (option: any) => option?.name,
       },
       component: RHFAutocompleteAsync,

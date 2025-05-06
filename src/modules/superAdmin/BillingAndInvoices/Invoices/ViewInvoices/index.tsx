@@ -15,7 +15,7 @@ import {
   PlanCellInfoI,
   ViewInvoicesI,
 } from './ViewInvoices.interface';
-import { CloseModalIcon, LogoIcon } from '@/assets/icons';
+import { CloseModalIcon } from '@/assets/icons';
 import { styles } from './ViewInvoices.style';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AvatarImage } from '@/assets/images';
@@ -25,6 +25,8 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import html2canvas from 'html2canvas';
 import { useTheme } from '@emotion/react';
+import { PROJECT_NAME } from '@/config';
+import { SmallLogoAvatar } from '@/components/Avatars/SmallLogoAvatar';
 
 const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
   const theme = useTheme();
@@ -256,7 +258,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
           <Box sx={styles?.blueCard}>
             <Box sx={styles?.cardLeft}>
               <Box sx={{ mr: '18px' }}>
-                <LogoIcon />
+                <SmallLogoAvatar />
               </Box>
 
               <Box>
@@ -268,7 +270,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
                     lineHeight: '1.555556',
                   }}
                 >
-                  Air Applecart
+                  {PROJECT_NAME}
                 </Typography>
                 <Typography variant="body3" sx={styles?.cardLeftText()}>
                   {

@@ -316,6 +316,10 @@ const RightPane = ({
                           const nameParts = obj?.from?.emailAddress?.name
                             .trim()
                             .split('-');
+                          const resolvedContent = resolveCidImages(
+                            obj?.body?.content,
+                            obj?.attachments,
+                          );
                           return (
                             <Box key={uuidv4()} sx={styles?.rightSideCard}>
                               <Box
@@ -526,7 +530,7 @@ const RightPane = ({
                                     },
                                   }}
                                   dangerouslySetInnerHTML={{
-                                    __html: obj?.body?.content,
+                                    __html: resolvedContent,
                                   }}
                                 />
                                 <IconButton
@@ -770,6 +774,30 @@ const removeSignatureDiv = (htmlContent: string) => {
     signatureDiv.remove();
   }
   return doc.body.innerHTML;
+};
+
+const resolveCidImages = (htmlContent: string, attachments: any[]) => {
+  if (!htmlContent || !attachments) return htmlContent;
+
+  // Map attachments by their `contentId`
+  const cidMap = attachments?.reduce(
+    (map, attachment) => {
+      if (attachment?.contentId) {
+        map[attachment?.contentId] =
+          `data:${attachment?.contentType};base64,${attachment?.contentBytes}`;
+      }
+      return map;
+    },
+    {} as Record<string, string>,
+  );
+
+  // Replace cid references with actual base64 data
+  Object.keys(cidMap)?.forEach((cid) => {
+    const regex = new RegExp(`cid:${cid}`, 'g');
+    htmlContent = htmlContent?.replace(regex, cidMap[cid]);
+  });
+
+  return htmlContent;
 };
 
 export default RightPane;

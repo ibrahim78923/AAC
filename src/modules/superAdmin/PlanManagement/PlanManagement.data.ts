@@ -45,11 +45,13 @@ export const avatarGroupMockData: IAVATARGROUPDATA[] = [
 export const planManagementFilterValidationSchema = Yup?.object()?.shape({
   productId: Yup?.string(),
   planTypeId: Yup.string(),
+  plan: Yup.string(),
 });
 
 export const planManagementFilterDefaultValues = {
   productId: '',
   planTypeId: '',
+  plan: '',
 };
 
 export const planManagementFilterFiltersDataArray = () => {
@@ -86,8 +88,21 @@ export const planManagementFilterFiltersDataArray = () => {
     },
     {
       componentProps: {
-        name: 'planTypeId',
+        name: 'plan',
         label: 'Plan',
+        select: true,
+      },
+      options: [
+        { value: 'PRODUCT', label: 'Product' },
+        { value: 'CRM', label: 'Crm' },
+      ],
+      component: RHFSelect,
+      md: 12,
+    },
+    {
+      componentProps: {
+        name: 'planTypeId',
+        label: 'Plan Type',
         select: true,
       },
       options: planType,

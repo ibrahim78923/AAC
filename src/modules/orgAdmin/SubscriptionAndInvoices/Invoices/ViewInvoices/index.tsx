@@ -11,16 +11,17 @@ import {
   Tooltip,
 } from '@mui/material';
 import { ViewInvoicesI } from './ViewInvoices.interface';
-import { CloseModalIcon, LogoIcon } from '@/assets/icons';
+import { CloseModalIcon } from '@/assets/icons';
 import { styles } from './ViewInvoices.style';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
-import { IMG_URL } from '@/config';
+import { IMG_URL, PROJECT_NAME } from '@/config';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { v4 as uuidv4 } from 'uuid';
 import { useTheme } from '@emotion/react';
+import { SmallLogoAvatar } from '@/components/Avatars/SmallLogoAvatar';
 
 const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, invoiceData }) => {
   const theme = useTheme();
@@ -224,7 +225,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, invoiceData }) => {
           <Box sx={styles?.blueCard}>
             <Box sx={styles?.cardLeft}>
               <Box sx={{ mr: '18px' }}>
-                <LogoIcon />
+                <SmallLogoAvatar />
               </Box>
 
               <Box>
@@ -236,7 +237,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, invoiceData }) => {
                     lineHeight: '1.555556',
                   }}
                 >
-                  Air Applecart
+                  {PROJECT_NAME}
                 </Typography>
                 <Typography variant="body3" sx={styles?.cardLeftText()}>
                   123 Street Address
@@ -326,7 +327,11 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, invoiceData }) => {
               </Grid>
               <Grid item xs={3}>
                 <Box sx={styles?.invoiceInfoTitle}>
-                  Prepared By: <Box component="span">Auto Generated</Box>
+                  status:{' '}
+                  <Box component="span">
+                    {invoiceData?.status?.charAt(0).toUpperCase() +
+                      invoiceData?.status?.slice(1).toLowerCase()}
+                  </Box>
                 </Box>
               </Grid>
             </Grid>

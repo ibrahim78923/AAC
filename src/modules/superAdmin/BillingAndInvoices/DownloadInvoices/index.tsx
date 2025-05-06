@@ -18,11 +18,13 @@ import { ViewInvoicesI } from './ViewInvoices.interface';
 
 import { styles } from './ViewInvoices.style';
 
-import { CloseModalIcon, LogoIcon } from '@/assets/icons';
+import { CloseModalIcon } from '@/assets/icons';
 import { AvatarImage } from '@/assets/images';
 import { v4 as uuidv4 } from 'uuid';
 import jsPDF from 'jspdf';
 import { useRouter } from 'next/router';
+import { PROJECT_NAME } from '@/config';
+import { SmallLogoAvatar } from '@/components/Avatars/SmallLogoAvatar';
 
 const DownloadInvoices: FC<ViewInvoicesI> = ({
   open,
@@ -195,7 +197,7 @@ const DownloadInvoices: FC<ViewInvoicesI> = ({
           <Box sx={styles?.blueCard}>
             <Box sx={styles?.cardLeft}>
               <Box sx={{ mr: '18px' }}>
-                <LogoIcon />
+                <SmallLogoAvatar />
               </Box>
 
               <Box>
@@ -207,7 +209,7 @@ const DownloadInvoices: FC<ViewInvoicesI> = ({
                     lineHeight: '1.555556',
                   }}
                 >
-                  Air Applecart
+                  {PROJECT_NAME}
                 </Typography>
                 <Typography variant="body3" sx={styles?.cardLeftText(theme)}>
                   {DownloadInvoiceData?.organizations?.address?.street}

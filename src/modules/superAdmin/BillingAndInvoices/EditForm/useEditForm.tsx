@@ -9,6 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useGetExistingCrmQuery,
   useGetPlanIdQuery,
+  useGetPlanTypeQuery,
   usePatchBilingInvoicesMutation,
   usePostBilingInvoicesMutation,
 } from '@/services/superAdmin/billing-invoices';
@@ -50,6 +51,8 @@ const useEditForm = ({
         ? isGetRowValues?.cell?.row?.original?.plans?._id
         : isGetRowValues?.cell?.row?.original?.planProducts[0]?._id,
     planType: isGetRowValues?.cell?.row?.original?.plantypes?._id,
+    planTypeSequenceOrder:
+      isGetRowValues?.cell?.row?.original?.plantypes?.sequenceOrder,
     additionalUser: isGetRowValues?.cell?.row?.original?.additionalUsers,
     planPrice: isGetRowValues?.cell?.row?.original?.plans?.planPrice,
     defaultUser: isGetRowValues?.cell?.row?.original?.plans?.defaultUsers,
@@ -202,24 +205,38 @@ const useEditForm = ({
     }
   }, []);
 
+  const { data: planTypeData } = useGetPlanTypeQuery<any>({
+    refetchOnMountOrArgChange: true,
+  });
+
   const onSubmit = async (values: SubmitValuesI) => {
+    const matchedPlan = planTypeData?.data?.find(
+      (item: any) => item._id === values?.planType,
+    );
+
     const assignPlanPayload = {
       organizationId: values?.clientName?._id,
       planId:
         selectProductSuite === 'CRM'
           ? ExistingplanData?.data?.plans?._id
           : planData?.data?.plans?._id,
-      additionalUsers: parseInt(values?.additionalUser),
-      additionalStorage: parseInt(values?.additionalStorage),
-      planDiscount: parseInt(values?.discount),
+      additionalUsers: parseInt(values?.additionalUser) || 0,
+      additionalStorage: parseInt(values?.additionalStorage) || 0,
+      planDiscount: parseInt(values?.discount) || 0,
       billingCycle: values?.billingCycle,
       billingDate: dayjs().format('YYYY-MM-DD'),
       isCRM: selectProductSuite === productSuiteName?.crm ? true : false,
+      ...(isEditModal && {
+        downgradePlan:
+          rowApiValues?.planTypeSequenceOrder > matchedPlan?.sequenceOrder
+            ? true
+            : false,
+      }),
     };
 
-    if (isEditModal) {
-      delete assignPlanPayload?.organizationId;
-    }
+    // if (isEditModal) {
+    //   delete assignPlanPayload?.organizationId;
+    // }
 
     try {
       isEditModal

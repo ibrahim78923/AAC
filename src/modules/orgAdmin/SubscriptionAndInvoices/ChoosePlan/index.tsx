@@ -46,6 +46,8 @@ import {
 } from './choosePlan.interface';
 import { PAGINATION } from '@/config';
 import { LoadingButton } from '@mui/lab';
+import PayPlanInvoice from './PayPlanInvoice';
+
 const ChoosePlan = () => {
   const router = useRouter();
   const theme = useTheme();
@@ -96,6 +98,8 @@ const ChoosePlan = () => {
   );
 
   const [getData, setGetData] = useState<any>([]);
+  const [invoiceId, setInvoiceId] = useState<any>();
+
   const freePlanIndex = getData?.findIndex(
     (plan: ChoosePlanI) => plan?.planType?.name === PLAN_PAYMENT?.FREE,
   );
@@ -118,34 +122,53 @@ const ChoosePlan = () => {
       billingCycle: PLAN_PAYMENT_TYPE_TAGS?.MONTHLY,
       planDiscount: 0,
       ...(isCRM && { isCRM: true }),
+      ...(parsedManageData?.orgPlanId && {
+        downgradePlan:
+          parsedManageData?.planTypeSequenceOrder >
+          activePlanToBuy?.planType?.sequenceOrder
+            ? true
+            : false,
+      }),
     };
 
     if (parsedManageData?.orgPlanId) {
       try {
-        await patchSubscriptionPlan({
+        const res = await patchSubscriptionPlan({
           body: payload,
           organizationPlanId: parsedManageData?.orgPlanId,
         })?.unwrap();
-        enqueueSnackbar('Plan Update Successful', {
-          variant: 'success',
-        });
+        setInvoiceId(res?.data?.invoiceId);
+        setOpenPayInvoice(true);
+
+        if (res?.data?.status === 'REQUEST_FOR_DOWNGRADE') {
+          enqueueSnackbar(res?.message, {
+            variant: 'success',
+          });
+          router.push(
+            `${orgAdminSubcriptionInvoices?.back_subscription_invoices}`,
+          );
+        } else {
+          enqueueSnackbar('Pay invoice', {
+            variant: 'success',
+          });
+        }
         setIsBuyPlan(false);
-        router.push(
-          `${orgAdminSubcriptionInvoices?.back_subscription_invoices}`,
-        );
       } catch (error) {
         enqueueSnackbar('Something went wrong !', { variant: 'error' });
       }
     } else {
       try {
-        await postSubscriptionPlan({ body: payload })?.unwrap();
-        enqueueSnackbar('Request Successful', {
+        const res = await postSubscriptionPlan({ body: payload })?.unwrap();
+        setInvoiceId(res?.data?.invoiceId);
+        setOpenPayInvoice(true);
+
+        enqueueSnackbar('Pay invoice', {
           variant: 'success',
         });
         setIsBuyPlan(false);
-        router.push(
-          `${orgAdminSubcriptionInvoices?.back_subscription_invoices}`,
-        );
+        // router.push(
+        //   `${orgAdminSubcriptionInvoices?.back_subscription_invoices}`,
+        // );
       } catch (error: any) {
         if (
           error?.data?.message ===
@@ -211,6 +234,12 @@ const ChoosePlan = () => {
     });
 
   const isCardAdded = dataPaymentCard?.data?.payments?.length > 0;
+  const [openPayInvoice, setOpenPayInvoice] = useState(false);
+
+  const handleClosePayInvoice = () => {
+    setOpenPayInvoice(false);
+    router.push(`${orgAdminSubcriptionInvoices?.back_subscription_invoices}`);
+  };
 
   return (
     <>
@@ -616,6 +645,14 @@ const ChoosePlan = () => {
             </TableBody>
           </Table>
         </TableContainer>
+      )}
+
+      {invoiceId && (
+        <PayPlanInvoice
+          open={openPayInvoice}
+          onClose={handleClosePayInvoice}
+          invoiceId={invoiceId}
+        />
       )}
     </>
   );

@@ -42,6 +42,7 @@ export const usePlanManagement = () => {
     const filterPlanManagementValues = {
       ...(values?.productId && { productId: values?.productId }),
       ...(values?.planTypeId && { planTypeId: values?.planTypeId }),
+      ...(values?.plan && { plan: values?.plan }),
       ...(values?.createdAt && {
         createdAt: dayjs(values?.createdAt)?.format(DATE_FORMAT?.API),
       }),

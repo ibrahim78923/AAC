@@ -16,7 +16,6 @@ import TanstackTable from '@/components/Table/TanstackTable';
 
 import { columns } from './UserInfo.data';
 
-import { LogoIcon } from '@/assets/icons';
 import { AvatarImage } from '@/assets/images';
 
 import { SUPER_ADMIN } from '@/constants';
@@ -28,6 +27,8 @@ import { usePatchUpdateInvoicesMutation } from '@/services/superAdmin/billing-in
 import { LoadingButton } from '@mui/lab';
 import Link from 'next/link';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
+import { PROJECT_NAME } from '@/config';
+import { SmallLogoAvatar } from '@/components/Avatars/SmallLogoAvatar';
 
 const UserInfo = () => {
   const [openViewInvoice, setOpenViewInvoice] = useState(false);
@@ -107,7 +108,7 @@ const UserInfo = () => {
       <Box sx={styles?.blueCard}>
         <Box sx={styles?.cardLeft}>
           <Box sx={{ mr: '18px' }}>
-            <LogoIcon />
+            <SmallLogoAvatar />
           </Box>
 
           <Box>
@@ -119,7 +120,7 @@ const UserInfo = () => {
                 lineHeight: '1.555556',
               }}
             >
-              Air Applecart
+              {PROJECT_NAME}
             </Typography>
             <Typography variant="body3" sx={styles?.cardLeftText(theme)}>
               {EditInvoice?.organizations?.address?.street}

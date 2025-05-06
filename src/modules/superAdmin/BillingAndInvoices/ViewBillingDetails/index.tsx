@@ -112,7 +112,7 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
               <Typography variant="caption">Plan Price</Typography>
               <Box sx={{ ml: 'auto' }}>
                 <Typography variant="overline">
-                  {data?.details?.plans?.planPrice}
+                  {data?.details?.plans?.planPrice?.toFixed(2)}
                 </Typography>
               </Box>
             </Box>
@@ -124,8 +124,10 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
               <Box sx={{ ml: 'auto' }}>
                 <Typography variant="overline">
                   £{' '}
-                  {data?.details?.additionalUsers *
-                    data?.details?.plans?.additionalPerUserPrice}
+                  {(
+                    data?.details?.additionalUsers *
+                    data?.details?.plans?.additionalPerUserPrice
+                  )?.toFixed(2)}
                 </Typography>
               </Box>
             </Box>
@@ -137,8 +139,10 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
               <Box sx={{ ml: 'auto' }}>
                 <Typography variant="overline">
                   £{' '}
-                  {data?.details?.additionalStorage *
-                    data?.details?.plans?.additionalStoragePrice}
+                  {(
+                    data?.details?.additionalStorage *
+                    data?.details?.plans?.additionalStoragePrice
+                  )?.toFixed(2)}
                 </Typography>
               </Box>
             </Box>
@@ -264,7 +268,7 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
             <Typography variant="caption">Plan Price</Typography>
             <Box sx={{ ml: 'auto' }}>
               <Typography variant="overline">
-                £ {isGetRowValues?.plans?.planPrice}
+                £ {isGetRowValues?.plans?.planPrice?.toFixed(2)}
               </Typography>
             </Box>
           </Box>
@@ -276,8 +280,10 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
             <Box sx={{ ml: 'auto' }}>
               <Typography variant="overline">
                 £{' '}
-                {isGetRowValues?.additionalUsers *
-                  isGetRowValues?.plans?.additionalPerUserPrice}
+                {(
+                  isGetRowValues?.additionalUsers *
+                  isGetRowValues?.plans?.additionalPerUserPrice
+                )?.toFixed(2)}
               </Typography>
             </Box>
           </Box>
@@ -289,8 +295,10 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
             <Box sx={{ ml: 'auto' }}>
               <Typography variant="overline">
                 £{' '}
-                {isGetRowValues?.additionalStorage *
-                  isGetRowValues?.plans?.additionalStoragePrice}
+                {(
+                  isGetRowValues?.additionalStorage *
+                  isGetRowValues?.plans?.additionalStoragePrice
+                )?.toFixed(2)}
               </Typography>
             </Box>
           </Box>

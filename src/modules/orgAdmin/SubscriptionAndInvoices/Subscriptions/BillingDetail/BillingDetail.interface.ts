@@ -23,6 +23,7 @@ export interface InvoiceI {
   billingDate: string;
   dueDate: string;
   status: string;
+  invoiceNo: any;
 }
 
 export interface ParsedManageDataI {
@@ -57,4 +58,6 @@ export interface InvoiceCardPropsI {
   subTotal: string;
   totalCost: any;
   payment: string;
+  invoiceNo: any;
+  status: any;
 }

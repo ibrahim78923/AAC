@@ -19,6 +19,7 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT, paymentType, PLAN_CALCULATIONS } from '@/constants';
 import { useAppSelector } from '@/redux/store';
 import usePlanCalculations from '../../usePlanCalculations';
+import { styles } from '../PlanCard/PlanCard.style';
 
 const BillingDetail: FC<BillingDetailI> = ({
   open,
@@ -85,7 +86,7 @@ const BillingDetail: FC<BillingDetailI> = ({
                         dueDate={
                           dayjs(data?.dueDate)?.format(DATE_FORMAT?.UI) || null
                         }
-                        planPrice={data?.details?.plans?.planPrice}
+                        planPrice={data?.details?.plans?.planPrice?.toFixed(2)}
                         defaultUsers={parsedManageData?.planData?.defaultUsers}
                         defaultStorage={
                           parsedManageData?.planData?.defaultStorage
@@ -96,7 +97,9 @@ const BillingDetail: FC<BillingDetailI> = ({
                         additionalStoragePrice={
                           planCalculations?.perStoragePrice
                         }
-                        calculatedUserPrice={planCalculations?.additionalUsers}
+                        calculatedUserPrice={planCalculations?.additionalUsers?.toFixed(
+                          2,
+                        )}
                         calculatedStoragePrice={
                           planCalculations?.additionalStorage
                         }
@@ -106,6 +109,8 @@ const BillingDetail: FC<BillingDetailI> = ({
                         subTotal={subTotalAfterDiscount?.toFixed(2)}
                         totalCost={NetAmount?.toFixed(2)}
                         payment={data?.status}
+                        invoiceNo={data?.invoiceNo}
+                        status={data?.status}
                       />
                     </Box>
                   </>
@@ -123,20 +128,23 @@ const BillingDetail: FC<BillingDetailI> = ({
                 payment={''}
                 billingDate={parsedManageData?.billingDate}
                 dueDate={parsedManageData?.dueDate || null}
-                planPrice={parsedManageData?.planData?.planPrice}
+                planPrice={parsedManageData?.planData?.planPrice?.toFixed(2)}
                 defaultUsers={parsedManageData?.planData?.defaultUsers}
                 defaultStorage={parsedManageData?.planData?.defaultStorage}
                 additionalUser={parsedManageData?.additionalUsers}
                 additionalStorage={parsedManageData?.additionalStorage}
                 additionalPerUserPrice={planCalculations?.perUserPrice}
                 additionalStoragePrice={planCalculations?.perStoragePrice}
-                calculatedUserPrice={planCalculations?.additionalUsers}
+                calculatedUserPrice={planCalculations?.additionalUsers?.toFixed(
+                  2,
+                )}
                 calculatedStoragePrice={planCalculations?.additionalStorage}
                 planDiscount={planCalculations?.planDiscount * 100}
-                discount={planCalculations?.discountApplied}
-                tax={planCalculations?.taxAmount}
-                totalCost={planCalculations?.finalPrice}
+                discount={planCalculations?.discountApplied?.toFixed(2)}
+                tax={planCalculations?.taxAmount?.toFixed(2)}
+                totalCost={planCalculations?.finalPrice?.toFixed(2)}
                 subTotal={''}
+                status={'Invoice Pending'}
               />
             </>
           )}
@@ -167,6 +175,8 @@ const InvoiceCard = ({
   discount,
   tax,
   totalCost, // subTotal,
+  invoiceNo,
+  status,
 }: InvoiceCardPropsI) => {
   const theme = useTheme();
 
@@ -196,6 +206,20 @@ const InvoiceCard = ({
           </Typography>
           <Typography variant="body1">{paymentType[billingCycle]}</Typography>
         </Box>
+        <Box marginLeft={'auto'}>
+          <Typography
+            sx={{
+              ...styles?.planActiveChip,
+              backgroundColor:
+                status === 'PAID'
+                  ? 'success.lighter'
+                  : theme?.palette?.custom?.warning_light,
+            }}
+            variant="body1"
+          >
+            {status?.charAt(0)?.toUpperCase() + status?.slice(1)?.toLowerCase()}
+          </Typography>
+        </Box>
       </Box>
       <Divider />
       <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
@@ -209,6 +233,13 @@ const InvoiceCard = ({
           </Box>
         )}
       </Box>
+      {invoiceNo && (
+        <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
+          <Box>
+            <Typography variant="caption">InvoiceNo: {invoiceNo}</Typography>
+          </Box>
+        </Box>
+      )}
       <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
         <Typography variant="caption">Plan Price</Typography>
         <Box sx={{ ml: 'auto' }}>
@@ -231,7 +262,7 @@ const InvoiceCard = ({
         </Typography>
         <Box sx={{ ml: 'auto' }}>
           <Typography variant="overline">
-            £{calculatedStoragePrice?.toFixed(0)}
+            £{calculatedStoragePrice?.toFixed(2)}
           </Typography>
         </Box>
       </Box>
@@ -243,7 +274,7 @@ const InvoiceCard = ({
           ({planDiscount}%)
         </Typography>
         <Box sx={{ ml: 'auto' }}>
-          <Typography variant="overline">{discount}</Typography>
+          <Typography variant="overline">£ {discount}</Typography>
         </Box>
       </Box>
 
@@ -266,7 +297,7 @@ const InvoiceCard = ({
           (Vat 20%)
         </Typography>
         <Box sx={{ ml: 'auto' }}>
-          <Typography variant="overline">{tax}</Typography>
+          <Typography variant="overline">£ {tax}</Typography>
         </Box>
       </Box>
       <Divider />

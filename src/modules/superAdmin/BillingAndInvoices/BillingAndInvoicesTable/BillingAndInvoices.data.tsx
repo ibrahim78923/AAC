@@ -149,20 +149,37 @@ export const Columns = (
       isSortable: true,
       header: 'plan Status',
       cell: (info: CellInfoI) => {
+        const status = info?.getValue();
+        let backgroundColor;
+
+        if (status === REQUESTORS_STATUS?.ACTIVE) {
+          backgroundColor = theme?.palette?.custom?.active_bg;
+        } else if (status === REQUESTORS_STATUS?.PAYMENT_PENDING) {
+          backgroundColor = theme?.palette?.custom?.warning_light;
+        } else {
+          backgroundColor = theme?.palette?.custom?.inactive_bg;
+        }
+
+        function formatText(text: any) {
+          return text
+            ?.toLowerCase()
+            ?.split('_')
+            ?.map(
+              (word: any) => word?.charAt(0)?.toUpperCase() + word?.slice(1),
+            )
+            ?.join('');
+        }
+
         return (
           <Typography
             variant="body3"
             sx={{
               borderRadius: '25px',
               padding: '5px 7px',
-              background: `${
-                info?.getValue() === REQUESTORS_STATUS?.ACTIVE
-                  ? theme?.palette?.custom?.active_bg
-                  : theme?.palette?.custom?.inactive_bg
-              }`,
+              background: backgroundColor,
             }}
           >
-            {info?.getValue()}
+            {formatText(info?.getValue())}
           </Typography>
         );
       },
@@ -236,6 +253,7 @@ export const validationSchema = Yup?.object()?.shape({
   organizationId: Yup?.mixed(),
   productId: Yup?.string()?.trim(),
   planTypeId: Yup?.string()?.trim(),
+  plan: Yup?.string()?.trim(),
 });
 
 export const dataArray = () => {
@@ -290,6 +308,19 @@ export const dataArray = () => {
     },
     {
       componentProps: {
+        name: 'plan',
+        label: 'Plan',
+        select: true,
+      },
+      options: [
+        { value: 'PRODUCT', label: 'Product' },
+        { value: 'CRM', label: 'Crm' },
+      ],
+      component: RHFSelect,
+      md: 12,
+    },
+    {
+      componentProps: {
         name: 'planTypeId',
         label: 'Plan Type',
         fullWidth: true,
@@ -309,8 +340,8 @@ export const dataArray = () => {
       },
 
       options: [
-        { value: 'ACTIVE', label: 'ACTIVE' },
-        { value: 'INACTIVE', label: 'INACTIVE' },
+        { value: 'ACTIVE', label: 'Active' },
+        { value: 'INACTIVE', label: 'Inactive' },
       ],
       component: RHFSelect,
       md: 12,

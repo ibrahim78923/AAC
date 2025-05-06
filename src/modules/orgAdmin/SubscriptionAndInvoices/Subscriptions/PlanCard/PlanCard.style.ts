@@ -75,6 +75,7 @@ export const styles = {
   buttonOutlineGrey: (theme: any) => ({
     borderColor: theme?.palette?.custom?.dark,
     color: theme?.palette?.custom.main,
+    fontWeight: 500,
     '&:hover': {
       backgroundColor: theme?.palette?.grey[400],
       borderColor: theme?.palette?.grey[400],

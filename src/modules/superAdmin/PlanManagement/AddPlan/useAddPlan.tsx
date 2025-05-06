@@ -462,7 +462,7 @@ export const useAddPlan = () => {
               }
               return acc;
             }, [])
-          : planForm?.suite.flatMap((productId: any) => ({
+          : planForm?.suite?.flatMap((productId: any) => ({
               productId,
               permissionSlugs: [...commonModulesPermissions],
             }));

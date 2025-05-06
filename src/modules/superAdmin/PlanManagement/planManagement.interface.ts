@@ -31,4 +31,5 @@ export interface SubmitValues {
   productId?: number;
   planTypeId?: number;
   createdAt?: string;
+  plan?: any;
 }

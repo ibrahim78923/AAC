@@ -24,10 +24,27 @@ const PlanCard: FC<PlanCardI> = ({
 }) => {
   const dispatch = useAppDispatch();
 
+  function formatText(text: any) {
+    return text
+      ?.toLowerCase()
+      ?.split('_')
+      ?.map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
+      ?.join(' ');
+  }
   return (
     <Box sx={styles?.planCard}>
       <Box sx={styles?.planStatus}>
-        {plan?.orgPlanId && <Box sx={styles?.planActiveChip}>Active</Box>}
+        {plan?.orgPlanId && (
+          <Box
+            sx={{
+              ...styles?.planActiveChip,
+              backgroundColor:
+                status === 'ACTIVE' ? 'success.lighter' : 'warning.lighter',
+            }}
+          >
+            {status && formatText(status)}
+          </Box>
+        )}
       </Box>
 
       <Box sx={styles?.planIcon}>{icon}</Box>
@@ -51,8 +68,8 @@ const PlanCard: FC<PlanCardI> = ({
       </Box>
       <Box sx={styles?.planStrip}>
         <Box sx={styles?.planPrice}>£{price}</Box>
-        <Typography variant="body2" sx={styles?.planBillOn}>
-          {status === 'active' ? `To be billed on ${billOn}` : ''}
+        <Typography variant="body3" sx={styles?.planBillOn}>
+          {status === 'ACTIVE' ? `To be billed on ${billOn}` : ''}
         </Typography>
       </Box>
 
@@ -81,6 +98,7 @@ const PlanCard: FC<PlanCardI> = ({
                   handleBillingDetail(plan?.orgPlanId),
                     dispatch(setSelectedPlanData(plan));
                 }}
+                sx={{ fontWeight: 500 }}
               >
                 Billing Details
               </Button>
@@ -92,7 +110,10 @@ const PlanCard: FC<PlanCardI> = ({
             >
               <Link
                 href={{
-                  pathname: `${orgAdminSubcriptionInvoices?.manage_plan}`,
+                  pathname:
+                    status === 'ACTIVE'
+                      ? `${orgAdminSubcriptionInvoices?.manage_plan}`
+                      : `${orgAdminSubcriptionInvoices?.choose_plan}`,
                 }}
               >
                 <Button
@@ -119,6 +140,7 @@ const PlanCard: FC<PlanCardI> = ({
                 dispatch(setSelectedPlanData(plan));
               }}
               fullWidth
+              sx={{ fontWeight: 500 }}
             >
               Subscribe
             </Button>

@@ -35,12 +35,20 @@ import { useAppSelector } from '@/redux/store';
 import usePlanCalculations from '../usePlanCalculations';
 import CustomLabel from '@/components/CustomLabel';
 import { AlertModals } from '@/components/AlertModals';
+import PayPlanInvoice from '../ChoosePlan/PayPlanInvoice';
+import { LoadingButton } from '@mui/lab';
 
 const ManagePlan = () => {
   const theme = useTheme();
   const router = useRouter();
 
   const [isUnassignPlanAlertOpen, setIsUnassignPlanAlertOpen] = useState(false);
+  const [invoiceId, setInvoiceId] = useState<any>();
+  const [openPayInvoice, setOpenPayInvoice] = useState(false);
+
+  const handleClosePayInvoice = () => {
+    setOpenPayInvoice(false);
+  };
 
   const parsedManageData = useAppSelector(
     (state) => state?.subscriptionAndInvoices?.selectedPlanData,
@@ -60,7 +68,8 @@ const ManagePlan = () => {
     parsedManageData?.additionalStorage,
   );
 
-  const [updateSubscription] = useUpdateSubscriptionMutation({});
+  const [updateSubscription, { isLoading: isLoadingUpdateSubscription }] =
+    useUpdateSubscriptionMutation({});
   const [patchUnAssignPlan, { isLoading: unAssignPlanLoading }] =
     usePatchUnAssignPlanMutation({});
 
@@ -76,7 +85,7 @@ const ManagePlan = () => {
     status: parsedManageData?.status,
     //TODO:We will only send billing cycle monthly as discussed
     billingCycle: PLAN_PAYMENT_TYPE_TAGS?.MONTHLY,
-    planDiscount: 1,
+    // planDiscount: 1,
   };
 
   const planCalculations = usePlanCalculations({
@@ -94,11 +103,13 @@ const ManagePlan = () => {
 
   const handleUpdateSubscription = async () => {
     try {
-      await updateSubscription({
+      const res = await updateSubscription({
         id: parsedManageData?.orgPlanId,
         body: updateSubscriptionPayload,
       }).unwrap();
-      enqueueSnackbar('Plan Updated Successfully', {
+      setInvoiceId(res?.data?.invoiceId);
+      setOpenPayInvoice(true);
+      enqueueSnackbar('Pay invoice', {
         variant: 'success',
       });
     } catch (error) {
@@ -263,7 +274,9 @@ const ManagePlan = () => {
 
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTd}>Plan Price</Box>
-          <Box sx={styles?.planTableTh}>£ {planCalculations?.planPrice}</Box>
+          <Box sx={styles?.planTableTh}>
+            £ {planCalculations?.planPrice?.toFixed(2)}
+          </Box>
         </Box>
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTd}>
@@ -343,14 +356,14 @@ const ManagePlan = () => {
           >
             Cancel
           </Button>
-
-          <Button
+          <LoadingButton
             variant="contained"
             color="primary"
             onClick={handleUpdateSubscription}
+            loading={isLoadingUpdateSubscription}
           >
             Update Subscription
-          </Button>
+          </LoadingButton>
           <Button
             variant="contained"
             sx={{
@@ -375,6 +388,14 @@ const ManagePlan = () => {
         loading={unAssignPlanLoading}
         handleSubmitBtn={handelOnUnassignPlan}
       />
+
+      {invoiceId && (
+        <PayPlanInvoice
+          open={openPayInvoice}
+          onClose={handleClosePayInvoice}
+          invoiceId={invoiceId}
+        />
+      )}
     </>
   );
 };
