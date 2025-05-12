@@ -102,20 +102,29 @@ const ManagePlan = () => {
   });
 
   const handleUpdateSubscription = async () => {
-    try {
-      const res = await updateSubscription({
-        id: parsedManageData?.orgPlanId,
-        body: updateSubscriptionPayload,
-      }).unwrap();
-      setInvoiceId(res?.data?.invoiceId);
-      setOpenPayInvoice(true);
-      enqueueSnackbar('Pay invoice', {
-        variant: 'success',
+    if (
+      maxAddUsers === parsedManageData?.additionalUsers &&
+      maxAddStorage === parsedManageData?.additionalStorage
+    ) {
+      enqueueSnackbar('Please update value', {
+        variant: 'error',
       });
-    } catch (error) {
-      enqueueSnackbar('SomeThing Went Wrong', {
-        variant: 'success',
-      });
+    } else {
+      try {
+        const res = await updateSubscription({
+          id: parsedManageData?.orgPlanId,
+          body: updateSubscriptionPayload,
+        }).unwrap();
+        setInvoiceId(res?.data?.invoiceId);
+        setOpenPayInvoice(true);
+        enqueueSnackbar('Pay invoice', {
+          variant: 'success',
+        });
+      } catch (error) {
+        enqueueSnackbar('SomeThing Went Wrong', {
+          variant: 'error',
+        });
+      }
     }
   };
 
@@ -137,7 +146,7 @@ const ManagePlan = () => {
       router.push(`${orgAdminSubcriptionInvoices?.back_subscription_invoices}`);
     } catch (error) {
       enqueueSnackbar('SomeThing Went Wrong', {
-        variant: 'success',
+        variant: 'error',
       });
     }
   };

@@ -11,6 +11,7 @@ import { drawerButtonTitle, drawerTitle } from './TicketsEditorDrawer.data';
 
 import { v4 as uuidv4 } from 'uuid';
 import { DRAWER_TITLE } from '@/constants';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
 const TicketsEditorDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer, companyId, contactRecord } = props;
@@ -35,7 +36,11 @@ const TicketsEditorDrawer = (props: any) => {
         isDrawerOpen={openDrawer}
         onClose={() => setOpenDrawer('')}
         title={drawerTitle[openDrawer]}
-        okText={drawerButtonTitle[openDrawer]}
+        okText={
+          watchTickets[0] === 'New Ticket'
+            ? GENERIC_UPSERT_FORM_CONSTANT?.CREATE
+            : drawerButtonTitle[openDrawer]
+        }
         isOk={true}
         footer={openDrawer === 'View' ? false : true}
         submitHandler={handleSubmit(onSubmit)}

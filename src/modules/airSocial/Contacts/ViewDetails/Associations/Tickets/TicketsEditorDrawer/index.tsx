@@ -8,6 +8,7 @@ import {
   ticketFormFieldsDynamic,
 } from './TicketsEditorDrawer.data';
 import { DRAWER_TITLE } from '@/constants';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
 const TicketsEditorDrawer = (props: any) => {
   const {
@@ -52,7 +53,13 @@ const TicketsEditorDrawer = (props: any) => {
       isDrawerOpen={open}
       onClose={onClose}
       title={`${drawerTitle} Ticket`}
-      okText={drawerTitle === DRAWER_TITLE?.ADD ? 'Add' : 'Update'}
+      okText={
+        drawerTitle === DRAWER_TITLE?.ADD
+          ? formType === FORM_TYPE?.NEW
+            ? GENERIC_UPSERT_FORM_CONSTANT?.CREATE
+            : GENERIC_UPSERT_FORM_CONSTANT?.ADD
+          : 'Update'
+      }
       isOk={true}
       footer={drawerTitle === DRAWER_TITLE?.VIEW ? false : true}
       submitHandler={handleOnSubmit}

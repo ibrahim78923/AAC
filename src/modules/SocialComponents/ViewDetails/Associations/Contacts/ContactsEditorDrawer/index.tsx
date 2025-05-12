@@ -17,6 +17,7 @@ import { AddPenIcon } from '@/assets/icons';
 import { useEffect } from 'react';
 import { generateImage } from '@/utils/avatarUtils';
 import { DRAWER_TITLE, associationCompanies } from '@/constants';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
 const ContactsEditorDrawer = (props: any) => {
   const {
@@ -58,7 +59,11 @@ const ContactsEditorDrawer = (props: any) => {
         isDrawerOpen={openDrawer}
         onClose={() => setOpenDrawer('')}
         title={drawerTitle[openDrawer]}
-        okText={'Add'}
+        okText={
+          watchContactStatus[0] === associationCompanies?.newContacts
+            ? GENERIC_UPSERT_FORM_CONSTANT?.CREATE
+            : GENERIC_UPSERT_FORM_CONSTANT?.ADD
+        }
         isOk={true}
         footer={openDrawer === 'View' ? false : true}
         submitHandler={handleSubmit(onSubmit)}

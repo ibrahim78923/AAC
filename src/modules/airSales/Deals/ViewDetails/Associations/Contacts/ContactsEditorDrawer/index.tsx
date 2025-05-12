@@ -13,7 +13,10 @@ import {
   drawerTitle,
 } from './ContactsEditorDrawer.data';
 import { ContactsEditorDrawerProps } from '../../Associations-interface';
-import { DRAWER_TYPES } from '@/constants/strings';
+import {
+  DRAWER_TYPES,
+  GENERIC_UPSERT_FORM_CONSTANT,
+} from '@/constants/strings';
 import { CONTACT_TYPE } from '@/constants';
 
 const ContactsEditorDrawer = (props: ContactsEditorDrawerProps) => {
@@ -46,7 +49,11 @@ const ContactsEditorDrawer = (props: ContactsEditorDrawerProps) => {
         isDrawerOpen={openDrawer?.isToggle}
         onClose={onCloseHandler}
         title={drawerTitle[openDrawer?.type]}
-        okText={drawerButtonTitle[openDrawer?.type]}
+        okText={
+          watchContacts === CONTACT_TYPE?.NEW_CONTACT
+            ? GENERIC_UPSERT_FORM_CONSTANT?.CREATE
+            : drawerButtonTitle[openDrawer?.type]
+        }
         isOk={true}
         submitHandler={handleSubmit(onSubmit)}
         footer={openDrawer?.type === DRAWER_TYPES?.VIEW ? false : true}

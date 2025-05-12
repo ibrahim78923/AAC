@@ -10,7 +10,10 @@ import {
   productRadioOptions,
   productsDataArray,
 } from './ProductEditorDrawer.data';
-import { DRAWER_TYPES } from '@/constants/strings';
+import {
+  DRAWER_TYPES,
+  GENERIC_UPSERT_FORM_CONSTANT,
+} from '@/constants/strings';
 import { PRODUCTS_TYPE } from '@/constants';
 
 const ProductEditorDrawer = (props: any) => {
@@ -39,7 +42,11 @@ const ProductEditorDrawer = (props: any) => {
         isDrawerOpen={openDrawer}
         onClose={() => setOpenDrawer('')}
         title="Add Product"
-        okText="Add"
+        okText={
+          watchProduct === PRODUCTS_TYPE?.NEW_PRODUCT
+            ? GENERIC_UPSERT_FORM_CONSTANT?.CREATE
+            : GENERIC_UPSERT_FORM_CONSTANT?.ADD
+        }
         submitHandler={handleSubmit(onSubmit)}
         isOk={true}
         isLoading={

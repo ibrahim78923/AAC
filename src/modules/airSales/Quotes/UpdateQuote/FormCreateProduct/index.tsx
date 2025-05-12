@@ -25,7 +25,11 @@ import {
 } from '@/services/airSales/quotes';
 import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
-import { DRAWER_TYPES, NOTISTACK_VARIANTS } from '@/constants/strings';
+import {
+  DRAWER_TYPES,
+  GENERIC_UPSERT_FORM_CONSTANT,
+  NOTISTACK_VARIANTS,
+} from '@/constants/strings';
 import { PRODUCTS_TYPE } from '@/constants';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
@@ -41,7 +45,8 @@ const FormCreateProduct = (props: any) => {
     usePostProductMutation();
 
   const productCatagories = useLazyGetProductCatagoriesUpdatedQuery();
-  const [putSubmitQuote] = usePutSubmitQuoteMutation();
+  const [putSubmitQuote, { isLoading: loadingProductPut }] =
+    usePutSubmitQuoteMutation();
 
   const { data: productByIdData, isLoading: productByIdLoading } =
     useGetProductsByIdQuery({ id: productId }, { skip: !productId });
@@ -187,14 +192,18 @@ const FormCreateProduct = (props: any) => {
   return (
     <CommonDrawer
       title={`${actionType} Product`}
-      okText="Save"
+      okText={
+        watchProduct === PRODUCTS_TYPE?.NEW_PRODUCT
+          ? GENERIC_UPSERT_FORM_CONSTANT?.CREATE
+          : GENERIC_UPSERT_FORM_CONSTANT?.ADD
+      }
       isDrawerOpen={open}
       onClose={onClose}
       isOk
       cancelText={'Cancel'}
       footer={actionType === 'view' ? false : true}
       submitHandler={handleSubmit(onSubmit)}
-      isLoading={loadingProductPost}
+      isLoading={loadingProductPost || loadingProductPut}
     >
       <Box sx={{ pt: '27px' }}>
         <FormProvider methods={methods}>

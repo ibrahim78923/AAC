@@ -10,6 +10,7 @@ import {
 } from './TicketsEditorDrawer.data';
 import {
   DRAWER_ACTIONS_TITLES,
+  GENERIC_UPSERT_FORM_CONSTANT,
   ROLES_ACTION_CONSTANTS,
 } from '@/constants/strings';
 import { TICKETS_TYPE } from '@/constants';
@@ -39,7 +40,11 @@ const TicketsEditorDrawer = (props: TicketsEditorDrawerProps) => {
       isDrawerOpen={openDrawer?.isToggle}
       onClose={() => setOpenDrawer({ ...openDrawer, isToggle: false })}
       title={drawerTitle[openDrawer?.type]}
-      okText="Add"
+      okText={
+        watchTickets === TICKETS_TYPE?.NEW_TICKETS
+          ? GENERIC_UPSERT_FORM_CONSTANT?.CREATE
+          : GENERIC_UPSERT_FORM_CONSTANT?.ADD
+      }
       isOk={true}
       footer={openDrawer?.type !== ROLES_ACTION_CONSTANTS?.ADD ? false : true}
       submitHandler={handleSubmit(onSubmit)}

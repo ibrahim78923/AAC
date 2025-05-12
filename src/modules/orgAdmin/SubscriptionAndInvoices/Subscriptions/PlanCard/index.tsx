@@ -69,7 +69,7 @@ const PlanCard: FC<PlanCardI> = ({
       <Box sx={styles?.planStrip}>
         <Box sx={styles?.planPrice}>£{price}</Box>
         <Typography variant="body3" sx={styles?.planBillOn}>
-          {status === 'ACTIVE' ? `To be billed on ${billOn}` : ''}
+          {status === 'ACTIVE' ? `Billing Date:- ${billOn}` : ''}
         </Typography>
       </Box>
 

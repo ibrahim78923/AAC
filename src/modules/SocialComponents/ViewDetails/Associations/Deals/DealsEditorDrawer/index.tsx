@@ -12,6 +12,7 @@ import {
   productsDataArray,
 } from './DealsEditorDrawer.data';
 import { DRAWER_TITLE, associationCompanies } from '@/constants';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
 const DealsEditorDrawer = (props: any) => {
   const {
@@ -42,7 +43,11 @@ const DealsEditorDrawer = (props: any) => {
         isDrawerOpen={openDrawer}
         onClose={() => setOpenDrawer('')}
         title={drawerTitle[openDrawer]}
-        okText={drawerButtonTitle[openDrawer]}
+        okText={
+          selectedValue === associationCompanies?.newDeal
+            ? GENERIC_UPSERT_FORM_CONSTANT?.CREATE
+            : drawerButtonTitle[openDrawer]
+        }
         isOk={true}
         footer={openDrawer === 'View' ? false : true}
         submitHandler={handleSubmit(onSubmit)}

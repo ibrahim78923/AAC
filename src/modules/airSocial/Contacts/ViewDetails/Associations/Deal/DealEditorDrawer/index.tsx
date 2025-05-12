@@ -4,6 +4,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { dealDataArray, existingDealDataArray } from './DealEditorDrawer.data';
 import { DEAL_TYPE } from '../Deal.data';
 import useDealEditorDrawer from './useDealEditorDrawer';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
 const DealEditorDrawer = (props: any) => {
   const {
@@ -41,7 +42,11 @@ const DealEditorDrawer = (props: any) => {
       isDrawerOpen={isOpen}
       onClose={onClose}
       title={`${title} Deal`}
-      okText={title}
+      okText={
+        dealType === DEAL_TYPE?.NEW_DEAL
+          ? GENERIC_UPSERT_FORM_CONSTANT?.CREATE
+          : title
+      }
       isOk={true}
       footer={title === 'View' ? false : true}
       submitHandler={handleOnSubmit}

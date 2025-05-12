@@ -5,13 +5,13 @@ import { FormProvider } from '@/components/ReactHookForm';
 
 import {
   attachmentsDataArray,
-  drawerButtonTitle,
   drawerTitle,
 } from './AttachmentsEditorDrawer.data';
 
 import useAttachmentsEditorDrawer from './useAttachmentEditorDrawer';
 
 import { v4 as uuidv4 } from 'uuid';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
 const AttachmentsEditorDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer, companyId, RowData } = props;
@@ -29,7 +29,7 @@ const AttachmentsEditorDrawer = (props: any) => {
         isDrawerOpen={openDrawer}
         onClose={() => setOpenDrawer('')}
         title={drawerTitle[openDrawer]}
-        okText={drawerButtonTitle[openDrawer]}
+        okText={GENERIC_UPSERT_FORM_CONSTANT?.CREATE}
         isOk={true}
         footer={openDrawer === 'View' ? false : true}
         submitHandler={handleSubmit(onSubmit)}

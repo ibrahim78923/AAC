@@ -4,7 +4,6 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import {
   attachmentsDataArray,
-  drawerButtonTitle,
   drawerTitle,
 } from './AttachmentsEditorDrawer.data';
 import useAttachmentsEditorDrawer from './useAttachmentEditorDrawer';
@@ -25,7 +24,7 @@ const AttachmentsEditorDrawer = (props: any) => {
         isDrawerOpen={openDrawer?.isToggle}
         onClose={() => setOpenDrawer({ ...openDrawer, isToggle: false })}
         title={drawerTitle[openDrawer?.type]}
-        okText={drawerButtonTitle[openDrawer?.type]}
+        okText={GENERIC_UPSERT_FORM_CONSTANT?.CREATE}
         isOk={true}
         footer={
           openDrawer?.type === GENERIC_UPSERT_FORM_CONSTANT?.VIEW ? false : true

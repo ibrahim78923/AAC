@@ -125,7 +125,9 @@ const useStepLineItems = (openCreateProduct?: any, calculations?: any) => {
 
   const { data: ExchangeRate, isLoading: exchangeRateLoading }: any =
     useGetExchangeRateQuery(ConsumerTotalPointsValue, {
-      skip: isNullOrEmpty(ConsumerTotalPointsValue),
+      skip:
+        Number?.isNaN(ConsumerTotalPointsValue) ||
+        isNullOrEmpty(ConsumerTotalPointsValue),
     });
 
   const { data: singleTierDetails, isLoading: loadingSingleTierDetails }: any =

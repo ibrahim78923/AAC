@@ -3,6 +3,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { attachmentsDataArray } from './AttachmentsEditorDrawer.data';
 import { DRAWER_TITLE } from '@/constants';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
 const AttachmentsEditorDrawer = (props: any) => {
   const { isOpen, onClose, title, methods, handleSubmit, loading } = props;
@@ -19,7 +20,7 @@ const AttachmentsEditorDrawer = (props: any) => {
         title={`${title} Attachment`}
         okText={
           title === DRAWER_TITLE?.ADD
-            ? DRAWER_TITLE?.ADD
+            ? GENERIC_UPSERT_FORM_CONSTANT?.CREATE
             : title === DRAWER_TITLE?.EDIT
               ? DRAWER_TITLE?.EDIT
               : DRAWER_TITLE?.VIEW

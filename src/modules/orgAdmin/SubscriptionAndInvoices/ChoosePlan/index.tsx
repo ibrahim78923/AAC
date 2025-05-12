@@ -364,12 +364,33 @@ const ChoosePlan = () => {
                   : null}
               </TableRow>
               <TableRow sx={styles?.planDetailText}>
+                {/* {getData?.length
+                  ? getData?.map((choosePlan: PlanDataI) => {
+                    return (
+                      <TableCell key={uuidv4()}>
+                        <Typography variant="body2">
+                          {choosePlan?.description}
+                        </Typography>
+                      </TableCell>
+                    );
+                  })
+                  : null} */}
                 {getData?.length
                   ? getData?.map((choosePlan: PlanDataI) => {
+                      const truncateText = (
+                        text: string,
+                        wordLimit: number,
+                      ) => {
+                        const words = text?.split(' ');
+                        return words?.length > wordLimit
+                          ? words?.slice(0, wordLimit).join(' ') + '...........'
+                          : text;
+                      };
+
                       return (
                         <TableCell key={uuidv4()}>
                           <Typography variant="body2">
-                            {choosePlan?.description}
+                            {truncateText(choosePlan?.description || '', 10)}
                           </Typography>
                         </TableCell>
                       );

@@ -8,6 +8,7 @@ import {
 } from './CompaniesEditorDrawer.data';
 import useCompaniesEditorDrawer from './useCompaniesEditorDrawer';
 import { DRAWER_TITLE } from './CompaniesEditorDrawer.data';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
 const CompaniesEditorDrawer = (props: any) => {
   const {
@@ -35,7 +36,11 @@ const CompaniesEditorDrawer = (props: any) => {
         isDrawerOpen={isOpen}
         onClose={onClose}
         title={`${title} Company`}
-        okText={'Add'}
+        okText={
+          formType === FORM_TYPE?.NEW_COMPANY
+            ? GENERIC_UPSERT_FORM_CONSTANT?.CREATE
+            : GENERIC_UPSERT_FORM_CONSTANT?.ADD
+        }
         isOk={true}
         footer={title === DRAWER_TITLE?.VIEW ? false : true}
         submitHandler={handleOnSubmit}

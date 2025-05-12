@@ -20,6 +20,7 @@ export const productsValidationSchema: any = Yup?.object()?.shape({
       : field?.optional(),
   ),
   purchasePrice: Yup?.number()
+    ?.transform((value, originalValue) => (originalValue === '' ? null : value))
     ?.nullable()
     ?.positive('Purchase price must be a positive number')
     ?.when('productType', ([pro]: any, field: any) =>
@@ -28,6 +29,7 @@ export const productsValidationSchema: any = Yup?.object()?.shape({
         : field?.optional(),
     ),
   unitPrice: Yup?.number()
+    ?.transform((value, originalValue) => (originalValue === '' ? null : value))
     ?.nullable()
     ?.positive('unit price must be a positive number')
     ?.when('productType', ([pro]: any, field: any) =>
