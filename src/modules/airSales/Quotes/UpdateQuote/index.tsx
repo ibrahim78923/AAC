@@ -50,6 +50,7 @@ const UpdateQuote = () => {
     setIsOpenFormCreateProduct,
     handleLoyalityCalulation,
     loyalityCalculation,
+    pdfRef,
   } = useUpdateQuote();
 
   const stepsArgs: any = {
@@ -70,6 +71,7 @@ const UpdateQuote = () => {
     calculations: calculations,
     handleLoyalityCalulation,
     loyalityCalculation,
+    pdfRef,
   };
   const steps = updateQuoteSteps(stepsArgs);
 

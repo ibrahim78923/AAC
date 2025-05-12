@@ -167,6 +167,7 @@ interface QuotesUpdateI {
   calculations?: any;
   handleLoyalityCalulation?: any;
   loyalityCalculation?: any;
+  pdfRef?: React.RefObject<HTMLElement>;
 }
 export const updateQuoteSteps = (params: QuotesUpdateI) => {
   return [
@@ -226,6 +227,7 @@ export const updateQuoteSteps = (params: QuotesUpdateI) => {
           quotesData={params?.data}
           methods={params?.methodsSignature}
           loyalityCalculation={params?.calculations}
+          pdfRef={params?.pdfRef}
         />
       ),
     },

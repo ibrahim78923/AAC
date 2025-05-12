@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -28,6 +28,7 @@ import { indexNumbers } from '@/constants';
 
 const useUpdateQuote = () => {
   const router = useRouter();
+  const pdfRef = useRef<HTMLDivElement>(null);
   let quoteId: any;
   if (router?.query?.data) {
     quoteId = router?.query?.data;
@@ -499,6 +500,7 @@ const useUpdateQuote = () => {
     setIsOpenFormCreateProduct,
     handleLoyalityCalulation,
     loyalityCalculation,
+    pdfRef,
   };
 };
 export default useUpdateQuote;

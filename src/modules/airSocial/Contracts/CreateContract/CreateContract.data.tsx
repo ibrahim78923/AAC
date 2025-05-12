@@ -26,7 +26,11 @@ export const validationSchema = () => {
   });
 };
 
-export const defaultValues = (data: any) => {
+export const defaultValues = (
+  data: any,
+  quoteId: string | string[] | undefined,
+  templatePdf: any,
+) => {
   const updatedSignees = (data?.signees || []).map((signee: any) => {
     return {
       ...signee,
@@ -59,7 +63,7 @@ export const defaultValues = (data: any) => {
   return {
     name: data?.name ?? '',
     folderId: data?.folderId ?? null,
-    attachment: data?.attachment ?? null,
+    attachment: quoteId && templatePdf ? templatePdf : data?.attachment ?? null,
     latestAttachment: data?.latestAttachment ?? null,
     message: data?.message ?? '',
     visibleTo: data?.visibleTo ?? 'EVERYONE',

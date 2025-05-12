@@ -7,6 +7,7 @@ const initialState = {
   giftCardData: {},
   voucherData: {},
   rewardId: '',
+  templatePDF: null,
 };
 
 const quotesSlice = createSlice({
@@ -31,6 +32,9 @@ const quotesSlice = createSlice({
     setRewardId: (state, action) => {
       state.rewardId = action?.payload;
     },
+    setTemplatePDF: (state, action) => {
+      state.templatePDF = action?.payload;
+    },
     clearState: () => initialState, // Reset the state to initial state
   },
 });
@@ -43,6 +47,7 @@ export const {
   setVoucherData,
   setRewardId,
   clearState,
+  setTemplatePDF,
 } = quotesSlice?.actions;
 export const getAddPlanForms = (state: any) => state.quotesSlice?.describeForm;
 export default quotesSlice.reducer;

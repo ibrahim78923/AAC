@@ -9,13 +9,14 @@ const TemplateBasic = ({
   quotesData,
   loyalityCalculation,
   BuyerInfoLoading,
+  pdfRef,
 }: any) => {
   return (
     <Box>
       {BuyerInfoLoading ? (
         <SkeletonTable />
       ) : (
-        <Box sx={styles?.container}>
+        <Box sx={styles?.container} ref={pdfRef}>
           <Box sx={styles?.header}>
             <Typography variant="h4" sx={styles?.headerTitle}>
               Sample

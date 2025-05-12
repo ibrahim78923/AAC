@@ -39,6 +39,9 @@ type DynamicField = {
 export default function useCreateContract() {
   /* VARIABLE DECLERATION
   -------------------------------------------------------------------------------------*/
+  const router = useRouter();
+  const { templateId, folderId, contractId, contractType, quoteId } =
+    router?.query;
   const generateId = () =>
     Date.now().toString(36) + Math.random().toString(36).substring(2);
   const textComponents = useSelector(
@@ -48,8 +51,10 @@ export default function useCreateContract() {
     (state: RootState) => state.airSocialPdfContract.signatureComponents,
   );
 
-  const router = useRouter();
-  const { templateId, folderId, contractId, contractType } = router?.query;
+  const templatePDF: any = useSelector(
+    (state: RootState) => state?.quotesForm?.templatePDF,
+  );
+
   const [activeView, setActiveView] = useState<string>('create');
   const [openModalAddSignee, setOpenModalAddSignee] = useState<boolean>(false);
   const [openModalManageSignature, setOpenModalManageSignature] =
@@ -72,7 +77,7 @@ export default function useCreateContract() {
 
   const methods: any = useForm<any>({
     resolver: yupResolver(validationSchema()),
-    defaultValues: defaultValues(contractDetailsData),
+    defaultValues: defaultValues(contractDetailsData, quoteId, templatePDF),
   });
   const { control, handleSubmit, reset, setValue, watch } = methods;
   const latestAttachment = watch('latestAttachment');
@@ -133,7 +138,7 @@ export default function useCreateContract() {
   /* EVENT LISTENERS
   -------------------------------------------------------------------------------------*/
   useEffect(() => {
-    reset(defaultValues(contractDetailsData ?? {}));
+    reset(defaultValues(contractDetailsData ?? {}, quoteId, templatePDF));
   }, [contractDetailsData, contractId, methods, reset]);
 
   useEffect(() => {
@@ -179,7 +184,7 @@ export default function useCreateContract() {
       }
     };
     createFormData('name', values?.name);
-    createFormData('latestAttachment', values?.attachment);
+    createFormData('attachment', values?.attachment);
     createFormData('message', values?.message);
     createFormData('logo', values?.logo);
     createFormData('parties', createPartiesFormData(values?.parties, false));

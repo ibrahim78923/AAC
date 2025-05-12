@@ -1,52 +1,89 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Grid, Typography } from '@mui/material';
 import TemplateFrame from '../TemplateFrame';
 import TemplateBasic from '../TemplateBasic';
 import { styles } from './StepSignature.style';
 import { signatureFormData } from '../UpdateQuote.data';
 import { FormProvider } from '@/components/ReactHookForm';
+import ModalChooseSignature from './ModalChooseSignature';
+import { useGetCommonContractsPersonalFoldersListQuery } from '@/services/commonFeatures/contracts/contracts-dashboard';
 
-const StepSignature = ({ quotesData, methods, loyalityCalculation }: any) => {
+const StepSignature = ({
+  quotesData,
+  methods,
+  loyalityCalculation,
+  pdfRef,
+}: any) => {
+  const { watch, setValue } = methods;
+  const signature = watch('signature');
+  const [openModalChooseSignature, setOpenModalChooseSignature] =
+    useState(false);
+
+  useEffect(() => {
+    if (signature === 'includeSignature') {
+      setOpenModalChooseSignature(true);
+    }
+  }, [signature]);
+
+  const handleCloseModal = () => {
+    setValue('signature', 'noSignature');
+    setOpenModalChooseSignature(false);
+  };
+
+  const { data: foldersList } = useGetCommonContractsPersonalFoldersListQuery({
+    meta: false,
+  });
+
   return (
-    <FormProvider methods={methods}>
-      <Grid container spacing={'40px'}>
-        <Grid item lg={5} md={12} xs={12}>
-          <Typography variant="h5" sx={styles?.heading}>
-            Signature
-          </Typography>
-          <Typography variant="body1" sx={styles?.checkInformation}>
-            Check the information about you and your company that will appear on
-            the quote
-          </Typography>
-          <Box>
-            <Grid container spacing={4}>
-              {signatureFormData?.map((item: any) => {
-                return (
-                  <Grid item xs={12} key={item.id}>
-                    <item.component {...item?.componentProps} size={'small'}>
-                      {item?.componentProps?.select &&
-                        item?.options?.map((option: any) => (
-                          <option key={option?.value} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))}
-                    </item.component>
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </Box>
+    <>
+      <FormProvider methods={methods}>
+        <Grid container spacing={'40px'}>
+          <Grid item lg={5} md={12} xs={12}>
+            <Typography variant="h5" sx={styles?.heading}>
+              Signature
+            </Typography>
+            <Typography variant="body1" sx={styles?.checkInformation}>
+              Check the information about you and your company that will appear
+              on the quote
+            </Typography>
+            <Box>
+              <Grid container spacing={4}>
+                {signatureFormData?.map((item: any) => {
+                  return (
+                    <Grid item xs={12} key={item.id}>
+                      <item.component {...item?.componentProps} size={'small'}>
+                        {item?.componentProps?.select &&
+                          item?.options?.map((option: any) => (
+                            <option key={option?.value} value={option?.value}>
+                              {option?.label}
+                            </option>
+                          ))}
+                      </item.component>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </Box>
+          </Grid>
+          <Grid item lg={7} md={12} sm={12}>
+            <TemplateFrame>
+              <TemplateBasic
+                quotesData={quotesData}
+                loyalityCalculation={loyalityCalculation}
+                pdfRef={pdfRef}
+              />
+            </TemplateFrame>
+          </Grid>
         </Grid>
-        <Grid item lg={7} md={12} sm={12}>
-          <TemplateFrame>
-            <TemplateBasic
-              quotesData={quotesData}
-              loyalityCalculation={loyalityCalculation}
-            />
-          </TemplateFrame>
-        </Grid>
-      </Grid>
-    </FormProvider>
+      </FormProvider>
+
+      <ModalChooseSignature
+        open={openModalChooseSignature}
+        onClose={handleCloseModal}
+        foldersData={foldersList}
+        pdfRef={pdfRef}
+      />
+    </>
   );
 };
 
