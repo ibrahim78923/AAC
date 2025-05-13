@@ -18,6 +18,17 @@ export const styles = {
     width: 'fit-content',
     margin: '0 auto',
   },
+  planRequestedChip: {
+    fontSize: `14px`,
+    lineHeight: `1.42857`,
+    color: `white`,
+    backgroundColor: `warning.lighter`,
+    padding: `4px 12px`,
+    borderRadius: `16px`,
+    width: 'fit-content',
+    marginBottom: '10px !important',
+    margin: 'auto',
+  },
   tableHead: (theme: any) => ({
     '& th.MuiTableCell-root': {
       backgroundColor: '#F9FAFB',

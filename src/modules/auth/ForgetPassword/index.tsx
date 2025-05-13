@@ -15,7 +15,7 @@ import {
   forgetPasswordDefaultValues,
   forgetPasswordValidationSchema,
 } from './ForgetPassword.data';
-import { LoginDashboardImage } from '@/assets/images';
+import { LoginDashboardImage2 } from '@/assets/images';
 import { styles } from './ForgetPassword.style';
 import {
   useConfirmPasswordMutation,
@@ -192,7 +192,15 @@ const ForgetPassword = () => {
             },
           }}
         >
-          <Image src={LoginDashboardImage} alt="dashborad" />
+          <Image
+            style={{
+              backgroundColor: 'white',
+              borderRadius: '15px',
+              boxShadow: '#00000030 0px 0px 20px 1px',
+            }}
+            src={LoginDashboardImage2}
+            alt="dashborad"
+          />
         </Grid>
       </Grid>
     </Box>

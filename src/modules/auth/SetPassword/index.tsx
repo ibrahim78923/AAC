@@ -14,7 +14,7 @@ import {
   resetPasswordValidationSchema,
 } from './SetPassword.data';
 import resetPasswordSuccess from '@/assets/icons/shared/onSuccess.gif';
-import { LoginDashboardImage } from '@/assets/images';
+import { LoginDashboardImage2 } from '@/assets/images';
 import { styles } from './SetPassword.style';
 import { useSetPasswordMutation } from '@/services/auth';
 import { AUTH } from '@/constants';
@@ -214,7 +214,15 @@ const SetPassword = () => {
             },
           }}
         >
-          <Image src={LoginDashboardImage} alt="dashborad" />
+          <Image
+            style={{
+              backgroundColor: 'white',
+              borderRadius: '15px',
+              boxShadow: '#00000030 0px 0px 20px 1px',
+            }}
+            src={LoginDashboardImage2}
+            alt="dashborad"
+          />
         </Grid>
       </Grid>
     </Box>

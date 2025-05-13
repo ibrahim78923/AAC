@@ -23,7 +23,7 @@ import {
 
 import { EyeIcon, EyeSlashIcon, VerifiedIcon } from '@/assets/icons';
 
-import { LoginDashboardImage } from '@/assets/images';
+import { LoginDashboardImage2 } from '@/assets/images';
 
 import { styles } from './SignUp.style';
 
@@ -292,7 +292,15 @@ const SignUp = () => {
                 },
               }}
             >
-              <Image src={LoginDashboardImage} alt="dashboard" />
+              <Image
+                style={{
+                  backgroundColor: 'white',
+                  borderRadius: '15px',
+                  boxShadow: '#00000030 0px 0px 20px 1px',
+                }}
+                src={LoginDashboardImage2}
+                alt="dashborad"
+              />
             </Grid>
           </>
         )}

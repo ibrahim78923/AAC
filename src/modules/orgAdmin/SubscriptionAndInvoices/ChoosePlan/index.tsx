@@ -241,6 +241,24 @@ const ChoosePlan = () => {
     router.push(`${orgAdminSubcriptionInvoices?.back_subscription_invoices}`);
   };
 
+  const handleUpdateSubscriptionRequest = async () => {
+    const payload = {
+      status: PLAN_STATUS?.REQUEST_CANCELED,
+    };
+    try {
+      await patchSubscriptionPlan({
+        body: payload,
+        organizationPlanId: parsedManageData?.orgPlanId,
+      })?.unwrap();
+      enqueueSnackbar('Request cancel successfully', {
+        variant: 'success',
+      });
+      router.push(`${orgAdminSubcriptionInvoices?.back_subscription_invoices}`);
+    } catch (error) {
+      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+    }
+  };
+
   return (
     <>
       <AlertModals
@@ -324,6 +342,28 @@ const ChoosePlan = () => {
                                     Subscribed
                                   </Box>
                                 </PermissionsGuard>
+                              ) : parsedManageData?.downgradePlanRequest
+                                  ?.planId === choosePlan?._id ? (
+                                <>
+                                  <Box sx={styles?.planRequestedChip}>
+                                    Requested
+                                  </Box>
+                                  <LoadingButton
+                                    loading={PatchSubscriptionLoading}
+                                    variant="contained"
+                                    sx={{
+                                      backgroundColor:
+                                        theme?.palette?.error?.dark,
+                                      '&:hover': {
+                                        backgroundColor:
+                                          theme?.palette?.error?.dark,
+                                      },
+                                    }}
+                                    onClick={handleUpdateSubscriptionRequest}
+                                  >
+                                    Cancel Request
+                                  </LoadingButton>
+                                </>
                               ) : (
                                 <PermissionsGuard
                                   permissions={[
