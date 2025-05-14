@@ -23,6 +23,7 @@ interface HeaderCreateContractProps {
   disabledSaveChanges?: boolean;
   disabledSignAndSend?: boolean;
   sharedWithUsers?: any;
+  associationMode?: boolean;
 }
 
 export default function HeaderCreateContract({
@@ -37,6 +38,7 @@ export default function HeaderCreateContract({
   disabledSaveChanges = true,
   disabledSignAndSend = true,
   sharedWithUsers,
+  associationMode = false,
 }: HeaderCreateContractProps) {
   const router = useRouter();
   const { templateId, contractId } = router?.query;
@@ -78,18 +80,20 @@ export default function HeaderCreateContract({
                 Share
               </Button>
             )}
-            <Button
-              id="more-menu-button"
-              aria-controls={openMoreMenu ? 'contracts-more-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={openMoreMenu ? 'true' : undefined}
-              onClick={handleClickMoreMenu}
-              variant="outlined"
-              color="secondary"
-              className="small"
-            >
-              <IconContractMore />
-            </Button>
+            {!associationMode && (
+              <Button
+                id="more-menu-button"
+                aria-controls={openMoreMenu ? 'contracts-more-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={openMoreMenu ? 'true' : undefined}
+                onClick={handleClickMoreMenu}
+                variant="outlined"
+                color="secondary"
+                className="small"
+              >
+                <IconContractMore />
+              </Button>
+            )}
             <Menu
               id="contracts-more-menu"
               anchorEl={anchorElMoreMenu}
@@ -137,16 +141,28 @@ export default function HeaderCreateContract({
             >
               Save Changes
             </Button>
-
-            <Button
-              onClick={onClickSign}
-              variant="contained"
-              color="primary"
-              className="small"
-              disabled={disabledSignAndSend}
-            >
-              Sign & Send
-            </Button>
+            {associationMode && (
+              <Button
+                onClick={onClickSaveAsDraft}
+                variant="outlined"
+                color="secondary"
+                className="small"
+                disabled={!!contractId}
+              >
+                Save
+              </Button>
+            )}
+            {!associationMode && (
+              <Button
+                onClick={onClickSign}
+                variant="contained"
+                color="primary"
+                className="small"
+                disabled={disabledSignAndSend}
+              >
+                Sign & Send
+              </Button>
+            )}
           </Box>
         )}
       </Box>

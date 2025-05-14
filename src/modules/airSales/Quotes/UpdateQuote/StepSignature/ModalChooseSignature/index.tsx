@@ -69,17 +69,18 @@ export default function ModalChooseSignature({
         },
       });
       setIsLoading(false);
+      onClose();
     }
     if (selectedSignatureMethod === 'otherSign') {
       router?.push({
         pathname: AIR_SOCIAL_CONTRACTS?.CONTRACTS_CREATE,
         query: {
-          contractType: ENUM_CONTRACT_TYPE?.BASIC,
           folderId: folderId,
           quoteId: router?.query?.data,
         },
       });
       setIsLoading(false);
+      onClose();
     }
   };
 

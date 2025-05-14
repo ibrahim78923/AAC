@@ -7,7 +7,9 @@ const initialState = {
   giftCardData: {},
   voucherData: {},
   rewardId: '',
+  includeSignature: 'noSignature',
   templatePDF: null,
+  openModalChooseSignature: false,
 };
 
 const quotesSlice = createSlice({
@@ -32,8 +34,14 @@ const quotesSlice = createSlice({
     setRewardId: (state, action) => {
       state.rewardId = action?.payload;
     },
+    setIncludeSignature: (state, action) => {
+      state.includeSignature = action?.payload;
+    },
     setTemplatePDF: (state, action) => {
       state.templatePDF = action?.payload;
+    },
+    setOpenModalChooseSignature: (state, action) => {
+      state.openModalChooseSignature = action?.payload;
     },
     clearState: () => initialState, // Reset the state to initial state
   },
@@ -48,6 +56,8 @@ export const {
   setRewardId,
   clearState,
   setTemplatePDF,
+  setOpenModalChooseSignature,
+  setIncludeSignature,
 } = quotesSlice?.actions;
 export const getAddPlanForms = (state: any) => state.quotesSlice?.describeForm;
 export default quotesSlice.reducer;

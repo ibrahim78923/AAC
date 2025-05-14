@@ -3,11 +3,7 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
-import {
-  dealInitValues,
-  dealValidationSchema,
-  signatureInitValues,
-} from './UpdateQuote.data';
+import { dealInitValues, dealValidationSchema } from './UpdateQuote.data';
 import {
   useCreateAssociationQuoteMutation,
   useDeleteQuoteCompaniesMutation,
@@ -25,8 +21,11 @@ import { AIR_SALES, quoteStatus } from '@/routesConstants/paths';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { PAGINATION } from '@/config';
 import { indexNumbers } from '@/constants';
+import { setIncludeSignature } from '@/redux/slices/airSales/Quotes/quotesSlice';
+import { useDispatch } from 'react-redux';
 
 const useUpdateQuote = () => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const pdfRef = useRef<HTMLDivElement>(null);
   let quoteId: any;
@@ -47,8 +46,11 @@ const useUpdateQuote = () => {
     page: page,
     limit: pageLimit,
   });
-  const { data: dataGetQuoteById, isLoading: BuyerInfoLoading } =
-    useGetQuoteByIdQuery({ id: quoteId });
+  const {
+    data: dataGetQuoteById,
+    isLoading: BuyerInfoLoading,
+    refetch: refetchQuoteById,
+  } = useGetQuoteByIdQuery({ id: quoteId });
   const [deleteCompaniesMutation, { isLoading: isCompanyDeleteLoading }] =
     useDeleteQuoteCompaniesMutation();
   const [deleteContacts, { isLoading: isContactDeleteLoading }] =
@@ -117,6 +119,14 @@ const useUpdateQuote = () => {
   const { watch: watchDetail, trigger, handleSubmit } = methodsUpdateQuote;
   const detailsValues = watchDetail();
   const singleQuote = dataGetQuoteById?.data;
+
+  useEffect(() => {
+    if (singleQuote?.contractId) {
+      dispatch(setIncludeSignature('includeSignature'));
+    } else {
+      dispatch(setIncludeSignature('noSignature'));
+    }
+  }, [singleQuote]);
 
   const [productsArray, setProductsArray] = useState([]);
 
@@ -343,6 +353,18 @@ const useUpdateQuote = () => {
     router.push(AIR_SALES?.QUOTES);
   };
 
+  useEffect(() => {
+    if (router?.query?.step) {
+      const stepValue = router?.query?.step;
+      if (Array.isArray(stepValue)) {
+        setActiveStep(parseInt(stepValue[0]));
+      } else {
+        setActiveStep(parseInt(stepValue));
+      }
+      refetchQuoteById();
+    }
+  }, [router?.query?.step]);
+
   // Update Deal & Details
   const [updateQuote, { isLoading: loadingUpdateQuote }] =
     useUpdateQuoteMutation();
@@ -432,11 +454,6 @@ const useUpdateQuote = () => {
     setIsOpenDialog(false);
   };
 
-  // Step Signature
-  const methodsSignature = useForm({
-    defaultValues: signatureInitValues,
-  });
-
   return {
     dataGetQuoteById,
     dataGetDeals,
@@ -462,7 +479,6 @@ const useUpdateQuote = () => {
     handleOpenDialog,
     handleCloseDialog,
     isOpenDialog,
-    methodsSignature,
     handleUpdateDetails,
     loadingUpdateQuote,
     createAssociationQuote,

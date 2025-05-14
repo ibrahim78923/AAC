@@ -3,7 +3,6 @@ import {
   RHFTextField,
   RHFSelect,
   RHFSearchableSelect,
-  RHFRadioGroup,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import StepBuyerInfo from './StepBuyerInfo/index';
@@ -112,29 +111,6 @@ export const dealFormData = (dealsData: any, openCreateDeal: any) => {
   ];
 };
 
-export const signatureInitValues = {
-  signature: 'noSignature',
-};
-
-export const signatureFormData = [
-  {
-    id: 'signature',
-    component: RHFRadioGroup,
-    componentProps: {
-      name: 'signature',
-      fullWidth: true,
-      options: [
-        { value: 'noSignature', label: 'No Signature' },
-        {
-          value: 'includeSignature',
-          label: 'Include Space for a written signature',
-        },
-      ],
-      row: false,
-    },
-  },
-];
-
 export const createQuoteFormFields = [
   {
     id: 'templateComment',
@@ -158,7 +134,6 @@ interface QuotesUpdateI {
   openAddCompany?: () => void;
   openCreateProduct?: () => void;
   // signatureValue?: any;
-  methodsSignature?: any;
   handleBuyerContactChange: (ids: string[]) => void;
   selectedBuyerContactIds: string[];
   handleCompanyChange: (ids: string[]) => void;
@@ -225,7 +200,6 @@ export const updateQuoteSteps = (params: QuotesUpdateI) => {
       component: (
         <StepSignature
           quotesData={params?.data}
-          methods={params?.methodsSignature}
           loyalityCalculation={params?.calculations}
           pdfRef={params?.pdfRef}
         />

@@ -24,6 +24,7 @@ import { AIR_SOCIAL_CONTRACTS } from '@/constants/routes';
 import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import { AIR_SALES } from '@/routesConstants/paths';
 
 type DynamicField = {
   id?: string;
@@ -42,6 +43,8 @@ export default function useCreateContract() {
   const router = useRouter();
   const { templateId, folderId, contractId, contractType, quoteId } =
     router?.query;
+
+  const contractTypePdf = Boolean(contractType);
   const generateId = () =>
     Date.now().toString(36) + Math.random().toString(36).substring(2);
   const textComponents = useSelector(
@@ -75,9 +78,17 @@ export default function useCreateContract() {
       ? dataContractById?.data
       : undefined;
 
+  const associationMode =
+    Boolean(quoteId) || Boolean(contractDetailsData?.quotes);
+
   const methods: any = useForm<any>({
     resolver: yupResolver(validationSchema()),
-    defaultValues: defaultValues(contractDetailsData, quoteId, templatePDF),
+    defaultValues: defaultValues(
+      contractDetailsData,
+      quoteId,
+      templatePDF,
+      contractTypePdf,
+    ),
   });
   const { control, handleSubmit, reset, setValue, watch } = methods;
   const latestAttachment = watch('latestAttachment');
@@ -138,7 +149,14 @@ export default function useCreateContract() {
   /* EVENT LISTENERS
   -------------------------------------------------------------------------------------*/
   useEffect(() => {
-    reset(defaultValues(contractDetailsData ?? {}, quoteId, templatePDF));
+    reset(
+      defaultValues(
+        contractDetailsData ?? {},
+        quoteId,
+        templatePDF,
+        contractTypePdf,
+      ),
+    );
   }, [contractDetailsData, contractId, methods, reset]);
 
   useEffect(() => {
@@ -194,6 +212,9 @@ export default function useCreateContract() {
         createSigneesFormData(values?.signees, false, values?.parties),
       );
     }
+    if (quoteId) {
+      createFormData('quotesIds', JSON.stringify([quoteId]));
+    }
     createFormData('dynamicFields', JSON.stringify(values?.dynamicFields));
 
     if (contractType && contractType === 'PDF') {
@@ -230,7 +251,18 @@ export default function useCreateContract() {
       try {
         await createCommonContract(formData)?.unwrap();
         successSnackbar('Contract created as draft successfully');
-        router.push(AIR_SOCIAL_CONTRACTS?.CONTRACTS);
+        if (quoteId) {
+          router.push({
+            pathname: AIR_SALES?.UPDATE_QUOTE,
+            query: {
+              data: quoteId,
+              step: 5,
+            },
+          });
+        } else {
+          router.push(AIR_SOCIAL_CONTRACTS?.CONTRACTS);
+        }
+
         reset();
       } catch (error: any) {
         errorSnackbar(`An error occured: ${error?.data?.message}`);
@@ -595,5 +627,6 @@ export default function useCreateContract() {
     contractDetailsData,
     latestAttachment,
     contractTitle,
+    associationMode,
   };
 }

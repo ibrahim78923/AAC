@@ -94,6 +94,7 @@ export default function CreateContract() {
     contractDetailsData,
     latestAttachment,
     contractTitle,
+    associationMode,
   } = useCreateContract();
 
   useEffect(() => {
@@ -175,6 +176,7 @@ export default function CreateContract() {
           disabledSaveAsTemplate={!!templateId || !!contractId}
           disabledSaveChanges={disabledSaveChanges()}
           disabledSignAndSend={disabledSignAndSend()}
+          associationMode={associationMode}
         />
       </PlainHeader>
 
@@ -285,26 +287,28 @@ export default function CreateContract() {
                         />
                       </Grid>
                     )}
-                    <Grid item xs={12}>
-                      <Button
-                        variant={'contained'}
-                        className={'small'}
-                        fullWidth
-                        onClick={
-                          contractId
-                            ? handleSubmitUpdateContract(true)
-                            : handleSubmitCreateTemplate('sign')
-                        }
-                        disabled={
-                          !(
-                            partyFields?.length !== 0 &&
-                            signeeFields?.length !== 0
-                          )
-                        }
-                      >
-                        Sign & Send
-                      </Button>
-                    </Grid>
+                    {!associationMode && (
+                      <Grid item xs={12}>
+                        <Button
+                          variant={'contained'}
+                          className={'small'}
+                          fullWidth
+                          onClick={
+                            contractId
+                              ? handleSubmitUpdateContract(true)
+                              : handleSubmitCreateTemplate('sign')
+                          }
+                          disabled={
+                            !(
+                              partyFields?.length !== 0 &&
+                              signeeFields?.length !== 0
+                            )
+                          }
+                        >
+                          Sign & Send
+                        </Button>
+                      </Grid>
+                    )}
                     {contractDetailsData &&
                       contractDetailsData?.activityHistory && (
                         <Grid item xs={12}>

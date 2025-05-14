@@ -10,8 +10,13 @@ import { updateQuoteSteps } from './UpdateQuote.data';
 import CreateContacts from './CreateContacts';
 import { LoadingButton } from '@mui/lab';
 import { useAppSelector } from '@/redux/store';
+import { useDispatch } from 'react-redux';
+import { setOpenModalChooseSignature } from '@/redux/slices/airSales/Quotes/quotesSlice';
+import { useUpdateCommonContractMutation } from '@/services/commonFeatures/contracts';
+import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 
 const UpdateQuote = () => {
+  const dispatch = useDispatch();
   const {
     dataGetDeals,
     dataGetQuoteById,
@@ -36,7 +41,6 @@ const UpdateQuote = () => {
     handleOpenDialog,
     handleCloseDialog,
     isOpenDialog,
-    methodsSignature,
     handleUpdateDetails,
     disabledSaveAndContinueBtn,
     handleBuyerContactChange,
@@ -62,7 +66,6 @@ const UpdateQuote = () => {
     openAddContact: handleOpenFormAddContact,
     openAddCompany: handleOpenFormAddCompany,
     openCreateProduct: handleOpenFormCreateProduct,
-    methodsSignature: methodsSignature,
     handleBuyerContactChange: handleBuyerContactChange,
     selectedBuyerContactIds: selectedBuyerContactIds,
     handleCompanyChange: handleCompanyChange,
@@ -91,6 +94,40 @@ const UpdateQuote = () => {
   );
 
   const rewardId: any = useAppSelector((state) => state?.quotesForm?.rewardId);
+
+  const includeSignature = useAppSelector(
+    (state) => state?.quotesForm?.includeSignature,
+  );
+
+  const [updateCommonContract, { isLoading: loadingDeassociatedContract }] =
+    useUpdateCommonContractMutation();
+
+  const deassociateQuote = async () => {
+    if (!dataGetQuoteById?.data?.contracts) return;
+    const contractId = dataGetQuoteById?.data?.contracts?._id;
+    const formData = new FormData();
+    formData.append('quotesIds', JSON.stringify([]));
+
+    try {
+      await updateCommonContract({
+        id: contractId,
+        body: formData,
+      })?.unwrap();
+      successSnackbar('Quote deassociated successfully');
+      handleStepNext();
+    } catch (error: any) {
+      errorSnackbar('An error occured');
+    }
+  };
+
+  const handleActiveStep4 = () => {
+    includeSignature === 'includeSignature'
+      ? dispatch(setOpenModalChooseSignature(true))
+      : dataGetQuoteById?.data?.contracts
+        ? deassociateQuote()
+        : handleStepNext();
+  };
+
   return (
     <>
       <AppHorizontalStepper
@@ -128,19 +165,26 @@ const UpdateQuote = () => {
                   {activeStep !== 2 && activeStep !== 3 && (
                     <LoadingButton
                       variant="contained"
-                      onClick={
+                      onClick={() => {
                         activeStep === 1
-                          ? handleUpdateDetails
-                          : handleFormSubmit
-                      }
+                          ? handleUpdateDetails()
+                          : activeStep === 4
+                            ? handleActiveStep4()
+                            : handleFormSubmit();
+                      }}
                       disabled={!disabledSaveAndContinueBtn}
-                      loading={updateBuyerInfoLoading}
+                      loading={
+                        updateBuyerInfoLoading || loadingDeassociatedContract
+                      }
                     >
                       Save & Continue
                     </LoadingButton>
                   )}
 
-                  {activeStep !== 2 && activeStep !== 3 && activeStep !== 4 ? (
+                  {activeStep !== 1 &&
+                  activeStep !== 2 &&
+                  activeStep !== 3 &&
+                  activeStep !== 4 ? (
                     <></>
                   ) : (
                     <Button

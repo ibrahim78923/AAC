@@ -30,6 +30,7 @@ export const defaultValues = (
   data: any,
   quoteId: string | string[] | undefined,
   templatePdf: any,
+  contractTypePdf: any,
 ) => {
   const updatedSignees = (data?.signees || []).map((signee: any) => {
     return {
@@ -64,7 +65,8 @@ export const defaultValues = (
     name: data?.name ?? '',
     folderId: data?.folderId ?? null,
     attachment: quoteId && templatePdf ? templatePdf : data?.attachment ?? null,
-    latestAttachment: data?.latestAttachment ?? null,
+    latestAttachment:
+      quoteId && contractTypePdf ? templatePdf : data?.latestAttachment ?? null,
     message: data?.message ?? '',
     visibleTo: data?.visibleTo ?? 'EVERYONE',
     logo,

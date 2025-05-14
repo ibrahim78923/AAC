@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Grid,
@@ -34,6 +34,7 @@ import {
 } from '@/services/airSales/quotes/loyality';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { isNullOrEmpty } from '@/utils';
+import { useUpdateCommonContractMutation } from '@/services/commonFeatures/contracts';
 
 const DialogSendToCustomer = ({
   open,
@@ -59,15 +60,18 @@ const DialogSendToCustomer = ({
   const { handleSubmit } = methods;
 
   const [updateQuoteSubmision] = useUpdateQuoteSubmisionMutation();
-  const [postAttachmentQuote, { isLoading: postAttachmentLoading }] =
-    usePostAttachmentQuoteMutation();
+  const [postAttachmentQuote] = usePostAttachmentQuoteMutation();
   const [updateRedeemReward] = useUpdateRedeemRewardMutation();
   const [updateConsumerPoints] =
     usePutLoyaltyProgramConsumersPointsUpdateMutation();
   const [updateGiftCardApi] = usePutGiftCardValueMutation();
   const [updateVoucherApi] = usePutVoucherValueMutation();
 
+  const [updateCommonContract] = useUpdateCommonContractMutation();
+  const [isLoading, setIsLoading] = useState(false);
+
   const onSubmit = async (values: { email: string }) => {
+    setIsLoading(true);
     const invoice: any = new jsPDF('portrait', 'px', 'a1');
     const style = document.createElement('style');
     style.innerHTML = `
@@ -76,7 +80,7 @@ const DialogSendToCustomer = ({
             width: 95.8%;
         }`;
     document.head.appendChild(style);
-    invoice.html(document.getElementById('quote-invoice'))?.then(() => {
+    invoice.html(document.getElementById('quote-invoice'))?.then(async () => {
       const pdfBlob = invoice?.output('blob');
       document.head.removeChild(style);
 
@@ -106,52 +110,64 @@ const DialogSendToCustomer = ({
       };
 
       try {
-        postAttachmentQuote({ body: formData })
-          ?.unwrap()
-          .then((res: any) => {
-            if (res?.data) {
-              const newData = {
-                ...body,
-                contentUrl: {
-                  filePath: res?.data?.fileUrl,
-                  fileName: res?.data?.orignalName,
-                },
-              };
-              updateQuoteSubmision(newData)
-                ?.unwrap()
-                ?.then((data: any) => {
-                  if (data?.data) {
-                    enqueueSnackbar('Quote sent successfully', {
-                      variant: 'success',
-                    });
-                    try {
-                      if (!isNullOrEmpty(redeemRewardData)) {
-                        updateRedeemReward({
-                          body: redeemRewardData,
-                        })?.unwrap();
-                      }
-                      if (consumersData?.currentPointBalance != 0) {
-                        updateConsumerPoints(consumersData)?.unwrap();
-                      }
-                      if (giftCardData?.body?.escrowAmount != 0) {
-                        updateGiftCardApi(giftCardData).unwrap();
-                      }
-                      if (
-                        !isNullOrEmpty(voucherData?.queryParams?.voucherCode)
-                      ) {
-                        updateVoucherApi(voucherData).unwrap();
-                      }
-                    } catch (error: any) {
-                      enqueueSnackbar('Error while updating call', {
-                        variant: NOTISTACK_VARIANTS?.ERROR,
-                      });
-                    }
-                  }
-                });
-              onClose();
-              router?.push(AIR_SALES?.QUOTES);
+        // First upload attachment
+        const attachmentResponse = await postAttachmentQuote({
+          body: formData,
+        }).unwrap();
+        if (attachmentResponse?.data) {
+          const newData = {
+            ...body,
+            contentUrl: {
+              filePath: attachmentResponse?.data?.fileUrl,
+              fileName: attachmentResponse?.data?.orignalName,
+            },
+          };
+          // Update quote submission
+          const quoteResponse = await updateQuoteSubmision(newData).unwrap();
+          if (quoteResponse?.data) {
+            // Update loyalty programs if they exist
+            try {
+              if (!isNullOrEmpty(redeemRewardData)) {
+                await updateRedeemReward({ body: redeemRewardData }).unwrap();
+              }
+              if (consumersData?.currentPointBalance != 0) {
+                await updateConsumerPoints(consumersData).unwrap();
+              }
+              if (giftCardData?.body?.escrowAmount != 0) {
+                await updateGiftCardApi(giftCardData).unwrap();
+              }
+              if (!isNullOrEmpty(voucherData?.queryParams?.voucherCode)) {
+                await updateVoucherApi(voucherData).unwrap();
+              }
+            } catch (error) {
+              enqueueSnackbar('Error while updating loyalty programs', {
+                variant: NOTISTACK_VARIANTS?.ERROR,
+              });
             }
-          });
+
+            // Check if quote has contracts and update them
+            if (dataGetQuoteById?.data?.contracts) {
+              const formData = new FormData();
+              formData.append('status', 'PENDING');
+              try {
+                await updateCommonContract({
+                  id: dataGetQuoteById?.data?.contracts?._id,
+                  body: formData,
+                })?.unwrap();
+              } catch (error) {
+                enqueueSnackbar('Quote sent but contract update failed', {
+                  variant: NOTISTACK_VARIANTS?.WARNING,
+                });
+              }
+            }
+            enqueueSnackbar('Quote sent successfully', {
+              variant: 'success',
+            });
+            setIsLoading(false);
+            onClose();
+            router?.push(AIR_SALES?.QUOTES);
+          }
+        }
       } catch (error) {
         enqueueSnackbar('Error while updating quote', {
           variant: 'error',
@@ -189,7 +205,7 @@ const DialogSendToCustomer = ({
             Cancel
           </Button>
           <LoadingButton
-            loading={postAttachmentLoading}
+            loading={isLoading}
             variant="contained"
             onClick={handleSubmit(onSubmit)}
           >
