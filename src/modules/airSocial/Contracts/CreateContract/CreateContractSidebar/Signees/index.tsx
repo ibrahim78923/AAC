@@ -11,7 +11,6 @@ import {
 import { IconPlusAddContractsFields } from '@/assets/icons';
 import { styles } from './Signees.style';
 import NoData from '@/components/NoData';
-// import Search from '@/components/Search';
 import UserProfileIcon from '@/assets/icons/modules/SocialComponents/Contacts/user-profile-icon';
 import AddSignee from './AddSignee';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
@@ -21,17 +20,18 @@ import { useRouter } from 'next/router';
 
 export default function Signees({
   signeeFields,
-  partyValues,
   handleDeleteSigneeCard,
   appendSignee,
   removeSignee,
 }: any) {
   const [checked, setChecked] = useState(false);
   const router = useRouter();
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
 
+  // Add Signee Button Dropdown
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -40,48 +40,39 @@ export default function Signees({
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const [selectedIndex, setSelectedIndex] = useState(null);
-  // const [selectedSignee, setSelectedSignee] = useState(null);
-  const [signeeValue, setSigneeValue] = useState(null);
 
+  // Signees List Dropdown
+  const [selectedSignee, setSelectedSignee] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState(null);
   const [anchorElOption, setAnchorElOption] = useState<null | HTMLElement>(
     null,
   );
   const openOption = Boolean(anchorElOption);
+
   const handleClickOption = (
     event: React.MouseEvent<HTMLElement>,
     index: any,
   ) => {
     setAnchorElOption(event.currentTarget);
     setSelectedIndex(index);
-    // setSelectedSignee(signee);
+    setSelectedSignee(signeeFields[index]);
   };
   const handleCloseOption = () => {
     setAnchorElOption(null);
   };
 
-  const [openModalCreateDataField, setOpenModalCreateDataField] =
-    useState<boolean>(false);
-
-  const handleOpenModalCreateDataField = () => {
-    handleClose();
-    setOpenModalCreateDataField(true);
-    setAnchorElOption(null);
+  // Add Signee Modal
+  const [openModalAddSignee, setOpenModalAddSignee] = useState<boolean>(false);
+  const [isEditMode, setIsEditMode] = useState<boolean>(false);
+  const handleOpenModalAddSignee = (editMode: boolean) => {
+    setIsEditMode(editMode);
+    handleCloseOption();
+    setOpenModalAddSignee(true);
   };
 
-  const handleOpenEditSigneeModal = () => {
-    if (selectedIndex !== null && signeeFields[selectedIndex]) {
-      const signee = signeeFields[selectedIndex];
-      setSigneeValue(signee);
-    }
-    handleClose();
-    setOpenModalCreateDataField(true);
-    setAnchorElOption(null);
-  };
-
-  const handleCloseModalCreateDataField = () => {
-    setSigneeValue(null);
-    setOpenModalCreateDataField(false);
+  const handleCloseModalAddSignee = () => {
+    setIsEditMode(false);
+    setOpenModalAddSignee(false);
   };
 
   const handleMoveDown = (index: any) => {
@@ -171,7 +162,7 @@ export default function Signees({
           <MenuItem
             sx={styles.createNewField}
             disableGutters
-            onClick={handleOpenModalCreateDataField}
+            onClick={() => handleOpenModalAddSignee(false)}
           >
             <Box sx={styles?.icon}>
               <IconPlusAddContractsFields />
@@ -233,7 +224,9 @@ export default function Signees({
                   horizontal: 'right',
                 }}
               >
-                <MenuItem onClick={handleOpenEditSigneeModal}>Edit</MenuItem>
+                <MenuItem onClick={() => handleOpenModalAddSignee(true)}>
+                  Edit
+                </MenuItem>
                 <MenuItem
                   onClick={() => {
                     handleMoveUp(selectedIndex);
@@ -267,11 +260,12 @@ export default function Signees({
       </Box>
 
       <AddSignee
-        open={openModalCreateDataField}
-        onClose={handleCloseModalCreateDataField}
-        partyValues={partyValues}
+        open={openModalAddSignee}
+        onClose={handleCloseModalAddSignee}
+        isEditMode={isEditMode}
         signeeFields={signeeFields}
-        signeeValue={signeeValue}
+        selectedSignee={selectedSignee}
+        contractId={router?.query?.contractId}
       />
     </Box>
   );

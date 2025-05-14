@@ -330,8 +330,8 @@ export default function useCreateContract() {
             ? 'The contract has been successfully sent to the signees.'
             : 'Contract updated successfully',
         );
-        router.push(AIR_SOCIAL_CONTRACTS?.CONTRACTS);
-        reset();
+        // router.push(AIR_SOCIAL_CONTRACTS?.CONTRACTS);
+        // reset();
       } catch (error: any) {
         errorSnackbar('An error occured');
       }

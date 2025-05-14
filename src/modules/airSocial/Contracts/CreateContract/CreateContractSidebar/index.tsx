@@ -12,7 +12,6 @@ export default function CreateContractSidebar({
   allDataFields,
   signeeFields,
   partyFields,
-  partyValues,
   handleDeleteSigneeCard,
   appendSignee,
   removeSignee,
@@ -54,7 +53,6 @@ export default function CreateContractSidebar({
           signeeFields={signeeFields}
           // handleAddSigneeCard={handleAddSigneeCard}
           partyFields={partyFields}
-          partyValues={partyValues}
           handleDeleteSigneeCard={handleDeleteSigneeCard}
           appendSignee={appendSignee}
           removeSignee={removeSignee}

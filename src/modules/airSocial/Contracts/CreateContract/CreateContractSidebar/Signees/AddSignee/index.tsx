@@ -11,53 +11,51 @@ import SigneeEmail from '../../../components/SigneeCard/form-fields/SigneeEmail'
 import { styles } from './styles';
 import useAddSignee from './useAddSignee';
 import { useLazyGetCommonAllCompaniesQuery } from '@/services/common-APIs';
-import { isNullOrEmpty } from '@/utils';
 
 interface ModalProps {
   open: boolean;
   onClose: () => void;
-  partyValues: any;
+  isEditMode: boolean;
   signeeFields: any;
-  signeeValue: any;
+  selectedSignee: any;
+  contractId: any;
 }
 
 export default function AddSignee({
   open,
   onClose,
-  signeeValue,
-  // partyValues,
-  // signeeFields,
+  isEditMode,
+  selectedSignee,
+  contractId,
 }: ModalProps) {
-  const isEditMode = !isNullOrEmpty(signeeValue);
-  const { methods, handleAddSignee, setValue } = useAddSignee(
-    onClose,
-    isEditMode,
-  );
+  const { methods, handleAddSignee, setValue, loadingUpdateContract } =
+    useAddSignee(onClose, isEditMode, contractId);
   const apiQueryCompanies = useLazyGetCommonAllCompaniesQuery();
 
   useEffect(() => {
     const fields = {
-      signeeName: signeeValue?.name,
-      signeeEmail: signeeValue?.email,
-      personalTitle: signeeValue?.personalTitle,
-      phoneNumber: signeeValue?.phoneNumber,
-      company: signeeValue?.moduleData,
+      signeeName: selectedSignee?.name,
+      signeeEmail: selectedSignee?.email,
+      personalTitle: selectedSignee?.personalTitle,
+      phoneNumber: selectedSignee?.phoneNumber,
+      company: selectedSignee?.moduleData,
     };
 
     Object.entries(fields)?.forEach(([key, value]) => {
       setValue(key, value);
     });
-  }, [signeeValue]);
+  }, [selectedSignee]);
 
   return (
     <CommonDialog
-      title={isNullOrEmpty(signeeValue) ? 'Create New Signee' : 'Edit Signee'}
+      title={isEditMode ? 'Edit Signee' : 'Create New Signee'}
       open={open}
       onClose={onClose}
       onSubmit={handleAddSignee}
-      okText={'Create'}
+      okText={isEditMode ? 'Update' : 'Create'}
       cancelText={'Cancel'}
       width={'700px'}
+      isLoading={loadingUpdateContract}
     >
       <FormProvider methods={methods}>
         <Grid container rowSpacing={'22px'} columnSpacing={'16px'}>
@@ -65,10 +63,7 @@ export default function AddSignee({
             <SigneeFullName name={`signeeName`} />
           </Grid>
           <Grid item xs={6} sx={styles?.fieldLabel}>
-            <SigneeEmail
-              name={`signeeEmail`}
-              disable={!isNullOrEmpty(signeeValue)}
-            />
+            <SigneeEmail name={`signeeEmail`} disable={isEditMode} />
           </Grid>
           <Grid item xs={12} sx={styles?.fieldLabel}>
             <RHFTextField
