@@ -25,4 +25,5 @@ export interface ModulesProps {
   isLoading: { isLoading: boolean };
   commonModulesPermissions: any;
   setCommonModulesPermissions: any;
+  selectAllPermissionOfSingleProduct: any;
 }

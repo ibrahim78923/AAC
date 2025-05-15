@@ -350,6 +350,22 @@ export const useAddPlan = () => {
     setPermissionSlugs('permissionSlugs', permissionsArray);
   };
 
+  const selectAllPermissionOfSingleProduct = (permissionsArray: any) => {
+    let combinePermissionsArray = [];
+    if (
+      !permissionsArray?.every(
+        (permission: any) => selectedPermission?.includes(permission),
+      )
+    ) {
+      combinePermissionsArray = permissionsArray?.concat(selectedPermission);
+    } else {
+      combinePermissionsArray = selectedPermission?.filter(
+        (permission: any) => !permissionsArray?.includes(permission),
+      );
+    }
+    setPermissionSlugs('permissionSlugs', combinePermissionsArray);
+  };
+
   const { data: productFeatures } = useGetProductsFeaturesAllQuery({
     id: planForm?.suite,
   });
@@ -615,6 +631,9 @@ export const useAddPlan = () => {
           errors={errors}
           selectAllPermissions={selectAllPermissions}
           getModulePermissions={getModulePermissions}
+          selectAllPermissionOfSingleProduct={
+            selectAllPermissionOfSingleProduct
+          }
           selectedPermission={selectedPermission}
           editPlan={singlePlan?.data}
           handleExpandAccordionChange={handleExpandAccordionChange}

@@ -119,7 +119,11 @@ export const columns = (selectedRows: any, handleCheckboxClick: any) => {
       isSortable: true,
       header: 'Payment Date',
       cell: (info: any) => (
-        <>{dayjs(info?.getValue())?.format(DATE_FORMAT?.UI)}</>
+        <>
+          {info?.getValue()
+            ? dayjs(info?.getValue())?.format(DATE_FORMAT?.UI)
+            : 'N/A'}
+        </>
       ),
     },
     {

@@ -110,8 +110,8 @@ const ForgetPassword = () => {
                   textAlign: 'center',
                 }}
               >
-                Let’s Get Start Enter the email associated with your account and
-                we’ll send an email with instructions to reset your password!
+                Don’t worry! it happens. Please enter the email address
+                associated with your account
               </Typography>
             )}
 

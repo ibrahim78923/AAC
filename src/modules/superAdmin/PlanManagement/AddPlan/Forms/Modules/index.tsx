@@ -34,6 +34,7 @@ const Modules = ({
   selectedPermission,
   selectAllPermissions,
   getModulePermissions,
+  selectAllPermissionOfSingleProduct,
   handleExpandAccordionChange,
   handleChangeSubModule,
   selectedModule,
@@ -187,6 +188,24 @@ const Modules = ({
     value: product?._id,
     label: product?.name,
   }));
+
+  function setAllPermissionOfSingleProduct(perProduct: any) {
+    let temp: any = [];
+    perProduct?.data?.map((itema: Module) => {
+      temp = temp?.concat(getModulePermissions(itema?.subModules));
+    });
+    selectAllPermissionOfSingleProduct(temp);
+  }
+
+  function checkAllPermissionOfSingleProduct(perProduct: any) {
+    let temp: any = [];
+    perProduct?.data?.map((itema: Module) => {
+      temp = temp?.concat(getModulePermissions(itema?.subModules));
+    });
+    return temp?.every(
+      (permission: any) => selectedPermission?.includes(permission),
+    );
+  }
   return (
     <div>
       {isLoading?.isLoading ||
@@ -314,9 +333,34 @@ const Modules = ({
                         if (currentProductId !== prevProductId) {
                           prevProductId = currentProductId;
                           return (
-                            <Typography variant="h4" my={2} key={uuidv4()}>
-                              {productName}
-                            </Typography>
+                            <Box
+                              display="flex"
+                              alignItems="center"
+                              key={uuidv4()}
+                            >
+                              <FormControlLabel
+                                control={
+                                  <SwitchBtn
+                                    checked={checkAllPermissionOfSingleProduct(
+                                      perProduct,
+                                    )}
+                                    onClick={(
+                                      event: React.MouseEvent<HTMLButtonElement>,
+                                    ) => {
+                                      event.stopPropagation();
+                                      setAllPermissionOfSingleProduct(
+                                        perProduct,
+                                      );
+                                    }}
+                                    sx={{ marginLeft: '15px' }}
+                                  />
+                                }
+                                label=""
+                              />
+                              <Typography variant="h4" my={2}>
+                                {productName}
+                              </Typography>
+                            </Box>
                           );
                         } else {
                           return null;

@@ -14,6 +14,8 @@ import {
 import { IMG_URL } from '@/config';
 import { useLazyGetOrganizationsListQuery } from '@/services/common-APIs';
 import { useTheme } from '@emotion/react';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 
 export const columns = (
   setIsGetRowValues: any,
@@ -161,12 +163,17 @@ export const columns = (
       cell: (info: any) => <>£ {info?.getValue()?.toFixed(2)}</>,
     },
     {
-      accessorFn: (row: any) => row?.dueDate,
-      id: 'dueDate',
+      accessorFn: (row: any) => row?.invoicePayDate,
+      id: 'invoicePayDate',
       isSortable: true,
       header: 'Payment Date',
       cell: (info: any) => (
-        <> {info?.row?.original?.dueDate?.substring(0, 10)}</>
+        <>
+          {' '}
+          {info?.getValue()
+            ? dayjs(info?.getValue())?.format(DATE_FORMAT?.UI)
+            : 'N/A'}
+        </>
       ),
     },
     {
