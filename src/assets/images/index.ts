@@ -240,4 +240,4 @@ export { default as BrandImg } from './shared/brand.png';
 export { default as AgenticCreedLogo } from './shared/logo/agentic-creed-new.svg';
 export { default as AgenticCreedWhiteLogo } from './shared/logo/agentic-creed-white.svg';
 export { default as AgenticCreedSmallLogo } from './shared/logo/agentic-creed-small-logo.png';
-export { default as LoginDashboardImage2 } from '../../assets/images/shared/login-dashboard2.png';
+export { default as LoginDashboardImage2 } from '../../assets/images/shared/login-dashboard-Image.png';
