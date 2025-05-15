@@ -181,10 +181,7 @@ const UpdateQuote = () => {
                     </LoadingButton>
                   )}
 
-                  {activeStep !== 1 &&
-                  activeStep !== 2 &&
-                  activeStep !== 3 &&
-                  activeStep !== 4 ? (
+                  {activeStep !== 2 && activeStep !== 3 && activeStep !== 4 ? (
                     <></>
                   ) : (
                     <Button

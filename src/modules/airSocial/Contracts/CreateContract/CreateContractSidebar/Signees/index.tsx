@@ -162,7 +162,10 @@ export default function Signees({
           <MenuItem
             sx={styles.createNewField}
             disableGutters
-            onClick={() => handleOpenModalAddSignee(false)}
+            onClick={() => {
+              handleClose();
+              handleOpenModalAddSignee(false);
+            }}
           >
             <Box sx={styles?.icon}>
               <IconPlusAddContractsFields />

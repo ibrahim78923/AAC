@@ -65,11 +65,16 @@ export default function ModalSignAndSend({
     ? signature == null || !isConfirmSigning
     : !isConfirmSigning;
 
+  const handleClose = () => {
+    clearSignature();
+    onClose();
+  };
+
   return (
     <CommonDialog
       title={title}
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       onSubmit={onSubmit}
       okText={'Sign & Send'}
       okDisabled={okDisabled}
