@@ -222,145 +222,137 @@ export const contractsColumns = ({
       cell: (info: any) => {
         return (
           <>
-            {info?.row?.original?.signees ? (
+            {info?.row?.original?.signees?.length !== 0 ? (
               <>
-                {info?.row?.original?.signees
-                  ?.slice(0, 2)
-                  ?.map((item: any, index: any) => {
-                    return (
-                      <Box
-                        key={item?._id}
-                        display="flex"
-                        alignItems="flex-start"
-                        gap="10px"
-                      >
-                        {info?.row?.original?.status !==
-                          ENUM_CONTRACT_STATUS?.DRAFT && (
-                          <Box
-                            sx={{
-                              display: 'flex',
-                              gap: '5px',
-                            }}
+                {info?.row?.original?.signees?.slice(0, 2)?.map((item: any) => {
+                  return (
+                    <Box
+                      key={item?._id}
+                      display="flex"
+                      alignItems="flex-start"
+                      gap="10px"
+                    >
+                      {info?.row?.original?.status !==
+                        ENUM_CONTRACT_STATUS?.DRAFT && (
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            gap: '5px',
+                          }}
+                        >
+                          <CustomTooltip
+                            title={item?.emailSent ? 'Sent' : 'Not sent'}
                           >
-                            <CustomTooltip
-                              title={item?.emailSent ? 'Sent' : 'Not sent'}
+                            <Box
+                              sx={{
+                                display: 'inline-flex',
+                                color: item?.emailSent
+                                  ? 'primary.main'
+                                  : 'inherit',
+                              }}
                             >
-                              <Box
-                                sx={{
-                                  display: 'inline-flex',
-                                  color: item?.emailSent
-                                    ? 'primary.main'
-                                    : 'inherit',
-                                }}
-                              >
-                                <SentIcon />
-                              </Box>
-                            </CustomTooltip>
+                              <SentIcon />
+                            </Box>
+                          </CustomTooltip>
 
-                            <CustomTooltip
-                              title={item?.isViewed ? 'Viewed' : 'Not viewed'}
+                          <CustomTooltip
+                            title={item?.isViewed ? 'Viewed' : 'Not viewed'}
+                          >
+                            <Box
+                              sx={{
+                                display: 'inline-flex',
+                                color: item?.isViewed
+                                  ? 'primary.main'
+                                  : 'inherit',
+                              }}
                             >
-                              <Box
-                                sx={{
-                                  display: 'inline-flex',
-                                  color: item?.isViewed
-                                    ? 'primary.main'
-                                    : 'inherit',
-                                }}
-                              >
-                                <ViewedIcon />
-                              </Box>
-                            </CustomTooltip>
+                              <ViewedIcon />
+                            </Box>
+                          </CustomTooltip>
 
-                            <CustomTooltip
-                              title={
-                                !item?.isViewed
-                                  ? 'Not viewed'
+                          <CustomTooltip
+                            title={
+                              !item?.isViewed
+                                ? 'Not viewed'
+                                : item?.signatureStatus ===
+                                    ENUM_CONTRACT_STATUS?.SIGNED
+                                  ? 'Signed'
+                                  : item?.signatureStatus ===
+                                      ENUM_CONTRACT_STATUS?.REJECTED
+                                    ? 'Rejected'
+                                    : item?.signatureStatus ===
+                                        ENUM_CONTRACT_STATUS?.PENDING
+                                      ? 'Pending'
+                                      : item?.signatureStatus ===
+                                          ENUM_CONTRACT_STATUS?.CHANGE_REQUEST
+                                        ? 'Change Request'
+                                        : 'Not signed'
+                            }
+                          >
+                            <Box
+                              sx={{
+                                display: 'inline-flex',
+                                color: !item?.isViewed
+                                  ? 'inherit'
                                   : item?.signatureStatus ===
                                       ENUM_CONTRACT_STATUS?.SIGNED
-                                    ? 'Signed'
+                                    ? 'primary.main'
                                     : item?.signatureStatus ===
                                         ENUM_CONTRACT_STATUS?.REJECTED
-                                      ? 'Rejected'
+                                      ? 'error.main'
                                       : item?.signatureStatus ===
                                           ENUM_CONTRACT_STATUS?.PENDING
-                                        ? 'Pending'
-                                        : item?.signatureStatus ===
-                                            ENUM_CONTRACT_STATUS?.CHANGE_REQUEST
-                                          ? 'Change Request'
-                                          : 'Not signed'
-                              }
-                            >
-                              <Box
-                                sx={{
-                                  display: 'inline-flex',
-                                  color: !item?.isViewed
-                                    ? 'inherit'
-                                    : item?.signatureStatus ===
-                                        ENUM_CONTRACT_STATUS?.SIGNED
-                                      ? 'primary.main'
-                                      : item?.signatureStatus ===
-                                          ENUM_CONTRACT_STATUS?.REJECTED
                                         ? 'error.main'
                                         : item?.signatureStatus ===
-                                            ENUM_CONTRACT_STATUS?.PENDING
+                                            ENUM_CONTRACT_STATUS?.CHANGE_REQUEST
                                           ? 'error.main'
-                                          : item?.signatureStatus ===
-                                              ENUM_CONTRACT_STATUS?.CHANGE_REQUEST
-                                            ? 'error.main'
-                                            : 'inherit',
-                                }}
-                              >
-                                <SignedIcon />
-                              </Box>
-                            </CustomTooltip>
-                          </Box>
-                        )}
-                        <Box>
-                          <Box
-                            sx={{
-                              fontSize: '14px',
-                              fontWeight: '600',
-                              whiteSpace: 'nowrap',
-                            }}
-                          >
-                            {getPartyName(item?.moduleData)}
-                          </Box>
-                          <Box
-                            sx={{
-                              fontSize: '12px',
-                              fontWeight: '400',
-                              color: theme?.palette?.custom?.slate_blue,
-                            }}
-                          >
-                            {item?.name ?? '--'}
-                          </Box>
-                          {index !== 0 && (
-                            <>
-                              {info?.row?.original?.signees?.length > 2 && (
-                                <Button
-                                  sx={{ marginLeft: '-10px', height: '30px' }}
-                                  onClick={() => {
-                                    setViewMoreData(info?.row?.original),
-                                      setIsViewAllActivityDrawerOpen(true);
-                                  }}
-                                >
-                                  <Typography
-                                    sx={{
-                                      fontSize: '12px',
-                                      color: theme?.palette?.primary?.main,
-                                    }}
-                                  >
-                                    View all
-                                  </Typography>
-                                </Button>
-                              )}
-                            </>
-                          )}
+                                          : 'inherit',
+                              }}
+                            >
+                              <SignedIcon />
+                            </Box>
+                          </CustomTooltip>
+                        </Box>
+                      )}
+                      <Box>
+                        <Box
+                          sx={{
+                            fontSize: '14px',
+                            fontWeight: '600',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
+                          {getPartyName(item?.moduleData)}
+                        </Box>
+                        <Box
+                          sx={{
+                            fontSize: '12px',
+                            fontWeight: '400',
+                            color: theme?.palette?.custom?.slate_blue,
+                          }}
+                        >
+                          {item?.name ?? '--'}
                         </Box>
                       </Box>
-                    );
-                  })}
+                    </Box>
+                  );
+                })}
+                <Button
+                  sx={{ marginLeft: '-10px', height: '30px' }}
+                  onClick={() => {
+                    setViewMoreData(info?.row?.original),
+                      setIsViewAllActivityDrawerOpen(true);
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontSize: '12px',
+                      color: theme?.palette?.primary?.main,
+                    }}
+                  >
+                    View
+                  </Typography>
+                </Button>
               </>
             ) : (
               '--'

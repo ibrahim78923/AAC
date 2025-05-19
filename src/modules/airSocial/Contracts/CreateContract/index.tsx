@@ -131,7 +131,7 @@ export default function CreateContract() {
         isNullOrEmpty(contractTitle)
       );
     } else {
-      return partyFields?.length === 0 && signeeFields?.length === 0;
+      return partyValues?.length === 0 || signeeValues?.length === 0;
     }
   };
 

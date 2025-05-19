@@ -60,6 +60,7 @@ export default function SigneeCard({
           <SigningOrder
             data={signingOrderData}
             name={`signees.${index}.signingOrder`}
+            disabled={true}
           />
         </Grid>
         <Grid item xs={12} sx={styles?.fieldLabel}>
