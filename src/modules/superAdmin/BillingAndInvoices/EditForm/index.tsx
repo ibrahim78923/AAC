@@ -34,6 +34,7 @@ export default function EditForm({
     isUserPrice,
     isLoading,
     isLoadingUpdate,
+    isFreePlan,
   } = useEditForm({
     isEditModal,
     isGetRowValues,
@@ -68,6 +69,7 @@ export default function EditForm({
               isEditModal,
               isStoragePrice,
               isUserPrice,
+              isFreePlan,
             )?.map((item: AssignPlanDataItemI, index: number) => (
               <Grid
                 item

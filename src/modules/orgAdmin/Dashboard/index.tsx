@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router';
-import { Box, Card, Grid, Skeleton, Typography } from '@mui/material';
+import { Avatar, Box, Card, Grid, Skeleton, Typography } from '@mui/material';
 
 import { ORG_ADMIN } from '@/routesConstants/paths';
 import ProfileCard from '@/components/ProfileCard';
 import useDashboard from './useDashboard';
 
-import { EditProfilelLineIcon, UploadDocumentIcon } from '@/assets/icons';
+import { AddPenIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -14,9 +14,15 @@ import useUsersDetails from '../Users/UsersDetails/useUsersDetails';
 import { getProductIcon } from '../SubscriptionAndInvoices/Subscriptions';
 import { getSession } from '@/utils';
 import { useGetProductsQuery } from '@/services/common-APIs';
-import { useGetOrganizationProductsQuery } from '@/services/orgAdmin/organization';
+import {
+  useGetOrganizationDetailsByIdQuery,
+  useGetOrganizationProductsQuery,
+  useUpdateOrganizationByIdMutation,
+} from '@/services/orgAdmin/organization';
 import { AccountsDataProductI, ProductI } from './dashboard.interface';
 import { PRODUCT_EXTERNAl_LINKS, PRODUCT_LABELS } from '@/constants';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 // import FreeTrialCountDown from './FreeTrialCountDown';
 
 const Dashboard = () => {
@@ -51,6 +57,34 @@ const Dashboard = () => {
         return PRODUCT_EXTERNAl_LINKS?.AIR_OPERATIONS;
       default:
         return '';
+    }
+  };
+
+  //  const { user }: any = getSession();
+  const { data: getOrganizationById } = useGetOrganizationDetailsByIdQuery({
+    id: user?.organization?._id,
+  });
+
+  const [updateOrganizationById, { isLoading: updateImageIsLoading }] =
+    useUpdateOrganizationByIdMutation();
+
+  const handleChangeOrgImg = async (e: any) => {
+    if (e?.target?.files?.length) {
+      const formData = new FormData();
+      formData?.append('avatar', e?.target?.files[0]);
+      try {
+        await updateOrganizationById({
+          id: user?.organization?._id,
+          body: formData,
+        })?.unwrap();
+        enqueueSnackbar('Image updated successfully', {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        });
+      } catch (error: any) {
+        enqueueSnackbar(error?.data?.message, {
+          variant: NOTISTACK_VARIANTS?.ERROR,
+        });
+      }
     }
   };
 
@@ -89,38 +123,81 @@ const Dashboard = () => {
           </Card>
         </Grid>
         <Grid item lg={4} md={6} sm={12} xs={12}>
-          <Card
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: '100%',
-              gap: 2,
-            }}
-          >
-            <UploadDocumentIcon />
+          <Box>
+            <Card
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100%',
+                gap: 2,
+                padding: '15px',
+              }}
+            >
+              <Box sx={{ position: 'relative' }}>
+                {updateImageIsLoading ? (
+                  <Skeleton variant="circular" width={120} height={120} />
+                ) : (
+                  <>
+                    <Avatar
+                      src={`${
+                        getOrganizationById?.data[0]?.avatar
+                          ? generateImage(
+                              getOrganizationById?.data[0]?.avatar?.url,
+                            )
+                          : ''
+                      }`}
+                      sx={{
+                        height: 120,
+                        width: 120,
+                        border: '1px solid #e5e7eb',
+                      }}
+                    />
+                    <input
+                      hidden={true}
+                      id="upload-group-image"
+                      type="file"
+                      accept="image/*"
+                      onChange={(e: any) => handleChangeOrgImg(e)}
+                    />
+                    <label htmlFor="upload-group-image">
+                      <Box
+                        sx={{
+                          position: 'absolute',
+                          bottom: '0',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        <AddPenIcon />
+                      </Box>
+                    </label>
+                  </>
+                )}
+              </Box>
+              {/* <UploadDocumentIcon />
             <Typography
               variant="h5"
               sx={{ color: theme?.palette?.grey[600], fontSize: '14px' }}
             >
               Upload Organisation Logo
-            </Typography>
-            <Link href={ORG_ADMIN?.ORGANIZATION}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <Typography
-                  variant="body4"
-                  sx={{
-                    color: theme?.palette?.custom?.steel_blue,
-                    textDecoration: 'underline',
-                  }}
-                >
-                  Edit Organisation Information
-                </Typography>
-                <EditProfilelLineIcon />
-              </Box>
-            </Link>
-          </Card>
+            </Typography> */}
+              <Link href={ORG_ADMIN?.ORGANIZATION}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Typography
+                    variant="body4"
+                    sx={{
+                      color: theme?.palette?.custom?.steel_blue,
+                      textDecoration: 'underline',
+                    }}
+                  >
+                    Organisation Details
+                  </Typography>
+                  {/* <EditProfilelLineIcon /> */}
+                </Box>
+              </Link>
+            </Card>
+          </Box>
         </Grid>
       </Grid>
       <Box sx={{ mt: 2 }}>

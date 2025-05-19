@@ -52,6 +52,7 @@ export const assignPlanData = (
   isEditModal: boolean,
   isStoragePrice: boolean,
   isUserPrice: boolean,
+  isFreePlan: any,
 ) => {
   const { data: productData } = useGetProductsBilingInvoicesQuery<any>({
     refetchOnMountOrArgChange: true,
@@ -66,10 +67,14 @@ export const assignPlanData = (
     refetchOnMountOrArgChange: true,
   });
 
-  const planType = planTypeData?.data?.map((planType: PlanType) => ({
-    value: planType?._id,
-    label: planType?.name,
-  }));
+  const planType = planTypeData?.data
+    ?.filter(
+      (planType: PlanType) => !(isEditModal && planType?.name === 'Free'),
+    )
+    .map((planType: PlanType) => ({
+      value: planType?._id,
+      label: planType?.name,
+    }));
 
   const options = selectProductSuite === 'product' ? productSuite : crmOptions;
   const organizations = useLazyGetOrganizationsListQuery();
@@ -206,9 +211,11 @@ export const assignPlanData = (
         fullWidth: true,
         select: true,
         required: true,
+        disabled: isFreePlan,
       },
 
       options: [
+        { value: 'HALF_MONTH', label: 'Half Month' },
         { value: 'MONTHLY', label: 'Paid Monthly' },
         { value: 'QUARTERLY', label: 'Paid Quarterly' },
         { value: 'HALF_YEARLY', label: 'Paid Half-Yearly' },

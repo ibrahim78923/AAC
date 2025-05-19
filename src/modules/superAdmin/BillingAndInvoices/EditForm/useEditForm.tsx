@@ -39,6 +39,7 @@ const useEditForm = ({
   const [isExistingPlan, setIsExistingPlan] = useState(false);
   const [isUserPrice, setIsUserPrice] = useState(true);
   const [isStoragePrice, setIsStoragePrice] = useState(true);
+  const [isFreePlan, setIsFreePlan] = useState(false);
 
   const [addAssignPlan, { isLoading }] = usePostBilingInvoicesMutation();
   const [updateAssignPlan, { isLoading: isLoadingUpdate }] =
@@ -269,6 +270,21 @@ const useEditForm = ({
   };
 
   useEffect(() => {
+    const selectedPlan = planTypeData?.data?.find(
+      (plan: any) => plan?._id === planTypeId,
+    );
+
+    if (selectedPlan?.name === 'Free') {
+      setValue('billingCycle', 'HALF_MONTH');
+      setIsFreePlan(true);
+    } else {
+      setValue('billingCycle', '');
+      setValue('date', '');
+      setIsFreePlan(false);
+    }
+  }, [planTypeId]);
+
+  useEffect(() => {
     if (isNullOrEmpty(planData?.data?.plans) && isSuccessPlan) {
       errorSnackbar(
         `Please create plan agaist respective selected product and product type`,
@@ -325,6 +341,7 @@ const useEditForm = ({
     isUserPrice,
     isLoading,
     isLoadingUpdate,
+    isFreePlan,
   };
 };
 
@@ -339,7 +356,7 @@ const calculateNewBillingDate = (
   const updatedBillingDate: any = {
     [BillingCycleEnum.HALF_MONTH]: () =>
       // newValidTillDate.setDate(newValidTillDate.getDate() + 15), //FOR LIVE: 15 Days Substription
-      newValidTillDate.setDate(newValidTillDate.getDate() + 1), // FOR TESTING: 1 DAYS as a Half Month Subscription
+      newValidTillDate.setDate(newValidTillDate.getDate() + 15), // FOR TESTING: 1 DAYS as a Half Month Subscription
     [BillingCycleEnum.MONTHLY]: () =>
       newValidTillDate.setMonth(newValidTillDate.getMonth() + 1),
     [BillingCycleEnum.QUARTERLY]: () =>
