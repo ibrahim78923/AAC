@@ -6,6 +6,7 @@ import {
   Button,
   Stack,
   Skeleton,
+  FormControlLabel,
 } from '@mui/material';
 
 import PermissionsAccordion from './PermissionsAccordion';
@@ -25,6 +26,7 @@ import {
   useLazyGetDropdownProductsQuery,
 } from '@/services/common-APIs';
 import { DRAWER_TYPES } from '@/constants/strings';
+import { SwitchBtn } from '@/components/SwitchButton';
 
 const AddRole = () => {
   const {
@@ -42,12 +44,47 @@ const AddRole = () => {
     selectAllPermissions,
     loadingAddRole,
     loadingUpdateRole,
+    setValue,
   } = useAddRole();
 
   const productsData = useLazyGetDropdownProductsQuery();
   const companyAccounts = useLazyGetCompanyAccountsListsQuery();
   const { watch } = methods;
   const { query } = navigate;
+
+  const selectAllPermissionOfSingleProduct = (permissionsArray: any) => {
+    let combinePermissionsArray = [];
+    if (
+      !permissionsArray?.every(
+        (permission: any) => watch('permissions')?.includes(permission),
+      )
+    ) {
+      combinePermissionsArray = permissionsArray?.concat(watch('permissions'));
+    } else {
+      combinePermissionsArray = watch('permissions')?.filter(
+        (permission: any) => !permissionsArray?.includes(permission),
+      );
+    }
+    setValue('permissions', combinePermissionsArray);
+  };
+
+  function setAllPermissionOfSingleProduct(perProduct: any) {
+    let temp: any = [];
+    perProduct?.data?.map((itema: any) => {
+      temp = temp?.concat(getModulePermissions(itema?.subModules));
+    });
+    selectAllPermissionOfSingleProduct(temp);
+  }
+
+  function checkAllPermissionOfSingleProduct(perProduct: any) {
+    let temp: any = [];
+    perProduct?.data?.map((itema: any) => {
+      temp = temp?.concat(getModulePermissions(itema?.subModules));
+    });
+    return temp?.every(
+      (permission: any) => watch('permissions')?.includes(permission),
+    );
+  }
 
   return (
     <>
@@ -91,14 +128,37 @@ const AddRole = () => {
           {productVal && (
             <Grid container>
               <Grid item xs={12} lg={10} mt={3}>
-                <Stack direction="row">
-                  <Typography variant="h4">Permissions</Typography>
-                  <Typography style={{ color: theme?.palette?.error?.main }}>
-                    *
-                  </Typography>
-                </Stack>
+                {loadingProduct ? (
+                  <Skeleton height={80} />
+                ) : (
+                  <Stack direction="row">
+                    <FormControlLabel
+                      control={
+                        <SwitchBtn
+                          checked={checkAllPermissionOfSingleProduct(
+                            productPermissionsData,
+                          )}
+                          onClick={(
+                            event: React.MouseEvent<HTMLButtonElement>,
+                          ) => {
+                            event.stopPropagation();
+                            setAllPermissionOfSingleProduct(
+                              productPermissionsData,
+                            );
+                          }}
+                          sx={{ marginLeft: '15px' }}
+                        />
+                      }
+                      label=""
+                    />
+                    <Typography variant="h4">Permissions</Typography>
+                    <Typography style={{ color: theme?.palette?.error?.main }}>
+                      *
+                    </Typography>
+                  </Stack>
+                )}
               </Grid>
-              <Grid item xs={12} lg={10} mt={2}>
+              <Grid item xs={12} lg={10} mt={loadingProduct ? 0 : 2}>
                 {loadingProduct ? (
                   <Skeleton height={80} />
                 ) : productPermissionsData?.data?.length === 0 ? (

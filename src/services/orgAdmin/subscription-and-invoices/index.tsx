@@ -153,6 +153,14 @@ export const subscriptionAndInvoicesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+    patchCancelSubscriptionPlan: builder.mutation({
+      query: ({ organizationPlanId }: any) => ({
+        url: `${ORG_ADMIN?.SUBSCRIPTION_AND_INVOICES}?organizationPlanId=${organizationPlanId}`,
+        method: 'PUT',
+        // body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
@@ -177,4 +185,5 @@ export const {
   usePatchPaymentCardMutation,
   useGetSingleInvoicesByIdQuery,
   usePostPayInvoiceMutation,
+  usePatchCancelSubscriptionPlanMutation,
 } = subscriptionAndInvoicesAPI;

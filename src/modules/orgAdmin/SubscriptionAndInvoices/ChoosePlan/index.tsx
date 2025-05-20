@@ -20,6 +20,7 @@ import {
   useGetPaymentCardQuery,
   useGetProductFeaturesQuery,
   useGetProductPlanListProductIdQuery,
+  usePatchCancelSubscriptionPlanMutation,
   usePatchSubscriptionPlanMutation,
   usePostSubscriptionPlanMutation,
 } from '@/services/orgAdmin/subscription-and-invoices';
@@ -112,6 +113,11 @@ const ChoosePlan = () => {
     usePostSubscriptionPlanMutation();
   const [patchSubscriptionPlan, { isLoading: PatchSubscriptionLoading }] =
     usePatchSubscriptionPlanMutation();
+  const [
+    patchCancelSubscriptionPlan,
+    { isLoading: PatchCancelSubscriptionLoading },
+  ] = usePatchCancelSubscriptionPlanMutation();
+
   const onSubmit = async () => {
     const payload = {
       planId: activePlanToBuy?._id,
@@ -242,13 +248,9 @@ const ChoosePlan = () => {
   };
 
   const handleUpdateSubscriptionRequest = async () => {
-    const payload = {
-      status: PLAN_STATUS?.REQUEST_CANCELED,
-    };
     try {
-      await patchSubscriptionPlan({
-        body: payload,
-        organizationPlanId: parsedManageData?.orgPlanId,
+      await patchCancelSubscriptionPlan({
+        organizationPlanId: parsedManageData?.downgradePlanRequest?._id,
       })?.unwrap();
       enqueueSnackbar('Request cancel successfully', {
         variant: 'success',
@@ -349,7 +351,7 @@ const ChoosePlan = () => {
                                     Requested
                                   </Box>
                                   <LoadingButton
-                                    loading={PatchSubscriptionLoading}
+                                    loading={PatchCancelSubscriptionLoading}
                                     variant="contained"
                                     sx={{
                                       backgroundColor:

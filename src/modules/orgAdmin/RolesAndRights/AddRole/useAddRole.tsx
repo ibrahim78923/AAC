@@ -199,6 +199,7 @@ const useAddRole = () => {
     // refetch,
     methods,
     theme,
+    setValue,
   };
 };
 
