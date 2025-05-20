@@ -27,6 +27,8 @@ const ContractsGrid = ({
     setPage,
     setPageLimit,
     theme,
+    handlePostSendReminder,
+    loadingSendReminder,
   } = useGridView({ tabValue, activeFolder, filterParams });
 
   const [viewMoreData, setViewMoreData] = useState<any>([]);
@@ -57,13 +59,15 @@ const ContractsGrid = ({
       />
 
       <CommonDrawer
-        footer
         isDrawerOpen={isViewAllActivityDrawerOpen}
         onClose={() => setIsViewAllActivityDrawerOpen(false)}
         title="Signees"
         okText="Send Reminder"
         cancelText="cancel"
         isOk
+        footer={viewMoreData?.status === 'PENDING'}
+        submitHandler={() => handlePostSendReminder(viewMoreData?._id)}
+        isLoading={loadingSendReminder}
       >
         {viewMoreData?.signees?.map((signee: any) => {
           return (

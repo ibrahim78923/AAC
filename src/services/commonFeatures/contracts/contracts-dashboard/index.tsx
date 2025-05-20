@@ -87,6 +87,14 @@ export const commonContractsDashboardAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['CONTACT_ASSOCIATION'],
     }),
+
+    postSendReminder: builder.mutation({
+      query: (contractId) => ({
+        url: `${COMMON_CONTRACTS?.POST_SEND_REMINDER}?contractId=${contractId}`,
+        method: 'POST',
+      }),
+      invalidatesTags: ['COMMON_CONTRACTS'],
+    }),
   }),
 });
 export const {
@@ -100,4 +108,5 @@ export const {
   useDeleteContractFolderMutation,
   useUpdateListCommonContractsMutation,
   usePostDealAssociationMutation,
+  usePostSendReminderMutation,
 } = commonContractsDashboardAPI;

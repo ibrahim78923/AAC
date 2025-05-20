@@ -818,4 +818,5 @@ export const COMMON_CONTRACTS = {
   PATCH_LIST_COMMON_CONTRACTS: '/common-contract',
   GET_COMMON_MY_FOLDERS: '/common-contract-folder/my-folders',
   PUT_CONTRACT_PUBLIC_SIGN: '/common-contract/public-sign',
+  POST_SEND_REMINDER: '/common-contract/send-reminder-email',
 };
