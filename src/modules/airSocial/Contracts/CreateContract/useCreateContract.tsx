@@ -82,7 +82,7 @@ export default function useCreateContract() {
     Boolean(quoteId) || Boolean(contractDetailsData?.quotes);
 
   const methods: any = useForm<any>({
-    resolver: yupResolver(validationSchema()),
+    resolver: yupResolver(validationSchema(contractType)),
     defaultValues: defaultValues(
       contractDetailsData,
       quoteId,

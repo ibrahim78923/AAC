@@ -3,26 +3,32 @@ import * as Yup from 'yup';
 import { FIELD_TYPES } from '@/utils/contracts';
 import dayjs from 'dayjs';
 
-export const validationSchema = () => {
+export const validationSchema = (contractType: any) => {
   return Yup?.object()?.shape({
     name: Yup?.string()?.trim()?.required('Field is Required'),
 
-    parties: Yup.array().of(
-      Yup.object().shape({
-        moduleData: Yup?.object()?.required('Field is Required'),
-      }),
-    ),
+    parties:
+      contractType && contractType === 'PDF'
+        ? Yup.array().notRequired()
+        : Yup.array().of(
+            Yup.object().shape({
+              moduleData: Yup?.object()?.required('Field is Required'),
+            }),
+          ),
 
-    signees: Yup.array().of(
-      Yup.object().shape({
-        onBehalfOf: Yup.string().required('Field is Required'),
-        name: Yup?.string()?.trim()?.required('Field is Required'),
-        email: Yup.string()
-          .trim()
-          .email('Invalid email')
-          .required('Field is Required'),
-      }),
-    ),
+    signees:
+      contractType && contractType === 'PDF'
+        ? Yup.array().notRequired()
+        : Yup.array().of(
+            Yup.object().shape({
+              onBehalfOf: Yup.string().required('Field is Required'),
+              name: Yup?.string()?.trim()?.required('Field is Required'),
+              email: Yup.string()
+                .trim()
+                .email('Invalid email')
+                .required('Field is Required'),
+            }),
+          ),
   });
 };
 
