@@ -95,6 +95,7 @@ export default function CreateContract() {
     latestAttachment,
     contractTitle,
     associationMode,
+    loadingQuote,
   } = useCreateContract();
 
   useEffect(() => {
@@ -135,6 +136,16 @@ export default function CreateContract() {
     }
   };
 
+  const disabledSaveButton = () => {
+    if (contractType) {
+      return signeeValues?.length === 0 || !!contractId;
+    } else {
+      return (
+        partyValues?.length === 0 || signeeValues?.length === 0 || !!contractId
+      );
+    }
+  };
+
   return (
     <>
       <Backdrop
@@ -144,7 +155,8 @@ export default function CreateContract() {
           loadingGetTemplateById ||
           loadingGetContractById ||
           loadingUpdateTemplate ||
-          loadingUpdateContract
+          loadingUpdateContract ||
+          loadingQuote
         }
         sx={{
           background: 'rgba(255, 255, 255, 0.75)',
@@ -177,6 +189,7 @@ export default function CreateContract() {
           disabledSaveChanges={disabledSaveChanges()}
           disabledSignAndSend={disabledSignAndSend()}
           associationMode={associationMode}
+          disabledAssociationSaveButton={disabledSaveButton()}
         />
       </PlainHeader>
 

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useForm, useFieldArray, useWatch } from 'react-hook-form';
 import { defaultValues, validationSchema } from './CreateContract.data';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -11,6 +11,7 @@ import {
   useGetCommonContractByIdQuery,
   useUpdateCommonContractMutation,
 } from '@/services/commonFeatures/contracts';
+import { useGetQuoteByIdQuery } from '@/services/airSales/quotes';
 import { errorSnackbar, successSnackbar } from '@/lib/snackbar';
 import {
   createPartiesFormData,
@@ -58,6 +59,46 @@ export default function useCreateContract() {
     (state: RootState) => state?.quotesForm?.templatePDF,
   );
 
+  const [isRouterReady, setIsRouterReady] = useState(false);
+  useEffect(() => {
+    if (router.isReady) {
+      setIsRouterReady(true);
+    }
+  }, [router.isReady]);
+
+  const processedQuote = useRef(false);
+  const {
+    data: dataGetQuoteById,
+    isLoading: loadingQuote,
+    refetch: refetchQuote,
+  } = useGetQuoteByIdQuery(
+    { id: quoteId },
+    {
+      skip: !isRouterReady || !quoteId,
+      refetchOnMountOrArgChange: true,
+      refetchOnFocus: false,
+      refetchOnReconnect: false,
+    },
+  );
+
+  useEffect(() => {
+    if (isRouterReady && quoteId && !dataGetQuoteById) {
+      refetchQuote();
+    }
+  }, [isRouterReady, quoteId]);
+
+  // Memoize the quote data to prevent unnecessary effect runs
+  const stableQuoteData = useMemo(() => {
+    if (!dataGetQuoteById?.data) return null;
+    return {
+      buyerCompany: dataGetQuoteById.data.buyerCompany,
+      buyerContact: dataGetQuoteById.data.buyerContact,
+    };
+  }, [
+    dataGetQuoteById?.data?.buyerCompany?._id,
+    dataGetQuoteById?.data?.buyerContact?._id,
+  ]);
+
   const [activeView, setActiveView] = useState<string>('create');
   const [openModalAddSignee, setOpenModalAddSignee] = useState<boolean>(false);
   const [openModalManageSignature, setOpenModalManageSignature] =
@@ -90,7 +131,7 @@ export default function useCreateContract() {
       contractTypePdf,
     ),
   });
-  const { control, handleSubmit, reset, setValue, watch } = methods;
+  const { control, handleSubmit, reset, watch } = methods;
   const latestAttachment = watch('latestAttachment');
   const contractTitle = watch('name');
 
@@ -170,15 +211,48 @@ export default function useCreateContract() {
     }
   }, [signeeFields]);
 
+  // Process quote parties only once
   useEffect(() => {
-    partyValues?.forEach((party: any, index: number) => {
-      if (party.name && !party.moduleId) {
-        setValue(`parties.${index}.moduleId`, party.name._id, {
-          shouldDirty: true,
+    if (stableQuoteData && !processedQuote.current) {
+      processedQuote.current = true;
+
+      const quoteParties = [];
+
+      if (stableQuoteData.buyerCompany) {
+        const buyerCompany = stableQuoteData.buyerCompany;
+        quoteParties.push({
+          moduleType: 'COMPANIES',
+          moduleData: { _id: buyerCompany._id, name: buyerCompany.name },
+          address: buyerCompany.address || '',
+          referredAs: '',
         });
       }
-    });
-  }, [partyValues]);
+
+      if (stableQuoteData.buyerContact) {
+        const buyerContact = stableQuoteData.buyerContact;
+        quoteParties.push({
+          moduleType: 'CONTACTS',
+          moduleData: {
+            _id: buyerContact._id,
+            firstName: buyerContact.firstName || '',
+            lastName: buyerContact.lastName || '',
+          },
+          address: buyerContact.address || '',
+          referredAs: '',
+        });
+      }
+
+      // Batch update parties
+      methods.setValue('parties', quoteParties);
+    }
+  }, [stableQuoteData, methods.setValue]);
+
+  // Reset processed flag when quoteId changes
+  useEffect(() => {
+    return () => {
+      processedQuote.current = false;
+    };
+  }, [quoteId]);
 
   /* ASYNC FUNCTIONS
   -------------------------------------------------------------------------------------*/
@@ -628,5 +702,6 @@ export default function useCreateContract() {
     latestAttachment,
     contractTitle,
     associationMode,
+    loadingQuote,
   };
 }

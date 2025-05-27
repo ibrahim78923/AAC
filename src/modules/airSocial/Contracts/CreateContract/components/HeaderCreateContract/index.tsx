@@ -24,6 +24,7 @@ interface HeaderCreateContractProps {
   disabledSignAndSend?: boolean;
   sharedWithUsers?: any;
   associationMode?: boolean;
+  disabledAssociationSaveButton?: boolean;
 }
 
 export default function HeaderCreateContract({
@@ -39,6 +40,7 @@ export default function HeaderCreateContract({
   disabledSignAndSend = true,
   sharedWithUsers,
   associationMode = false,
+  disabledAssociationSaveButton = false,
 }: HeaderCreateContractProps) {
   const router = useRouter();
   const { templateId, contractId } = router?.query;
@@ -147,7 +149,7 @@ export default function HeaderCreateContract({
                 variant="outlined"
                 color="secondary"
                 className="small"
-                disabled={!!contractId}
+                disabled={disabledAssociationSaveButton}
               >
                 Save
               </Button>
